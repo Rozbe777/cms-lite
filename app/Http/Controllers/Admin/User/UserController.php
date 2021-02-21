@@ -2,30 +2,32 @@
 
 namespace App\Http\Controllers\Admin\User;
 
+use App\Http\Controllers\Auth\Traits\CreateUserTrait;
+use App\Http\Controllers\User\Traits\EditUserTrait;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CreateUserRequest;
-use App\Http\Requests\User\EditUserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    use CreateUserTrait;
+//    use EditUserTrait;
     public function store(CreateUserRequest $request){
-        dd("salam");
-        $user = new User();
-        $user->name = $request->name;
-        $user->family = $request->family;
-        $user->phone = $request->phone;
-        $user->email = $request->email;
-        $user->email_verified_at = now();
-        $user->status = "active";
-        if ($request->registration_source)
-        $user->registration_source = $request->registration_source;
-        $user->password = bcrypt($request->password);
-        $user->saveOrFail();
 
-        dd($user);
+        $user=$this->CreateUser(
+            [
+                'name'=>$request->name,
+                'family'=>$request->family,
+                'phone'=>$request->phone,
+                'email'=>$request->email,
+                'password'=>$request->password,
+                'registration_source'=>$request->registration_source,
+
+            ]
+        );
+
         return redirect(route("admin.user.index"))->with("msg", "عملیات با موفقیت انجام شد");
 
 
@@ -36,6 +38,9 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
+
+        return redirect(route("admin.user.index"))->with("msg", "عملیات با موفقیت انجام شد");
+
     }
 
 //    public function multipleDestroy($ids)
@@ -48,17 +53,21 @@ class UserController extends Controller
 
     public function edit(EditUserRequest $request)
     {
-        $user = User::findOrFail(Auth::id());
 
 
+        $user=$this->EditUser([
+            'name'=>$request->name,
+            'family'=>$request->family,
+            'email'=>$request->email,
+            'phone'=>$request->phone,
+            'password'=>$request->password,
+            'status'=>$request->status,
+            'user_id'=>Auth::id()
 
-        $user->name = $request->name;
-        $user->family = $request->family;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->password = bcrypt($request->password);
+        ]);
 
-        $user->saveOrFail();
+        return redirect(route("admin.user.index"))->with("msg", "عملیات با موفقیت انجام شد");
+
 
     }
 

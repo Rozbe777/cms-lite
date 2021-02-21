@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\User\UserController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,8 @@ Route::get('/', function () {
 
 Route::prefix("auth")->namespace("Auth")->name("auth.")->group(function () {
     Route::get('/register', [RegisterController::class, 'register'])->name('register');
+    Route::get('/login', [LoginController::class, 'show'])->name('login');
+    Route::post('/login', [LoginController::class, 'login'])->name('login');
     Route::post('/store', [RegisterController::class, 'store'])->name('store');
 
 });
@@ -28,7 +31,7 @@ Route::prefix("auth")->namespace("Auth")->name("auth.")->group(function () {
 
 Route::prefix("admin")->namespace("Admin")->name("admin.")->group(function () {
 
-    Route::prefix("users")->namespace("User")->name("user.")->group(function () {
+    Route::prefix("user")->namespace("User")->name("user.")->group(function () {
         Route::get('/index', [UserController::class, 'index'])->name('index');
         Route::post('/store', [UserController::class, 'store'])->name('store');
     });

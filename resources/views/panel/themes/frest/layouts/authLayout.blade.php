@@ -12,7 +12,22 @@
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href={{adminTheme("css/core/menu/menu-types/vertical-menu.css")}}>
     <link rel="stylesheet" type="text/css" href={{adminTheme("css/pages/authentication.css")}}>
+    <link rel="stylesheet" type="text/css" href={{adminTheme("vendors/css/extensions/toastr.css")}}>
+    <link rel="stylesheet" type="text/css" href={{adminTheme("css/plugins/extensions/toastr.css")}}>
     <!-- END: Page CSS-->
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </head>
 <!-- END: Head-->
@@ -36,6 +51,7 @@
 <!-- BEGIN Vendor JS-->
 
 <!-- BEGIN: Page Vendor JS-->
+<script src={{adminTheme("vendors/js/extensions/toastr.min.js")}}></script>
 <!-- END: Page Vendor JS-->
 
 <!-- BEGIN: Theme JS-->
@@ -46,6 +62,7 @@
 <!-- END: Theme JS-->
 
 <!-- BEGIN: Page JS-->
+<script src={{adminTheme("js/scripts/extensions/toastr.js")}}></script>
 <!-- END: Page JS-->
 
 </body>

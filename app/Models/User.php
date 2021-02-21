@@ -6,7 +6,20 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
+use phpDocumentor\Reflection\Types\Integer;
 
+/**
+ * @property string name
+ * @property string family
+ * @property string email
+ * @property string password
+ * @property string phone
+ * @property string status
+ * @property string registration_source
+ * @property Carbon|null email_verified_at
+ * @method static find(Integer $user_id)
+ */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -16,18 +29,21 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'family', 'email', 'password', 'phone', 'status', 'registration_source'
+    protected array $fillable = [
+        'name', 'family', 'email', 'password', 'phone', 'status', 'registration_source','email_verified_at'
     ];
 
-    protected $appends = ['fullname'];
+    /**
+     * @var array|string[]
+     */
+    protected array $appends = ['fullname'];
 
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = [
+    protected array $hidden = [
         'password',
         'remember_token',
     ];
@@ -37,7 +53,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'email_verified_at' => 'datetime',
     ];
 

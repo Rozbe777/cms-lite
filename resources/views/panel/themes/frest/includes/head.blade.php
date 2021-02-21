@@ -19,6 +19,8 @@
     <link rel="stylesheet" type="text/css" href={{adminTheme("css/components.css")}}>
     <link rel="stylesheet" type="text/css" href={{adminTheme("css/themes/dark-layout.css")}}>
     <link rel="stylesheet" type="text/css" href={{adminTheme("css/themes/semi-dark-layout.css")}}>
+    <link rel="stylesheet" type="text/css" href={{adminTheme("css/components.css")}}>
+
 
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href={{adminTheme("css/core/menu/menu-types/vertical-menu.css")}}>

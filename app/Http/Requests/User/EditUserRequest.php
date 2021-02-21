@@ -3,7 +3,18 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property string name
+ * @property string family
+ * @property string email
+ * @property string password
+ * @property string phone
+ * @property string status
+ * @property string registration_source
+ * @property Carbon|null email_verified_at
+ */
 class EditUserRequest extends FormRequest
 {
     /**
@@ -24,11 +35,13 @@ class EditUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'family' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'phone' => 'required|iran_mobile|unique:users',
-            'password' => 'required|string|min:4|confirmed',
+            'name' => 'nullable|string|max:255',
+            'family' => 'nullable|string|max:255',
+            'email' => 'nullable|string|email|max:255|unique:users',
+            'phone' => 'nullable|iran_mobile|unique:users',
+            'password' => 'nullable|string|min:4|confirmed',
+            'status' => 'nullable|in:active,deactivate',
+
         ];
     }
 }

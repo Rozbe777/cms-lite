@@ -1,5 +1,6 @@
 @extends("panel.themes.frest.layouts.authLayout")
 @section("content")
+
     <!-- Content area -->
     <div class="content-overlay"></div>
     <div class="content-wrapper">
@@ -25,7 +26,23 @@
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body">
+                                            @if (count($errors) > 0) //TODO
+                                                <div class="error">
+                                                    @foreach ($errors->all() as $error)
+                                                        <script>
 
+                                                                    toastr.warning('{!! $error !!}', 'پنهان سازی آهسته', {
+                                                                        rtl: true,
+                                                                        hideDuration: 3000,
+                                                                        positionClass: 'toast-top-left'
+                                                                    });
+                                                        </script>
+
+
+                                                    @endforeach
+
+                                                </div>
+                                            @endif
                                             <form action="{{ route("auth.store") }}" method="post">
                                                 @csrf
 
@@ -34,7 +51,7 @@
 
                                                         <label for="inputfirstname4">نام</label>
                                                         <input type="text" class="form-control" id="inputfirstname4"
-                                                               name="name"     placeholder="نام">
+                                                               name="name" value="{{old('name')}}" placeholder="نام">
                                                         @error('name')
                                                         <span class="danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -44,7 +61,8 @@
                                                     <div class="form-group col-md-6 mb-50">
                                                         <label for="inputlastname4">نام خانوادگی</label>
                                                         <input type="text" class="form-control" id="inputlastname4"
-                                                               name="family"      placeholder="نام خانوادگی">
+                                                               name="family" value="{{old('family')}}"
+                                                               placeholder="نام خانوادگی">
                                                     </div>
                                                     @error('family')
                                                     <span class="danger" role="alert">
@@ -53,9 +71,11 @@
                                                     @enderror
                                                 </div>
                                                 <div class="form-group mb-50">
-                                                    <label class="text-bold-700" for="exampleInputUsername1">شماره موبایل</label>
+                                                    <label class="text-bold-700" for="exampleInputUsername1">شماره
+                                                        موبایل</label>
                                                     <input type="text" class="form-control text-left"
-                                                           name="phone"  id="exampleInputUsername1" placeholder="شماره موبایل"
+                                                           name="phone" value="{{old('phone')}}"
+                                                           id="exampleInputUsername1" placeholder="شماره موبایل"
                                                            dir="ltr">
                                                     @error('phone')
                                                     <span class="danger" role="alert">
@@ -67,7 +87,8 @@
                                                     <label class="text-bold-700" for="exampleInputEmail1">آدرس
                                                         ایمیل</label>
                                                     <input type="email" class="form-control text-left"
-                                                           name="email"    id="exampleInputEmail1" placeholder="آدرس ایمیل" dir="ltr">
+                                                           name="email" value="{{old('email')}}" id="exampleInputEmail1"
+                                                           placeholder="آدرس ایمیل" dir="ltr">
                                                     @error('email')
                                                     <span class="danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -78,7 +99,8 @@
                                                     <label class="text-bold-700" for="exampleInputPassword1">رمز
                                                         عبور</label>
                                                     <input type="password" class="form-control text-left"
-                                                           name="password"     id="password" placeholder="رمز عبور" dir="ltr">
+                                                           name="password" id="password" placeholder="رمز عبور"
+                                                           dir="ltr">
                                                     @error('password')
                                                     <span class="danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -86,9 +108,11 @@
                                                     @enderror
                                                 </div>
                                                 <div class="form-group mb-2">
-                                                    <label class="text-bold-700" for="exampleInputPassword1">تایید رمز عبور </label>
+                                                    <label class="text-bold-700" for="exampleInputPassword1">تایید رمز
+                                                        عبور </label>
                                                     <input type="password" class="form-control text-left"
-                                                           name="password_confirmation"     id="password-confirm" placeholder=" تایید رمز عبور" dir="ltr">
+                                                           name="password_confirmation" id="password-confirm"
+                                                           placeholder=" تایید رمز عبور" dir="ltr">
                                                     @error('password')
                                                     <span class="danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -102,15 +126,15 @@
                                             </form>
                                             <hr>
                                             <div class="text-center"><small class="mr-25">حساب کاربری دارید؟</small><a
-                                                    href="auth-login.html"><small>ورود</small> </a></div>
+                                                    href="{{route('auth.login')}}"><small>ورود</small> </a></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- image section right -->
                             <div class="col-md-6 d-md-block d-none text-center align-self-center p-3">
-                                <img class="img-fluid" src={{adminTheme("images/pages/register.png")}} alt="branding
-                                     logo">
+                                <img class="img-fluid" src="{{adminTheme("images/pages/register.png")}}"
+                                     alt="branding logo">
                             </div>
                         </div>
                     </div>
@@ -119,6 +143,8 @@
             <!-- register section endss -->
         </div>
     </div>
+
+
 
     <!-- /content area -->
 
