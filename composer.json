@@ -41,7 +41,7 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Classes/Themes/frest/Helper/admin.php",
+          "app/Classes/Themes/Helper/admin.php",
             "app/Http/Helper/backoffice.php",
             "app/Http/Helper/common.php",
             "app/Http/Helper/response.php"

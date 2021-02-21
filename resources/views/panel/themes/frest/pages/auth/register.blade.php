@@ -26,7 +26,7 @@
                                     <div class="card-content">
                                         <div class="card-body">
 
-                                            <form action="{{ route("admin.user.store") }}" method="post">
+                                            <form action="{{ route("auth.store") }}" method="post">
                                                 @csrf
 
                                                 <div class="form-row">
@@ -55,9 +55,9 @@
                                                 <div class="form-group mb-50">
                                                     <label class="text-bold-700" for="exampleInputUsername1">شماره موبایل</label>
                                                     <input type="text" class="form-control text-left"
-                                                           name="mobile"  id="exampleInputUsername1" placeholder="شماره موبایل"
+                                                           name="phone"  id="exampleInputUsername1" placeholder="شماره موبایل"
                                                            dir="ltr">
-                                                    @error('mobile')
+                                                    @error('phone')
                                                     <span class="danger" role="alert">
                                                      <strong>{{ $message }}</strong>
                                                   </span>
