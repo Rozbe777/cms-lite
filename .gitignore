@@ -1,3 +1,7 @@
+/.idea
+/.git
+.idea
+.git
 /node_modules
 /public/hot
 /public/storage

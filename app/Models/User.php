@@ -17,8 +17,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'family', 'email', 'password', 'phone','status','registration_source'
+        'name', 'family', 'email', 'password', 'phone', 'status', 'registration_source'
     ];
+
+    protected $appends = ['fullname'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -41,6 +43,9 @@ class User extends Authenticatable
 
     public function getFullnameAttribute()
     {
-        return $this->attributes['name'] . ' ' . (!empty($this->attributes['family'])?$this->attributes['family']:'');
+        if (empty($this->attributes['name']) && empty($this->attributes['family'])) {
+            return $this->attributes['phone'];
+        }
+        return $this->attributes['name'] . ' ' . $this->attributes['family'];
     }
 }
