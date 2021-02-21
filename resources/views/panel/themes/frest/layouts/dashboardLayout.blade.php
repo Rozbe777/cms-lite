@@ -23,10 +23,13 @@
 
 <!-- BEGIN: Content-->
 <div class="app-content content">
+    <div class="content-overlay"></div>
     @yield("content")
 
 </div>
 <!-- END: Content-->
+@include('panel.themes.frest.includes.customizer')
+
 
 <div class="sidenav-overlay"></div>
 <div class="drag-target"></div>
@@ -36,26 +39,7 @@
 
 <!-- END: Footer-->
 
-
-<!-- BEGIN: Vendor JS-->
-<script src={{adminTheme("vendors/js/vendors.min.js")}}></script>
-<script src={{adminTheme("fonts/LivIconsEvo/js/LivIconsEvo.tools.min.js")}}></script>
-<script src={{adminTheme("fonts/LivIconsEvo/js/LivIconsEvo.defaults.js")}}></script>
-<script src={{adminTheme("fonts/LivIconsEvo/js/LivIconsEvo.min.js")}}></script>
-<script src={{adminTheme("vendors/js/forms/select/select2.full.min.js")}}></script>
-<!-- BEGIN Vendor JS-->
-
-<!-- BEGIN: Page Vendor JS-->
-<script src={{adminTheme("vendors/js/ui/prism.min.js")}}></script>
-<!-- END: Page Vendor JS-->
-
-<!-- BEGIN: Theme JS-->
-<script src={{adminTheme("js/core/app-menu.js")}}></script>
-<script src={{adminTheme("js/core/app.js")}}></script>
-<!-- END: Theme JS-->
-
-<!-- BEGIN: Page JS-->
-<!-- END: Page JS-->
+@include('panel.themes.frest.includes.scripts')
 
 </body>
 <!-- END: Body-->

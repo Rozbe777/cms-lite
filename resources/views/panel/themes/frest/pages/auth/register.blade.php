@@ -2,7 +2,6 @@
 @section("content")
 
     <!-- Content area -->
-    <div class="content-overlay"></div>
     <div class="content-wrapper">
         <div class="content-header row">
         </div>

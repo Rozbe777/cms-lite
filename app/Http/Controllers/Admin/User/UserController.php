@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\Admin\User;
 
+use App\Http\Controllers\Admin\User\Traits\EditUserTrait;
 use App\Http\Controllers\Auth\Traits\CreateUserTrait;
-use App\Http\Controllers\User\Traits\EditUserTrait;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Requests\User\EditUserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+
 
 class UserController extends Controller
 {
     use CreateUserTrait;
-//    use EditUserTrait;
+    use EditUserTrait;
     public function store(CreateUserRequest $request){
 
         $user=$this->CreateUser(
@@ -36,18 +38,20 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
+        User::forceDelete($id);
+
 
         return redirect(route("admin.user.index"))->with("msg", "عملیات با موفقیت انجام شد");
 
     }
 
-//    public function multipleDestroy($ids)
-//    {
-//        $user = User::where($id);
-//        $user->delete();
-//    }
+    public function multipleDestroy($ids)
+    {
+        foreach ($ids as $id)
+            User::forceDelete($id);
+
+
+    }
 
 
 
