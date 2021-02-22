@@ -36,6 +36,17 @@ class UserController extends Controller
 
     }
 
+    public function create()
+    {
+        return view("panel.themes.frest.pages.user.create");
+    }
+
+    public function edit($userId)
+    {
+        $user=User::findOrFail($userId);
+        return view("panel.themes.frest.pages.user.edit")->with('user',$user);
+    }
+
     public function destroy($id)
     {
         User::forceDelete($id);
@@ -55,10 +66,9 @@ class UserController extends Controller
 
 
 
-    public function edit(EditUserRequest $request)
+    public function update(EditUserRequest $request,$userId)
     {
-
-
+//|unique:users,email,'.$this->request->get("userId")
         $user=$this->EditUser([
             'name'=>$request->name,
             'family'=>$request->family,
@@ -66,11 +76,11 @@ class UserController extends Controller
             'phone'=>$request->phone,
             'password'=>$request->password,
             'status'=>$request->status,
-            'user_id'=>Auth::id()
+            'user_id'=>$userId
 
         ]);
 
-        return redirect(route("admin.user.index"))->with("msg", "عملیات با موفقیت انجام شد");
+        return redirect(route("admin.user.edit",$userId))->with("msg", "عملیات با موفقیت انجام شد");
 
 
     }
@@ -79,7 +89,7 @@ class UserController extends Controller
 
 
         $users=User::all();
-        return view("panel.themes.frest.pages.user.indexTest");
+        return view("panel.themes.frest.pages.user.index")->with('users',$users);
 
     }
 

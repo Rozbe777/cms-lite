@@ -33,7 +33,13 @@ Route::prefix("admin")->namespace("Admin")->name("admin.")->group(function () {
 
     Route::prefix("user")->namespace("User")->name("user.")->group(function () {
         Route::get('/index', [UserController::class, 'index'])->name('index');
+        Route::get('/create', [UserController::class, 'create'])->name('create');
         Route::post('/store', [UserController::class, 'store'])->name('store');
+        Route::get('/edit/{userId}', [UserController::class, 'edit'])->name('edit');
+        Route::post('/update/{userId}', [UserController::class, 'update'])->name('update');
+        Route::post('/destroy/{userId}', [UserController::class, 'destroy'])->name('destroy');
+
+
     });
 
 });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\Rules\iran_mobile;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateUserRequest extends FormRequest
@@ -27,8 +28,7 @@ class CreateUserRequest extends FormRequest
             'name' => 'required|string|max:255',
             'family' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'phone' => 'required|digits_between:11,11|unique:users',
-            'registration_source' => 'required|string',
+            'phone' => ['required','unique:users' , new iran_mobile()],
             'password' => 'required|string|min:4|confirmed',
         ];
     }

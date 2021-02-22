@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\Rules\iran_mobile;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
 
@@ -37,8 +38,8 @@ class EditUserRequest extends FormRequest
         return [
             'name' => 'nullable|string|max:255',
             'family' => 'nullable|string|max:255',
-            'email' => 'nullable|string|email|max:255|unique:users',
-            'phone' => 'nullable|iran_mobile|unique:users',
+            'email' => 'nullable|string|email|max:255',//FIXME unique:users,email,'.$this->request->get("id") not works
+            'phone' => new iran_mobile(),
             'password' => 'nullable|string|min:4|confirmed',
             'status' => 'nullable|in:active,deactivate',
 

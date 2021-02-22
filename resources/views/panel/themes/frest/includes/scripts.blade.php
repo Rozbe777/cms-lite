@@ -13,6 +13,8 @@
 <!-- BEGIN: Page Vendor JS-->
 <script src="{{adminTheme("vendors/js/tables/datatable/datatables.min.js")}}"></script>
 <script src="{{adminTheme("vendors/js/tables/datatable/dataTables.bootstrap4.min.js")}}"></script>
+<script src={{adminTheme("vendors/js/extensions/toastr.min.js")}}></script>
+
 <!-- END: Page Vendor JS-->
 
 <!-- BEGIN: Theme JS-->
@@ -25,6 +27,10 @@
 
 <!-- BEGIN: Page JS-->
 <script src="{{adminTheme("js/scripts/pages/page-users.js")}}"></script>
+<script src={{adminTheme("js/scripts/extensions/toastr.js")}}></script>
+<script src={{adminTheme("js/scripts/error/customError.js")}}></script>
+
+
 <!-- END: Page JS-->
 
 

@@ -1,3 +1,4 @@
+<!-- BEGIN: Header-->
 <div class="header-navbar-shadow"></div>
 <nav class="header-navbar main-header-navbar navbar-expand-lg navbar navbar-with-menu fixed-top ">
     <div class="navbar-wrapper">
@@ -5,13 +6,13 @@
             <div class="navbar-collapse" id="navbar-mobile">
                 <div class="mr-auto float-left bookmark-wrapper d-flex align-items-center">
                     <ul class="nav navbar-nav">
-                        <li class="nav-item mobile-menu d-xl-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs is-active" href="#"><i class="ficon bx bx-menu"></i></a></li>
+                        <li class="nav-item mobile-menu d-xl-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ficon bx bx-menu"></i></a></li>
                     </ul>
                     <ul class="nav navbar-nav bookmark-icons">
-                        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-email.html" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="ایمیل"><i class="ficon bx bx-envelope"></i></a></li>
-                        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-chat.html" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="گفتگو"><i class="ficon bx bx-chat"></i></a></li>
-                        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-todo.html" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="وظایف"><i class="ficon bx bx-check-circle"></i></a></li>
-                        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-calendar.html" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="تقویم"><i class="ficon bx bx-calendar-alt"></i></a></li>
+                        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-email.html" data-toggle="tooltip" data-placement="bottom" title="ایمیل"><i class="ficon bx bx-envelope"></i></a></li>
+                        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-chat.html" data-toggle="tooltip" data-placement="bottom" title="گفتگو"><i class="ficon bx bx-chat"></i></a></li>
+                        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-todo.html" data-toggle="tooltip" data-placement="bottom" title="وظایف"><i class="ficon bx bx-check-circle"></i></a></li>
+                        <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-calendar.html" data-toggle="tooltip" data-placement="bottom" title="تقویم"><i class="ficon bx bx-calendar-alt"></i></a></li>
                     </ul>
                     <ul class="nav navbar-nav">
                         <li class="nav-item d-none d-lg-block"><a class="nav-link bookmark-star"><i class="ficon bx bx-star warning"></i></a>
@@ -41,7 +42,7 @@
                             <li class="dropdown-menu-header">
                                 <div class="dropdown-header px-1 py-75 d-flex justify-content-between"><span class="notification-title">7 اعلان جدید</span><span class="text-bold-400 cursor-pointer">علامت خوانده شده به همه</span></div>
                             </li>
-                            <li class="scrollable-container media-list ps"><a class="d-flex justify-content-between" href="javascript:void(0)">
+                            <li class="scrollable-container media-list"><a class="d-flex justify-content-between" href="javascript:void(0)">
                                     <div class="media d-flex align-items-center">
                                         <div class="media-left pr-0">
                                             <div class="avatar mr-1 m-0"><img src="{{adminTheme("images/portrait/small/avatar-s-11.jpg")}}" alt="avatar" height="39" width="39"></div>
@@ -64,12 +65,12 @@
                                     <div class="media d-flex align-items-center py-0">
                                         <div class="media-left pr-0"><img class="mr-1" src="{{adminTheme("images/icon/sketch-mac-icon.png")}}" alt="avatar" height="39" width="39"></div>
                                         <div class="media-body">
-                                            <h6 class="media-heading"><span class="text-bold-500">به روز رسانی آماده است</span></h6><small class="notification-text">لورم ایپسوم متن ساختگی با تولید سادگی</small>
+                                            <h6 class="media-heading"><span class="text-bold-500">به روز رسانی آماده است</span></h6><small class="notification-text">Sketch 50.2 is currently newly added</small>
                                         </div>
                                         <div class="media-right pl-0">
                                             <div class="row border-left text-center">
                                                 <div class="col-12 px-50 py-50 border-bottom">
-                                                    <h6 class="media-heading text-bold-500 mb-0">به&zwnj;روزرسانی</h6>
+                                                    <h6 class="media-heading text-bold-500 mb-0">به‌روزرسانی</h6>
                                                 </div>
                                                 <div class="col-12 px-50 py-50">
                                                     <h6 class="media-heading mb-0">بستن</h6>
@@ -81,7 +82,7 @@
                                 <div class="d-flex justify-content-between cursor-pointer">
                                     <div class="media d-flex align-items-center">
                                         <div class="media-left pr-0">
-                                            <div class="avatar bg-primary bg-lighten-5 mr-1 m-0 p-25"><span class="avatar-content text-primary font-medium-2">ل&zwnj;د</span></div>
+                                            <div class="avatar bg-primary bg-lighten-5 mr-1 m-0 p-25"><span class="avatar-content text-primary font-medium-2">ل‌د</span></div>
                                         </div>
                                         <div class="media-body">
                                             <h6 class="media-heading"><span class="text-bold-500">مشتری جدید</span> ثبت نام کرد</h6><small class="notification-text">1 ساعت پیش</small>
@@ -97,7 +98,7 @@
                                         </div>
                                         <div class="media-right">
                                             <div class="custom-control custom-switch">
-                                                <input class="custom-control-input" type="checkbox" checked="" id="notificationSwtich">
+                                                <input class="custom-control-input" type="checkbox" checked id="notificationSwtich">
                                                 <label class="custom-control-label" for="notificationSwtich"></label>
                                             </div>
                                         </div>
@@ -145,7 +146,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; left: -6px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></li>
+                            </li>
                             <li class="dropdown-menu-footer"><a class="dropdown-item p-50 text-primary justify-content-center" href="javascript:void(0)">خواندن همه اعلان ها</a></li>
                         </ul>
                     </li>
@@ -160,3 +161,4 @@
         </div>
     </div>
 </nav>
+<!-- END: Header-->
