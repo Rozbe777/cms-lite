@@ -9,7 +9,7 @@
 
 <!-- BEGIN: Body-->
 
-<body class="vertical-layout vertical-menu-modern 2-columns  navbar-sticky footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" style="background: url({{adminTheme("images/pages/auth-bg.jpg")}}) no-repeat center center;">
+<body class="vertical-layout vertical-menu-modern 2-columns  navbar-sticky footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" >
 
 <!-- BEGIN: Header-->
 @include('panel.themes.frest.includes.header')

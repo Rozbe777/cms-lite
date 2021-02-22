@@ -2,18 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/customizer.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/scripts.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/Traits/EditUserTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/Traits/EditUserTrait.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/footer.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/head.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/head.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/header.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/menu.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/scripts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/scripts.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/layouts/dashboardLayout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/layouts/dashboardLayout.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/auth/register.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/auth/register.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/user/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/user/index.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,7 +148,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/panel/themes/frest/includes" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/user" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -167,11 +160,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/user" />
       <recent name="$PROJECT_DIR$/resources/views/panel/themes/frest/includes" />
       <recent name="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/auth" />
       <recent name="$PROJECT_DIR$/resources/views/panel/themes/frest/layouts" />
       <recent name="$PROJECT_DIR$/app/Http/Helper" />
-      <recent name="$PROJECT_DIR$/app/Classes/Panel/Themes/Helper" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/Http/Controllers/Auth" />
@@ -195,7 +188,8 @@
       <workItem from="1613828762713" duration="4677000" />
       <workItem from="1613833647619" duration="1925000" />
       <workItem from="1613890785799" duration="21800000" />
-      <workItem from="1613917672432" duration="226000" />
+      <workItem from="1613917672432" duration="1481000" />
+      <workItem from="1613978542446" duration="1664000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>

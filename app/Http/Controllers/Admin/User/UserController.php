@@ -79,7 +79,7 @@ class UserController extends Controller
 
 
         $users=User::all();
-        return view("panel.themes.frest.pages.user.index");
+        return view("panel.themes.frest.pages.user.indexTest");
 
     }
 
