@@ -7,7 +7,8 @@
 <html class="loading" lang="fa" data-textdirection="rtl" dir="rtl">
 <!-- BEGIN: Head-->
 @include('panel.themes.frest.includes.head')
-@include('panel.themes.frest.includes.scripts')
+
+
 
 <!-- END: Head-->
 
@@ -20,7 +21,9 @@
 
 
 @include('panel.themes.frest.includes.menu')
-
+@include('panel.themes.frest.includes.scripts')
+@include('panel.themes.frest.includes.toastr')
+@include('panel.themes.frest.includes.sweetalert')
 
 <!-- BEGIN: Content-->
 <div class="app-content content">
@@ -107,9 +110,7 @@
 @include('panel.themes.frest.includes.footer')
 
 
-
-@include('panel.themes.frest.includes.scripts')
-@yield("scripts")
+@yield("pageScripts")
 
 </body>
 <!-- END: Body-->

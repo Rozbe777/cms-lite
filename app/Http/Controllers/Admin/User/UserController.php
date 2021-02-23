@@ -49,7 +49,7 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        User::forceDelete($id);
+        User::findOrFail($id)->delete();
 
 
         return redirect(route("admin.user.index"))->with("msg", "عملیات با موفقیت انجام شد");

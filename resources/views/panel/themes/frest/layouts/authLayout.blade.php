@@ -4,6 +4,7 @@
 
 @include('panel.themes.frest.includes.head')
 @include('panel.themes.frest.includes.scripts')
+@include('panel.themes.frest.includes.toastr')
 
     <!-- END: Theme CSS-->
 
@@ -40,7 +41,8 @@
 
 <!-- BEGIN: Page JS-->
 <!-- END: Page JS-->
-@yield("scripts")
+{{--@include('panel.themes.frest.includes.scripts')--}}
+@yield("pageScripts")
 </body>
 <!-- END: Body-->
 </html>

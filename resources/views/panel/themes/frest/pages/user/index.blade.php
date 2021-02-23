@@ -2,7 +2,8 @@
 @php($title = "کاربران")
 
 @section("content")
-        <div class="content-wrapper">
+
+    <div class="content-wrapper">
             <div class="content-header row">
             </div>
             <div class="content-body"><!-- users list start -->
@@ -64,12 +65,13 @@
                                                 <th>شماره موبایل</th>
                                                 <th>نقش</th>
                                                 <th>وضعیت</th>
-                                                <th>ویرایش</th>
-                                                <th>حذف</th>
+                                                <th>عملیات</th>
 
                                             </tr>
                                             </thead>
                                             <tbody>
+
+
                                             @foreach($users as $user)
                                                 <tr>
                                                     <td class="dt-checkboxes-cell"><div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div></td>
@@ -91,16 +93,17 @@
 {{--                                                        </div>--}}
 {{--                                                    </td>--}}
                                                     <td>
-                                                        <button type="button" class="btn btn-primary mr-1 mb-1" onclick="{{route('admin.user.update',$user->id)}}">ویرایش</button>
+                                                        <div class="dropup show">
+                <span class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false" role="menu">
+                </span>
+                                                            <div class="dropdown-menu show" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(28px, 23px, 0px);">
+{{--                                                                //FIXME when page loaded this menu not open--}}
+                                                                <a class="dropdown-item" href="{{route('admin.user.edit',$user->id)}}"><i class="bx bx-edit-alt mr-1"></i> ویرایش</a>
+                                                                <a class="dropdown-item sweet-alert-delete-confirm" href="{{route('admin.user.destroy',$user->id)}}"><i class="bx bx-trash mr-1"></i> حذف</a>
 
+                                                            </div>
+                                                        </div>
                                                     </td>
-                                                    <td>
-{{--                                                        //TODO --}}
-{{--                                                        confirm alert--}}
-                                                        <button type="button" class="btn btn-primary mr-1 mb-1" onclick="{{route('admin.user.destroy',$user->id)}}">حذف</button>
-
-                                                    </td>
-{{--                                                    <td><a href={{route('admin.user.edit',$user->id)}}><i class="bx bx-edit-alt"></i></a></td>--}}
                                                 </tr>
                                             @endforeach
 
@@ -119,8 +122,37 @@
 
 @endsection
 
-@section('scripts')
+@section('pageScripts')
     <link rel="stylesheet" type="text/css" href="{{adminTheme("css/core/menu/menu-types/vertical-menu.css")}}">
     <script src="{{adminTheme("js/scripts/pages/table-extended.js")}}"></script>
+    <script>
+        $('.sweet-alert-delete-confirm').on('click', function (event) {
+            event.preventDefault();
+            const url = $(this).attr('href');
+            swal({
+                title: 'خذف کاربر',
+                text: "آیا مطمئنید؟",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'تایید',
+                confirmButtonClass: 'btn btn-primary',
+                cancelButtonClass: 'btn btn-danger ml-1',
+                cancelButtonText: 'انصراف',
+                buttonsStyling: false,
+            }).then(function(result) {
+                if (result.value) {
 
+                    Swal.fire({
+                        type: "success",
+                        title: 'حذف شد!',
+                        text: 'کاربر مورد نظر حذف شد',
+                        confirmButtonClass: 'btn btn-success',
+                        confirmButtonText: 'باشه',
+                    });
+
+                    window.location.href = url;
+                }
+            });
+        });
+    </script>
 @endsection

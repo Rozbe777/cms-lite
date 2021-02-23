@@ -116,7 +116,8 @@
 
 @endsection
 
-@section('scripts')
+@section('pageScripts')
+    <script src={{adminTheme("vendors/js/extensions/toastr.min.js")}}></script>
 
     <script>
 

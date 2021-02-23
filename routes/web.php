@@ -37,7 +37,7 @@ Route::prefix("admin")->namespace("Admin")->name("admin.")->group(function () {
         Route::post('/store', [UserController::class, 'store'])->name('store');
         Route::get('/edit/{userId}', [UserController::class, 'edit'])->name('edit');
         Route::post('/update/{userId}', [UserController::class, 'update'])->name('update');
-        Route::post('/destroy/{userId}', [UserController::class, 'destroy'])->name('destroy');
+        Route::get('/destroy/{userId}', [UserController::class, 'destroy'])->name('destroy');
 
 
     });
