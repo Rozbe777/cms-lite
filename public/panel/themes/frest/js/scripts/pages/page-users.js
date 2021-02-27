@@ -11,6 +11,12 @@ $(document).ready(function () {
 	if ($("#users-list-datatable").length > 0) {
 		usersTable = $("#users-list-datatable").DataTable({
 			responsive: true,
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ],
 			columnDefs: [{
 				"orderable": false,
 				"targets": [7]

@@ -19,8 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::group(['as' => 'auth.', 'prefix' => 'auth', 'namespace' => 'Auth','name'=>'auth.'], function () {
 
-Route::prefix("auth")->namespace("Auth")->name("auth.")->group(function () {
     Route::get('/register', [RegisterController::class, 'register'])->name('register');
     Route::get('/login', [LoginController::class, 'show'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login');
@@ -28,10 +28,10 @@ Route::prefix("auth")->namespace("Auth")->name("auth.")->group(function () {
 
 });
 
+Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin','name'=>'admin.','middleware' => 'auth'], function () {
 
-Route::prefix("admin")->namespace("Admin")->name("admin.")->group(function () {
+    Route::group(['as' => 'user.', 'prefix' => 'user', 'namespace' => 'User','name'=>'user.'], function () {
 
-    Route::prefix("user")->namespace("User")->name("user.")->group(function () {
         Route::get('/export', [UserController::class, 'export'])->name('export');
         Route::get('/index', [UserController::class, 'index'])->name('index');
         Route::get('/create', [UserController::class, 'create'])->name('create');

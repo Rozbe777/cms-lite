@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Laravel\Passport\HasApiTokens;
 use phpDocumentor\Reflection\Types\Integer;
+use Shanmuga\LaravelEntrust\Traits\LaravelEntrustUserTrait;
 
 /**
  * @property string name
@@ -22,8 +24,9 @@ use phpDocumentor\Reflection\Types\Integer;
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
 
+    use HasFactory, Notifiable,HasApiTokens;
+    use LaravelEntrustUserTrait;
     /**
      * The attributes that are mass assignable.
      *

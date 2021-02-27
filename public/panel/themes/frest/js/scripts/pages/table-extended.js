@@ -42,6 +42,7 @@
 		"responsive": true,
 		"searching": false,
 		"lengthChange": false,
+        
 		"paging": false,
 		"bInfo": false,
 		"columnDefs": [{

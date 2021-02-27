@@ -10,11 +10,7 @@
 
 
 
-<!-- BEGIN: Page Vendor JS-->
-<script src="{{adminTheme("vendors/js/tables/datatable/datatables.min.js")}}"></script>
-<script src="{{adminTheme("vendors/js/tables/datatable/dataTables.bootstrap4.min.js")}}"></script>
 
-<!-- END: Page Vendor JS-->
 
 
 
@@ -28,7 +24,7 @@
 <!-- END: Theme JS-->
 
 <!-- BEGIN: Page JS-->
-<script src="{{adminTheme("js/scripts/pages/page-users.js")}}"></script>
+
 <script src={{adminTheme("js/scripts/error/customError.js")}}></script>
 
 

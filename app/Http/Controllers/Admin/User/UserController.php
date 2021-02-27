@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\Traits\CreateUserTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\EditUserRequest;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -31,6 +32,7 @@ class UserController extends Controller
 
             ]
         );
+        $user->attachRole('');
 
         return redirect(route("admin.user.index"))->with("msg", "عملیات با موفقیت انجام شد");
 
@@ -88,8 +90,6 @@ class UserController extends Controller
     }
 
     public function index(){
-
-
         $users=User::all();
         return view("panel.themes.frest.pages.user.index")->with('users',$users);
 

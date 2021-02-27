@@ -24,16 +24,15 @@
                                             $(document).ready(function () {
                                                 @if(!empty(session()->get('msg'))) //TODO
 
-                                                showError();
-
+                                                loginError("{!! session()->get('msg') !!}")
                                                 @endif
 
                                             });
 
                                         </script>
-                                        @if ($errors->count() > 0)
+                                        @if($errors->any())
                                             <script>
-                                                alert("Error: " + {{ $errors->first() }});
+                                                loginError("{!! $errors->first() !!}");
                                             </script>
                                         @endif
 
@@ -121,33 +120,7 @@
 
     <script>
 
-            // show when page load
-            // toastr.info('Page Loaded!');
-            //
-            // toastr.danger('پنهان سازی آهسته', 'پنهان سازی آهسته', {
-            //     rtl: true,
-            //     hideDuration: 3000,
-            //     positionClass: 'position-bottom-right'
-            // });
-            function showError(){
-                toastr.options = {
-                    "closeButton": false,
-                    "debug": false,
-                    "newestOnTop": false,
-                    "progressBar": true,
-                    "preventDuplicates": true,
-                    "onclick": null,
-                    "showDuration": "100",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "show",
-                    "hideMethod": "hide"
-                };
-                toastr.info('MY MESSAGE!');
-            }
+
 
 
     </script>

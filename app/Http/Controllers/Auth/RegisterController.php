@@ -33,7 +33,8 @@ class RegisterController extends Controller
             ]
         );
         Auth::login($user);
-
+        $user->createToken('authToken')->accessToken;
+        dd($user);
 
         return redirect(config('user.login.redirectUrl'))->with("user", $user);
 
