@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\User;
 
+use App\Exports\UserListExport;
 use App\Http\Controllers\Admin\User\Traits\EditUserTrait;
 use App\Http\Controllers\Auth\Traits\CreateUserTrait;
 
@@ -10,6 +11,7 @@ use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\EditUserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class UserController extends Controller
@@ -90,6 +92,13 @@ class UserController extends Controller
 
         $users=User::all();
         return view("panel.themes.frest.pages.user.index")->with('users',$users);
+
+    }
+
+    public function export(){
+        $fileName="usersList".".xlsx";
+
+        return Excel::download(new UserListExport(), $fileName);
 
     }
 

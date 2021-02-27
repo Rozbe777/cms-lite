@@ -32,6 +32,7 @@ Route::prefix("auth")->namespace("Auth")->name("auth.")->group(function () {
 Route::prefix("admin")->namespace("Admin")->name("admin.")->group(function () {
 
     Route::prefix("user")->namespace("User")->name("user.")->group(function () {
+        Route::get('/export', [UserController::class, 'export'])->name('export');
         Route::get('/index', [UserController::class, 'index'])->name('index');
         Route::get('/create', [UserController::class, 'create'])->name('create');
         Route::post('/store', [UserController::class, 'store'])->name('store');

@@ -110,6 +110,14 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    <div class="text-center">
+                                        <form action="{{route('admin.user.export')}}" method="GET">
+                                            <button type="submit"   class="btn btn-secondary mr-1 mb-1">خروجی اکسل</button>
+
+                                        </form>
+
+                                    </div>
+
                                     <!-- datatable ends -->
                                 </div>
                             </div>
