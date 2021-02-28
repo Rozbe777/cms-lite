@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Role\RoleController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -27,20 +28,34 @@ Route::group(['as' => 'auth.', 'prefix' => 'auth', 'namespace' => 'Auth','name'=
     Route::post('/store', [RegisterController::class, 'store'])->name('store');
 
 });
+Route::group(['middleware' => 'user_permission'],function (){
+    Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin','name'=>'admin.','middleware' => 'auth'], function () {
 
-Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin','name'=>'admin.','middleware' => 'auth'], function () {
+        Route::group(['as' => 'user.', 'prefix' => 'user', 'namespace' => 'User','name'=>'user.'], function () {
 
-    Route::group(['as' => 'user.', 'prefix' => 'user', 'namespace' => 'User','name'=>'user.'], function () {
+            Route::get('/export', [UserController::class, 'export'])->name('export');
+            Route::get('/index', [UserController::class, 'index'])->name('index');
+            Route::get('/create', [UserController::class, 'create'])->name('create');
+            Route::post('/store', [UserController::class, 'store'])->name('store');
+            Route::get('/{userId}/edit', [UserController::class, 'edit'])->name('edit');
+            Route::put('/{userId}/update', [UserController::class, 'update'])->name('update');
+            Route::get('/{userId}/destroy', [UserController::class, 'destroy'])->name('destroy');
+            Route::get('/search', [UserController::class, 'search'])->name('search');
 
-        Route::get('/export', [UserController::class, 'export'])->name('export');
-        Route::get('/index', [UserController::class, 'index'])->name('index');
-        Route::get('/create', [UserController::class, 'create'])->name('create');
-        Route::post('/store', [UserController::class, 'store'])->name('store');
-        Route::get('/edit/{userId}', [UserController::class, 'edit'])->name('edit');
-        Route::post('/update/{userId}', [UserController::class, 'update'])->name('update');
-        Route::get('/destroy/{userId}', [UserController::class, 'destroy'])->name('destroy');
 
+
+        });
+        Route::group(['as' => 'role.', 'prefix' => 'role', 'namespace' => 'Role','name'=>'role.'], function () {
+
+            Route::get('/index', [RoleController::class, 'index'])->name('index');
+            Route::get('/create', [RoleController::class, 'create'])->name('create');
+            Route::post('/store', [RoleController::class, 'store'])->name('store');
+            Route::get('/{role}/edit', [RoleController::class, 'edit'])->name('edit');
+            Route::put('/{role}/update', [RoleController::class, 'update'])->name('update');
+            Route::delete('/{role}/destroy', [RoleController::class, 'destroy'])->name('destroy');
+
+        });
 
     });
-
 });
+

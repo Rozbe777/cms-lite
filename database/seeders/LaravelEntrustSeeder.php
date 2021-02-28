@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Permission;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -38,16 +39,27 @@ class LaravelEntrustSeeder extends Seeder
 
             // Reading role permission modules
             foreach ($modules as $module => $value) {
+                $parentId = Permission::firstOrCreate([
+                    'name' => $module ,
+                    'display_name' => $module,
+                    'description' => $module,
+                    'is_menu'=>1
+
+                ])->id;
 
                 foreach (explode(',', $value) as $p => $perm) {
 
                     $permissionValue = $mapPermission->get($perm);
 
-                    $permissions[] = \App\Models\Permission::firstOrCreate([
-                        'name' => $permissionValue . '-' . $module,
+
+                    $permissions[] =$parentId;
+                    $permissions[] = Permission::firstOrCreate([
+                        'name' => $module . '.' . $permissionValue ,
                         'display_name' => ucfirst($permissionValue) . ' ' . ucwords(str_replace('_', ' ', $module)),
                         'description' => ucfirst($permissionValue) . ' ' . ucwords(str_replace('_', ' ', $module)),
-                    ])->id;
+                        'parent_id'=>$parentId,
+                        'is_menu'=>0
+                        ])->id;
 
                     $this->command->info('Creating Permission to '.$permissionValue.' for '. $module);
                 }
@@ -85,7 +97,7 @@ class LaravelEntrustSeeder extends Seeder
         DB::table('users')->truncate();
 
         \App\Models\Role::truncate();
-        \App\Models\Permission::truncate();
+        Permission::truncate();
 
         Schema::enableForeignKeyConstraints();
     }

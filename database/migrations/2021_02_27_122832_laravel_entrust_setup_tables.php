@@ -27,9 +27,14 @@ class LaravelEntrustSetupTables extends Migration
             $table->string('name')->unique();
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
+            $table->string('icon')->nullable();
+            $table->bigInteger('parent_id')->default(0);
+            $table->integer('is_menu')->default(0);
+            $table->bigInteger('weight')->nullable()->unsigned();
+            $table->bigInteger('module_id')->default(1)->unsigned();
             $table->timestamps();
         });
-        
+
         // Schema to create role_users table
         Schema::create('role_user', function (Blueprint $table) {
             $table->unsignedBigInteger('role_id');

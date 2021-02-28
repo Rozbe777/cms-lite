@@ -54,6 +54,7 @@
                                     @endif
                                     <form method="POST" action="{{route('admin.user.update',$user->id)}}">
                                         @csrf
+                                        @method("PUT")
                                         <div class="row">
                                             <div class="col-12 col-sm-6">
                                                 <div class="form-group">
@@ -129,122 +130,6 @@
                                                            data-validation-required-message="وارد کردن تایید رمز عبور الزامی است">
                                                 </div>
 
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="table-responsive">
-                                                    <table class="table mt-1">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>دسترسی ها</th>
-                                                            <th>خواندن</th>
-                                                            <th>نوشتن</th>
-                                                            <th>ایجاد</th>
-                                                            <th>حذف</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>کاربران</td>
-                                                            <td>
-                                                                <div class="checkbox"><input type="checkbox"
-                                                                                             id="users-checkbox1"
-                                                                                             class="checkbox-input"
-                                                                                             checked>
-                                                                    <label for="users-checkbox1"></label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="checkbox"><input type="checkbox"
-                                                                                             id="users-checkbox2"
-                                                                                             class="checkbox-input"><label
-                                                                        for="users-checkbox2"></label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="checkbox"><input type="checkbox"
-                                                                                             id="users-checkbox3"
-                                                                                             class="checkbox-input"><label
-                                                                        for="users-checkbox3"></label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="checkbox"><input type="checkbox"
-                                                                                             id="users-checkbox4"
-                                                                                             class="checkbox-input"
-                                                                                             checked>
-                                                                    <label for="users-checkbox4"></label>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>مقالات</td>
-                                                            <td>
-                                                                <div class="checkbox"><input type="checkbox"
-                                                                                             id="users-checkbox5"
-                                                                                             class="checkbox-input"><label
-                                                                        for="users-checkbox5"></label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="checkbox"><input type="checkbox"
-                                                                                             id="users-checkbox6"
-                                                                                             class="checkbox-input"
-                                                                                             checked>
-                                                                    <label for="users-checkbox6"></label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="checkbox"><input type="checkbox"
-                                                                                             id="users-checkbox7"
-                                                                                             class="checkbox-input"><label
-                                                                        for="users-checkbox7"></label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="checkbox"><input type="checkbox"
-                                                                                             id="users-checkbox8"
-                                                                                             class="checkbox-input"
-                                                                                             checked>
-                                                                    <label for="users-checkbox8"></label>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>کارمند</td>
-                                                            <td>
-                                                                <div class="checkbox"><input type="checkbox"
-                                                                                             id="users-checkbox9"
-                                                                                             class="checkbox-input"
-                                                                                             checked>
-                                                                    <label for="users-checkbox9"></label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="checkbox"><input type="checkbox"
-                                                                                             id="users-checkbox10"
-                                                                                             class="checkbox-input"
-                                                                                             checked>
-                                                                    <label for="users-checkbox10"></label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="checkbox"><input type="checkbox"
-                                                                                             id="users-checkbox11"
-                                                                                             class="checkbox-input"><label
-                                                                        for="users-checkbox11"></label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="checkbox"><input type="checkbox"
-                                                                                             id="users-checkbox12"
-                                                                                             class="checkbox-input"><label
-                                                                        for="users-checkbox12"></label>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
                                             </div>
                                             <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
                                                 <button type="submit"

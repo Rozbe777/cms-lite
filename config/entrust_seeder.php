@@ -3,24 +3,35 @@
 return [
     'role_structure' => [
         'admin' => [
-            'users' => 'c,r,u,d',
-            'admin' => 'c,r,u,d',
-            'profile' => 'r,d'
+            'admin.user' => 'export,i,c,s,e,u,des,search',
+            'admin.role' => 'i,c,s,e,u,des'
+
         ],
-        'subadmin' => [
-            'users' => 'c,r,u',
-            'profile' => 'r,u',
+        'user' => [
+
         ],
     ],
     'user_roles' => [
         'admin' => [
             ['name' => "Admin", "email" => "admin@gmail.com", "password" => '123456',"phone"=>'09120000000'],
         ],
+        'user' => [
+            ['name' => "firstUser", "email" => "user@gmail.com", "password" => '123456',"phone"=>'09110000000'],
+        ],
     ],
     'permissions_map' => [
+        's' => 'store',
+        'i' => 'index',
         'c' => 'create',
-        'r' => 'read',
         'u' => 'update',
+        'e' => 'edit',
         'd' => 'delete',
+        'des' => 'destroy',
+        'r' => 'read',
+        'sh' => 'show',
+
+        'export' => 'export',
+        'search' => 'search',
+
     ],
 ];

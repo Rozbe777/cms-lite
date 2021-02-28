@@ -39,7 +39,7 @@ class User extends Authenticatable
     /**
      * @var array|string[]
      */
-    protected  $appends = ['fullname'];
+    protected  $appends = ['fullname','persianStatus'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -66,5 +66,10 @@ class User extends Authenticatable
             return $this->attributes['phone'];
         }
         return $this->attributes['name'] . ' ' . $this->attributes['family'];
+    }
+
+    public function getPersianStatusAttribute()
+    {
+        return $this->attributes['status'] =='active'?'فعال':'بسته شده';
     }
 }

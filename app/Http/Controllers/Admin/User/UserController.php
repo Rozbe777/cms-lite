@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Admin\User;
 
 use App\Exports\UserListExport;
+use App\Http\Controllers\Admin\User\Helper\UserSearchHelper;
 use App\Http\Controllers\Admin\User\Traits\EditUserTrait;
 use App\Http\Controllers\Auth\Traits\CreateUserTrait;
+use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\CreateUserRequest;
-use App\Http\Requests\User\EditUserRequest;
+use App\Http\Requests\Admin\User\CreateUserRequest;
+use App\Http\Requests\Admin\User\EditUserRequest;
+use App\Http\Requests\Admin\User\SearchUserRequest;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -42,13 +45,13 @@ class UserController extends Controller
 
     public function create()
     {
-        return view("panel.themes.frest.pages.user.create");
+        return view("panel.themes.frest.pages.admin.user.create");
     }
 
     public function edit($userId)
     {
         $user=User::findOrFail($userId);
-        return view("panel.themes.frest.pages.user.edit")->with('user',$user);
+        return view("panel.themes.frest.pages.admin.user.edit")->with('user',$user);
     }
 
     public function destroy($id)
@@ -89,9 +92,20 @@ class UserController extends Controller
 
     }
 
+    public function search(SearchUserRequest $request){
+        $searchHelper=new UserSearchHelper($request);
+        $users=$searchHelper->roleUsers();
+        $users=$searchHelper->confirmedUsers($users);
+        $users=$searchHelper->statusUsers($users);
+
+        return view("panel.themes.frest.pages.admin.user.index")->with('users',$users);
+
+    }
+
     public function index(){
         $users=User::all();
-        return view("panel.themes.frest.pages.user.index")->with('users',$users);
+
+        return view("panel.themes.frest.pages.admin.user.index")->with('users',$users);
 
     }
 

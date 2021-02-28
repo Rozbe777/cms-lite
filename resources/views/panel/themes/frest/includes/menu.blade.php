@@ -35,11 +35,11 @@
                     </li>
                     <li>
 
-                        <a href="{{route('admin.user.edit',1)}}">
+                        <a href="{{route('admin.role.index')}}">
 
 {{--                            //FIXME--}}
 {{--                            //route('admin.user.edit',auth()->id)--}}
-                            <i class="bx bx-left-arrow-alt"></i><span class="menu-item" data-i18n="Edit">ویرایش</span></a>
+                            <i class="bx bx-left-arrow-alt"></i><span class="menu-item" data-i18n="Edit">دسترسی ها</span></a>
                     </li>
                 </ul>
             </li>

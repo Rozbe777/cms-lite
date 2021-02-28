@@ -1,13 +1,13 @@
 <?php
 
 
-namespace App\Http\Controllers\Admin\User;
+namespace App\Http\Controllers\Admin\User\Traits;
 
 
 use App\Models\User;
 
 
-trait CreateUser
+trait CreateUserTrait
 {
     /**
      * @param $user array
