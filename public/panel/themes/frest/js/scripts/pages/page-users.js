@@ -18,7 +18,7 @@ $(document).ready(function () {
                 'pdfHtml5'
             ],
 			columnDefs: [{
-				"orderable": false,
+				"orderable": true,
 				"targets": [7]
 			}],
 			language: {

@@ -103,8 +103,7 @@ class UserController extends Controller
     }
 
     public function index(){
-        $users=User::all();
-
+        $users=User::paginate(12);
         return view("panel.themes.frest.pages.admin.user.index")->with('users',$users);
 
     }

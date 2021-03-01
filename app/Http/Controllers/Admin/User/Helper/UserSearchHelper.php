@@ -35,8 +35,14 @@ class UserSearchHelper
 
     public function confirmedUsers($users)
     {
-        if (!($this->confirmed === null))
-            $users = $users->whereNotNull('email_verified_at');
+        if (!($this->confirmed === null)){
+            if ($this->confirmed == 1)
+                $users = $users->whereNotNull('email_verified_at');
+
+            $users = $users->whereNull('email_verified_at');
+
+        }
+
 
         return $users;
 

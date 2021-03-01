@@ -3,7 +3,7 @@
 @section("content")
     <div class="content-wrapper">
         <div class="content-header row">
-            <div class="content-body">
+            <div class="content-body col-12">
                 <div class="row">
 
                     <div class="col-lg-12">
@@ -25,12 +25,12 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="name"
-                                                       placeholder="نام لاتین (admin)">
-                                            </div>
-                                        </div>
+{{--                                        <div class="col-md-6">--}}
+{{--                                            <div class="form-group">--}}
+{{--                                                <input type="text" class="form-control" name="name"--}}
+{{--                                                       placeholder="نام لاتین (admin)">--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 row ">
@@ -40,25 +40,37 @@
                                                         <h5 class="panel-title"> {{$permission->display_name}}</h5>
 
                                                         <div class="">
-                                                            <div class="checkbox">
-                                                                <fieldset>
-                                                                    <div class="checkbox checkbox-success checkbox-icon">
-                                                                        <input type="checkbox" id="control-custom" name="permissions[]" value="{{$permission->id}}">
-                                                                        <label for="checkboxIcon3"><i class="bx bx-x"></i>{{$permission->display_name}}</label>
-                                                                    </div>
-                                                                </fieldset>
-
+                                                            <div class="form-check">
+                                                                <input type="checkbox" class="form-check-input checkAll" id="control-custom"
+                                                                       name="permissions[]" value="{{$permission->id}}">
+                                                                <label class="form-check-label">{{$permission->display_name}}</label>
                                                             </div>
-                                                            @foreach($permission->children as $child)
-                                                                <div class="checkbox">
-                                                                    <fieldset>
-                                                                        <div class="checkbox checkbox-success checkbox-icon">
-                                                                            <input type="checkbox" id="control-custom" name="permissions[]" value="{{$child->id}}">
-                                                                            <label for="checkboxIcon3"><i class="bx bx-x"></i>{{$child->display_name}}</label>
-                                                                        </div>
-                                                                    </fieldset>
+{{--                                                            <div class="checkbox">--}}
+{{--                                                                <fieldset>--}}
+{{--                                                                    --}}
 
+{{--                                                                    <div class="checkbox checkbox-success checkbox-icon">--}}
+{{--                                                                        <input type="checkbox" id="control-custom" name="permissions[]" value="{{$permission->id}}">--}}
+{{--                                                                        <label for="checkboxIcon3"><i class="bx bx-x"></i>{{$permission->display_name}}</label>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </fieldset>--}}
+
+{{--                                                            </div>--}}
+                                                            @foreach($permission->children as $child)
+                                                                <div class="form-check">
+                                                                    <input type="checkbox" class="form-check-input checkAll" id="control-custom"
+                                                                           name="permissions[]" value="{{$child->id}}">
+                                                                    <label class="form-check-label">{{$child->display_name}}</label>
                                                                 </div>
+{{--                                                                <div class="checkbox">--}}
+{{--                                                                    <fieldset>--}}
+{{--                                                                        <div class="checkbox checkbox-success checkbox-icon">--}}
+{{--                                                                            <input type="checkbox" id="control-custom" name="permissions[]" value="{{$child->id}}">--}}
+{{--                                                                            <label for="checkboxIcon3"><i class="bx bx-x"></i>{{$child->display_name}}</label>--}}
+{{--                                                                        </div>--}}
+{{--                                                                    </fieldset>--}}
+
+{{--                                                                </div>--}}
                                                             @endforeach
                                                         </div>
                                                     </div>

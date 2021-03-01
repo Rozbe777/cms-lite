@@ -72,4 +72,6 @@ class User extends Authenticatable
     {
         return $this->attributes['status'] =='active'?'فعال':'بسته شده';
     }
+
+
 }

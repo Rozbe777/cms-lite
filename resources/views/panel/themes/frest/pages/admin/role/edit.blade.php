@@ -4,7 +4,7 @@
 
     <div class="content-wrapper">
         <div class="content-header row">
-            <div class="content-body">
+            <div class="content-body col-12">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card panel-flat">
@@ -26,12 +26,12 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="name" value="{{$role->name}}"
-                                                       placeholder="نام لاتین (admin)">
-                                            </div>
-                                        </div>
+{{--                                        <div class="col-md-6">--}}
+{{--                                            <div class="form-group">--}}
+{{--                                                <input type="text" class="form-control" name="name" value="{{$role->name}}"--}}
+{{--                                                       placeholder="نام لاتین (admin)">--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 row ">
@@ -41,23 +41,33 @@
                                                         <h5 class="panel-title"> {{$permission->display_name}}</h5>
 
                                                         <div class="">
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input {{in_array($permission->id , $rolePermissions)?"checked":""}} type="checkbox"
-                                                                           class="control-custom"
-                                                                           name="permissions[]" value="{{$permission->id}}">
-                                                                    {{$permission->display_name}}
-                                                                </label>
+                                                            <div class="form-check">
+                                                                <input type="checkbox" class="form-check-input checkAll" {{in_array($permission->id , $rolePermissions)?"checked":""}} name="permissions[]" value="{{$permission->id}}">
+                                                                <label class="form-check-label">{{$permission->display_name}}</label>
                                                             </div>
+{{--                                                            <div class="checkbox">--}}
+{{--                                                                <label>--}}
+{{--                                                                    <input {{in_array($permission->id , $rolePermissions)?"checked":""}} type="checkbox"--}}
+{{--                                                                           class="control-custom"--}}
+{{--                                                                           name="permissions[]" value="{{$permission->id}}">--}}
+
+{{--                                                                </label>--}}
+{{--                                                            </div>--}}
                                                             @foreach($permission->children as $child)
-                                                                <div class="checkbox">
-                                                                    <label>
-                                                                        <input {{in_array($child->id , $rolePermissions)?"checked":""}} type="checkbox"
-                                                                               class="control-custom"
-                                                                               name="permissions[]" value="{{$child->id}}">
-                                                                        {{$child->display_name}}
-                                                                    </label>
+                                                                <div class="form-check">
+                                                                    <input type="checkbox" class="form-check-input checkAll"
+                                                                           {{in_array($child->id , $rolePermissions)?"checked":""}}
+                                                                           name="permissions[]" value="{{$child->id}}">
+                                                                    <label class="form-check-label">{{$child->display_name}}</label>
                                                                 </div>
+{{--                                                                <div class="checkbox">--}}
+{{--                                                                    <label>--}}
+{{--                                                                        <input {{in_array($child->id , $rolePermissions)?"checked":""}} type="checkbox"--}}
+{{--                                                                               class="control-custom"--}}
+{{--                                                                               name="permissions[]" value="{{$child->id}}">--}}
+{{--                                                                        {{$child->display_name}}--}}
+{{--                                                                    </label>--}}
+{{--                                                                </div>--}}
                                                             @endforeach
                                                         </div>
                                                     </div>

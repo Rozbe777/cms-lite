@@ -17,4 +17,11 @@ class Role extends EntrustRole
     public function users(){
         return $this->belongsToMany(User::class);
     }
+
+    public function getPersianNameAttribute()
+    {
+        if ($this->attributes['name']=='admin')
+        $persianName='ادمین';
+        return $this->attributes['name'] =='admin'?'فعال':'بسته شده';
+    }
 }

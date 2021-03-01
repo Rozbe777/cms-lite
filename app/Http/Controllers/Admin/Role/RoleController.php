@@ -35,7 +35,7 @@ class RoleController extends Controller
         $role->display_name = $request->display_name;
         $role->save();
         $role->permissions()->attach($request->permissions);
-        return redirect(route("panel.themes.frest.pages.admin.role.index"))->with("msg" , "عملیات با موفقیت انجام شد");
+        return redirect(route("admin.role.index"))->with("msg" , "عملیات با موفقیت انجام شد");
     }
 
     public function edit($id)

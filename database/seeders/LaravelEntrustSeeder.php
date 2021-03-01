@@ -24,6 +24,7 @@ class LaravelEntrustSeeder extends Seeder
         $config = config('entrust_seeder.role_structure');
         $userRoles = config('entrust_seeder.user_roles');
         $mapPermission = collect(config('entrust_seeder.permissions_map'));
+        $mapPermissionPersian = collect(config('entrust_seeder.permissions_map_persian'));
 
         foreach ($config as $key => $modules) {
 
@@ -38,24 +39,25 @@ class LaravelEntrustSeeder extends Seeder
             $this->command->info('Creating Role '. strtoupper($key));
 
             // Reading role permission modules
-            foreach ($modules as $module => $value) {
+            foreach ($modules as $module => $values) {
                 $parentId = Permission::firstOrCreate([
                     'name' => $module ,
-                    'display_name' => $module,
+                    'display_name' => $values['display_name'],
                     'description' => $module,
                     'is_menu'=>1
 
                 ])->id;
 
-                foreach (explode(',', $value) as $p => $perm) {
+                foreach (explode(',', $values['access']) as $p => $perm) {
 
                     $permissionValue = $mapPermission->get($perm);
+                    $permissionPersianValue = $mapPermissionPersian->get($perm);
 
 
                     $permissions[] =$parentId;
                     $permissions[] = Permission::firstOrCreate([
                         'name' => $module . '.' . $permissionValue ,
-                        'display_name' => ucfirst($permissionValue) . ' ' . ucwords(str_replace('_', ' ', $module)),
+                        'display_name' => ucfirst($permissionPersianValue) . ' ' . ucwords(str_replace('_', ' ', $values['display_name'])),
                         'description' => ucfirst($permissionValue) . ' ' . ucwords(str_replace('_', ' ', $module)),
                         'parent_id'=>$parentId,
                         'is_menu'=>0
