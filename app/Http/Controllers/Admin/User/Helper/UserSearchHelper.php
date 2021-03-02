@@ -32,13 +32,13 @@ class UserSearchHelper
             return Role::where('name', $this->role)->first()->users()->where('name', 'like', '%' . $this->search . '%')
                 ->orWhere('family', 'like', '%' . $this->search . '%')
                 ->orWhere('email', 'like', '%' . $this->search . '%')
-                ->orWhere('phone', 'like', '%' . $this->search . '%')->get();
+                ->orWhere('phone', 'like', '%' . $this->search . '%')->paginate(12);
         }
 
         return User::where('name', 'like', '%' . $this->search . '%')
             ->orWhere('family', 'like', '%' . $this->search . '%')
             ->orWhere('email', 'like', '%' . $this->search . '%')
-            ->orWhere('phone', 'like', '%' . $this->search . '%')->get();
+            ->orWhere('phone', 'like', '%' . $this->search . '%')->paginate(12);
 
     }
 

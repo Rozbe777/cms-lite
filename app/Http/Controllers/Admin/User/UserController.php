@@ -108,7 +108,6 @@ class UserController extends Controller
         $users=$searchHelper->searchAndRoleUsers();
         $users=$searchHelper->confirmedUsers($users);
         $users=$searchHelper->statusUsers($users);
-
         return view("panel.themes.frest.pages.admin.user.index")->with('users',$users);
 
     }

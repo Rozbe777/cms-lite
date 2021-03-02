@@ -30,24 +30,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/vendor/pagination/custom.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/Helper/UserSearchHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/Helper/UserSearchHelper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/SearchUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/SearchUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/entrust_seeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/entrust_seeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/LaravelEntrustSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/LaravelEntrustSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/menu.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/role/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/role/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/role/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/role/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/role/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/role/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -259,7 +244,7 @@
       <workItem from="1614492097751" duration="22025000" />
       <workItem from="1614582183934" duration="12504000" />
       <workItem from="1614601710043" duration="46000" />
-      <workItem from="1614669841267" duration="14278000" />
+      <workItem from="1614669841267" duration="14671000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>
