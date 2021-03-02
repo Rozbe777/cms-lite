@@ -42,7 +42,7 @@
                                                         <div class="">
                                                             <div class="form-check">
                                                                 <input type="checkbox" class="form-check-input checkAll" id="control-custom"
-                                                                       name="permissions[]" value="{{$permission->id}}">
+                                                                       name="permissions[]" value="{{$permission->id}}" onclick="toggle(this,{{$permission->children}})">
                                                                 <label class="form-check-label">{{$permission->display_name}}</label>
                                                             </div>
 {{--                                                            <div class="checkbox">--}}
@@ -58,8 +58,8 @@
 {{--                                                            </div>--}}
                                                             @foreach($permission->children as $child)
                                                                 <div class="form-check">
-                                                                    <input type="checkbox" class="form-check-input checkAll" id="control-custom"
-                                                                           name="permissions[]" value="{{$child->id}}">
+                                                                    <input type="checkbox" class="form-check-input checkAll"
+                                                                           name="permissions[]" value="{{$child->id}}" id="{{$child->id}}">
                                                                     <label class="form-check-label">{{$child->display_name}}</label>
                                                                 </div>
 {{--                                                                <div class="checkbox">--}}
@@ -104,5 +104,13 @@
 
 @endsection
 @section("pageScripts")
-
+<script>
+    function toggle(source,children) {
+        for(var i=0, n=children.length;i<n;i++) {
+            childId=children[i]['id']
+            checkbox = document.getElementById(childId);
+            checkbox.checked = source.checked;
+        }
+    }
+</script>
 @endsection

@@ -24,7 +24,7 @@ class LoginController extends Controller
             else
                 return redirect()->back()->with('msg','نام کاربری یا رمز عبور اشتباه است');
 
-            $token=$user->createToken('authToken')->accessToken;
+//            $token=$user->createToken('authToken')->accessToken;
 
             return redirect(config('user.login.redirectUrl'))->with('user',$user);
 

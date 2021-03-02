@@ -25,10 +25,7 @@
                                 <thead>
                                 <tr>
                                     <th>
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input checkAll">
-                                            <label class="form-check-label">شناسه</label>
-                                        </div>
+                                            شناسه
                                     </th>
                                     <th>نام فارسی</th>
                                     <th>نام لاتین</th>

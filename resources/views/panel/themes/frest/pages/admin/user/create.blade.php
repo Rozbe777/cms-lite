@@ -52,6 +52,20 @@
 
                                 </div>
 
+                                <div class="form-group">
+                                    <label>دسترسی</label>
+                                    <select class="form-control" name="role">
+                                        @foreach($roles as $role)
+                                            <option
+                                                value="{{$role->id}}" {{$role->name=='user'?'selected':''}} >
+                                                {{$role->display_name}}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+
+                                </div>
+
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">

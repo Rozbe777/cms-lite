@@ -42,7 +42,7 @@
 
                                                         <div class="">
                                                             <div class="form-check">
-                                                                <input type="checkbox" class="form-check-input checkAll" {{in_array($permission->id , $rolePermissions)?"checked":""}} name="permissions[]" value="{{$permission->id}}">
+                                                                <input type="checkbox" class="form-check-input checkAll" {{in_array($permission->id , $rolePermissions)?"checked":""}} onclick="toggle(this,{{$permission->children}})" name="permissions[]" value="{{$permission->id}}">
                                                                 <label class="form-check-label">{{$permission->display_name}}</label>
                                                             </div>
 {{--                                                            <div class="checkbox">--}}
@@ -55,7 +55,7 @@
 {{--                                                            </div>--}}
                                                             @foreach($permission->children as $child)
                                                                 <div class="form-check">
-                                                                    <input type="checkbox" class="form-check-input checkAll"
+                                                                    <input type="checkbox" class="form-check-input checkAll " id="{{$child->id}}"
                                                                            {{in_array($child->id , $rolePermissions)?"checked":""}}
                                                                            name="permissions[]" value="{{$child->id}}">
                                                                     <label class="form-check-label">{{$child->display_name}}</label>
@@ -102,10 +102,19 @@
 
 
 @endsection
-@section("scripts")
+@section("pageScripts")
     <script type="text/javascript" src="{{adminTheme("lib/js/plugins/forms/styling/uniform.min.js")}}"></script>
     <script type="text/javascript" src="{{adminTheme("lib/js/plugins/forms/styling/switchery.min.js")}}"></script>
     <script type="text/javascript" src="{{adminTheme("lib/js/plugins/forms/styling/switch.min.js")}}"></script>
     <script type="text/javascript" src="{{adminTheme("lib/js/pages/form_checkboxes_radios.js")}}"></script>
     <script type="text/javascript" src="{{adminTheme("lib/js/plugins/ui/ripple.min.js")}}"></script>
+    <script>
+        function toggle(source,children) {
+            for(var i=0, n=children.length;i<n;i++) {
+                childId=children[i]['id']
+                checkbox = document.getElementById(childId);
+                checkbox.checked = source.checked;
+            }
+        }
+    </script>
 @endsection

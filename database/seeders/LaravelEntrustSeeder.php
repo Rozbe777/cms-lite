@@ -25,14 +25,16 @@ class LaravelEntrustSeeder extends Seeder
         $userRoles = config('entrust_seeder.user_roles');
         $mapPermission = collect(config('entrust_seeder.permissions_map'));
         $mapPermissionPersian = collect(config('entrust_seeder.permissions_map_persian'));
+        $mapRolePersian = collect(config('entrust_seeder.role_map_persian'));
 
         foreach ($config as $key => $modules) {
+            $rolePersianValue = $mapRolePersian->get($key);
 
             // Create a new role
             $role = \App\Models\Role::create([
                 'name' => $key,
-                'display_name' => ucwords(str_replace('_', ' ', $key)),
-                'description' => ucwords(str_replace('_', ' ', $key))
+                'display_name' => $rolePersianValue,
+                'description' => $rolePersianValue
             ]);
             $permissions = [];
 
@@ -82,6 +84,7 @@ class LaravelEntrustSeeder extends Seeder
                     $user = \App\Models\User::create($role_user);
                     $user->attachRole($role);
                 }
+
             }
         }
     }

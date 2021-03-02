@@ -41,6 +41,7 @@ Route::group(['middleware' => 'user_permission'],function (){
             Route::put('/{userId}/update', [UserController::class, 'update'])->name('update');
             Route::get('/{userId}/destroy', [UserController::class, 'destroy'])->name('destroy');
             Route::get('/search', [UserController::class, 'search'])->name('search');
+            Route::get('/destroys', [UserController::class, 'multipleDestroy'])->name('multipleDestroy');
 
 
 

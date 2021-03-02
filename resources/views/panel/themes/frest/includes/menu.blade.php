@@ -1,4 +1,6 @@
 <!-- BEGIN: Main Menu-->
+@php($Permissions = \App\Models\Permission::query()->where('is_menu',1)->get())
+
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">

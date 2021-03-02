@@ -90,6 +90,21 @@
 
                                                 </div>
 
+                                                <div class="form-group">
+                                                    <label>دسترسی</label>
+                                                    <select class="form-control" name="role"
+                                                            data-value="{{$user->roles()->first()->id}}">
+                                                        @foreach($roles as $role)
+                                                            <option
+                                                                value="{{$role->id}}" {{$user->roles()->first()->id==$role->id?'selected':''}} >
+                                                                {{$role->display_name}}
+                                                            </option>
+                                                        @endforeach
+
+                                                    </select>
+
+                                                </div>
+
                                             </div>
                                             <div class="col-12 col-sm-6">
                                                 <div class="form-group">

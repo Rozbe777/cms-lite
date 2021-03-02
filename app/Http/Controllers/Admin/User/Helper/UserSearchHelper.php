@@ -10,6 +10,7 @@ class UserSearchHelper
     private $confirmed = null;
     private $role = null;
     private $status = null;
+    private $search = null;
 
 
     public function __construct($request)
@@ -20,22 +21,30 @@ class UserSearchHelper
             $this->role = $request->role;
         if (isset($request->status))
             $this->status = $request->status;
-
+        if (isset($request->search))
+            $this->search = $request->search;
 
     }
 
-    public function roleUsers()
+    public function searchAndRoleUsers()
     {
         if (!($this->role === null)) {
-            return Role::where('name', $this->role)->first()->users()->get();
+            return Role::where('name', $this->role)->first()->users()->where('name', 'like', '%' . $this->search . '%')
+                ->orWhere('family', 'like', '%' . $this->search . '%')
+                ->orWhere('email', 'like', '%' . $this->search . '%')
+                ->orWhere('phone', 'like', '%' . $this->search . '%')->get();
         }
-        return User::all();
+
+        return User::where('name', 'like', '%' . $this->search . '%')
+            ->orWhere('family', 'like', '%' . $this->search . '%')
+            ->orWhere('email', 'like', '%' . $this->search . '%')
+            ->orWhere('phone', 'like', '%' . $this->search . '%')->get();
 
     }
 
     public function confirmedUsers($users)
     {
-        if (!($this->confirmed === null)){
+        if (!($this->confirmed === null)) {
             if ($this->confirmed == 1)
                 $users = $users->whereNotNull('email_verified_at');
 
@@ -56,7 +65,6 @@ class UserSearchHelper
         return $users;
 
     }
-
 
 
 

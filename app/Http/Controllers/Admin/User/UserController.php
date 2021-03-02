@@ -35,7 +35,8 @@ class UserController extends Controller
 
             ]
         );
-        $user->attachRole('');
+        $user->attachRole('user');
+        $user->roles()->attach($request->role);
 
         return redirect(route("admin.user.index"))->with("msg", "عملیات با موفقیت انجام شد");
 
@@ -45,13 +46,15 @@ class UserController extends Controller
 
     public function create()
     {
-        return view("panel.themes.frest.pages.admin.user.create");
+        $roles=Role::all();
+        return view("panel.themes.frest.pages.admin.user.create")->with("roles",$roles);
     }
 
     public function edit($userId)
     {
         $user=User::findOrFail($userId);
-        return view("panel.themes.frest.pages.admin.user.edit")->with('user',$user);
+        $roles=Role::all();
+        return view("panel.themes.frest.pages.admin.user.edit")->with("user",$user)->with("roles",$roles);
     }
 
     public function destroy($id)
@@ -63,10 +66,15 @@ class UserController extends Controller
 
     }
 
-    public function multipleDestroy($ids)
+    public function multipleDestroy(Request $request)
     {
-        foreach ($ids as $id)
-            User::forceDelete($id);
+
+        if (isset($request->userIds))
+        foreach ($request->userIds as $id)
+            User::findOrFail($id)->delete();
+
+
+        return redirect(route("admin.user.index"))->with('msg','کاربران انتخاب شده حذف شدند');
 
 
     }
@@ -86,6 +94,9 @@ class UserController extends Controller
             'user_id'=>$userId
 
         ]);
+        if (Auth::user()->roles()->first()->name == "admin") {
+            $user->roles()->sync($request->role);
+        }
 
         return redirect(route("admin.user.edit",$userId))->with("msg", "عملیات با موفقیت انجام شد");
 
@@ -94,7 +105,7 @@ class UserController extends Controller
 
     public function search(SearchUserRequest $request){
         $searchHelper=new UserSearchHelper($request);
-        $users=$searchHelper->roleUsers();
+        $users=$searchHelper->searchAndRoleUsers();
         $users=$searchHelper->confirmedUsers($users);
         $users=$searchHelper->statusUsers($users);
 

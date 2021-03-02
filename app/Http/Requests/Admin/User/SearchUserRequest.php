@@ -27,6 +27,8 @@ class SearchUserRequest extends FormRequest
             "confirmed" => "nullable|boolean",
             "role" => "nullable|string|exists:roles,name",
             "status" => "nullable|string|in:active,deactivate",
+            "search" => "nullable|string",
+
         ];
     }
 }

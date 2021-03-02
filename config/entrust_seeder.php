@@ -2,10 +2,10 @@
 
 return [
     'role_structure' => [
-        'ادمین' => [
+        'admin' => [
             'admin.user' => [
                 'display_name'=>'کاربران(بخش ادمین)',
-                'access'=>'export,i,c,s,e,u,des,search'
+                'access'=>'export,i,c,s,e,u,des,search,multides'
             ],
             'admin.role' =>[
                 'display_name'=>'دسترسی(بخش ادمین)',
@@ -13,15 +13,15 @@ return [
             ],
 
         ],
-        'کاربر' => [
+        'user' => [
 
         ],
     ],
     'user_roles' => [
-        'ادمین' => [
+        'admin' => [
             ['name' => "Admin", "email" => "admin@gmail.com", "password" => '123456',"phone"=>'09120000000'],
         ],
-        'کاربر' => [
+        'user' => [
             ['name' => "firstUser", "email" => "user1@gmail.com", "password" => '123456',"phone"=>'09110000000'],
             ['name' => "firstUser", "email" => "user2@gmail.com", "password" => '123456',"phone"=>'09110000001'],
             ['name' => "firstUser", "email" => "user3@gmail.com", "password" => '123456',"phone"=>'09110000002'],
@@ -51,6 +51,7 @@ return [
         'e' => 'edit',
         'd' => 'delete',
         'des' => 'destroy',
+        'multides'=>'multipleDestroy',
         'r' => 'read',
         'sh' => 'show',
 
@@ -66,11 +67,18 @@ return [
         'e' => 'صفحه به روز رسانی',
         'd' => 'صفحه حذف',
         'des' => 'حذف',
+        'multides' => ' حذف گروهی',
         'r' => 'خواندن',
         'sh' => 'نمایش',
 
-        'export' => 'خزوجی',
+        'export' => 'خروجی',
         'search' => 'جستجو',
+
+    ],
+    'role_map_persian' => [
+        'user' => 'کاربر',
+        'admin' => 'ادمین',
+
 
     ],
 ];
