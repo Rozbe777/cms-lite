@@ -20,16 +20,7 @@
                                                 <h4 class="text-center mb-2">خوش آمدید</h4>
                                             </div>
                                         </div>
-                                        <script type="text/javascript">
-                                            $(document).ready(function () {
-                                                @if(!empty(session()->get('msg'))) //TODO
 
-                                                loginError("{!! session()->get('msg') !!}")
-                                                @endif
-
-                                            });
-
-                                        </script>
                                         @if($errors->any())
                                             <script>
                                                 loginError("{!! $errors->first() !!}");

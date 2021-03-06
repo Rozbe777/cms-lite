@@ -6,12 +6,12 @@ use App\Exports\UserListExport;
 use App\Http\Controllers\Admin\User\Helper\UserSearchHelper;
 use App\Http\Controllers\Admin\User\Traits\EditUserTrait;
 use App\Http\Controllers\Auth\Traits\CreateUserTrait;
-use Illuminate\Http\Request;
-
+use App\Http\Requests\Admin\User\multipleDestroyRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\CreateUserRequest;
 use App\Http\Requests\Admin\User\EditUserRequest;
 use App\Http\Requests\Admin\User\SearchUserRequest;
+use App\Jobs\ExportUsersExcelJob;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -23,22 +23,20 @@ class UserController extends Controller
     use CreateUserTrait;
     use EditUserTrait;
     public function store(CreateUserRequest $request){
-
         $user=$this->CreateUser(
             [
-                'name'=>$request->name,
-                'family'=>$request->family,
-                'phone'=>$request->phone,
-                'email'=>$request->email,
-                'password'=>$request->password,
-                'registration_source'=>$request->registration_source,
+                'name'=>$request->input('name'),
+                'family'=>$request->input('family'),
+                'phone'=>$request->input('phone'),
+                'email'=>$request->input('email'),
+                'password'=>$request->input('password'),
+                'registration_source'=>$request->input('registration_source'),
 
             ]
         );
-        $user->attachRole('user');
-        $user->roles()->attach($request->role);
+        $user->roles()->attach($request->input('role'));
 
-        return redirect(route("admin.user.index"))->with("msg", "عملیات با موفقیت انجام شد");
+        return redirect(route("admin.user.index"))->with("info", "ثبت کاربر با موفقیت انجام شد");
 
 
 
@@ -47,30 +45,29 @@ class UserController extends Controller
     public function create()
     {
         $roles=Role::all();
-        return view("panel.themes.frest.pages.admin.user.create")->with("roles",$roles);
+        return adminView("pages.admin.user.create")->with("roles",$roles);
     }
 
     public function edit($userId)
     {
         $user=User::findOrFail($userId);
         $roles=Role::all();
-        return view("panel.themes.frest.pages.admin.user.edit")->with("user",$user)->with("roles",$roles);
+        return adminView("pages.admin.user.edit")->with("user",$user)->with("roles",$roles);
     }
 
     public function destroy($id)
     {
         User::findOrFail($id)->delete();
-        return redirect(route("admin.user.index"))->with("msg", "عملیات با موفقیت انجام شد");
+        return redirect(route("admin.user.index"))->with("info", "عملیات ویرایش کاربر موفقیت انجام شد");
     }
 
-    public function multipleDestroy(Request $request)
+    public function multipleDestroy(multipleDestroyRequest $request)
     {
 
         if (isset($request->userIds))
-        foreach ($request->userIds as $id)
-            User::findOrFail($id)->delete();
+            User::where('id',$request->input('userIds'))->delete();
 
-        return redirect(route("admin.user.index"))->with('msg','کاربران انتخاب شده حذف شدند');
+        return redirect(route("admin.user.index"))->with('info','کاربران انتخاب شده حذف شدند');
 
     }
 
@@ -90,10 +87,10 @@ class UserController extends Controller
 
         ]);
         if (Auth::user()->roles()->first()->name == "admin") {
-            $user->roles()->sync($request->role);
+            $user->roles()->sync($request->input('role'));
         }
 
-        return redirect(route("admin.user.edit",$userId))->with("msg", "عملیات با موفقیت انجام شد");
+        return redirect(route("admin.user.edit",$userId))->with("info", "عملیات ویرایش کاربر با موفقیت انجام شد");
 
 
     }
@@ -103,19 +100,20 @@ class UserController extends Controller
         $users=$searchHelper->searchAndRoleUsers();
         $users=$searchHelper->confirmedUsers($users);
         $users=$searchHelper->statusUsers($users);
-        return view("panel.themes.frest.pages.admin.user.index")->with('users',$users);
+        return adminView("pages.admin.user.index")->with('users',$users);
 
     }
 
     public function index(){
         $users=User::paginate(12);
-        return view("panel.themes.frest.pages.admin.user.index")->with('users',$users);
+        return adminView("pages.admin.user.index")->with('users',$users);
 
     }
 
     public function export(){
-        $fileName="usersList".".xlsx";
-        return Excel::download(new UserListExport(), $fileName);
+        $users=User::all();
+        dispatch(new ExportUsersExcelJob($users));
+        return redirect(route('admin.user.index'));
     }
 
 

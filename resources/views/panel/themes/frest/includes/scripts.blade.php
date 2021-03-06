@@ -26,6 +26,7 @@
 <!-- BEGIN: Page JS-->
 
 <script src={{adminTheme("js/scripts/error/customError.js")}}></script>
+<script src={{adminTheme("js/scripts/customInfoMessage/customInfoMessage.js")}}></script>
 
 
 <!-- END: Page JS-->

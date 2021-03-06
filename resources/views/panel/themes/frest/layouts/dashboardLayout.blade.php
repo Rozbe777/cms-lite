@@ -25,6 +25,16 @@
 @include('panel.themes.frest.includes.toastr')
 @include('panel.themes.frest.includes.sweetalert')
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        @if(!empty(session()->get('info'))) //TODO
+
+        customInfoMessage("{!! session()->get('info') !!}")
+        @endif
+
+    });
+
+</script>
 <!-- BEGIN: Content-->
 <div class="app-content content">
     <div class="content-overlay"></div>

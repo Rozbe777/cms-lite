@@ -8,6 +8,16 @@
 
     <!-- END: Theme CSS-->
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        @if(!empty(session()->get('msg'))) //TODO
+
+        loginError("{!! session()->get('msg') !!}")
+        @endif
+
+    });
+
+</script>
 
 <!-- END: Head-->
 

@@ -11,6 +11,10 @@ return [
                 'display_name'=>'دسترسی(بخش ادمین)',
                 'access'=>'i,c,s,e,u,des'
             ],
+            'admin.dashboard'=>[
+                'display_name'=>'داشبورد',
+                'access'=>'i'
+            ]
 
         ],
         'user' => [

@@ -14,15 +14,18 @@ use Maatwebsite\Excel\Events\AfterSheet;
 
 class UserListExport implements FromCollection, WithTitle, WithMapping, WithHeadings, ShouldAutoSize, WithEvents
 {
-
-
+    private $users;
+    public function __construct($users)
+    {
+        $this->users=$users;
+    }
 
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
-        return User::all();
+        return $this->users;
 
     }
 
@@ -59,7 +62,6 @@ class UserListExport implements FromCollection, WithTitle, WithMapping, WithHead
             return $array;
         }
         catch (\Exception $e){
-            dd($e);
             return response($e,402);
         }
 

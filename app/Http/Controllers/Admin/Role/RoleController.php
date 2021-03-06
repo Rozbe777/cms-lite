@@ -14,7 +14,7 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::paginate(12);
-        return view("panel.themes.frest.pages.admin.role.index", compact("roles"));
+        return adminView("pages.admin.role.index", compact("roles"));
     }
 
     public function create()
@@ -34,7 +34,7 @@ class RoleController extends Controller
         $role->display_name = $request->input('display_name');
         $role->save();
         $role->permissions()->attach($request->input('permissions'));
-        return redirect(route("admin.role.index"))->with("msg", "عملیات با موفقیت انجام شد");
+        return redirect(route("admin.role.index"))->with("info", "عملیات افزودن دسترسی جدید موفقیت انجام شد");
     }
 
     public function edit($id)
@@ -46,7 +46,7 @@ class RoleController extends Controller
             $children = Permission::parentId($p->id)->get();
             $p->children = $children;
         }
-        return view("panel.themes.frest.pages.admin.role.edit", compact("role", "permissions", "rolePermissions"));
+        return adminView("pages.admin.role.edit", compact("role", "permissions", "rolePermissions"));
     }
 
     public function update(EditRoleRequest $request, $id)
@@ -56,7 +56,7 @@ class RoleController extends Controller
         $role->display_name = $request->input('display_name');
         $role->save();
         $role->permissions()->sync($request->input('permissions'));
-        return redirect(route("admin.role.index"))->with("msg", "عملیات با موفقیت انجام شد");
+        return redirect(route("admin.role.index"))->with("info", "عملیات ویرایش دسترسی با موفقیت انجام شد");
 
     }
 
@@ -64,6 +64,6 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($id);
         $role->delete();
-        return redirect(route("admin.role.index"))->with("msg", "عملیات با موفقیت انجام شد");
+        return redirect(route("admin.role.index"))->with("info", "عملیات حذف دسترسی با موفقیت انجام شد");
     }
 }

@@ -30,14 +30,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/dashboard/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/multipleDestroyRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Jobs/ExportUsersExcelJob.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/panel/themes/frest/js/scripts/customInfoMessage/customInfoMessage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-1uiqomcdbM0ZD6bdIANDPTC8CCgXGa5W.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-3ACJCYjCYTJcoYj1czu7JTdjSJuzD6rj.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-LZRMH5HfIyvRBxm2JC0vUOtx05DOCMzP.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-NMXKmp4lXmav09hsE03T22Kjs7zfXKAu.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-RGh0JGqcRKTbGVnbW7QdULjaUN7FYryX.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-XfhsvB5zGoR6yOJFQpSxfTPiqajXh1lZ.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-Z7bDglYvHw4QjvOUSslpcc7Vm8U9THBP.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-ejvmiVBhqNyCUBDMtG2yXknNSxJ3cg6w.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-mM3EiyOCwf22V20KuqPo7hohy4reIRx0.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-r1cGCAWXhZ1ZfVoO8UlwZ15Ce7QPIk8l.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-rjBR8oe0zbmk43SUbyBmZeidNznFthcV.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-xphsBzX7oiBptEYhRJV0id4CBHbcRL3C.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-ypQT4KpYoXL9Ts1HQmW7hEIrMgiLh3Ko.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Classes/Themes/Helper/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Classes/Themes/Helper/admin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Permission.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Permission.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Exports/UserListExport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exports/UserListExport.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Role/RoleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Role/RoleController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/CreateUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/CreateUserRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/entrust_seeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/entrust_seeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/user.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/user.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/panel/themes/frest/js/scripts/error/customError.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/panel/themes/frest/js/scripts/error/customError.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/scripts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/scripts.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/layouts/authLayout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/layouts/authLayout.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/layouts/dashboardLayout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/layouts/dashboardLayout.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/auth/login.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -189,7 +209,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/dashboard" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/panel/themes/frest/js/scripts/customInfoMessage" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -203,18 +223,18 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\cms-lite\app\Http\Requests\Admin\User" />
       <recent name="C:\wamp64\www\cms-lite\resources\views\panel\themes\frest\pages\admin" />
       <recent name="C:\wamp64\www\cms-lite\app\Http\Requests\Admin" />
       <recent name="C:\wamp64\www\cms-lite\app\Http\Requests\User" />
       <recent name="$PROJECT_DIR$/public/panel/themes/frest/js/scripts/error" />
-      <recent name="$PROJECT_DIR$/app/Http/Controllers/Auth" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\cms-lite\public\panel\themes\frest\js\scripts\customInfoMessage" />
       <recent name="C:\wamp64\www\cms-lite\resources\views\panel\themes\frest\pages\dashboard" />
       <recent name="C:\wamp64\www\cms-lite\resources\views\vendor\pagination" />
       <recent name="C:\wamp64\www\cms-lite\database\seeders" />
       <recent name="C:\wamp64\www\cms-lite\config" />
-      <recent name="C:\wamp64\www\cms-lite\resources\views\panel\themes\frest\pages\role" />
     </key>
   </component>
   <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
@@ -251,7 +271,7 @@
       <workItem from="1614601710043" duration="46000" />
       <workItem from="1614669841267" duration="15316000" />
       <workItem from="1615017579029" duration="98000" />
-      <workItem from="1615017792833" duration="1972000" />
+      <workItem from="1615017792833" duration="7010000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>
@@ -307,18 +327,22 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1742" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1614497815481" />
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1614516355693">
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615022263603">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1614516355693" />
-    <state x="1498" y="0" width="1144" height="678" key="DiffContextDialog" timestamp="1615019764759">
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615022263603" />
+    <state width="245" height="442" key="Diff.GoToChangePopup" timestamp="1615019825551">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1498" y="0" width="1144" height="678" key="DiffContextDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615019764759" />
-    <state x="1904" y="146" key="FileChooserDialogImpl" timestamp="1614690529194">
+    <state width="245" height="442" key="Diff.GoToChangePopup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615019825551" />
+    <state x="1498" y="0" width="1144" height="678" key="DiffContextDialog" timestamp="1615020221083">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1904" y="146" key="FileChooserDialogImpl/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1614690529194" />
+    <state x="1498" y="0" width="1144" height="678" key="DiffContextDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615020221083" />
+    <state x="1904" y="146" key="FileChooserDialogImpl" timestamp="1615022879320">
+      <screen x="1440" y="0" width="1280" height="678" />
+    </state>
+    <state x="1904" y="146" key="FileChooserDialogImpl/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615022879320" />
     <state x="580" y="185" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1614084999410" />
     <state x="1810" y="63" key="NewPhpClassDialog" timestamp="1614497788638">
       <screen x="1440" y="0" width="1280" height="678" />
@@ -328,19 +352,23 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="634" y="353" key="NewPhpFileDialog/0.0.1600.860@0.0.1600.860" timestamp="1614087820221" />
+    <state x="1844" y="43" key="RollbackChangesDialog" timestamp="1615020090857">
+      <screen x="1440" y="0" width="1280" height="678" />
+    </state>
+    <state x="1844" y="43" key="RollbackChangesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615020090857" />
     <state x="1550" y="0" key="SettingsEditor" timestamp="1614426314058">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1550" y="0" key="SettingsEditor/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1614426314058" />
-    <state x="1846" y="130" width="548" height="530" key="find.popup" timestamp="1615018160212">
+    <state x="1846" y="130" width="548" height="530" key="find.popup" timestamp="1615024445813">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1846" y="130" width="548" height="530" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615018160212" />
+    <state x="1846" y="130" width="548" height="530" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615024445813" />
     <state x="507" y="165" width="585" height="530" key="find.popup/0.0.1600.860@0.0.1600.860" timestamp="1614087541910" />
-    <state x="1806" y="128" key="git4idea.merge.GitPullDialog" timestamp="1615019681092">
+    <state x="1806" y="128" key="git4idea.merge.GitPullDialog" timestamp="1615020303634">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1806" y="128" key="git4idea.merge.GitPullDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615019681092" />
+    <state x="1806" y="128" key="git4idea.merge.GitPullDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615020303634" />
     <state x="1804" y="115" key="refactoring.ChangeSignatureDialog" timestamp="1615018303599">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
