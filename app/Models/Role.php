@@ -5,6 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Shanmuga\LaravelEntrust\Models\EntrustRole;
 
+/**
+ * @property string name
+ * @property string display_name
+ * @method static paginate(int $int)
+ * @method static findOrFail($id)
+ */
 class Role extends EntrustRole
 {
     use HasFactory;

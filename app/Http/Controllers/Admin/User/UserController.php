@@ -60,10 +60,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::findOrFail($id)->delete();
-
-
         return redirect(route("admin.user.index"))->with("msg", "عملیات با موفقیت انجام شد");
-
     }
 
     public function multipleDestroy(Request $request)
@@ -73,9 +70,7 @@ class UserController extends Controller
         foreach ($request->userIds as $id)
             User::findOrFail($id)->delete();
 
-
         return redirect(route("admin.user.index"))->with('msg','کاربران انتخاب شده حذف شدند');
-
 
     }
 
@@ -120,9 +115,7 @@ class UserController extends Controller
 
     public function export(){
         $fileName="usersList".".xlsx";
-
         return Excel::download(new UserListExport(), $fileName);
-
     }
 
 
