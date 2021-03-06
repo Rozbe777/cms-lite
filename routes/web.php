@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\Role\RoleController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Auth\LoginController;
@@ -30,7 +31,10 @@ Route::group(['as' => 'auth.', 'prefix' => 'auth', 'namespace' => 'Auth','name'=
 });
 Route::group(['middleware' => 'user_permission'],function (){
     Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin','name'=>'admin.','middleware' => 'auth'], function () {
+        Route::group(['as' => 'dashboard.', 'prefix' => 'dashboard', 'namespace' => 'Dashboard','name'=>'dashboard.'], function () {
+            Route::get('/index', [DashboardController::class, 'index'])->name('index');
 
+        });
         Route::group(['as' => 'user.', 'prefix' => 'user', 'namespace' => 'User','name'=>'user.'], function () {
 
             Route::get('/export', [UserController::class, 'export'])->name('export');

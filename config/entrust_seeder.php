@@ -14,7 +14,10 @@ return [
 
         ],
         'user' => [
-
+            'admin.dashboard'=>[
+                'display_name'=>'داشبورد',
+                'access'=>'i'
+            ]
         ],
     ],
     'user_roles' => [
