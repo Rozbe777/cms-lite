@@ -15,6 +15,7 @@ class UserSearchHelper
 
     public function __construct($request)
     {
+
         if (isset($request->confirmed))
             $this->confirmed = $request->confirmed;
         if (isset($request->role))
@@ -52,7 +53,6 @@ class UserSearchHelper
 
         }
 
-
         return $users;
 
     }
@@ -63,10 +63,7 @@ class UserSearchHelper
             $users = $users->where('status', $this->status);
 
         return $users;
-
     }
-
-
 
 
 }
