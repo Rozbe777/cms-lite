@@ -33,8 +33,11 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
+
         $this->reportable(function (Throwable $e) {
-            //
+            if (env('DONT_HIDE_EXCEPTIONS_FOR_TEST', false)){
+                dd($e->getMessage());
+            }
         });
     }
 }

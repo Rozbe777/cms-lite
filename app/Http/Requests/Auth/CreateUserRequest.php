@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Rules\iran_mobile;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
 
@@ -38,7 +39,7 @@ class CreateUserRequest extends FormRequest
             'name' => 'required|string|max:255',
             'family' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'phone' => 'required|digits_between:11,11|unique:users',
+            'phone' => ['required','unique:users' , new iran_mobile()],
             'password' => 'required|string|min:4|confirmed',
         ];
     }

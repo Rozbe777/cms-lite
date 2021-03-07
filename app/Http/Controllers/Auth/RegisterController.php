@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Auth\Traits\CreateUserTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\CreateUserRequest;
+use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -20,7 +21,6 @@ class RegisterController extends Controller
 
 
     public function store(CreateUserRequest $request){
-
         $user=$this->CreateUser(
             [
                 'name'=>$request->name,
@@ -34,8 +34,8 @@ class RegisterController extends Controller
         );
         Auth::login($user);
 //        $user->createToken('authToken')->accessToken;
-        $user->attachRoleByRoleName('user');
-
+        $role = Role::whereName('user')->firstOrFail();
+        $user->attachRole($role->id);
         return redirect(config('user.login.redirectUrl'))->with("user", $user);
 
 

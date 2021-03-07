@@ -4,6 +4,9 @@
 @section("content")
     <div class="content-wrapper">
         <div class="content-header row">
+            <div class="item-title">
+                <h3>ویرایش کاربر</h3>
+            </div>
         </div>
         <div class="content-body"><!-- users edit start -->
             <section class="users-edit">

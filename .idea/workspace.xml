@@ -30,34 +30,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/multipleDestroyRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Jobs/ExportUsersExcelJob.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/panel/themes/frest/js/scripts/customInfoMessage/customInfoMessage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-1uiqomcdbM0ZD6bdIANDPTC8CCgXGa5W.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-3ACJCYjCYTJcoYj1czu7JTdjSJuzD6rj.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-LZRMH5HfIyvRBxm2JC0vUOtx05DOCMzP.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-NMXKmp4lXmav09hsE03T22Kjs7zfXKAu.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-RGh0JGqcRKTbGVnbW7QdULjaUN7FYryX.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-XfhsvB5zGoR6yOJFQpSxfTPiqajXh1lZ.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-Z7bDglYvHw4QjvOUSslpcc7Vm8U9THBP.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-ejvmiVBhqNyCUBDMtG2yXknNSxJ3cg6w.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-mM3EiyOCwf22V20KuqPo7hohy4reIRx0.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-r1cGCAWXhZ1ZfVoO8UlwZ15Ce7QPIk8l.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-rjBR8oe0zbmk43SUbyBmZeidNznFthcV.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-xphsBzX7oiBptEYhRJV0id4CBHbcRL3C.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-ypQT4KpYoXL9Ts1HQmW7hEIrMgiLh3Ko.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.env.testing" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Browser/ExampleTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Browser/Pages/HomePage.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Browser/Pages/Page.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Browser/console/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Browser/screenshots/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Feature/Admin/Dashboard/DashboardTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Feature/Admin/User/CreateUserTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Feature/Admin/User/EditUserTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Feature/Admin/User/UserListTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Feature/Admin/User/UserSearchTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Feature/Admin/User/multipleDestroyUserTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Feature/Auth/LoginTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Feature/Auth/RegisterTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Exports/UserListExport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exports/UserListExport.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Role/RoleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Role/RoleController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/CreateUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/CreateUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/entrust_seeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/entrust_seeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/panel/themes/frest/js/scripts/error/customError.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/panel/themes/frest/js/scripts/error/customError.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/scripts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/scripts.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/layouts/authLayout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/layouts/authLayout.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/layouts/dashboardLayout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/layouts/dashboardLayout.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/auth/login.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Auth/CreateUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Auth/CreateUserRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/TestCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/TestCase.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,7 +197,9 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1ojtnC6sHDsJawFpbmmLBHT192Y" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -209,7 +208,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/panel/themes/frest/js/scripts/customInfoMessage" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests/Feature/Admin/User" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -222,19 +221,19 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Admin\User" />
+      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Admin\Dashboard" />
+      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Auth" />
+      <recent name="C:\wamp64\www\cms-lite" />
+      <recent name="C:\wamp64\www\cms-lite\public\panel\themes\frest\js\scripts\customInfoMessage" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\cms-lite\tests\Seed" />
+      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Auth" />
       <recent name="C:\wamp64\www\cms-lite\app\Http\Requests\Admin\User" />
       <recent name="C:\wamp64\www\cms-lite\resources\views\panel\themes\frest\pages\admin" />
       <recent name="C:\wamp64\www\cms-lite\app\Http\Requests\Admin" />
-      <recent name="C:\wamp64\www\cms-lite\app\Http\Requests\User" />
-      <recent name="$PROJECT_DIR$/public/panel/themes/frest/js/scripts/error" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\wamp64\www\cms-lite\public\panel\themes\frest\js\scripts\customInfoMessage" />
-      <recent name="C:\wamp64\www\cms-lite\resources\views\panel\themes\frest\pages\dashboard" />
-      <recent name="C:\wamp64\www\cms-lite\resources\views\vendor\pagination" />
-      <recent name="C:\wamp64\www\cms-lite\database\seeders" />
-      <recent name="C:\wamp64\www\cms-lite\config" />
     </key>
   </component>
   <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
@@ -271,7 +270,11 @@
       <workItem from="1614601710043" duration="46000" />
       <workItem from="1614669841267" duration="15316000" />
       <workItem from="1615017579029" duration="98000" />
-      <workItem from="1615017792833" duration="7010000" />
+      <workItem from="1615017792833" duration="14761000" />
+      <workItem from="1615039164116" duration="1254000" />
+      <workItem from="1615099605464" duration="676000" />
+      <workItem from="1615102422254" duration="1154000" />
+      <workItem from="1615103602195" duration="16127000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>
@@ -327,10 +330,14 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1742" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1614497815481" />
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615022263603">
+    <state x="1811" y="87" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1615122579172">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615022263603" />
+    <state x="1811" y="87" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615122579172" />
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615122454657">
+      <screen x="1440" y="0" width="1280" height="678" />
+    </state>
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615122454657" />
     <state width="245" height="442" key="Diff.GoToChangePopup" timestamp="1615019825551">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
@@ -339,10 +346,10 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1498" y="0" width="1144" height="678" key="DiffContextDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615020221083" />
-    <state x="1904" y="146" key="FileChooserDialogImpl" timestamp="1615022879320">
+    <state x="1904" y="146" key="FileChooserDialogImpl" timestamp="1615114141299">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1904" y="146" key="FileChooserDialogImpl/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615022879320" />
+    <state x="1904" y="146" key="FileChooserDialogImpl/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615114141299" />
     <state x="580" y="185" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1614084999410" />
     <state x="1810" y="63" key="NewPhpClassDialog" timestamp="1614497788638">
       <screen x="1440" y="0" width="1280" height="678" />
@@ -356,14 +363,18 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1844" y="43" key="RollbackChangesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615020090857" />
-    <state x="1550" y="0" key="SettingsEditor" timestamp="1614426314058">
+    <state x="1550" y="0" key="SettingsEditor" timestamp="1615103585541">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1550" y="0" key="SettingsEditor/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1614426314058" />
-    <state x="1846" y="130" width="548" height="530" key="find.popup" timestamp="1615024445813">
+    <state x="1550" y="0" key="SettingsEditor/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615103585541" />
+    <state width="498" height="446" key="SwitcherDM" timestamp="1615125170773">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1846" y="130" width="548" height="530" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615024445813" />
+    <state width="498" height="446" key="SwitcherDM/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615125170773" />
+    <state x="1846" y="116" width="586" height="562" key="find.popup" timestamp="1615124512238">
+      <screen x="1440" y="0" width="1280" height="678" />
+    </state>
+    <state x="1846" y="116" width="586" height="562" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615124512238" />
     <state x="507" y="165" width="585" height="530" key="find.popup/0.0.1600.860@0.0.1600.860" timestamp="1614087541910" />
     <state x="1806" y="128" key="git4idea.merge.GitPullDialog" timestamp="1615020303634">
       <screen x="1440" y="0" width="1280" height="678" />
@@ -373,10 +384,10 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1804" y="115" key="refactoring.ChangeSignatureDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615018303599" />
-    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup" timestamp="1615018822515">
+    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup" timestamp="1615119859327">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615018822515" />
+    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615119859327" />
     <state x="463" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1614082055644" />
   </component>
   <component name="XDebuggerManager">

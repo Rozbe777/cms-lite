@@ -63,7 +63,6 @@ class UserController extends Controller
 
     public function multipleDestroy(multipleDestroyRequest $request)
     {
-
         if (isset($request->userIds))
             User::where('id',$request->input('userIds'))->delete();
 
