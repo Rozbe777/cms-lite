@@ -39,31 +39,35 @@ class LaravelEntrustSeeder extends Seeder
             $permissions = [];
 
             $this->command->info('Creating Role '. strtoupper($key));
-
+            $parentWeight=0;
             // Reading role permission modules
             foreach ($modules as $module => $values) {
                 $parentId = Permission::firstOrCreate([
                     'name' => $module ,
                     'display_name' => $values['display_name'],
-                    'description' => $module,
-                    'is_menu'=>1
-
+                    'description' => $values['description'],
+                    'is_menu'=>1,
+//                    'weight'=>$parentWeight  TODO //vaghti weight mizarim Duplicate pish miad tozih dare
                 ])->id;
+                $parentWeight++;
+                $is_menus=explode(',',$values['is_menu']);
 
                 foreach (explode(',', $values['access']) as $p => $perm) {
-
+                    $childWeight=0;
                     $permissionValue = $mapPermission->get($perm);
                     $permissionPersianValue = $mapPermissionPersian->get($perm);
-
-
+                    $is_menu= !in_array($perm,$is_menus) ?0:1;
                     $permissions[] =$parentId;
                     $permissions[] = Permission::firstOrCreate([
                         'name' => $module . '.' . $permissionValue ,
                         'display_name' => ucfirst($permissionPersianValue) . ' ' . ucwords(str_replace('_', ' ', $values['display_name'])),
-                        'description' => ucfirst($permissionValue) . ' ' . ucwords(str_replace('_', ' ', $module)),
+                        'description' => ucfirst($values['description']) . ' ' . ucwords(str_replace('_', ' ', $values['description'])),
                         'parent_id'=>$parentId,
-                        'is_menu'=>0
-                        ])->id;
+                        'is_menu'=>$is_menu,
+//                        'weight'=>$childWeight
+
+                    ])->id;
+                    $childWeight++;
 
                     $this->command->info('Creating Permission to '.$permissionValue.' for '. $module);
                 }

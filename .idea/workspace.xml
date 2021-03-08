@@ -30,31 +30,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.env.testing" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Browser/ExampleTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Browser/Pages/HomePage.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Browser/Pages/Page.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Browser/console/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Browser/screenshots/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Feature/Admin/Dashboard/DashboardTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Feature/Admin/User/CreateUserTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Feature/Admin/User/EditUserTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Feature/Admin/User/UserListTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Feature/Admin/User/UserSearchTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Feature/Admin/User/multipleDestroyUserTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Feature/Auth/LoginTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Feature/Auth/RegisterTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Feature/Admin/Role/CreateRoleTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Feature/Admin/Role/DestroyRoleTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Feature/Admin/Role/EditRoleTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Feature/Admin/Role/RoleListTest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Auth/CreateUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Auth/CreateUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/TestCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/TestCase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Role/CreateRoleRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Role/CreateRoleRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Permission.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Permission.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/entrust_seeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/entrust_seeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/LaravelEntrustSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/LaravelEntrustSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/header.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/menu.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/role/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/role/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/role/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/role/edit.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,7 +196,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests/Feature/Admin/User" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests/Feature/Admin/Role" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -221,19 +209,19 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Admin\User" />
-      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Admin\Dashboard" />
-      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Auth" />
-      <recent name="C:\wamp64\www\cms-lite" />
-      <recent name="C:\wamp64\www\cms-lite\public\panel\themes\frest\js\scripts\customInfoMessage" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\wamp64\www\cms-lite\tests\Seed" />
       <recent name="C:\wamp64\www\cms-lite\tests\Feature\Auth" />
       <recent name="C:\wamp64\www\cms-lite\app\Http\Requests\Admin\User" />
       <recent name="C:\wamp64\www\cms-lite\resources\views\panel\themes\frest\pages\admin" />
       <recent name="C:\wamp64\www\cms-lite\app\Http\Requests\Admin" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Admin\Role" />
+      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Admin\User" />
+      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Admin\Dashboard" />
+      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Auth" />
+      <recent name="C:\wamp64\www\cms-lite" />
     </key>
   </component>
   <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
@@ -274,7 +262,8 @@
       <workItem from="1615039164116" duration="1254000" />
       <workItem from="1615099605464" duration="676000" />
       <workItem from="1615102422254" duration="1154000" />
-      <workItem from="1615103602195" duration="16127000" />
+      <workItem from="1615103602195" duration="16234000" />
+      <workItem from="1615197570753" duration="12154000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>
@@ -334,10 +323,10 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1811" y="87" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615122579172" />
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615122454657">
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615201165176">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615122454657" />
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615201165176" />
     <state width="245" height="442" key="Diff.GoToChangePopup" timestamp="1615019825551">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
@@ -346,10 +335,10 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1498" y="0" width="1144" height="678" key="DiffContextDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615020221083" />
-    <state x="1904" y="146" key="FileChooserDialogImpl" timestamp="1615114141299">
+    <state x="1904" y="146" key="FileChooserDialogImpl" timestamp="1615198283860">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1904" y="146" key="FileChooserDialogImpl/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615114141299" />
+    <state x="1904" y="146" key="FileChooserDialogImpl/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615198283860" />
     <state x="580" y="185" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1614084999410" />
     <state x="1810" y="63" key="NewPhpClassDialog" timestamp="1614497788638">
       <screen x="1440" y="0" width="1280" height="678" />
@@ -371,10 +360,10 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615125170773" />
-    <state x="1846" y="116" width="586" height="562" key="find.popup" timestamp="1615124512238">
+    <state x="1846" y="116" width="586" height="562" key="find.popup" timestamp="1615210366570">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1846" y="116" width="586" height="562" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615124512238" />
+    <state x="1846" y="116" width="586" height="562" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615210366570" />
     <state x="507" y="165" width="585" height="530" key="find.popup/0.0.1600.860@0.0.1600.860" timestamp="1614087541910" />
     <state x="1806" y="128" key="git4idea.merge.GitPullDialog" timestamp="1615020303634">
       <screen x="1440" y="0" width="1280" height="678" />

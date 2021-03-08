@@ -3,25 +3,39 @@
 return [
     'role_structure' => [
         'admin' => [
-            'admin.user' => [
-                'display_name'=>'کاربران(بخش ادمین)',
-                'access'=>'export,i,c,s,e,u,des,search,multides'
-            ],
-            'admin.role' =>[
-                'display_name'=>'دسترسی(بخش ادمین)',
-                'access'=>'i,c,s,e,u,des'
-            ],
             'admin.dashboard'=>[
                 'display_name'=>'داشبورد',
-                'access'=>'i'
+                'description'=>'(بخش ادمین)',
+                'access'=>'i',
+                'is_menu'=>'i',
+            ],
+            'admin.user' => [
+                'display_name'=>'کاربران',
+                'description'=>'(بخش ادمین)',
+                'access'=>'export,i,c,s,e,u,des,search,multides',
+                'is_menu'=>'i,c'
+            ],
+            'admin.role' =>[
+                'display_name'=>'دسترسی',
+                'description'=>'(بخش ادمین)',
+                'access'=>'i,c,s,e,u,des',
+                'is_menu'=>'i',
             ]
 
         ],
         'user' => [
+            'admin.role' =>[
+                'display_name'=>'دسترسی',
+                'description'=>'(بخش ادمین)',
+                'access'=>'i,c,s,e,u,des',
+                'is_menu'=>'i',
+            ],
             'admin.dashboard'=>[
                 'display_name'=>'داشبورد',
-                'access'=>'i'
-            ]
+                'description'=>'(بخش ادمین)',
+                'access'=>'i',
+                'is_menu'=>'i',
+            ],
         ],
     ],
     'user_roles' => [
@@ -85,7 +99,8 @@ return [
     'role_map_persian' => [
         'user' => 'کاربر',
         'admin' => 'ادمین',
-
-
     ],
+    'permission_is_menu'=>[
+
+    ]
 ];

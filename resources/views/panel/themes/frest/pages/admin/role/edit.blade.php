@@ -3,6 +3,11 @@
 @section("content")
 
     <div class="content-wrapper">
+        @if($errors->any())
+            <script>
+                updateProfileError("{!! $errors->first() !!}");
+            </script>
+        @endif
         <div class="content-header row">
             <div class="content-body col-12">
                 <div class="row">
@@ -26,12 +31,12 @@
                                             </div>
                                         </div>
 
-{{--                                        <div class="col-md-6">--}}
-{{--                                            <div class="form-group">--}}
-{{--                                                <input type="text" class="form-control" name="name" value="{{$role->name}}"--}}
-{{--                                                       placeholder="نام لاتین (admin)">--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="name" value="{{$role->name}}"
+                                                       placeholder="نام لاتین (admin)">
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 row ">
@@ -42,7 +47,7 @@
 
                                                         <div class="">
                                                             <div class="form-check">
-                                                                <input type="checkbox" class="form-check-input checkAll" {{in_array($permission->id , $rolePermissions)?"checked":""}} onclick="toggle(this,{{$permission->children}})" name="permissions[]" value="{{$permission->id}}">
+                                                                <input type="checkbox" class="form-check-input checkAll" {{in_array($permission->id , $rolePermissions)?"checked":""}} onclick="toggle(this,{{$permission->childrenIds}})" name="permissions[]" value="{{$permission->id}}">
                                                                 <label class="form-check-label">{{$permission->display_name}}</label>
                                                             </div>
 {{--                                                            <div class="checkbox">--}}
@@ -111,7 +116,7 @@
     <script>
         function toggle(source,children) {
             for(var i=0, n=children.length;i<n;i++) {
-                childId=children[i]['id']
+                childId=children[i]
                 checkbox = document.getElementById(childId);
                 checkbox.checked = source.checked;
             }

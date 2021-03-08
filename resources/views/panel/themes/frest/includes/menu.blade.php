@@ -23,28 +23,44 @@
             </li>
 
 
+            @php($parents=\App\Models\Permission::where(['parent_id'=>0,'is_menu'=>1])->get())
 
             <li class=" navigation-header"><span>صفحات</span>
             </li>
-            <li class=" nav-item"><a href="page-user-profile.html"><i class="bx bx-user"></i><span class="menu-title" data-i18n="User Profile">پروفایل کاربر</span></a>
-            </li>
 
-            <li class=" nav-item"><a href="#"><i class="bx bx-user-plus"></i><span class="menu-title" data-i18n="User">کاربران</span></a>
-                <ul class="menu-content">
-                    <li class="active"><a href="{{route('admin.user.index')}}"><i class="bx bx-left-arrow-alt"></i><span class="menu-item" data-i18n="List">لیست</span></a>
-                    </li>
-                    <li><a href="{{route('admin.user.create')}}"><i class="bx bx-left-arrow-alt"></i><span class="menu-item" data-i18n="View">افزودن</span></a>
-                    </li>
-                    <li>
+            @foreach($parents as $parent)
+                @if(auth()->user()->can($parent->name))
 
-                        <a href="{{route('admin.role.index')}}">
+                @php($childrenMenus=$parent->childrenMenu)
+                @if($childrenMenus->count()>1)
+                    <li class=" nav-item"><a href="#"><i class="bx bx-user-plus"></i><span class="menu-title" data-i18n="User">{{$parent->display_name}}</span></a>
+                        <ul class="menu-content">
+                            @foreach($childrenMenus as $subMenu)
+                                @if(auth()->user()->can($subMenu->name))
+                                    <li class="active"><a href="{{route("$subMenu->name")}}"><i class="bx bx-left-arrow-alt"></i><span class="menu-item" data-i18n="List">{{$subMenu->display_name}}</span></a>
+                                    </li>
+                                @endif
+                            @endforeach
 
-{{--                            //FIXME--}}
-{{--                            //route('admin.user.edit',auth()->id)--}}
-                            <i class="bx bx-left-arrow-alt"></i><span class="menu-item" data-i18n="Edit">دسترسی ها</span></a>
+                        </ul>
                     </li>
-                </ul>
-            </li>
+                @else
+                    @foreach($childrenMenus as $subMenu)
+                        @if(auth()->user()->can($subMenu->name))
+
+                            <li class=" nav-item"><a href="{{route("$subMenu->name")}}"><i class="bx bx-user"></i><span class="menu-title" data-i18n="User Profile">{{$parent->display_name}}</span></a>
+                            </li>
+                        @endif
+                    @endforeach
+
+
+                @endif
+
+                @endif
+
+            @endforeach
+
+
 
 
 
