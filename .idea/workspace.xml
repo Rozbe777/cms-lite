@@ -30,6 +30,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/entrust_seeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/entrust_seeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/LaravelEntrustSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/LaravelEntrustSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/menu.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -251,7 +254,7 @@
       <workItem from="1615099605464" duration="676000" />
       <workItem from="1615102422254" duration="1154000" />
       <workItem from="1615103602195" duration="16234000" />
-      <workItem from="1615197570753" duration="12909000" />
+      <workItem from="1615197570753" duration="17873000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>

@@ -8,33 +8,40 @@ return [
                 'description'=>'(بخش ادمین)',
                 'access'=>'i',
                 'is_menu'=>'i',
+                'children'=>[
+                ]
             ],
             'admin.user' => [
                 'display_name'=>'کاربران',
                 'description'=>'(بخش ادمین)',
                 'access'=>'export,i,c,s,e,u,des,search,multides',
-                'is_menu'=>'i,c'
-            ],
-            'admin.role' =>[
-                'display_name'=>'دسترسی',
-                'description'=>'(بخش ادمین)',
-                'access'=>'i,c,s,e,u,des',
-                'is_menu'=>'i',
-            ]
+                'is_menu'=>'i,c',
+                'children'=>[
+                    'admin.role' =>[
+                        'display_name'=>'دسترسی',
+                        'description'=>'(بخش ادمین)',
+                        'access'=>'i,c,s,e,u,des',
+                        'is_menu'=>'i',
+                    ]
+                ]
+                ],
+
 
         ],
         'user' => [
-            'admin.role' =>[
-                'display_name'=>'دسترسی',
-                'description'=>'(بخش ادمین)',
-                'access'=>'i,c,s,e,u,des',
-                'is_menu'=>'i',
-            ],
+//            'admin.role' =>[
+//                'display_name'=>'دسترسی',
+//                'description'=>'(بخش ادمین)',
+//                'access'=>'i,c,s,e,u,des',
+//                'is_menu'=>'i',
+//            ],
             'admin.dashboard'=>[
                 'display_name'=>'داشبورد',
                 'description'=>'(بخش ادمین)',
                 'access'=>'i',
                 'is_menu'=>'i',
+                'children'=>[]
+
             ],
         ],
     ],
@@ -75,7 +82,6 @@ return [
         'multides'=>'multipleDestroy',
         'r' => 'read',
         'sh' => 'show',
-
         'export' => 'export',
         'search' => 'search',
 

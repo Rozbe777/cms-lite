@@ -39,7 +39,7 @@ class LaravelEntrustSeeder extends Seeder
             $permissions = [];
 
             $this->command->info('Creating Role '. strtoupper($key));
-            $parentWeight=0;
+//            $parentWeight=0;
             // Reading role permission modules
             foreach ($modules as $module => $values) {
                 $parentId = Permission::firstOrCreate([
@@ -49,11 +49,11 @@ class LaravelEntrustSeeder extends Seeder
                     'is_menu'=>1,
 //                    'weight'=>$parentWeight  TODO //vaghti weight mizarim Duplicate pish miad tozih dare
                 ])->id;
-                $parentWeight++;
+//                $parentWeight++;
                 $is_menus=explode(',',$values['is_menu']);
 
                 foreach (explode(',', $values['access']) as $p => $perm) {
-                    $childWeight=0;
+//                    $childWeight=0;
                     $permissionValue = $mapPermission->get($perm);
                     $permissionPersianValue = $mapPermissionPersian->get($perm);
                     $is_menu= !in_array($perm,$is_menus) ?0:1;
@@ -67,10 +67,45 @@ class LaravelEntrustSeeder extends Seeder
 //                        'weight'=>$childWeight
 
                     ])->id;
-                    $childWeight++;
+//                    $childWeight++;
 
                     $this->command->info('Creating Permission to '.$permissionValue.' for '. $module);
                 }
+                foreach($values['children'] as $childrenModule => $childrenValues){
+                    $childParentId = Permission::firstOrCreate([
+                        'name' => $childrenModule ,
+                        'display_name' => $childrenValues['display_name'],
+                        'description' => $childrenValues['description'],
+                        'is_menu'=>1,
+                        'parent_id'=>$parentId,
+
+//                    'weight'=>$parentWeight  TODO //vaghti weight mizarim Duplicate pish miad tozih dare
+                    ])->id;
+//                $parentWeight++;
+                    $is_menus=explode(',',$childrenValues['is_menu']);
+
+                    foreach (explode(',', $childrenValues['access']) as $p => $perm) {
+//                    $childWeight=0;
+                        $permissionValue = $mapPermission->get($perm);
+                        $permissionPersianValue = $mapPermissionPersian->get($perm);
+                        $is_menu= !in_array($perm,$is_menus) ?0:1;
+                        $permissions[] =$childParentId;
+                        $permissions[] = Permission::firstOrCreate([
+                            'name' => $childrenModule . '.' . $permissionValue ,
+                            'display_name' => ucfirst($permissionPersianValue) . ' ' . ucwords(str_replace('_', ' ', $childrenValues['display_name'])),
+                            'description' => ucfirst($childrenValues['description']) . ' ' . ucwords(str_replace('_', ' ', $childrenValues['description'])),
+                            'parent_id'=>$childParentId,
+                            'is_menu'=>$is_menu,
+//                        'weight'=>$childWeight
+
+                        ])->id;
+//                    $childWeight++;
+
+                        $this->command->info('Creating Permission to '.$permissionValue.' for '. $module);
+                    }
+
+                }
+
             }
 
             // Attach all permissions to the role
