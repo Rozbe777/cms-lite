@@ -13,14 +13,6 @@
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" data-icon-style="">
-            <li class=" nav-item"><a href="index.html"><i class="bx bx-home-alt"></i><span class="menu-title" data-i18n="Dashboard">داشبورد</span><span class="badge badge-light-danger badge-pill badge-round float-right mr-2">2</span></a>
-                <ul class="menu-content">
-                    <li><a href="dashboard-ecommerce.html"><i class="bx bx-left-arrow-alt"></i><span class="menu-item" data-i18n="eCommerce">تجارت الکترونیک</span></a>
-                    </li>
-                    <li><a href="dashboard-analytics.html"><i class="bx bx-left-arrow-alt"></i><span class="menu-item" data-i18n="Analytics">آمار تحلیلی</span></a>
-                    </li>
-                </ul>
-            </li>
 
 
             @php($parents=\App\Models\Permission::where(['parent_id'=>0,'is_menu'=>1])->get())
