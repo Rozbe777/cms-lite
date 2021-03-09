@@ -30,10 +30,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Classes/Setting/Exceptions/SettingException.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Classes/Setting/Setting.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Classes/Setting/SettingFacade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Models/Setting.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/setting/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/entrust_seeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/entrust_seeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/LaravelEntrustSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/LaravelEntrustSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/menu.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,7 +195,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests/Feature/Admin/Role" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/setting" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -200,19 +208,19 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\cms-lite\resources\views\panel\themes\frest\pages\admin\setting" />
+      <recent name="C:\wamp64\www\cms-lite\app\Models" />
+      <recent name="C:\wamp64\www\cms-lite\app" />
+      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Admin\Role" />
+      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Admin\User" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\cms-lite\app\Classes" />
       <recent name="C:\wamp64\www\cms-lite\tests\Seed" />
       <recent name="C:\wamp64\www\cms-lite\tests\Feature\Auth" />
       <recent name="C:\wamp64\www\cms-lite\app\Http\Requests\Admin\User" />
       <recent name="C:\wamp64\www\cms-lite\resources\views\panel\themes\frest\pages\admin" />
-      <recent name="C:\wamp64\www\cms-lite\app\Http\Requests\Admin" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Admin\Role" />
-      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Admin\User" />
-      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Admin\Dashboard" />
-      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Auth" />
-      <recent name="C:\wamp64\www\cms-lite" />
     </key>
   </component>
   <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
@@ -254,7 +262,8 @@
       <workItem from="1615099605464" duration="676000" />
       <workItem from="1615102422254" duration="1154000" />
       <workItem from="1615103602195" duration="16234000" />
-      <workItem from="1615197570753" duration="17873000" />
+      <workItem from="1615197570753" duration="18315000" />
+      <workItem from="1615272152880" duration="10760000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>
@@ -314,10 +323,10 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1811" y="87" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615122579172" />
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615201165176">
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615295679756">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615201165176" />
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615295679756" />
     <state width="245" height="442" key="Diff.GoToChangePopup" timestamp="1615019825551">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>

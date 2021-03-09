@@ -8,8 +8,7 @@ return [
                 'description'=>'(بخش ادمین)',
                 'access'=>'i',
                 'is_menu'=>'i',
-                'children'=>[
-                ]
+                'children'=>[]
             ],
             'admin.user' => [
                 'display_name'=>'کاربران',
@@ -25,7 +24,13 @@ return [
                     ]
                 ]
                 ],
-
+            'admin.setting'=>[
+                'display_name'=>'تنظیمات',
+                'description'=>'(بخش ادمین)',
+                'access'=>'i,u',
+                'is_menu'=>'i',
+                'children'=>[]
+            ],
 
         ],
         'user' => [
