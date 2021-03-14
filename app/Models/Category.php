@@ -5,6 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string name
+ * @property string slug
+ * @property string image
+ * @property mixed description
+ * @property mixed fields
+ * @property Integer parent_id
+ * @property Integer layout_id
+ * @property Integer module_id
+ * @property mixed|string status
+ */
 class Category extends Model
 {
 

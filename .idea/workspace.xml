@@ -30,7 +30,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Helper/CategorySearchHelper.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/CreateCategoryTrait.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/EditCategoryTrait.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/CategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Category.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -185,7 +192,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Http/Helper" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -206,11 +213,11 @@
       <recent name="C:\wamp64\www\cms-lite\app\Http\Requests\Admin\User" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\cms-lite\app\Http\Controllers\Admin\Category\Traits" />
       <recent name="C:\wamp64\www\cms-lite\app\Http\Helper" />
       <recent name="C:\wamp64\www\cms-lite\app\Http\Controllers\Api\Auth" />
       <recent name="C:\wamp64\www\cms-lite\resources\views\panel\themes\frest\pages\admin\setting" />
       <recent name="C:\wamp64\www\cms-lite\app\Models" />
-      <recent name="C:\wamp64\www\cms-lite\app" />
     </key>
   </component>
   <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
@@ -254,7 +261,7 @@
       <workItem from="1615103602195" duration="16234000" />
       <workItem from="1615197570753" duration="18315000" />
       <workItem from="1615272152880" duration="11428000" />
-      <workItem from="1615701328368" duration="20100000" />
+      <workItem from="1615701328368" duration="24974000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>
@@ -306,18 +313,18 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1886" y="21" key="#com.intellij.ide.util.MemberChooser/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1614425083465" />
-    <state x="1742" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1614497815481">
+    <state x="1742" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1615731144584">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1742" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1614497815481" />
+    <state x="1742" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615731144584" />
     <state x="1811" y="87" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1615122579172">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1811" y="87" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615122579172" />
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615721712983">
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615733054750">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615721712983" />
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615733054750" />
     <state width="245" height="442" key="Diff.GoToChangePopup" timestamp="1615019825551">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
@@ -331,10 +338,10 @@
     </state>
     <state x="1904" y="146" key="FileChooserDialogImpl/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615198283860" />
     <state x="580" y="185" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1614084999410" />
-    <state x="1810" y="63" key="NewPhpClassDialog" timestamp="1614497788638">
+    <state x="1810" y="63" key="NewPhpClassDialog" timestamp="1615733005507">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1810" y="63" key="NewPhpClassDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1614497788638" />
+    <state x="1810" y="63" key="NewPhpClassDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615733005507" />
     <state x="634" y="353" key="NewPhpFileDialog" timestamp="1614087820221">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -364,10 +371,10 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1804" y="115" key="refactoring.ChangeSignatureDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615018303599" />
-    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup" timestamp="1615713708934">
+    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup" timestamp="1615730036988">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615713708934" />
+    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615730036988" />
     <state x="463" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1614082055644" />
   </component>
   <component name="XDebuggerManager">

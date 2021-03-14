@@ -58,7 +58,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::findOrFail($id)->delete();
-        return redirect(route("admin.user.index"))->with("info", "عملیات ویرایش کاربر موفقیت انجام شد");
+        return redirect(route("admin.user.index"))->with("info", "عملیات حذف کاربر موفقیت انجام شد");
     }
 
     public function multipleDestroy(multipleDestroyRequest $request)
@@ -104,7 +104,7 @@ class UserController extends Controller
     }
 
     public function index(){
-        $users=User::paginate(12);
+        $users=User::paginate(12);//TODO paginate can change
         return adminView("pages.admin.user.index")->with('users',$users);
 
     }

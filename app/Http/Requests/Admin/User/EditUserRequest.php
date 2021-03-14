@@ -44,7 +44,7 @@ class EditUserRequest extends FormRequest
             'name' => 'nullable|string|max:255',
             'family' => 'nullable|string|max:255',
             'email' => 'nullable|string|email|max:255',//FIXME unique:users,email,'.$this->request->get("id") not works
-            'phone' => ['required','unique:users' , new iran_mobile()],
+            'phone' => ['nullable','unique:users' , new iran_mobile()],
             'password' => 'nullable|string|min:4|confirmed',
             'status' => 'nullable|in:active,deactivate',
             'role' => 'nullable|exists:roles,id',

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Category\CategoryController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\Role\RoleController;
 use App\Http\Controllers\Admin\Setting\SettingController;
@@ -91,6 +92,22 @@ Route::group(['middleware' => 'user_permission'],function (){
 
             Route::get('/index', [SettingController::class, 'index'])->name('index');
             Route::put('/update', [SettingController::class, 'update'])->name('update');
+
+        });
+
+        Route::group(['as' => 'category.', 'prefix' => 'category', 'namespace' => 'Category','name'=>'category.'], function () {
+
+            Route::get('/index', [CategoryController::class, 'index'])->name('index');
+            Route::get('/export', [CategoryController::class, 'export'])->name('export');
+            Route::get('/create', [CategoryController::class, 'create'])->name('create');
+            Route::post('/store', [CategoryController::class, 'store'])->name('store');
+            Route::get('/{userId}/edit', [CategoryController::class, 'edit'])->name('edit');
+            Route::put('/{userId}/update', [CategoryController::class, 'update'])->name('update');
+            Route::get('/{userId}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
+            Route::get('/search', [CategoryController::class, 'search'])->name('search');
+            Route::get('/destroys', [CategoryController::class, 'multipleDestroy'])->name('multipleDestroy');
+
+
 
         });
 
