@@ -30,6 +30,10 @@ Route::get('/', function () {
 
 Route::get('/react/auth', function () {
     return adminView('pages.auth.Auth');
+})->name('react.login');
+
+Route::get('/react/{slug}', function () {
+    return redirect(\route('react.login'));
 });
 
 //Route::get('/react/register', function () {
