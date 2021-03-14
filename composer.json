@@ -47,7 +47,8 @@
         "files": [
           "app/Classes/Themes/Helper/admin.php",
             "app/Http/Helper/backoffice.php",
-            "app/Http/Helper/common.php"
+            "app/Http/Helper/common.php",
+            "app/Http/Helper/functions.php"
         ]
     },
     "autoload-dev": {

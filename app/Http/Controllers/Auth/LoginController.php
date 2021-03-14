@@ -11,7 +11,7 @@ class LoginController extends Controller
 {
     use LoginUserTrait;
         public function show(){
-            return view("panel.themes.frest.pages.auth.login");
+            return adminView("pages.auth.login");
         }
 
         public function login(LoginRequest $request){

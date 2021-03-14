@@ -30,17 +30,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Classes/Setting/Exceptions/SettingException.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Classes/Setting/Setting.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Classes/Setting/SettingFacade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/Setting.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/setting/index.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Auth/Traits/CreateUserTrait.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Auth/Traits/LoginUserTrait.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Helper/ValidationHelper.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Helper/functions.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Setting/SettingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Setting/SettingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/entrust_seeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/entrust_seeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/menu.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/header.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -195,7 +196,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/setting" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Http/Helper" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -208,19 +209,19 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\wamp64\www\cms-lite\resources\views\panel\themes\frest\pages\admin\setting" />
-      <recent name="C:\wamp64\www\cms-lite\app\Models" />
-      <recent name="C:\wamp64\www\cms-lite\app" />
-      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Admin\Role" />
-      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Admin\User" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\cms-lite\app\Http\Controllers\Auth" />
       <recent name="C:\wamp64\www\cms-lite\app\Classes" />
       <recent name="C:\wamp64\www\cms-lite\tests\Seed" />
       <recent name="C:\wamp64\www\cms-lite\tests\Feature\Auth" />
       <recent name="C:\wamp64\www\cms-lite\app\Http\Requests\Admin\User" />
-      <recent name="C:\wamp64\www\cms-lite\resources\views\panel\themes\frest\pages\admin" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\cms-lite\app\Http\Helper" />
+      <recent name="C:\wamp64\www\cms-lite\app\Http\Controllers\Api\Auth" />
+      <recent name="C:\wamp64\www\cms-lite\resources\views\panel\themes\frest\pages\admin\setting" />
+      <recent name="C:\wamp64\www\cms-lite\app\Models" />
+      <recent name="C:\wamp64\www\cms-lite\app" />
     </key>
   </component>
   <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
@@ -263,7 +264,8 @@
       <workItem from="1615102422254" duration="1154000" />
       <workItem from="1615103602195" duration="16234000" />
       <workItem from="1615197570753" duration="18315000" />
-      <workItem from="1615272152880" duration="10760000" />
+      <workItem from="1615272152880" duration="11428000" />
+      <workItem from="1615701328368" duration="10236000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>
@@ -323,10 +325,10 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1811" y="87" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615122579172" />
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615295679756">
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615713380219">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615295679756" />
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615713380219" />
     <state width="245" height="442" key="Diff.GoToChangePopup" timestamp="1615019825551">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
@@ -360,10 +362,10 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615125170773" />
-    <state x="1846" y="116" width="586" height="562" key="find.popup" timestamp="1615210366570">
+    <state x="1846" y="116" width="586" height="562" key="find.popup" timestamp="1615703715609">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1846" y="116" width="586" height="562" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615210366570" />
+    <state x="1846" y="116" width="586" height="562" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615703715609" />
     <state x="507" y="165" width="585" height="530" key="find.popup/0.0.1600.860@0.0.1600.860" timestamp="1614087541910" />
     <state x="1806" y="128" key="git4idea.merge.GitPullDialog" timestamp="1615020303634">
       <screen x="1440" y="0" width="1280" height="678" />
@@ -373,10 +375,10 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1804" y="115" key="refactoring.ChangeSignatureDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615018303599" />
-    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup" timestamp="1615119859327">
+    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup" timestamp="1615713708934">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615119859327" />
+    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615713708934" />
     <state x="463" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1614082055644" />
   </component>
   <component name="XDebuggerManager">

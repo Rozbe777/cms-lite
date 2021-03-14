@@ -32,6 +32,7 @@ class SettingController extends Controller
             "notifier_password",
             "notifier_from"
         ])->get();
+
         return adminView("pages.admin.setting.index", compact("settings"));
     }
 
@@ -73,8 +74,8 @@ class SettingController extends Controller
 
         Artisan::call("config:clear");
 
+        return redirect(route("admin.setting.index"))->with("info", "عملیات ویرایش تنظیمات با موفقیت انجام شد");
 
-        return redirect()->back()->with("info", "عملیات با موفقیت انجام شد");
     }
 
 

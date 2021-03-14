@@ -15,7 +15,7 @@ class RegisterController extends Controller
     use CreateUserTrait;
 
     public function register(){
-        return view("panel.themes.frest.pages.auth.register");
+        return adminView("pages.auth.register");
     }
 
 
