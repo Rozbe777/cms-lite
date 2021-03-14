@@ -24,6 +24,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/react/auth', function () {
+    return redirect(\route('auth.login'));
+});
+
+Route::get('/react/register', function () {
+    return redirect(\route('auth.register'));
+});
+
+
+
 Route::group(['as' => 'auth.', 'prefix' => 'auth', 'namespace' => 'Auth','name'=>'auth.'], function () {
 
     Route::get('/register', [RegisterController::class, 'register'])->name('register');

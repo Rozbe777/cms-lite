@@ -30,18 +30,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Auth/Traits/CreateUserTrait.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Auth/Traits/LoginUserTrait.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Helper/ValidationHelper.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Helper/functions.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Setting/SettingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Setting/SettingController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/header.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -265,7 +254,7 @@
       <workItem from="1615103602195" duration="16234000" />
       <workItem from="1615197570753" duration="18315000" />
       <workItem from="1615272152880" duration="11428000" />
-      <workItem from="1615701328368" duration="10236000" />
+      <workItem from="1615701328368" duration="18491000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>
@@ -325,10 +314,10 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1811" y="87" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615122579172" />
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615713380219">
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615721712983">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615713380219" />
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615721712983" />
     <state width="245" height="442" key="Diff.GoToChangePopup" timestamp="1615019825551">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
