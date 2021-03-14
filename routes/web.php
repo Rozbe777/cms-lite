@@ -25,9 +25,16 @@ Route::get('/', function () {
 });
 
 
+
+
+
 Route::get('/react/auth', function () {
-    return redirect(\route('auth.login'));
+    return adminView('pages.auth.Auth');
 });
+
+//Route::get('/react/register', function () {
+//    return adminView('pages.auth.Auth');
+//});
 
 Route::get('/react/register', function () {
     return redirect(\route('auth.register'));
