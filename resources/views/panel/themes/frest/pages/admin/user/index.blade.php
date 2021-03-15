@@ -130,7 +130,7 @@
                                                         </td>
                                                         <td>{{$user->id}}</td>
                                                         <td>{{$user->name}}</td>
-                                                        <td>{{$user->family}}</td>
+                                                        <td>{{$user->last_name}}</td>
                                                         <td>{{$user->email}}</td>
                                                         <td>{{$user->phone}}</td>
                                                         <td>{{$user->roles()->first()->name}}</td>

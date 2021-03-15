@@ -44,7 +44,7 @@
                                                     <div class="form-group col-md-6 mb-50">
                                                         <label for="inputlastname4">نام خانوادگی</label>
                                                         <input type="text" class="form-control" id="inputlastname4"
-                                                               name="family" value="{{old('family')}}"
+                                                               name="last_name" value="{{old('last_name')}}"
                                                                placeholder="نام خانوادگی">
                                                     </div>
 

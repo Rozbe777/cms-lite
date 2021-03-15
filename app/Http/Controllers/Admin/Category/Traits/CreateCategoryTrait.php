@@ -21,16 +21,16 @@ trait CreateCategoryTrait
             $categoryModel->image = $category['image'];
         if (!empty($category['description']))
             $categoryModel->description = $category['description'];
-        if (!empty($user['fields']))
-            $categoryModel->fields = $user['fields'];
-        if (!empty($user['parent_id']))
-            $categoryModel->parent_id = bcrypt($user['parent_id']);
-        if (!empty($user['layout_id']))
-            $categoryModel->layout_id = bcrypt($user['layout_id']);
-        if (!empty($user['module_id']))
-            $categoryModel->module_id = bcrypt($user['module_id']);
-        if (!empty($user['status']))
-            $categoryModel->status = bcrypt($user['status']);
+        if (!empty($category['fields']))
+            $categoryModel->fields = $category['fields'];
+        if (!empty($category['parent_id']))
+            $categoryModel->parent_id = bcrypt($category['parent_id']);
+        if (!empty($category['layout_id']))
+            $categoryModel->layout_id = bcrypt($category['layout_id']);
+        if (!empty($category['module_id']))
+            $categoryModel->module_id = bcrypt($category['module_id']);
+        if (!empty($category['status']))
+            $categoryModel->status = bcrypt($category['status']);
         $categoryModel->save();
         return $categoryModel;
     }

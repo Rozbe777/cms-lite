@@ -51,7 +51,7 @@ class UserListExport implements FromCollection, WithTitle, WithMapping, WithHead
             $array=[
                 $user->id,
                 $user->name,
-                $user->family,
+                $user->last_name,
                 $user->phone,
                 $user->email,
                 $user->status,

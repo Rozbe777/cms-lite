@@ -18,8 +18,8 @@ trait CreateUserTrait
         if (!empty($user['name']))
             $userModel->name = $user['name'];
 
-        if (!empty($user['family']))
-            $userModel->family = $user['family'];
+        if (!empty($user['last_name']))
+            $userModel->last_name = $user['last_name'];
 
         if (!empty($user['phone']))
             $userModel->phone = $user['phone'];

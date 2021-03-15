@@ -26,7 +26,7 @@ class RegisterTest extends TestCase
     {
         $user = [
             'name' => 'Joe',//required|string|max:255
-            'family' => 'Smith',//required|string|max:255
+            'last_name' => 'Smith',//required|string|max:255
             'email' => 'testemail@test.com',//required|string|email|max:255|unique:users
             'phone' => '09122354689',//iran_mobile()
             'password' => '123456',//required|string|min:4|confirmed
@@ -44,7 +44,7 @@ class RegisterTest extends TestCase
     {
         $user = [
 //            'name' => 'Joe',//required|string|max:255
-//            'family' => 'Smith',//required|string|max:255
+//            'last_name' => 'Smith',//required|string|max:255
 //            'email' => 'testemail@test.com',//required|string|email|max:255|unique:users
 //            'phone' => '09122354689',//iran_mobile()
 //            'password' => '123456',//required|string|min:4|confirmed
@@ -54,7 +54,7 @@ class RegisterTest extends TestCase
         $response = $this->post(route('auth.store'),$user);
 
         $response->assertSessionHasErrors('name');
-        $response->assertSessionHasErrors('family');
+        $response->assertSessionHasErrors('last_name');
         $response->assertSessionHasErrors('email');
         $response->assertSessionHasErrors('phone');
         $response->assertSessionHasErrors('password');
@@ -65,7 +65,7 @@ class RegisterTest extends TestCase
     {
         $userNormal = [
             'name' => 'Joe',//required|string|max:255
-            'family' => 'Smith',//required|string|max:255
+            'last_name' => 'Smith',//required|string|max:255
             'email' => 'test1email@test.com',//required|string|email|max:255|unique:users
             'phone' => '09122354689',//iran_mobile()//unique:users
             'password' => '123456',//required|string|min:4|confirmed
@@ -79,7 +79,7 @@ class RegisterTest extends TestCase
 
         $userBadPhoneShort = [
             'name' => 'Joe',//required|string|max:255
-            'family' => 'Smith',//required|string|max:255
+            'last_name' => 'Smith',//required|string|max:255
             'email' => 'test1email@test.com',//required|string|email|max:255|unique:users
             'phone' => '0912235468',//iran_mobile()//unique:users
             'password' => '123456',//required|string|min:4|confirmed
@@ -90,7 +90,7 @@ class RegisterTest extends TestCase
 
         $userBadPhoneNotIran = [
             'name' => 'Joe',//required|string|max:255
-            'family' => 'Smith',//required|string|max:255
+            'last_name' => 'Smith',//required|string|max:255
             'email' => 'test1email@test.com',//required|string|email|max:255|unique:users
             'phone' => '21122354689',//iran_mobile()//unique:users
             'password' => '123456',//required|string|min:4|confirmed
@@ -101,7 +101,7 @@ class RegisterTest extends TestCase
 
         $userBadPhoneString = [
             'name' => 'Joe',//required|string|max:255
-            'family' => 'Smith',//required|string|max:255
+            'last_name' => 'Smith',//required|string|max:255
             'email' => 'test1email@test.com',//required|string|email|max:255|unique:users
             'phone' => 'dfsefg',//iran_mobile()//unique:users
             'password' => '123456',//required|string|min:4|confirmed
@@ -115,7 +115,7 @@ class RegisterTest extends TestCase
     {
         $userNormal = [
             'name' => 'Joe',//required|string|max:255
-            'family' => 'Smith',//required|string|max:255
+            'last_name' => 'Smith',//required|string|max:255
             'email' => 'tseting@test.com',//required|string|email|max:255|unique:users
             'phone' => '09122351189',//iran_mobile()//unique:users
             'password' => '123456',//required|string|min:4|confirmed
@@ -131,7 +131,7 @@ class RegisterTest extends TestCase
 
         $userBadEmailFormat = [
             'name' => 'Joe',//required|string|max:255
-            'family' => 'Smith',//required|string|max:255
+            'last_name' => 'Smith',//required|string|max:255
             'email' => 'testing.com',//required|string|email|max:255|unique:users
             'phone' => '21122354689',//iran_mobile()//unique:users
             'password' => '123456',//required|string|min:4|confirmed

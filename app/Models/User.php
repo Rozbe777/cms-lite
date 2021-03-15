@@ -13,7 +13,7 @@ use Shanmuga\LaravelEntrust\Traits\LaravelEntrustUserTrait;
 
 /**
  * @property string name
- * @property string family
+ * @property string last_name
  * @property string email
  * @property string password
  * @property string phone
@@ -36,7 +36,7 @@ class User extends Authenticatable
      * @var array
      */
     protected  $fillable = [
-        'name', 'family', 'email', 'password', 'phone', 'status', 'registration_source','email_verified_at'
+        'name', 'last_name', 'email', 'password', 'phone', 'status', 'registration_source','email_verified_at'
     ];
 
     /**
@@ -65,10 +65,10 @@ class User extends Authenticatable
 
     public function getFullnameAttribute()
     {
-        if (empty($this->attributes['name']) && empty($this->attributes['family'])) {
+        if (empty($this->attributes['name']) && empty($this->attributes['last_name'])) {
             return $this->attributes['phone'];
         }
-        return $this->attributes['name'] . ' ' . $this->attributes['family'];
+        return $this->attributes['name'] . ' ' . $this->attributes['last_name'];
     }
 
     public function getPersianStatusAttribute()

@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 
 /**
  * @property string name
- * @property string family
+ * @property string last_name
  * @property string email
  * @property string password
  * @property string phone
@@ -42,7 +42,7 @@ class EditUserRequest extends FormRequest
     {
         return [
             'name' => 'nullable|string|max:255',
-            'family' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
             'email' => 'nullable|string|email|max:255',//FIXME unique:users,email,'.$this->request->get("id") not works
             'phone' => ['nullable','unique:users' , new iran_mobile()],
             'password' => 'nullable|string|min:4|confirmed',

@@ -22,7 +22,7 @@ class AuthController extends Controller
         $validate = ValidationHelper::Validate($request,
             [
                 'name' => 'required|string|max:255',
-                'family' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'phone' => ['required', 'unique:users', new iran_mobile()],
                 'password' => 'required|string|min:4|confirmed',
@@ -36,7 +36,7 @@ class AuthController extends Controller
             $user = $this->CreateUser(
                 [
                     'name' => $request->post('name'),
-                    'family' => $request->post('family'),
+                    'last_name' => $request->post('last_name'),
                     'phone' => $request->post('phone'),
                     'email' => $request->post('email'),
                     'password' => $request->post('password'),

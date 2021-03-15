@@ -75,8 +75,8 @@
                                     <div class="controls">
                                         <label>نام خانوادگی</label>
                                         <input type="text" class="form-control"
-                                               placeholder="نام خانوادگی" name="family"
-                                               value="{{old('family')}}"
+                                               placeholder="نام خانوادگی" name="last_name"
+                                               value="{{old('last_name')}}"
                                                data-validation-required-message="وارد کردن نام خانوادگی الزامی است">
                                     </div>
 

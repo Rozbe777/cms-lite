@@ -18,7 +18,7 @@ class CategoryController extends Controller
     {
         $categories=Category::paginate(12);
 
-        return adminView("pages.admin.user.index")->with('categories',$categories);
+        return adminView("pages.admin.category.index")->with('categories',$categories);
 
     }
 
@@ -63,7 +63,7 @@ class CategoryController extends Controller
 
     public function multipleDestroy(multipleDestroyRequest $request)
     {
-        if (isset($request->userIds))
+        if (isset($request->categoryIds))
             Category::where('id',$request->input('categoryIds'))->delete();
 
         return redirect(route("admin.category.index"))->with('info','دسته بندی های انتخاب شده حذف شدند');
@@ -74,8 +74,8 @@ class CategoryController extends Controller
 
     public function update(EditCategoryRequest $request,$categoryId)
     {
-//|unique:users,email,'.$this->request->get("userId")
-        $user=$this->EditCategory([
+//|unique:categories,name&slug,'.$this->request->get("categoryId")//FIXME
+        $category=$this->EditCategory([
             'name'=>$request->input('name'),
             'slug'=>$request->input('slug'),
             'image'=>$request->input('image'),
@@ -85,6 +85,8 @@ class CategoryController extends Controller
             'layout_id'=>$request->input('layout_id'),
             'module_id'=>$request->input('module_id'),
             'status'=>$request->input('status'),
+            'category_id'=>$categoryId,
+
 
         ]);
 

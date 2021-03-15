@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 
 /**
  * @property string name
- * @property string family
+ * @property string last_name
  * @property string email
  * @property string password
  * @property string phone
@@ -37,7 +37,7 @@ class CreateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'family' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'phone' => ['required','unique:users' , new iran_mobile()],
             'password' => 'required|string|min:4|confirmed',

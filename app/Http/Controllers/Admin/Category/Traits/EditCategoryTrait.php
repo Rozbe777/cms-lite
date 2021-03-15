@@ -2,39 +2,50 @@
 
 namespace App\Http\Controllers\Admin\Category\Traits;
 
-use App\Models\User;
+use App\Models\Category;
 
 trait EditCategoryTrait
 {
 
-    function EditCategory($user = [])
+    function EditCategory($category = [])
     {
-        $userModel = User::find($user['user_id']);  //user_id is required
+        $categoryModel = Category::find($category['category_id']);  //category_id is required
 
 
-        if (!empty($user['name']))
-            $userModel->name = $user['name'];
+        if (!empty($category['name']))
+            $categoryModel->name = $category['name'];
 
-        if (!empty($user['family']))
-            $userModel->family = $user['family'];
+        if (!empty($category['slug']))
+            $categoryModel->slug = $category['slug'];
 
-        if (!empty($user['phone']))
-            $userModel->phone = $user['phone'];
+        if (!empty($category['image']))
+            $categoryModel->image = $category['image'];
 
-        if (!empty($user['email']))
-            $userModel->email = $user['email'];
+        if (!empty($category['description']))
+            $categoryModel->description = $category['description'];
 
-        if (!empty($user['registration_source']))
-            $userModel->registration_source = $user['registration_source'];
+        if (!empty($category['fields']))
+            $categoryModel->fields = $category['fields'];
 
-        if (!empty($user['password']))
-            $userModel->password = bcrypt($user['name']);
+        if (!empty($category['parent_id']))
+            $categoryModel->parent_id = bcrypt($category['parent_id']);
 
-        if (!empty($user['status']))
-            $userModel->status = $user['status'];
+        if (!empty($category['layout_id']))
+            $categoryModel->layout_id = $category['layout_id'];
 
-        $userModel->save();
+        if (!empty($category['module_id']))
+            $categoryModel->module_id = $category['module_id'];
 
-        return $userModel;
+        if (!empty($category['status']))
+            $categoryModel->status = $category['status'];
+
+
+        $categoryModel->save();
+
+        return $categoryModel;
+
+
+
+
     }
 }

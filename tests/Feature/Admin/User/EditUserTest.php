@@ -42,7 +42,7 @@ class EditUserTest extends TestCase
         $userId=User::first()->id;
         $user = [
             'name' => 'Joe',//required|string|max:255
-            'family' => 'Smith',//required|string|max:255
+            'last_name' => 'Smith',//required|string|max:255
             'email' => 'testemail@test.com',//required|string|email|max:255|unique:users
             'phone' => '09122354689',//iran_mobile()
             'password' => '123456',//required|string|min:4|confirmed

@@ -26,7 +26,7 @@ class UserController extends Controller
         $user=$this->CreateUser(
             [
                 'name'=>$request->input('name'),
-                'family'=>$request->input('family'),
+                'last_name'=>$request->input('last_name'),
                 'phone'=>$request->input('phone'),
                 'email'=>$request->input('email'),
                 'password'=>$request->input('password'),
@@ -77,7 +77,7 @@ class UserController extends Controller
 //|unique:users,email,'.$this->request->get("userId")
         $user=$this->EditUser([
             'name'=>$request->name,
-            'family'=>$request->family,
+            'last_name'=>$request->last_name,
             'email'=>$request->email,
             'phone'=>$request->phone,
             'password'=>$request->password,

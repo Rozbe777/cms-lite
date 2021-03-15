@@ -38,7 +38,7 @@ class CreateUserTest extends TestCase
         $roleId = Role::first()->id;
         $user = [
             'name' => 'Joe',//required|string|max:255
-            'family' => 'Smith',//required|string|max:255
+            'last_name' => 'Smith',//required|string|max:255
             'email' => 'testemail@test.com',//required|string|email|max:255|unique:users
             'phone' => '09122354689',//iran_mobile()
             'password' => '123456',//required|string|min:4|confirmed
@@ -61,7 +61,7 @@ class CreateUserTest extends TestCase
     {
         $user = [
 //            'name' => 'Joe',//required|string|max:255
-//            'family' => 'Smith',//required|string|max:255
+//            'last_name' => 'Smith',//required|string|max:255
 //            'email' => 'testemail@test.com',//required|string|email|max:255|unique:users
 //            'phone' => '09122354689',//iran_mobile()
 //            'password' => '123456',//required|string|min:4|confirmed
@@ -76,7 +76,7 @@ class CreateUserTest extends TestCase
 
 
         $response->assertSessionHasErrors('name');
-        $response->assertSessionHasErrors('family');
+        $response->assertSessionHasErrors('last_name');
         $response->assertSessionHasErrors('email');
         $response->assertSessionHasErrors('phone');
         $response->assertSessionHasErrors('password');

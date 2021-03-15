@@ -24,7 +24,7 @@ class RegisterController extends Controller
         $user=$this->CreateUser(
             [
                 'name'=>$request->name,
-                'family'=>$request->family,
+                'last_name'=>$request->last_name,
                 'phone'=>$request->phone,
                 'email'=>$request->email,
                 'password'=>$request->password,
