@@ -30,43 +30,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Helper/ContentSearchHelper.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/CreateContentTrait.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/EditContentTrait.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/Helper/TagSearchHelper.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/Traits/CreateTagTrait.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/Traits/EditTagTrait.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/lang/fa/validation.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Exports/UserListExport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exports/UserListExport.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/CategoryController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/CreateCategoryTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/CreateCategoryTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/EditCategoryTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/EditCategoryTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/ContentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/ContentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/TagController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/TagController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/Helper/UserSearchHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/Helper/UserSearchHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/Traits/CreateUserTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/Traits/CreateUserTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/Traits/EditUserTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/Traits/EditUserTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Auth/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Auth/AuthController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Auth/Traits/CreateUserTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Auth/Traits/CreateUserTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/Traits/CreateUserTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/Traits/CreateUserTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/CreateCategoryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/CreateCategoryRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/CreateUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/CreateUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Auth/CreateUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Auth/CreateUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_14_111250_create_contents_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_14_111250_create_contents_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/auth/register.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/auth/register.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Feature/Admin/User/CreateUserTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Feature/Admin/User/CreateUserTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Feature/Admin/User/EditUserTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Feature/Admin/User/EditUserTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Feature/Auth/RegisterTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Feature/Auth/RegisterTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Feature/Admin/User/UserListTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Feature/Admin/User/UserListTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Unit/ExampleTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Unit/ExampleTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -226,7 +193,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/lang" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CMS_LITE/cms-lite" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -296,7 +263,12 @@
       <workItem from="1615197570753" duration="18315000" />
       <workItem from="1615272152880" duration="11428000" />
       <workItem from="1615701328368" duration="25006000" />
-      <workItem from="1615791742503" duration="10844000" />
+      <workItem from="1615791742503" duration="12104000" />
+      <workItem from="1617425972860" duration="1069000" />
+      <workItem from="1617428667661" duration="6801000" />
+      <workItem from="1617447678758" duration="360000" />
+      <workItem from="1617448361800" duration="309000" />
+      <workItem from="1617448768643" duration="442000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>
@@ -360,18 +332,18 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615801782867" />
-    <state width="245" height="442" key="Diff.GoToChangePopup" timestamp="1615019825551">
+    <state width="245" height="442" key="Diff.GoToChangePopup" timestamp="1617448843162">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state width="245" height="442" key="Diff.GoToChangePopup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615019825551" />
-    <state x="1498" y="0" width="1144" height="678" key="DiffContextDialog" timestamp="1615020221083">
+    <state width="245" height="442" key="Diff.GoToChangePopup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617448843162" />
+    <state x="1498" y="0" width="1144" height="678" key="DiffContextDialog" timestamp="1617449058576">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1498" y="0" width="1144" height="678" key="DiffContextDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615020221083" />
-    <state x="1904" y="146" key="FileChooserDialogImpl" timestamp="1615807574743">
+    <state x="1498" y="0" width="1144" height="678" key="DiffContextDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617449058576" />
+    <state x="1904" y="146" key="FileChooserDialogImpl" timestamp="1617449070068">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1904" y="146" key="FileChooserDialogImpl/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615807574743" />
+    <state x="1904" y="146" key="FileChooserDialogImpl/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617449070068" />
     <state x="580" y="185" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1614084999410" />
     <state x="2006" y="93" key="NewPhpClassDialog" timestamp="1615801764273">
       <screen x="1440" y="0" width="1280" height="678" />
@@ -393,15 +365,19 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615125170773" />
-    <state x="1846" y="26" width="671" height="652" key="find.popup" timestamp="1615807792710">
+    <state x="1890" y="254" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1617445422832">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1846" y="26" width="671" height="652" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615807792710" />
+    <state x="1890" y="254" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617445422832" />
+    <state x="1846" y="26" width="671" height="652" key="find.popup" timestamp="1617449210931">
+      <screen x="1440" y="0" width="1280" height="678" />
+    </state>
+    <state x="1846" y="26" width="671" height="652" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617449210931" />
     <state x="507" y="165" width="585" height="530" key="find.popup/0.0.1600.860@0.0.1600.860" timestamp="1614087541910" />
-    <state x="1806" y="128" key="git4idea.merge.GitPullDialog" timestamp="1615020303634">
+    <state x="1806" y="128" key="git4idea.merge.GitPullDialog" timestamp="1617448982131">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1806" y="128" key="git4idea.merge.GitPullDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615020303634" />
+    <state x="1806" y="128" key="git4idea.merge.GitPullDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617448982131" />
     <state x="1804" y="115" key="refactoring.ChangeSignatureDialog" timestamp="1615018303599">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
