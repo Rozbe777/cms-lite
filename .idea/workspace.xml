@@ -30,13 +30,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/UserList.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/services/Request.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/services/Type.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/panel/themes/frest/css/components.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/panel/themes/frest/css/components.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/head.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/head.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/index.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -211,11 +215,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="C:\Users\Nima\Desktop\cms-lite-fit\cms-lite-react\cms-lite" />
       <recent name="C:\wamp64\www\cms-lite\resources\lang" />
       <recent name="C:\wamp64\www\cms-lite\app\Http\Controllers\Admin\Content\Traits" />
       <recent name="C:\wamp64\www\cms-lite\app\Http\Controllers\Admin\Tag\Traits" />
-      <recent name="C:\wamp64\www\cms-lite\app\Http\Controllers\Admin\Category\Traits" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\wamp64\www\cms-lite\app\Http\Controllers\Auth" />
@@ -269,6 +273,7 @@
       <workItem from="1615701328368" duration="25006000" />
       <workItem from="1615791742503" duration="10844000" />
       <workItem from="1617454537675" duration="518000" />
+      <workItem from="1617469700892" duration="5323000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>
