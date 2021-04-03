@@ -64,7 +64,7 @@ class UserController extends Controller
     public function multipleDestroy(multipleDestroyRequest $request)
     {
         if (isset($request->userIds))
-            User::where('id',$request->input('userIds'))->delete();
+            User::whereIn('id',$request->input('userIds'))->delete();
 
         return redirect(route("admin.user.index"))->with('info','کاربران انتخاب شده حذف شدند');
 

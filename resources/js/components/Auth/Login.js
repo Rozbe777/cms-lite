@@ -88,7 +88,6 @@ export default class Login extends Component {
         let {action, token} = this.props;
         if (empty(username)) {
             return error('نام کاربری وارد نشده است!');
-
         }
         if (empty(password)) {
             return error('رمز عبور وارد نشده است!');
