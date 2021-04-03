@@ -30,7 +30,9 @@
 <!-- END: Head-->
 
 <!-- BEGIN: Body-->
-<body class="vertical-layout vertical-menu-modern boxicon-layout no-card-shadow 1-column  navbar-sticky footer-static bg-full-screen-image  blank-page blank-page" data-open="click" data-menu="vertical-menu-modern" data-col="1-column">
+<body
+    class="vertical-layout vertical-menu-modern boxicon-layout no-card-shadow 1-column  navbar-sticky footer-static bg-full-screen-image  blank-page blank-page"
+    data-open="click" data-menu="vertical-menu-modern" data-col="1-column">
 <!-- BEGIN: Content-->
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -47,7 +49,7 @@
                                 <p class="pb-3">
                                     صفحه ای که به دنبال آن هستید موجود نیست</p>
                                 <img class="img-fluid" src="{{adminTheme("images/pages/404.png")}}" alt="404 error">
-                                <a href="index.html" class="btn btn-primary round glow mt-3">بازگشت به خانه</a>
+                                <a href="{{url('admin')}}" class="btn btn-primary round glow mt-3">بازگشت به خانه</a>
                             </div>
                         </div>
                     </div>

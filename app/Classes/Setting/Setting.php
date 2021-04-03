@@ -48,13 +48,12 @@ class Setting
      * @param $key
      * @param $value
      * @return mixed
-     * @throws SettingException
      */
     function set($key, $value)
     {
         $model = Model::where('key', $key)->first();
         if (empty($model))
-            throw new SettingException('Setting key not found!');
+            return false;
         $model->value = $value;
         $model->save();
         return $model;

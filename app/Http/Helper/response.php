@@ -6,16 +6,17 @@
  * Time: 3:20 PM
  */
 
-use App\Classes\Common\Response\Response;
 
-if (! function_exists('success')) {
-    function success($data=[], $message = null) {
-        return Response::Instance()->data($data)->success($message);
+if (!function_exists('success')) {
+    function success($data = [], $message = null)
+    {
+        return ['status' => true, 'data' => $data, 'message' => $message];
     }
 }
 
-if (! function_exists('error')) {
-    function error($message, $data = null) {
-        return Response::Instance()->data($data)->error($message);
+if (!function_exists('error')) {
+    function error($message, $data = null)
+    {
+        return ['status' => false, 'message' => $message, 'data' => $data];
     }
 }

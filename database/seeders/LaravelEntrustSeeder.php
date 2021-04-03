@@ -38,70 +38,74 @@ class LaravelEntrustSeeder extends Seeder
             ]);
             $permissions = [];
 
-            $this->command->info('Creating Role '. strtoupper($key));
+            $this->command->info('Creating Role ' . strtoupper($key));
 //            $parentWeight=0;
             // Reading role permission modules
             foreach ($modules as $module => $values) {
                 $parentId = Permission::firstOrCreate([
-                    'name' => $module ,
+                    'name' => $module,
                     'display_name' => $values['display_name'],
                     'description' => $values['description'],
-                    'is_menu'=>1,
+                    'is_menu' => 1,
 //                    'weight'=>$parentWeight  TODO //vaghti weight mizarim Duplicate pish miad tozih dare
                 ])->id;
 //                $parentWeight++;
-                $is_menus=explode(',',$values['is_menu']);
+                $is_menus = [];
+                if (!empty($values['is_menu']))
+                    $is_menus = explode(',', $values['is_menu']);
 
                 foreach (explode(',', $values['access']) as $p => $perm) {
 //                    $childWeight=0;
                     $permissionValue = $mapPermission->get($perm);
                     $permissionPersianValue = $mapPermissionPersian->get($perm);
-                    $is_menu= !in_array($perm,$is_menus) ?0:1;
-                    $permissions[] =$parentId;
+                    $is_menu = !in_array($perm, $is_menus) ? 0 : 1;
+                    $permissions[] = $parentId;
                     $permissions[] = Permission::firstOrCreate([
-                        'name' => $module . '.' . $permissionValue ,
+                        'name' => $module . '.' . $permissionValue,
                         'display_name' => ucfirst($permissionPersianValue) . ' ' . ucwords(str_replace('_', ' ', $values['display_name'])),
                         'description' => ucfirst($values['description']) . ' ' . ucwords(str_replace('_', ' ', $values['description'])),
-                        'parent_id'=>$parentId,
-                        'is_menu'=>$is_menu,
+                        'parent_id' => $parentId,
+                        'is_menu' => $is_menu,
 //                        'weight'=>$childWeight
 
                     ])->id;
 //                    $childWeight++;
 
-                    $this->command->info('Creating Permission to '.$permissionValue.' for '. $module);
+                    $this->command->info('Creating Permission to ' . $permissionValue . ' for ' . $module);
                 }
-                foreach($values['children'] as $childrenModule => $childrenValues){
+                foreach ($values['children'] as $childrenModule => $childrenValues) {
                     $childParentId = Permission::firstOrCreate([
-                        'name' => $childrenModule ,
+                        'name' => $childrenModule,
                         'display_name' => $childrenValues['display_name'],
                         'description' => $childrenValues['description'],
-                        'is_menu'=>1,
-                        'parent_id'=>$parentId,
+                        'is_menu' => 1,
+                        'parent_id' => $parentId,
 
 //                    'weight'=>$parentWeight  TODO //vaghti weight mizarim Duplicate pish miad tozih dare
                     ])->id;
 //                $parentWeight++;
-                    $is_menus=explode(',',$childrenValues['is_menu']);
+                    $is_menus = [];
+                    if (!empty($childrenValues['is_menu']))
+                        $is_menus = explode(',', $childrenValues['is_menu']);
 
                     foreach (explode(',', $childrenValues['access']) as $p => $perm) {
 //                    $childWeight=0;
                         $permissionValue = $mapPermission->get($perm);
                         $permissionPersianValue = $mapPermissionPersian->get($perm);
-                        $is_menu= !in_array($perm,$is_menus) ?0:1;
-                        $permissions[] =$childParentId;
+                        $is_menu = !in_array($perm, $is_menus) ? 0 : 1;
+                        $permissions[] = $childParentId;
                         $permissions[] = Permission::firstOrCreate([
-                            'name' => $childrenModule . '.' . $permissionValue ,
+                            'name' => $childrenModule . '.' . $permissionValue,
                             'display_name' => ucfirst($permissionPersianValue) . ' ' . ucwords(str_replace('_', ' ', $childrenValues['display_name'])),
                             'description' => ucfirst($childrenValues['description']) . ' ' . ucwords(str_replace('_', ' ', $childrenValues['description'])),
-                            'parent_id'=>$childParentId,
-                            'is_menu'=>$is_menu,
+                            'parent_id' => $childParentId,
+                            'is_menu' => $is_menu,
 //                        'weight'=>$childWeight
 
                         ])->id;
 //                    $childWeight++;
 
-                        $this->command->info('Creating Permission to '.$permissionValue.' for '. $module);
+                        $this->command->info('Creating Permission to ' . $permissionValue . ' for ' . $module);
                     }
 
                 }
@@ -111,13 +115,13 @@ class LaravelEntrustSeeder extends Seeder
             // Attach all permissions to the role
             $role->permissions()->sync($permissions);
 
-            if(isset($userRoles[$key])) {
+            if (isset($userRoles[$key])) {
                 $this->command->info("Creating '{$key}' users");
 
-                $role_users  = $userRoles[$key];
+                $role_users = $userRoles[$key];
 
                 foreach ($role_users as $role_user) {
-                    if(isset($role_user["password"])) {
+                    if (isset($role_user["password"])) {
                         $role_user["password"] = Hash::make($role_user["password"]);
                     }
                     $user = \App\Models\User::create($role_user);

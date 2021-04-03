@@ -18,6 +18,8 @@ use Shanmuga\LaravelEntrust\Traits\LaravelEntrustUserTrait;
  * @property string password
  * @property string phone
  * @property string status
+ * @property string avatar
+ * @property string phone_verified_at
  * @property string registration_source
  * @property Carbon|null email_verified_at
  * @method static find(Integer $user_id)
@@ -28,28 +30,29 @@ use Shanmuga\LaravelEntrust\Traits\LaravelEntrustUserTrait;
 class User extends Authenticatable
 {
 
-    use HasFactory, Notifiable,HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens;
     use LaravelEntrustUserTrait;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected  $fillable = [
-        'name', 'last_name', 'email', 'password', 'phone', 'status', 'registration_source','email_verified_at'
+    protected $fillable = [
+        'name', 'last_name', 'email', 'password', 'phone', 'avatar', 'status', 'registration_source', 'email_verified_at', 'phone_verified_at'
     ];
 
     /**
      * @var array|string[]
      */
-    protected  $appends = ['fullname','persianStatus'];
+    protected $appends = ['fullname', 'persianStatus'];
 
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected  $hidden = [
+    protected $hidden = [
         'password',
         'remember_token',
     ];
@@ -59,7 +62,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected  $casts = [
+    protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
@@ -71,9 +74,14 @@ class User extends Authenticatable
         return $this->attributes['name'] . ' ' . $this->attributes['last_name'];
     }
 
+    public function getAvatarAttribute()
+    {
+        return asset('images/avatar.jpg');
+    }
+
     public function getPersianStatusAttribute()
     {
-        return $this->attributes['status'] =='active'?'فعال':'بسته شده';
+        return $this->attributes['status'] == 'active' ? 'فعال' : 'بسته شده';
     }
 
 

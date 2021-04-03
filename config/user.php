@@ -4,6 +4,6 @@ return [
         'default_status'=>'active'
     ],
     'login'=>[
-        'redirectUrl'=>'/admin/dashboard/index'
+        'redirectUrl'=>'/admin/dashboard'
     ]
 ];
