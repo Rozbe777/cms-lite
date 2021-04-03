@@ -31,9 +31,18 @@
   <component name="ChangeListManager">
     <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/CategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/ContentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/ContentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/CreateContentTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/CreateContentTrait.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/EditContentTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/EditContentTrait.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/TagController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/TagController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/CreateUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/CreateUserRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/entrust_seeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/entrust_seeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/LaravelEntrustSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/LaravelEntrustSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Feature/Admin/User/UserListTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Feature/Admin/User/UserListTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Unit/ExampleTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Unit/ExampleTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,7 +202,8 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CMS_LITE/cms-lite" />
+    <property name="jsx.switch.disabled" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -268,7 +278,8 @@
       <workItem from="1617428667661" duration="6801000" />
       <workItem from="1617447678758" duration="360000" />
       <workItem from="1617448361800" duration="309000" />
-      <workItem from="1617448768643" duration="442000" />
+      <workItem from="1617448768643" duration="5938000" />
+      <workItem from="1617454776001" duration="413000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>
@@ -328,10 +339,10 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1811" y="87" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615122579172" />
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615801782867">
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1617451962967">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615801782867" />
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617451962967" />
     <state width="245" height="442" key="Diff.GoToChangePopup" timestamp="1617448843162">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
@@ -369,10 +380,10 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1890" y="254" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617445422832" />
-    <state x="1846" y="26" width="671" height="652" key="find.popup" timestamp="1617449210931">
+    <state x="1846" y="26" width="671" height="652" key="find.popup" timestamp="1617454751321">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1846" y="26" width="671" height="652" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617449210931" />
+    <state x="1846" y="26" width="671" height="652" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617454751321" />
     <state x="507" y="165" width="585" height="530" key="find.popup/0.0.1600.860@0.0.1600.860" timestamp="1614087541910" />
     <state x="1806" y="128" key="git4idea.merge.GitPullDialog" timestamp="1617448982131">
       <screen x="1440" y="0" width="1280" height="678" />
@@ -382,10 +393,10 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1804" y="115" key="refactoring.ChangeSignatureDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615018303599" />
-    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup" timestamp="1615730036988">
+    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup" timestamp="1617454784292">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615730036988" />
+    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617454784292" />
     <state x="463" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1614082055644" />
   </component>
   <component name="XDebuggerManager">
