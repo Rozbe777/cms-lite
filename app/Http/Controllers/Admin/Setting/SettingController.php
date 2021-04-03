@@ -12,69 +12,20 @@ class SettingController extends Controller
 {
     public function index()
     {
-        $settings = Setting::whereIn("key", [
-            "site_url",
-            "cron",
-            'auto_comment_accept',
-            "title",
-            "description",
-            "favicon",
-            'date_time',
-            'social_login',
-            'google_analytics',
-            'join',
-            'verify_email',
-            'script_footer',
-            'script_head',
-            'script_top_body',
-            "notifier_url",
-            "notifier_username",
-            "notifier_password",
-            "notifier_from"
-        ])->get();
-
-        return adminView("pages.admin.setting.index", compact("settings"));
+        return adminView("pages.admin.setting.index");
     }
 
 
-    public function update(UpdateSettingRequest $request)
+    public function update(Request $request)
     {
-        $setting = Setting::get();
-        $keys=[
-            'site_url',
-            'date_time',
-            'auto_comment_accept',
-            'social_login',
-            'verify_email',
-            'join',
-            'title',
-            'description',
-            'favicon',
-            'script_footer',
-            'script_head',
-            'script_top_body',
-            'cron',
-            'notifier_url',
-            'notifier_username',
-            'notifier_password',
-            'notifier_from'
-        ];
-        foreach ($keys as $key){
-            if ($setting->where("key", $key)->count()) {
-                $edit_setting = $setting->where("key", $key)->first();
-                $edit_setting->value = $request->input($key);
-                $edit_setting->save();
-            } else {
-                $create = new Setting();
-                $create->key = $key;
-                $create->value = $request->input($key);
-                $create->save();
-            }
+        $settings = $request->all();
+        foreach ($settings as $index => $setting) {
+            (\App\Classes\Setting\Setting::getInstance())->set($index, $setting);
         }
+        Artisan::call("view:clear");
 
-        Artisan::call("config:clear");
-
-        return redirect(route("admin.setting.index"))->with("info", "عملیات ویرایش تنظیمات با موفقیت انجام شد");
+        return success([],'با موفقیت ثبت شد.');
+        //return redirect(route("admin.setting.index"))->with("info", "عملیات ویرایش تنظیمات با موفقیت انجام شد");
 
     }
 

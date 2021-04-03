@@ -30,13 +30,13 @@ class UserController extends Controller
                 'phone'=>$request->input('phone'),
                 'email'=>$request->input('email'),
                 'password'=>$request->input('password'),
-                'registration_source'=>$request->input('registration_source'),
+                'registration_source'=>$request->input('registration_source','web'),
 
             ]
         );
-        $user->roles()->attach($request->input('role'));
+        $user->roles()->attach($request->input('role_id'));
 
-        return redirect(route("admin.user.index"))->with("info", "ثبت کاربر با موفقیت انجام شد");
+        return success([],'کاربر جدید ایجاد شد.');
 
 
 
@@ -64,7 +64,7 @@ class UserController extends Controller
     public function multipleDestroy(multipleDestroyRequest $request)
     {
         if (isset($request->userIds))
-            User::where('id',$request->input('userIds'))->delete();
+            User::whereIn('id',$request->input('userIds'))->delete();
 
         return redirect(route("admin.user.index"))->with('info','کاربران انتخاب شده حذف شدند');
 
