@@ -4867,3 +4867,18 @@ table.dataTable th.dt-checkboxes-cell {
 .daterangepicker .calendar-table .prev span {
 	margin-right: 3px;
 }
+
+
+.no-card-shadow .card
+{
+    border-radius: 0px 0px 5px 5px !important;
+}
+#icon-delete-list{
+    padding: 0px !important;
+    float: left !important;
+    margin-left: -20px !important;
+    margin-top: 2px !important;
+}
+input::placeholder{
+    font-size: 13px !important;
+}
