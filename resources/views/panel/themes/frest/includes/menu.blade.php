@@ -21,7 +21,7 @@
             </li>
 
             @foreach($parents as $parent)
-                @if(auth()->user()->can($parent->name))
+                @if(empty(auth()->user())?false:auth()->user()->can($parent->name))
 
                 @php($childrenMenus=$parent->childrenMenu)
                 @if($childrenMenus->count()>1)

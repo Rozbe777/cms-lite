@@ -24,7 +24,7 @@ class multipleDestroyRequest extends FormRequest
     public function rules()
     {
         return [
-            'categoryIds'=>'required'
+//            'categoryIds'=>'required'
         ];
     }
 }

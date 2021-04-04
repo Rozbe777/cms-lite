@@ -10,6 +10,7 @@ use App\Http\Requests\Admin\Category\EditCategoryRequest;
 use App\Http\Requests\Admin\Category\multipleDestroyRequest;
 use App\Http\Requests\Admin\Category\SearchCategoryRequest;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -17,12 +18,12 @@ class CategoryController extends Controller
     public function index()
     {
         $categories=Category::paginate(12);
-
+        return $categories;
         return adminView("pages.admin.category.index")->with('categories',$categories);
 
     }
 
-    public function store(CreateCategoryRequest $request){
+    public function store(Request $request){
         $category=$this->createCategory(
             [
                 'name'=>$request->input('name'),
@@ -37,7 +38,6 @@ class CategoryController extends Controller
 
             ]
         );
-
         return redirect(route("admin.category.index"))->with("info", "ثبت دسته بندی با موفقیت انجام شد");
 
 

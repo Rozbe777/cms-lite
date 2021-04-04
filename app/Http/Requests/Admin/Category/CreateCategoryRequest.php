@@ -27,8 +27,8 @@ class CreateCategoryRequest extends FormRequest
             'name' => 'required|string|max:255|unique:categories,name',
             'slug' => 'required|string|max:255|unique:categories,slug',
             'image' => 'string|image',
-            'description' => 'text',
-            'fields' => 'text',
+            'description' => '',
+            'fields' => '',
             'parent_id' => 'exists:categories,id',
 //            'layout_id' => '',//not using now FIXME after insert layout and module
 //            'module_id' => '',

@@ -23,14 +23,15 @@ trait CreateCategoryTrait
             $categoryModel->description = $category['description'];
         if (!empty($category['fields']))
             $categoryModel->fields = $category['fields'];
+
         if (!empty($category['parent_id']))
-            $categoryModel->parent_id = bcrypt($category['parent_id']);
+            $categoryModel->parent_id = $category['parent_id'];
         if (!empty($category['layout_id']))
-            $categoryModel->layout_id = bcrypt($category['layout_id']);
+            $categoryModel->layout_id = $category['layout_id'];
         if (!empty($category['module_id']))
-            $categoryModel->module_id = bcrypt($category['module_id']);
+            $categoryModel->module_id = $category['module_id'];
         if (!empty($category['status']))
-            $categoryModel->status = bcrypt($category['status']);
+            $categoryModel->status = $category['status'];
         $categoryModel->save();
         return $categoryModel;
     }
