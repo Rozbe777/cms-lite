@@ -2647,13 +2647,14 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function
                           className: "d-flex align-items-center my-n50",
                           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
                             className: "rounded-circle",
+                            src: item.avatar ? item.avatar : '/images/avatar.jpg',
                             alt: "avatar",
                             height: "32",
                             width: "32"
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
                             className: "ml-1 line-height-2",
                             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                              children: item.name + " " + item.last_name
+                              children: item.name ? item.name : '' + " " + item.last_name ? item.last_name : 0
                             })
                           })]
                         })
@@ -2692,6 +2693,7 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function
                             },
                             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("a", {
                               className: "dropdown-item",
+                              href: "/admin/user/" + item.id + "/edit",
                               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
                                 className: "bx bx-edit-alt mr-1"
                               }), " \u0648\u06CC\u0631\u0627\u06CC\u0634"]
@@ -2700,7 +2702,10 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function
                         })
                       })]
                     });
-                  }) : 'please wait ...'
+                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+                    id: 'spinner-loading',
+                    children: "\u062F\u0631 \u062D\u0627\u0644 \u067E\u0631\u062F\u0627\u0632\u0634 ..."
+                  })
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
                 className: "d-flex justify-content-center"
@@ -4897,7 +4902,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var Request = {
   GetAllUser: function GetAllUser() {
-    return _Request__WEBPACK_IMPORTED_MODULE_0__.request.get("/admin/user/");
+    return _Request__WEBPACK_IMPORTED_MODULE_0__.request.get("/admin/user/export");
   }
 };
 
@@ -4998,7 +5003,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "#header-card-custom {\n  border-radius: 5px 5px 0px 0px !important;\n  margin-bottom: 0px !important;\n  padding: 10px 0px 5px 0 !important;\n}\n\n#icon-delete-list {\n  padding: 0px !important;\n  float: left !important;\n  margin-left: -20px !important;\n  margin-top: 2px !important;\n}\n\ninput::-moz-placeholder {\n  font-size: 13px !important;\n}\n\ninput:-ms-input-placeholder {\n  font-size: 13px !important;\n}\n\ninput::placeholder {\n  font-size: 13px !important;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "#header-card-custom {\n  border-radius: 5px 5px 0px 0px !important;\n  margin-bottom: 0px !important;\n  padding: 10px 0px 5px 0 !important;\n}\n\n#icon-delete-list {\n  padding: 0px !important;\n  float: left !important;\n  margin-left: -20px !important;\n  margin-top: 2px !important;\n}\n\ninput::-moz-placeholder {\n  font-size: 13px !important;\n}\n\ninput:-ms-input-placeholder {\n  font-size: 13px !important;\n}\n\ninput::placeholder {\n  font-size: 13px !important;\n}\n\n#spinner-loading {\n  padding: 10px;\n  margin-right: 20px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

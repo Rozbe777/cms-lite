@@ -139,10 +139,10 @@ const UserList = memo((props) => {
                                                 <td>{item.id}</td>
                                                 <td>
                                                     <div className="d-flex align-items-center my-n50">
-                                                        <img className="rounded-circle" alt="avatar" height="32"
+                                                        <img className="rounded-circle" src = {item.avatar ? item.avatar : '/images/avatar.jpg'} alt="avatar" height="32"
                                                              width="32"/>
                                                         <div className="ml-1 line-height-2">
-                                                            <span>{item.name + " " + item.last_name}</span>
+                                                            <span>{item.name ? item.name :'' + " " + item.last_name ? item.last_name : ''}</span>
                                                         </div>
                                                     </div>
 
@@ -175,14 +175,18 @@ const UserList = memo((props) => {
                                                                  transform: 'translate3d(28px, 23px, 0px)'
                                                              }}>
                                                             {/*    {{route('admin.user.edit',$user->id)}}  */}
-                                                            <a className="dropdown-item">
+                                                            <a className="dropdown-item" href={"/admin/user/"+item.id+"/edit"}>
                                                                 <i className="bx bx-edit-alt mr-1"></i> ویرایش</a>
                                                         </div>
                                                     </div>
                                                 </td>
                                             </tr>
                                         )
-                                    }) : 'please wait ...'}
+                                    }) : (
+                                        <p id={'spinner-loading'}>در حال پردازش ...</p>
+                                    )}
+
+
 
                                         </tbody>
                                         </table>
