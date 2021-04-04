@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Classes\Admin\Traits\PermissionCreator;
+use App\Models\Permission;
+use Cassandra\Schema;
 use Illuminate\Database\Seeder;
 
 class PermissionSeeder extends Seeder
@@ -30,7 +32,7 @@ class PermissionSeeder extends Seeder
                 'icon' => 'flaticon-multiple-users-silhouette',
                 'display_name' => 'کاربران',
                 'description' => '(بخش مدیر)',
-                'access' => 'export,i,c,s,e,u,des,search,multides',
+                'access' => 'export,i,c,s,e,u,des,search,multides,userList',
                 'is_menu' => 'i,c',
                 'children' => [
                     'admin.role' => [
@@ -100,6 +102,7 @@ class PermissionSeeder extends Seeder
             'sh' => 'show',
             'export' => 'export',
             'search' => 'search',
+            'userList'=>'userList'
         ];
 
         $permissions_map_persian=[
@@ -122,4 +125,6 @@ class PermissionSeeder extends Seeder
         $this->permissionCreator($permissions,$mapPermission,$mapPermissionPersian);
 
     }
+
+
 }
