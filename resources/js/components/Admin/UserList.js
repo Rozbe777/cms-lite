@@ -3,12 +3,18 @@ import ReactDOM from 'react-dom';
 import './_Shared/Style.scss';
 import {Request} from "../../services/AdminService/Api";
 import {GetAllUser} from './../../services/AdminService';
+import {Pagination} from './_Micro/Pagination';
+import {UserColumns } from './_Micro/TableColumnsList'
 import $ from 'jquery';
 
 const UserList = memo((props) => {
     console.log("props : ", props)
-    const [allUser, setAllUser] = useState();
-    const [userId , setUserId] = useState({userIds : []});
+    const [allUser, setAllUser] = useState([]);
+    const [allUserSlice, setAllUserSlice] = useState();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [perPage] = useState(3);
+    const [userId, setUserId] = useState({userIds: []});
+    const [loading , setLoading] = useState(false);
 
 
     $('.sweet-alert-delete-confirm').on('click', function (event) {
@@ -27,7 +33,6 @@ const UserList = memo((props) => {
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-
                 Swal.fire({
                     type: "success",
                     title: 'حذف شد!',
@@ -57,7 +62,7 @@ const UserList = memo((props) => {
         }).then(function (result) {
             if (result.value) {
 
-                console.log("result value : " , userId)
+                console.log("result value : ", userId)
                 // document.getElementById("myForm").submit();
                 Swal.fire({
                     type: "success",
@@ -72,32 +77,31 @@ const UserList = memo((props) => {
     });
 
 
-
-
-     toggle = (source) => {
-        console.log("attr : " , source)
+    toggle = (source) => {
+        console.log("attr : ", source)
         let checkboxes = document.getElementsByName('userIds[]');
         for (var i = 0, n = checkboxes.length; i < n; i++) {
             checkboxes[i].checked = source.checked;
         }
-        console.log("checkeddddd : " , JSON.stringify(checkboxes));
+        console.log("checkeddddd : ", JSON.stringify(checkboxes));
     }
 
 
     let token = $('meta[name=author]').attr('content');
     useEffect(() => {
-        let GetAllUser = () => {
-            Request.GetAllUser()
+        let GetAllUser =  async () => {
+            setLoading(true);
+             await Request.GetAllUser()
                 .then(res => {
+                    setLoading(false)
                     setAllUser(res.data);
                 }).catch(err => {
-                return err
-            })
+                    return err
+                })
         }
 
 
-
-        $("#checkOne").click(function (){
+        $("#checkOne").click(function () {
             alert("vsdvs");
             // let id = $(this).val();
             // console.log("user id : " , id);
@@ -108,17 +112,15 @@ const UserList = memo((props) => {
 
     }, [])
 
-    console.log("all user : ", allUser);
-
-    let Checked = (atrs , id) => {
+    let Checked = (atrs, id) => {
         let checkedss = atrs.checked;
-        console.log("data : " , checkedss);
+        console.log("data : ", checkedss);
 
         let userList = [...userId.userIds];
 
         userList.userIds.length > 0 ? userList.userIds[userList.userIds.length] = id : userList.userIds[0] = id;
 
-        console.log("userId : " , userList , "id : " , id)
+        console.log("userId : ", userList, "id : ", id)
     }
     let UnChecked = (id) => {
         let userList = [...userId.userIds];
@@ -128,10 +130,8 @@ const UserList = memo((props) => {
             setUserId({userIds: userList});
         }
 
-        console.log("userId : " , userId , " id : " , id)
+        console.log("userId : ", userId, " id : ", id)
     }
-
-
 
 
     //   check all
@@ -147,10 +147,32 @@ const UserList = memo((props) => {
     // })
 
 
+    const indexOfLastUser = currentPage * perPage;
+    const indexOfFirstUser = indexOfLastUser - perPage;
+    const currentUsers =  allUser.slice(indexOfFirstUser , indexOfLastUser);
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+
+        $("li.page-item").removeClass("active");
+        console.log("")
+        if (pageNumber == Math.ceil(allUser.length / perPage))
+        {
+            $("li.page-item.next").css("opacity" , 0.4);
+            $("li.page-item.previous").css("opacity" , 1);
+        }else if (pageNumber == 1){
+            $("li.page-item.next").css("opacity" , 1);
+            $("li.page-item.previous").css("opacity" , 0.4);
+        }else{
+            $("li.page-item.next").css("opacity" , 2);
+            $("li.page-item.previous").css("opacity" , 2);
+        }
+        $("li#"+pageNumber).addClass("active");
+    };
+    // console.log("data slice : " , currentUsers);
 
     return (
         <form id="myForm">
-            {GetAllUser()}
             <div className="heading-layout1">
                 <div className="item-title" style={{display: "none"}}>
                     <h3>لیست کاربران</h3>
@@ -227,12 +249,6 @@ const UserList = memo((props) => {
                                     <tr>
                                         <th className="dt-checkboxes-cell dt-checkboxes-select-all sorting_disabled"
                                             rowSpan="1" colSpan="1" style={{width: '75px;'}} data-col="0" aria-label="">
-                                            <a style={{padding: '0px'}}
-                                               // onClick={toggle(this)}
-                                               href={props.destroylink}
-                                               className="dropdown-item sweet-alert-multi-delete-confirm"
-                                               id="icon-delete-list">
-                                                <i className="bx bx-trash mr-1"></i></a>
                                             <div className="form-check">
                                                 <input type="checkbox"
                                                        id={"checkAll"}
@@ -251,106 +267,12 @@ const UserList = memo((props) => {
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {allUser ? allUser.data.map(item => {
-                                        let userIds = item.id;
-                                        return (
-                                            <tr>
-                                                <td className="dt-checkboxes-cell">
-                                                    <div className="form-check">
-                                                        <input name={"userIds"} type="checkbox" id={"checkOne"} className="form-check-input checkAll"
-                                                                value={item.id} />
-                                                               {/*onChange={$(this).is(":checked") ? setUserId({...userId , userIds}) : ''} name="userIds[]" value="user id"/>*/}
-                                                        <label className="form-check-label"></label>
-                                                    </div>
-                                                </td>
-                                                <td>{item.id}</td>
-                                                <td>
-                                                    <div className="d-flex align-items-center my-n50">
-                                                        <img className="rounded-circle"
-                                                             src={item.avatar ? item.avatar : '/images/avatar.jpg'}
-                                                             alt="avatar" height="32"
-                                                             width="32"/>
-                                                        <div className="ml-1 line-height-2">
-                                                            <span>{item.name ? item.name : '' + " " + item.last_name ? item.last_name : ''}</span>
-                                                        </div>
-                                                    </div>
-
-                                                </td>
-                                                <td>{item.email}</td>
-                                                <td>{item.phone}</td>
-
-                                                <td>{item.userRole == "admin" ? "مدیر" : 'کاربر'}</td>
-
-
-                                                <td>
-                                                    {item.persianStatus == "فعال" ? (
-                                                        <div className="badge badge-pill badge-light-success">فعال</div>
-                                                    ) : (
-                                                        <div className="badge badge-pill badge-light-danger">غیرفعال
-                                                        </div>
-                                                    )}
-                                                </td>
-                                                <td>
-                                                    <div className="dropup">
-                                                    <span
-                                                        className="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer"
-                                                        data-toggle="dropdown" aria-haspopup="false"
-                                                        aria-expanded="false" role="menu">
-                                                    </span>
-                                                        <div className="dropdown-menu " x-placement="bottom-start"
-                                                             style={{
-                                                                 position: 'absolute',
-                                                                 willChange: 'transform',
-                                                                 top: '0px',
-                                                                 left: '0px',
-                                                                 transform: 'translate3d(28px, 23px, 0px)'
-                                                             }}>
-                                                            {/*    {{route('admin.user.edit',$user->id)}}  */}
-                                                            <a className="dropdown-item"
-                                                               href={"/admin/user/" + item.id + "/edit"}>
-                                                                <i className="bx bx-edit-alt mr-1"></i> ویرایش</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )
-                                    }) : (
-                                        <p id={'spinner-loading'}>در حال پردازش ...</p>
-                                    )}
-
+                                    <UserColumns loading={loading} data={currentUsers}/>
 
                                     </tbody>
                                 </table>
                                 <div className="col-md-12">
-
-
-                                                <nav aria-label="Page navigation">
-                                                    <ul className="pagination pagination-borderless justify-content-center mt-2">
-                                                        <li className="page-item previous"><a className="page-link"
-                                                                                              href="#">
-                                                            <i className="bx bx-chevron-right"></i>
-                                                        </a></li>
-                                                        <li className="page-item"><a className="page-link"
-                                                                                     href="#">1</a></li>
-                                                        <li className="page-item"><a className="page-link"
-                                                                                     href="#">2</a></li>
-                                                        <li className="page-item"><a className="page-link"
-                                                                                     href="#">3</a></li>
-                                                        <li className="page-item active" aria-current="page"><a
-                                                            className="page-link" href="#">4</a></li>
-                                                        <li className="page-item"><a className="page-link"
-                                                                                     href="#">5</a></li>
-                                                        <li className="page-item"><a className="page-link"
-                                                                                     href="#">6</a></li>
-                                                        <li className="page-item"><a className="page-link"
-                                                                                     href="#">7</a></li>
-                                                        <li className="page-item next"><a className="page-link"
-                                                                                          href="#">
-                                                            <i className="bx bx-chevron-left"></i>
-                                                        </a></li>
-                                                    </ul>
-                                                </nav>
-
+                                    <Pagination perPage={perPage} users={allUser.length} paginate={paginate} />
                                 </div>
                                 <div className="d-flex justify-content-center">
                                     {/*{!! $users->links('vendor.pagination.custom') !!}*/}
