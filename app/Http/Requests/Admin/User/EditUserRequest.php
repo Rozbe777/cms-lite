@@ -43,8 +43,8 @@ class EditUserRequest extends FormRequest
         return [
             'name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
-            'email' => 'nullable|string|email|max:255|unique:users,email,'.$this->get("id"),//FIXME unique:users,email,'.$this->request->get("id") not works
-            'phone' => ['nullable','unique:users' , new iran_mobile()],
+            'email' => 'nullable|string|email|max:255',//FIXME unique:users,email,'.$this->request->get("id") not works
+            'phone' => ['nullable','unique:users,phone,'.$this->get("userId") , new iran_mobile()],
             'password' => 'nullable|string|min:4|confirmed',
             'status' => 'nullable|in:active,deactivate',
             'role' => 'nullable|exists:roles,id',
