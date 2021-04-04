@@ -104,10 +104,9 @@ class UserController extends Controller
     }
 
     public function index(){
-        $users=User::paginate(12);//TODO paginate can change
-
-        return adminView("pages.admin.user.index")->with('users',$users);
+        return adminView("pages.admin.user.index");
     }
+
 
     public function export(){
         $users=User::all();

@@ -4902,7 +4902,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var Request = {
   GetAllUser: function GetAllUser() {
-    return _Request__WEBPACK_IMPORTED_MODULE_0__.request.get("/admin/user/export");
+    return _Request__WEBPACK_IMPORTED_MODULE_0__.request.get("/admin/user/");
   }
 };
 
