@@ -46,7 +46,7 @@ class LaravelEntrustSeeder extends Seeder
                     'name' => $module,
                     'display_name' => $values['display_name'],
                     'description' => $values['description'],
-                    'is_menu' => 1,
+                    'is_menu' => empty($values['is_menu'])?0:1,
 //                    'weight'=>$parentWeight  TODO //vaghti weight mizarim Duplicate pish miad tozih dare
                 ])->id;
 //                $parentWeight++;

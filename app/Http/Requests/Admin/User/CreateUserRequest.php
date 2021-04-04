@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\User;
 
+
 use App\Http\Requests\BaseRequest;
 
 class CreateUserRequest extends BaseRequest

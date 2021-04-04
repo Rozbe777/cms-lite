@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Content;
 
-use App\Http\Controllers\Api\Content\Traits\CreateContentTrait;
-use App\Http\Controllers\Api\Content\Traits\EditContentTrait;
+
+
+use App\Http\Controllers\Admin\Content\Traits\EditContentTrait;
+use App\Http\Controllers\Admin\Content\Traits\CreateContentTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Content\CreateContentRequest;
 use App\Http\Requests\Admin\Content\EditContentRequest;
@@ -67,7 +69,7 @@ class ContentController extends Controller
     public function multipleDestroy(multipleDestroyRequest $request)
     {
         if (isset($request->contentIds))
-            Content::where('id',$request->input('contentIds'))->delete();
+            Content::whereIn('id',$request->input('contentIds'))->delete();
 
         return redirect(route("admin.content.index"))->with('info','محتوا های انتخاب شده حذف شدند');
 

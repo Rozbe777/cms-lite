@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\Api\Content\Traits;
+namespace App\Http\Controllers\Admin\Content\Traits;
 
 
 use App\Models\Content;

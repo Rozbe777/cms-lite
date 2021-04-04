@@ -57,7 +57,7 @@ class TagController extends Controller
     public function multipleDestroy(multipleDestroyRequest $request)
     {
         if (isset($request->tagIds))
-            Tag::where('id',$request->input('tagIds'))->delete();
+            Tag::whereIn('id',$request->input('tagIds'))->delete();
 
         return redirect(route("admin.tag.index"))->with('info','برچسب های انتخاب شده حذف شدند');
 

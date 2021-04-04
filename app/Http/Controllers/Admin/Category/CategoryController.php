@@ -64,7 +64,7 @@ class CategoryController extends Controller
     public function multipleDestroy(multipleDestroyRequest $request)
     {
         if (isset($request->categoryIds))
-            Category::where('id',$request->input('categoryIds'))->delete();
+            Category::whereIn('id',$request->input('categoryIds'))->delete();
 
         return redirect(route("admin.category.index"))->with('info','دسته بندی های انتخاب شده حذف شدند');
 
