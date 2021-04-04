@@ -104,6 +104,7 @@ class UserController extends Controller
     }
 
     public function index(){
+
         return adminView("pages.admin.user.index");
 
     }

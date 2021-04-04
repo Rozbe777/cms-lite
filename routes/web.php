@@ -115,9 +115,9 @@ Route::group(['middleware' => 'user_permission'], function () {
             Route::get('/', [CategoryController::class, 'index'])->name('index');
             Route::get('/create', [CategoryController::class, 'create'])->name('create');
             Route::post('/store', [CategoryController::class, 'store'])->name('store');
-            Route::get('/{userId}/edit', [CategoryController::class, 'edit'])->name('edit');
-            Route::put('/{userId}/update', [CategoryController::class, 'update'])->name('update');
-            Route::get('/{userId}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
+            Route::get('/{categoryId}/edit', [CategoryController::class, 'edit'])->name('edit');
+            Route::put('/{categoryId}/update', [CategoryController::class, 'update'])->name('update');
+            Route::get('/{categoryId}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
             Route::get('/search', [CategoryController::class, 'search'])->name('search');
             Route::get('/destroys', [CategoryController::class, 'multipleDestroy'])->name('multipleDestroy');
 
@@ -129,9 +129,9 @@ Route::group(['middleware' => 'user_permission'], function () {
             Route::get('/', [TagController::class, 'index'])->name('index');
             Route::get('/create', [TagController::class, 'create'])->name('create');
             Route::post('/store', [TagController::class, 'store'])->name('store');
-            Route::get('/{userId}/edit', [TagController::class, 'edit'])->name('edit');
-            Route::put('/{userId}/update', [TagController::class, 'update'])->name('update');
-            Route::get('/{userId}/destroy', [TagController::class, 'destroy'])->name('destroy');
+            Route::get('/{tagId}/edit', [TagController::class, 'edit'])->name('edit');
+            Route::put('/{tagId}/update', [TagController::class, 'update'])->name('update');
+            Route::get('/{tagId}/destroy', [TagController::class, 'destroy'])->name('destroy');
             Route::get('/search', [TagController::class, 'search'])->name('search');
             Route::get('/destroys', [TagController::class, 'multipleDestroy'])->name('multipleDestroy');
 
@@ -143,9 +143,9 @@ Route::group(['middleware' => 'user_permission'], function () {
             Route::get('/', [ContentController::class, 'index'])->name('index');
             Route::get('/create', [ContentController::class, 'create'])->name('create');
             Route::post('/store', [ContentController::class, 'store'])->name('store');
-            Route::get('/{userId}/edit', [ContentController::class, 'edit'])->name('edit');
-            Route::put('/{userId}/update', [ContentController::class, 'update'])->name('update');
-            Route::get('/{userId}/destroy', [ContentController::class, 'destroy'])->name('destroy');
+            Route::get('/{contentId}/edit', [ContentController::class, 'edit'])->name('edit');
+            Route::put('/{contentId}/update', [ContentController::class, 'update'])->name('update');
+            Route::get('/{contentId}/destroy', [ContentController::class, 'destroy'])->name('destroy');
             Route::get('/search', [ContentController::class, 'search'])->name('search');
             Route::get('/destroys', [ContentController::class, 'multipleDestroy'])->name('multipleDestroy');
 

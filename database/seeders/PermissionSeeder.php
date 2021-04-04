@@ -4,8 +4,9 @@ namespace Database\Seeders;
 
 use App\Classes\Admin\Traits\PermissionCreator;
 use App\Models\Permission;
-use Cassandra\Schema;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class PermissionSeeder extends Seeder
 {
@@ -18,6 +19,8 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
+        $this->truncateEntrustTables();
+
         $permissions = [
 
             'admin.dashboard' => [
@@ -126,5 +129,17 @@ class PermissionSeeder extends Seeder
 
     }
 
+    public function truncateEntrustTables()
+    {
+        \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
+        DB::table('permission_role')->truncate();
+        DB::table('role_user')->truncate();
+        DB::table('users')->truncate();
+
+        \App\Models\Role::truncate();
+        Permission::truncate();
+
+        Schema::enableForeignKeyConstraints();
+    }
 
 }
