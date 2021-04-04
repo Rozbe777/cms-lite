@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin\User;
+namespace App\Http\Controllers\Api\Admin\User;
 
 use App\Exports\UserListExport;
-use App\Http\Controllers\Admin\User\Helper\UserSearchHelper;
-use App\Http\Controllers\Admin\User\Traits\EditUserTrait;
-use App\Http\Controllers\Auth\Traits\CreateUserTrait;
+use App\Http\Controllers\Api\Admin\User\Helper\UserSearchHelper;
+use App\Http\Controllers\Api\Admin\User\Traits\CreateUserTrait;
+use App\Http\Controllers\Api\Admin\User\Traits\EditUserTrait;
 use App\Http\Requests\Admin\User\multipleDestroyRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\CreateUserRequest;
@@ -104,10 +104,9 @@ class UserController extends Controller
     }
 
     public function index(){
-        $users=User::paginate(12);//TODO paginate can change
-//        return adminView("pages.admin.user.index")->with('users',$users);
-        return $users;
+        $users=User::all()->with('role')->paginate(12);//TODO paginate can change
 
+        return adminView("pages.admin.user.index")->with('users',$users);
 
     }
 
