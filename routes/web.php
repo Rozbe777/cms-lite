@@ -82,6 +82,7 @@ Route::group(['middleware' => 'user_permission'], function () {
 
             Route::get('/export', [UserController::class, 'export'])->name('export');
             Route::get('/', [UserController::class, 'index'])->name('index');
+            Route::get('/list', [UserController::class, 'userList'])->name('userList');
             Route::get('/create', [UserController::class, 'create'])->name('create');
             Route::post('/', [UserController::class, 'store'])->name('store');
             Route::get('/{userId}/edit', [UserController::class, 'edit'])->name('edit');
@@ -89,6 +90,8 @@ Route::group(['middleware' => 'user_permission'], function () {
             Route::get('/{userId}/destroy', [UserController::class, 'destroy'])->name('destroy');
             Route::get('/search', [UserController::class, 'search'])->name('search');
             Route::get('/destroys', [UserController::class, 'multipleDestroy'])->name('multipleDestroy');
+
+
         });
 
         Route::group(['as' => 'role.', 'prefix' => 'role', 'namespace' => 'Role', 'name' => 'role.'], function () {

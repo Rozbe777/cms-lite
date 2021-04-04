@@ -13,6 +13,8 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $user_roles=[];
+        $role_map_persian=[
+        ];
     }
 }
