@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
 //        $this->call(LaravelEntrustSeeder::class);
         $this->call(SettingSeeder::class);
         $this->call(PermissionSeeder::class);
+        $this->call(UserSeeder::class);
 
     }
 }
