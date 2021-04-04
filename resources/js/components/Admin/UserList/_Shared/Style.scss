@@ -1,0 +1,46 @@
+#header-card-custom
+{
+    border-radius:  5px 5px 0px 0px !important;
+    margin-bottom: 0px !important;
+    padding: 10px 0px 5px 0 !important;
+}
+#icon-delete-list{
+    padding: 0px !important;
+    float: left !important;
+    margin-left: -20px !important;
+    margin-top: 2px !important;
+}
+input::placeholder{
+    font-size: 13px !important;
+}
+#spinner-loading{
+    padding: 10px;
+    margin-right: 20px;
+}
+
+
+.pagination {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination div {
+    color: white;
+    float: left;
+    padding: 8px 16px;
+    display: block;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    cursor: pointer;
+
+}
+
+.pagination div.active {
+    background-color: #05aff1;
+}
+
+.pagination div:not(.active) {
+    background-color: #444444;
+}
