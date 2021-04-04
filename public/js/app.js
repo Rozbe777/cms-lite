@@ -2379,6 +2379,14 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2407,6 +2415,79 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function
       allUser = _useState2[0],
       setAllUser = _useState2[1];
 
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    userIds: []
+  }),
+      _useState4 = _slicedToArray(_useState3, 2),
+      userId = _useState4[0],
+      setUserId = _useState4[1];
+
+  jquery__WEBPACK_IMPORTED_MODULE_5___default()('.sweet-alert-delete-confirm').on('click', function (event) {
+    event.preventDefault();
+    var url = jquery__WEBPACK_IMPORTED_MODULE_5___default()(this).attr('href');
+    console.log("urlllll : ", url);
+    swal({
+      title: 'حذف کاربر',
+      text: "آیا مطمئنید؟",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'تایید',
+      confirmButtonClass: 'btn btn-primary',
+      cancelButtonClass: 'btn btn-danger ml-1',
+      cancelButtonText: 'انصراف',
+      buttonsStyling: false
+    }).then(function (result) {
+      if (result.value) {
+        Swal.fire({
+          type: "success",
+          title: 'حذف شد!',
+          text: 'کاربر مورد نظر حذف شد',
+          confirmButtonClass: 'btn btn-success',
+          confirmButtonText: 'باشه'
+        }); // window.location.href = url;
+      }
+    });
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_5___default()('.sweet-alert-multi-delete-confirm').on('click', function (event) {
+    event.preventDefault();
+    var url = jquery__WEBPACK_IMPORTED_MODULE_5___default()(this).attr('href');
+    console.log("urlllll : ", url);
+    swal({
+      title: 'حذف کاربر',
+      text: "آیا مطمئنید؟",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'تایید',
+      confirmButtonClass: 'btn btn-primary',
+      cancelButtonClass: 'btn btn-danger ml-1',
+      cancelButtonText: 'انصراف',
+      buttonsStyling: false
+    }).then(function (result) {
+      if (result.value) {
+        console.log("result value : ", userId); // document.getElementById("myForm").submit();
+
+        Swal.fire({
+          type: "success",
+          title: 'حذف شد!',
+          text: 'کاربر مورد نظر حذف شد',
+          confirmButtonClass: 'btn btn-success',
+          confirmButtonText: 'باشه'
+        });
+      }
+    });
+  });
+
+  toggle = function toggle(source) {
+    console.log("attr : ", source);
+    var checkboxes = document.getElementsByName('userIds[]');
+
+    for (var i = 0, n = checkboxes.length; i < n; i++) {
+      checkboxes[i].checked = source.checked;
+    }
+
+    console.log("checkeddddd : ", JSON.stringify(checkboxes));
+  };
+
   var token = jquery__WEBPACK_IMPORTED_MODULE_5___default()('meta[name=author]').attr('content');
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var GetAllUser = function GetAllUser() {
@@ -2417,9 +2498,49 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function
       });
     };
 
+    jquery__WEBPACK_IMPORTED_MODULE_5___default()("#checkOne").click(function () {
+      alert("vsdvs"); // let id = $(this).val();
+      // console.log("user id : " , id);
+    });
     GetAllUser();
   }, []);
   console.log("all user : ", allUser);
+
+  var Checked = function Checked(atrs, id) {
+    var checkedss = atrs.checked;
+    console.log("data : ", checkedss);
+
+    var userList = _toConsumableArray(userId.userIds);
+
+    userList.userIds.length > 0 ? userList.userIds[userList.userIds.length] = id : userList.userIds[0] = id;
+    console.log("userId : ", userList, "id : ", id);
+  };
+
+  var UnChecked = function UnChecked(id) {
+    var userList = _toConsumableArray(userId.userIds);
+
+    var index = userList.indexOf(id);
+
+    if (index !== -1) {
+      userList.splice(index, 1);
+      setUserId({
+        userIds: userList
+      });
+    }
+
+    console.log("userId : ", userId, " id : ", id);
+  }; //   check all
+  // $(".checkAll#checkAll").on("change", function () {
+  //     if ($(this).is(":checked"))
+  //     {
+  //         $(".checkAll#checkOne").prop("checked",true);
+  //     }else{
+  //         $(".checkAll#checkOne").prop("checked",false);
+  //     }
+  //     console.log("checked is : ", $(this).is(":checked"))
+  // })
+
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("form", {
     id: "myForm",
     children: [(0,_services_AdminService__WEBPACK_IMPORTED_MODULE_4__.GetAllUser)(), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
@@ -2553,6 +2674,7 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function
               },
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
                 className: "btn btn-icon rounded-circle btn-warning mr-1 mb-1 tui-full-calendar-dayname-leftmargin",
+                href: props.exportlink,
                 style: {
                   marginRight: '20px'
                 },
@@ -2592,8 +2714,9 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
                         style: {
                           padding: '0px'
-                        },
-                        onClick: "toggle(this)",
+                        } // onClick={toggle(this)}
+                        ,
+                        href: props.destroylink,
                         className: "dropdown-item sweet-alert-multi-delete-confirm",
                         id: "icon-delete-list",
                         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
@@ -2603,6 +2726,7 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function
                         className: "form-check",
                         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
                           type: "checkbox",
+                          id: "checkAll",
                           className: "form-check-input checkAll"
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
                           className: "form-check-label"
@@ -2626,16 +2750,18 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("tbody", {
                   children: allUser ? allUser.data.map(function (item) {
+                    var userIds = item.id;
                     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("tr", {
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("td", {
                         className: "dt-checkboxes-cell",
                         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
                           className: "form-check",
                           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+                            name: "userIds",
                             type: "checkbox",
+                            id: "checkOne",
                             className: "form-check-input checkAll",
-                            name: "userIds[]",
-                            value: "user id"
+                            value: item.id
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
                             className: "form-check-label"
                           })]
@@ -2663,7 +2789,7 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("td", {
                         children: item.phone
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("td", {
-                        children: "not res"
+                        children: item.userRole == "admin" ? "مدیر" : 'کاربر'
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("td", {
                         children: item.persianStatus == "فعال" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
                           className: "badge badge-pill badge-light-success",
@@ -2707,6 +2833,83 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function
                     children: "\u062F\u0631 \u062D\u0627\u0644 \u067E\u0631\u062F\u0627\u0632\u0634 ..."
                   })
                 })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                className: "col-md-12",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("nav", {
+                  "aria-label": "Page navigation",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("ul", {
+                    className: "pagination pagination-borderless justify-content-center mt-2",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
+                      className: "page-item previous",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+                        className: "page-link",
+                        href: "#",
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+                          className: "bx bx-chevron-right"
+                        })
+                      })
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
+                      className: "page-item",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+                        className: "page-link",
+                        href: "#",
+                        children: "1"
+                      })
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
+                      className: "page-item",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+                        className: "page-link",
+                        href: "#",
+                        children: "2"
+                      })
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
+                      className: "page-item",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+                        className: "page-link",
+                        href: "#",
+                        children: "3"
+                      })
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
+                      className: "page-item active",
+                      "aria-current": "page",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+                        className: "page-link",
+                        href: "#",
+                        children: "4"
+                      })
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
+                      className: "page-item",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+                        className: "page-link",
+                        href: "#",
+                        children: "5"
+                      })
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
+                      className: "page-item",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+                        className: "page-link",
+                        href: "#",
+                        children: "6"
+                      })
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
+                      className: "page-item",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+                        className: "page-link",
+                        href: "#",
+                        children: "7"
+                      })
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
+                      className: "page-item next",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+                        className: "page-link",
+                        href: "#",
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+                          className: "bx bx-chevron-left"
+                        })
+                      })
+                    })]
+                  })
+                })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
                 className: "d-flex justify-content-center"
               })]
