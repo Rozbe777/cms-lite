@@ -106,13 +106,15 @@ class UserController extends Controller
     public function index(){
         $users=User::paginate(12);//TODO paginate can change
         return adminView("pages.admin.user.index")->with('users',$users);
-
     }
 
     public function export(){
-        $users=User::all();
-        dispatch(new ExportUsersExcelJob($users));
-        return redirect(route('admin.user.index'));
+        $users=User::paginate(12);//TODO paginate can change
+
+        return $users;
+//        $users=User::all();
+//        dispatch(new ExportUsersExcelJob($users));
+//        return redirect(route('admin.user.index'));
     }
 
 

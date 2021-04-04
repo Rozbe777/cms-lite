@@ -18,3 +18,4 @@ require('./components/Profile/ChangePassword');
 require('./components/Setting/General');
 require('./components/Setting/JsAndCss');
 require('./components/User/CreateUser');
+require("./components/Admin/UserList");
