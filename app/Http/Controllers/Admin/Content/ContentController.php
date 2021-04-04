@@ -18,18 +18,25 @@ class ContentController extends Controller
 {
 
     use CreateContentTrait,EditContentTrait;
+    protected $owner='content';
     public function index()
     {
-        $content=Content::paginate(12);
+        return adminView("pages.admin.content.index");
 
-        return adminView("pages.admin.content.index")->with('content',$content);
+    }
+
+    public function list()
+    {
+        $content=Content::where('owner',$this->owner)->paginate(12);
+
+        return $content;
 
     }
 
     public function store(CreateContentRequest $request){
         $content=$this->createContent(
             [
-                'owner'=>$request->input('owner'),
+                'owner'=>$this->owner,
                 'title'=>$request->input('title'),
                 'slug'=>$request->input('slug'),
                 'content'=>$request->input('content'),
@@ -40,6 +47,8 @@ class ContentController extends Controller
                 'image'=>$request->input('image'),
                 'comment_status'=>$request->input('comment_status'),
                 'weight'=>$request->input('weight'),
+                'is_index'=>$request->input('is_index'),
+
             ]
         );
 
@@ -91,6 +100,7 @@ class ContentController extends Controller
             'comment_status'=>$request->input('comment_status'),
             'weight'=>$request->input('weight'),
             'content_id'=>$contentId,
+            'is_index'=>$request->input('is_index'),
 
 
         ]);

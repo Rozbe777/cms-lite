@@ -24,7 +24,7 @@ class multipleDestroyRequest extends FormRequest
     public function rules()
     {
         return [
-            'tagIds'=>'required'
+            'tagIds'=>'required|array'
         ];
     }
 }

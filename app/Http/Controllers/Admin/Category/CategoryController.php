@@ -17,9 +17,14 @@ class CategoryController extends Controller
     use EditCategoryTrait,CreateCategoryTrait;
     public function index()
     {
+        return adminView("pages.admin.category.index");
+
+    }
+
+    public function list()
+    {
         $categories=Category::paginate(12);
         return $categories;
-        return adminView("pages.admin.category.index")->with('categories',$categories);
 
     }
 
@@ -74,7 +79,6 @@ class CategoryController extends Controller
 
     public function update(EditCategoryRequest $request,$categoryId)
     {
-//|unique:categories,name&slug,'.$this->request->get("categoryId")//FIXME
         $category=$this->EditCategory([
             'name'=>$request->input('name'),
             'slug'=>$request->input('slug'),

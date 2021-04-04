@@ -27,6 +27,8 @@ class CreateContentsTable extends Migration
             $table->string('image')->nullable()->default(0);
             $table->enum('comment_status', ['active', 'deactivate'])->default('active');
             $table->bigInteger('weight')->default(0);
+            $table->boolean('is_index')->default(0);
+
             $table->softDeletes();
             $table->timestamps();
         });

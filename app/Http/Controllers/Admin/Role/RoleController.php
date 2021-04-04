@@ -13,8 +13,13 @@ class RoleController extends Controller
 {
     public function index()
     {
+        return adminView("pages.admin.role.index");
+    }
+
+    public function list()
+    {
         $roles = Role::paginate(12);
-        return adminView("pages.admin.role.index", compact("roles"));
+        return $roles;
     }
 
     public function create()

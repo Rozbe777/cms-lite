@@ -7,6 +7,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Morilog\Jalali\Jalalian;
 
+/**
+ * @property string owner
+ * @property string title
+ * @property string slug
+ * @property mixed content
+ * @property mixed fields
+ * @property string status
+ * @property integer user_id
+ * @property integer layout_id
+ * @property mixed image
+ * @property string comment_status
+ * @property integer weight
+ * @property boolean is_index
+ */
 class Content extends Model
 {
     use HasFactory;
@@ -23,7 +37,8 @@ class Content extends Model
         "view_count",
         "image",
         "comment_status",
-        "weight"
+        "weight",
+        "is_index"
     ];
 //    protected $appends = ['short_content', "real_url", "edit_url", "rate", "widget_delete_url", "text_content", 'category_name', 'jalali_created_at', 'active_comment', 'normal_fields'];
 

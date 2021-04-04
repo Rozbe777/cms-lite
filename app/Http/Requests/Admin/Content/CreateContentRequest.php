@@ -27,15 +27,15 @@ class CreateContentRequest extends FormRequest
             'owner' => 'in:page,content',
             'title' => 'required|string|max:255|unique:contents,title',
             'slug' => 'required|string|max:255|unique:contents,slug',
-            'content' => 'text',
-            'fields' => 'text',
+            'content' => '',
+            'fields' => '',
             'status' => 'in:active,pending,deactivate',
             'user_id' => 'integer|exists:users,id',
             'layout_id' => 'integer|exists:layouts,id',
             'image' => 'image',
             'comment_status' => 'in:active,deactivate',
             'weight' => 'integer',
-
+            'is_index'=>'boolean'
         ];
     }
 }

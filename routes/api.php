@@ -97,6 +97,7 @@ Route::group([], function () {
         Route::group(['as' => 'role.', 'prefix' => 'role', 'namespace' => 'Role', 'name' => 'role.'], function () {
 
             Route::get('/', [RoleController::class, 'index'])->name('index');
+            Route::get('/list', [RoleController::class, 'list'])->name('list');
             Route::get('/create', [RoleController::class, 'create'])->name('create');
             Route::post('/', [RoleController::class, 'store'])->name('store');
             Route::get('/{role}/edit', [RoleController::class, 'edit'])->name('edit');
@@ -113,8 +114,9 @@ Route::group([], function () {
         Route::group(['as' => 'category.', 'prefix' => 'category', 'namespace' => 'Category', 'name' => 'category.'], function () {
 
             Route::get('/', [CategoryController::class, 'index'])->name('index');
+            Route::get('/list', [CategoryController::class, 'list'])->name('list');
             Route::get('/create', [CategoryController::class, 'create'])->name('create');
-            Route::post('/store', [CategoryController::class, 'store'])->name('store');
+            Route::post('/', [CategoryController::class, 'store'])->name('store');
             Route::get('/{categoryId}/edit', [CategoryController::class, 'edit'])->name('edit');
             Route::put('/{categoryId}/update', [CategoryController::class, 'update'])->name('update');
             Route::get('/{categoryId}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
@@ -127,8 +129,9 @@ Route::group([], function () {
         Route::group(['as' => 'tag.', 'prefix' => 'tag', 'namespace' => 'Tag', 'name' => 'tag.'], function () {
 
             Route::get('/', [TagController::class, 'index'])->name('index');
+            Route::get('/list', [TagController::class, 'list'])->name('list');
             Route::get('/create', [TagController::class, 'create'])->name('create');
-            Route::post('/store', [TagController::class, 'store'])->name('store');
+            Route::post('/', [TagController::class, 'store'])->name('store');
             Route::get('/{tagId}/edit', [TagController::class, 'edit'])->name('edit');
             Route::put('/{tagId}/update', [TagController::class, 'update'])->name('update');
             Route::get('/{tagId}/destroy', [TagController::class, 'destroy'])->name('destroy');
@@ -141,8 +144,9 @@ Route::group([], function () {
         Route::group(['as' => 'content.', 'prefix' => 'content', 'namespace' => 'Content', 'name' => 'content.'], function () {
 
             Route::get('/', [ContentController::class, 'index'])->name('index');
+            Route::get('/list', [ContentController::class, 'list'])->name('list');
             Route::get('/create', [ContentController::class, 'create'])->name('create');
-            Route::post('/store', [ContentController::class, 'store'])->name('store');
+            Route::post('/', [ContentController::class, 'store'])->name('store');
             Route::get('/{contentId}/edit', [ContentController::class, 'edit'])->name('edit');
             Route::put('/{contentId}/update', [ContentController::class, 'update'])->name('update');
             Route::get('/{contentId}/destroy', [ContentController::class, 'destroy'])->name('destroy');

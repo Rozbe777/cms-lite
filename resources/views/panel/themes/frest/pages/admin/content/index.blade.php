@@ -1,5 +1,5 @@
 @extends("panel.themes.frest.layouts.dashboardLayout")
-@php($title = "دسته بندی")
+@php($title = "محتوا")
 @section("content")
 
 
