@@ -109,12 +109,9 @@ class UserController extends Controller
     }
 
     public function export(){
-        $users=User::paginate(12);//TODO paginate can change
-
-        return $users;
-//        $users=User::all();
-//        dispatch(new ExportUsersExcelJob($users));
-//        return redirect(route('admin.user.index'));
+        $users=User::all();
+        dispatch(new ExportUsersExcelJob($users));
+        return redirect(route('admin.user.index'));
     }
 
 
