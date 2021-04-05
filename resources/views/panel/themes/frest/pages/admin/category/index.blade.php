@@ -2,6 +2,32 @@
 @php($title = "دسته بندی")
 @section("content")
 
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-12 mb-2 mt-1">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h5 class="content-header-title float-left pr-1">لیست کاربران</h5>
+                        <div class="breadcrumb-wrapper">
+                            <ol class="breadcrumb p-0 mb-0">
+                                <li class="breadcrumb-item"><a href="index.html"><i class="bx bx-home-alt"></i></a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="#">اجزاء</a>
+                                </li>
+                                <li class="breadcrumb-item active">لیست کاربران</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="category_box"></div>
+
+
+    </div>
+
 
 
 @endsection
