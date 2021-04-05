@@ -1,9 +1,7 @@
-
 import {Request} from './../../../services/AdminService/Api'
 
 export const DeleteGroupt = (event , userIds) => {
     event.preventDefault();
-    console.log("ccccccc : " , userIds);
     let thisis = $(".sweet-alert-multi-delete-confirm");
     const url = thisis.attr('href');
     swal({
@@ -18,7 +16,6 @@ export const DeleteGroupt = (event , userIds) => {
         buttonsStyling: false,
     }).then(function (result) {
         if (result.value) {
-            console.log("xxxxxx : " ,userIds )
             Request.GroupDelUser(userIds)
                 .then(res => {
                     Swal.fire({
@@ -28,9 +25,10 @@ export const DeleteGroupt = (event , userIds) => {
                         confirmButtonClass: 'btn btn-success',
                         confirmButtonText: 'باشه',
                     })
+                    setTimeout(() => {
+                        window.location.pathname = "/admin/user";
+                    }, 700)
                 }).catch(error => console.log("error" , error))
-
-
         }
     });
 }

@@ -7,4 +7,5 @@ export const TIMEOUT = 60000;
 export const REQUEST_HEADER_TOKEN = {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
+    'Authentication' : ''
 }

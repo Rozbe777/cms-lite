@@ -105,7 +105,7 @@ class UserController extends Controller
     }
 
     public function userList(){
-        $users=User::paginate(7);//TODO paginate can change
+        $users=User::paginate(6);//TODO paginate can change
         return $users;
     }
 

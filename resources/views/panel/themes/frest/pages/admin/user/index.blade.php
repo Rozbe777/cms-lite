@@ -34,7 +34,7 @@
                     data-destroylink="{{route('admin.user.multipleDestroy')}}"
                      data-searchlink="{{route('admin.user.search')}}"
                      data-exportlink="{{route('admin.user.export')}}"
-
+                     data-token="{{csrf_token()}}"
                 >
 
                 </div>

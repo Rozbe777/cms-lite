@@ -8,6 +8,7 @@ import {DeleteGroupt} from './../_Shared/java';
 import $ from 'jquery';
 
 const UserList = memo((props) => {
+    const {token} = props;
     const [allUser, setAllUser] = useState([]);
     const [allUserSlice, setAllUserSlice] = useState();
     const [currentPage, setCurrentPage] = useState(1);
@@ -18,6 +19,7 @@ const UserList = memo((props) => {
     const [userId, setUserId] = useState({userIds: []});
     let userIdArr = [];
 
+    console.log("token  ssss : ",token);
 
     $('.sweet-alert-delete-confirm').on('click', function (event) {
         event.preventDefault();
@@ -50,10 +52,10 @@ const UserList = memo((props) => {
 
 
 
-    let token = $('meta[name=author]').attr('content');
-    let GetAllUser =  async (page) => {
+    // let token = $('meta[name=author]').attr('content');
+    let GetAllUser = (page) => {
         setLoading(true);
-        await Request.GetAllUser(page)
+        Request.GetAllUserApi(page)
             .then(res => {
                 setLoading(false)
                 setUserData(res.data);
@@ -61,7 +63,7 @@ const UserList = memo((props) => {
                 setTotal(res.data.total);
                 setAllUser(res.data.data);
             }).catch(err => {
-                return err
+            return err
             })
     }
 
@@ -110,6 +112,7 @@ const UserList = memo((props) => {
     }, [])
 
     userIdArr = userId.userIds;
+    console.log("user data : sssss", allUser);
     let selectHandler = (id) => {
         console.log("add new");
         let filtered = userIdArr.includes(id);
