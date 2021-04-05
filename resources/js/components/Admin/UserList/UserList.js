@@ -1,18 +1,20 @@
 import React, {memo, useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
 import './_Shared/Style.scss';
-import {Request} from "../../../services/AdminService/Api";
-import {GetAllUser} from '../../../services/AdminService';
-import ColumnsTable from './Micro/ColumnsTable'
-// import {paginate} from "./Micro/Paginate";
+import {Request} from "../../services/AdminService/Api";
+import {GetAllUser} from './../../services/AdminService';
+import {Pagination} from './_Micro/Pagination';
+import {UserColumns } from './_Micro/TableColumnsList'
 import $ from 'jquery';
 
 const UserList = memo((props) => {
     console.log("props : ", props)
-    const [allUser, setAllUser] = useState();
-    const [userId , setUserId] = useState({userIds : []});
-
-
+    const [allUser, setAllUser] = useState([]);
+    const [allUserSlice, setAllUserSlice] = useState();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [perPage] = useState(3);
+    const [userId, setUserId] = useState({userIds: []});
+    const [loading , setLoading] = useState(false);
 
 
     $('.sweet-alert-delete-confirm').on('click', function (event) {
@@ -31,7 +33,6 @@ const UserList = memo((props) => {
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-
                 Swal.fire({
                     type: "success",
                     title: 'حذف شد!',
@@ -61,7 +62,7 @@ const UserList = memo((props) => {
         }).then(function (result) {
             if (result.value) {
 
-                console.log("result value : " , userId)
+                console.log("result value : ", userId)
                 // document.getElementById("myForm").submit();
                 Swal.fire({
                     type: "success",
@@ -76,32 +77,31 @@ const UserList = memo((props) => {
     });
 
 
-
-
-     toggle = (source) => {
-        console.log("attr : " , source)
+    toggle = (source) => {
+        console.log("attr : ", source)
         let checkboxes = document.getElementsByName('userIds[]');
         for (var i = 0, n = checkboxes.length; i < n; i++) {
             checkboxes[i].checked = source.checked;
         }
-        console.log("checkeddddd : " , JSON.stringify(checkboxes));
+        console.log("checkeddddd : ", JSON.stringify(checkboxes));
     }
 
 
     let token = $('meta[name=author]').attr('content');
     useEffect(() => {
-        let GetAllUser = () => {
-            Request.GetAllUser()
+        let GetAllUser =  async () => {
+            setLoading(true);
+             await Request.GetAllUser()
                 .then(res => {
+                    setLoading(false)
                     setAllUser(res.data);
                 }).catch(err => {
-                return err
-            })
+                    return err
+                })
         }
 
 
-
-        $("#checkOne").click(function (){
+        $("#checkOne").click(function () {
             alert("vsdvs");
             // let id = $(this).val();
             // console.log("user id : " , id);
@@ -112,17 +112,15 @@ const UserList = memo((props) => {
 
     }, [])
 
-    console.log("all user : ", allUser);
-
-    let Checked = (atrs , id) => {
+    let Checked = (atrs, id) => {
         let checkedss = atrs.checked;
-        console.log("data : " , checkedss);
+        console.log("data : ", checkedss);
 
         let userList = [...userId.userIds];
 
         userList.userIds.length > 0 ? userList.userIds[userList.userIds.length] = id : userList.userIds[0] = id;
 
-        console.log("userId : " , userList , "id : " , id)
+        console.log("userId : ", userList, "id : ", id)
     }
     let UnChecked = (id) => {
         let userList = [...userId.userIds];
@@ -132,10 +130,8 @@ const UserList = memo((props) => {
             setUserId({userIds: userList});
         }
 
-        console.log("userId : " , userId , " id : " , id)
+        console.log("userId : ", userId, " id : ", id)
     }
-
-
 
 
     //   check all
@@ -151,19 +147,32 @@ const UserList = memo((props) => {
     // })
 
 
+    const indexOfLastUser = currentPage * perPage;
+    const indexOfFirstUser = indexOfLastUser - perPage;
+    const currentUsers =  allUser.slice(indexOfFirstUser , indexOfLastUser);
 
-    const paginateItem = [];
-    let paginate = (data) => {
-        let i;
-        for(i=1 ; i <= data.last_page ; i++)
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+
+        $("li.page-item").removeClass("active");
+        console.log("")
+        if (pageNumber == Math.ceil(allUser.length / perPage))
         {
-            paginateItem.push(i);
+            $("li.page-item.next").css("opacity" , 0.4);
+            $("li.page-item.previous").css("opacity" , 1);
+        }else if (pageNumber == 1){
+            $("li.page-item.next").css("opacity" , 1);
+            $("li.page-item.previous").css("opacity" , 0.4);
+        }else{
+            $("li.page-item.next").css("opacity" , 2);
+            $("li.page-item.previous").css("opacity" , 2);
         }
-    }
+        $("li#"+pageNumber).addClass("active");
+    };
+    // console.log("data slice : " , currentUsers);
 
     return (
         <form id="myForm">
-            {GetAllUser()}
             <div className="heading-layout1">
                 <div className="item-title" style={{display: "none"}}>
                     <h3>لیست کاربران</h3>
@@ -240,12 +249,6 @@ const UserList = memo((props) => {
                                     <tr>
                                         <th className="dt-checkboxes-cell dt-checkboxes-select-all sorting_disabled"
                                             rowSpan="1" colSpan="1" style={{width: '75px;'}} data-col="0" aria-label="">
-                                            <a style={{padding: '0px'}}
-                                               // onClick={toggle(this)}
-                                               href={props.destroylink}
-                                               className="dropdown-item sweet-alert-multi-delete-confirm"
-                                               id="icon-delete-list">
-                                                <i className="bx bx-trash mr-1"></i></a>
                                             <div className="form-check">
                                                 <input type="checkbox"
                                                        id={"checkAll"}
@@ -264,46 +267,12 @@ const UserList = memo((props) => {
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {allUser ? allUser.data.map(item => <ColumnsTable
-                                                name={item.name ? item.name : '' +" "+item.last_name ? item.last_name : ''}
-                                                itemId = {item.id}
-                                                email = {item.email}
-                                                phone = {item.phone}
-                                                persianStatus = {item.persianStatus}
-                                                userRole={item.userRole}
-                                                avatar = {item.avatar}
-                                            />) : (
-                                        <p id={'spinner-loading'}>در حال پردازش ...</p>
-                                    )}
-
+                                    <UserColumns loading={loading} data={currentUsers}/>
 
                                     </tbody>
                                 </table>
-                                {allUser ? paginate(allUser) : 'wait ...'}
                                 <div className="col-md-12">
-                                    <nav aria-label="Page navigation">
-                                        <ul className="pagination pagination-borderless justify-content-center mt-2">
-                                            <li className="page-item previous"><a className="page-link" href="#">
-                                                <i className="bx bx-chevron-right"></i>
-                                            </a></li>
-
-
-                                            {paginateItem.map(page => {
-                                                return (
-                                                    <li className="page-item"><a className="page-link" href={allUser ? allUser.links[page] : 'wait'}>{page}</a></li>
-
-                                                    )
-
-                                            })}
-
-
-                                            <li className="page-item next"><a className="page-link" href="#">
-                                                <i className="bx bx-chevron-left"></i>
-                                            </a></li>
-                                        </ul>
-                                    </nav>
-
-
+                                    <Pagination perPage={perPage} users={allUser.length} paginate={paginate} />
                                 </div>
                                 <div className="d-flex justify-content-center">
                                     {/*{!! $users->links('vendor.pagination.custom') !!}*/}
