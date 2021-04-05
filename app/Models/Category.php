@@ -9,11 +9,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string name
  * @property string slug
  * @property string image
- * @property mixed description
+ * @property mixed content
+ * @property mixed metadata
  * @property mixed fields
  * @property Integer parent_id
  * @property Integer layout_id
  * @property Integer module_id
+ * @property boolean is_menu
  * @property mixed|string status
  */
 class Category extends Model
@@ -26,12 +28,14 @@ class Category extends Model
         "name",
         "slug",
         "image",
-        "description",
+        "content",
         "fields",
         "parent_id",
         "layout_id",
         "module_id",
-        "status"
+        "status",
+        "is_menu",
+        "metadata"
     ];
     protected $appends = [
         "content_count",

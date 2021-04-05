@@ -21,8 +21,8 @@ trait EditCategoryTrait
         if (!empty($category['image']))
             $categoryModel->image = $category['image'];
 
-        if (!empty($category['description']))
-            $categoryModel->description = $category['description'];
+        if (!empty($category['content']))
+            $categoryModel->content = $category['content'];
 
         if (!empty($category['fields']))
             $categoryModel->fields = $category['fields'];
@@ -39,6 +39,8 @@ trait EditCategoryTrait
         if (!empty($category['status']))
             $categoryModel->status = $category['status'];
 
+        if (!empty($category['is_menu']))
+            $categoryModel->is_menu = $category['is_menu'];
 
         $categoryModel->save();
 

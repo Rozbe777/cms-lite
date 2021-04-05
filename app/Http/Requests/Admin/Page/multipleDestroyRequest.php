@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\User;
+namespace App\Http\Requests\Admin\Page;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,7 +24,8 @@ class multipleDestroyRequest extends FormRequest
     public function rules()
     {
         return [
-            'userIds'=>'required|array'
+            'pageIds'=>'required'
+
         ];
     }
 }

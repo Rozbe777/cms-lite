@@ -15,8 +15,7 @@ trait EditTagTrait
         if (!empty($tag['name']))
             $tagModel->name = $tag['name'];
 
-        if (!empty($tag['slug']))
-            $tagModel->slug = $tag['slug'];
+
 
 
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Category\CategoryController;
 use App\Http\Controllers\Admin\Content\ContentController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
+use App\Http\Controllers\Admin\Page\PageController;
 use App\Http\Controllers\Admin\Profile\ProfileController;
 use App\Http\Controllers\Admin\Role\RoleController;
 use App\Http\Controllers\Admin\Setting\SettingController;
@@ -89,7 +90,7 @@ Route::group([], function () {
             Route::put('/{userId}/update', [UserController::class, 'update'])->name('update');
             Route::get('/{userId}/destroy', [UserController::class, 'destroy'])->name('destroy');
             Route::get('/search', [UserController::class, 'search'])->name('search');
-            Route::get('/destroys', [UserController::class, 'multipleDestroy'])->name('multipleDestroy');
+            Route::post('/destroys', [UserController::class, 'multipleDestroy'])->name('multipleDestroy');
 
 
         });
@@ -152,6 +153,21 @@ Route::group([], function () {
             Route::get('/{contentId}/destroy', [ContentController::class, 'destroy'])->name('destroy');
             Route::get('/search', [ContentController::class, 'search'])->name('search');
             Route::get('/destroys', [ContentController::class, 'multipleDestroy'])->name('multipleDestroy');
+
+
+        });
+
+        Route::group(['as' => 'page.', 'prefix' => 'page', 'namespace' => 'Page', 'name' => 'page.'], function () {
+
+            Route::get('/', [PageController::class, 'index'])->name('index');
+            Route::get('/list', [PageController::class, 'list'])->name('list');
+            Route::get('/create', [PageController::class, 'create'])->name('create');
+            Route::post('/', [PageController::class, 'store'])->name('store');
+            Route::get('/{pageId}/edit', [PageController::class, 'edit'])->name('edit');
+            Route::put('/{contentId}/update', [PageController::class, 'update'])->name('update');
+            Route::get('/{pageId}/destroy', [PageController::class, 'destroy'])->name('destroy');
+            Route::get('/search', [PageController::class, 'search'])->name('search');
+            Route::get('/destroys', [PageController::class, 'multipleDestroy'])->name('multipleDestroy');
 
 
         });

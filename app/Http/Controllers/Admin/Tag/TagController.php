@@ -33,7 +33,6 @@ class TagController extends Controller
         $tag=$this->createTag(
             [
                 'name'=>$request->input('name'),
-                'slug'=>$request->input('slug'),
             ]
         );
 
@@ -75,7 +74,6 @@ class TagController extends Controller
     {
         $tag=$this->EditTag([
             'name'=>$request->input('name'),
-            'slug'=>$request->input('slug'),
             'tag_id'=>$tagId,
 
 

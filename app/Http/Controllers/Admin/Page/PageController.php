@@ -1,12 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Content;
+namespace App\Http\Controllers\Admin\Page;
 
-
-
-use App\Http\Controllers\Admin\Content\Traits\EditContentTrait;
-use App\Http\Controllers\Admin\Content\Traits\CreateContentTrait;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\Content\ContentController;
 use App\Http\Requests\Admin\Content\CreateContentRequest;
 use App\Http\Requests\Admin\Content\EditContentRequest;
 use App\Http\Requests\Admin\Content\multipleDestroyRequest;
@@ -14,21 +10,22 @@ use App\Http\Requests\Admin\Content\SearchContentRequest;
 use App\Models\Content;
 use App\Models\ContentTag;
 use App\Models\Tag;
-use Illuminate\Http\Request;
 
-class ContentController extends Controller
+
+class PageController extends ContentController
 {
+    protected $owner='page';
 
-    use CreateContentTrait,EditContentTrait;
-    protected $owner='content';
+
     public function index()
     {
-        return adminView("pages.admin.content.index");
+        return adminView("pages.admin.page.index");
 
     }
 
     public function list()
     {
+
         $content=Content::where('owner',$this->owner)->paginate(12);
 
         return $content;
@@ -36,7 +33,7 @@ class ContentController extends Controller
     }
 
     public function store(CreateContentRequest $request){
-        $content=$this->createContent(
+        $page=$this->createContent(
             [
                 'owner'=>$this->owner,
                 'title'=>$request->input('title'),
@@ -45,7 +42,7 @@ class ContentController extends Controller
                 'fields'=>$request->input('fields'),
                 'status'=>$request->input('status'),
                 'user_id'=>$request->input('user_id'),
-//                'layout_id'=>$request->input('layout_id'),//FIXME after insert layouts table
+                'layout_id'=>$request->input('layout_id'),
                 'image'=>$request->input('image'),
                 'comment_status'=>$request->input('comment_status'),
                 'weight'=>$request->input('weight'),
@@ -54,7 +51,6 @@ class ContentController extends Controller
 
             ]
         );
-
         if ($request->input('tag_list'))
             foreach ($request->input('tag_list') as $tagName){
                 $tag=Tag::firstOrCreate([
@@ -62,11 +58,11 @@ class ContentController extends Controller
                 ]);
                 ContentTag::firstOrCreate([
                     'tag_id'=>$tag->id,
-                    'content_id'=>$content->id,
+                    'content_id'=>$page->id,
                 ]);
             }
 
-        return redirect(route("admin.content.index"))->with("info", "ثبت محتوا با موفقیت انجام شد");
+        return redirect(route("admin.page.index"))->with("info", "ثبت صفحه با موفقیت انجام شد");
 
 
 
@@ -74,33 +70,34 @@ class ContentController extends Controller
 
     public function create()
     {
-        return adminView("pages.admin.content.create");
+        return adminView("pages.admin.page.create");
     }
 
-    public function edit($contentId)
+    public function edit($pageId)
     {
-        $content=Content::findOrFail($contentId);
-        return adminView("pages.admin.content.edit")->with("content",$content);
+        $page=Content::findOrFail($pageId);
+        return adminView("pages.admin.page.edit")->with("page",$page);
     }
 
     public function destroy($id)
     {
         Content::findOrFail($id)->delete();
-        return redirect(route("admin.content.index"))->with("info", "عملیات حذف محتوا موفقیت انجام شد");
+        return redirect(route("admin.page.index"))->with("info", "عملیات حذف صفحه موفقیت انجام شد");
     }
 
     public function multipleDestroy(multipleDestroyRequest $request)
     {
-        if (isset($request->contentIds))
-            Content::whereIn('id',$request->input('contentIds'))->delete();
+        if (isset($request->pageIds))
+            Content::whereIn('id',$request->input('pageIds'))->delete();
 
-        return redirect(route("admin.content.index"))->with('info','محتوا های انتخاب شده حذف شدند');
+        return redirect(route("admin.page.index"))->with('info','صفحه های انتخاب شده حذف شدند');
 
     }
 
     public function update(EditContentRequest $request, $contentId)
     {
-        $content=$this->EditContent([
+//|unique:contents,title&slug,'.$this->request->get("contentId")
+        $page=$this->EditContent([
             'owner'=>$this->owner,
             'title'=>$request->input('title'),
             'slug'=>$request->input('slug'),
@@ -108,7 +105,7 @@ class ContentController extends Controller
             'fields'=>$request->input('fields'),
             'status'=>$request->input('status'),
             'user_id'=>$request->input('user_id'),
-//            'layout_id'=>$request->input('layout_id'),//FIXME after insert layouts table
+            'layout_id'=>$request->input('layout_id'),
             'image'=>$request->input('image'),
             'comment_status'=>$request->input('comment_status'),
             'weight'=>$request->input('weight'),
@@ -131,19 +128,19 @@ class ContentController extends Controller
             }
 
 
-        return redirect(route("admin.content.edit",$contentId))->with("info", "عملیات ویرایش محتوا با موفقیت انجام شد");
+        return redirect(route("admin.page.edit",$contentId))->with("info", "عملیات ویرایش صفحه با موفقیت انجام شد");
 
 
     }
 
     public function search(SearchContentRequest $request){
         $searchHelper=new \ContentSearchHelper($request);
-        $contents=$searchHelper->searchContents();
-        $contents=$searchHelper->ownerContents($contents);
-        $contents=$searchHelper->commentStatusContents($contents);
-        $contents=$searchHelper->statusContents($contents);
+        $pages=$searchHelper->searchContents();
+        $pages=$searchHelper->ownerContents($pages);
+        $pages=$searchHelper->commentStatusContents($pages);
+        $pages=$searchHelper->statusContents($pages);
 
-        return adminView("pages.admin.content.index")->with('contents',$contents);
+        return adminView("pages.admin.page.index")->with('pages',$pages);
 
     }
 

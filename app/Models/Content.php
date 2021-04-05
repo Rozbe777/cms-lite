@@ -12,6 +12,7 @@ use Morilog\Jalali\Jalalian;
  * @property string title
  * @property string slug
  * @property mixed content
+ * @property mixed metadata
  * @property mixed fields
  * @property string status
  * @property integer user_id
@@ -20,7 +21,10 @@ use Morilog\Jalali\Jalalian;
  * @property string comment_status
  * @property integer weight
  * @property boolean is_index
+ * @property boolean is_menu
  */
+
+
 class Content extends Model
 {
     use HasFactory;
@@ -38,7 +42,9 @@ class Content extends Model
         "image",
         "comment_status",
         "weight",
-        "is_index"
+        "is_index",
+        "is_menu",
+        "metadata"
     ];
 //    protected $appends = ['short_content', "real_url", "edit_url", "rate", "widget_delete_url", "text_content", 'category_name', 'jalali_created_at', 'active_comment', 'normal_fields'];
 

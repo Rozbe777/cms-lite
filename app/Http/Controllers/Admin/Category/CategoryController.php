@@ -10,6 +10,8 @@ use App\Http\Requests\Admin\Category\EditCategoryRequest;
 use App\Http\Requests\Admin\Category\multipleDestroyRequest;
 use App\Http\Requests\Admin\Category\SearchCategoryRequest;
 use App\Models\Category;
+use App\Models\CategoryTag;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -28,21 +30,40 @@ class CategoryController extends Controller
 
     }
 
-    public function store(Request $request){
+    public function store(CreateCategoryRequest $request){
+
+
         $category=$this->createCategory(
             [
                 'name'=>$request->input('name'),
                 'slug'=>$request->input('slug'),
-                'image'=>$request->input('image'),
-                'description'=>$request->input('description'),
+                'image'=>$request->image,
+                'content'=>$request->input('content'),
                 'fields'=>$request->input('fields'),
                 'parent_id'=>$request->input('parent_id'),
                 'layout_id'=>$request->input('layout_id'),
                 'module_id'=>$request->input('module_id'),
                 'status'=>$request->input('status'),
+                'is_menu'=>$request->input('is_menu'),
 
             ]
         );
+
+
+        if ($request->input('tag_list'))
+            foreach ($request->input('tag_list') as $tagName){
+                $tag=Tag::firstOrCreate([
+                    'name'=>$tagName
+                ]);
+                CategoryTag::firstOrCreate([
+                    'tag_id'=>$tag->id,
+                    'category_id'=>$category->id,
+                ]);
+            }
+
+
+
+
         return redirect(route("admin.category.index"))->with("info", "ثبت دسته بندی با موفقیت انجام شد");
 
 
@@ -83,16 +104,29 @@ class CategoryController extends Controller
             'name'=>$request->input('name'),
             'slug'=>$request->input('slug'),
             'image'=>$request->input('image'),
-            'description'=>$request->input('description'),
+            'content'=>$request->input('content'),
             'fields'=>$request->input('fields'),
             'parent_id'=>$request->input('parent_id'),
             'layout_id'=>$request->input('layout_id'),
             'module_id'=>$request->input('module_id'),
             'status'=>$request->input('status'),
             'category_id'=>$categoryId,
+            'is_menu'=>$request->input('is_menu'),
+
 
 
         ]);
+
+        if ($request->input('tag_list'))
+            foreach ($request->input('tag_list') as $tagName){
+                $tag=Tag::firstOrCreate([
+                    'name'=>$tagName
+                ]);
+                CategoryTag::firstOrCreate([
+                    'tag_id'=>$tag->id,
+                    'category_id'=>$categoryId,
+                ]);
+            }
 
         return redirect(route("admin.category.edit",$categoryId))->with("info", "عملیات ویرایش دسته بندی با موفقیت انجام شد");
 

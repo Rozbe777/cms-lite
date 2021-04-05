@@ -17,8 +17,9 @@ class CreateContentsTable extends Migration
             $table->bigIncrements('id');
             $table->enum('owner', ["page", "content"])->default('content');
             $table->string('title', 255);
-            $table->string('slug', 255);
-            $table->longText('content');
+            $table->string('slug', 255)->unique();
+            $table->longText('content')->nullable();
+            $table->longText('metadata');
             $table->longText('fields')->nullable();
             $table->enum('status', ["active", "pending", "deactivate"])->default('active');
             $table->bigInteger('user_id')->unsigned()->default(1);
@@ -28,7 +29,7 @@ class CreateContentsTable extends Migration
             $table->enum('comment_status', ['active', 'deactivate'])->default('active');
             $table->bigInteger('weight')->default(0);
             $table->boolean('is_index')->default(0);
-
+            $table->integer('is_menu')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

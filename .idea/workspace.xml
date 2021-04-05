@@ -29,19 +29,47 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="">
+    <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="category &amp; tag crud">
+      <change afterPath="$PROJECT_DIR$/app/Helpers/FileManager/Drivers/File.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Helpers/FileManager/Drivers/Image.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Helpers/FileManager/FileManager.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Helpers/FileManager/FileManagerTrait.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Helpers/FileManager/Interfaces/IFileManager.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Page/CreatePageRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Page/EditPageRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Page/SearchPageRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Page/multipleDestroyRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/upload.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/page/create.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/page/edit.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/page/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/CategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/CreateCategoryTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/CreateCategoryTrait.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/EditCategoryTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/EditCategoryTrait.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/ContentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/ContentController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/CreateContentTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/CreateContentTrait.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/EditContentTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/EditContentTrait.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/TagController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/TagController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/Traits/CreateTagTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/Traits/CreateTagTrait.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/Traits/EditTagTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/Traits/EditTagTrait.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/CreateUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/CreateUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/entrust_seeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/entrust_seeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/LaravelEntrustSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/LaravelEntrustSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/CreateCategoryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/CreateCategoryRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/EditCategoryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/EditCategoryRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Content/CreateContentRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Content/CreateContentRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Content/EditContentRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Content/EditContentRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Tag/CreateTagRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Tag/CreateTagRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Tag/EditTagRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Tag/EditTagRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/multipleDestroyRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/multipleDestroyRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Category.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Content.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Content.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Tag.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Tag.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_14_105609_create_tags_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_14_105609_create_tags_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_14_105638_create_categories_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_14_105638_create_categories_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_14_111250_create_contents_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_14_111250_create_contents_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -203,7 +231,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jsx.switch.disabled" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/config" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -217,18 +245,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\wamp64\www\cms-lite\resources\lang" />
-      <recent name="C:\wamp64\www\cms-lite\app\Http\Controllers\Admin\Content\Traits" />
-      <recent name="C:\wamp64\www\cms-lite\app\Http\Controllers\Admin\Tag\Traits" />
-      <recent name="C:\wamp64\www\cms-lite\app\Http\Controllers\Admin\Category\Traits" />
-      <recent name="C:\wamp64\www\cms-lite\app\Http\Helper" />
+      <recent name="C:\wamp64\www\cms-lite\config" />
+      <recent name="C:\wamp64\www\cms-lite\app\Helpers" />
+      <recent name="C:\wamp64\www\cms-lite\app\Http\Requests\Admin" />
+      <recent name="C:\wamp64\www\cms-lite\resources\views\panel\themes\frest\pages\admin" />
+      <recent name="C:\wamp64\www\cms-lite\resources\views\panel\themes\frest\pages\admin\caegory" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\cms-lite\app\Http\Requests" />
       <recent name="C:\wamp64\www\cms-lite\app\Http\Controllers\Auth" />
       <recent name="C:\wamp64\www\cms-lite\app\Classes" />
       <recent name="C:\wamp64\www\cms-lite\tests\Seed" />
       <recent name="C:\wamp64\www\cms-lite\tests\Feature\Auth" />
-      <recent name="C:\wamp64\www\cms-lite\app\Http\Requests\Admin\User" />
     </key>
   </component>
   <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
@@ -279,7 +307,9 @@
       <workItem from="1617447678758" duration="360000" />
       <workItem from="1617448361800" duration="309000" />
       <workItem from="1617448768643" duration="5938000" />
-      <workItem from="1617454776001" duration="413000" />
+      <workItem from="1617454776001" duration="483000" />
+      <workItem from="1617514430242" duration="20943000" />
+      <workItem from="1617600107126" duration="16474000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>
@@ -288,7 +318,42 @@
       <option name="project" value="LOCAL" />
       <updated>1613892846962</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="permissions seeder changed (icon added)">
+      <created>1617526607483</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1617526607483</updated>
+    </task>
+    <task id="LOCAL-00003" summary="user list">
+      <created>1617528932685</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1617528932685</updated>
+    </task>
+    <task id="LOCAL-00004" summary="user list">
+      <created>1617529601799</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1617529601799</updated>
+    </task>
+    <task id="LOCAL-00005" summary="category testing">
+      <created>1617537363993</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1617537363993</updated>
+    </task>
+    <task id="LOCAL-00006" summary="category &amp; tag crud">
+      <created>1617542251804</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1617542251804</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -320,7 +385,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="change directory of Auth and admin.php" />
-    <option name="LAST_COMMIT_MESSAGE" value="change directory of Auth and admin.php" />
+    <MESSAGE value="permissions seeder changed (icon added)" />
+    <MESSAGE value="user list" />
+    <MESSAGE value="category testing" />
+    <MESSAGE value="category &amp; tag crud" />
+    <option name="LAST_COMMIT_MESSAGE" value="category &amp; tag crud" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1535" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1614599455850">
@@ -331,18 +400,18 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1886" y="21" key="#com.intellij.ide.util.MemberChooser/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1614425083465" />
-    <state x="1742" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1615806605064">
+    <state x="1742" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1617610463533">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1742" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615806605064" />
+    <state x="1742" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617610463533" />
     <state x="1811" y="87" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1615122579172">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1811" y="87" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615122579172" />
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1617451962967">
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1617624456299">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617451962967" />
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617624456299" />
     <state width="245" height="442" key="Diff.GoToChangePopup" timestamp="1617448843162">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
@@ -351,15 +420,15 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1498" y="0" width="1144" height="678" key="DiffContextDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617449058576" />
-    <state x="1904" y="146" key="FileChooserDialogImpl" timestamp="1617449070068">
+    <state x="1904" y="146" key="FileChooserDialogImpl" timestamp="1617616254565">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1904" y="146" key="FileChooserDialogImpl/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617449070068" />
+    <state x="1904" y="146" key="FileChooserDialogImpl/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617616254565" />
     <state x="580" y="185" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1614084999410" />
-    <state x="2006" y="93" key="NewPhpClassDialog" timestamp="1615801764273">
+    <state x="2006" y="93" key="NewPhpClassDialog" timestamp="1617529039471">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="2006" y="93" key="NewPhpClassDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615801764273" />
+    <state x="2006" y="93" key="NewPhpClassDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617529039471" />
     <state x="634" y="353" key="NewPhpFileDialog" timestamp="1614087820221">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -376,14 +445,18 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615125170773" />
+    <state x="1673" y="69" key="Vcs.Push.Dialog.v2" timestamp="1617542269095">
+      <screen x="1440" y="0" width="1280" height="678" />
+    </state>
+    <state x="1673" y="69" key="Vcs.Push.Dialog.v2/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617542269095" />
     <state x="1890" y="254" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1617445422832">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1890" y="254" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617445422832" />
-    <state x="1846" y="26" width="671" height="652" key="find.popup" timestamp="1617454751321">
+    <state x="1846" y="26" width="671" height="652" key="find.popup" timestamp="1617622002586">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1846" y="26" width="671" height="652" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617454751321" />
+    <state x="1846" y="26" width="671" height="652" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617622002586" />
     <state x="507" y="165" width="585" height="530" key="find.popup/0.0.1600.860@0.0.1600.860" timestamp="1614087541910" />
     <state x="1806" y="128" key="git4idea.merge.GitPullDialog" timestamp="1617448982131">
       <screen x="1440" y="0" width="1280" height="678" />
@@ -393,10 +466,10 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1804" y="115" key="refactoring.ChangeSignatureDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615018303599" />
-    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup" timestamp="1617454784292">
+    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup" timestamp="1617626285672">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617454784292" />
+    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617626285672" />
     <state x="463" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1614082055644" />
   </component>
   <component name="XDebuggerManager">

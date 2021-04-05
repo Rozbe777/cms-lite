@@ -9,8 +9,8 @@ class Tag extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["name", "slug"];
-    protected $appends = ["content_count",
+    protected $fillable = ["name"];
+    protected $appends = ["content_count","slug"
 //        "real_url"
     ];
 
@@ -24,7 +24,10 @@ class Tag extends Model
 //        return tag_url($this->attributes['slug']);
 //    }
 
-
+    public function getSlugAttribute()
+    {
+        return str_replace(' ','_',$this->name);
+    }
 
     public function getContentCountAttribute()
     {
