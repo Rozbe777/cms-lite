@@ -37,8 +37,8 @@ trait CreateContentTrait
         if (!empty($content['user_id']))
             $contentModel->user_id = $content['user_id'];
 
-        if (!empty($content['layout_id']))
-            $contentModel->layout_id = $content['layout_id'];
+//        if (!empty($content['layout_id']))
+//            $contentModel->layout_id = $content['layout_id']; //FIXME after insert layouts table
 
         if (!empty($content['image']))
             $contentModel->image = $content['image'];
@@ -49,6 +49,11 @@ trait CreateContentTrait
         if (!empty($content['weight']))
             $contentModel->weight = $content['weight'];
 
+        if (!empty($content['is_index']))
+            $contentModel->is_index = $content['is_index'];
+
+        if (!empty($content['is_menu']))
+            $contentModel->is_menu = $content['is_menu'];
 
 
 

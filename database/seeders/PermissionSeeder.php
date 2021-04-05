@@ -35,14 +35,14 @@ class PermissionSeeder extends Seeder
                 'icon' => 'flaticon-multiple-users-silhouette',
                 'display_name' => 'کاربران',
                 'description' => '(بخش مدیر)',
-                'access' => 'export,i,c,s,e,u,des,search,multides,userList',
+                'access' => 'export,i,c,s,e,u,des,search,multides,l',
                 'is_menu' => 'i,c',
                 'children' => [
                     'admin.role' => [
                         'icon' => 'flaticon-multiple-users-silhouette',
                         'display_name' => 'دسترسی',
                         'description' => '(بخش مدیر)',
-                        'access' => 'i,c,s,e,u,des',
+                        'access' => 'i,c,s,e,u,des,l',
                         'is_menu' => 'i',
                     ]
                 ]
@@ -64,19 +64,19 @@ class PermissionSeeder extends Seeder
             'admin.content' => [
                 'display_name' => 'محتوا',
                 'description' => 'نمایش و ویرایش محتوا',
-                'access' => 'i,c,s,e,u,des,search,multides',
+                'access' => 'i,c,s,e,u,des,search,multides,l',
                 'is_menu' => 'i,c',
                 'children' => [
                     'admin.category' => [
                         'display_name' => 'دسته بندی',
                         'description' => 'نمایش و ویرایش دسته بندی',
-                        'access' => 'i,c,s,e,u,des,search,multides',
+                        'access' => 'i,c,s,e,u,des,search,multides,l',
                         'is_menu' => 'i,c',
                     ],
                     'admin.tag' => [
                         'display_name' => 'برچسب',
                         'description' => 'نمایش و ویرایش برچسب',
-                        'access' => 'i,c,s,e,u,des,search,multides',
+                        'access' => 'i,c,s,e,u,des,search,multides,l',
                         'is_menu' => 'i,c',
                     ],
                 ]
@@ -105,12 +105,12 @@ class PermissionSeeder extends Seeder
             'sh' => 'show',
             'export' => 'export',
             'search' => 'search',
-            'userList'=>'userList'
+            'l'=>'list'
         ];
 
         $permissions_map_persian=[
             's' => 'ایجاد',
-            'i' => 'لیست',
+            'i' => 'فهرست',
             'c' => 'صفحه ایجاد',
             'u' => 'به روز رسانی',
             'e' => 'صفحه به روز رسانی',
@@ -121,6 +121,8 @@ class PermissionSeeder extends Seeder
             'sh' => 'نمایش',
             'export' => 'خروجی',
             'search' => 'جستجو',
+            'list' => 'لیست',
+
         ];
         $mapPermission=collect($permissions_map);
         $mapPermissionPersian=collect($permissions_map_persian);

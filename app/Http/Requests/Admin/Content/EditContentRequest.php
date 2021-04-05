@@ -24,17 +24,20 @@ class EditContentRequest extends FormRequest
     public function rules()
     {
         return [
-            'owner' => 'in:page,content',
-            'title' => 'string|max:255|unique:contents,title',
-            'slug' => 'string|max:255|unique:contents,slug',
-            'content' => 'text',
-            'fields' => 'text',
+            'title' => 'string|max:255',
+            'slug' => 'string|max:255|unique:contents,slug,'.$this->route('contentId'),
+            'content' => '',
+            'fields' => '',
             'status' => 'in:active,pending,deactivate',
             'user_id' => 'integer|exists:users,id',
-            'layout_id' => 'integer|exists:layouts,id',
+//            'layout_id' => 'integer|exists:layouts,id',//FIXME after insert layouts table
             'image' => 'image',
             'comment_status' => 'in:active,deactivate',
             'weight' => 'integer',
+            'is_index'=>'boolean',
+            'is_menu'=>'boolean',
+            'tag_list'=>'array',
+            'tag_list.*'=>'string',
         ];
     }
 }
