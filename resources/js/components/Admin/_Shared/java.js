@@ -1,6 +1,6 @@
 import {Request} from './../../../services/AdminService/Api'
 
-export const DeleteGroupt = (event , userIds) => {
+export const DeleteGroupt = (event, userIds) => {
     event.preventDefault();
     let thisis = $(".sweet-alert-multi-delete-confirm");
     const url = thisis.attr('href');
@@ -28,7 +28,15 @@ export const DeleteGroupt = (event , userIds) => {
                     setTimeout(() => {
                         window.location.pathname = "/admin/user";
                     }, 700)
-                }).catch(error => console.log("error" , error))
+                }).catch(error => console.log("error", error))
         }
     });
+}
+
+export const PopUpCreate = ({display}) => {
+    return (
+        <div className={"back-loader"}>
+        </div>
+    )
+
 }

@@ -5,7 +5,11 @@
     <div class="content-wrapper">
         <div class="content-header row">
             <div class="content-header-left col-12 mb-2 mt-1">
-                <div class="row breadcrumbs-top">
+                <div class="row breadcrumbs-top" style="position: relative">
+                    <button id="add-category" class="btn btn-success glow mr-1 mb-1" type="button" style="z-index:9;cursor : pointer;position:absolute;left: 0px">
+                        <i class="bx bx-plus"></i>
+                        <span class="align-middle ml-25">افزودن صفحه</span>
+                    </button>
                     <div class="col-12">
                         <h5 class="content-header-title float-left pr-1">لیست کاربران</h5>
                         <div class="breadcrumb-wrapper">
@@ -23,7 +27,7 @@
         </div>
 
 
-        <div id="category_box"></div>
+        <div id="category_box" style="margin-top: 15px"></div>
 
 
     </div>
@@ -33,5 +37,5 @@
 @endsection
 
 @section('pageScripts')
-
+    <script src="{{asset("/js/app.js")}}"></script>
 @endsection
