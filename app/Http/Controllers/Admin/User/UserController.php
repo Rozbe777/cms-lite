@@ -90,8 +90,6 @@ class UserController extends Controller
         }
 
         return redirect(route("admin.user.edit",$userId))->with("info", "عملیات ویرایش کاربر با موفقیت انجام شد");
-
-
     }
 
     public function search(SearchUserRequest $request){
@@ -100,19 +98,15 @@ class UserController extends Controller
         $users=$searchHelper->confirmedUsers($users);
         $users=$searchHelper->statusUsers($users);
         return adminView("pages.admin.user.index")->with('users',$users);
-
     }
 
     public function index(){
-
         return adminView("pages.admin.user.index");
-
     }
 
     public function userList(){
-        $users=User::paginate(12);//TODO paginate can change
+        $users=User::paginate(7);//TODO paginate can change
         return $users;
-
     }
 
     public function export(){

@@ -2373,22 +2373,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../../services/AdminService/Api */ "./resources/js/services/AdminService/Api.js");
 /* harmony import */ var _Micro_Pagination__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../_Micro/Pagination */ "./resources/js/components/Admin/_Micro/Pagination.js");
 /* harmony import */ var _Micro_TableColumnsList__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../_Micro/TableColumnsList */ "./resources/js/components/Admin/_Micro/TableColumnsList.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _Shared_java__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./../_Shared/java */ "./resources/js/components/Admin/_Shared/java.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
 
 
@@ -2417,9 +2410,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_1__.memo)(function (props) {
-  console.log("props : ", props);
 
+var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_1__.memo)(function (props) {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
       allUser = _useState2[0],
@@ -2450,22 +2442,22 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_1__.memo)(function
       total = _useState12[0],
       setTotal = _useState12[1];
 
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+      _useState14 = _slicedToArray(_useState13, 2),
+      loading = _useState14[0],
+      setLoading = _useState14[1];
+
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
     userIds: []
   }),
-      _useState14 = _slicedToArray(_useState13, 2),
-      userId = _useState14[0],
-      setUserId = _useState14[1];
-
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
       _useState16 = _slicedToArray(_useState15, 2),
-      loading = _useState16[0],
-      setLoading = _useState16[1];
+      userId = _useState16[0],
+      setUserId = _useState16[1];
 
-  jquery__WEBPACK_IMPORTED_MODULE_7___default()('.sweet-alert-delete-confirm').on('click', function (event) {
+  var userIdArr = [];
+  jquery__WEBPACK_IMPORTED_MODULE_8___default()('.sweet-alert-delete-confirm').on('click', function (event) {
     event.preventDefault();
-    var url = jquery__WEBPACK_IMPORTED_MODULE_7___default()(this).attr('href');
-    console.log("urlllll : ", url);
+    var url = jquery__WEBPACK_IMPORTED_MODULE_8___default()(this).attr('href');
     swal({
       title: 'حذف کاربر',
       text: "آیا مطمئنید؟",
@@ -2488,47 +2480,7 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_1__.memo)(function
       }
     });
   });
-  jquery__WEBPACK_IMPORTED_MODULE_7___default()('.sweet-alert-multi-delete-confirm').on('click', function (event) {
-    event.preventDefault();
-    var url = jquery__WEBPACK_IMPORTED_MODULE_7___default()(this).attr('href');
-    console.log("urlllll : ", url);
-    swal({
-      title: 'حذف کاربر',
-      text: "آیا مطمئنید؟",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'تایید',
-      confirmButtonClass: 'btn btn-primary',
-      cancelButtonClass: 'btn btn-danger ml-1',
-      cancelButtonText: 'انصراف',
-      buttonsStyling: false
-    }).then(function (result) {
-      if (result.value) {
-        console.log("result value : ", userId); // document.getElementById("myForm").submit();
-
-        Swal.fire({
-          type: "success",
-          title: 'حذف شد!',
-          text: 'کاربر مورد نظر حذف شد',
-          confirmButtonClass: 'btn btn-success',
-          confirmButtonText: 'باشه'
-        });
-      }
-    });
-  });
-
-  toggle = function toggle(source) {
-    console.log("attr : ", source);
-    var checkboxes = document.getElementsByName('userIds[]');
-
-    for (var i = 0, n = checkboxes.length; i < n; i++) {
-      checkboxes[i].checked = source.checked;
-    }
-
-    console.log("checkeddddd : ", JSON.stringify(checkboxes));
-  };
-
-  var token = jquery__WEBPACK_IMPORTED_MODULE_7___default()('meta[name=author]').attr('content');
+  var token = jquery__WEBPACK_IMPORTED_MODULE_8___default()('meta[name=author]').attr('content');
 
   var GetAllUser = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(page) {
@@ -2539,7 +2491,6 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_1__.memo)(function
               setLoading(true);
               _context.next = 3;
               return _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_4__.Request.GetAllUser(page).then(function (res) {
-                console.log("ressss :", res.data);
                 setLoading(false);
                 setUserData(res.data);
                 setPerPage(res.data.per_page);
@@ -2562,47 +2513,70 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_1__.memo)(function
     };
   }();
 
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
-    jquery__WEBPACK_IMPORTED_MODULE_7___default()("#checkOne").click(function () {
-      alert("vsdvs"); // let id = $(this).val();
-      // console.log("user id : " , id);
+  var userEmpty = [];
+  jquery__WEBPACK_IMPORTED_MODULE_8___default()(function () {
+    jquery__WEBPACK_IMPORTED_MODULE_8___default()("#checkAll").change(function () {
+      var status = jquery__WEBPACK_IMPORTED_MODULE_8___default()(this).prop("checked");
+
+      if (status) {
+        setUserId({
+          userIds: userIdArr
+        });
+      } else {
+        setUserId({
+          userIds: []
+        });
+      }
+
+      jquery__WEBPACK_IMPORTED_MODULE_8___default()(".checkItem").prop("checked", jquery__WEBPACK_IMPORTED_MODULE_8___default()(this).prop("checked"));
     });
-    GetAllUser(1);
-  }, []);
+    jquery__WEBPACK_IMPORTED_MODULE_8___default()(".checkItem").change(function () {
+      if (jquery__WEBPACK_IMPORTED_MODULE_8___default()(this).prop("checked") == "false") {
+        jquery__WEBPACK_IMPORTED_MODULE_8___default()("#checkAll").prop("checked", false);
+      }
 
-  var Checked = function Checked(atrs, id) {
-    var checkedss = atrs.checked;
-    console.log("data : ", checkedss);
-
-    var userList = _toConsumableArray(userId.userIds);
-
-    userList.userIds.length > 0 ? userList.userIds[userList.userIds.length] = id : userList.userIds[0] = id;
-  };
-
-  var UnChecked = function UnChecked(id) {
-    var userList = _toConsumableArray(userId.userIds);
-
-    var index = userList.indexOf(id);
-
-    if (index !== -1) {
-      userList.splice(index, 1);
-      setUserId({
-        userIds: userList
-      });
+      if (jquery__WEBPACK_IMPORTED_MODULE_8___default()(".checkItem:checked").length == jquery__WEBPACK_IMPORTED_MODULE_8___default()(".checkItem").length) {
+        jquery__WEBPACK_IMPORTED_MODULE_8___default()("#checkAll").prop("checked", true);
+      }
+    });
+  });
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+    if (userId.userIds.length > 0) {
+      jquery__WEBPACK_IMPORTED_MODULE_8___default()("#edit-boxes").fadeIn(0);
+    } else {
+      jquery__WEBPACK_IMPORTED_MODULE_8___default()("#edit-boxes").fadeOut(0);
     }
 
-    console.log("userId : ", userId, " id : ", id);
-  }; //   check all
-  // $(".checkAll#checkAll").on("change", function () {
-  //     if ($(this).is(":checked"))
-  //     {
-  //         $(".checkAll#checkOne").prop("checked",true);
-  //     }else{
-  //         $(".checkAll#checkOne").prop("checked",false);
-  //     }
-  //     console.log("checked is : ", $(this).is(":checked"))
-  // })
+    GetAllUser(1);
+  }, []);
+  userIdArr = userId.userIds;
 
+  var selectHandler = function selectHandler(id) {
+    console.log("add new");
+    var filtered = userIdArr.includes(id);
+
+    if (filtered) {
+      var index = userIdArr.indexOf(id);
+
+      if (index !== -1) {
+        userIdArr.splice(index, 1);
+        userIds.userIds = userIdArr;
+      }
+    } else {
+      userIdArr[userIdArr.length] = id;
+
+      var UserIds = _objectSpread({}, userId);
+
+      UserIds.userIds = userIdArr;
+    }
+  };
+
+  var addAll = function addAll(data) {
+    userIdArr = [];
+    data.map(function (col) {
+      userIdArr[userIdArr.length] = col.id;
+    });
+  };
 
   var indexOfLastUser = currentPage * perPage;
   var indexOfFirstUser = indexOfLastUser - perPage;
@@ -2610,220 +2584,246 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_1__.memo)(function
 
   var paginate = function paginate(pageNumber) {
     GetAllUser(pageNumber);
-    jquery__WEBPACK_IMPORTED_MODULE_7___default()("li.page-item").removeClass("active");
+    jquery__WEBPACK_IMPORTED_MODULE_8___default()("li.page-item").removeClass("active");
 
-    if (pageNumber == Math.ceil(allUser.length / perPage)) {
-      jquery__WEBPACK_IMPORTED_MODULE_7___default()("li.page-item.next").css("opacity", 0.4);
-      jquery__WEBPACK_IMPORTED_MODULE_7___default()("li.page-item.previous").css("opacity", 1);
+    if (pageNumber == Math.ceil(total / perPage)) {
+      jquery__WEBPACK_IMPORTED_MODULE_8___default()("li.page-item.next").css("opacity", 0.4);
+      jquery__WEBPACK_IMPORTED_MODULE_8___default()("li.page-item.previous").css("opacity", 1);
     } else if (pageNumber == 1) {
-      jquery__WEBPACK_IMPORTED_MODULE_7___default()("li.page-item.next").css("opacity", 1);
-      jquery__WEBPACK_IMPORTED_MODULE_7___default()("li.page-item.previous").css("opacity", 0.4);
+      jquery__WEBPACK_IMPORTED_MODULE_8___default()("li.page-item.next").css("opacity", 1);
+      jquery__WEBPACK_IMPORTED_MODULE_8___default()("li.page-item.previous").css("opacity", 0.4);
     } else {
-      jquery__WEBPACK_IMPORTED_MODULE_7___default()("li.page-item.next").css("opacity", 2);
-      jquery__WEBPACK_IMPORTED_MODULE_7___default()("li.page-item.previous").css("opacity", 2);
+      jquery__WEBPACK_IMPORTED_MODULE_8___default()("li.page-item.next").css("opacity", 2);
+      jquery__WEBPACK_IMPORTED_MODULE_8___default()("li.page-item.previous").css("opacity", 2);
     }
 
-    jquery__WEBPACK_IMPORTED_MODULE_7___default()("li#" + pageNumber).addClass("active");
-  }; // console.log("data slice : " , currentUsers);
+    jquery__WEBPACK_IMPORTED_MODULE_8___default()("li#" + pageNumber).addClass("active");
+  };
 
-
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("form", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("form", {
     id: "myForm",
-    children: [console.log("user all : ", allUser), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
       className: "heading-layout1",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
         className: "item-title",
         style: {
           display: "none"
         },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h3", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("h3", {
           children: "\u0644\u06CC\u0633\u062A \u06A9\u0627\u0631\u0628\u0631\u0627\u0646"
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
         className: "dropdown",
         style: {
           display: "none"
         },
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("a", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
           className: "dropdown-toggle",
           role: "button",
           "data-toggle": "dropdown",
           "aria-expanded": "false",
           children: "\u0645\u062F\u06CC\u0631\u06CC\u062A"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "dropdown-menu dropdown-menu-right",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("a", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("a", {
             className: "dropdown-item sweet-alert-multi-delete-confirm",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("i", {
               className: "bx bx-trash mr-1"
             }), " \u062D\u0630\u0641"]
           })
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
       className: "users-list-table",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("form", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("form", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "users-list-filter px-1",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
             className: "row border rounded py-2 mb-2",
             id: "header-card-custom",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
               className: "col-12 col-sm-6 col-lg-3",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                 htmlFor: "users-list-verified",
                 children: "\u062C\u0633\u062A\u062C\u0648"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
                 type: "text",
                 className: "form-control",
                 placeholder: "\u062C\u0633\u062A\u062C\u0648 \u0628\u0627 \u0627\u06CC\u0645\u06CC\u0644 \u0648 \u062A\u0644\u0641\u0646 ...",
                 name: "search"
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
               className: "col-12 col-sm-6 col-lg-2",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                 htmlFor: "users-list-verified",
                 children: "\u062A\u0627\u06CC\u06CC\u062F \u0634\u062F\u0647"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("fieldset", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("fieldset", {
                 className: "form-group",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("select", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("select", {
                   className: "form-control",
                   id: "users-list-verified",
                   name: "confirmed",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("option", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("option", {
                     children: "\u0647\u0645\u0647"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("option", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("option", {
                     value: "1",
                     children: "\u0628\u0644\u0647"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("option", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("option", {
                     value: "0",
                     children: "\u062E\u06CC\u0631"
                   })]
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
               className: "col-12 col-sm-6 col-lg-2",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                 htmlFor: "users-list-role",
                 children: "\u0646\u0642\u0634"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("fieldset", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("fieldset", {
                 className: "form-group",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("select", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("select", {
                   className: "form-control",
                   id: "users-list-role",
                   name: "role",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("option", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("option", {
                     children: "\u0647\u0645\u0647"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("option", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("option", {
                     children: "\u0645\u062F\u06CC\u0631"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("option", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("option", {
                     children: "\u06A9\u0627\u0631\u0628\u0631"
                   })]
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
               className: "col-12 col-sm-6 col-lg-2",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                 htmlFor: "users-list-status",
                 children: "\u0648\u0636\u0639\u06CC\u062A"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("fieldset", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("fieldset", {
                 className: "form-group",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("select", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("select", {
                   className: "form-control",
                   id: "users-list-status",
                   name: "status",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("option", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("option", {
                     children: "\u0647\u0645\u0647"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("option", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("option", {
                     value: "active",
                     children: "\u0641\u0639\u0627\u0644"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("option", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("option", {
                     value: "deactivate",
                     children: "\u063A\u06CC\u0631 \u0641\u0639\u0627\u0644"
                   })]
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
               className: "col-6 col-sm-3 col-lg-1 ",
               style: {
                 marginBlockStart: 'auto'
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("button", {
                 type: "submit",
                 className: "btn btn-primary mr-1 mb-1",
                 children: "\u062C\u0633\u062A\u062C\u0648"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
               className: "col-6 col-sm-3 col-lg-1 ",
               style: {
                 marginBlockStart: 'auto'
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("a", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
                 className: "btn btn-icon rounded-circle btn-warning mr-1 mb-1 tui-full-calendar-dayname-leftmargin",
                 href: props.exportlink,
                 style: {
                   marginRight: '20px'
                 },
                 title: "\u062E\u0631\u0648\u062C\u06CC \u0627\u06A9\u0633\u0644",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("i", {
                   className: "bx bx-archive"
                 })
               })
             })]
           })
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
         className: "card",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "card-content",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
             className: "card-body",
             style: {
               padding: '0px'
             },
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
               className: "table-responsive",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("table", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("table", {
                 id: "users-list-datatable",
                 className: "table",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("thead", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("tr", {
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("thead", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("tr", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("th", {
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
                         className: "form-check",
-                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+                          id: "edit-boxes",
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("a", {
+                            className: "dropdown-item",
+                            onClick: function onClick(e) {
+                              return (0,_Shared_java__WEBPACK_IMPORTED_MODULE_7__.DeleteGroupt)(e, userId);
+                            },
+                            style: {
+                              cursor: 'pointer'
+                            },
+                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("i", {
+                              style: {
+                                "float": 'right'
+                              },
+                              className: "bx bx-trash mr-1"
+                            }), " \u062D\u0630\u0641 \u06AF\u0631\u0648\u0647\u06CC"]
+                          })
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
                           type: "checkbox",
                           id: "checkAll",
-                          className: "form-check-input checkAll"
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("label", {
+                          onClick: function onClick() {
+                            return allUser ? addAll(allUser) : '';
+                          },
+                          className: "form-check-input "
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                           className: "form-check-label"
                         })]
                       })
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("th", {
                       children: "ID"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("th", {
                       children: "\u06A9\u0627\u0631\u0628\u0631"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("th", {
                       children: "\u0627\u06CC\u0645\u06CC\u0644"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("th", {
                       children: "\u0634\u0645\u0627\u0631\u0647 \u0645\u0648\u0628\u0627\u06CC\u0644"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("th", {
                       children: "\u0646\u0642\u0634"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("th", {
                       children: "\u0648\u0636\u0639\u06CC\u062A"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("th", {
                       children: "\u0639\u0645\u0644\u06CC\u0627\u062A"
                     })]
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("tbody", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Micro_TableColumnsList__WEBPACK_IMPORTED_MODULE_6__.UserColumns, {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("tbody", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Micro_TableColumnsList__WEBPACK_IMPORTED_MODULE_6__.UserColumns, {
+                    oldUserId: userId.userIds,
                     loading: loading,
-                    data: currentUsers
+                    data: currentUsers,
+                    userid: function userid(item) {
+                      selectHandler(item);
+                    },
+                    pushPopFade: function pushPopFade(stat) {
+                      return stat ? jquery__WEBPACK_IMPORTED_MODULE_8___default()("#edit-boxes").fadeIn(0) : jquery__WEBPACK_IMPORTED_MODULE_8___default()("#edit-boxes").fadeOut(0);
+                    }
                   })
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                 className: "col-md-12",
-                children: [console.log("userData : ", userData), userData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Micro_Pagination__WEBPACK_IMPORTED_MODULE_5__.Pagination, {
+                children: userData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Micro_Pagination__WEBPACK_IMPORTED_MODULE_5__.Pagination, {
                   firstPageUrl: userData.first_page_url,
                   lastPageUrl: userData.last_page_url,
                   currentPage: userData.cuerrent_page,
@@ -2831,8 +2831,8 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_1__.memo)(function
                   users: allUser,
                   total: total,
                   paginate: paginate
-                }) : 'wait']
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                }) : 'wait'
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                 className: "d-flex justify-content-center"
               })]
             })
@@ -2848,7 +2848,7 @@ var element = document.getElementById(elementId);
 
 if (element) {
   var props = Object.assign({}, element.dataset);
-  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(UserList, _objectSpread({}, props)), element);
+  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(UserList, _objectSpread({}, props)), element);
 }
 
 /***/ }),
@@ -2878,7 +2878,6 @@ var Pagination = function Pagination(_ref) {
       total = _ref.total,
       paginate = _ref.paginate;
   var pageNumbers = [];
-  console.log("usersssssss : ", users);
 
   for (var i = 1; i <= Math.ceil(total / perPage); i++) {
     pageNumbers.push(i);
@@ -2887,7 +2886,7 @@ var Pagination = function Pagination(_ref) {
   var handleNextPage = function handleNextPage() {
     var id = $("li.page-item.active").attr("id");
 
-    if (id == Math.ceil(users / perPage)) {} else {
+    if (id == Math.ceil(total / perPage)) {} else {
       var num = parseInt(id) + 1;
       paginate(num);
     }
@@ -2967,80 +2966,121 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "UserColumns": () => (/* binding */ UserColumns)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
 var UserColumns = function UserColumns(_ref) {
   var loading = _ref.loading,
-      data = _ref.data;
-  console.log("loading", data);
+      pushPopFade = _ref.popFade,
+      data = _ref.data,
+      oldUserId = _ref.oldUserId,
+      pushUserId = _ref.userid;
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {}, []);
+  jquery__WEBPACK_IMPORTED_MODULE_1___default()(function () {
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()(".checkItem").change(function () {
+      if (oldUserId.length == 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#checkAll").prop("checked", false);
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#checkAll").prop("checked", true);
+      }
+
+      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()(this).prop("checked") && oldUserId.length > 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#edit-boxes").fadeIn(0);
+      } else if (!jquery__WEBPACK_IMPORTED_MODULE_1___default()(this).prop("checked") && oldUserId.length > 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#edit-boxes").fadeIn(0);
+      } else if (!jquery__WEBPACK_IMPORTED_MODULE_1___default()(this).prop("checked") && oldUserId.length == 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#edit-boxes").fadeOut(0);
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#checkAll").prop("checked", false);
+      } else {}
+    });
+  });
+
+  if (oldUserId.length > 0) {
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()("#edit-boxes").fadeIn(0);
+  } else {
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()("#edit-boxes").fadeOut(0);
+  }
+
+  var handleCheckBox = function handleCheckBox(id) {
+    if (oldUserId.length > 0) {
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#edit-boxes").fadeIn();
+    } else {
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#edit-boxes").fadeOut();
+    }
+
+    pushUserId(id);
+  };
 
   if (loading) {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
       id: 'spinner-loading',
       children: "\u062F\u0631 \u062D\u0627\u0644 \u067E\u0631\u062F\u0627\u0632\u0634 ..."
     });
   }
 
   return data.map(function (item) {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("tr", {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
         className: "dt-checkboxes-cell",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "form-check",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-            name: "userIds",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
             type: "checkbox",
-            id: "checkOne",
-            className: "form-check-input checkAll",
-            value: item.id
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+            onChange: function onChange(e) {
+              return handleCheckBox(item.id);
+            },
+            value: item.id,
+            className: "form-check-input checkItem"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
             className: "form-check-label"
           })]
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
         children: item.id
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "d-flex align-items-center my-n50",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
             className: "rounded-circle",
             src: item.avatar ? item.avatar : '/images/avatar.jpg',
             alt: "avatar",
             height: "32",
             width: "32"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
             className: "ml-1 line-height-2",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
               children: item.name ? item.name : '' + " " + item.last_name ? item.last_name : 0
             })
           })]
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
         children: item.email
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
         children: item.phone
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
         children: item.userRole == "admin" ? "مدیر" : 'کاربر'
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
-        children: item.persianStatus == "فعال" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+        children: item.persianStatus == "فعال" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
           className: "badge badge-pill badge-light-success",
           children: "\u0641\u0639\u0627\u0644"
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
           className: "badge badge-pill badge-light-danger",
           children: "\u063A\u06CC\u0631\u0641\u0639\u0627\u0644"
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "dropup",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
             className: "bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer",
             "data-toggle": "dropdown",
             "aria-haspopup": "false",
             "aria-expanded": "false",
             role: "menu"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
             className: "dropdown-menu ",
             "x-placement": "bottom-start",
             style: {
@@ -3050,10 +3090,10 @@ var UserColumns = function UserColumns(_ref) {
               left: '0px',
               transform: 'translate3d(28px, 23px, 0px)'
             },
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("a", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("a", {
               className: "dropdown-item",
               href: "/admin/user/" + item.id + "/edit",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                 className: "bx bx-edit-alt mr-1"
               }), " \u0648\u06CC\u0631\u0627\u06CC\u0634"]
             })
@@ -3061,6 +3101,54 @@ var UserColumns = function UserColumns(_ref) {
         })
       })]
     });
+  });
+};
+
+/***/ }),
+
+/***/ "./resources/js/components/Admin/_Shared/java.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/Admin/_Shared/java.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DeleteGroupt": () => (/* binding */ DeleteGroupt)
+/* harmony export */ });
+/* harmony import */ var _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../../services/AdminService/Api */ "./resources/js/services/AdminService/Api.js");
+
+var DeleteGroupt = function DeleteGroupt(event, userIds) {
+  event.preventDefault();
+  console.log("ccccccc : ", userIds);
+  var thisis = $(".sweet-alert-multi-delete-confirm");
+  var url = thisis.attr('href');
+  swal({
+    title: 'حذف کاربر',
+    text: "آیا مطمئنید؟",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'تایید',
+    confirmButtonClass: 'btn btn-primary',
+    cancelButtonClass: 'btn btn-danger ml-1',
+    cancelButtonText: 'انصراف',
+    buttonsStyling: false
+  }).then(function (result) {
+    if (result.value) {
+      console.log("xxxxxx : ", userIds);
+      _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_0__.Request.GroupDelUser(userIds).then(function (res) {
+        Swal.fire({
+          type: "success",
+          title: 'حذف شد!',
+          text: 'کاربر مورد نظر حذف شد',
+          confirmButtonClass: 'btn btn-success',
+          confirmButtonText: 'باشه'
+        });
+      })["catch"](function (error) {
+        return console.log("error", error);
+      });
+    }
   });
 };
 
@@ -5241,6 +5329,9 @@ __webpack_require__.r(__webpack_exports__);
 var Request = {
   GetAllUser: function GetAllUser(page) {
     return _Request__WEBPACK_IMPORTED_MODULE_0__.request.get("/admin/user/list?page=" + page);
+  },
+  GroupDelUser: function GroupDelUser(userIds) {
+    return _Request__WEBPACK_IMPORTED_MODULE_0__.request.get("/admin/user/destroys", userIds);
   }
 };
 
@@ -5320,7 +5411,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "#header-card-custom {\n  border-radius: 5px 5px 0px 0px !important;\n  margin-bottom: 0px !important;\n  padding: 10px 0px 5px 0 !important;\n}\n\n#icon-delete-list {\n  padding: 0px !important;\n  float: left !important;\n  margin-left: -20px !important;\n  margin-top: 2px !important;\n}\n\n.page-item {\n  cursor: pointer !important;\n}\n\ninput::-moz-placeholder {\n  font-size: 13px !important;\n}\n\ninput:-ms-input-placeholder {\n  font-size: 13px !important;\n}\n\ninput::placeholder {\n  font-size: 13px !important;\n}\n\n#spinner-loading {\n  padding: 10px;\n  margin-right: 20px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "#header-card-custom {\n  border-radius: 5px 5px 0px 0px !important;\n  margin-bottom: 0px !important;\n  padding: 10px 0px 5px 0 !important;\n}\n\n#icon-delete-list {\n  padding: 0px !important;\n  float: left !important;\n  margin-left: -20px !important;\n  margin-top: 2px !important;\n}\n\n.page-item {\n  cursor: pointer !important;\n}\n\ninput::-moz-placeholder {\n  font-size: 13px !important;\n}\n\ninput:-ms-input-placeholder {\n  font-size: 13px !important;\n}\n\ninput::placeholder {\n  font-size: 13px !important;\n}\n\n#spinner-loading {\n  padding: 10px;\n  margin-right: 20px;\n}\n\n#edit-boxes {\n  width: 200px;\n  position: absolute;\n  right: 30px;\n  display: none;\n  top: 3px;\n  z-index: 99;\n  background: #fff;\n  padding: 5px;\n  box-shadow: 8px 0px 20px 5px rgba(0, 0, 0, 0.1);\n  border-radius: 5px;\n}\n#edit-boxes::after {\n  position: absolute;\n  content: \"\";\n  -webkit-clip-path: polygon(100% 0, 0 0, 0 100%);\n          clip-path: polygon(100% 0, 0 0, 0 100%);\n  width: 15px;\n  height: 15px;\n  top: 7px;\n  right: -13px;\n  background: #fff;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

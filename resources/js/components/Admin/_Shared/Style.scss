@@ -20,3 +20,25 @@ input::placeholder{
     padding: 10px;
     margin-right: 20px;
 }
+#edit-boxes{
+    width: 200px;
+    position: absolute;
+    right: 30px;
+    display: none;
+    top: 3px;
+    z-index: 99;
+    background: #fff;
+    padding: 5px;
+    box-shadow: 8px 0px 20px 5px rgb(0 0 0 / 10%);
+    border-radius: 5px;
+    &::after{
+        position: absolute;
+        content: '';
+        clip-path: polygon(100% 0, 0 0, 0 100%);
+        width: 15px;
+        height: 15px;
+        top: 7px;
+        right: -13px;
+        background: #fff;
+    }
+}

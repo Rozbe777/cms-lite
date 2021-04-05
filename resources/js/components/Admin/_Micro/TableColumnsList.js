@@ -1,20 +1,65 @@
-import React from 'react';
-export const UserColumns = ({loading, data }) => {
+import React, {useEffect} from 'react';
+import $ from 'jquery';
 
-    console.log("loading", data)
+export const UserColumns = ({loading, popFade: pushPopFade, data, oldUserId, userid: pushUserId}) => {
+
+
+    useEffect(() => {
+    }, [])
+
+
+    $(function () {
+        $(".checkItem").change(function () {
+            if (oldUserId.length == 0){
+                $("#checkAll").prop("checked", false);
+            }else{
+                $("#checkAll").prop("checked", true);
+            }
+            if ($(this).prop("checked") && oldUserId.length > 0) {
+                $("#edit-boxes").fadeIn(0);
+            } else if (!$(this).prop("checked") && oldUserId.length > 0) {
+                $("#edit-boxes").fadeIn(0);
+            } else if (!$(this).prop("checked") && oldUserId.length == 0) {
+                $("#edit-boxes").fadeOut(0);
+                $("#checkAll").prop("checked" , false);
+            } else {
+
+            }
+        })
+    })
+
+
+    if (oldUserId.length > 0) {
+        $("#edit-boxes").fadeIn(0);
+    } else {
+        $("#edit-boxes").fadeOut(0);
+    }
+
+
+    let handleCheckBox = (id) => {
+        if (oldUserId.length > 0) {
+            $("#edit-boxes").fadeIn();
+        } else {
+            $("#edit-boxes").fadeOut();
+        }
+        pushUserId(id)
+    }
+
     if (loading) {
         return <p id={'spinner-loading'}>در حال پردازش ...</p>
     }
+
     return data.map(item => (
         <tr>
             <td className="dt-checkboxes-cell">
-                <div className="form-check">
-                    <input name={"userIds"} type="checkbox" id={"checkOne"}
-                           className="form-check-input checkAll"
-                           value={item.id}/>
-                    {/*onChange={$(this).is(":checked") ? setUserId({...userId , userIds}) : ''} name="userIds[]" value="user id"/>*/}
+                <div className={"form-check"}>
+                    <input type="checkbox"
+                           onChange={e => handleCheckBox(item.id)}
+                           value={item.id}
+                           className="form-check-input checkItem"/>
                     <label className="form-check-label"></label>
                 </div>
+
             </td>
             <td>{item.id}</td>
             <td>

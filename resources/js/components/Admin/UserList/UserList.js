@@ -4,24 +4,24 @@ import './../_Shared/Style.scss';
 import {Request} from "./../../../services/AdminService/Api";
 import {Pagination} from './../_Micro/Pagination';
 import {UserColumns} from './../_Micro/TableColumnsList'
+import {DeleteGroupt} from './../_Shared/java';
 import $ from 'jquery';
 
 const UserList = memo((props) => {
-    console.log("props : ", props)
     const [allUser, setAllUser] = useState([]);
     const [allUserSlice, setAllUserSlice] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const [perPage, setPerPage] = useState(3);
     const [userData, setUserData] = useState({});
     const [total, setTotal] = useState();
-    const [userId, setUserId] = useState({userIds: []});
     const [loading, setLoading] = useState(false);
+    const [userId, setUserId] = useState({userIds: []});
+    let userIdArr = [];
 
 
     $('.sweet-alert-delete-confirm').on('click', function (event) {
         event.preventDefault();
         const url = $(this).attr('href');
-        console.log("urlllll : ", url);
         swal({
             title: 'حذف کاربر',
             text: "آیا مطمئنید؟",
@@ -46,46 +46,8 @@ const UserList = memo((props) => {
             }
         });
     });
-    $('.sweet-alert-multi-delete-confirm').on('click', function (event) {
-        event.preventDefault();
-        const url = $(this).attr('href');
-        console.log("urlllll : ", url);
-        swal({
-            title: 'حذف کاربر',
-            text: "آیا مطمئنید؟",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'تایید',
-            confirmButtonClass: 'btn btn-primary',
-            cancelButtonClass: 'btn btn-danger ml-1',
-            cancelButtonText: 'انصراف',
-            buttonsStyling: false,
-        }).then(function (result) {
-            if (result.value) {
-
-                console.log("result value : ", userId)
-                // document.getElementById("myForm").submit();
-                Swal.fire({
-                    type: "success",
-                    title: 'حذف شد!',
-                    text: 'کاربر مورد نظر حذف شد',
-                    confirmButtonClass: 'btn btn-success',
-                    confirmButtonText: 'باشه',
-                });
-
-            }
-        });
-    });
 
 
-    toggle = (source) => {
-        console.log("attr : ", source)
-        let checkboxes = document.getElementsByName('userIds[]');
-        for (var i = 0, n = checkboxes.length; i < n; i++) {
-            checkboxes[i].checked = source.checked;
-        }
-        console.log("checkeddddd : ", JSON.stringify(checkboxes));
-    }
 
 
     let token = $('meta[name=author]').attr('content');
@@ -93,7 +55,6 @@ const UserList = memo((props) => {
         setLoading(true);
         await Request.GetAllUser(page)
             .then(res => {
-                console.log("ressss :", res.data);
                 setLoading(false)
                 setUserData(res.data);
                 setPerPage(res.data.per_page);
@@ -103,81 +64,97 @@ const UserList = memo((props) => {
                 return err
             })
     }
+
+
+    let userEmpty = [];
+    $(function () {
+
+
+        $("#checkAll").change(function () {
+            let status = $(this).prop("checked");
+            if (status) {
+                setUserId({
+                    userIds: userIdArr
+                })
+            } else {
+
+                setUserId({
+                    userIds: []
+                })
+            }
+
+            $(".checkItem").prop("checked", $(this).prop("checked"));
+
+        })
+
+        $(".checkItem").change(function () {
+            if ($(this).prop("checked") == "false") {
+                $("#checkAll").prop("checked", false);
+            }
+            if ($(".checkItem:checked").length == $(".checkItem").length) {
+                $("#checkAll").prop("checked", true)
+            }
+        })
+    })
+
     useEffect(() => {
 
 
-
-        $("#checkOne").click(function () {
-            alert("vsdvs");
-            // let id = $(this).val();
-            // console.log("user id : " , id);
-        })
-
-
+        if (userId.userIds.length > 0) {
+            $("#edit-boxes").fadeIn(0);
+        } else {
+            $("#edit-boxes").fadeOut(0);
+        }
         GetAllUser(1);
 
     }, [])
 
-    let Checked = (atrs, id) => {
-        let checkedss = atrs.checked;
-        console.log("data : ", checkedss);
-
-        let userList = [...userId.userIds];
-
-        userList.userIds.length > 0 ? userList.userIds[userList.userIds.length] = id : userList.userIds[0] = id;
-
-    }
-
-
-    let UnChecked = (id) => {
-        let userList = [...userId.userIds];
-        var index = userList.indexOf(id)
-        if (index !== -1) {
-            userList.splice(index, 1);
-            setUserId({userIds: userList});
+    userIdArr = userId.userIds;
+    let selectHandler = (id) => {
+        console.log("add new");
+        let filtered = userIdArr.includes(id);
+        if (filtered) {
+            var index = userIdArr.indexOf(id)
+            if (index !== -1) {
+                userIdArr.splice(index, 1);
+                userIds.userIds = userIdArr;
+            }
+        } else {
+            userIdArr[userIdArr.length] = id;
+            let UserIds = {...userId};
+            UserIds.userIds = userIdArr;
         }
-
-        console.log("userId : ", userId, " id : ", id)
     }
 
-
-    //   check all
-
-    // $(".checkAll#checkAll").on("change", function () {
-    //     if ($(this).is(":checked"))
-    //     {
-    //         $(".checkAll#checkOne").prop("checked",true);
-    //     }else{
-    //         $(".checkAll#checkOne").prop("checked",false);
-    //     }
-    //     console.log("checked is : ", $(this).is(":checked"))
-    // })
+    const addAll = (data) => {
+        userIdArr = [];
+        data.map(col => {
+            userIdArr[userIdArr.length] = col.id
+        })
+    }
 
     const indexOfLastUser = currentPage * perPage;
     const indexOfFirstUser = indexOfLastUser - perPage;
-    const currentUsers =  allUser.slice(indexOfFirstUser , indexOfLastUser);
-
+    const currentUsers = allUser.slice(indexOfFirstUser, indexOfLastUser);
     const paginate = (pageNumber) => {
         GetAllUser(pageNumber);
         $("li.page-item").removeClass("active");
-        if (pageNumber == Math.ceil(allUser.length / perPage))
-        {
-            $("li.page-item.next").css("opacity" , 0.4);
-            $("li.page-item.previous").css("opacity" , 1);
-        }else if (pageNumber == 1){
-            $("li.page-item.next").css("opacity" , 1);
-            $("li.page-item.previous").css("opacity" , 0.4);
-        }else{
-            $("li.page-item.next").css("opacity" , 2);
-            $("li.page-item.previous").css("opacity" , 2);
+        if (pageNumber == Math.ceil(total / perPage)) {
+            $("li.page-item.next").css("opacity", 0.4);
+            $("li.page-item.previous").css("opacity", 1);
+        } else if (pageNumber == 1) {
+            $("li.page-item.next").css("opacity", 1);
+            $("li.page-item.previous").css("opacity", 0.4);
+        } else {
+            $("li.page-item.next").css("opacity", 2);
+            $("li.page-item.previous").css("opacity", 2);
         }
-        $("li#"+pageNumber).addClass("active");
+        $("li#" + pageNumber).addClass("active");
     };
-    // console.log("data slice : " , currentUsers);
+
 
     return (
         <form id="myForm">
-            {console.log("user all : ", allUser)}
             <div className="heading-layout1">
                 <div className="item-title" style={{display: "none"}}>
                     <h3>لیست کاربران</h3>
@@ -253,12 +230,24 @@ const UserList = memo((props) => {
                                     <thead>
                                     <tr>
                                         <th>
-                                            <div className="form-check">
+
+
+                                            <div className={"form-check"}>
+
+                                                <div id={"edit-boxes"}>
+                                                    <a className="dropdown-item" onClick={e => DeleteGroupt(e , userId)}
+                                                       style={{cursor: 'pointer'}}>
+                                                        <i style={{float: 'right'}}
+                                                           className="bx bx-trash mr-1"></i> حذف گروهی</a>
+                                                </div>
+
                                                 <input type="checkbox"
                                                        id={"checkAll"}
-                                                       className="form-check-input checkAll"/>
+                                                       onClick={() => allUser ? addAll(allUser) : ''}
+                                                       className="form-check-input "/>
                                                 <label className="form-check-label"></label>
                                             </div>
+
                                         </th>
                                         <th>ID</th>
                                         <th>کاربر</th>
@@ -271,12 +260,18 @@ const UserList = memo((props) => {
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <UserColumns loading={loading} data={currentUsers}/>
+                                    <UserColumns oldUserId={userId.userIds} loading={loading}
+                                                 data={currentUsers}
+                                                 userid={item => {
+                                                     selectHandler(item)
+                                                 }}
+                                                 pushPopFade={stat => stat ? $("#edit-boxes").fadeIn(0) : $("#edit-boxes").fadeOut(0)}
+
+                                    />
 
                                     </tbody>
                                 </table>
                                 <div className="col-md-12">
-                                    {console.log("userData : " , userData)}
                                     {userData ? (
                                         <Pagination
                                             firstPageUrl={userData.first_page_url}

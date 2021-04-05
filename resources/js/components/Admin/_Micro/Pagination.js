@@ -11,7 +11,6 @@ export const Pagination = ({
                            }) => {
 
     const pageNumbers = [];
-    console.log("usersssssss : ", users);
     for (let i = 1; i <= Math.ceil(total / perPage); i++) {
         pageNumbers.push(i)
     }
@@ -19,7 +18,7 @@ export const Pagination = ({
     const handleNextPage = () => {
 
         let id = $("li.page-item.active").attr("id");
-        if (id == Math.ceil(users / perPage)) {
+        if (id == Math.ceil(total / perPage)) {
 
         } else {
             let num = parseInt(id) + 1;
