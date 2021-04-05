@@ -29,48 +29,9 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="category &amp; tag crud">
-      <change afterPath="$PROJECT_DIR$/app/Helpers/FileManager/Drivers/File.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Helpers/FileManager/Drivers/Image.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Helpers/FileManager/FileManager.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Helpers/FileManager/FileManagerTrait.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Helpers/FileManager/Interfaces/IFileManager.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Page/CreatePageRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Page/EditPageRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Page/SearchPageRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Page/multipleDestroyRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/upload.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/page/create.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/page/edit.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/page/index.blade.php" afterDir="false" />
+    <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="category &amp; tag &amp; content &amp; page crud">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/CategoryController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/CreateCategoryTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/CreateCategoryTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/EditCategoryTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/EditCategoryTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/ContentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/ContentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/CreateContentTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/CreateContentTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/EditContentTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/EditContentTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/TagController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/TagController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/Traits/CreateTagTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/Traits/CreateTagTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/Traits/EditTagTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Tag/Traits/EditTagTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/CreateCategoryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/CreateCategoryRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/EditCategoryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/EditCategoryRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Content/CreateContentRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Content/CreateContentRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Content/EditContentRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Content/EditContentRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Tag/CreateTagRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Tag/CreateTagRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Tag/EditTagRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Tag/EditTagRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/multipleDestroyRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/multipleDestroyRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Category.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Content.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Content.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Tag.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Tag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_14_105609_create_tags_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_14_105609_create_tags_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_14_105638_create_categories_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_14_105638_create_categories_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_14_111250_create_contents_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_14_111250_create_contents_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -309,7 +270,7 @@
       <workItem from="1617448768643" duration="5938000" />
       <workItem from="1617454776001" duration="483000" />
       <workItem from="1617514430242" duration="20943000" />
-      <workItem from="1617600107126" duration="16474000" />
+      <workItem from="1617600107126" duration="16728000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>
@@ -353,7 +314,14 @@
       <option name="project" value="LOCAL" />
       <updated>1617542251804</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="category &amp; tag &amp; content &amp; page crud">
+      <created>1617627344112</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1617627344113</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -389,7 +357,8 @@
     <MESSAGE value="user list" />
     <MESSAGE value="category testing" />
     <MESSAGE value="category &amp; tag crud" />
-    <option name="LAST_COMMIT_MESSAGE" value="category &amp; tag crud" />
+    <MESSAGE value="category &amp; tag &amp; content &amp; page crud" />
+    <option name="LAST_COMMIT_MESSAGE" value="category &amp; tag &amp; content &amp; page crud" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1535" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1614599455850">
@@ -445,10 +414,10 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615125170773" />
-    <state x="1673" y="69" key="Vcs.Push.Dialog.v2" timestamp="1617542269095">
+    <state x="1673" y="69" key="Vcs.Push.Dialog.v2" timestamp="1617627365658">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1673" y="69" key="Vcs.Push.Dialog.v2/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617542269095" />
+    <state x="1673" y="69" key="Vcs.Push.Dialog.v2/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617627365658" />
     <state x="1890" y="254" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1617445422832">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
