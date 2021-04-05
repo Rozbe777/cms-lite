@@ -20,7 +20,6 @@ const UserList = memo((props) => {
     let userIdArr = [];
 
     console.log("token  ssss : ",token);
-
     $('.sweet-alert-delete-confirm').on('click', function (event) {
         event.preventDefault();
         const url = $(this).attr('href');
