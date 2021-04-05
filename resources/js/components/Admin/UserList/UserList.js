@@ -1,10 +1,9 @@
 import React, {memo, useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
-import './_Shared/Style.scss';
-import {Request} from "../../services/AdminService/Api";
-import {GetAllUser} from './../../services/AdminService';
-import {Pagination} from './_Micro/Pagination';
-import {UserColumns } from './_Micro/TableColumnsList'
+import './../_Shared/Style.scss';
+import {Request} from "./../../../services/AdminService/Api";
+import {Pagination} from './../_Micro/Pagination';
+import {UserColumns} from './../_Micro/TableColumnsList'
 import $ from 'jquery';
 
 const UserList = memo((props) => {
@@ -12,9 +11,11 @@ const UserList = memo((props) => {
     const [allUser, setAllUser] = useState([]);
     const [allUserSlice, setAllUserSlice] = useState();
     const [currentPage, setCurrentPage] = useState(1);
-    const [perPage] = useState(3);
+    const [perPage, setPerPage] = useState(3);
+    const [userData, setUserData] = useState({});
+    const [total, setTotal] = useState();
     const [userId, setUserId] = useState({userIds: []});
-    const [loading , setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
 
     $('.sweet-alert-delete-confirm').on('click', function (event) {
@@ -88,17 +89,22 @@ const UserList = memo((props) => {
 
 
     let token = $('meta[name=author]').attr('content');
+    let GetAllUser =  async (page) => {
+        setLoading(true);
+        await Request.GetAllUser(page)
+            .then(res => {
+                console.log("ressss :", res.data);
+                setLoading(false)
+                setUserData(res.data);
+                setPerPage(res.data.per_page);
+                setTotal(res.data.total);
+                setAllUser(res.data.data);
+            }).catch(err => {
+                return err
+            })
+    }
     useEffect(() => {
-        let GetAllUser =  async () => {
-            setLoading(true);
-             await Request.GetAllUser()
-                .then(res => {
-                    setLoading(false)
-                    setAllUser(res.data);
-                }).catch(err => {
-                    return err
-                })
-        }
+
 
 
         $("#checkOne").click(function () {
@@ -108,7 +114,7 @@ const UserList = memo((props) => {
         })
 
 
-        GetAllUser();
+        GetAllUser(1);
 
     }, [])
 
@@ -120,8 +126,9 @@ const UserList = memo((props) => {
 
         userList.userIds.length > 0 ? userList.userIds[userList.userIds.length] = id : userList.userIds[0] = id;
 
-        console.log("userId : ", userList, "id : ", id)
     }
+
+
     let UnChecked = (id) => {
         let userList = [...userId.userIds];
         var index = userList.indexOf(id)
@@ -146,16 +153,13 @@ const UserList = memo((props) => {
     //     console.log("checked is : ", $(this).is(":checked"))
     // })
 
-
     const indexOfLastUser = currentPage * perPage;
     const indexOfFirstUser = indexOfLastUser - perPage;
     const currentUsers =  allUser.slice(indexOfFirstUser , indexOfLastUser);
 
     const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber);
-
+        GetAllUser(pageNumber);
         $("li.page-item").removeClass("active");
-        console.log("")
         if (pageNumber == Math.ceil(allUser.length / perPage))
         {
             $("li.page-item.next").css("opacity" , 0.4);
@@ -173,6 +177,7 @@ const UserList = memo((props) => {
 
     return (
         <form id="myForm">
+            {console.log("user all : ", allUser)}
             <div className="heading-layout1">
                 <div className="item-title" style={{display: "none"}}>
                     <h3>لیست کاربران</h3>
@@ -247,8 +252,7 @@ const UserList = memo((props) => {
                                 <table id="users-list-datatable" className="table">
                                     <thead>
                                     <tr>
-                                        <th className="dt-checkboxes-cell dt-checkboxes-select-all sorting_disabled"
-                                            rowSpan="1" colSpan="1" style={{width: '75px;'}} data-col="0" aria-label="">
+                                        <th>
                                             <div className="form-check">
                                                 <input type="checkbox"
                                                        id={"checkAll"}
@@ -272,7 +276,19 @@ const UserList = memo((props) => {
                                     </tbody>
                                 </table>
                                 <div className="col-md-12">
-                                    <Pagination perPage={perPage} users={allUser.length} paginate={paginate} />
+                                    {console.log("userData : " , userData)}
+                                    {userData ? (
+                                        <Pagination
+                                            firstPageUrl={userData.first_page_url}
+                                            lastPageUrl={userData.last_page_url}
+                                            currentPage={userData.cuerrent_page}
+                                            perPage={perPage}
+                                            users={allUser}
+                                            total = {total}
+                                            paginate={paginate}
+                                        />
+                                    ) : 'wait'}
+
                                 </div>
                                 <div className="d-flex justify-content-center">
                                     {/*{!! $users->links('vendor.pagination.custom') !!}*/}

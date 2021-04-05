@@ -1,20 +1,28 @@
 import React from "react";
 
-export const Pagination = ({perPage, users, paginate}) => {
+export const Pagination = ({
+                               firstPageUrl
+                               , lastPageUrl
+                               , currentPage
+                               , perPage
+                               , users
+                               , total
+                               , paginate
+                           }) => {
 
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(users / perPage); i++) {
+    console.log("usersssssss : ", users);
+    for (let i = 1; i <= Math.ceil(total / perPage); i++) {
         pageNumbers.push(i)
     }
 
     const handleNextPage = () => {
 
         let id = $("li.page-item.active").attr("id");
-        if (id == Math.ceil(users / perPage))
-        {
+        if (id == Math.ceil(users / perPage)) {
 
-        }else{
-            let num = parseInt(id) + 1 ;
+        } else {
+            let num = parseInt(id) + 1;
             paginate(num);
         }
 
