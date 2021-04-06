@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import ReactDom from 'react-dom';
-import {PopUpCreate} from './../../_Shared/java'
+import CategoryAdd from './../CategoryAdd'
 import $ from 'jquery';
 
 export const CategoryList = () => {
     const [dispaly, setDisplay] = useState(false)
+    const [dispalyAdd, setDisplayAdd] = useState(true)
     useEffect(() => {
 
     })
@@ -14,6 +15,16 @@ export const CategoryList = () => {
             setDisplay(true)
         })
     })
+
+
+    const handleAdding = (e) => {
+        $(".back-loader").fadeOut();
+        setTimeout(()=>{
+            $("#category_add_pop_base").fadeIn();
+        },300)
+    }
+
+
     return (
         <div>
             <ul className="nav nav-tabs tab-layout" role="tablist">
@@ -35,6 +46,7 @@ export const CategoryList = () => {
                 </li>
 
             </ul>
+
             <div className="tab-content" style={{padding: 0}}>
                 <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
                     <ul className={"content-li"}>
@@ -55,7 +67,7 @@ export const CategoryList = () => {
                                     <div className={"col-md-6"} style={{padding: 13}}>
                                         <div className={"form-check"}>
 
-                                            <i className={"bx bx-plus"}></i>
+                                            <i className={"bx bx-plus"} onClick={() => handleAdding("cd")}></i>
                                             <i className={"bx bx-show"}></i>
                                             <i className={"bx bx-trash-alt"}></i>
                                             <i className={"bx bx-edit"}></i>
@@ -171,26 +183,32 @@ export const CategoryList = () => {
 
 
             <div className={"back-loader"}>
+                <div id={"close-select"} onClick={() => {
+                    $(".back-loader").fadeOut();
+                }}>
+                </div>
                 <div className={"box-selected"}>
                     <ul>
                         <li id={"first"}>لطفا نوع صفحه را انتخاب کنید</li>
-                        <li>
+                        <li id={"last"} onClick={e =>handleAdding("دسته بندی")}>
                             <div id={"icon"}>
                                 <i className={"bx bxs-categories align-middle"}></i>
                             </div>
                             <div id={"desc"}>
-                                <p id={"first"} style={{marginTop : '5px !important'}}>دسته بندی</p>
-                                <p id={"last"} style={{marginTop : '-10px !important'}}>صفحه ای که مجموعه ای از محصولات را نشان میدهد.</p>
+                                <p id={"first"} style={{marginTop: '5px !important'}}>دسته بندی</p>
+                                <p id={"last"} style={{marginTop: '-10px !important'}}>صفحه ای که مجموعه ای از محصولات
+                                    را نشان میدهد.</p>
                             </div>
                         </li>
 
-                        <li>
+                        <li id={"last"}>
                             <div id={"icon"}>
-                                <i className={"bx bxs-categories align-middle"}></i>
+                                <i className={"bx bxs-layer align-middle"}></i>
                             </div>
                             <div id={"desc"}>
-                                <p id={"first"} style={{marginTop : '5px !important'}}>دسته بندی</p>
-                                <p id={"last"} style={{marginTop : '-10px !important'}}>صفحه ای که مجموعه ای از محصولات را نشان میدهد.</p>
+                                <p id={"first"} style={{marginTop: '5px !important'}}>صفحات داخلی</p>
+                                <p id={"last"} style={{marginTop: '-10px !important'}}>صفحه ای با محتوای متنی ، مثل
+                                    درباره ما یا تماس با ما</p>
                             </div>
                         </li>
 
@@ -199,7 +217,10 @@ export const CategoryList = () => {
             </div>
 
 
+
+
         </div>
+
     )
 }
 
