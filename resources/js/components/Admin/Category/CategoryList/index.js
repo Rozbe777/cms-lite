@@ -25,6 +25,11 @@ export const CategoryList = () => {
     }
 
 
+    const handleAddPage = () => {
+        $("#category_add_pop_base").fadeIn();
+    }
+
+
     return (
         <div>
             <ul className="nav nav-tabs tab-layout" role="tablist">
@@ -172,11 +177,21 @@ export const CategoryList = () => {
                     </ul>
                 </div>
                 <div className="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">
-                    <p>
-                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
-                        چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی
-                        مورد نیاز و کاربردهای متنوع با هدف
+                    <p style={{textAlign : 'center' , marginTop : 20}}>
+                        صفحه ای برای نمایش وجود ندارد!
                     </p>
+
+                    <div id={"maines"}>
+                        <button id="add-category"
+                                onClick={() => handleAddPage()}
+                                style={{width : 180}}
+                                className="btn btn-primary glow mr-1 mb-1"
+                                type="button">
+                            <span className="align-middle ml-25">ساخت صفحه جدید</span>
+                        </button>
+                    </div>
+
+
                 </div>
 
             </div>

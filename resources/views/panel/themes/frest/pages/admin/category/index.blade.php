@@ -6,7 +6,7 @@
         <div class="content-header row">
             <div class="content-header-left col-12 mb-2 mt-1">
                 <div class="row breadcrumbs-top" style="position: relative">
-                    <button id="add-category" onclick="handlePageAdd()" class="btn btn-success glow mr-1 mb-1" type="button" style="z-index:9;cursor : pointer;position:absolute;left: 0px">
+                    <button id="add-category" onclick="handlePageAdd()" class="btn btn-primary glow mr-1 mb-1" type="button" style="z-index:9;cursor : pointer;position:absolute;left: 0px">
                         <i class="bx bx-plus"></i>
                         <span class="align-middle ml-25">افزودن صفحه</span>
                     </button>

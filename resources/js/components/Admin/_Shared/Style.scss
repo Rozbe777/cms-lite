@@ -47,8 +47,8 @@ input::placeholder{
     padding: 0px !important;
     margin: 0px !important;
     height: 60px;
-    font-size: 17px;
-    line-height: 1.8;
+    font-size: 15px;
+    line-height: 2.1;
     a{
         display: flex;
         height: 60px;
@@ -245,4 +245,11 @@ ul.content-li{
     display: none;
     z-index: 999999;
     background: #fff;
+}
+
+#maines
+{
+    display: flex;
+    justify-content: center;
+    flex-direction: inherit;
 }
