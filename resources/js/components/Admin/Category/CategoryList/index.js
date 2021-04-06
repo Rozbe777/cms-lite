@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import ReactDom from 'react-dom';
-import CategoryAdd from './../CategoryAdd'
+import {BackLoader} from './../../_Shared/java'
+import {TreeShowCategory} from './../../_Micro/TreeShow/TreeShowCategory';
 import $ from 'jquery';
 
 export const CategoryList = () => {
@@ -19,9 +20,9 @@ export const CategoryList = () => {
 
     const handleAdding = (e) => {
         $(".back-loader").fadeOut();
-        setTimeout(()=>{
+        setTimeout(() => {
             $("#category_add_pop_base").fadeIn();
-        },300)
+        }, 200)
     }
 
 
@@ -54,127 +55,9 @@ export const CategoryList = () => {
 
             <div className="tab-content" style={{padding: 0}}>
                 <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
-                    <ul className={"content-li"}>
-                        <li>
-                            <div id={"li-div"}>
-                                <div className={"row"} style={{padding: '0 20px'}}>
-                                    <div className={"col-md-6"} style={{padding: 13}}>
-                                        <div className={"form-check"}>
-                                            <input type="checkbox"
-                                                   id={"checkAll"}
-                                                   className="form-check-input check-category"/>
-                                            <label className="form-check-label"></label>
-                                            <span> تست دسته بندی</span>
 
-                                        </div>
-                                    </div>
+                    <TreeShowCategory props={"data"}/>
 
-                                    <div className={"col-md-6"} style={{padding: 13}}>
-                                        <div className={"form-check"}>
-
-                                            <i className={"bx bx-plus"} onClick={() => handleAdding("cd")}></i>
-                                            <i className={"bx bx-show"}></i>
-                                            <i className={"bx bx-trash-alt"}></i>
-                                            <i className={"bx bx-edit"}></i>
-                                            <i className={"bx bx-duplicate"}></i>
-
-                                            <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
-
-
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <ul style={{padding: '0 50px 0 0', listStyle: 'inherit', position: 'relative'}}>
-                                <div className={"branch"}>
-                                    <div className={"box"}></div>
-                                </div>
-
-                                <li>
-                                    <div id={"li-div"}>
-
-                                        <div className={"row"} style={{padding: '0 20px'}}>
-                                            <div className={"col-md-6"} style={{padding: 13}}>
-                                                <div className={"form-check"}>
-                                                    <input type="checkbox"
-                                                           id={"checkAll"}
-                                                           className="form-check-input check-category"/>
-                                                    <label className="form-check-label"></label>
-                                                    <span> تست دسته بندی</span>
-
-                                                </div>
-                                            </div>
-
-                                            <div className={"col-md-6"} style={{padding: 13}}>
-                                                <div className={"form-check"}>
-
-                                                    <i className={"bx bx-plus"}></i>
-                                                    <i className={"bx bx-show"}></i>
-                                                    <i className={"bx bx-trash-alt"}></i>
-                                                    <i className={"bx bx-edit"}></i>
-                                                    <i className={"bx bx-duplicate"}></i>
-                                                    <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
-
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-
-                                    <ul style={{padding: '0 50px 0 0', listStyle: 'inherit', position: 'relative'}}>
-                                        <div className={"branch"}>
-                                            <div className={"box"}></div>
-                                        </div>
-
-                                        <li>
-                                            <div id={"li-div"}>
-
-                                                <div className={"row"} style={{padding: '0 20px'}}>
-                                                    <div className={"col-md-6"} style={{padding: 13}}>
-                                                        <div className={"form-check"}>
-                                                            <input type="checkbox"
-                                                                   id={"checkAll"}
-                                                                   className="form-check-input check-category"/>
-                                                            <label className="form-check-label"></label>
-                                                            <span> تست دسته بندی</span>
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div className={"col-md-6"} style={{padding: 13}}>
-                                                        <div className={"form-check"}>
-
-                                                            <i className={"bx bx-plus"}></i>
-                                                            <i className={"bx bx-show"}></i>
-                                                            <i className={"bx bx-trash-alt"}></i>
-                                                            <i className={"bx bx-edit"}></i>
-                                                            <i className={"bx bx-duplicate"}></i>
-
-                                                            <span
-                                                                className={"badge badge-success badge-pill ml-50"}>فعال</span>
-
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-
-                        </li>
-
-
-                    </ul>
                 </div>
                 <div className="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">
                     <p style={{textAlign : 'center' , marginTop : 20}}>
@@ -197,40 +80,7 @@ export const CategoryList = () => {
             </div>
 
 
-            <div className={"back-loader"}>
-                <div id={"close-select"} onClick={() => {
-                    $(".back-loader").fadeOut();
-                }}>
-                </div>
-                <div className={"box-selected"}>
-                    <ul>
-                        <li id={"first"}>لطفا نوع صفحه را انتخاب کنید</li>
-                        <li id={"last"} onClick={e =>handleAdding("دسته بندی")}>
-                            <div id={"icon"}>
-                                <i className={"bx bxs-categories align-middle"}></i>
-                            </div>
-                            <div id={"desc"}>
-                                <p id={"first"} style={{marginTop: '5px !important'}}>دسته بندی</p>
-                                <p id={"last"} style={{marginTop: '-10px !important'}}>صفحه ای که مجموعه ای از محصولات
-                                    را نشان میدهد.</p>
-                            </div>
-                        </li>
-
-                        <li id={"last"}>
-                            <div id={"icon"}>
-                                <i className={"bx bxs-layer align-middle"}></i>
-                            </div>
-                            <div id={"desc"}>
-                                <p id={"first"} style={{marginTop: '5px !important'}}>صفحات داخلی</p>
-                                <p id={"last"} style={{marginTop: '-10px !important'}}>صفحه ای با محتوای متنی ، مثل
-                                    درباره ما یا تماس با ما</p>
-                            </div>
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-
+            <BackLoader/>
 
 
 

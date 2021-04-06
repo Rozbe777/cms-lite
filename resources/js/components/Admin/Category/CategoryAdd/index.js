@@ -106,26 +106,17 @@ const Index = (props) => {
                             </fieldset>
                         </div>
 
-
                         <div className={"col-12"}>
-
                             <ReactQuill theme="snow" modules={modules}
                                         formats={formats} onChange={changeQuil}
                                         value={setComments || ''}/>
-
                         </div>
-
                     </div>
-
                     </div>
                 </div>
                 <div className="tab-pane" id="seo" aria-labelledby="seo-tab" role="tabpanel">
-
                     <div className={"content-pages"}>
-
                         <div className={"row"} style={{padding: '25px'}}>
-
-
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>نوع آدرس</label>
