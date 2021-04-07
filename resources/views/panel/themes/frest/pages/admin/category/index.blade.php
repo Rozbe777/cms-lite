@@ -39,7 +39,10 @@
 
 @section('pageScripts')
 
-    <script src="{{asset('/panel/themes/frest/js/scripts/editors/editor-quill.js')}}" ></script>
+    <script src="{{asset('panel/themes/frest/js/scripts/editors/editor-quill.js')}}"></script>
+    <script src="{{asset('panel/themes/frest/js/scripts/editors/highlight.min.js')}}"></script>
+    <script src="{{asset('panel/themes/frest/js/scripts/editors/katex.min.js')}}"></script>
+    <script src="{{asset('panel/themes/frest/js/scripts/editors/quill.min.js')}}"></script>
 
     <script>
 

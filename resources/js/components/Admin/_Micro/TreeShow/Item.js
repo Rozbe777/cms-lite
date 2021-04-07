@@ -29,8 +29,6 @@ export const Item = () => {
                         <i className={"bx bx-duplicate"}></i>
 
                         <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
-
-
                     </div>
                 </div>
             </div>

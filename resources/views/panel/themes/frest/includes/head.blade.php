@@ -20,6 +20,11 @@
     <link rel="stylesheet" type="text/css" href="{{adminTheme("css/themes/dark-layout.css")}}">
     <link rel="stylesheet" type="text/css" href="{{adminTheme("css/themes/semi-dark-layout.css")}}">
     <!-- END: Theme CSS-->
+    <!-- Editor   -->
+    <link rel="stylesheet" type="text/css" href="{{asset("/panel/themes/frest/css/plugins/Editor/katex.min.css")}}">
+    <link rel="stylesheet" type="text/css" href="{{asset("/panel/themes/frest/css/plugins/Editor/quill.bubble")}}">
+    <link rel="stylesheet" type="text/css" href="{{asset("/panel/themes/frest/css/plugins/Editor/quill.snow")}}">
+
 
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="{{adminTheme("css/core/menu/menu-types/vertical-menu.css")}}">

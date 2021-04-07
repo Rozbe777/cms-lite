@@ -1,11 +1,11 @@
 import React from 'react';
 import './_Shared/style.scss'
 import $ from 'jquery';
-export const BigSwitcher = (props) => {
+export const BigSwitcher = ({name , valueOne ,valueTow ,valueThree , status:pushStatus }) => {
     $(function (){
-        $("input[name="+props.name+"]").on("change" , function (){
-
-            let radioButtons = $("#myFormID input:radio[name="+props.name+"]")
+        $("input[name="+name+"]").on("change" , function (){
+            pushStatus( $(this).attr("cont"))
+            let radioButtons = $("#myFormID input:radio[name="+name+"]")
             var selectedIndex = radioButtons.index(radioButtons.filter(':checked'));
             console.log("selected : " , selectedIndex);
             $("ul#bigest li").removeClass("act");
@@ -18,15 +18,15 @@ export const BigSwitcher = (props) => {
             <div className={"switch-container"}>
                 <ul id={"bigest"}>
                     <li className={"deactive act"}>
-                        <input type={"radio"} name={props.name}  />
-                        {props.valueOne}</li>
+                        <input cont={"false"} type={"radio"} name={name}  />
+                        {valueOne}</li>
                     <li className={"active"}>
-                        <input type={"radio"} name={props.name} />
-                        {props.valueTow}
+                        <input cont={"nf"} type={"radio"} name={name} />
+                        {valueTow}
                     </li>
                     <li className={"active"}>
-                        <input type={"radio"} name={props.name} />
-                        {props.valueThree}
+                        <input cont={"nn"} type={"radio"} name={name} />
+                        {valueThree}
                     </li>
                 </ul>
             </div>

@@ -2,7 +2,6 @@ import React , {useEffect , useState} from 'react';
 import {Item} from './Item'
 export const TreeShowCategory = (props) => {
 
-    console.log("data : " , props.props)
     useEffect(()=>{
 
     })

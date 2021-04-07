@@ -8,6 +8,7 @@
     float: right;
     #checked{
         position: absolute;
+        left: 0;
         top: 0px;
         width: 100% !important;
         height: 100% !important;
@@ -95,6 +96,7 @@ input#title{
 .content-pages{
     position: fixed;
     top: 71px;
+    width: 100%;
     bottom: 67px;
     overflow-y: scroll;
     overflow-x: hidden;

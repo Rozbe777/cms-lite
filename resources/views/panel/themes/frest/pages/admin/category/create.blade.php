@@ -27,8 +27,12 @@
         <div id="category_add" style="margin-top: 15px"></div>
 
 
+
     </div>
+
 
 @endsection
 @section('pageScripts')
+
+
 @endsection

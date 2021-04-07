@@ -1,47 +1,94 @@
-import React, {useState} from 'react';
+import React, {useState , useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import {Switcher} from './../../../HOC/Switch'
-import ReactQuill from 'react-quill';
 import {BigSwitcher} from './../../../HOC/BigSwitcher';
 import './../../_Shared/Style.scss'
-import 'react-quill/dist/quill.snow.css';
-import 'react-quill/dist/quill.bubble.css';
+import {Request} from './../../../../services/AdminService/Api'
+import {SelectOptions} from './../../../HOC/SelectOptions'
 
 const Index = (props) => {
-
     const [comments, setComments] = useState();
-    const [modules] = useState({
-        toolbar: [
-            [{'font': []}],
-            [{'size': ['small', false, 'large', 'huge']}],
-            ['bold', 'italic', 'underline'],
-            [{'list': 'ordered'}, {'list': 'bullet'}],
-            [{'align': []}],
-            [{'color': []}, {'background': []}],
-            ['clean']
-        ]
-    })
-    const [formats] = useState([
-        'font',
-        'size',
-        'bold', 'italic', 'underline',
-        'list', 'bullet',
-        'align',
-        'color', 'background'
-    ])
-    let {display} = props;
-    console.log("props : ", props)
+    const [categoryData, setCategoryData] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [metaData, setMetaData] = useState({
+        robots : "false"
+    });
+    const [editorState, setEditorState] = useState(
+        () => EditorState.createEmpty(),
+    );
+    const [formData, setFormData] = useState({
+        is_menu: false,
+        status: "deactive",
+        content: '',
+        AddressType : false,
+        parent_id : 0
+    });
 
-    const changeQuil = (content, delta, source, editor) => {
-        console.log(editor.getHTML()); // HTML/rich text
-        console.log(editor.getText()); // plain text
-        console.log(editor.getLength()); // number of characters
+    const GetAllCategory = () => {
+        setLoading(true)
+        Request.GetAllCategory()
+            .then(res => {
+                setLoading(false)
+                setCategoryData(res.data.data)
+            })
+            .catch(err => console.log("errpr : " , err))
     }
+
+    const CreateAddCategory = (data) => {
+        Request.AddNewCategory(data)
+            .then(res => console.log("response add : " , res))
+            .catch(error => console.log("error add :" , error))
+    }
+
+    useEffect(() => {
+        GetAllCategory();
+    } , [])
+
+    let {display} = props;
+
 
     const handleClose = () => {
         $("#category_add_pop_base").fadeOut();
     }
 
+    const handleInput = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const HandleForm = () => {
+        let formNew = {...formData};
+        formNew.metadata = "meta data";
+        console.log("datasss : " , formNew)
+        CreateAddCategory(formNew);
+    }
+
+    const HandleMetaData = (e) => {
+        setMetaData({
+            ...metaData ,
+            [e.target.name] : e.target.value
+        })
+    }
+    const HandlerBigSwitcher = (states) => {
+        setMetaData(({
+            ...metaData,
+            robots : states
+        }))
+    }
+
+    const handleSwitchStatus = (status) => {
+        let formdatas = {...formData};
+        formdatas.status = status ? "active" : "deactive";
+    }
+    const handleSwitchMenu = (status) => {
+        let formdatas = {...formData};
+        formdatas.is_menu = status;
+    }
+    const handleAddress = ( status) => {
+        console.log(status)
+    }
     return (
         <div id={"category_add_pop_base"}>
             <ul className="nav nav-tabs tab-layout" role="tablist">
@@ -65,30 +112,35 @@ const Index = (props) => {
                     <div className={"row"} style={{padding: '20px'}}>
                         <div className={"col-lg-3 col-md-4 col-sm-12"}>
                             <fieldset className="form-group">
-                                <label for={"title"}>عنوان دسته بندی</label>
-                                <input type={"text"} id={"title"} className={"form-control"}/>
+                                <label htmlFor={"title"}>عنوان دسته بندی</label>
+                                <input type={"text"} onChange={e => {
+                                    setFormData({
+                                        ...formData,
+                                        name : e.target.value,
+                                        slug : e.target.value
+                                    })
+                                }} name={"name"} id={"title"}
+                                       className={"form-control"}/>
                             </fieldset>
                         </div>
                         <div className={"col-lg-3 col-md-4 col-sm-12"}>
                             <fieldset className="form-group">
                                 <label id={"selectParent"}>دسته بندی پدر</label>
-                                <select className="form-control" id="selectParent">
-                                    <option>IT</option>
-                                    <option>Blade Runner</option>
-                                    <option>Thor Ragnarok</option>
-                                </select>
+                                <SelectOptions selection={check =>  setFormData({...formData , parent_id : check})} loading={loading} data={JSON.stringify(categoryData)} />
                             </fieldset>
                         </div>
                         <div className={"col-lg-2 col-md-3 col-sm-12"}>
                             <fieldset className="form-group">
                                 <label id={"selectParent"}>وضعیت نمایش</label>
-                                <Switcher name={"showState"} valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
+                                <Switcher status={state => handleSwitchStatus(state)} name={"showState"}
+                                          valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
                             </fieldset>
                         </div>
                         <div className={"col-lg-2 col-md-3 col-sm-12"}>
                             <fieldset className="form-group">
                                 <label id={"selectParent"}>نمایش در منو</label>
-                                <Switcher name={"showMenu"} valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
+                                <Switcher status={state => handleSwitchMenu(state)} name={"showMenu"}
+                                          valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
                             </fieldset>
                         </div>
                         <div className={"col-lg-2 col-md-3 col-sm-12"}>
@@ -106,11 +158,74 @@ const Index = (props) => {
                             </fieldset>
                         </div>
 
-                        <div className={"col-12"}>
-                            <ReactQuill theme="snow" modules={modules}
-                                        formats={formats} onChange={changeQuil}
-                                        value={setComments || ''}/>
-                        </div>
+                        {/*<div className={"col-12"}>*/}
+                        {/*    <textarea style={{width : "100%"}} name={"content"} onChange={e =>handleInput(e)}/>*/}
+                        {/*</div>*/}
+
+
+                        <section className="quill-editor">
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="card">
+                                        <div className="card-header">
+                                            <h4 className="card-title">ویرایشگر حبابی</h4>
+                                        </div>
+                                        <div className="card-content collapse show">
+                                            <div className="card-body">
+                                                <p><code>Bubble</code> یک قالب ساده بر پایه تولتیپ است. بر روی متن دوبار
+                                                    کلیک کنید، بایستی حبابی با نوار ابزار برای ویرایش مشاهده کنید.</p>
+                                                <div className="row">
+                                                    <div className="col-sm-12">
+                                                        <div id="bubble-wrapper">
+                                                            <div id="bubble-container">
+                                                                <div className="editor">
+                                                                    <h1 className="ql-align-center">ویرایشگر متن پرقدرت
+                                                                        Quill</h1>
+                                                                    <p><br /></p>
+                                                                    <p>Quill یک ویرایشگر WYSIWYG رایگان و <a
+                                                                        href="https://github.com/quilljs/quill/">متن
+                                                                        باز</a> است که برای وب مدرن ساخته شده است. با <a
+                                                                        href="http://quilljs.com/docs/modules/">معماری
+                                                                        ماژولار</a> و <a
+                                                                        href="http://quilljs.com/docs/api/">API</a> رسای
+                                                                        آن، کاملا قابل سفارشی سازی برای سازگاری با هر
+                                                                        نیازی می باشد.</p>
+                                                                    <p><br /></p>
+                                                                    <p><br /></p>
+                                                                    <h2 className="ql-align-center">شروع به کار آسان
+                                                                        است</h2>
+                                                                    <p><br /></p>
+
+                                                                    <p><br /></p>
+                                                                    <p><br /></p>
+                                                                    <p className="ql-align-center"><strong>ساخته شده
+                                                                        با</strong></p>
+                                                                    <p className="ql-align-center"><span
+                                                                        className="ql-formula"
+                                                                        data-value="x^2 + (y - \sqrt[3]{x^2})^2 = 1"></span>
+                                                                    </p>
+                                                                    <p><br /></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+
+
+
+
+
+
+
+
+
                     </div>
                     </div>
                 </div>
@@ -120,14 +235,19 @@ const Index = (props) => {
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>نوع آدرس</label>
-                                    <Switcher name={"AddressType"} valueActive={"خودکار"} valueDeActive={"دستی"}/>
+
+                                    <Switcher  status={state => handleAddress(state)} name={"AddressType"} valueActive={"خودکار"} valueDeActive={"دستی"}/>
                                 </fieldset>
                             </div>
 
                             <div className={"col-lg-9 col-md-8 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان دسته بندی</label>
-                                    <input type={"text"} id={"title"} className={"form-control"}/>
+                                    {formData.AddressType ? (
+                                        <input type={"cancel"} defaultValue={formData.name ? formData.name : ''} onChange={e =>handleInput((e))} name={"slug"} id={"title"} className={"form-control"}/>
+                                    ):(
+                                        <input type={"cancel"} defaultValue={formData.slug ? formData.slug : ''} disabled id={"title"} className={"form-control"}/>
+                                    )}
                                 </fieldset>
                             </div>
 
@@ -140,14 +260,14 @@ const Index = (props) => {
                             <div className={"col-12"}>
                                     <fieldset className="form-group">
                                         <label htmlFor={"title"}>عنوان صفحه ( حداکثر 60 حرف )</label>
-                                        <input type={"text"} id={"title"} className={"form-control"}/>
+                                        <input type={"text"} onChange={e => HandleMetaData(e)} name={"title"} id={"title"} className={"form-control"}/>
                                     </fieldset>
                             </div>
 
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>توضیح صفحه ( حداکثر 155 حرف )</label>
-                                    <textarea type={"text"} id={"title"} className={"form-control"}/>
+                                    <textarea type={"text"} onChange={e => HandleMetaData(e)} name={"content"} id={"title"} className={"form-control"}/>
                                 </fieldset>
                             </div>
 
@@ -155,26 +275,27 @@ const Index = (props) => {
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>کلمات کلیدی صفحه ( با ویرگول جدا کنید )</label>
-                                    <input type={"text"} id={"title"} className={"form-control"}/>
+                                    <input type={"text"} onChange={e => HandleMetaData(e)} name={"tags"} id={"title"} className={"form-control"}/>
                                 </fieldset>
                             </div>
 
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس داخلی برای انتقال (301 Redirect)</label>
-                                    <input type={"text"} id={"title"} className={"form-control"}/>
+                                    <input type={"text"} onChange={e => HandleMetaData(e)} name={"redirect"} id={"title"} className={"form-control"}/>
                                 </fieldset>
                             </div>
 
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس Canonical</label>
-                                    <input type={"text"} id={"title"} className={"form-control"}/>
+                                    <input onChange={e => HandleMetaData(e)} name={"canonical"} type={"text"} id={"title"} className={"form-control"}/>
                                 </fieldset>
                             </div>
 
                             <div className={"col-12"}>
-                                <BigSwitcher name={"Robots"} valueOne={"غیرفعال"} valueTow={"noindex,follow"} valueThree={"noindex,unfolow"} />
+                                <label >تنظیمات Robots</label>
+                                <BigSwitcher status={states => HandlerBigSwitcher(states)} name={"Robots"} valueOne={"غیرفعال"} valueTow={"noindex,follow"} valueThree={"noindex,unfolow"} />
                             </div>
 
                         </div>
@@ -188,7 +309,8 @@ const Index = (props) => {
                              style={{cursor: 'pointer', textAlign: 'center', borderLeft: '1px solid #a9a9a9'}}>
                             <span>انصراف</span>
                         </div>
-                        <div className={"col-6"} style={{textAlign: 'center', cursor: 'pointer'}}>
+                        <div onClick={() => HandleForm()} className={"col-6"}
+                             style={{textAlign: 'center', cursor: 'pointer'}}>
                             <span>اضافه کردن دسته</span>
                         </div>
                     </div>

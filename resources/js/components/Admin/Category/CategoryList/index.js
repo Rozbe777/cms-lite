@@ -2,35 +2,43 @@ import React, {useEffect, useState} from 'react'
 import ReactDom from 'react-dom';
 import {BackLoader} from './../../_Shared/java'
 import {TreeShowCategory} from './../../_Micro/TreeShow/TreeShowCategory';
+import {Request} from './../../../../services/AdminService/Api'
 import $ from 'jquery';
 
 export const CategoryList = () => {
     const [dispaly, setDisplay] = useState(false)
     const [dispalyAdd, setDisplayAdd] = useState(true)
-    useEffect(() => {
+    const [categoryData , setCategoryData] = useState({})
+
+    const GetAllCategory = () => {
+        setLoading(true)
+        Request.GetAllCategory()
+            .then(res => {
+                setLoading(false)
+                setCategoryData(res.data)
+            })
+            .catch(err => console.log("errpr : " , err))
+    }
+    useEffect(()=>{
 
     })
+
+
 
     $(function () {
         $("#add-category").click(() => {
             setDisplay(true)
         })
     })
-
-
     const handleAdding = (e) => {
         $(".back-loader").fadeOut();
         setTimeout(() => {
             $("#category_add_pop_base").fadeIn();
         }, 200)
     }
-
-
     const handleAddPage = () => {
         $("#category_add_pop_base").fadeIn();
     }
-
-
     return (
         <div>
             <ul className="nav nav-tabs tab-layout" role="tablist">
@@ -73,16 +81,9 @@ export const CategoryList = () => {
                             <span className="align-middle ml-25">ساخت صفحه جدید</span>
                         </button>
                     </div>
-
-
                 </div>
-
             </div>
-
-
             <BackLoader/>
-
-
 
         </div>
 
