@@ -6,6 +6,20 @@ import './../../_Shared/Style.scss'
 import {Request} from './../../../../services/AdminService/Api'
 import {SelectOptions} from './../../../HOC/SelectOptions'
 
+// import { DraftailEditor } from "draftail";
+// import { EditorState } from "draft-js";
+// import createInlineToolbarPlugin from "draft-js-inline-toolbar-plugin";
+// import createSideToolbarPlugin from "draft-js-side-toolbar-plugin";
+// import "draft-js/dist/Draft.css";
+// import "draftail/dist/draftail.css";
+// import "draft-js-inline-toolbar-plugin/lib/plugin.css";
+// import "draft-js-side-toolbar-plugin/lib/plugin.css";
+// const inlineToolbarPlugin = createInlineToolbarPlugin();
+// const { InlineToolbar } = inlineToolbarPlugin;
+// const sideToolbarPlugin = createSideToolbarPlugin();
+// const { SideToolbar } = sideToolbarPlugin;
+// const plugins = [inlineToolbarPlugin, sideToolbarPlugin];
+
 const Index = (props) => {
     const [comments, setComments] = useState();
     const [categoryData, setCategoryData] = useState({});
@@ -13,9 +27,12 @@ const Index = (props) => {
     const [metaData, setMetaData] = useState({
         robots : "false"
     });
-    const [editorState, setEditorState] = useState(
-        () => EditorState.createEmpty(),
-    );
+
+    const ChangeStateEditor = (state) => {
+        setEditorState(state)
+    }
+
+
     const [formData, setFormData] = useState({
         is_menu: false,
         status: "deactive",
@@ -163,62 +180,16 @@ const Index = (props) => {
                         {/*</div>*/}
 
 
-                        <section className="quill-editor">
-                            <div className="row">
-                                <div className="col-12">
-                                    <div className="card">
-                                        <div className="card-header">
-                                            <h4 className="card-title">ویرایشگر حبابی</h4>
-                                        </div>
-                                        <div className="card-content collapse show">
-                                            <div className="card-body">
-                                                <p><code>Bubble</code> یک قالب ساده بر پایه تولتیپ است. بر روی متن دوبار
-                                                    کلیک کنید، بایستی حبابی با نوار ابزار برای ویرایش مشاهده کنید.</p>
-                                                <div className="row">
-                                                    <div className="col-sm-12">
-                                                        <div id="bubble-wrapper">
-                                                            <div id="bubble-container">
-                                                                <div className="editor">
-                                                                    <h1 className="ql-align-center">ویرایشگر متن پرقدرت
-                                                                        Quill</h1>
-                                                                    <p><br /></p>
-                                                                    <p>Quill یک ویرایشگر WYSIWYG رایگان و <a
-                                                                        href="https://github.com/quilljs/quill/">متن
-                                                                        باز</a> است که برای وب مدرن ساخته شده است. با <a
-                                                                        href="http://quilljs.com/docs/modules/">معماری
-                                                                        ماژولار</a> و <a
-                                                                        href="http://quilljs.com/docs/api/">API</a> رسای
-                                                                        آن، کاملا قابل سفارشی سازی برای سازگاری با هر
-                                                                        نیازی می باشد.</p>
-                                                                    <p><br /></p>
-                                                                    <p><br /></p>
-                                                                    <h2 className="ql-align-center">شروع به کار آسان
-                                                                        است</h2>
-                                                                    <p><br /></p>
-
-                                                                    <p><br /></p>
-                                                                    <p><br /></p>
-                                                                    <p className="ql-align-center"><strong>ساخته شده
-                                                                        با</strong></p>
-                                                                    <p className="ql-align-center"><span
-                                                                        className="ql-formula"
-                                                                        data-value="x^2 + (y - \sqrt[3]{x^2})^2 = 1"></span>
-                                                                    </p>
-                                                                    <p><br /></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
 
 
-
+                        {/*<DraftailEditor*/}
+                        {/*    editorState={editorState}*/}
+                        {/*    onChange={changeState}*/}
+                        {/*    placeholder="Tell your story..."*/}
+                        {/*    plugins={plugins}*/}
+                        {/*/>*/}
+                        {/*<InlineToolbar />*/}
+                        {/*<SideToolbar />*/}
 
 
 
