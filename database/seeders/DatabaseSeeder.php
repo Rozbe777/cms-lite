@@ -14,8 +14,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        $this->call(LaravelEntrustSeeder::class);
+//        $this->call(LaravelEntrustSeeder::class);
         $this->call(SettingSeeder::class);
+        $this->call(PermissionSeeder::class);
+        $this->call(UserSeeder::class);
 
     }
 }

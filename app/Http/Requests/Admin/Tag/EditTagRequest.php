@@ -24,8 +24,7 @@ class EditTagRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|max:255',
-            'slug' => 'string|max:255',
+            'name' => 'string|max:255|unique:tags,name,'.$this->route('tagId'),
         ];
     }
 }

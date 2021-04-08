@@ -29,11 +29,33 @@ return [
                 'description' => 'نمایش و ویرایش پروفایل کاربر',
 
                 'access' => 'i,u',
+//                'is_menu' => '',
                 'children' => [
                     'admin.profile.password' => [
                         'display_name' => 'تغییررمز عبور',
                         'description' => 'تغییر رمزعبور حساب کاربری',
                         'access' => 'u',
+//                        'is_menu' => '',
+                    ],
+                ]
+            ],
+            'admin.content' => [
+                'display_name' => 'محتوا',
+                'description' => 'نمایش و ویرایش محتوا',
+                'access' => 'i,c,s,e,u,des,search,multides',
+                'is_menu' => 'i,c',
+                'children' => [
+                    'admin.category' => [
+                        'display_name' => 'دسته بندی',
+                        'description' => 'نمایش و ویرایش دسته بندی',
+                        'access' => 'i,c,s,e,u,des,search,multides',
+                        'is_menu' => 'i,c',
+                    ],
+                    'admin.tag' => [
+                        'display_name' => 'برچسب',
+                        'description' => 'نمایش و ویرایش برچسب',
+                        'access' => 'i,c,s,e,u,des,search,multides',
+                        'is_menu' => 'i,c',
                     ],
                 ]
             ],
@@ -121,8 +143,5 @@ return [
     'role_map_persian' => [
         'user' => 'کاربر',
         'admin' => 'مدیرکل',
-    ],
-    'permission_is_menu' => [
-
     ]
 ];

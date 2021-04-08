@@ -17,9 +17,15 @@ class TagController extends Controller
     use CreateTagTrait,EditTagTrait;
     public function index()
     {
+        return adminView("pages.admin.tag.index");
+
+    }
+
+    public function list()
+    {
         $tags=Tag::paginate(12);
 
-        return adminView("pages.admin.tag.index")->with('tags',$tags);
+        return $tags;
 
     }
 
@@ -27,7 +33,6 @@ class TagController extends Controller
         $tag=$this->createTag(
             [
                 'name'=>$request->input('name'),
-                'slug'=>$request->input('slug'),
             ]
         );
 
@@ -39,7 +44,7 @@ class TagController extends Controller
 
     public function create()
     {
-        return adminView("pages.admin.tags.create");
+        return adminView("pages.admin.tag.create");
     }
 
     public function edit($tagId)
@@ -57,7 +62,7 @@ class TagController extends Controller
     public function multipleDestroy(multipleDestroyRequest $request)
     {
         if (isset($request->tagIds))
-            Tag::where('id',$request->input('tagIds'))->delete();
+            Tag::whereIn('id',$request->input('tagIds'))->delete();
 
         return redirect(route("admin.tag.index"))->with('info','برچسب های انتخاب شده حذف شدند');
 
@@ -67,10 +72,8 @@ class TagController extends Controller
 
     public function update(EditTagRequest $request,$tagId)
     {
-//|unique:tags,email,'.$this->request->get("userId")//FIXME
         $tag=$this->EditTag([
             'name'=>$request->input('name'),
-            'slug'=>$request->input('slug'),
             'tag_id'=>$tagId,
 
 

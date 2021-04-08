@@ -24,15 +24,18 @@ class EditCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|max:255',
-            'slug' => 'string|max:255',
+            'name' => 'string|max:255|unique:categories,name,'.$this->route('categoryId'),
+            'slug' => 'string|max:255|unique:categories,slug,'.$this->route('categoryId'),
             'image' => 'string|image',
-            'description' => 'text',
-            'fields' => 'text',
+            'content' => '',
+            'fields' => '',
             'parent_id' => 'exists:categories,id',
+            'is_menu'=>'boolean',
 //            'layout_id' => '',//not using now FIXME after insert layout and module
 //            'module_id' => '',
-            'status' => 'required|string|in:active,deactivate' ,
+            'status' => 'string|in:active,deactivate' ,
+            'tag_list'=>'array',
+            'tag_list.*'=>'string',
         ];
     }
 }

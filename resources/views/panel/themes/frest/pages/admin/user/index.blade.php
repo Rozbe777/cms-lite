@@ -1,6 +1,5 @@
 @extends("panel.themes.frest.layouts.dashboardLayout")
 @php($title = "کاربران")
-
 @section("content")
     @if($errors->any())
 
@@ -8,6 +7,7 @@
             updateProfileError("{!! $errors->first() !!}");
         </script>
     @endif
+
     <div class="content-wrapper">
             <div class="content-header row">
             </div>

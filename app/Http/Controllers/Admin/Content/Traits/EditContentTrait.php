@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\Api\Content\Traits;
+namespace App\Http\Controllers\Admin\Content\Traits;
 
 
 use App\Models\Content;
@@ -48,6 +48,13 @@ trait EditContentTrait
 
         if (!empty($content['weight']))
             $contentModel->weight = $content['weight'];
+
+        if (!empty($content['is_index']))
+            $contentModel->is_index = $content['is_index'];
+
+        if (!empty($content['is_menu']))
+            $contentModel->is_menu = $content['is_menu'];
+
 
 
         $contentModel->save();

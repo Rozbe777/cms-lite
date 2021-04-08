@@ -16,7 +16,6 @@ class UserListTest extends TestCase
         $admin=Role::where('name','admin')->first()->users()->first();
         $response = $this->actingAs($admin,'web')
             ->get(route('admin.user.index'));
-
         $response->assertStatus(200);
         $response->assertSee("لیست کاربران");
 
