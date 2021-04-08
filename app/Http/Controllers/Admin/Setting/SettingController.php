@@ -25,7 +25,6 @@ class SettingController extends Controller
         Artisan::call("view:clear");
 
         return success([],'با موفقیت ثبت شد.');
-        //return redirect(route("admin.setting.index"))->with("info", "عملیات ویرایش تنظیمات با موفقیت انجام شد");
 
     }
 
