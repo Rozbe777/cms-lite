@@ -65,7 +65,6 @@ Route::group(['middleware' => 'user_permission'], function () {
 
     Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'name' => 'admin.', 'middleware' => 'auth'], function () {
 
-
         Route::group(['as' => 'dashboard.', 'prefix' => 'dashboard', 'namespace' => 'Dashboard', 'name' => 'dashboard.'], function () {
             Route::get('/', [DashboardController::class, 'index'])->name('index');
         });
@@ -97,7 +96,6 @@ Route::group(['middleware' => 'user_permission'], function () {
             Route::get('/{role}/edit', [RoleController::class, 'edit'])->name('edit');
             Route::put('/{role}/update', [RoleController::class, 'update'])->name('update');
             Route::delete('/{role}/destroy', [RoleController::class, 'destroy'])->name('destroy');
-
         });
 
         Route::group(['as' => 'setting.', 'prefix' => 'setting', 'namespace' => 'Setting', 'name' => 'setting.'], function () {
