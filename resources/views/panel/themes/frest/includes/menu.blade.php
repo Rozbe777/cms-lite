@@ -26,12 +26,12 @@
                 @php($childrenMenus=$parent->childrenMenu)
                 @if($childrenMenus->count()>1)
 
-                        <li class=" nav-item"><a href="#"><i class="bx bx-user-plus"></i><span class="menu-title" data-i18n="User">{{$parent->display_name}}</span></a>
+                        <li class=" nav-item"><a href="#"><i class="bx {{$parent->icon}}"></i><span class="menu-title" data-i18n="User">{{$parent->display_name}}</span></a>
                         <ul class="menu-content">
                             @foreach($childrenMenus as $subMenu)
                                 @php($subChildrenMenus=$subMenu->childrenMenu)
                                 @if($subChildrenMenus->count()>1)
-                                    <li class=" nav-item"><a href="#"><i class="bx bx-user-plus"></i><span class="menu-title" data-i18n="User">{{$subMenu->display_name}}</span></a>
+                                    <li class=" nav-item"><a href="#"><i class="bx {{$subMenu->icon}}"></i><span class="menu-title" data-i18n="User">{{$subMenu->display_name}}</span></a>
                                         <ul class="menu-content">
                                             @foreach($subChildrenMenus as $childSubMenu)
 

@@ -1,0 +1,121 @@
+.switch-container{
+    width: 100%;
+    position: relative;
+    height: 55px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 2px;
+    float: right;
+    #checked{
+        position: absolute;
+        left: 0;
+        top: 0px;
+        width: 100% !important;
+        height: 100% !important;
+        opacity: 0;
+    }
+    ul{
+        padding: 0px;
+        list-style: none;
+        margin: 0px;
+        height: 100%;
+        li{
+            text-align: center;
+            line-height: 3;
+            cursor: pointer;
+            width: 50%;
+            color: #000;
+            float: right;
+            height: 100%;
+            border-radius: 5px;
+            &.active{
+                color: #000;
+                cursor: pointer !important;
+                transition: 0.3s all ease;
+                &.act{
+                    cursor: pointer !important;
+                    color: #fff !important;
+                    background: #32a672 !important;
+                }
+            }
+            &.deactive{
+                color: #000;
+                cursor: pointer !important;
+                transition: 0.3s all ease;
+                &.act{
+                    color: #fff;
+                    background: #EC6060 !important;
+                    cursor: pointer !important;
+                }
+            }
+        }
+    }
+}
+
+#file{
+    width: 100%;
+    height: 55px;
+    position: relative;
+    overflow: hidden;
+    #select-files{
+        position: absolute;
+        bottom: -15px;
+        height: 55px;
+        width: 100%;
+    }
+}
+.ql-editor.ql-blank
+{
+    min-height: 250px !important;
+}
+.bottom-footer{
+    position: fixed;
+    bottom: 0px;
+    background: #ececec;
+    border-left: 1px solid #000;
+
+    span{
+        text-align: center !important;
+        line-height: 4.5;
+    }
+}
+
+.form-control#selectParent{
+    height: 55px !important;
+}
+input#title{
+    height: 55px !important;
+}
+
+.alert.alert-primary{
+    background: #e9f5fb !important;
+    color: #38A9E0 !important;
+
+}
+
+.content-pages{
+    position: fixed;
+    top: 71px;
+    width: 100%;
+    bottom: 67px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.switch-container{
+    ul#bigest{
+        li{
+            width: 33.3%;
+            float: right;
+            position: relative;
+            input{
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                right: 0px;
+                z-index: 9;
+                opacity: 0;
+            }
+        }
+    }
+}

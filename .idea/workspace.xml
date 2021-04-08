@@ -30,15 +30,51 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="category &amp; tag &amp; content &amp; page crud">
+      <change afterPath="$PROJECT_DIR$/public/panel/themes/frest/css/plugins/Editor/katex.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/panel/themes/frest/css/plugins/Editor/monokai-sublime.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/panel/themes/frest/css/plugins/Editor/quill.bubble.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/panel/themes/frest/css/plugins/Editor/quill.snow.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/panel/themes/frest/js/scripts/editors/highlight.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/panel/themes/frest/js/scripts/editors/katex.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/panel/themes/frest/js/scripts/editors/quill.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/Category/CategoryAdd/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/Category/CategoryList/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/UserList/UserList.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/MyEditor/MyEditor.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/MyEditor/_Shared/style.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/Pagination.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/TableColumnsList.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/TreeShow/Item.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/TreeShow/TreeShowCategory.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Shared/Style.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Shared/java.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/HOC/BigSwitcher.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/HOC/SelectOptions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/HOC/Switch.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/HOC/_Shared/style.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/services/AdminService/Api.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/services/AdminService/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/services/Request.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/services/Type.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/cms-lite.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/panel/themes/frest/css/components.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/panel/themes/frest/css/components.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/Auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Auth/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/head.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/head.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/includes/menu.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/category/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/category/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/category/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/category/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/user/index.blade.php" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,9 +82,7 @@
   </component>
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/cms-lite/composer.json</pharConfigPath>
-    <execution>
-      <executable />
-    </execution>
+    <execution />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -209,17 +243,11 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="editor.breadcrumbs" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2020.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\wamp64\www\cms-lite\app\Http\Requests" />
-      <recent name="C:\wamp64\www\cms-lite\app\Http\Controllers\Auth" />
-      <recent name="C:\wamp64\www\cms-lite\app\Classes" />
-      <recent name="C:\wamp64\www\cms-lite\tests\Seed" />
-      <recent name="C:\wamp64\www\cms-lite\tests\Feature\Auth" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Emran\Desktop\cms-lite" />
       <recent name="C:\wamp64\www\cms-lite\config" />
@@ -227,20 +255,15 @@
       <recent name="C:\wamp64\www\cms-lite\app\Http\Requests\Admin" />
       <recent name="C:\wamp64\www\cms-lite\resources\views\panel\themes\frest\pages\admin" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Emran\Desktop\cms-lite\resources\js\components\Admin\_Micro\MyEditor" />
+      <recent name="C:\wamp64\www\cms-lite\app\Http\Requests" />
+      <recent name="C:\wamp64\www\cms-lite\app\Http\Controllers\Auth" />
+      <recent name="C:\wamp64\www\cms-lite\app\Classes" />
+      <recent name="C:\wamp64\www\cms-lite\tests\Seed" />
+    </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -291,7 +314,8 @@
       <workItem from="1617454776001" duration="483000" />
       <workItem from="1617514430242" duration="20943000" />
       <workItem from="1617600107126" duration="16728000" />
-      <workItem from="1617819441633" duration="1451000" />
+      <workItem from="1617819441633" duration="3207000" />
+      <workItem from="1617823092749" duration="4695000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>
@@ -346,7 +370,7 @@
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -365,12 +389,12 @@
                   </entry>
                 </map>
               </option>
-              <option name="COLUMN_ORDER" />
             </State>
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="change directory of Auth and admin.php" />
@@ -380,87 +404,6 @@
     <MESSAGE value="category &amp; tag crud" />
     <MESSAGE value="category &amp; tag &amp; content &amp; page crud" />
     <option name="LAST_COMMIT_MESSAGE" value="category &amp; tag &amp; content &amp; page crud" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="1535" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1614599455850">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state x="1535" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1614599455850" />
-    <state x="1886" y="21" key="#com.intellij.ide.util.MemberChooser" timestamp="1614425083466">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state x="1886" y="21" key="#com.intellij.ide.util.MemberChooser/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1614425083465" />
-    <state x="1742" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1617610463533">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state x="1742" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617610463533" />
-    <state x="1811" y="87" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1615122579172">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state x="1811" y="87" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615122579172" />
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1617624456299">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617624456299" />
-    <state width="245" height="442" key="Diff.GoToChangePopup" timestamp="1617448843162">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state width="245" height="442" key="Diff.GoToChangePopup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617448843162" />
-    <state x="1498" y="0" width="1144" height="678" key="DiffContextDialog" timestamp="1617449058576">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state x="1498" y="0" width="1144" height="678" key="DiffContextDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617449058576" />
-    <state x="1904" y="146" key="FileChooserDialogImpl" timestamp="1617616254565">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state x="1904" y="146" key="FileChooserDialogImpl/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617616254565" />
-    <state x="580" y="185" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1614084999410" />
-    <state x="2006" y="93" key="NewPhpClassDialog" timestamp="1617529039471">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state x="2006" y="93" key="NewPhpClassDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617529039471" />
-    <state x="634" y="353" key="NewPhpFileDialog" timestamp="1614087820221">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state x="634" y="353" key="NewPhpFileDialog/0.0.1600.860@0.0.1600.860" timestamp="1614087820221" />
-    <state x="1844" y="43" key="RollbackChangesDialog" timestamp="1615020090857">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state x="1844" y="43" key="RollbackChangesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615020090857" />
-    <state x="1550" y="0" key="SettingsEditor" timestamp="1615103585541">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state x="1550" y="0" key="SettingsEditor/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615103585541" />
-    <state width="498" height="446" key="SwitcherDM" timestamp="1615125170773">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state width="498" height="446" key="SwitcherDM/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615125170773" />
-    <state x="1673" y="69" key="Vcs.Push.Dialog.v2" timestamp="1617627365658">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state x="1673" y="69" key="Vcs.Push.Dialog.v2/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617627365658" />
-    <state x="1890" y="254" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1617445422832">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state x="1890" y="254" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617445422832" />
-    <state x="1846" y="26" width="671" height="652" key="find.popup" timestamp="1617622002586">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state x="1846" y="26" width="671" height="652" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617622002586" />
-    <state x="507" y="165" width="585" height="530" key="find.popup/0.0.1600.860@0.0.1600.860" timestamp="1614087541910" />
-    <state x="1806" y="128" key="git4idea.merge.GitPullDialog" timestamp="1617448982131">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state x="1806" y="128" key="git4idea.merge.GitPullDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617448982131" />
-    <state x="1804" y="115" key="refactoring.ChangeSignatureDialog" timestamp="1615018303599">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state x="1804" y="115" key="refactoring.ChangeSignatureDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615018303599" />
-    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup" timestamp="1617626285672">
-      <screen x="1440" y="0" width="1280" height="678" />
-    </state>
-    <state x="1810" y="142" width="672" height="535" key="search.everywhere.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617626285672" />
-    <state x="463" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1614082055644" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -86,6 +86,7 @@ export default class Login extends Component {
     async onSubmit() {
         let {username, password} = this.state;
         let {action, token} = this.props;
+
         if (empty(username)) {
             return error('نام کاربری وارد نشده است!');
         }
