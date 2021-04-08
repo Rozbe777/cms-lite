@@ -4,7 +4,8 @@ import $ from 'jquery';
 export const BigSwitcher = ({name , valueOne ,valueTow ,valueThree , status:pushStatus }) => {
     $(function (){
         $("input[name="+name+"]").on("change" , function (){
-            pushStatus( $(this).attr("cont"))
+            let content = $(this).attr("cont");
+            pushStatus(content);
             let radioButtons = $("#myFormID input:radio[name="+name+"]")
             var selectedIndex = radioButtons.index(radioButtons.filter(':checked'));
             console.log("selected : " , selectedIndex);
