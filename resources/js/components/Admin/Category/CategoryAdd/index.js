@@ -1,24 +1,27 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
 import {Switcher} from './../../../HOC/Switch'
 import {BigSwitcher} from './../../../HOC/BigSwitcher';
 import './../../_Shared/Style.scss'
 import {Request} from './../../../../services/AdminService/Api'
 import {SelectOptions} from './../../../HOC/SelectOptions'
+import {CaegoryAleert} from './../../_Shared/java'
 import MyEditor from "../../_Micro/MyEditor/MyEditor";
+import './../../_Micro/TreeShow/_Shared/style.scss';
 
 const Index = (props) => {
     const [comments, setComments] = useState();
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
     const [metaData, setMetaData] = useState({
-        robots: "false"
+        robots: false,
+        slug: ''
     });
+    const [slugManage, setSlugManage] = useState(false);
     const [formData, setFormData] = useState({
-        is_menu: false,
-        status: "deactive",
+        is_menu: true,
+        status: "active",
         content: '',
-        AddressType: false,
         parent_id: 0
     });
 
@@ -27,7 +30,7 @@ const Index = (props) => {
         Request.GetAllCategory()
             .then(res => {
                 setLoading(false)
-                setCategoryData(res.data.data)
+                setCategoryData(res.data.data);
             })
             .catch(err => console.log("errpr : ", err))
     }
@@ -47,6 +50,18 @@ const Index = (props) => {
 
     const handleClose = () => {
         $("#category_add_pop_base").fadeOut();
+        // let newFormData =
+        setFormData({
+            is_menu: true,
+            status: "active",
+            content: '',
+            parent_id: 0
+        });
+        setMetaData({
+            robots: false,
+            slug: ''
+        })
+        $("#my-editor").attr("defaultValue" , "");
     }
 
     const handleInput = (e) => {
@@ -56,11 +71,50 @@ const Index = (props) => {
         })
     }
 
-    const HandleForm = () => {
+    const HandleSlug = (e) => {
+
+        if (e.target.name == "name") {
+            setMetaData({
+                ...metaData,
+                slug: e.target.value
+            })
+
+
+
+            let newFormData = {...formData};
+            newFormData.name = e.target.value
+            setFormData(newFormData)
+
+        } else {
+            setMetaData({
+                ...metaData,
+                slug: e.target.value
+            })
+        }
+    }
+
+    const HandleForm = (e) => {
         let formNew = {...formData};
-        formNew.metadata = "meta data";
+        if (slugManage == false){
+            formNew.metadata = "";
+        }else{
+            formNew.metadata = metaData;
+        }
+
+        let msg = "اضافه کردن دسته بندی "+formData.name
         console.log("datasss : ", formNew)
-        CreateAddCategory(formNew);
+        if (formData.name && formData.name !== '' ){
+            $("input[name=name]").removeClass("is-invalid");
+            console.log("cat name : ", formNew.name)
+
+        }else{
+            console.log("name is null")
+            $("input[name=name]").addClass("is-invalid");
+
+        }
+        console.log("data out : " , formNew);
+        // CaegoryAleert(e , "data" , msg , "با موفقیت اضافه شد!");
+        // CreateAddCategory(formNew);
     }
 
     const HandleMetaData = (e) => {
@@ -70,10 +124,8 @@ const Index = (props) => {
         })
     }
     const HandlerBigSwitcher = (states) => {
-        setMetaData(({
-            ...metaData,
-            robots: states
-        }))
+        let metaD = {...metaData};
+        metaD.robots = states;
     }
 
     const handleSwitchStatus = (status) => {
@@ -85,13 +137,31 @@ const Index = (props) => {
         formdatas.is_menu = status;
     }
     const handleAddress = (status) => {
-        console.log(status)
+        setSlugManage(status)
     }
 
+
+    const handleEditorData = (data) => {
+        setFormData({
+            ...formData,
+            content: data
+        })
+    }
+
+    const HandleSelectOption = (check) => {
+        // let newFormData = {...formData};
+        // newFormData.parent_id = check;
+        // setFormData(newFormData);
+        setFormData({
+            ...formData,
+            parent_id: check
+        })
+    }
 
 
     return (
         <div id={"category_add_pop_base"}>
+            <form action={"#"}>
             <ul className="nav nav-tabs tab-layout" role="tablist">
                 <li className="nEav-item col-6 nav-custom">
                     <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
@@ -114,20 +184,14 @@ const Index = (props) => {
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان دسته بندی</label>
-                                    <input type={"text"} onChange={e => {
-                                        setFormData({
-                                            ...formData,
-                                            name: e.target.value,
-                                            slug: e.target.value
-                                        })
-                                    }} name={"name"} id={"title"}
+                                    <input type={"text"} onChange={e => HandleSlug(e)} name={"name"} id={"title"}
                                            className={"form-control"}/>
                                 </fieldset>
                             </div>
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>دسته بندی پدر</label>
-                                    <SelectOptions selection={check => setFormData({...formData, parent_id: check})}
+                                    <SelectOptions selection={check => HandleSelectOption(check)}
                                                    loading={loading} data={JSON.stringify(categoryData)}/>
                                 </fieldset>
                             </div>
@@ -166,7 +230,9 @@ const Index = (props) => {
                             </div>
 
                             <div className={"col-12"}>
-                                <MyEditor />
+                                <MyEditor editorData={data => handleEditorData(data)}
+                                          id={"my-editor"}
+                                          placeholder={"توضیحات دسته بندی را بنویسید ..."}/>
                             </div>
 
 
@@ -189,14 +255,14 @@ const Index = (props) => {
 
                             <div className={"col-lg-9 col-md-8 col-sm-12"}>
                                 <fieldset className="form-group">
-                                    <label htmlFor={"title"}>عنوان دسته بندی</label>
-                                    {formData.AddressType ? (
-                                        <input type={"cancel"} defaultValue={formData.name ? formData.name : ''}
-                                               onChange={e => handleInput((e))} name={"slug"} id={"title"}
-                                               className={"form-control"}/>
+                                    <label htmlFor={"title"}>آدرس صفحه دسته بندی</label>
+                                    {slugManage ? (
+                                        <input type={"cancel"} value={metaData.slug}
+                                               onChange={e => HandleSlug(e)} name={"slug"} id={"title"}
+                                               className={"form-control slugest"}/>
                                     ) : (
-                                        <input type={"cancel"} defaultValue={formData.slug ? formData.slug : ''}
-                                               disabled id={"title"} className={"form-control"}/>
+                                        <input type={"cancel"} value={metaData.slug}
+                                               disabled id={"title"} className={"form-control slugest"}/>
                                     )}
                                 </fieldset>
                             </div>
@@ -211,16 +277,28 @@ const Index = (props) => {
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان صفحه ( حداکثر 60 حرف )</label>
-                                    <input type={"text"} onChange={e => HandleMetaData(e)} name={"title"} id={"title"}
-                                           className={"form-control"}/>
+                                    {slugManage ? (
+                                        <input type={"text"} onChange={e => HandleMetaData(e)} name={"title"} id={"title"}
+                                               className={"form-control"}/>
+                                    ) : (
+                                        <input type={"text"} disabled name={"title"} id={"title"}
+                                               className={"form-control"}/>
+                                    )}
+
                                 </fieldset>
                             </div>
 
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>توضیح صفحه ( حداکثر 155 حرف )</label>
-                                    <textarea type={"text"} onChange={e => HandleMetaData(e)} name={"content"}
-                                              id={"title"} className={"form-control"}/>
+                                    {slugManage ? (
+                                        <textarea type={"text"} onChange={e => HandleMetaData(e)} name={"content"}
+                                                  id={"title"} className={"form-control"}/>
+                                    ) : (
+                                        <textarea type={"text"} disabled name={"content"}
+                                                  id={"title"} className={"form-control"}/>
+                                    )}
+
                                 </fieldset>
                             </div>
 
@@ -228,24 +306,40 @@ const Index = (props) => {
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>کلمات کلیدی صفحه ( با ویرگول جدا کنید )</label>
-                                    <input type={"text"} onChange={e => HandleMetaData(e)} name={"tags"} id={"title"}
-                                           className={"form-control"}/>
+                                    {slugManage ? (
+                                        <input type={"text"} onChange={e => HandleMetaData(e)} name={"tags"} id={"title"}
+                                               className={"form-control"}/>
+                                    ) : (
+                                        <input type={"text"} disabled name={"tags"} id={"title"}
+                                               className={"form-control"}/>
+                                    )}
+
                                 </fieldset>
                             </div>
 
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس داخلی برای انتقال (301 Redirect)</label>
-                                    <input type={"text"} onChange={e => HandleMetaData(e)} name={"redirect"}
-                                           id={"title"} className={"form-control"}/>
+                                    {slugManage ? (
+                                        <input type={"text"} onChange={e => HandleMetaData(e)} name={"redirect"}
+                                               id={"title"} className={"form-control"}/>
+                                    ) : (
+                                        <input type={"text"} disabled name={"redirect"}
+                                               id={"title"} className={"form-control"}/>
+                                    )}
                                 </fieldset>
                             </div>
 
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس Canonical</label>
-                                    <input onChange={e => HandleMetaData(e)} name={"canonical"} type={"text"}
-                                           id={"title"} className={"form-control"}/>
+                                    {slugManage ? (
+                                        <input onChange={e => HandleMetaData(e)} name={"canonical"} type={"text"}
+                                               id={"title"} className={"form-control"}/>
+                                    ) : (
+                                        <input disabled name={"canonical"} type={"text"}
+                                               id={"title"} className={"form-control"}/>
+                                    )}
                                 </fieldset>
                             </div>
 
@@ -263,20 +357,23 @@ const Index = (props) => {
 
                 <div className={"col-12 bottom-footer"}>
                     <div className={"row"}>
+
                         <div className={"col-6"} onClick={handleClose}
                              style={{cursor: 'pointer', textAlign: 'center', borderLeft: '1px solid #a9a9a9'}}>
-                            <span>انصراف</span>
+                            <button type={"reset"} id={"clear"}>
+                                انصراف
+                            </button>
                         </div>
-                        <div onClick={() => HandleForm()} className={"col-6"}
+                        <div onClick={(e) => HandleForm(e)} className={"col-6"}
                              style={{textAlign: 'center', cursor: 'pointer'}}>
                             <span>اضافه کردن دسته</span>
                         </div>
                     </div>
 
                 </div>
-
             </div>
 
+            </form>
 
         </div>
     )

@@ -1,16 +1,18 @@
-import React , {useState , useEffect} from 'react';
+import React from 'react';
+import './_Shared/style.scss'
+
 export const Item = () => {
 
     const handleAdding = (e) => {
         $(".back-loader").fadeOut();
-        setTimeout(()=>{
+        setTimeout(() => {
             $("#category_add_pop_base").fadeIn();
-        },300)
+        }, 300)
     }
     return (
         <div id={"li-div"}>
-            <div className={"row"} style={{padding: '0 20px'}}>
-                <div className={"col-md-6"} style={{padding: 13}}>
+            <div className={"row"} style={{padding: '0 20px' , position : 'relative'}}>
+                <div className={"col-md-6 col-sm-8"} style={{padding: 13}}>
                     <div className={"form-check"}>
                         <input type="checkbox"
                                id={"checkAll"}
@@ -19,9 +21,15 @@ export const Item = () => {
                         <span> تست دسته بندی</span>
                     </div>
                 </div>
-                <div className={"col-md-6"} style={{padding: 13}}>
-                    <div className={"form-check"}>
 
+
+                <span id={"sub-menu-custom"}>
+                    <i className={"bx bx-chevron-down"} ></i>
+                </span>
+
+
+                <div className={"col-md-6 col-sm-4"} style={{padding: 13}} id={"icon-item-list"}>
+                    <div className={"form-check"}>
                         <i className={"bx bx-plus"} onClick={() => handleAdding("cd")}></i>
                         <i className={"bx bx-show"}></i>
                         <i className={"bx bx-trash-alt"}></i>
@@ -31,6 +39,8 @@ export const Item = () => {
                         <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
                     </div>
                 </div>
+
+
             </div>
 
         </div>

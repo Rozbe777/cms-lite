@@ -6,11 +6,8 @@
         <div class="content-header row">
             <div class="content-header-left col-12 mb-2 mt-1">
                 <div class="row breadcrumbs-top" style="position: relative">
-                    <button id="add-category" onclick="handlePageAdd()" class="btn btn-primary glow mr-1 mb-1" type="button" style="z-index:9;cursor : pointer;position:absolute;left: 0px">
-                        <i class="bx bx-plus"></i>
-                        <span class="align-middle ml-25">افزودن صفحه</span>
-                    </button>
-                    <div class="col-12">
+
+                    <div class="col-md-8">
                         <h5 class="content-header-title float-left pr-1">لیست کاربران</h5>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb p-0 mb-0">
@@ -21,6 +18,13 @@
                                 <li class="breadcrumb-item active">لیست کاربران</li>
                             </ol>
                         </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <button id="add-category" onclick="handlePageAdd()" class="btn btn-primary glow mr-1 mb-1" type="button" style="float: left">
+                            <i class="bx bx-plus"></i>
+                            <span class="align-middle ml-25">افزودن صفحه</span>
+                        </button>
                     </div>
                 </div>
             </div>

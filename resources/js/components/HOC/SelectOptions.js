@@ -3,8 +3,6 @@ import $ from 'jquery';
 
 export const SelectOptions = ({data, loading ,selection:pushSelectiong}) => {
 
-    // let sizes = data.data.length;
-
     useEffect(()=>{
         $(function (){
             $("select.selectVal").change(function (){
@@ -15,11 +13,6 @@ export const SelectOptions = ({data, loading ,selection:pushSelectiong}) => {
     })
 
 
-
-    const handleInput = (e) => {
-        console.log("item " , e.target.value)
-        // pushSelectiong.push(e.target.value);
-    }
     if ((loading == false && data) || (loading == true && data)) {
         let dataFit = JSON.parse(data);
 
@@ -28,7 +21,7 @@ export const SelectOptions = ({data, loading ,selection:pushSelectiong}) => {
             return (
                 <select className="form-control selectVal"  name={"parent_id"}
                         id="selectParent">
-                    <option value={0}>خودش پدر میباشد</option>
+                    <option value={0}>ندارد</option>
                     {dataFit.map(item => {
                         return (
                             <option value={item.id}>{item.parent_id == 0 ? item.name : " > " + item.name }</option>
@@ -44,12 +37,5 @@ export const SelectOptions = ({data, loading ,selection:pushSelectiong}) => {
     } else {
         return <option value="">wait</option>
     }
-
-
-    // return <option>vdfvdfv</option>
-    // if (data.data){
-    //     return (
-    // )
-
 
 }

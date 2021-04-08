@@ -4883,3 +4883,6 @@ input::placeholder{
     font-size: 13px !important;
 }
 
+.swal2-container.swal2-rtl.swal2-center.swal2-fade.swal2-shown{
+    z-index: 999999999 !important;
+}

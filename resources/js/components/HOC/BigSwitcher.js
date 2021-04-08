@@ -8,7 +8,6 @@ export const BigSwitcher = ({name , valueOne ,valueTow ,valueThree , status:push
             pushStatus(content);
             let radioButtons = $("#myFormID input:radio[name="+name+"]")
             var selectedIndex = radioButtons.index(radioButtons.filter(':checked'));
-            console.log("selected : " , selectedIndex);
             $("ul#bigest li").removeClass("act");
             $("ul#bigest li").eq(selectedIndex).addClass("act");
 

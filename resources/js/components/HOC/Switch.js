@@ -22,8 +22,8 @@ export const Switcher = ({name ,valueActive,valueDeActive , status :pushState}) 
         <div className={"switch-container"}>
             <ul>
                 <input type={"checkbox"} name={name} id={"checked"}/>
-                <li className={name+" active act"}>{valueActive}</li>
-                <li className={name+" deactive"}>{valueDeActive}</li>
+                <li  className={name+" active act"}>{valueActive}</li>
+                <li  className={name+" deactive"}>{valueDeActive}</li>
             </ul>
         </div>
     )
