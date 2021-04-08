@@ -3782,7 +3782,6 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function
       setUserId = _useState16[1];
 
   var userIdArr = [];
-  console.log("token  ssss : ", token);
   jquery__WEBPACK_IMPORTED_MODULE_7___default()('.sweet-alert-delete-confirm').on('click', function (event) {
     event.preventDefault();
     var url = jquery__WEBPACK_IMPORTED_MODULE_7___default()(this).attr('href');
@@ -3859,10 +3858,8 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function
     GetAllUser(1);
   }, []);
   userIdArr = userId.userIds;
-  console.log("user data : sssss", allUser);
 
   var selectHandler = function selectHandler(id) {
-    console.log("add new");
     var filtered = userIdArr.includes(id);
 
     if (filtered) {
@@ -3908,6 +3905,38 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function
     }
 
     jquery__WEBPACK_IMPORTED_MODULE_7___default()("li#" + pageNumber).addClass("active");
+  };
+
+  var handleDeleteGroup = function handleDeleteGroup(event) {
+    event.preventDefault();
+    var thisis = jquery__WEBPACK_IMPORTED_MODULE_7___default()(".sweet-alert-multi-delete-confirm");
+    var url = thisis.attr('href');
+    swal({
+      title: 'حذف کاربر',
+      text: "آیا مطمئنید؟",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'تایید',
+      confirmButtonClass: 'btn btn-primary',
+      cancelButtonClass: 'btn btn-danger ml-1',
+      cancelButtonText: 'انصراف',
+      buttonsStyling: false
+    }).then(function (result) {
+      if (result.value) {
+        _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_3__.Request.GroupDelUser(userId).then(function (res) {
+          Swal.fire({
+            type: "success",
+            title: 'حذف شد!',
+            text: 'کاربر مورد نظر حذف شد',
+            confirmButtonClass: 'btn btn-success',
+            confirmButtonText: 'باشه'
+          });
+          GetAllUser(1);
+        })["catch"](function (error) {
+          return console.log("error", error);
+        });
+      }
+    });
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("form", {
@@ -4068,7 +4097,7 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function
               className: "table-responsive",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("table", {
                 id: "users-list-datatable",
-                className: "table",
+                className: "table table-hover",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("thead", {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("tr", {
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
@@ -4079,7 +4108,7 @@ var UserList = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function
                           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("a", {
                             className: "dropdown-item",
                             onClick: function onClick(e) {
-                              return (0,_Shared_java__WEBPACK_IMPORTED_MODULE_6__.DeleteGroupt)(e, userId);
+                              return handleDeleteGroup(e);
                             },
                             style: {
                               cursor: 'pointer'
