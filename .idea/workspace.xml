@@ -30,33 +30,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a24f60fc-b2bf-4447-a412-4e506f5e3526" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/BackLoader.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/TreeShow/_Shared/style.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/CategoryController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Setting/SettingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Setting/SettingController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Admin/User/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Admin/User/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Jobs/ExportUsersExcelJob.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/ExportUsersExcelJob.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/entrust_seeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/entrust_seeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/panel/themes/frest/css/components.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/panel/themes/frest/css/components.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/Category/CategoryAdd/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/Category/CategoryAdd/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/Category/CategoryList/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/Category/CategoryList/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/UserList/UserList.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/UserList/UserList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/MyEditor/MyEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/MyEditor/MyEditor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/MyEditor/_Shared/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/MyEditor/_Shared/style.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/TreeShow/Item.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/TreeShow/Item.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/TreeShow/TreeShowCategory.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/TreeShow/TreeShowCategory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/_Shared/Style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Shared/Style.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/_Shared/java.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Shared/java.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/HOC/BigSwitcher.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/HOC/BigSwitcher.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/HOC/SelectOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/HOC/SelectOptions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/HOC/Switch.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/HOC/Switch.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/HOC/_Shared/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/HOC/_Shared/style.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/category/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/themes/frest/pages/admin/category/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/services/AdminService/Api.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/services/AdminService/Api.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -305,7 +286,7 @@
       <workItem from="1617771576710" duration="28338000" />
       <workItem from="1617858240900" duration="6581000" />
       <workItem from="1617868546549" duration="17485000" />
-      <workItem from="1617910747674" duration="30309000" />
+      <workItem from="1617910747674" duration="36953000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>

@@ -1,14 +1,22 @@
 import React from 'react';
-import './_Shared/style.scss'
+import ReactDOM from 'react-dom';
+import './_Shared/style.scss';
+import AddCategory from './../../Category/CategoryAdd';
+import {Request} from './../../../../services/AdminService/Api'
 
-export const Item = (props) => {
-
+export const Item = ({key , id ,name ,status,callBack : pushCallBack}) => {
 
     const handleAdding = (e) => {
-        $(".back-loader").fadeOut();
-        setTimeout(() => {
-            $("#category_add_pop_base").fadeIn();
-        }, 300)
+        ReactDOM.render(<AddCategory display={true} idParent={id} result={item => HandleAdd(item)} /> , document.getElementById("add-datas"));
+    }
+
+
+    const HandleDel = (e , idDel) => {
+        e.preventDefault()
+        Request.DeleteCategoryOne(idDel)
+            .then(res => {
+                pushCallBack(res.status)
+            }).cache(error => console.log("error : " , error))
     }
     return (
         <div id={"li-div"}>
@@ -19,7 +27,7 @@ export const Item = (props) => {
                                id={"checkAll"}
                                className="form-check-input check-category"/>
                         <label className="form-check-label"></label>
-                        <span>{props.name}</span>
+                        <span>{name}</span>
                     </div>
                 </div>
 
@@ -31,13 +39,13 @@ export const Item = (props) => {
 
                 <div className={"col-md-6 col-sm-4"} style={{padding: 13}} id={"icon-item-list"}>
                     <div className={"form-check"}>
-                        <i className={"bx bx-plus"} onClick={() => handleAdding("cd")}></i>
+                        <i className={"bx bx-plus"} onClick={handleAdding}></i>
                         <i className={"bx bx-show"}></i>
-                        <i className={"bx bx-trash-alt"}></i>
+                        <i className={"bx bx-trash-alt"} onClick={e=>HandleDel(e ,id)}></i>
                         <i className={"bx bx-edit"}></i>
                         <i className={"bx bx-duplicate"}></i>
 
-                        {props.status == "active" ? (
+                        {status == "active" ? (
                             <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
                         ):(
                             <span className={"badge badge-warning badge-pill ml-50"}>غیرفعال</span>

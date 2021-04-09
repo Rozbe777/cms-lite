@@ -2901,6 +2901,7 @@ var LOCAL_CAT = "localcat-zerone-cmslite";
 
 var AddCategory = function AddCategory(_ref) {
   var display = _ref.display,
+      idParent = _ref.idParent,
       pushResult = _ref.result;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
@@ -2934,6 +2935,7 @@ var AddCategory = function AddCategory(_ref) {
     is_menu: true,
     status: "active",
     content: '',
+    parent_id: idParent,
     slug: ''
   }),
       _useState12 = _slicedToArray(_useState11, 2),
@@ -2992,8 +2994,6 @@ var AddCategory = function AddCategory(_ref) {
       $("input[name=name]").addClass("is-invalid");
     }
 
-    console.log("data out : ", formNew); // CaegoryAleert(e , "data" , msg , "با موفقیت اضافه شد!");
-
     CreateAddCategory(formNew);
   };
 
@@ -3009,14 +3009,7 @@ var AddCategory = function AddCategory(_ref) {
 
   var HandleSlug = function HandleSlug(e) {
     e.preventDefault();
-    setFormData(_objectSpread(_objectSpread({}, formData), {}, _defineProperty({}, e.target.name, e.target.value))); // let formDatasss = {...formData};
-    // formDatasss.name = e.target.value;
-    // formDatasss.slug = e.target.value;
-    // setFormData({
-    //     ...formData,
-    //     slug: e.target.value,
-    //     name : e.target.value
-    // })
+    setFormData(_objectSpread(_objectSpread({}, formData), {}, _defineProperty({}, e.target.name, e.target.value)));
   };
 
   var handleSwitchStatus = function handleSwitchStatus(status) {
@@ -3042,10 +3035,6 @@ var AddCategory = function AddCategory(_ref) {
   };
 
   var HandleSelectOption = function HandleSelectOption(check) {
-    // let newFormData = {...formData};
-    // newFormData.parent_id = check;
-    // setFormData(newFormData);
-    console.log("check : ", check);
     setFormData(_objectSpread(_objectSpread({}, formData), {}, {
       parent_id: parseInt(check)
     }));
@@ -3132,6 +3121,7 @@ var AddCategory = function AddCategory(_ref) {
                     id: "selectParent",
                     children: "\u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC \u067E\u062F\u0631"
                   }), categoryData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_6__.SelectOptions, {
+                    parents: idParent,
                     selection: function selection(check) {
                       return HandleSelectOption(check);
                     },
@@ -3278,17 +3268,11 @@ var AddCategory = function AddCategory(_ref) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
                     htmlFor: "title",
                     children: "\u0639\u0646\u0648\u0627\u0646 \u0635\u0641\u062D\u0647 ( \u062D\u062F\u0627\u06A9\u062B\u0631 60 \u062D\u0631\u0641 )"
-                  }), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
                     type: "text",
                     onChange: function onChange(e) {
                       return HandleMetaData(e);
                     },
-                    name: "title",
-                    id: "title",
-                    className: "form-control"
-                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
-                    type: "text",
-                    disabled: true,
                     name: "title",
                     id: "title",
                     className: "form-control"
@@ -3301,17 +3285,11 @@ var AddCategory = function AddCategory(_ref) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
                     htmlFor: "title",
                     children: "\u062A\u0648\u0636\u06CC\u062D \u0635\u0641\u062D\u0647 ( \u062D\u062F\u0627\u06A9\u062B\u0631 155 \u062D\u0631\u0641 )"
-                  }), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("textarea", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("textarea", {
                     type: "text",
                     onChange: function onChange(e) {
                       return HandleMetaData(e);
                     },
-                    name: "content",
-                    id: "title",
-                    className: "form-control"
-                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("textarea", {
-                    type: "text",
-                    disabled: true,
                     name: "content",
                     id: "title",
                     className: "form-control"
@@ -3324,17 +3302,11 @@ var AddCategory = function AddCategory(_ref) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
                     htmlFor: "title",
                     children: "\u06A9\u0644\u0645\u0627\u062A \u06A9\u0644\u06CC\u062F\u06CC \u0635\u0641\u062D\u0647 ( \u0628\u0627 \u0648\u06CC\u0631\u06AF\u0648\u0644 \u062C\u062F\u0627 \u06A9\u0646\u06CC\u062F )"
-                  }), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
                     type: "text",
                     onChange: function onChange(e) {
                       return HandleMetaData(e);
                     },
-                    name: "tags",
-                    id: "title",
-                    className: "form-control"
-                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
-                    type: "text",
-                    disabled: true,
                     name: "tags",
                     id: "title",
                     className: "form-control"
@@ -3347,17 +3319,11 @@ var AddCategory = function AddCategory(_ref) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
                     htmlFor: "title",
                     children: "\u0622\u062F\u0631\u0633 \u062F\u0627\u062E\u0644\u06CC \u0628\u0631\u0627\u06CC \u0627\u0646\u062A\u0642\u0627\u0644 (301 Redirect)"
-                  }), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
                     type: "text",
                     onChange: function onChange(e) {
                       return HandleMetaData(e);
                     },
-                    name: "redirect",
-                    id: "title",
-                    className: "form-control"
-                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
-                    type: "text",
-                    disabled: true,
                     name: "redirect",
                     id: "title",
                     className: "form-control"
@@ -3370,16 +3336,10 @@ var AddCategory = function AddCategory(_ref) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
                     htmlFor: "title",
                     children: "\u0622\u062F\u0631\u0633 Canonical"
-                  }), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
                     onChange: function onChange(e) {
                       return HandleMetaData(e);
                     },
-                    name: "canonical",
-                    type: "text",
-                    id: "title",
-                    className: "form-control"
-                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
-                    disabled: true,
                     name: "canonical",
                     type: "text",
                     id: "title",
@@ -3566,6 +3526,14 @@ var CategoryList = function CategoryList() {
     }
   };
 
+  var HandleDelete = function HandleDelete(status) {
+    if (status == 200) {
+      GetAllCategory();
+    } else {
+      console.log("you have an error");
+    }
+  };
+
   var HandleBackLoader = function HandleBackLoader(data) {
     var dataNew = JSON.parse(data);
 
@@ -3576,6 +3544,7 @@ var CategoryList = function CategoryList() {
     if (dataNew.display) {
       react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_6__.default, {
         display: true,
+        idParent: 0,
         result: function result(item) {
           return HandleAdd(item);
         }
@@ -3643,6 +3612,9 @@ var CategoryList = function CategoryList() {
         "aria-labelledby": "home-tab",
         role: "tabpanel",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Micro_TreeShow_TreeShowCategory__WEBPACK_IMPORTED_MODULE_3__.TreeShowCategory, {
+          callBack: function callBack(item) {
+            return HandleDelete(item);
+          },
           data: categoryData,
           loading: loading
         })
@@ -4658,75 +4630,100 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Item": () => (/* binding */ Item)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _Shared_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_Shared/style.scss */ "./resources/js/components/Admin/_Micro/TreeShow/_Shared/style.scss");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _Shared_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./_Shared/style.scss */ "./resources/js/components/Admin/_Micro/TreeShow/_Shared/style.scss");
+/* harmony import */ var _Category_CategoryAdd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../Category/CategoryAdd */ "./resources/js/components/Admin/Category/CategoryAdd/index.js");
+/* harmony import */ var _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../../../services/AdminService/Api */ "./resources/js/services/AdminService/Api.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
 
-var Item = function Item(props) {
+
+
+
+var Item = function Item(_ref) {
+  var key = _ref.key,
+      id = _ref.id,
+      name = _ref.name,
+      status = _ref.status,
+      pushCallBack = _ref.callBack;
+
   var handleAdding = function handleAdding(e) {
-    $(".back-loader").fadeOut();
-    setTimeout(function () {
-      $("#category_add_pop_base").fadeIn();
-    }, 300);
+    react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Category_CategoryAdd__WEBPACK_IMPORTED_MODULE_3__.default, {
+      display: true,
+      idParent: id,
+      result: function result(item) {
+        return HandleAdd(item);
+      }
+    }), document.getElementById("add-datas"));
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+  var HandleDel = function HandleDel(e, idDel) {
+    e.preventDefault();
+    _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_4__.Request.DeleteCategoryOne(idDel).then(function (res) {
+      pushCallBack(res.status);
+    }).cache(function (error) {
+      return console.log("error : ", error);
+    });
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
     id: "li-div",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
       className: "row",
       style: {
         padding: '0 20px',
         position: 'relative'
       },
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "col-md-6 col-sm-8",
         style: {
           padding: 13
         },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
           className: "form-check",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
             type: "checkbox",
             id: "checkAll",
             className: "form-check-input check-category"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("label", {
             className: "form-check-label"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-            children: props.name
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+            children: name
           })]
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
         id: "sub-menu-custom",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
           className: "bx bx-chevron-down"
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "col-md-6 col-sm-4",
         style: {
           padding: 13
         },
         id: "icon-item-list",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
           className: "form-check",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
             className: "bx bx-plus",
-            onClick: function onClick() {
-              return handleAdding("cd");
-            }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+            onClick: handleAdding
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
             className: "bx bx-show"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-            className: "bx bx-trash-alt"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
+            className: "bx bx-trash-alt",
+            onClick: function onClick(e) {
+              return HandleDel(e, id);
+            }
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
             className: "bx bx-edit"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
             className: "bx bx-duplicate"
-          }), props.status == "active" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+          }), status == "active" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
             className: "badge badge-success badge-pill ml-50",
             children: "\u0641\u0639\u0627\u0644"
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
             className: "badge badge-warning badge-pill ml-50",
             children: "\u063A\u06CC\u0631\u0641\u0639\u0627\u0644"
           })]
@@ -4759,7 +4756,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var TreeShowCategory = function TreeShowCategory(props) {
+var TreeShowCategory = function TreeShowCategory(_ref) {
+  var data = _ref.data,
+      loading = _ref.loading,
+      pushCallBack = _ref.callBack;
   jquery__WEBPACK_IMPORTED_MODULE_2___default()(function () {
     jquery__WEBPACK_IMPORTED_MODULE_2___default()("span#sub-menu-custom").click(function () {
       jquery__WEBPACK_IMPORTED_MODULE_2___default()(".back-blur").fadeIn(100);
@@ -4775,7 +4775,11 @@ var TreeShowCategory = function TreeShowCategory(props) {
     });
   });
 
-  if (props.loading) {
+  var handlePush = function handlePush(item) {
+    pushCallBack(item);
+  };
+
+  if (loading) {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
       children: "\u062F\u0631 \u062D\u0627\u0644 \u067E\u0631\u062F\u0627\u0632\u0634 ..."
     });
@@ -4783,10 +4787,10 @@ var TreeShowCategory = function TreeShowCategory(props) {
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
     className: "content-li",
-    children: props.data ? Object.keys(props.data).map(function (keyName, i) {
+    children: data ? Object.keys(data).map(function (keyName, i) {
       return (
         /*#__PURE__*/
-        // <p>{props.data[keyName].name}</p>
+        // <p>{data[keyName].name}</p>
         (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
           style: {
             position: 'relative'
@@ -4794,10 +4798,13 @@ var TreeShowCategory = function TreeShowCategory(props) {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
             className: "branch-top"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
-            name: props.data[keyName].name,
-            id: props.data[keyName].id,
-            status: props.data[keyName].status
-          }, props.data[keyName].name), console.log("childern : ", props.data[keyName].childern.length), props.data[keyName].childern.length > 0 ? props.data[keyName].childern.map(function (itemClildOne, i) {
+            name: data[keyName].name,
+            id: data[keyName].id,
+            status: data[keyName].status,
+            callBack: function callBack(item) {
+              return handlePush(item);
+            }
+          }, data[keyName].name), console.log("childern : ", data[keyName].childern.length), data[keyName].childern.length > 0 ? data[keyName].childern.map(function (itemClildOne, i) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
               style: {
                 padding: '0 50px 0 0',
@@ -4815,7 +4822,10 @@ var TreeShowCategory = function TreeShowCategory(props) {
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
                   status: itemClildOne.status,
                   name: itemClildOne.name,
-                  id: itemClildOne.id
+                  id: itemClildOne.id,
+                  callBack: function callBack(item) {
+                    return handlePush(item);
+                  }
                 }, itemClildOne.id), itemClildOne.children.length > 0 ? itemClildOne.children.map(function (childThree, i) {
                   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
                     style: {
@@ -4834,7 +4844,10 @@ var TreeShowCategory = function TreeShowCategory(props) {
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
                         status: childThree.status,
                         name: childThree.name,
-                        id: childThree.id
+                        id: childThree.id,
+                        callBack: function callBack(item) {
+                          return handlePush(item);
+                        }
                       }, childThree.id)]
                     })
                   });
@@ -5337,10 +5350,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var SelectOptions = function SelectOptions(_ref) {
-  var data = _ref.data,
+  var parents = _ref.parents,
+      data = _ref.data,
       loading = _ref.loading,
       pushSelectiong = _ref.selection;
-  console.log("cat data : ", JSON.parse(data), loading);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     jquery__WEBPACK_IMPORTED_MODULE_1___default()(function () {
       jquery__WEBPACK_IMPORTED_MODULE_1___default()("select.selectVal").change(function () {
@@ -5352,8 +5365,8 @@ var SelectOptions = function SelectOptions(_ref) {
 
   if (loading == false && data || loading == true && data) {
     var dataFit = JSON.parse(data);
-    console.log("data upppppp : ", dataFit);
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
+      defaultValue: parents,
       className: "form-control selectVal",
       name: "parent_id",
       id: "selectParent",
@@ -7334,6 +7347,9 @@ var Request = {
   },
   AddNewCategory: function AddNewCategory(data) {
     return _Request__WEBPACK_IMPORTED_MODULE_0__.request.post("/admin/category/", data);
+  },
+  DeleteCategoryOne: function DeleteCategoryOne(data) {
+    return _Request__WEBPACK_IMPORTED_MODULE_0__.request.get("/admin/category/" + data + "/destroy/");
   }
 };
 

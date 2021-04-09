@@ -9,7 +9,7 @@ import {CaegoryAleert} from './../../_Shared/java'
 import MyEditor from "../../_Micro/MyEditor/MyEditor";
 import './../../_Micro/TreeShow/_Shared/style.scss';
 const LOCAL_CAT = "localcat-zerone-cmslite";
-const AddCategory = ({display , result : pushResult}) => {
+const AddCategory = ({display ,idParent, result : pushResult}) => {
     const [comments, setComments] = useState();
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
@@ -22,6 +22,7 @@ const AddCategory = ({display , result : pushResult}) => {
         is_menu: true,
         status: "active",
         content: '',
+        parent_id : idParent,
         slug : ''
     });
 
@@ -60,7 +61,6 @@ const AddCategory = ({display , result : pushResult}) => {
     }
 
     const handleInput = (e) => {
-
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
@@ -88,8 +88,6 @@ const AddCategory = ({display , result : pushResult}) => {
             $("input[name=name]").addClass("is-invalid");
 
         }
-        console.log("data out : " , formNew);
-        // CaegoryAleert(e , "data" , msg , "با موفقیت اضافه شد!");
         CreateAddCategory(formNew);
     }
 
@@ -106,21 +104,10 @@ const AddCategory = ({display , result : pushResult}) => {
 
     const HandleSlug = (e) => {
         e.preventDefault();
-
         setFormData({
             ...formData,
             [e.target.name] : e.target.value
         })
-        // let formDatasss = {...formData};
-        // formDatasss.name = e.target.value;
-        // formDatasss.slug = e.target.value;
-        // setFormData({
-        //     ...formData,
-        //     slug: e.target.value,
-        //     name : e.target.value
-        // })
-
-
     }
 
     const handleSwitchStatus = (status) => {
@@ -144,10 +131,6 @@ const AddCategory = ({display , result : pushResult}) => {
     }
 
     const HandleSelectOption = (check) => {
-        // let newFormData = {...formData};
-        // newFormData.parent_id = check;
-        // setFormData(newFormData);
-        console.log("check : " , check)
         setFormData({
             ...formData,
             parent_id: parseInt(check)
@@ -189,7 +172,7 @@ const AddCategory = ({display , result : pushResult}) => {
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>دسته بندی پدر</label>
                                     {categoryData ? (
-                                        <SelectOptions selection={check => HandleSelectOption(check)}
+                                        <SelectOptions parents={idParent} selection={check => HandleSelectOption(check)}
                                                        loading={loading} data={JSON.stringify(dataCategory.data)}/>
                                     ): (
                                         <p>wait ...</p>
@@ -279,13 +262,9 @@ const AddCategory = ({display , result : pushResult}) => {
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان صفحه ( حداکثر 60 حرف )</label>
-                                    {slugManage ? (
                                         <input type={"text"} onChange={e => HandleMetaData(e)} name={"title"} id={"title"}
                                                className={"form-control"}/>
-                                    ) : (
-                                        <input type={"text"} disabled name={"title"} id={"title"}
-                                               className={"form-control"}/>
-                                    )}
+
 
                                 </fieldset>
                             </div>
@@ -293,13 +272,9 @@ const AddCategory = ({display , result : pushResult}) => {
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>توضیح صفحه ( حداکثر 155 حرف )</label>
-                                    {slugManage ? (
                                         <textarea type={"text"} onChange={e => HandleMetaData(e)} name={"content"}
                                                   id={"title"} className={"form-control"}/>
-                                    ) : (
-                                        <textarea type={"text"} disabled name={"content"}
-                                                  id={"title"} className={"form-control"}/>
-                                    )}
+
 
                                 </fieldset>
                             </div>
@@ -308,13 +283,9 @@ const AddCategory = ({display , result : pushResult}) => {
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>کلمات کلیدی صفحه ( با ویرگول جدا کنید )</label>
-                                    {slugManage ? (
                                         <input type={"text"} onChange={e => HandleMetaData(e)} name={"tags"} id={"title"}
                                                className={"form-control"}/>
-                                    ) : (
-                                        <input type={"text"} disabled name={"tags"} id={"title"}
-                                               className={"form-control"}/>
-                                    )}
+
 
                                 </fieldset>
                             </div>
@@ -322,26 +293,17 @@ const AddCategory = ({display , result : pushResult}) => {
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس داخلی برای انتقال (301 Redirect)</label>
-                                    {slugManage ? (
                                         <input type={"text"} onChange={e => HandleMetaData(e)} name={"redirect"}
                                                id={"title"} className={"form-control"}/>
-                                    ) : (
-                                        <input type={"text"} disabled name={"redirect"}
-                                               id={"title"} className={"form-control"}/>
-                                    )}
+
                                 </fieldset>
                             </div>
 
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس Canonical</label>
-                                    {slugManage ? (
                                         <input onChange={e => HandleMetaData(e)} name={"canonical"} type={"text"}
                                                id={"title"} className={"form-control"}/>
-                                    ) : (
-                                        <input disabled name={"canonical"} type={"text"}
-                                               id={"title"} className={"form-control"}/>
-                                    )}
                                 </fieldset>
                             </div>
 

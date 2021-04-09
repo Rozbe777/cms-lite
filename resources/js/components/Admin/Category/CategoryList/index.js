@@ -61,6 +61,15 @@ export const CategoryList = () => {
         }
     }
 
+    const HandleDelete = (status) => {
+        if (status == 200)
+        {
+            GetAllCategory();
+        }else{
+            console.log("you have an error");
+        }
+    }
+
 
     const HandleBackLoader = (data) => {
         let dataNew = JSON.parse(data);
@@ -68,7 +77,7 @@ export const CategoryList = () => {
         display.dispaly = true;
         if (dataNew.display)
         {
-            ReactDom.render(<AddCategory display={true} result={item => HandleAdd(item)} /> , document.getElementById("add-datas"))
+            ReactDom.render(<AddCategory display={true} idParent={0} result={item => HandleAdd(item)} /> , document.getElementById("add-datas"))
         }
     }
 
@@ -98,7 +107,7 @@ export const CategoryList = () => {
             <div className="tab-content" style={{padding: 0}}>
                 <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
 
-                    <TreeShowCategory data={categoryData} loading={loading}/>
+                    <TreeShowCategory callBack={item => HandleDelete(item)} data={categoryData} loading={loading}/>
 
                 </div>
                 <div className="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">

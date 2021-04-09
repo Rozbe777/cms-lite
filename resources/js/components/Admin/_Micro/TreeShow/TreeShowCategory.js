@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Item} from './Item'
 import $ from 'jquery';
 
-export const TreeShowCategory = (props) => {
+export const TreeShowCategory = ({data , loading , callBack : pushCallBack}) => {
 
     $(function () {
         $("span#sub-menu-custom").click(function () {
@@ -18,15 +18,18 @@ export const TreeShowCategory = (props) => {
             }, 200)
         })
     })
-    if (props.loading) {
+    const handlePush = (item) => {
+        pushCallBack(item);
+    }
+    if (loading) {
         return <p>در حال پردازش ...</p>
     }
 
     return (
         <ul className={"content-li"}>
-            {props.data ? Object.keys(props.data).map((keyName, i) => {
+            {data ? Object.keys(data).map((keyName, i) => {
                     return (
-                        // <p>{props.data[keyName].name}</p>
+                        // <p>{data[keyName].name}</p>
                         <li style={{position:'relative'}}>
 
 
@@ -35,17 +38,15 @@ export const TreeShowCategory = (props) => {
                             </div>
 
 
-                            <Item key={props.data[keyName].name} name={props.data[keyName].name}
-                                  id={props.data[keyName].id} status={props.data[keyName].status}/>
-                            {console.log("childern : ", props.data[keyName].childern.length)}
-                            {props.data[keyName].childern.length > 0 ? props.data[keyName].childern.map((itemClildOne , i) => {
+                            <Item key={data[keyName].name} name={data[keyName].name}
+                                  id={data[keyName].id} status={data[keyName].status}
+                                  callBack={item => handlePush(item)}
+                            />
+                            {console.log("childern : ", data[keyName].childern.length)}
+                            {data[keyName].childern.length > 0 ? data[keyName].childern.map((itemClildOne , i) => {
                                     return (
                                         <ul style={{padding: '0 50px 0 0', listStyle: 'inherit', position: 'relative'}}>
                                             {console.log("indexed : " , i)}
-
-
-
-
 
 
                                             <li>
@@ -60,7 +61,9 @@ export const TreeShowCategory = (props) => {
                                                         <div className={"box"}></div>
                                                     </div>
                                                 <Item key={itemClildOne.id} status={itemClildOne.status}
-                                                      name={itemClildOne.name} id={itemClildOne.id}/>
+                                                      name={itemClildOne.name} id={itemClildOne.id}
+                                                      callBack={item => handlePush(item)}
+                                                />
 
                                                 {itemClildOne.children.length > 0 ? itemClildOne.children.map((childThree,i) => (
                                                     <ul style={{
@@ -79,7 +82,9 @@ export const TreeShowCategory = (props) => {
                                                                 </div>
 
                                                             <Item key={childThree.id} status={childThree.status}
-                                                                  name={childThree.name} id={childThree.id}/>
+                                                                  name={childThree.name} id={childThree.id}
+                                                                    callBack={item => handlePush(item)}
+                                                            />
                                                         </li>
                                                     </ul>
                                                 )) : ''}
