@@ -31,7 +31,8 @@ const AddCategory = ({display ,idParent, result : pushResult}) => {
     const dataCategory=JSON.parse(localStorage.getItem(LOCAL_CAT));
 
 
-    const CreateAddCategory = (data) => {
+    const CreateAddCategory = (e,data) => {
+        e.preventDefault();
         Request.AddNewCategory(data)
             .then(res => pushResult(res))
             .catch(error => console.log("error add :", error))
@@ -88,7 +89,7 @@ const AddCategory = ({display ,idParent, result : pushResult}) => {
             $("input[name=name]").addClass("is-invalid");
 
         }
-        CreateAddCategory(formNew);
+        CreateAddCategory(e , formNew);
     }
 
     const HandleMetaData = (e) => {

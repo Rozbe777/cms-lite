@@ -2945,7 +2945,8 @@ var AddCategory = function AddCategory(_ref) {
 
   var dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
 
-  var CreateAddCategory = function CreateAddCategory(data) {
+  var CreateAddCategory = function CreateAddCategory(e, data) {
+    e.preventDefault();
     _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_5__.Request.AddNewCategory(data).then(function (res) {
       return pushResult(res);
     })["catch"](function (error) {
@@ -2994,7 +2995,7 @@ var AddCategory = function AddCategory(_ref) {
       $("input[name=name]").addClass("is-invalid");
     }
 
-    CreateAddCategory(formNew);
+    CreateAddCategory(e, formNew);
   };
 
   var HandleMetaData = function HandleMetaData(e) {
@@ -3534,6 +3535,23 @@ var CategoryList = function CategoryList() {
     }
   };
 
+  var handleClickItem = function handleClickItem(clickId) {
+    react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_6__.default, {
+      display: true,
+      idParent: clickId,
+      result: function result(item) {
+        return handleBack(item);
+      }
+    }), document.getElementById("add-datas"));
+  };
+
+  var handleBack = function handleBack(item) {
+    if (item.status == 200) {
+      GetAllCategory();
+      react_dom__WEBPACK_IMPORTED_MODULE_1__.render('', document.getElementById('add-datas'));
+    }
+  };
+
   var HandleBackLoader = function HandleBackLoader(data) {
     var dataNew = JSON.parse(data);
 
@@ -3544,9 +3562,9 @@ var CategoryList = function CategoryList() {
     if (dataNew.display) {
       react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_6__.default, {
         display: true,
-        idParent: 0,
+        idParent: null,
         result: function result(item) {
-          return HandleAdd(item);
+          return handleBack(item);
         }
       }), document.getElementById("add-datas"));
     }
@@ -3612,6 +3630,12 @@ var CategoryList = function CategoryList() {
         "aria-labelledby": "home-tab",
         role: "tabpanel",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Micro_TreeShow_TreeShowCategory__WEBPACK_IMPORTED_MODULE_3__.TreeShowCategory, {
+          handleCata: function handleCata(itemCat) {
+            return console.log("cat back ,", itemCat);
+          },
+          itemClicks: function itemClicks(clicks) {
+            return handleClickItem(clicks);
+          },
           callBack: function callBack(item) {
             return HandleDelete(item);
           },
@@ -4642,21 +4666,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var Item = function Item(_ref) {
   var key = _ref.key,
       id = _ref.id,
       name = _ref.name,
       status = _ref.status,
+      pushItemClisk = _ref.itemClick,
       pushCallBack = _ref.callBack;
 
   var handleAdding = function handleAdding(e) {
-    react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Category_CategoryAdd__WEBPACK_IMPORTED_MODULE_3__.default, {
-      display: true,
-      idParent: id,
-      result: function result(item) {
-        return HandleAdd(item);
-      }
-    }), document.getElementById("add-datas"));
+    e.preventDefault();
+    pushItemClisk(id);
   };
 
   var HandleDel = function HandleDel(e, idDel) {
@@ -4759,7 +4780,8 @@ __webpack_require__.r(__webpack_exports__);
 var TreeShowCategory = function TreeShowCategory(_ref) {
   var data = _ref.data,
       loading = _ref.loading,
-      pushCallBack = _ref.callBack;
+      pushCallBack = _ref.callBack,
+      pushItemCliks = _ref.itemClicks;
   jquery__WEBPACK_IMPORTED_MODULE_2___default()(function () {
     jquery__WEBPACK_IMPORTED_MODULE_2___default()("span#sub-menu-custom").click(function () {
       jquery__WEBPACK_IMPORTED_MODULE_2___default()(".back-blur").fadeIn(100);
@@ -4777,6 +4799,10 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
 
   var handlePush = function handlePush(item) {
     pushCallBack(item);
+  };
+
+  var HandleClick = function HandleClick(id) {
+    pushItemCliks(id);
   };
 
   if (loading) {
@@ -4803,6 +4829,9 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
             status: data[keyName].status,
             callBack: function callBack(item) {
               return handlePush(item);
+            },
+            itemClick: function itemClick(itemId) {
+              return HandleClick(itemId);
             }
           }, data[keyName].name), console.log("childern : ", data[keyName].childern.length), data[keyName].childern.length > 0 ? data[keyName].childern.map(function (itemClildOne, i) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
@@ -4825,6 +4854,9 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
                   id: itemClildOne.id,
                   callBack: function callBack(item) {
                     return handlePush(item);
+                  },
+                  itemClick: function itemClick(itemId) {
+                    return HandleClick(itemId);
                   }
                 }, itemClildOne.id), itemClildOne.children.length > 0 ? itemClildOne.children.map(function (childThree, i) {
                   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
@@ -4847,6 +4879,9 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
                         id: childThree.id,
                         callBack: function callBack(item) {
                           return handlePush(item);
+                        },
+                        itemClick: function itemClick(itemId) {
+                          return HandleClick(itemId);
                         }
                       }, childThree.id)]
                     })

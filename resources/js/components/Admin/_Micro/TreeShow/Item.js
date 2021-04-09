@@ -3,11 +3,15 @@ import ReactDOM from 'react-dom';
 import './_Shared/style.scss';
 import AddCategory from './../../Category/CategoryAdd';
 import {Request} from './../../../../services/AdminService/Api'
+import ReactDom from "react-dom";
 
-export const Item = ({key , id ,name ,status,callBack : pushCallBack}) => {
+export const Item = ({key , id ,name ,status , itemClick : pushItemClisk,callBack : pushCallBack}) => {
+
+
 
     const handleAdding = (e) => {
-        ReactDOM.render(<AddCategory display={true} idParent={id} result={item => HandleAdd(item)} /> , document.getElementById("add-datas"));
+        e.preventDefault();
+        pushItemClisk(id);
     }
 
 

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Item} from './Item'
 import $ from 'jquery';
 
-export const TreeShowCategory = ({data , loading , callBack : pushCallBack}) => {
+export const TreeShowCategory = ({data, loading, callBack: pushCallBack, itemClicks: pushItemCliks}) => {
 
     $(function () {
         $("span#sub-menu-custom").click(function () {
@@ -21,6 +21,9 @@ export const TreeShowCategory = ({data , loading , callBack : pushCallBack}) => 
     const handlePush = (item) => {
         pushCallBack(item);
     }
+    const HandleClick = (id) => {
+        pushItemCliks(id);
+    }
     if (loading) {
         return <p>در حال پردازش ...</p>
     }
@@ -30,7 +33,7 @@ export const TreeShowCategory = ({data , loading , callBack : pushCallBack}) => 
             {data ? Object.keys(data).map((keyName, i) => {
                     return (
                         // <p>{data[keyName].name}</p>
-                        <li style={{position:'relative'}}>
+                        <li style={{position: 'relative'}}>
 
 
                             <div className={"branch-top"}>
@@ -41,12 +44,13 @@ export const TreeShowCategory = ({data , loading , callBack : pushCallBack}) => 
                             <Item key={data[keyName].name} name={data[keyName].name}
                                   id={data[keyName].id} status={data[keyName].status}
                                   callBack={item => handlePush(item)}
+                                  itemClick={itemId => HandleClick(itemId)}
                             />
                             {console.log("childern : ", data[keyName].childern.length)}
-                            {data[keyName].childern.length > 0 ? data[keyName].childern.map((itemClildOne , i) => {
+                            {data[keyName].childern.length > 0 ? data[keyName].childern.map((itemClildOne, i) => {
                                     return (
                                         <ul style={{padding: '0 50px 0 0', listStyle: 'inherit', position: 'relative'}}>
-                                            {console.log("indexed : " , i)}
+                                            {console.log("indexed : ", i)}
 
 
                                             <li>
@@ -56,16 +60,16 @@ export const TreeShowCategory = ({data , loading , callBack : pushCallBack}) => 
                                                 </div>
 
 
-
-                                                    <div className={"branch"}>
-                                                        <div className={"box"}></div>
-                                                    </div>
+                                                <div className={"branch"}>
+                                                    <div className={"box"}></div>
+                                                </div>
                                                 <Item key={itemClildOne.id} status={itemClildOne.status}
                                                       name={itemClildOne.name} id={itemClildOne.id}
                                                       callBack={item => handlePush(item)}
+                                                      itemClick={itemId => HandleClick(itemId)}
                                                 />
 
-                                                {itemClildOne.children.length > 0 ? itemClildOne.children.map((childThree,i) => (
+                                                {itemClildOne.children.length > 0 ? itemClildOne.children.map((childThree, i) => (
                                                     <ul style={{
                                                         padding: '0 50px 0 0',
                                                         listStyle: 'inherit',
@@ -77,13 +81,14 @@ export const TreeShowCategory = ({data , loading , callBack : pushCallBack}) => 
                                                             <div className={"branch-top"}>
 
                                                             </div>
-                                                                <div className={"branch"}>
-                                                                    <div className={"box"}></div>
-                                                                </div>
+                                                            <div className={"branch"}>
+                                                                <div className={"box"}></div>
+                                                            </div>
 
                                                             <Item key={childThree.id} status={childThree.status}
                                                                   name={childThree.name} id={childThree.id}
-                                                                    callBack={item => handlePush(item)}
+                                                                  callBack={item => handlePush(item)}
+                                                                  itemClick={itemId => HandleClick(itemId)}
                                                             />
                                                         </li>
                                                     </ul>

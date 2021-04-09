@@ -71,15 +71,28 @@ export const CategoryList = () => {
     }
 
 
+    const handleClickItem = (clickId) => {
+        ReactDom.render(<AddCategory display={true} idParent={clickId} result={item => handleBack(item)} /> , document.getElementById("add-datas"))
+
+    }
+
+    const handleBack = (item) => {
+        if (item.status == 200)
+        {
+            GetAllCategory();
+            ReactDom.render('' , document.getElementById('add-datas'))
+        }
+    }
     const HandleBackLoader = (data) => {
         let dataNew = JSON.parse(data);
         let display = {...dispalyAdd};
         display.dispaly = true;
         if (dataNew.display)
         {
-            ReactDom.render(<AddCategory display={true} idParent={0} result={item => HandleAdd(item)} /> , document.getElementById("add-datas"))
+            ReactDom.render(<AddCategory display={true} idParent={null} result={item => handleBack(item)} /> , document.getElementById("add-datas"))
         }
     }
+
 
     return (
         <div>
@@ -107,7 +120,7 @@ export const CategoryList = () => {
             <div className="tab-content" style={{padding: 0}}>
                 <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
 
-                    <TreeShowCategory callBack={item => HandleDelete(item)} data={categoryData} loading={loading}/>
+                    <TreeShowCategory handleCata={itemCat => console.log("cat back ," , itemCat)} itemClicks={clicks => handleClickItem(clicks)} callBack={item => HandleDelete(item)} data={categoryData} loading={loading}/>
 
                 </div>
                 <div className="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">

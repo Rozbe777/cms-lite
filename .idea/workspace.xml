@@ -36,8 +36,6 @@
       <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/Category/CategoryList/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/Category/CategoryList/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/TreeShow/Item.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/TreeShow/Item.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/TreeShow/TreeShowCategory.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/_Micro/TreeShow/TreeShowCategory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/HOC/SelectOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/HOC/SelectOptions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/services/AdminService/Api.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/services/AdminService/Api.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -286,7 +284,7 @@
       <workItem from="1617771576710" duration="28338000" />
       <workItem from="1617858240900" duration="6581000" />
       <workItem from="1617868546549" duration="17485000" />
-      <workItem from="1617910747674" duration="36953000" />
+      <workItem from="1617910747674" duration="39336000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>
