@@ -105,7 +105,6 @@ class CategoryController extends Controller
 
     }
 
-
     public function update(EditCategoryRequest $request, $categoryId)
     {
         $category = $this->EditCategory([
@@ -149,6 +148,5 @@ class CategoryController extends Controller
         return adminView("pages.admin.category.index")->with('categories', $categories);
 
     }
-
 
 }
