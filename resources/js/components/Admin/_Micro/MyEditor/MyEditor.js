@@ -1,22 +1,29 @@
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect ,useState } from "react";
 import SunEditor from 'suneditor-react';
 import './_Shared/style.scss'; // Import Sun Editor's CSS File
 
-const MyEditor = props => {
+const MyEditor = ({placeholder , editorData : pushEditorData}) => {
+    const [editorData , setEditorData] = useState({});
     const editorRef = useRef();
     useEffect(() => {
-        // Get underlining core object here
-        // Notice that useEffect is been used because you have to make sure the editor is rendered.
         console.log(editorRef.current.editor.core);
     }, []);
 
 
+    const handleChange = (content) => {
+       pushEditorData(content)
+    }
 
     return (
         <div>
             <label>توضیحات</label>
-            <SunEditor ref={editorRef} />
+            <SunEditor
+                show={false}
+                placeholder={placeholder}
+                onChange={handleChange}
+                ref={editorRef}
+            />
         </div>
     );
 };

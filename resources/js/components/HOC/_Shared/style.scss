@@ -119,3 +119,8 @@ input#title{
         }
     }
 }
+
+select > option{
+    height: 50px !important;
+    min-height: 50px !important;
+}

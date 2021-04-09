@@ -19,7 +19,6 @@ const UserList = memo((props) => {
     const [userId, setUserId] = useState({userIds: []});
     let userIdArr = [];
 
-    console.log("token  ssss : ",token);
     $('.sweet-alert-delete-confirm').on('click', function (event) {
         event.preventDefault();
         const url = $(this).attr('href');
@@ -78,7 +77,6 @@ const UserList = memo((props) => {
                     userIds: userIdArr
                 })
             } else {
-
                 setUserId({
                     userIds: []
                 })
@@ -99,8 +97,6 @@ const UserList = memo((props) => {
     })
 
     useEffect(() => {
-
-
         if (userId.userIds.length > 0) {
             $("#edit-boxes").fadeIn(0);
         } else {
@@ -111,9 +107,7 @@ const UserList = memo((props) => {
     }, [])
 
     userIdArr = userId.userIds;
-    console.log("user data : sssss", allUser);
     let selectHandler = (id) => {
-        console.log("add new");
         let filtered = userIdArr.includes(id);
         if (filtered) {
             var index = userIdArr.indexOf(id)
@@ -154,6 +148,39 @@ const UserList = memo((props) => {
         $("li#" + pageNumber).addClass("active");
     };
 
+
+    const handleDeleteGroup = (event) => {
+        event.preventDefault();
+
+        let thisis = $(".sweet-alert-multi-delete-confirm");
+        const url = thisis.attr('href');
+        swal({
+            title: 'حذف کاربر',
+            text: "آیا مطمئنید؟",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'تایید',
+            confirmButtonClass: 'btn btn-primary',
+            cancelButtonClass: 'btn btn-danger ml-1',
+            cancelButtonText: 'انصراف',
+            buttonsStyling: false,
+        }).then(function (result) {
+            if (result.value) {
+                Request.GroupDelUser(userId)
+                    .then(res => {
+                        Swal.fire({
+                            type: "success",
+                            title: 'حذف شد!',
+                            text: 'کاربر مورد نظر حذف شد',
+                            confirmButtonClass: 'btn btn-success',
+                            confirmButtonText: 'باشه',
+                        })
+                        GetAllUser(1);
+                    }).catch(error => console.log("error", error))
+            }
+        });
+
+    }
 
     return (
         <form id="myForm">
@@ -228,7 +255,7 @@ const UserList = memo((props) => {
                     <div className="card-content">
                         <div className="card-body" style={{padding: '0px'}}>
                             <div className="table-responsive">
-                                <table id="users-list-datatable" className="table">
+                                <table id="users-list-datatable" className="table table-hover">
                                     <thead>
                                     <tr>
                                         <th>
@@ -237,7 +264,7 @@ const UserList = memo((props) => {
                                             <div className={"form-check"}>
 
                                                 <div id={"edit-boxes"}>
-                                                    <a className="dropdown-item" onClick={e => DeleteGroupt(e , userId)}
+                                                    <a className="dropdown-item" onClick={e => handleDeleteGroup(e)}
                                                        style={{cursor: 'pointer'}}>
                                                         <i style={{float: 'right'}}
                                                            className="bx bx-trash mr-1"></i> حذف گروهی</a>

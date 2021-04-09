@@ -13,7 +13,9 @@
     -webkit-user-select: none;
     -ms-user-select: none
 }
-
+.se-wrapper-inner.se-wrapper-wysiwyg.sun-editor-editable{
+    min-height: 300px;
+}
 .sun-editor * {
     box-sizing: border-box;
     -webkit-user-drag: none;
@@ -931,6 +933,12 @@
 
 .sun-editor .se-submenu .se-form-group .se-color-input:focus {
     border-bottom: 3px solid #b1b1b1
+}
+.se-wrapper-inner.se-wrapper-wysiwyg.sun-editor-editable{
+    min-height: 300px;
+}
+.se-wrapper{
+    min-height: 300px;
 }
 
 .sun-editor .se-wrapper {

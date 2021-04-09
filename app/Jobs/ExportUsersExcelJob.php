@@ -16,6 +16,7 @@ use phpDocumentor\Reflection\File;
 class ExportUsersExcelJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
     protected $users;
 
     /**
@@ -25,7 +26,7 @@ class ExportUsersExcelJob implements ShouldQueue
      */
     public function __construct($users)
     {
-        $this->users=$users;
+        $this->users = $users;
     }
 
     /**
@@ -35,8 +36,8 @@ class ExportUsersExcelJob implements ShouldQueue
      */
     public function handle()
     {
-        $fileName="usersList".".xlsx";
-       Excel::queue(new UserListExport($this->users), $fileName);
-       //FIXME how download exported file in queue?
+        $fileName = "usersList" . ".xlsx";
+        Excel::queue(new UserListExport($this->users), $fileName);
+        //FIXME how download exported file in queue?
     }
 }
