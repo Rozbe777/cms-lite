@@ -36,6 +36,8 @@ class EditCategoryRequest extends FormRequest
             'status' => 'string|in:active,deactivate' ,
             'tag_list'=>'array',
             'tag_list.*'=>'string',
+            'metadata'=>''
+
         ];
     }
 }

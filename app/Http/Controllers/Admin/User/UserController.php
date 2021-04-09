@@ -14,7 +14,9 @@ use App\Http\Requests\Admin\User\SearchUserRequest;
 use App\Jobs\ExportUsersExcelJob;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -117,8 +119,16 @@ class UserController extends Controller
 
     public function export(){
         $users=User::all();
-        dispatch(new ExportUsersExcelJob($users));
-        return redirect(route('admin.user.index'));
+        $fileName="users.xlsx";
+
+
+        $file = new Filesystem;
+        $file->cleanDirectory(storage_path('framework/laravel-excel'));
+        //FIXME cleanDirectory not working
+        $exel=Excel::download(new UserListExport($users), $fileName);
+//        $userList=new ExportUsersExcelJob($users);
+        return $exel;
+//        return redirect(route('admin.user.index'));
     }
 
 

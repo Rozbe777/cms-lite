@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Content\Traits;
 
 
 
+use App\Helpers\FileManager\FileManager;
 use App\Models\Content;
 
 trait CreateContentTrait
@@ -40,8 +41,17 @@ trait CreateContentTrait
 //        if (!empty($content['layout_id']))
 //            $contentModel->layout_id = $content['layout_id']; //FIXME after insert layouts table
 
-        if (!empty($content['image']))
-            $contentModel->image = $content['image'];
+        if (isset($category['image'])){
+//            Storage::delete($contentModel->image);//FIXME delete last image after update
+            $file_path = config("upload.path.content_images");
+
+            $file_name = FileManager::type('image')
+                ->make($category['image'])
+                ->upload($file_path);
+
+            $contentModel->image = $file_name;
+
+        }
 
         if (!empty($content['comment_status']))
             $contentModel->comment_status = $content['comment_status'];
