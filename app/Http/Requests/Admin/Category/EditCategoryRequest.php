@@ -27,6 +27,7 @@ class EditCategoryRequest extends FormRequest
             'name' => 'string|max:255|unique:categories,name,'.$this->route('categoryId'),
             'slug' => 'string|max:255|unique:categories,slug,'.$this->route('categoryId'),
           //  'image' => 'string|image',
+
             'content' => '',
             'fields' => '',
             'parent_id' => 'exists:categories,id',
