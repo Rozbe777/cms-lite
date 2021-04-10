@@ -27,6 +27,7 @@ return [
             'admin.profile' => [
                 'display_name' => 'پروفایل',
                 'description' => 'نمایش و ویرایش پروفایل کاربر',
+
                 'access' => 'i,u',
 //                'is_menu' => '',
                 'children' => [
@@ -81,7 +82,6 @@ return [
                 'access' => 'i',
                 'is_menu' => 'i',
                 'children' => []
-
             ],
         ],
     ],
@@ -139,7 +139,6 @@ return [
         'sh' => 'نمایش',
         'export' => 'خروجی',
         'search' => 'جستجو',
-
     ],
     'role_map_persian' => [
         'user' => 'کاربر',

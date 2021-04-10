@@ -37,8 +37,8 @@ trait CreateCategoryTrait
 
         if (!empty($category['content']))
             $categoryModel->content = $category['content'];
-        if (!empty($category['fields']))
-            $categoryModel->fields = $category['fields'];
+        if (!empty($category['metadata']))
+            $categoryModel->metadata = $category['metadata'];
 
         if (!empty($category['parent_id']))
             $categoryModel->parent_id = $category['parent_id'];

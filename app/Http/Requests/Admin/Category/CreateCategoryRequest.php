@@ -26,16 +26,18 @@ class CreateCategoryRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:categories,name',
             'slug' => 'required|string|max:255|unique:categories,slug',
-            'image' => 'image',
+            //
+            //'image' => 'image',
             'content' => '',
             'fields' => '',
-            'parent_id' => 'exists:categories,id',
+            //'parent_id' => 'exists:categories,id',
 //            'layout_id' => '',//not using now FIXME after insert layout and module
 //            'module_id' => '',
-            'status' => 'required|string|in:active,deactivate' ,
-            'is_menu'=>'boolean',
-            'tag_list'=>'array',
-            'tag_list.*'=>'string',
+            'status' => 'required|string|in:active,deactivate',
+            'is_menu' => 'boolean',
+            'tag_list' => 'array',
+            'tag_list.*' => 'string',
+            'metadata' => ''
         ];
     }
 }

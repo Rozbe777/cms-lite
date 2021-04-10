@@ -88,10 +88,7 @@ class UserController extends Controller
         if (Auth::user()->roles()->first()->name == "admin") {
             $user->roles()->sync($request->input('role'));
         }
-
         return redirect(route("admin.user.edit",$userId))->with("info", "عملیات ویرایش کاربر با موفقیت انجام شد");
-
-
     }
 
     public function search(SearchUserRequest $request){
