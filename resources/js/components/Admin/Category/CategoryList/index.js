@@ -34,8 +34,7 @@ export const CategoryList = () => {
             $(".back-loader").click(()=>{
                 $(".back-loader").fadeOut();
                 setTimeout(() => {
-                    let dispalys = {...dispalyAdd}
-                    dispalys.dispaly = true;
+                    handleAddPage();
                 }, 200)
             })
         })
@@ -50,7 +49,8 @@ export const CategoryList = () => {
     })
 
     const handleAddPage = () => {
-        $("#category_add_pop_base").fadeIn();
+        ReactDom.render(<AddCategory display={true} dataUpdate={''} idParent={null}
+                                     result={item => handleBack(item)}/> ,document.getElementById("add-datas") )
     }
 
     const HandleAdd = (item) => {
@@ -80,7 +80,9 @@ export const CategoryList = () => {
 
 
     const handleClickItem = (clickId) => {
+        console.log("data id parent : " , clickId)
         ReactDom.render(<AddCategory display={true} idParent={clickId}
+                                     dataUpdate={''}
                                      result={item => handleBack(item)}/>, document.getElementById("add-datas"))
 
     }

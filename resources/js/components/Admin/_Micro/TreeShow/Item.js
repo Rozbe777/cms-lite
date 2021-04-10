@@ -9,6 +9,7 @@ export const Item = ({allData , key , id ,name ,status , duplicate : pushDuplica
 
     const handleAdding = (e) => {
         e.preventDefault();
+        console.log("item id : " , id);
         pushItemClisk(id);
     }
 
@@ -19,10 +20,10 @@ export const Item = ({allData , key , id ,name ,status , duplicate : pushDuplica
                 pushDelClick(res.status);
             }).cache(error => console.log("error : " , error))
     }
-    const HandleEdit = (e) => {
+    const HandleEdit = (e , type) => {
         e.preventDefault();
-        pushDataForEdit(allData)
-        // console.log("all thi data : " , JSON.parse(allData));
+        let editOrDup = JSON.stringify({type , allData})
+        pushDataForEdit(editOrDup)
     }
 
 
@@ -63,11 +64,11 @@ export const Item = ({allData , key , id ,name ,status , duplicate : pushDuplica
 
                 <div className={"col-md-6 col-sm-4"} style={{padding: 13}} id={"icon-item-list"}>
                     <div className={"form-check"}>
-                        <i className={"bx bx-plus"} onClick={handleAdding}></i>
+                        <i className={"bx bx-plus"} onClick={e => handleAdding(e)}></i>
                         <i className={"bx bx-show"}></i>
                         <i className={"bx bx-trash-alt"} onClick={e=>HandleDel(e ,id)}></i>
-                        <i className={"bx bx-edit"} onClick={e => HandleEdit(e)}></i>
-                        <i className={"bx bx-duplicate"} onClick={e => HandleDuplicate(e , id)}></i>
+                        <i className={"bx bx-edit"} onClick={e => HandleEdit(e , "edit")}></i>
+                        <i className={"bx bx-duplicate"} onClick={e => HandleEdit(e , "dup")}></i>
 
                         {status == "active" ? (
                             <span className={"badge badge-success badge-pill ml-50"}>فعال</span>

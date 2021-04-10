@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import ReactDOM from 'react-dom';
 import {Switcher} from './../../../HOC/Switch'
 import {BigSwitcher} from './../../../HOC/BigSwitcher';
@@ -10,27 +10,40 @@ import './../../_Micro/TreeShow/_Shared/style.scss';
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
 const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
+
     const [comments, setComments] = useState();
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
+    const [contentNew, setContentNew] = useState({});
+    const [statusNew, setStatusNew] = useState();
+    const [menuShow, setMenuShow] = useState();
+    const StatusSwitch = useRef(null);
     const [metaData, setMetaData] = useState({
         robots: false,
     });
-    const dataUpdateParse =  JSON.parse(dataUpdate);
-    const MetaData = dataUpdateParse.metadata ? JSON.parse(dataUpdateParse.metadata) : '';
+    const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
+    const dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
+    console.log("data :::::: : ", dataUpdateParse)
 
-    const [slugManage, setSlugManage] = useState(false);
-    const [formData, setFormData] = useState({
+    const type = dataGet ? dataGet.type : '';
+
+    // const MetaData = dataUpdateParse.metadata ? JSON.parse(dataUpdateParse.metadata) : '';
+
+    const [slugManage, setSlugManage] = useState(true);
+    const [formData, setFormData] = useState({});
+
+    let default_value = {
         is_menu: true,
         status: "active",
         content: '',
-        parent_id : idParent,
-        slug : ''
-    });
+        parent_id: idParent,
+        slug: ''
+    };
 
-    const dataCategory=JSON.parse(localStorage.getItem(LOCAL_CAT));
+    const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
 
-    const CreateAddCategory = (e,data) => {
+
+    const CreateAddCategory = (e, data) => {
         e.preventDefault();
         Request.AddNewCategory(data)
             .then(res => pushResult(res))
@@ -38,10 +51,14 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     }
 
     useEffect(() => {
+        let formNews = {...formData};
+        formNews = dataUpdateParse ? dataUpdateParse : default_value;
+        console.log("form newssss : ", formNews)
+        setFormData(formNews);
     }, [])
 
     const handleClose = () => {
-        ReactDOM.render('' , document.getElementById("add-datas"));
+        ReactDOM.render('', document.getElementById("add-datas"));
         setFormData({
             is_menu: true,
             status: "active",
@@ -65,25 +82,34 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
 
     const HandleForm = (e) => {
-        let formNew = {...formData};
-        if (slugManage == false){
-            formNew.slug = formNew.name;
-        }else{
-        }
-        formNew.metadata = JSON.stringify(metaData);
 
-        let msg = "اضافه کردن دسته بندی "+formData.name
+        let formNew = {...formData};
+        let is_menu = localStorage.getItem("is_menu");
+        let status = localStorage.getItem("status");
+        // console.log("status : " , status , " / menu : " , is_menu);
+        formNew.status = status;
+        formNew.is_menu = parseInt(is_menu);
+        if (slugManage == false) {
+            formNew.slug = formNew.name;
+        } else {
+        }
+
+        if (formData.slug == "") {
+            formNew.slug = formNew.name
+        }
+        let msg = "اضافه کردن دسته بندی " + formData.name
         console.log("datasss : ", formNew)
-        if (formData.name && formData.name !== '' ){
+        if (formData.name && formData.name !== '') {
             $("input[name=name]").removeClass("is-invalid");
             console.log("cat name : ", formNew.name)
-
-        }else{
+        } else {
             console.log("name is null")
             $("input[name=name]").addClass("is-invalid");
 
         }
-        CreateAddCategory(e , formNew);
+        formNew.metadata = "vsdvsdvsdvsdv";
+        console.log("form data : " , formNew)
+        CreateAddCategory(e, formNew);
     }
 
     const HandleMetaData = (e) => {
@@ -105,23 +131,38 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         })
     }
 
-    const handleSwitchStatus = (status) => {
-        let formdatas = {...formData};
-        formdatas.status = status ? "active" : "deactive";
-    }
-    const handleSwitchMenu = (status) => {
-        let formdatas = {...formData};
-        formdatas.is_menu = status;
-    }
+
     const handleAddress = (status) => {
         setSlugManage(status)
     }
 
+    const HandleEdit = () => {
+        let formOldData = {...formData};
+        formOldData.content = contentNew;
+        let is_menu = localStorage.getItem("is_menu");
+        let status = localStorage.getItem("status");
+        // console.log("status : " , status , " / menu : " , is_menu);
+        formOldData.status = status;
+        formOldData.is_menu = parseInt(is_menu);
+        console.log("edit status : ", formOldData)
+    }
     const handleEditorData = (data) => {
         setFormData({
             ...formData,
             content: data
         })
+
+    }
+
+    const handleSwitchStatus = (status) => {
+        localStorage.setItem("status" , status ? "active" : "deactivate");
+        // setStatusNew({status : status ? "active" : "deactive"});
+
+    }
+    const handleSwitchMenu = ( status) => {
+        localStorage.setItem("is_menu" ,status ? 1 : 0);
+
+        // setMenuShow({is_menu : status ? 1 : 0})
     }
 
     const HandleSelectOption = (check) => {
@@ -130,26 +171,27 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             parent_id: parseInt(check)
         })
     }
-    console.log("meta data : " , MetaData);
+    // console.log("meta data : " , MetaData);
+
 
     return (
         <div id={"category_add_pop_base"}>
             <form action={"#"}>
-                {console.log("data cat : " , dataCategory.data)}
-            <ul className="nav nav-tabs tab-layout" role="tablist">
-                <li className="nEav-item col-6 nav-custom">
-                    <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
-                       role="tab" aria-selected="true">
-                        <span className="align-middle">دسته بندی</span>
-                    </a>
-                </li>
-                <li className="nav-item col-6 nav-custom ">
-                    <a className="nav-link" id="seo-tab" data-toggle="tab" href="#seo" aria-controls="seos"
-                       role="tab" aria-selected="false">
-                        <span className="align-middle">سئو و آدرس</span>
-                    </a>
-                </li>
-            </ul>
+                {console.log("data cat : ", dataCategory.data)}
+                <ul className="nav nav-tabs tab-layout" role="tablist">
+                    <li className="nEav-item col-6 nav-custom">
+                        <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
+                           role="tab" aria-selected="true">
+                            <span className="align-middle">دسته بندی</span>
+                        </a>
+                    </li>
+                    <li className="nav-item col-6 nav-custom ">
+                        <a className="nav-link" id="seo-tab" data-toggle="tab" href="#seo" aria-controls="seos"
+                           role="tab" aria-selected="false">
+                            <span className="align-middle">سئو و آدرس</span>
+                        </a>
+                    </li>
+                </ul>
             <div className="tab-content" style={{padding: 0, position: 'relative'}}>
                 <div className="tab-pane active" id="cat" aria-labelledby="cat-tab" role="tabpanel">
                     <div className={"content-pages"}>
@@ -166,7 +208,8 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>دسته بندی پدر</label>
                                     {categoryData ? (
-                                        <SelectOptions parents={idParent} selection={check => HandleSelectOption(check)}
+                                        <SelectOptions parents={idParent ? idParent : dataUpdateParse.parent_id}
+                                                       selection={check => HandleSelectOption(check)}
                                                        loading={loading} data={JSON.stringify(dataCategory.data)}/>
                                     ): (
                                         <p>wait ...</p>
@@ -177,15 +220,20 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             <div className={"col-lg-2 col-md-3 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>وضعیت نمایش</label>
-                                    <Switcher status={state => handleSwitchStatus(state)} name={"showState"}
-                                              valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
+                                    <Switcher
+                                        defaultState={dataUpdateParse ? dataUpdateParse.status == "active" ? true : false : true}
+                                        status={(state) => handleSwitchStatus(state)} name={"showState"}
+                                        valueActive={"فعال"}
+                                        valueDeActive={"غیرفعال"}/>
                                 </fieldset>
                             </div>
                             <div className={"col-lg-2 col-md-3 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>نمایش در منو</label>
-                                    <Switcher status={state => handleSwitchMenu(state)} name={"showMenu"}
-                                              valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
+                                    <Switcher
+                                        defaultState={dataUpdateParse ? dataUpdateParse.is_menu == 0 ? false : true : true}
+                                        status={(state) => handleSwitchMenu(state)} name={"showMenu"}
+                                        valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
                                 </fieldset>
                             </div>
                             <div className={"col-lg-2 col-md-3 col-sm-12"}>
@@ -209,7 +257,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             </div>
 
                             <div className={"col-12"}>
-                                <MyEditor editorData={data => handleEditorData(data)}
+                                <MyEditor editorData={data => setContentNew(data)}
                                           id={"my-editor"}
                                           defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
                                           placeholder={"توضیحات دسته بندی را بنویسید ..."}/>
@@ -228,7 +276,8 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>نوع آدرس</label>
 
-                                    <Switcher status={state => handleAddress(state)} name={"AddressType"}
+                                    <Switcher defaultState={true} status={state => handleAddress(state)}
+                                              name={"AddressType"}
                                               valueActive={"خودکار"} valueDeActive={"دستی"}/>
                                 </fieldset>
                             </div>
@@ -237,12 +286,14 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس صفحه دسته بندی</label>
                                     {slugManage ? (
-                                        <input type={"cancel"} defaultValue={dataUpdateParse ?dataUpdateParse.slug : formData.name}
+                                        <input type={"text"}
+                                               defaultValue={dataUpdateParse.slug ? dataUpdateParse.slug : formData.name}
+                                               disabled id={"title"} className={"form-control slugest"}/>
+                                    ) : (
+                                        <input type={"text"}
+                                               defaultValue={dataUpdateParse.slug ? dataUpdateParse.slug : formData.name}
                                                onChange={e => handleInput(e)} name={"slug"} id={"title"}
                                                className={"form-control slugest"}/>
-                                    ) : (
-                                        <input type={"cancel"} defaultValue={dataUpdateParse ?dataUpdateParse.slug : formData.name}
-                                               disabled id={"title"} className={"form-control slugest"}/>
                                     )}
                                 </fieldset>
                             </div>
@@ -323,10 +374,19 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                                 انصراف
                             </button>
                         </div>
-                        <div onClick={(e) => HandleForm(e)} className={"col-6"}
-                             style={{textAlign: 'center', cursor: 'pointer'}}>
-                            <span>اضافه کردن دسته</span>
-                        </div>
+                        {type ? (
+                            <div onClick={(e) => type == "edit" ? HandleEdit(e) : HandleDuplicate(e)}
+                                 className={"col-6"}
+                                 style={{textAlign: 'center', cursor: 'pointer'}}>
+                                <span>{type == "edit" ? 'ویرایش' : 'ذخیره کپی'}</span>
+                            </div>
+                        ) : (
+                            <div onClick={(e) => HandleForm(e)} className={"col-6"}
+                                 style={{textAlign: 'center', cursor: 'pointer'}}>
+                                <span>ذخیره</span>
+                            </div>
+                        )}
+
                     </div>
 
                 </div>

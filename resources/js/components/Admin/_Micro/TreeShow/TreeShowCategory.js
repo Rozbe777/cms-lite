@@ -22,6 +22,7 @@ export const TreeShowCategory = ({data, loading, callBack: pushCallBack, itemCli
         pushCallBack(item);
     }
     const HandleClick = (id) => {
+        console.log("tree id : " , id)
         pushItemCliks(id);
     }
     const HndleDuplicate = (item) => {
