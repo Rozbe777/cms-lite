@@ -6,6 +6,7 @@ import {Request} from './../../../../services/AdminService/Api'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import AddCategory from './../CategoryAdd';
 import $ from 'jquery';
+
 const LOCAL_CAT = "localcat-zerone-cmslite";
 
 export const CategoryList = () => {
@@ -62,35 +63,39 @@ export const CategoryList = () => {
     }
 
     const HandleDelete = (status) => {
-        if (status == 200)
-        {
+        if (status == 200) {
             GetAllCategory();
-        }else{
+        } else {
+            console.log("you have an error");
+        }
+    }
+
+    const HandleDuplicate = (status) => {
+        if (status == 200) {
+            GetAllCategory();
+        } else {
             console.log("you have an error");
         }
     }
 
 
     const handleClickItem = (clickId) => {
-        ReactDom.render(<AddCategory display={true} idParent={clickId} result={item => handleBack(item)} /> , document.getElementById("add-datas"))
+        ReactDom.render(<AddCategory display={true} idParent={clickId}
+                                     result={item => handleBack(item)}/>, document.getElementById("add-datas"))
 
     }
 
     const handleBack = (item) => {
-        if (item.status == 200)
-        {
+        if (item.status == 200) {
             GetAllCategory();
             ReactDom.render('' , document.getElementById('add-datas'))
         }
     }
     const HandleBackLoader = (data) => {
-        let dataNew = JSON.parse(data);
-        let display = {...dispalyAdd};
-        display.dispaly = true;
-        if (dataNew.display)
-        {
-            ReactDom.render(<AddCategory display={true} idParent={null} result={item => handleBack(item)} /> , document.getElementById("add-datas"))
-        }
+        // let dataNew = JSON.parse(data);
+        ReactDom.render(<AddCategory display={true} dataUpdate={data} idParent={null}
+                                     result={item => handleBack(item)}/>, document.getElementById("add-datas"))
+
     }
 
 
@@ -120,11 +125,18 @@ export const CategoryList = () => {
             <div className="tab-content" style={{padding: 0}}>
                 <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
 
-                    <TreeShowCategory handleCata={itemCat => console.log("cat back ," , itemCat)} duplicate={item => console.log("duplicatessss : " , item)} itemClicks={clicks => handleClickItem(clicks)} callBack={item => HandleDelete(item)} data={categoryData} loading={loading}/>
+                    <TreeShowCategory handleCata={itemCat => console.log("cat back ,", itemCat)}
+                                      duplicate={item => HandleDuplicate(item)}
+                                      itemClicks={clicks => handleClickItem(clicks)}
+                                      callBack={item => HandleDelete(item)}
+                                      delClick={item => HandleDelete(item)}
+                                      updateData={item => HandleBackLoader(item)}
+                                      data={categoryData}
+                                      loading={loading}/>
 
                 </div>
                 <div className="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">
-                    <p style={{textAlign : 'center' , marginTop : 20}}>
+                    <p style={{textAlign: 'center', marginTop: 20}}>
                         صفحه ای برای نمایش وجود ندارد!
                     </p>
 

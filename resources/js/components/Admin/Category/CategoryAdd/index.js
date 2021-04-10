@@ -9,13 +9,15 @@ import MyEditor from "../../_Micro/MyEditor/MyEditor";
 import './../../_Micro/TreeShow/_Shared/style.scss';
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
-const AddCategory = ({display ,idParent, result : pushResult}) => {
+const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     const [comments, setComments] = useState();
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
     const [metaData, setMetaData] = useState({
         robots: false,
     });
+    const dataUpdateParse =  JSON.parse(dataUpdate);
+    const MetaData = dataUpdateParse.metadata ? JSON.parse(dataUpdateParse.metadata) : '';
 
     const [slugManage, setSlugManage] = useState(false);
     const [formData, setFormData] = useState({
@@ -26,10 +28,7 @@ const AddCategory = ({display ,idParent, result : pushResult}) => {
         slug : ''
     });
 
-
-    // get category data from localstorage
     const dataCategory=JSON.parse(localStorage.getItem(LOCAL_CAT));
-
 
     const CreateAddCategory = (e,data) => {
         e.preventDefault();
@@ -118,7 +117,6 @@ const AddCategory = ({display ,idParent, result : pushResult}) => {
         setSlugManage(status)
     }
 
-
     const handleEditorData = (data) => {
         setFormData({
             ...formData,
@@ -132,7 +130,7 @@ const AddCategory = ({display ,idParent, result : pushResult}) => {
             parent_id: parseInt(check)
         })
     }
-
+    console.log("meta data : " , MetaData);
 
     return (
         <div id={"category_add_pop_base"}>
@@ -160,7 +158,7 @@ const AddCategory = ({display ,idParent, result : pushResult}) => {
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان دسته بندی</label>
-                                    <input type={"text"} onChange={e => handleInput(e)} name={"name"} id={"title"}
+                                    <input type={"text"} defaultValue={dataUpdateParse ? dataUpdateParse.name : ''} onChange={e => handleInput(e)} name={"name"} id={"title"}
                                            className={"form-control"}/>
                                 </fieldset>
                             </div>
@@ -213,6 +211,7 @@ const AddCategory = ({display ,idParent, result : pushResult}) => {
                             <div className={"col-12"}>
                                 <MyEditor editorData={data => handleEditorData(data)}
                                           id={"my-editor"}
+                                          defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
                                           placeholder={"توضیحات دسته بندی را بنویسید ..."}/>
                             </div>
 
@@ -238,11 +237,11 @@ const AddCategory = ({display ,idParent, result : pushResult}) => {
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس صفحه دسته بندی</label>
                                     {slugManage ? (
-                                        <input type={"cancel"} defaultValue={formData.name}
+                                        <input type={"cancel"} defaultValue={dataUpdateParse ?dataUpdateParse.slug : formData.name}
                                                onChange={e => handleInput(e)} name={"slug"} id={"title"}
                                                className={"form-control slugest"}/>
                                     ) : (
-                                        <input type={"cancel"} defaultValue={formData.name}
+                                        <input type={"cancel"} defaultValue={dataUpdateParse ?dataUpdateParse.slug : formData.name}
                                                disabled id={"title"} className={"form-control slugest"}/>
                                     )}
                                 </fieldset>

@@ -2899,6 +2899,7 @@ var LOCAL_CAT = "localcat-zerone-cmslite";
 
 var AddCategory = function AddCategory(_ref) {
   var display = _ref.display,
+      dataUpdate = _ref.dataUpdate,
       idParent = _ref.idParent,
       pushResult = _ref.result;
 
@@ -2924,6 +2925,9 @@ var AddCategory = function AddCategory(_ref) {
       metaData = _useState8[0],
       setMetaData = _useState8[1];
 
+  var dataUpdateParse = JSON.parse(dataUpdate);
+  var MetaData = dataUpdateParse.metadata ? JSON.parse(dataUpdateParse.metadata) : '';
+
   var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState10 = _slicedToArray(_useState9, 2),
       slugManage = _useState10[0],
@@ -2938,8 +2942,7 @@ var AddCategory = function AddCategory(_ref) {
   }),
       _useState12 = _slicedToArray(_useState11, 2),
       formData = _useState12[0],
-      setFormData = _useState12[1]; // get category data from localstorage
-
+      setFormData = _useState12[1];
 
   var dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
 
@@ -3038,6 +3041,7 @@ var AddCategory = function AddCategory(_ref) {
     }));
   };
 
+  console.log("meta data : ", MetaData);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
     id: "category_add_pop_base",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("form", {
@@ -3103,6 +3107,7 @@ var AddCategory = function AddCategory(_ref) {
                     children: "\u0639\u0646\u0648\u0627\u0646 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
                     type: "text",
+                    defaultValue: dataUpdateParse ? dataUpdateParse.name : '',
                     onChange: function onChange(e) {
                       return handleInput(e);
                     },
@@ -3195,6 +3200,7 @@ var AddCategory = function AddCategory(_ref) {
                     return handleEditorData(data);
                   },
                   id: "my-editor",
+                  defaultVal: dataUpdateParse ? dataUpdateParse.content : '',
                   placeholder: "توضیحات دسته بندی را بنویسید ..."
                 })
               })]
@@ -3237,7 +3243,7 @@ var AddCategory = function AddCategory(_ref) {
                     children: "\u0622\u062F\u0631\u0633 \u0635\u0641\u062D\u0647 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
                   }), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
                     type: "cancel",
-                    defaultValue: formData.name,
+                    defaultValue: dataUpdateParse ? dataUpdateParse.slug : formData.name,
                     onChange: function onChange(e) {
                       return handleInput(e);
                     },
@@ -3246,7 +3252,7 @@ var AddCategory = function AddCategory(_ref) {
                     className: "form-control slugest"
                   }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
                     type: "cancel",
-                    defaultValue: formData.name,
+                    defaultValue: dataUpdateParse ? dataUpdateParse.slug : formData.name,
                     disabled: true,
                     id: "title",
                     className: "form-control slugest"
@@ -3528,6 +3534,14 @@ var CategoryList = function CategoryList() {
     }
   };
 
+  var HandleDuplicate = function HandleDuplicate(status) {
+    if (status == 200) {
+      GetAllCategory();
+    } else {
+      console.log("you have an error");
+    }
+  };
+
   var handleClickItem = function handleClickItem(clickId) {
     react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_6__.default, {
       display: true,
@@ -3546,21 +3560,15 @@ var CategoryList = function CategoryList() {
   };
 
   var HandleBackLoader = function HandleBackLoader(data) {
-    var dataNew = JSON.parse(data);
-
-    var display = _objectSpread({}, dispalyAdd);
-
-    display.dispaly = true;
-
-    if (dataNew.display) {
-      react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_6__.default, {
-        display: true,
-        idParent: null,
-        result: function result(item) {
-          return handleBack(item);
-        }
-      }), document.getElementById("add-datas"));
-    }
+    // let dataNew = JSON.parse(data);
+    react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_6__.default, {
+      display: true,
+      dataUpdate: data,
+      idParent: null,
+      result: function result(item) {
+        return handleBack(item);
+      }
+    }), document.getElementById("add-datas"));
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
@@ -3627,13 +3635,19 @@ var CategoryList = function CategoryList() {
             return console.log("cat back ,", itemCat);
           },
           duplicate: function duplicate(item) {
-            return console.log("duplicatessss : ", item);
+            return HandleDuplicate(item);
           },
           itemClicks: function itemClicks(clicks) {
             return handleClickItem(clicks);
           },
           callBack: function callBack(item) {
             return HandleDelete(item);
+          },
+          delClick: function delClick(item) {
+            return HandleDelete(item);
+          },
+          updateData: function updateData(item) {
+            return HandleBackLoader(item);
           },
           data: categoryData,
           loading: loading
@@ -4353,6 +4367,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var MyEditor = function MyEditor(_ref) {
   var placeholder = _ref.placeholder,
+      defaultVal = _ref.defaultVal,
       pushEditorData = _ref.editorData;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
@@ -4374,6 +4389,7 @@ var MyEditor = function MyEditor(_ref) {
       children: "\u062A\u0648\u0636\u06CC\u062D\u0627\u062A"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)((suneditor_react__WEBPACK_IMPORTED_MODULE_1___default()), {
       show: false,
+      defaultValue: defaultVal,
       placeholder: placeholder,
       onChange: handleChange,
       ref: editorRef
@@ -4675,8 +4691,10 @@ var Item = function Item(_ref) {
       id = _ref.id,
       name = _ref.name,
       status = _ref.status,
+      pushDuplicate = _ref.duplicate,
       pushItemClisk = _ref.itemClick,
-      pushDuplicate = _ref.duplicate;
+      pushDelClick = _ref.delClick,
+      pushDataForEdit = _ref.dataForEdit;
 
   var handleAdding = function handleAdding(e) {
     e.preventDefault();
@@ -4686,10 +4704,15 @@ var Item = function Item(_ref) {
   var HandleDel = function HandleDel(e, idDel) {
     e.preventDefault();
     _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_4__.Request.DeleteCategoryOne(idDel).then(function (res) {
-      pushItemClick(res.status);
+      pushDelClick(res.status);
     }).cache(function (error) {
       return console.log("error : ", error);
     });
+  };
+
+  var HandleEdit = function HandleEdit(e) {
+    e.preventDefault();
+    pushDataForEdit(allData); // console.log("all thi data : " , JSON.parse(allData));
   };
 
   var HandleDuplicate = function HandleDuplicate(e, id) {
@@ -4698,13 +4721,15 @@ var Item = function Item(_ref) {
 
     var dataFit = _objectSpread({}, JsonData);
 
-    dataFit.name = dataFit.name + "_کپی";
-    dataFit.slug = dataFit.slug + "_کپی";
-    dataFit.image = '';
-    console.log("dataaaaaaaa: ", dataFit);
+    var min = 1;
+    var max = 1000;
+    var rand = Number(min + Math.random() * (max - min)).toFixed(0);
+    dataFit.name = dataFit.name + rand + "_کپی";
+    dataFit.slug = dataFit.slug + rand + "_کپی";
+    dataFit.image = ''; // console.log("dataaaaaaaa: ",dataFit)
+
     _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_4__.Request.AddNewCategory(dataFit).then(function (res) {
-      console.log("res adding : ", res);
-      pushDuplicate(res.stat);
+      pushDuplicate(res.status);
     }).cache(function (error) {
       return console.log("error : ", error);
     });
@@ -4759,7 +4784,10 @@ var Item = function Item(_ref) {
               return HandleDel(e, id);
             }
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
-            className: "bx bx-edit"
+            className: "bx bx-edit",
+            onClick: function onClick(e) {
+              return HandleEdit(e);
+            }
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
             className: "bx bx-duplicate",
             onClick: function onClick(e) {
@@ -4806,7 +4834,9 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
       loading = _ref.loading,
       pushCallBack = _ref.callBack,
       pushItemCliks = _ref.itemClicks,
-      pushDuplicate = _ref.duplicate;
+      pushDuplicate = _ref.duplicate,
+      pushDelClick = _ref.delClick,
+      pushUpdateData = _ref.updateData;
   jquery__WEBPACK_IMPORTED_MODULE_2___default()(function () {
     jquery__WEBPACK_IMPORTED_MODULE_2___default()("span#sub-menu-custom").click(function () {
       jquery__WEBPACK_IMPORTED_MODULE_2___default()(".back-blur").fadeIn(100);
@@ -4834,6 +4864,14 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
     pushDuplicate(item);
   };
 
+  var HandleDelClick = function HandleDelClick(item) {
+    pushDelClick(item);
+  };
+
+  var HandleDataForUpdate = function HandleDataForUpdate(data) {
+    pushUpdateData(data);
+  };
+
   if (loading) {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
       children: "\u062F\u0631 \u062D\u0627\u0644 \u067E\u0631\u062F\u0627\u0632\u0634 ..."
@@ -4859,6 +4897,12 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
           },
           duplicate: function duplicate(item) {
             return HndleDuplicate(item);
+          },
+          delClick: function delClick(item) {
+            return HandleDelClick(item);
+          },
+          dataForEdit: function dataForEdit(item) {
+            return HandleDataForUpdate(item);
           },
           itemClick: function itemClick(itemId) {
             return HandleClick(itemId);
@@ -4889,6 +4933,12 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
                 duplicate: function duplicate(item) {
                   return HndleDuplicate(item);
                 },
+                delClick: function delClick(item) {
+                  return HandleDelClick(item);
+                },
+                dataForEdit: function dataForEdit(item) {
+                  return HandleDataForUpdate(item);
+                },
                 itemClick: function itemClick(itemId) {
                   return HandleClick(itemId);
                 }
@@ -4917,6 +4967,12 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
                       allData: JSON.stringify(childThree),
                       duplicate: function duplicate(item) {
                         return HndleDuplicate(item);
+                      },
+                      delClick: function delClick(item) {
+                        return HandleDelClick(item);
+                      },
+                      dataForEdit: function dataForEdit(item) {
+                        return HandleDataForUpdate(item);
                       },
                       itemClick: function itemClick(itemId) {
                         return HandleClick(itemId);
