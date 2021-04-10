@@ -30,7 +30,7 @@ class EditCategoryRequest extends FormRequest
 
             'content' => '',
             'fields' => '',
-            'parent_id' => 'exists:categories,id',
+            //'parent_id' => 'exists:categories,id',
             'is_menu'=>'boolean',
 //            'layout_id' => '',//not using now FIXME after insert layout and module
 //            'module_id' => '',
