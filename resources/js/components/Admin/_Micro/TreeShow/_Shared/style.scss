@@ -18,6 +18,10 @@
 //    }
 //}
 
+#disable-div{
+    opacity: 0.3 !important;
+    cursor: not-allowed !important;
+}
 
 span#sub-menu-custom {
     display: none;

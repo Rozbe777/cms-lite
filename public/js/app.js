@@ -2933,29 +2933,34 @@ var AddCategory = function AddCategory(_ref) {
       menuShow = _useState12[0],
       setMenuShow = _useState12[1];
 
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState14 = _slicedToArray(_useState13, 2),
+      edit = _useState14[0],
+      setEdit = _useState14[1];
+
   var StatusSwitch = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
 
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     robots: false
   }),
-      _useState14 = _slicedToArray(_useState13, 2),
-      metaData = _useState14[0],
-      setMetaData = _useState14[1];
+      _useState16 = _slicedToArray(_useState15, 2),
+      metaData = _useState16[0],
+      setMetaData = _useState16[1];
 
   var dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
   var dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
   console.log("data :::::: : ", dataUpdateParse);
   var type = dataGet ? dataGet.type : ''; // const MetaData = dataUpdateParse.metadata ? JSON.parse(dataUpdateParse.metadata) : '';
 
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
-      _useState16 = _slicedToArray(_useState15, 2),
-      slugManage = _useState16[0],
-      setSlugManage = _useState16[1];
-
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState18 = _slicedToArray(_useState17, 2),
-      formData = _useState18[0],
-      setFormData = _useState18[1];
+      slugManage = _useState18[0],
+      setSlugManage = _useState18[1];
+
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState20 = _slicedToArray(_useState19, 2),
+      formData = _useState20[0],
+      setFormData = _useState20[1];
 
   var default_value = {
     is_menu: true,
@@ -2999,6 +3004,7 @@ var AddCategory = function AddCategory(_ref) {
   };
 
   var handleInput = function handleInput(e) {
+    setEdit(true);
     setFormData(_objectSpread(_objectSpread({}, formData), {}, _defineProperty({}, e.target.name, e.target.value)));
   };
 
@@ -3006,8 +3012,7 @@ var AddCategory = function AddCategory(_ref) {
     var formNew = _objectSpread({}, formData);
 
     var is_menu = localStorage.getItem("is_menu");
-    var status = localStorage.getItem("status"); // console.log("status : " , status , " / menu : " , is_menu);
-
+    var status = localStorage.getItem("status");
     formNew.status = status;
     formNew.is_menu = parseInt(is_menu);
 
@@ -3030,16 +3035,20 @@ var AddCategory = function AddCategory(_ref) {
       $("input[name=name]").addClass("is-invalid");
     }
 
+    formNew.content = contentNew;
     formNew.metadata = "vsdvsdvsdvsdv";
     console.log("form data : ", formNew);
     CreateAddCategory(e, formNew);
   };
 
   var HandleMetaData = function HandleMetaData(e) {
+    setEdit(true);
     setMetaData(_objectSpread(_objectSpread({}, metaData), {}, _defineProperty({}, e.target.name, e.target.value)));
   };
 
   var HandlerBigSwitcher = function HandlerBigSwitcher(states) {
+    setEdit(true);
+
     var metaD = _objectSpread({}, metaData);
 
     metaD.robots = states;
@@ -3047,10 +3056,12 @@ var AddCategory = function AddCategory(_ref) {
 
   var HandleSlug = function HandleSlug(e) {
     e.preventDefault();
+    setEdit(true);
     setFormData(_objectSpread(_objectSpread({}, formData), {}, _defineProperty({}, e.target.name, e.target.value)));
   };
 
   var handleAddress = function handleAddress(status) {
+    setEdit(true);
     setSlugManage(status);
   };
 
@@ -3067,20 +3078,24 @@ var AddCategory = function AddCategory(_ref) {
   };
 
   var handleEditorData = function handleEditorData(data) {
+    setEdit(true);
     setFormData(_objectSpread(_objectSpread({}, formData), {}, {
       content: data
     }));
   };
 
   var handleSwitchStatus = function handleSwitchStatus(status) {
+    setEdit(true);
     localStorage.setItem("status", status ? "active" : "deactivate"); // setStatusNew({status : status ? "active" : "deactive"});
   };
 
   var handleSwitchMenu = function handleSwitchMenu(status) {
+    setEdit(true);
     localStorage.setItem("is_menu", status ? 1 : 0); // setMenuShow({is_menu : status ? 1 : 0})
   };
 
   var HandleSelectOption = function HandleSelectOption(check) {
+    setEdit(true);
     setFormData(_objectSpread(_objectSpread({}, formData), {}, {
       parent_id: parseInt(check)
     }));
@@ -3244,7 +3259,8 @@ var AddCategory = function AddCategory(_ref) {
                 className: "col-12",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Micro_MyEditor_MyEditor__WEBPACK_IMPORTED_MODULE_7__.default, {
                   editorData: function editorData(data) {
-                    return setContentNew(data);
+                    setEdit(true);
+                    setContentNew(data);
                   },
                   id: "my-editor",
                   defaultVal: dataUpdateParse ? dataUpdateParse.content : '',
@@ -3431,9 +3447,9 @@ var AddCategory = function AddCategory(_ref) {
                 id: "clear",
                 children: "\u0627\u0646\u0635\u0631\u0627\u0641"
               })
-            }), type ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+            }), type ? type == 'edit' ? edit ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
               onClick: function onClick(e) {
-                return type == "edit" ? HandleEdit(e) : HandleDuplicate(e);
+                return HandleEdit(e);
               },
               className: "col-6",
               style: {
@@ -3441,7 +3457,29 @@ var AddCategory = function AddCategory(_ref) {
                 cursor: 'pointer'
               },
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
-                children: type == "edit" ? 'ویرایش' : 'ذخیره کپی'
+                children: "\u0648\u06CC\u0631\u0627\u06CC\u0634"
+              })
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+              id: "disable-div",
+              className: "col-6",
+              style: {
+                textAlign: 'center',
+                cursor: 'pointer'
+              },
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+                children: "\u0648\u06CC\u0631\u0627\u06CC\u0634"
+              })
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+              onClick: function onClick(e) {
+                return HandleDuplicate(e);
+              },
+              className: "col-6",
+              style: {
+                textAlign: 'center',
+                cursor: 'pointer'
+              },
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+                children: "\u0630\u062E\u06CC\u0631\u0647 \u06A9\u067E\u06CC"
               })
             }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
               onClick: function onClick(e) {
@@ -7666,7 +7704,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "@media screen and (max-width: 1024px) {\n  #icon-item-list {\n    display: none;\n  }\n\n  span#sub-menu-custom {\n    display: block !important;\n  }\n\n  .nav-custom {\n    font-size: 13px;\n  }\n}\nspan#sub-menu-custom {\n  display: none;\n  width: 30px;\n  height: 30px;\n  position: absolute;\n  left: 30px;\n  line-height: 2.9;\n  top: 0px;\n  bottom: 0px;\n  margin: auto 0;\n  text-align: center;\n}\n\n.back-blur {\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 99999;\n  display: none;\n  top: 0px;\n  right: 0px;\n}\n.back-blur #bottom-chip {\n  border-radius: 20px 20px 0 0;\n  box-shadow: 0 0 30px 8px rgba(0, 0, 0, 0.2);\n  width: 100%;\n  position: absolute;\n  bottom: -100%;\n  height: 280px;\n  background: #fff;\n  right: 0px;\n  z-index: 99;\n  transition: 0.3s all ease;\n}\n.back-blur #bottom-chip.active {\n  bottom: 0% !important;\n}\n.back-blur #bottom-chip .form-check {\n  padding: 0px;\n}\n.back-blur #bottom-chip .form-check ul {\n  list-style: none;\n  text-align: center;\n  padding: 0px;\n  margin: 0px;\n}\n.back-blur #bottom-chip .form-check ul li {\n  width: 100%;\n  height: 45px;\n  cursor: pointer;\n  float: left;\n  line-height: 3;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "@media screen and (max-width: 1024px) {\n  #icon-item-list {\n    display: none;\n  }\n\n  span#sub-menu-custom {\n    display: block !important;\n  }\n\n  .nav-custom {\n    font-size: 13px;\n  }\n}\n#disable-div {\n  opacity: 0.3 !important;\n  cursor: not-allowed !important;\n}\n\nspan#sub-menu-custom {\n  display: none;\n  width: 30px;\n  height: 30px;\n  position: absolute;\n  left: 30px;\n  line-height: 2.9;\n  top: 0px;\n  bottom: 0px;\n  margin: auto 0;\n  text-align: center;\n}\n\n.back-blur {\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 99999;\n  display: none;\n  top: 0px;\n  right: 0px;\n}\n.back-blur #bottom-chip {\n  border-radius: 20px 20px 0 0;\n  box-shadow: 0 0 30px 8px rgba(0, 0, 0, 0.2);\n  width: 100%;\n  position: absolute;\n  bottom: -100%;\n  height: 280px;\n  background: #fff;\n  right: 0px;\n  z-index: 99;\n  transition: 0.3s all ease;\n}\n.back-blur #bottom-chip.active {\n  bottom: 0% !important;\n}\n.back-blur #bottom-chip .form-check {\n  padding: 0px;\n}\n.back-blur #bottom-chip .form-check ul {\n  list-style: none;\n  text-align: center;\n  padding: 0px;\n  margin: 0px;\n}\n.back-blur #bottom-chip .form-check ul li {\n  width: 100%;\n  height: 45px;\n  cursor: pointer;\n  float: left;\n  line-height: 3;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

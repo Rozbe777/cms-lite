@@ -17,6 +17,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     const [contentNew, setContentNew] = useState({});
     const [statusNew, setStatusNew] = useState();
     const [menuShow, setMenuShow] = useState();
+    const [edit, setEdit] = useState(false);
     const StatusSwitch = useRef(null);
     const [metaData, setMetaData] = useState({
         robots: false,
@@ -73,6 +74,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     }
 
     const handleInput = (e) => {
+        setEdit(true)
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
@@ -86,7 +88,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         let formNew = {...formData};
         let is_menu = localStorage.getItem("is_menu");
         let status = localStorage.getItem("status");
-        // console.log("status : " , status , " / menu : " , is_menu);
         formNew.status = status;
         formNew.is_menu = parseInt(is_menu);
         if (slugManage == false) {
@@ -107,32 +108,37 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             $("input[name=name]").addClass("is-invalid");
 
         }
+        formNew.content = contentNew;
         formNew.metadata = "vsdvsdvsdvsdv";
         console.log("form data : " , formNew)
         CreateAddCategory(e, formNew);
     }
 
     const HandleMetaData = (e) => {
+        setEdit(true)
         setMetaData({
             ...metaData,
             [e.target.name]: e.target.value
         })
     }
     const HandlerBigSwitcher = (states) => {
+        setEdit(true)
         let metaD = {...metaData};
         metaD.robots = states;
     }
 
     const HandleSlug = (e) => {
         e.preventDefault();
+        setEdit(true)
         setFormData({
             ...formData,
-            [e.target.name] : e.target.value
+            [e.target.name]: e.target.value
         })
     }
 
 
     const handleAddress = (status) => {
+        setEdit(true)
         setSlugManage(status)
     }
 
@@ -147,6 +153,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         console.log("edit status : ", formOldData)
     }
     const handleEditorData = (data) => {
+        setEdit(true);
         setFormData({
             ...formData,
             content: data
@@ -155,17 +162,20 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     }
 
     const handleSwitchStatus = (status) => {
-        localStorage.setItem("status" , status ? "active" : "deactivate");
+        setEdit(true)
+        localStorage.setItem("status", status ? "active" : "deactivate");
         // setStatusNew({status : status ? "active" : "deactive"});
 
     }
     const handleSwitchMenu = ( status) => {
-        localStorage.setItem("is_menu" ,status ? 1 : 0);
+        setEdit(true)
+        localStorage.setItem("is_menu", status ? 1 : 0);
 
         // setMenuShow({is_menu : status ? 1 : 0})
     }
 
     const HandleSelectOption = (check) => {
+        setEdit(true)
         setFormData({
             ...formData,
             parent_id: parseInt(check)
@@ -257,7 +267,10 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             </div>
 
                             <div className={"col-12"}>
-                                <MyEditor editorData={data => setContentNew(data)}
+                                <MyEditor editorData={data => {
+                                    setEdit(true)
+                                    setContentNew(data)
+                                }}
                                           id={"my-editor"}
                                           defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
                                           placeholder={"توضیحات دسته بندی را بنویسید ..."}/>
@@ -374,18 +387,35 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                                 انصراف
                             </button>
                         </div>
-                        {type ? (
-                            <div onClick={(e) => type == "edit" ? HandleEdit(e) : HandleDuplicate(e)}
-                                 className={"col-6"}
-                                 style={{textAlign: 'center', cursor: 'pointer'}}>
-                                <span>{type == "edit" ? 'ویرایش' : 'ذخیره کپی'}</span>
-                            </div>
-                        ) : (
-                            <div onClick={(e) => HandleForm(e)} className={"col-6"}
-                                 style={{textAlign: 'center', cursor: 'pointer'}}>
-                                <span>ذخیره</span>
-                            </div>
-                        )}
+                        {type ? type == 'edit' ? edit ? (
+                                <div onClick={(e) => HandleEdit(e)}
+                                     className={"col-6"}
+                                     style={{textAlign: 'center', cursor: 'pointer'}}>
+                                    <span>ویرایش</span>
+                                </div>
+                            )
+                            : (
+                                <div
+                                    id={"disable-div"}
+                                     className={"col-6"}
+                                     style={{textAlign: 'center', cursor: 'pointer'}}>
+                                    <span>ویرایش</span>
+                                </div>
+                            )
+                            : (
+                                <div onClick={(e) => HandleDuplicate(e)}
+                                     className={"col-6"}
+                                     style={{textAlign: 'center', cursor: 'pointer'}}>
+                                    <span>ذخیره کپی</span>
+                                </div>
+                            ) :
+
+                            (
+                                <div onClick={(e) => HandleForm(e)} className={"col-6"}
+                                     style={{textAlign: 'center', cursor: 'pointer'}}>
+                                    <span>ذخیره</span>
+                                </div>
+                            )}
 
                     </div>
 
