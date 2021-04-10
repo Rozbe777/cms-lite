@@ -29,9 +29,15 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="category &amp; tag &amp; content &amp; page crud">
+    <list default="true" id="503d9373-676d-4139-b97a-fe7cc16e023f" name="Default Changelist" comment="nothing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/Traits/CreateUserTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/Traits/CreateUserTrait.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Role/EditRoleRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Role/EditRoleRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/CreateUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/CreateUserRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -270,7 +276,9 @@
       <workItem from="1617448768643" duration="5938000" />
       <workItem from="1617454776001" duration="483000" />
       <workItem from="1617514430242" duration="20943000" />
-      <workItem from="1617600107126" duration="16728000" />
+      <workItem from="1617600107126" duration="17028000" />
+      <workItem from="1617719458329" duration="596000" />
+      <workItem from="1618040746369" duration="1839000" />
     </task>
     <task id="LOCAL-00001" summary="change directory of Auth and admin.php">
       <created>1613892846962</created>
@@ -321,7 +329,21 @@
       <option name="project" value="LOCAL" />
       <updated>1617627344113</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="nothing">
+      <created>1617627570196</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1617627570196</updated>
+    </task>
+    <task id="LOCAL-00009" summary="nothing">
+      <created>1617627699386</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1617627699386</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -358,7 +380,8 @@
     <MESSAGE value="category testing" />
     <MESSAGE value="category &amp; tag crud" />
     <MESSAGE value="category &amp; tag &amp; content &amp; page crud" />
-    <option name="LAST_COMMIT_MESSAGE" value="category &amp; tag &amp; content &amp; page crud" />
+    <MESSAGE value="nothing" />
+    <option name="LAST_COMMIT_MESSAGE" value="nothing" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1535" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1614599455850">
@@ -414,18 +437,18 @@
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1615125170773" />
-    <state x="1673" y="69" key="Vcs.Push.Dialog.v2" timestamp="1617627365658">
+    <state x="1673" y="69" key="Vcs.Push.Dialog.v2" timestamp="1617627717943">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1673" y="69" key="Vcs.Push.Dialog.v2/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617627365658" />
+    <state x="1673" y="69" key="Vcs.Push.Dialog.v2/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617627717943" />
     <state x="1890" y="254" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1617445422832">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
     <state x="1890" y="254" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617445422832" />
-    <state x="1846" y="26" width="671" height="652" key="find.popup" timestamp="1617622002586">
+    <state x="1846" y="26" width="671" height="652" key="find.popup" timestamp="1618041572499">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1846" y="26" width="671" height="652" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1617622002586" />
+    <state x="1846" y="26" width="671" height="652" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1618041572499" />
     <state x="507" y="165" width="585" height="530" key="find.popup/0.0.1600.860@0.0.1600.860" timestamp="1614087541910" />
     <state x="1806" y="128" key="git4idea.merge.GitPullDialog" timestamp="1617448982131">
       <screen x="1440" y="0" width="1280" height="678" />

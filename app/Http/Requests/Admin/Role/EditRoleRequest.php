@@ -24,8 +24,10 @@ class EditRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            "name"=>"required|min:3|unique:permissions,name,".$this->request->get("id"),
-            "display_name"=>"required|min:3|unique:permissions,display_name,".$this->request->get("id")
+            "name"=>"required|min:3|unique:permissions,name,".$this->route('roleId'),
+            "display_name"=>"required|min:3|unique:permissions,display_name,".$this->route('roleId'),
+            "permissions"=> "array",
+            "permissions.*" => "exists:permissions,id",
         ];
     }
 }

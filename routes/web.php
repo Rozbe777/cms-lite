@@ -101,9 +101,9 @@ Route::group(['middleware' => 'user_permission'], function () {
             Route::get('/list', [RoleController::class, 'list'])->name('list');
             Route::get('/create', [RoleController::class, 'create'])->name('create');
             Route::post('/', [RoleController::class, 'store'])->name('store');
-            Route::get('/{role}/edit', [RoleController::class, 'edit'])->name('edit');
-            Route::put('/{role}/update', [RoleController::class, 'update'])->name('update');
-            Route::post('/{role}/destroy', [RoleController::class, 'destroy'])->name('destroy');
+            Route::get('/{roleId}/edit', [RoleController::class, 'edit'])->name('edit');
+            Route::put('/{roleId}/update', [RoleController::class, 'update'])->name('update');
+            Route::post('/{roleId}/destroy', [RoleController::class, 'destroy'])->name('destroy');
 
         });
 
