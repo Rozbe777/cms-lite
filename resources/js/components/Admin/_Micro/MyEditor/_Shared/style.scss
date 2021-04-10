@@ -935,10 +935,10 @@
     border-bottom: 3px solid #b1b1b1
 }
 .se-wrapper-inner.se-wrapper-wysiwyg.sun-editor-editable{
-    min-height: 300px;
+    min-height: 300px !important;
 }
 .se-wrapper{
-    min-height: 300px;
+    min-height: 300px !important;
 }
 
 .sun-editor .se-wrapper {

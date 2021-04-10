@@ -179,7 +179,6 @@ const UserList = memo((props) => {
                     }).catch(error => console.log("error", error))
             }
         });
-
     }
 
     return (
@@ -259,8 +258,6 @@ const UserList = memo((props) => {
                                     <thead>
                                     <tr>
                                         <th>
-
-
                                             <div className={"form-check"}>
 
                                                 <div id={"edit-boxes"}>

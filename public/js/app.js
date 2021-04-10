@@ -2863,10 +2863,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Shared_Style_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../_Shared/Style.scss */ "./resources/js/components/Admin/_Shared/Style.scss");
 /* harmony import */ var _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../../../services/AdminService/Api */ "./resources/js/services/AdminService/Api.js");
 /* harmony import */ var _HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../../../HOC/SelectOptions */ "./resources/js/components/HOC/SelectOptions.js");
-/* harmony import */ var _Shared_java__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./../../_Shared/java */ "./resources/js/components/Admin/_Shared/java.js");
-/* harmony import */ var _Micro_MyEditor_MyEditor__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../_Micro/MyEditor/MyEditor */ "./resources/js/components/Admin/_Micro/MyEditor/MyEditor.js");
-/* harmony import */ var _Micro_TreeShow_Shared_style_scss__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./../../_Micro/TreeShow/_Shared/style.scss */ "./resources/js/components/Admin/_Micro/TreeShow/_Shared/style.scss");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _Micro_MyEditor_MyEditor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../_Micro/MyEditor/MyEditor */ "./resources/js/components/Admin/_Micro/MyEditor/MyEditor.js");
+/* harmony import */ var _Micro_TreeShow_Shared_style_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./../../_Micro/TreeShow/_Shared/style.scss */ "./resources/js/components/Admin/_Micro/TreeShow/_Shared/style.scss");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2896,11 +2895,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
 var LOCAL_CAT = "localcat-zerone-cmslite";
 
 var AddCategory = function AddCategory(_ref) {
   var display = _ref.display,
+      dataUpdate = _ref.dataUpdate,
       idParent = _ref.idParent,
       pushResult = _ref.result;
 
@@ -2919,30 +2918,57 @@ var AddCategory = function AddCategory(_ref) {
       loading = _useState6[0],
       setLoading = _useState6[1];
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState8 = _slicedToArray(_useState7, 2),
+      contentNew = _useState8[0],
+      setContentNew = _useState8[1];
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+      _useState10 = _slicedToArray(_useState9, 2),
+      statusNew = _useState10[0],
+      setStatusNew = _useState10[1];
+
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+      _useState12 = _slicedToArray(_useState11, 2),
+      menuShow = _useState12[0],
+      setMenuShow = _useState12[1];
+
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState14 = _slicedToArray(_useState13, 2),
+      edit = _useState14[0],
+      setEdit = _useState14[1];
+
+  var StatusSwitch = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     robots: false
   }),
-      _useState8 = _slicedToArray(_useState7, 2),
-      metaData = _useState8[0],
-      setMetaData = _useState8[1];
+      _useState16 = _slicedToArray(_useState15, 2),
+      metaData = _useState16[0],
+      setMetaData = _useState16[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState10 = _slicedToArray(_useState9, 2),
-      slugManage = _useState10[0],
-      setSlugManage = _useState10[1];
+  var dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
+  var dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
+  console.log("data :::::: : ", dataUpdateParse);
+  var type = dataGet ? dataGet.type : ''; // const MetaData = dataUpdateParse.metadata ? JSON.parse(dataUpdateParse.metadata) : '';
 
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState18 = _slicedToArray(_useState17, 2),
+      slugManage = _useState18[0],
+      setSlugManage = _useState18[1];
+
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState20 = _slicedToArray(_useState19, 2),
+      formData = _useState20[0],
+      setFormData = _useState20[1];
+
+  var default_value = {
     is_menu: true,
     status: "active",
     content: '',
     parent_id: idParent,
     slug: ''
-  }),
-      _useState12 = _slicedToArray(_useState11, 2),
-      formData = _useState12[0],
-      setFormData = _useState12[1]; // get category data from localstorage
-
-
+  };
   var dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
 
   var CreateAddCategory = function CreateAddCategory(e, data) {
@@ -2954,11 +2980,16 @@ var AddCategory = function AddCategory(_ref) {
     });
   };
 
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {}, []); // let {display} = props;
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var formNews = _objectSpread({}, formData);
+
+    formNews = dataUpdateParse ? dataUpdateParse : default_value;
+    console.log("form newssss : ", formNews);
+    setFormData(formNews);
+  }, []);
 
   var handleClose = function handleClose() {
-    react_dom__WEBPACK_IMPORTED_MODULE_1__.render('', document.getElementById("add-datas")); // let newFormData =
-
+    react_dom__WEBPACK_IMPORTED_MODULE_1__.render('', document.getElementById("add-datas"));
     setFormData({
       is_menu: true,
       status: "active",
@@ -2973,17 +3004,26 @@ var AddCategory = function AddCategory(_ref) {
   };
 
   var handleInput = function handleInput(e) {
+    setEdit(true);
     setFormData(_objectSpread(_objectSpread({}, formData), {}, _defineProperty({}, e.target.name, e.target.value)));
   };
 
   var HandleForm = function HandleForm(e) {
     var formNew = _objectSpread({}, formData);
 
+    var is_menu = localStorage.getItem("is_menu");
+    var status = localStorage.getItem("status");
+    formNew.status = status;
+    formNew.is_menu = parseInt(is_menu);
+
     if (slugManage == false) {
       formNew.slug = formNew.name;
     } else {}
 
-    formNew.metadata = JSON.stringify(metaData);
+    if (formData.slug == "") {
+      formNew.slug = formNew.name;
+    }
+
     var msg = "اضافه کردن دسته بندی " + formData.name;
     console.log("datasss : ", formNew);
 
@@ -2995,14 +3035,20 @@ var AddCategory = function AddCategory(_ref) {
       $("input[name=name]").addClass("is-invalid");
     }
 
+    formNew.content = contentNew;
+    formNew.metadata = "vsdvsdvsdvsdv";
+    console.log("form data : ", formNew);
     CreateAddCategory(e, formNew);
   };
 
   var HandleMetaData = function HandleMetaData(e) {
+    setEdit(true);
     setMetaData(_objectSpread(_objectSpread({}, metaData), {}, _defineProperty({}, e.target.name, e.target.value)));
   };
 
   var HandlerBigSwitcher = function HandlerBigSwitcher(states) {
+    setEdit(true);
+
     var metaD = _objectSpread({}, metaData);
 
     metaD.robots = states;
@@ -3010,47 +3056,69 @@ var AddCategory = function AddCategory(_ref) {
 
   var HandleSlug = function HandleSlug(e) {
     e.preventDefault();
+    setEdit(true);
     setFormData(_objectSpread(_objectSpread({}, formData), {}, _defineProperty({}, e.target.name, e.target.value)));
   };
 
-  var handleSwitchStatus = function handleSwitchStatus(status) {
-    var formdatas = _objectSpread({}, formData);
-
-    formdatas.status = status ? "active" : "deactive";
-  };
-
-  var handleSwitchMenu = function handleSwitchMenu(status) {
-    var formdatas = _objectSpread({}, formData);
-
-    formdatas.is_menu = status;
-  };
-
   var handleAddress = function handleAddress(status) {
+    setEdit(true);
     setSlugManage(status);
   };
 
+  var HandleUpdateForm = function HandleUpdateForm(data, id) {
+    _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_5__.Request.UpdateDataCategory(data, id).then(function (res) {
+      return pushResult(res);
+    })["catch"](function (error) {
+      return console.log("error add :", error);
+    });
+  };
+
+  var HandleEdit = function HandleEdit() {
+    var formOldData = _objectSpread({}, formData);
+
+    formOldData.content = contentNew;
+    var is_menu = localStorage.getItem("is_menu");
+    var status = localStorage.getItem("status"); // console.log("status : " , status , " / menu : " , is_menu);
+
+    formOldData.status = status;
+    formOldData.is_menu = parseInt(is_menu);
+    HandleUpdateForm(formOldData, formOldData.id);
+  };
+
   var handleEditorData = function handleEditorData(data) {
+    setEdit(true);
     setFormData(_objectSpread(_objectSpread({}, formData), {}, {
       content: data
     }));
   };
 
+  var handleSwitchStatus = function handleSwitchStatus(status) {
+    setEdit(true);
+    localStorage.setItem("status", status ? "active" : "deactivate");
+  };
+
+  var handleSwitchMenu = function handleSwitchMenu(status) {
+    setEdit(true);
+    localStorage.setItem("is_menu", status ? 1 : 0);
+  };
+
   var HandleSelectOption = function HandleSelectOption(check) {
+    setEdit(true);
     setFormData(_objectSpread(_objectSpread({}, formData), {}, {
       parent_id: parseInt(check)
     }));
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
     id: "category_add_pop_base",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("form", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("form", {
       action: "#",
-      children: [console.log("data cat : ", dataCategory.data), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("ul", {
+      children: [console.log("data cat : ", dataCategory.data), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("ul", {
         className: "nav nav-tabs tab-layout",
         role: "tablist",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("li", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("li", {
           className: "nEav-item col-6 nav-custom",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("a", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
             className: "nav-link active",
             id: "cat-tab",
             "data-toggle": "tab",
@@ -3058,14 +3126,14 @@ var AddCategory = function AddCategory(_ref) {
             "aria-controls": "cat",
             role: "tab",
             "aria-selected": "true",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
               className: "align-middle",
               children: "\u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
             })
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("li", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("li", {
           className: "nav-item col-6 nav-custom ",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("a", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
             className: "nav-link",
             id: "seo-tab",
             "data-toggle": "tab",
@@ -3073,39 +3141,40 @@ var AddCategory = function AddCategory(_ref) {
             "aria-controls": "seos",
             role: "tab",
             "aria-selected": "false",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
               className: "align-middle",
               children: "\u0633\u0626\u0648 \u0648 \u0622\u062F\u0631\u0633"
             })
           })
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
         className: "tab-content",
         style: {
           padding: 0,
           position: 'relative'
         },
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "tab-pane active",
           id: "cat",
           "aria-labelledby": "cat-tab",
           role: "tabpanel",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
             className: "content-pages",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
               className: "row",
               style: {
                 padding: '20px'
               },
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                 className: "col-lg-3 col-md-4 col-sm-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("fieldset", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
                   className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                     htmlFor: "title",
                     children: "\u0639\u0646\u0648\u0627\u0646 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
                     type: "text",
+                    defaultValue: dataUpdateParse ? dataUpdateParse.name : '',
                     onChange: function onChange(e) {
                       return handleInput(e);
                     },
@@ -3114,32 +3183,33 @@ var AddCategory = function AddCategory(_ref) {
                     className: "form-control"
                   })]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                 className: "col-lg-3 col-md-4 col-sm-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("fieldset", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
                   className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                     id: "selectParent",
                     children: "\u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC \u067E\u062F\u0631"
-                  }), categoryData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_6__.SelectOptions, {
-                    parents: idParent,
+                  }), categoryData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_6__.SelectOptions, {
+                    parents: idParent ? idParent : dataUpdateParse.parent_id,
                     selection: function selection(check) {
                       return HandleSelectOption(check);
                     },
                     loading: loading,
                     data: JSON.stringify(dataCategory.data)
-                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
+                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("p", {
                     children: "wait ..."
                   })]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                 className: "col-lg-2 col-md-3 col-sm-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("fieldset", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
                   className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                     id: "selectParent",
                     children: "\u0648\u0636\u0639\u06CC\u062A \u0646\u0645\u0627\u06CC\u0634"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_HOC_Switch__WEBPACK_IMPORTED_MODULE_2__.Switcher, {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_HOC_Switch__WEBPACK_IMPORTED_MODULE_2__.Switcher, {
+                    defaultState: dataUpdateParse ? dataUpdateParse.status == "active" ? true : false : true,
                     status: function status(state) {
                       return handleSwitchStatus(state);
                     },
@@ -3148,14 +3218,15 @@ var AddCategory = function AddCategory(_ref) {
                     valueDeActive: "غیرفعال"
                   })]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                 className: "col-lg-2 col-md-3 col-sm-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("fieldset", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
                   className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                     id: "selectParent",
                     children: "\u0646\u0645\u0627\u06CC\u0634 \u062F\u0631 \u0645\u0646\u0648"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_HOC_Switch__WEBPACK_IMPORTED_MODULE_2__.Switcher, {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_HOC_Switch__WEBPACK_IMPORTED_MODULE_2__.Switcher, {
+                    defaultState: dataUpdateParse ? dataUpdateParse.is_menu == 0 ? false : true : true,
                     status: function status(state) {
                       return handleSwitchMenu(state);
                     },
@@ -3164,16 +3235,16 @@ var AddCategory = function AddCategory(_ref) {
                     valueDeActive: "غیرفعال"
                   })]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                 className: "col-lg-2 col-md-3 col-sm-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("fieldset", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
                   className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                     id: "selectParent",
                     children: "\u0627\u0641\u0632\u0648\u062F\u0646 \u0641\u0627\u06CC\u0644"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
                     id: "file",
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
                       type: "file",
                       name: "file-attach",
                       style: {
@@ -3182,47 +3253,50 @@ var AddCategory = function AddCategory(_ref) {
                         position: 'absolute',
                         cursor: 'pointer'
                       }
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("button", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("button", {
                       id: "select-files",
                       className: "btn btn-primary mb-1",
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("i", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("i", {
                         className: "icon-file2"
                       }), "\u0627\u0646\u062A\u062E\u0627\u0628 \u0641\u0627\u06CC\u0644"]
                     })]
                   })]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                 className: "col-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Micro_MyEditor_MyEditor__WEBPACK_IMPORTED_MODULE_8__.default, {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Micro_MyEditor_MyEditor__WEBPACK_IMPORTED_MODULE_7__.default, {
                   editorData: function editorData(data) {
-                    return handleEditorData(data);
+                    setEdit(true);
+                    setContentNew(data);
                   },
                   id: "my-editor",
+                  defaultVal: dataUpdateParse ? dataUpdateParse.content : '',
                   placeholder: "توضیحات دسته بندی را بنویسید ..."
                 })
               })]
             })
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "tab-pane",
           id: "seo",
           "aria-labelledby": "seo-tab",
           role: "tabpanel",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
             className: "content-pages",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
               className: "row",
               style: {
                 padding: '25px'
               },
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                 className: "col-lg-3 col-md-4 col-sm-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("fieldset", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
                   className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                     id: "selectParent",
                     children: "\u0646\u0648\u0639 \u0622\u062F\u0631\u0633"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_HOC_Switch__WEBPACK_IMPORTED_MODULE_2__.Switcher, {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_HOC_Switch__WEBPACK_IMPORTED_MODULE_2__.Switcher, {
+                    defaultState: true,
                     status: function status(state) {
                       return handleAddress(state);
                     },
@@ -3231,45 +3305,45 @@ var AddCategory = function AddCategory(_ref) {
                     valueDeActive: "دستی"
                   })]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                 className: "col-lg-9 col-md-8 col-sm-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("fieldset", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
                   className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                     htmlFor: "title",
                     children: "\u0622\u062F\u0631\u0633 \u0635\u0641\u062D\u0647 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
-                  }), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
-                    type: "cancel",
-                    defaultValue: formData.name,
+                  }), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
+                    type: "text",
+                    defaultValue: dataUpdateParse.slug ? dataUpdateParse.slug : formData.name,
+                    disabled: true,
+                    id: "title",
+                    className: "form-control slugest"
+                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
+                    type: "text",
+                    defaultValue: dataUpdateParse.slug ? dataUpdateParse.slug : formData.name,
                     onChange: function onChange(e) {
                       return handleInput(e);
                     },
                     name: "slug",
                     id: "title",
                     className: "form-control slugest"
-                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
-                    type: "cancel",
-                    defaultValue: formData.name,
-                    disabled: true,
-                    id: "title",
-                    className: "form-control slugest"
                   })]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                 className: "col s12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                   className: "alert alert-primary mb-2 col-12",
                   role: "alert",
                   children: "\u0627\u0637\u0644\u0627\u0639\u0627\u062A \u062A\u06CC\u062A\u0631 \u0648 \u062A\u0648\u0636\u06CC\u062D\u0627\u062A \u0635\u0641\u062D\u0647 \u0628\u0647 \u0635\u0648\u0631\u062A \u062E\u0648\u062F\u06A9\u0627\u0631 \u062A\u0648\u0633\u0637 zerone \u0628\u0631\u0627\u06CC \u0633\u0626\u0648\u06CC \u0628\u0647\u062A\u0631 \u0627\u06CC\u062C\u0627\u062F \u0645\u06CC\u200C\u0634\u0648\u0646\u062F. \u062F\u0631 \u0635\u0648\u0631\u062A\u06CC \u06A9\u0647 \u062A\u0645\u0627\u06CC\u0644 \u0628\u0647 \u0634\u062E\u0635\u06CC\u200C\u0633\u0627\u0632\u06CC \u0622\u0646 \u062F\u0627\u0631\u06CC\u062F\u060C \u0645\u06CC\u200C\u062A\u0648\u0627\u0646\u06CC\u062F \u0627\u0632 \u0628\u062E\u0634 \u0632\u06CC\u0631 \u0627\u0633\u062A\u0641\u0627\u062F\u0647 \u06A9\u0646\u06CC\u062F."
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                 className: "col-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("fieldset", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
                   className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                     htmlFor: "title",
                     children: "\u0639\u0646\u0648\u0627\u0646 \u0635\u0641\u062D\u0647 ( \u062D\u062F\u0627\u06A9\u062B\u0631 60 \u062D\u0631\u0641 )"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
                     type: "text",
                     onChange: function onChange(e) {
                       return HandleMetaData(e);
@@ -3279,14 +3353,14 @@ var AddCategory = function AddCategory(_ref) {
                     className: "form-control"
                   })]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                 className: "col-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("fieldset", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
                   className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                     htmlFor: "title",
                     children: "\u062A\u0648\u0636\u06CC\u062D \u0635\u0641\u062D\u0647 ( \u062D\u062F\u0627\u06A9\u062B\u0631 155 \u062D\u0631\u0641 )"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("textarea", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("textarea", {
                     type: "text",
                     onChange: function onChange(e) {
                       return HandleMetaData(e);
@@ -3296,14 +3370,14 @@ var AddCategory = function AddCategory(_ref) {
                     className: "form-control"
                   })]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                 className: "col-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("fieldset", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
                   className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                     htmlFor: "title",
                     children: "\u06A9\u0644\u0645\u0627\u062A \u06A9\u0644\u06CC\u062F\u06CC \u0635\u0641\u062D\u0647 ( \u0628\u0627 \u0648\u06CC\u0631\u06AF\u0648\u0644 \u062C\u062F\u0627 \u06A9\u0646\u06CC\u062F )"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
                     type: "text",
                     onChange: function onChange(e) {
                       return HandleMetaData(e);
@@ -3313,14 +3387,14 @@ var AddCategory = function AddCategory(_ref) {
                     className: "form-control"
                   })]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                 className: "col-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("fieldset", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
                   className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                     htmlFor: "title",
                     children: "\u0622\u062F\u0631\u0633 \u062F\u0627\u062E\u0644\u06CC \u0628\u0631\u0627\u06CC \u0627\u0646\u062A\u0642\u0627\u0644 (301 Redirect)"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
                     type: "text",
                     onChange: function onChange(e) {
                       return HandleMetaData(e);
@@ -3330,14 +3404,14 @@ var AddCategory = function AddCategory(_ref) {
                     className: "form-control"
                   })]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                 className: "col-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("fieldset", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
                   className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                     htmlFor: "title",
                     children: "\u0622\u062F\u0631\u0633 Canonical"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
                     onChange: function onChange(e) {
                       return HandleMetaData(e);
                     },
@@ -3347,11 +3421,11 @@ var AddCategory = function AddCategory(_ref) {
                     className: "form-control"
                   })]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
                 className: "col-12",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                   children: "\u062A\u0646\u0638\u06CC\u0645\u0627\u062A Robots"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_HOC_BigSwitcher__WEBPACK_IMPORTED_MODULE_3__.BigSwitcher, {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_HOC_BigSwitcher__WEBPACK_IMPORTED_MODULE_3__.BigSwitcher, {
                   status: function status(states) {
                     return HandlerBigSwitcher(states);
                   },
@@ -3363,11 +3437,11 @@ var AddCategory = function AddCategory(_ref) {
               })]
             })
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "col-12 bottom-footer",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
             className: "row",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
               className: "col-6",
               onClick: handleClose,
               style: {
@@ -3375,12 +3449,46 @@ var AddCategory = function AddCategory(_ref) {
                 textAlign: 'center',
                 borderLeft: '1px solid #a9a9a9'
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("button", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("button", {
                 type: "reset",
                 id: "clear",
                 children: "\u0627\u0646\u0635\u0631\u0627\u0641"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+            }), type ? type == 'edit' ? edit ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+              onClick: function onClick(e) {
+                return HandleEdit(e);
+              },
+              className: "col-6",
+              style: {
+                textAlign: 'center',
+                cursor: 'pointer'
+              },
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+                children: "\u0648\u06CC\u0631\u0627\u06CC\u0634"
+              })
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+              id: "disable-div",
+              className: "col-6",
+              style: {
+                textAlign: 'center',
+                cursor: 'pointer'
+              },
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+                children: "\u0648\u06CC\u0631\u0627\u06CC\u0634"
+              })
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+              onClick: function onClick(e) {
+                return HandleDuplicate(e);
+              },
+              className: "col-6",
+              style: {
+                textAlign: 'center',
+                cursor: 'pointer'
+              },
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+                children: "\u0630\u062E\u06CC\u0631\u0647 \u06A9\u067E\u06CC"
+              })
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
               onClick: function onClick(e) {
                 return HandleForm(e);
               },
@@ -3389,8 +3497,8 @@ var AddCategory = function AddCategory(_ref) {
                 textAlign: 'center',
                 cursor: 'pointer'
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
-                children: "\u0627\u0636\u0627\u0641\u0647 \u06A9\u0631\u062F\u0646 \u062F\u0633\u062A\u0647"
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+                children: "\u0630\u062E\u06CC\u0631\u0647"
               })
             })]
           })
@@ -3400,11 +3508,7 @@ var AddCategory = function AddCategory(_ref) {
   });
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AddCategory); // let element = document.getElementById("category_add_pop");
-// if (element) {
-//     let props = Object.assign({}, element.dataset);
-//     ReactDOM.render(<Index  {...props} />, element);
-// }
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AddCategory);
 
 /***/ }),
 
@@ -3501,9 +3605,7 @@ var CategoryList = function CategoryList() {
       jquery__WEBPACK_IMPORTED_MODULE_7___default()(".back-loader").click(function () {
         jquery__WEBPACK_IMPORTED_MODULE_7___default()(".back-loader").fadeOut();
         setTimeout(function () {
-          var dispalys = _objectSpread({}, dispalyAdd);
-
-          dispalys.dispaly = true;
+          handleAddPage();
         }, 200);
       });
     });
@@ -3515,7 +3617,14 @@ var CategoryList = function CategoryList() {
   });
 
   var handleAddPage = function handleAddPage() {
-    jquery__WEBPACK_IMPORTED_MODULE_7___default()("#category_add_pop_base").fadeIn();
+    react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_6__.default, {
+      display: true,
+      dataUpdate: '',
+      idParent: null,
+      result: function result(item) {
+        return handleBack(item);
+      }
+    }), document.getElementById("add-datas"));
   };
 
   var HandleAdd = function HandleAdd(item) {
@@ -3535,10 +3644,20 @@ var CategoryList = function CategoryList() {
     }
   };
 
+  var HandleDuplicate = function HandleDuplicate(status) {
+    if (status == 200) {
+      GetAllCategory();
+    } else {
+      console.log("you have an error");
+    }
+  };
+
   var handleClickItem = function handleClickItem(clickId) {
+    console.log("data id parent : ", clickId);
     react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_6__.default, {
       display: true,
       idParent: clickId,
+      dataUpdate: '',
       result: function result(item) {
         return handleBack(item);
       }
@@ -3553,21 +3672,15 @@ var CategoryList = function CategoryList() {
   };
 
   var HandleBackLoader = function HandleBackLoader(data) {
-    var dataNew = JSON.parse(data);
-
-    var display = _objectSpread({}, dispalyAdd);
-
-    display.dispaly = true;
-
-    if (dataNew.display) {
-      react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_6__.default, {
-        display: true,
-        idParent: null,
-        result: function result(item) {
-          return handleBack(item);
-        }
-      }), document.getElementById("add-datas"));
-    }
+    // let dataNew = JSON.parse(data);
+    react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_6__.default, {
+      display: true,
+      dataUpdate: data,
+      idParent: null,
+      result: function result(item) {
+        return handleBack(item);
+      }
+    }), document.getElementById("add-datas"));
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
@@ -3633,11 +3746,20 @@ var CategoryList = function CategoryList() {
           handleCata: function handleCata(itemCat) {
             return console.log("cat back ,", itemCat);
           },
+          duplicate: function duplicate(item) {
+            return HandleDuplicate(item);
+          },
           itemClicks: function itemClicks(clicks) {
             return handleClickItem(clicks);
           },
           callBack: function callBack(item) {
             return HandleDelete(item);
+          },
+          delClick: function delClick(item) {
+            return HandleDelete(item);
+          },
+          updateData: function updateData(item) {
+            return HandleBackLoader(item);
           },
           data: categoryData,
           loading: loading
@@ -4357,6 +4479,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var MyEditor = function MyEditor(_ref) {
   var placeholder = _ref.placeholder,
+      defaultVal = _ref.defaultVal,
       pushEditorData = _ref.editorData;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
@@ -4378,6 +4501,7 @@ var MyEditor = function MyEditor(_ref) {
       children: "\u062A\u0648\u0636\u06CC\u062D\u0627\u062A"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)((suneditor_react__WEBPACK_IMPORTED_MODULE_1___default()), {
       show: false,
+      defaultValue: defaultVal,
       placeholder: placeholder,
       onChange: handleChange,
       ref: editorRef
@@ -4659,6 +4783,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Category_CategoryAdd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../Category/CategoryAdd */ "./resources/js/components/Admin/Category/CategoryAdd/index.js");
 /* harmony import */ var _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../../../services/AdminService/Api */ "./resources/js/services/AdminService/Api.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -4668,22 +4798,55 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Item = function Item(_ref) {
-  var key = _ref.key,
+  var allData = _ref.allData,
+      key = _ref.key,
       id = _ref.id,
       name = _ref.name,
       status = _ref.status,
+      pushDuplicate = _ref.duplicate,
       pushItemClisk = _ref.itemClick,
-      pushCallBack = _ref.callBack;
+      pushDelClick = _ref.delClick,
+      pushDataForEdit = _ref.dataForEdit;
 
   var handleAdding = function handleAdding(e) {
     e.preventDefault();
+    console.log("item id : ", id);
     pushItemClisk(id);
   };
 
   var HandleDel = function HandleDel(e, idDel) {
     e.preventDefault();
     _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_4__.Request.DeleteCategoryOne(idDel).then(function (res) {
-      pushCallBack(res.status);
+      pushDelClick(res.status);
+    }).cache(function (error) {
+      return console.log("error : ", error);
+    });
+  };
+
+  var HandleEdit = function HandleEdit(e, type) {
+    e.preventDefault();
+    var editOrDup = JSON.stringify({
+      type: type,
+      allData: allData
+    });
+    pushDataForEdit(editOrDup);
+  };
+
+  var HandleDuplicate = function HandleDuplicate(e, id) {
+    e.preventDefault();
+    var JsonData = JSON.parse(allData);
+
+    var dataFit = _objectSpread({}, JsonData);
+
+    var min = 1;
+    var max = 1000;
+    var rand = Number(min + Math.random() * (max - min)).toFixed(0);
+    dataFit.name = dataFit.name + rand + "_کپی";
+    dataFit.slug = dataFit.slug + rand + "_کپی";
+    dataFit.image = ''; // console.log("dataaaaaaaa: ",dataFit)
+
+    _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_4__.Request.AddNewCategory(dataFit).then(function (res) {
+      pushDuplicate(res.status);
     }).cache(function (error) {
       return console.log("error : ", error);
     });
@@ -4729,7 +4892,9 @@ var Item = function Item(_ref) {
           className: "form-check",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
             className: "bx bx-plus",
-            onClick: handleAdding
+            onClick: function onClick(e) {
+              return handleAdding(e);
+            }
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
             className: "bx bx-show"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
@@ -4738,9 +4903,15 @@ var Item = function Item(_ref) {
               return HandleDel(e, id);
             }
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
-            className: "bx bx-edit"
+            className: "bx bx-edit",
+            onClick: function onClick(e) {
+              return HandleEdit(e, "edit");
+            }
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
-            className: "bx bx-duplicate"
+            className: "bx bx-duplicate",
+            onClick: function onClick(e) {
+              return HandleEdit(e, "dup");
+            }
           }), status == "active" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
             className: "badge badge-success badge-pill ml-50",
             children: "\u0641\u0639\u0627\u0644"
@@ -4781,7 +4952,10 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
   var data = _ref.data,
       loading = _ref.loading,
       pushCallBack = _ref.callBack,
-      pushItemCliks = _ref.itemClicks;
+      pushItemCliks = _ref.itemClicks,
+      pushDuplicate = _ref.duplicate,
+      pushDelClick = _ref.delClick,
+      pushUpdateData = _ref.updateData;
   jquery__WEBPACK_IMPORTED_MODULE_2___default()(function () {
     jquery__WEBPACK_IMPORTED_MODULE_2___default()("span#sub-menu-custom").click(function () {
       jquery__WEBPACK_IMPORTED_MODULE_2___default()(".back-blur").fadeIn(100);
@@ -4802,7 +4976,20 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
   };
 
   var HandleClick = function HandleClick(id) {
+    console.log("tree id : ", id);
     pushItemCliks(id);
+  };
+
+  var HndleDuplicate = function HndleDuplicate(item) {
+    pushDuplicate(item);
+  };
+
+  var HandleDelClick = function HandleDelClick(item) {
+    pushDelClick(item);
+  };
+
+  var HandleDataForUpdate = function HandleDataForUpdate(data) {
+    pushUpdateData(data);
   };
 
   if (loading) {
@@ -4814,84 +5001,110 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
     className: "content-li",
     children: data ? Object.keys(data).map(function (keyName, i) {
-      return (
-        /*#__PURE__*/
-        // <p>{data[keyName].name}</p>
-        (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
-          style: {
-            position: 'relative'
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
+        style: {
+          position: 'relative'
+        },
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "branch-top"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
+          name: data[keyName].name,
+          allData: JSON.stringify(data[keyName]),
+          id: data[keyName].id,
+          status: data[keyName].status,
+          callBack: function callBack(item) {
+            return handlePush(item);
           },
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            className: "branch-top"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
-            name: data[keyName].name,
-            id: data[keyName].id,
-            status: data[keyName].status,
-            callBack: function callBack(item) {
-              return handlePush(item);
+          duplicate: function duplicate(item) {
+            return HndleDuplicate(item);
+          },
+          delClick: function delClick(item) {
+            return HandleDelClick(item);
+          },
+          dataForEdit: function dataForEdit(item) {
+            return HandleDataForUpdate(item);
+          },
+          itemClick: function itemClick(itemId) {
+            return HandleClick(itemId);
+          }
+        }, data[keyName].name), data[keyName].childern.length > 0 ? data[keyName].childern.map(function (itemClildOne, i) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
+            style: {
+              padding: '0 50px 0 0',
+              listStyle: 'inherit',
+              position: 'relative'
             },
-            itemClick: function itemClick(itemId) {
-              return HandleClick(itemId);
-            }
-          }, data[keyName].name), console.log("childern : ", data[keyName].childern.length), data[keyName].childern.length > 0 ? data[keyName].childern.map(function (itemClildOne, i) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
-              style: {
-                padding: '0 50px 0 0',
-                listStyle: 'inherit',
-                position: 'relative'
-              },
-              children: [console.log("indexed : ", i), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                  className: "branch-top"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                  className: "branch",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    className: "box"
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
-                  status: itemClildOne.status,
-                  name: itemClildOne.name,
-                  id: itemClildOne.id,
-                  callBack: function callBack(item) {
-                    return handlePush(item);
+            children: [console.log("indexed : ", i), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: "branch-top"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: "branch",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: "box"
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
+                status: itemClildOne.status,
+                name: itemClildOne.name,
+                id: itemClildOne.id,
+                allData: JSON.stringify(itemClildOne),
+                callBack: function callBack(item) {
+                  return handlePush(item);
+                },
+                duplicate: function duplicate(item) {
+                  return HndleDuplicate(item);
+                },
+                delClick: function delClick(item) {
+                  return HandleDelClick(item);
+                },
+                dataForEdit: function dataForEdit(item) {
+                  return HandleDataForUpdate(item);
+                },
+                itemClick: function itemClick(itemId) {
+                  return HandleClick(itemId);
+                }
+              }, itemClildOne.id), itemClildOne.children.length > 0 ? itemClildOne.children.map(function (childThree, i) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
+                  style: {
+                    padding: '0 50px 0 0',
+                    listStyle: 'inherit',
+                    position: 'relative'
                   },
-                  itemClick: function itemClick(itemId) {
-                    return HandleClick(itemId);
-                  }
-                }, itemClildOne.id), itemClildOne.children.length > 0 ? itemClildOne.children.map(function (childThree, i) {
-                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
-                    style: {
-                      padding: '0 50px 0 0',
-                      listStyle: 'inherit',
-                      position: 'relative'
-                    },
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                        className: "branch-top"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                        className: "branch",
-                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                          className: "box"
-                        })
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
-                        status: childThree.status,
-                        name: childThree.name,
-                        id: childThree.id,
-                        callBack: function callBack(item) {
-                          return handlePush(item);
-                        },
-                        itemClick: function itemClick(itemId) {
-                          return HandleClick(itemId);
-                        }
-                      }, childThree.id)]
-                    })
-                  });
-                }) : '']
-              })]
-            });
-          }) : '']
-        })
-      );
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                      className: "branch-top"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                      className: "branch",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: "box"
+                      })
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
+                      status: childThree.status,
+                      name: childThree.name,
+                      id: childThree.id,
+                      callBack: function callBack(item) {
+                        return handlePush(item);
+                      },
+                      allData: JSON.stringify(childThree),
+                      duplicate: function duplicate(item) {
+                        return HndleDuplicate(item);
+                      },
+                      delClick: function delClick(item) {
+                        return HandleDelClick(item);
+                      },
+                      dataForEdit: function dataForEdit(item) {
+                        return HandleDataForUpdate(item);
+                      },
+                      itemClick: function itemClick(itemId) {
+                        return HandleClick(itemId);
+                      }
+                    }, childThree.id)]
+                  })
+                });
+              }) : '']
+            })]
+          });
+        }) : '']
+      });
     }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
       children: "wait"
     })
@@ -5461,28 +5674,31 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Switcher = function Switcher(_ref) {
-  var name = _ref.name,
+  var defaultState = _ref.defaultState,
+      name = _ref.name,
       valueActive = _ref.valueActive,
       valueDeActive = _ref.valueDeActive,
       pushState = _ref.status;
   jquery__WEBPACK_IMPORTED_MODULE_2___default()(function () {
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()("input[name=" + name + "]").on("change", function () {
+    jquery__WEBPACK_IMPORTED_MODULE_2___default()();
+    jquery__WEBPACK_IMPORTED_MODULE_2___default()("input[name=" + name + "]").on("change", function (e) {
       var status = jquery__WEBPACK_IMPORTED_MODULE_2___default()(this).prop("checked");
       pushState(status);
 
-      if (jquery__WEBPACK_IMPORTED_MODULE_2___default()(this).prop("checked")) {
-        jquery__WEBPACK_IMPORTED_MODULE_2___default()("li." + name + ".active").removeClass("act");
-        jquery__WEBPACK_IMPORTED_MODULE_2___default()("li." + name + ".deactive").addClass("act");
-      } else {
+      if (status) {
         jquery__WEBPACK_IMPORTED_MODULE_2___default()("li." + name + ".active").addClass("act");
         jquery__WEBPACK_IMPORTED_MODULE_2___default()("li." + name + ".deactive").removeClass("act");
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()("li." + name + ".active").removeClass("act");
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()("li." + name + ".deactive").addClass("act");
       }
     });
   });
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
     className: "switch-container",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
+    children: defaultState ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+        defaultChecked: true,
         type: "checkbox",
         name: name,
         id: "checked"
@@ -5491,6 +5707,19 @@ var Switcher = function Switcher(_ref) {
         children: valueActive
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
         className: name + " deactive",
+        children: valueDeActive
+      })]
+    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+        defaultChecked: false,
+        type: "checkbox",
+        name: name,
+        id: "checked"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+        className: name + " active",
+        children: valueActive
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+        className: name + " deactive act",
         children: valueDeActive
       })]
     })
@@ -7385,6 +7614,9 @@ var Request = {
   },
   DeleteCategoryOne: function DeleteCategoryOne(data) {
     return _Request__WEBPACK_IMPORTED_MODULE_0__.request.get("/admin/category/" + data + "/destroy/");
+  },
+  UpdateDataCategory: function UpdateDataCategory(data, id) {
+    return _Request__WEBPACK_IMPORTED_MODULE_0__.request.put("/admin/category/" + id + "/update", data);
   }
 };
 
@@ -7405,14 +7637,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 
- // import axiosRetry from "axios-retry";
-// axiosRetry(
-//     axios,
-//     {
-//         retries: 3,
-//         retryDelay: API.TIMEOUT
-//     }
-// );
 
 var request = axios__WEBPACK_IMPORTED_MODULE_1___default().create({
   baseURL: _Type__WEBPACK_IMPORTED_MODULE_0__.BASE_URL,
@@ -7466,7 +7690,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".sun-editor {\n  width: auto;\n  height: auto;\n  box-sizing: border-box;\n  font-family: Helvetica Neue, sans-serif;\n  border: 1px solid #dadada;\n  background-color: #fff;\n  color: #000;\n  user-select: none;\n  -o-user-select: none;\n  -moz-user-select: none;\n  -khtml-user-select: none;\n  -webkit-user-select: none;\n  -ms-user-select: none;\n}\n\n.se-wrapper-inner.se-wrapper-wysiwyg.sun-editor-editable {\n  min-height: 300px;\n}\n\n.sun-editor * {\n  box-sizing: border-box;\n  -webkit-user-drag: none;\n  overflow: visible;\n}\n\n.sun-editor-common button, .sun-editor-common input, .sun-editor-common select, .sun-editor-common textarea {\n  font-size: 14px;\n  line-height: 1.5;\n}\n\n.sun-editor-common blockquote, .sun-editor-common body, .sun-editor-common button, .sun-editor-common code, .sun-editor-common dd, .sun-editor-common div, .sun-editor-common dl, .sun-editor-common dt, .sun-editor-common fieldset, .sun-editor-common form, .sun-editor-common h1, .sun-editor-common h2, .sun-editor-common h3, .sun-editor-common h4, .sun-editor-common h5, .sun-editor-common h6, .sun-editor-common input, .sun-editor-common legend, .sun-editor-common li, .sun-editor-common ol, .sun-editor-common p, .sun-editor-common pre, .sun-editor-common select, .sun-editor-common td, .sun-editor-common textarea, .sun-editor-common th, .sun-editor-common ul {\n  margin: 0;\n  padding: 0;\n  border: 0;\n}\n\n.sun-editor-common dl, .sun-editor-common li, .sun-editor-common menu, .sun-editor-common ol, .sun-editor-common ul {\n  list-style: none !important;\n}\n\n.sun-editor-common hr {\n  margin: 6px 0 !important;\n}\n\n.sun-editor textarea {\n  resize: none;\n  border: 0;\n  padding: 0;\n}\n\n.sun-editor button {\n  border: 0;\n  background-color: transparent;\n  touch-action: manipulation;\n  cursor: pointer;\n  outline: none;\n}\n\n.sun-editor button, .sun-editor input, .sun-editor select, .sun-editor textarea {\n  vertical-align: middle;\n}\n\n.sun-editor button span {\n  display: block;\n  margin: 0;\n  padding: 0;\n}\n\n.sun-editor button .txt {\n  display: block;\n  margin-top: 0;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.sun-editor button * {\n  pointer-events: none;\n  backface-visibility: hidden;\n  -webkit-backface-visibility: hidden;\n  -moz-backface-visibility: hidden;\n}\n\n.sun-editor .se-svg, .sun-editor button > svg {\n  width: 16px;\n  height: 16px;\n  margin: auto;\n  fill: currentColor;\n  display: block;\n  text-align: center;\n  float: none;\n}\n\n.sun-editor .close > svg, .sun-editor .se-dialog-close > svg {\n  width: 10px;\n  height: 10px;\n}\n\n.sun-editor .se-btn-select > svg {\n  float: right;\n  width: 10px;\n  height: 10px;\n}\n\n.sun-editor .se-btn-list > .se-list-icon {\n  display: inline-block;\n  width: 16px;\n  height: 16px;\n  margin: -1px 10px 0 0;\n  vertical-align: middle;\n}\n\n.sun-editor .se-line-breaker > button > svg {\n  width: 24px;\n  height: 24px;\n}\n\n.sun-editor button > i:before {\n  -moz-osx-font-smoothing: grayscale;\n  -webkit-font-smoothing: antialiased;\n  display: inline-block;\n  font-style: normal;\n  font-variant: normal;\n  text-rendering: auto;\n  font-size: 15px;\n  line-height: 2;\n}\n\n.sun-editor button > [class=se-icon-text] {\n  font-size: 20px;\n  line-height: 1;\n}\n\n.sun-editor .se-arrow, .sun-editor .se-arrow:after {\n  position: absolute;\n  display: block;\n  width: 0;\n  height: 0;\n  border: 11px solid transparent;\n}\n\n.sun-editor .se-arrow.se-arrow-up {\n  top: -11px;\n  left: 20px;\n  margin-left: -11px;\n  border-top-width: 0;\n  border-bottom-color: #dadada;\n}\n\n.sun-editor .se-arrow.se-arrow-up:after {\n  top: 1px;\n  margin-left: -11px;\n  content: \" \";\n  border-top-width: 0;\n  border-bottom-color: #fff;\n}\n\n.sun-editor .se-toolbar .se-arrow.se-arrow-up:after {\n  border-bottom-color: #fafafa;\n}\n\n.sun-editor .se-arrow.se-arrow-down {\n  top: 0;\n  left: 0;\n  margin-left: -11px;\n  border-bottom-width: 0;\n  border-top-color: #dadada;\n}\n\n.sun-editor .se-arrow.se-arrow-down:after {\n  top: -12px;\n  margin-left: -11px;\n  content: \" \";\n  border-bottom-width: 0;\n  border-top-color: #fff;\n}\n\n.sun-editor .se-toolbar .se-arrow.se-arrow-down:after {\n  border-top-color: #fafafa;\n}\n\n.sun-editor .se-container {\n  position: relative;\n  width: 100%;\n  height: 100%;\n}\n\n.sun-editor button {\n  color: #000;\n}\n\n.sun-editor .se-btn {\n  float: left;\n  width: 34px;\n  height: 34px;\n  border: 0;\n  border-radius: 4px;\n  margin: 1px !important;\n  padding: 0;\n  font-size: 12px;\n  line-height: 27px;\n}\n\n.sun-editor .se-btn:enabled:focus, .sun-editor .se-btn:enabled:hover {\n  background-color: #e1e1e1;\n  border-color: #d1d1d1;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn:enabled:active {\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  box-shadow: inset 0 3px 5px #c1c1c1;\n}\n\n.sun-editor .se-btn-primary {\n  color: #000;\n  background-color: #c7deff;\n  border: 1px solid #80bdff;\n  border-radius: 4px;\n}\n\n.sun-editor .se-btn-primary:focus, .sun-editor .se-btn-primary:hover {\n  color: #000;\n  background-color: #80bdff;\n  border-color: #3f9dff;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn-primary:active {\n  color: #fff;\n  background-color: #3f9dff;\n  border-color: #4592ff;\n  box-shadow: inset 0 3px 5px #4592ff;\n}\n\n.sun-editor input, .sun-editor select, .sun-editor textarea {\n  color: #000;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n}\n\n.sun-editor input:focus, .sun-editor select:focus, .sun-editor textarea:focus {\n  border: 1px solid #80bdff;\n  outline: 0;\n  box-shadow: 0 0 0 0.2rem #c7deff;\n  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n}\n\n.sun-editor .se-btn:enabled.active {\n  color: #4592ff;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn:enabled.active:focus, .sun-editor .se-btn:enabled.active:hover {\n  background-color: #e1e1e1;\n  border-color: #d1d1d1;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn:enabled.active:active {\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  box-shadow: inset 0 3px 5px #c1c1c1;\n}\n\n.sun-editor .se-btn:enabled.on {\n  background-color: #e1e1e1;\n  border-color: #d1d1d1;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn:enabled.on:focus, .sun-editor .se-btn:enabled.on:hover {\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn:enabled.on:active {\n  background-color: #c1c1c1;\n  border-color: #b1b1b1;\n  box-shadow: inset 0 3px 5px #b1b1b1;\n}\n\n.sun-editor .se-btn-list:disabled, .sun-editor .se-btn:disabled, .sun-editor button:disabled {\n  cursor: not-allowed;\n  background-color: inherit;\n  color: #bdbdbd;\n}\n\n.sun-editor .se-loading-box {\n  position: absolute;\n  display: none;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  background-color: #fff;\n  opacity: 0.7;\n  filter: alpha(opacity=70);\n  z-index: 2147483647;\n}\n\n.sun-editor .se-loading-box .se-loading-effect {\n  position: absolute;\n  display: block;\n  top: 50%;\n  left: 50%;\n  height: 25px;\n  width: 25px;\n  border-top: 2px solid #07d;\n  border-right: 2px solid transparent;\n  border-radius: 50%;\n  -webkit-animation: spinner 0.8s linear infinite;\n          animation: spinner 0.8s linear infinite;\n  margin: -25px 0 0 -25px;\n}\n\n.sun-editor .se-line-breaker {\n  position: absolute;\n  display: none;\n  width: 100%;\n  height: 1px;\n  cursor: text;\n  border-top: 1px solid #3288ff;\n  z-index: 7;\n}\n\n.sun-editor .se-line-breaker > button.se-btn {\n  position: relative;\n  display: inline-block;\n  width: 30px;\n  height: 30px;\n  top: -15px;\n  float: none;\n  left: -50%;\n  background-color: #fff;\n  border: 1px solid #0c2240;\n  opacity: 0.6;\n  cursor: pointer;\n}\n\n.sun-editor .se-line-breaker > button.se-btn:hover {\n  opacity: 0.9;\n  background-color: #fff;\n  border-color: #041b39;\n}\n\n.sun-editor .se-line-breaker-component {\n  position: absolute;\n  display: none;\n  width: 24px;\n  height: 24px;\n  background-color: #fff;\n  border: 1px solid #0c2240;\n  opacity: 0.6;\n  border-radius: 4px;\n  cursor: pointer;\n  z-index: 7;\n}\n\n.sun-editor .se-line-breaker-component:hover {\n  opacity: 0.9;\n}\n\n.sun-editor .se-toolbar {\n  display: block;\n  position: relative;\n  height: auto;\n  width: 100%;\n  overflow: visible;\n  padding: 0;\n  margin: 0;\n  background-color: #fafafa;\n  outline: 1px solid #dadada;\n  z-index: 5;\n}\n\n.sun-editor .se-toolbar-cover {\n  position: absolute;\n  display: none;\n  font-size: 36px;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  background-color: #fefefe;\n  opacity: 0.5;\n  filter: alpha(opacity=50);\n  cursor: not-allowed;\n  z-index: 4;\n}\n\n.sun-editor .se-toolbar-separator-vertical {\n  display: inline-block;\n  height: 0;\n  width: 0;\n  margin: 1px;\n  vertical-align: top;\n}\n\n.sun-editor .se-toolbar.se-toolbar-balloon, .sun-editor .se-toolbar.se-toolbar-inline {\n  display: none;\n  position: absolute;\n  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);\n  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);\n}\n\n.sun-editor .se-toolbar.se-toolbar-balloon {\n  z-index: 2147483647;\n  width: auto;\n}\n\n.sun-editor .se-toolbar.se-toolbar-sticky {\n  position: fixed;\n  top: 0;\n}\n\n.sun-editor .se-toolbar-sticky-dummy {\n  display: none;\n  position: static;\n  z-index: -1;\n}\n\n.sun-editor .se-btn-module {\n  display: inline-block;\n}\n\n.sun-editor .se-btn-module-border {\n  border: 1px solid #dadada;\n  border-radius: 4px;\n}\n\n.sun-editor .se-btn-module-enter {\n  display: block;\n  width: 100%;\n  height: 1px;\n  margin-bottom: 5px;\n  background-color: transparent;\n}\n\n.sun-editor .se-toolbar-more-layer {\n  margin: 0 -3px;\n  background-color: #fafafa;\n}\n\n.sun-editor .se-toolbar-more-layer .se-more-layer {\n  display: none;\n  border-top: 1px solid #dadada;\n}\n\n.sun-editor .se-toolbar-more-layer .se-more-layer .se-more-form {\n  display: inline-block;\n  width: 100%;\n  height: auto;\n  padding: 4px 3px 0;\n}\n\n.sun-editor .se-btn-module .se-btn-more.se-btn-more-text {\n  width: auto;\n  padding: 0 4px;\n}\n\n.sun-editor .se-btn-module .se-btn-more:focus, .sun-editor .se-btn-module .se-btn-more:hover {\n  color: #000;\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn-module .se-btn-more.on {\n  color: #333;\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn-module .se-btn-more.on:hover {\n  color: #000;\n  background-color: #c1c1c1;\n  border-color: #b1b1b1;\n  outline: 0 none;\n}\n\n.sun-editor .se-menu-list, .sun-editor .se-menu-list li {\n  float: left;\n  padding: 0;\n  margin: 0;\n}\n\n.sun-editor .se-menu-list li {\n  position: relative;\n}\n\n.sun-editor .se-btn-select {\n  width: auto;\n  display: flex;\n  padding: 4px 6px;\n}\n\n.sun-editor .se-btn-select .txt {\n  flex: auto;\n  text-align: left;\n}\n\n.sun-editor.se-rtl .se-btn-select svg {\n  margin: auto 1px;\n}\n\n.sun-editor .se-btn-select.se-btn-tool-font {\n  width: 100px;\n}\n\n.sun-editor .se-btn-select.se-btn-tool-format {\n  width: 82px;\n}\n\n.sun-editor .se-btn-select.se-btn-tool-size {\n  width: 78px;\n}\n\n.sun-editor .se-btn-tray {\n  position: relative;\n  width: 100%;\n  height: auto;\n  padding: 4px 3px 0;\n  margin: 0;\n}\n\n.sun-editor .se-menu-tray {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 0;\n}\n\n.sun-editor .se-submenu {\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n\n.sun-editor .se-list-layer {\n  display: none;\n  position: absolute;\n  top: 0;\n  left: 0;\n  height: auto;\n  z-index: 5;\n  border: 1px solid #bababa;\n  border-radius: 4px;\n  padding: 6px 0;\n  background-color: #fff;\n  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);\n  outline: 0 none;\n}\n\n.sun-editor .se-list-layer .se-list-inner {\n  padding: 0;\n  margin: 0;\n  overflow-x: initial;\n  overflow-y: initial;\n  overflow: visible;\n}\n\n.sun-editor .se-list-layer button {\n  margin: 0;\n  width: 100%;\n}\n\n.sun-editor .se-list-inner ul {\n  width: 100%;\n  padding: 0;\n}\n\n.sun-editor .se-list-inner li > button {\n  min-width: 100%;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n}\n\n.sun-editor .se-list-inner .se-list-basic li {\n  width: 100%;\n}\n\n.sun-editor .se-list-inner .se-list-basic li button.active {\n  background-color: #80bdff;\n  border: 1px solid #3f9dff;\n  border-left: 0;\n  border-right: 0;\n}\n\n.sun-editor .se-list-inner .se-list-basic li button.active:hover {\n  background-color: #3f9dff;\n  border: 1px solid #4592ff;\n  border-left: 0;\n  border-right: 0;\n}\n\n.sun-editor .se-list-inner .se-list-basic li button.active:active {\n  background-color: #4592ff;\n  border: 1px solid #407dd1;\n  border-left: 0;\n  border-right: 0;\n  box-shadow: inset 0 3px 5px #407dd1;\n}\n\n.sun-editor .se-list-inner .se-list-checked li button > .se-svg {\n  float: left;\n  padding: 6px 6px 0 0;\n}\n\n.sun-editor .se-list-inner .se-list-checked li button > .se-svg > svg {\n  display: none;\n}\n\n.sun-editor .se-list-inner .se-list-checked li button.se-checked {\n  color: #4592ff;\n}\n\n.sun-editor .se-list-inner .se-list-checked li button.se-checked > .se-svg > svg {\n  display: block;\n}\n\n.sun-editor .se-btn-list {\n  width: 100%;\n  height: auto;\n  min-height: 32px;\n  padding: 0 14px;\n  cursor: pointer;\n  font-size: 12px;\n  line-height: normal;\n  text-indent: 0;\n  text-decoration: none;\n  text-align: left;\n}\n\n.sun-editor .se-btn-list.default_value {\n  background-color: #f3f3f3;\n  border-top: 1px dotted #b1b1b1;\n  border-bottom: 1px dotted #b1b1b1;\n}\n\n.sun-editor .se-btn-list:focus, .sun-editor .se-btn-list:hover {\n  background-color: #e1e1e1;\n  border-color: #d1d1d1;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn-list:active {\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  box-shadow: inset 0 3px 5px #c1c1c1;\n}\n\n.sun-editor .se-list-layer.se-list-font-size {\n  min-width: 140px;\n  max-height: 300px;\n}\n\n.sun-editor .se-list-layer.se-list-font-family {\n  min-width: 156px;\n}\n\n.sun-editor .se-list-layer.se-list-font-family .default {\n  border-bottom: 1px solid #ccc;\n}\n\n.sun-editor .se-list-layer.se-list-line {\n  width: 125px;\n}\n\n.sun-editor .se-list-layer.se-list-align .se-list-inner {\n  left: 9px;\n  width: 125px;\n}\n\n.sun-editor .se-list-layer.se-list-format {\n  min-width: 156px;\n}\n\n.sun-editor .se-list-layer.se-list-format li {\n  padding: 0;\n  width: 100%;\n}\n\n.sun-editor .se-list-layer.se-list-format ul .se-btn-list {\n  line-height: 100%;\n}\n\n.sun-editor .se-list-layer.se-list-format ul .se-btn-list[data-value=h1] {\n  height: 40px;\n}\n\n.sun-editor .se-list-layer.se-list-format ul .se-btn-list[data-value=h2] {\n  height: 34px;\n}\n\n.sun-editor .se-list-layer.se-list-format ul p {\n  font-size: 13px;\n}\n\n.sun-editor .se-list-layer.se-list-format ul div {\n  font-size: 13px;\n  padding: 4px 2px;\n}\n\n.sun-editor .se-list-layer.se-list-format ul h1 {\n  font-size: 2em;\n  font-weight: 700;\n  color: #333;\n}\n\n.sun-editor .se-list-layer.se-list-format ul h2 {\n  font-size: 1.5em;\n  font-weight: 700;\n  color: #333;\n}\n\n.sun-editor .se-list-layer.se-list-format ul h3 {\n  font-size: 1.17em;\n  font-weight: 700;\n  color: #333;\n}\n\n.sun-editor .se-list-layer.se-list-format ul h4 {\n  font-size: 1em;\n  font-weight: 700;\n  color: #333;\n}\n\n.sun-editor .se-list-layer.se-list-format ul h5 {\n  font-size: 0.83em;\n  font-weight: 700;\n  color: #333;\n}\n\n.sun-editor .se-list-layer.se-list-format ul h6 {\n  font-size: 0.67em;\n  font-weight: 700;\n  color: #333;\n}\n\n.sun-editor .se-list-layer.se-list-format ul blockquote {\n  font-size: 13px;\n  color: #999;\n  height: 22px;\n  margin: 0;\n  background-color: transparent;\n  line-height: 1.5;\n  border-color: #b1b1b1;\n  padding: 0 0 0 7px;\n  border-left: 5px #b1b1b1;\n  border-style: solid;\n}\n\n.sun-editor .se-list-layer.se-list-format ul pre {\n  font-size: 13px;\n  color: #666;\n  padding: 4px 11px;\n  margin: 0;\n  background-color: #f9f9f9;\n  border: 1px solid #e1e1e1;\n  border-radius: 4px;\n}\n\n.sun-editor .se-selector-table {\n  display: none;\n  position: absolute;\n  top: 34px;\n  left: 1px;\n  z-index: 5;\n  padding: 5px 0;\n  float: left;\n  margin: 2px 0 0;\n  font-size: 14px;\n  text-align: left;\n  list-style: none;\n  background-color: #fff;\n  -webkit-background-clip: padding-box;\n  background-clip: padding-box;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);\n}\n\n.sun-editor .se-selector-table .se-table-size {\n  font-size: 18px;\n  padding: 0 5px;\n}\n\n.sun-editor .se-selector-table .se-table-size-picker {\n  position: absolute !important;\n  z-index: 3;\n  font-size: 18px;\n  width: 10em;\n  height: 10em;\n  cursor: pointer;\n}\n\n.sun-editor .se-selector-table .se-table-size-highlighted {\n  position: absolute !important;\n  z-index: 2;\n  font-size: 18px;\n  width: 1em;\n  height: 1em;\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAAZdEVYdFNvZnR3YXJlAEFkb2JlIEltYWdlUmVhZHlxyWU8AAADJmlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDIgNzkuMTYwOTI0LCAyMDE3LzA3LzEzLTAxOjA2OjM5ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo4QTZCNzMzN0I3RUYxMUU4ODcwQ0QwMjM1NTgzRTJDNyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo4QTZCNzMzNkI3RUYxMUU4ODcwQ0QwMjM1NTgzRTJDNyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOCAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0MzYyNEUxRUI3RUUxMUU4ODZGQzgwRjNBODgyNTdFOSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0MzYyNEUxRkI3RUUxMUU4ODZGQzgwRjNBODgyNTdFOSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pl0yAuwAAABBSURBVDhPY/wPBAxUAGCDGvdBeWSAeicIDTfIXREiQArYeR9hEBOEohyMGkQYjBpEGAxjg6ib+yFMygCVvMbAAABj0hwMTNeKJwAAAABJRU5ErkJggg==\") repeat;\n}\n\n.sun-editor .se-selector-table .se-table-size-unhighlighted {\n  position: relative !important;\n  z-index: 1;\n  font-size: 18px;\n  width: 10em;\n  height: 10em;\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASAgMAAAAroGbEAAAACVBMVEUAAIj4+Pjp6ekKlAqjAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfYAR0BKhmnaJzPAAAAG0lEQVQI12NgAAOtVatWMTCohoaGUY+EmIkEAEruEzK2J7tvAAAAAElFTkSuQmCC\") repeat;\n}\n\n.sun-editor .se-selector-table .se-table-size-display {\n  padding-left: 5px;\n}\n\n.sun-editor .se-list-layer.se-table-split {\n  top: 36px;\n}\n\n.sun-editor .se-list-layer .se-selector-color {\n  display: flex;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n  max-width: 270px;\n  height: auto;\n  padding: 0;\n  margin: auto;\n}\n\n.sun-editor .se-list-layer .se-selector-color .se-color-pallet {\n  width: 100%;\n  height: 100%;\n  padding: 0;\n}\n\n.sun-editor .se-list-layer .se-selector-color .se-color-pallet li {\n  display: flex;\n  float: left;\n  position: relative;\n  margin: 0;\n}\n\n.sun-editor .se-list-layer .se-selector-color .se-color-pallet button {\n  display: block;\n  cursor: default;\n  width: 30px;\n  height: 30px;\n  text-indent: -9999px;\n}\n\n.sun-editor .se-list-layer .se-selector-color .se-color-pallet button.active, .sun-editor .se-list-layer .se-selector-color .se-color-pallet button:focus, .sun-editor .se-list-layer .se-selector-color .se-color-pallet button:hover {\n  border: 3px solid #fff;\n}\n\n.sun-editor .se-form-group {\n  display: flex;\n  width: 100%;\n  min-height: 40px;\n  height: auto;\n  padding: 4px;\n}\n\n.sun-editor .se-form-group input {\n  flex: auto;\n  display: inline-block;\n  width: auto;\n  height: 33px;\n  font-size: 12px;\n  margin: 1px 0;\n  padding: 0;\n  border-radius: 0.25rem;\n  border: 1px solid #ccc;\n}\n\n.sun-editor .se-form-group button, .sun-editor .se-submenu-form-group button {\n  float: right;\n  width: 34px;\n  height: 34px;\n  margin: 0 2px !important;\n}\n\n.sun-editor .se-form-group button.se-btn {\n  border: 1px solid #ccc;\n}\n\n.sun-editor .se-form-group > div {\n  position: relative;\n}\n\n.sun-editor .se-form-group label {\n  display: inline-block;\n  max-width: 100%;\n  margin-bottom: 5px;\n  font-weight: 700;\n}\n\n.sun-editor .se-form-group-label {\n  width: 100%;\n  height: auto;\n  padding: 0 4px;\n}\n\n.sun-editor .se-form-group-label label {\n  font-size: 13px;\n  font-weight: 700;\n}\n\n.sun-editor .se-submenu .se-form-group input {\n  width: auto;\n  height: 33px;\n  color: #555;\n}\n\n.sun-editor .se-submenu .se-form-group .se-color-input {\n  width: 72px;\n  text-transform: uppercase;\n  border: none;\n  border-bottom: 2px solid #b1b1b1;\n  outline: none;\n}\n\n.sun-editor .se-submenu .se-form-group .se-color-input:focus {\n  border-bottom: 3px solid #b1b1b1;\n}\n\n.se-wrapper-inner.se-wrapper-wysiwyg.sun-editor-editable {\n  min-height: 300px;\n}\n\n.se-wrapper {\n  min-height: 300px;\n}\n\n.sun-editor .se-wrapper {\n  position: relative !important;\n  width: 100%;\n  height: auto;\n  overflow: hidden;\n  z-index: 1;\n}\n\n.sun-editor .se-wrapper .se-wrapper-inner {\n  width: 100%;\n  height: 100%;\n  min-height: 65px;\n  overflow-y: auto;\n  overflow-x: auto;\n  -webkit-overflow-scrolling: touch;\n  user-select: auto;\n  -o-user-select: auto;\n  -moz-user-select: auto;\n  -khtml-user-select: auto;\n  -webkit-user-select: auto;\n  -ms-user-select: auto;\n}\n\n.sun-editor .se-wrapper .se-wrapper-inner:focus {\n  outline: none;\n}\n\n.sun-editor .se-wrapper .se-wrapper-code {\n  background-color: #191919;\n  color: #fff;\n  font-size: 13px;\n  word-break: break-all;\n  padding: 4px;\n  margin: 0;\n  resize: none !important;\n}\n\n.sun-editor .se-wrapper .se-wrapper-wysiwyg {\n  background-color: #fff;\n  display: block;\n}\n\n.sun-editor .se-wrapper .se-wrapper-code-mirror {\n  font-size: 13px;\n}\n\n.sun-editor .se-wrapper .se-placeholder {\n  position: absolute;\n  display: none;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  z-index: 1;\n  color: #b1b1b1;\n  font-size: 13px;\n  line-height: 1.5;\n  top: 0;\n  left: 0;\n  right: 0;\n  overflow: hidden;\n  margin-top: 0;\n  padding-top: 16px;\n  padding-left: 16px;\n  margin-left: 0;\n  padding-right: 16px;\n  margin-right: 0;\n  pointer-events: none;\n  backface-visibility: hidden;\n  -webkit-backface-visibility: hidden;\n  -moz-backface-visibility: hidden;\n}\n\n.sun-editor .se-resizing-bar {\n  display: flex;\n  width: auto;\n  height: auto;\n  min-height: 16px;\n  border-top: 1px solid #dadada;\n  padding: 0 4px;\n  background-color: #fafafa;\n  cursor: ns-resize;\n}\n\n.sun-editor .se-resizing-bar.se-resizing-none {\n  cursor: default;\n}\n\n.sun-editor .se-resizing-back {\n  position: absolute;\n  display: none;\n  cursor: default;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 2147483647;\n}\n\n.sun-editor .se-resizing-bar .se-navigation {\n  flex: auto;\n  position: relative;\n  width: auto;\n  height: auto;\n  color: #666;\n  margin: 0;\n  padding: 0;\n  font-size: 10px;\n  font-weight: 700;\n  line-height: 1.5;\n  background: transparent;\n}\n\n.sun-editor .se-resizing-bar .se-char-counter-wrapper {\n  flex: none;\n  position: relative;\n  display: block;\n  width: auto;\n  height: auto;\n  margin: 0;\n  padding: 0;\n  color: #999;\n  font-size: 13px;\n  background: transparent;\n}\n\n.sun-editor .se-resizing-bar .se-char-counter-wrapper.se-blink {\n  color: #b94a48;\n  -webkit-animation: blinker 0.2s linear infinite;\n          animation: blinker 0.2s linear infinite;\n}\n\n.sun-editor .se-resizing-bar .se-char-counter-wrapper .se-char-label {\n  margin-right: 4px;\n}\n\n.sun-editor .se-dialog {\n  position: absolute;\n  display: none;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 2147483647;\n}\n\n.sun-editor .se-dialog button, .sun-editor .se-dialog input, .sun-editor .se-dialog label {\n  font-size: 14px;\n  line-height: 1.5;\n  color: #111;\n  margin: 0;\n}\n\n.sun-editor .se-dialog .se-dialog-back {\n  background-color: #222;\n  opacity: 0.5;\n}\n\n.sun-editor .se-dialog .se-dialog-back, .sun-editor .se-dialog .se-dialog-inner {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-content {\n  position: relative;\n  width: auto;\n  max-width: 500px;\n  margin: 1.75rem auto;\n  background-color: #fff;\n  -webkit-background-clip: padding-box;\n  background-clip: padding-box;\n  border: 1px solid rgba(0, 0, 0, 0.2);\n  border-radius: 4px;\n  outline: 0;\n  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);\n}\n\n@media screen and (max-width: 509px) {\n  .sun-editor .se-dialog .se-dialog-inner .se-dialog-content {\n    width: 100%;\n  }\n}\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-content label {\n  display: inline-block;\n  max-width: 100%;\n  margin-bottom: 5px;\n  font-weight: 700;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-content .se-btn-primary {\n  display: inline-block;\n  padding: 6px 12px;\n  margin: 0 0 10px !important;\n  font-size: 14px;\n  font-weight: 400;\n  line-height: 1.42857143;\n  text-align: center;\n  white-space: nowrap;\n  vertical-align: middle;\n  touch-action: manipulation;\n  border-radius: 4px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-header {\n  height: 50px;\n  padding: 6px 15px;\n  border-bottom: 1px solid #e5e5e5;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-header .se-dialog-close {\n  float: right;\n  font-weight: 700;\n  text-shadow: 0 1px 0 #fff;\n  -webkit-appearance: none;\n  filter: alpha(opacity=100);\n  opacity: 1;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-header .se-modal-title {\n  float: left;\n  font-size: 14px;\n  font-weight: 700;\n  margin: 0;\n  padding: 0;\n  line-height: 2.5;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-body {\n  position: relative;\n  padding: 15px 15px 5px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form {\n  margin-bottom: 10px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form-footer {\n  margin-top: 10px;\n  margin-bottom: 0;\n}\n\n.sun-editor .se-dialog .se-dialog-inner input:disabled {\n  background-color: #f3f3f3;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-size-text {\n  width: 100%;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-size-text .size-h, .sun-editor .se-dialog .se-dialog-inner .se-dialog-size-text .size-w {\n  width: 70px;\n  text-align: center;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-size-x {\n  margin: 0 8px;\n  width: 25px;\n  text-align: center;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-footer {\n  height: auto;\n  min-height: 55px;\n  padding: 10px 15px 0;\n  text-align: right;\n  border-top: 1px solid #e5e5e5;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-footer > div {\n  float: left;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-footer > div > label {\n  margin: 0 5px 0 0;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-btn-radio {\n  margin-left: 12px;\n  margin-right: 6px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-btn-check {\n  margin-left: 12px;\n  margin-right: 4px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form-footer .se-dialog-btn-check {\n  margin-left: 0;\n  margin-right: 4px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form-footer label:first-child {\n  margin-right: 16px;\n  margin-left: 0;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-dialog-form-files {\n  position: relative;\n  display: flex;\n  align-items: center;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-dialog-form-files > input {\n  flex: auto;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-dialog-form-files .se-dialog-files-edge-button {\n  flex: auto;\n  opacity: 0.8;\n  border: 1px solid #ccc;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-dialog-form-files .se-dialog-files-edge-button.se-file-remove > svg {\n  width: 8px;\n  height: 8px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-dialog-form-files .se-dialog-files-edge-button:hover {\n  background-color: #f0f0f0;\n  outline: 0 none;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-dialog-form-files .se-dialog-files-edge-button:active {\n  background-color: #e9e9e9;\n  box-shadow: inset 0 3px 5px #d6d6d6;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-input-select {\n  display: inline-block;\n  width: auto;\n  height: 34px;\n  font-size: 14px;\n  text-align: center;\n  line-height: 1.42857143;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-input-control {\n  display: inline-block;\n  width: 70px;\n  height: 34px;\n  font-size: 14px;\n  text-align: center;\n  line-height: 1.42857143;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-input-form {\n  display: block;\n  width: 100%;\n  height: 34px;\n  font-size: 14px;\n  line-height: 1.42857143;\n  padding: 0 4px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-input-form.se-input-url {\n  direction: ltr;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-input-form.se-input-url:disabled {\n  text-decoration: line-through;\n  color: #999;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-video-ratio {\n  width: 70px;\n  margin-left: 4px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form a {\n  color: #004cff;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-btn-revert {\n  border: 1px solid #ccc;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-btn-revert:hover {\n  background-color: #e1e1e1;\n  border-color: #d1d1d1;\n  outline: 0 none;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-btn-revert:active {\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  box-shadow: inset 0 3px 5px #c1c1c1;\n}\n\n.sun-editor .se-dialog-tabs {\n  width: 100%;\n  height: 25px;\n  border-bottom: 1px solid #e5e5e5;\n}\n\n.sun-editor .se-dialog-tabs button {\n  background-color: #e5e5e5;\n  border-right: 1px solid #e5e5e5;\n  float: left;\n  outline: none;\n  padding: 2px 13px;\n  transition: 0.3s;\n}\n\n.sun-editor .se-dialog-tabs button:hover {\n  background-color: #fff;\n}\n\n.sun-editor .se-dialog-tabs button.active {\n  background-color: #fff;\n  border-bottom: 0;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-input-form.se-math-exp {\n  resize: vertical;\n  height: 4rem;\n  border: 1px solid #ccc;\n  font-size: 13px;\n  padding: 4px;\n  direction: ltr;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-input-select.se-math-size {\n  width: 6em;\n  height: 28px;\n  margin-left: 1em;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-math-preview {\n  font-size: 13px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-math-preview > span {\n  display: inline-block;\n  box-shadow: 0 0 0 0.1rem #c7deff;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-math-preview > span * {\n  direction: ltr;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-link-preview {\n  display: block;\n  height: auto;\n  max-height: 18px;\n  font-size: 13px;\n  font-weight: 400;\n  font-family: inherit;\n  color: #666;\n  background-color: transparent;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  word-break: break-all;\n  white-space: pre;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-anchor-preview-form {\n  width: 100%;\n  display: flex;\n  margin-top: 4px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-anchor-preview-form .se-svg.se-anchor-preview-icon {\n  flex: unset;\n  display: none;\n  line-height: 1.5;\n  color: #4592ff;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-anchor-preview-form .se-link-preview {\n  flex: auto;\n  margin: 0;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-anchor-rel {\n  height: 34px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-anchor-rel-btn {\n  width: 46px;\n  color: #3f9dff;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-anchor-rel-wrapper {\n  display: flex;\n  line-height: 1.5;\n  padding-top: 6px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-anchor-rel-preview {\n  text-align: left;\n}\n\n.sun-editor .se-controller .se-arrow.se-arrow-up {\n  border-bottom-color: rgba(0, 0, 0, 0.25);\n}\n\n.sun-editor .se-controller {\n  position: absolute;\n  display: none;\n  overflow: visible;\n  z-index: 6;\n  border: 1px solid rgba(0, 0, 0, 0.25);\n  border-radius: 4px;\n  text-align: start;\n  text-decoration: none;\n  text-shadow: none;\n  text-transform: none;\n  letter-spacing: normal;\n  word-break: normal;\n  word-spacing: normal;\n  word-wrap: normal;\n  white-space: normal;\n  background-color: #fff;\n  -webkit-background-clip: padding-box;\n  background-clip: padding-box;\n  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);\n  line-break: auto;\n}\n\n.sun-editor .se-controller .se-btn-group {\n  position: relative;\n  display: flex;\n  vertical-align: middle;\n  padding: 2px;\n  top: 0;\n  left: 0;\n}\n\n.sun-editor .se-controller .se-btn-group .se-btn-group-sub {\n  left: 50%;\n  min-width: auto;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n  display: none;\n}\n\n.sun-editor .se-controller .se-btn-group .se-btn-group-sub button {\n  margin: 0;\n  min-width: 72px;\n}\n\n.sun-editor .se-controller .se-btn-group button {\n  position: relative;\n  min-height: 34px;\n  height: auto;\n  border: none;\n  border-radius: 4px;\n  margin: 1px;\n  padding: 5px 10px;\n  font-size: 12px;\n  line-height: 1.5;\n  display: inline-block;\n  font-weight: 400;\n  text-align: center;\n  white-space: nowrap;\n  vertical-align: middle;\n  touch-action: manipulation;\n}\n\n.sun-editor .se-controller .se-btn-group button:focus:enabled, .sun-editor .se-controller .se-btn-group button:hover:enabled {\n  background-color: #e1e1e1;\n  border-color: #d1d1d1;\n  outline: 0 none;\n}\n\n.sun-editor .se-controller .se-btn-group button:active:enabled {\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  box-shadow: inset 0 3px 5px #c1c1c1;\n}\n\n.sun-editor .se-controller .se-btn-group button span {\n  display: block;\n  padding: 0;\n  margin: 0;\n}\n\n.sun-editor .se-controller .se-btn-group button:enabled.active {\n  color: #4592ff;\n  outline: 0 none;\n}\n\n.sun-editor .se-controller .se-btn-group button:enabled.active:focus, .sun-editor .se-controller .se-btn-group button:enabled.active:hover {\n  background-color: #e1e1e1;\n  border-color: #d1d1d1;\n  outline: 0 none;\n}\n\n.sun-editor .se-controller .se-btn-group button:enabled.active:active {\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  box-shadow: inset 0 3px 5px #c1c1c1;\n}\n\n.sun-editor .se-controller .se-btn-group button:enabled.on {\n  background-color: #e1e1e1;\n  border-color: #d1d1d1;\n  outline: 0 none;\n}\n\n.sun-editor .se-controller .se-btn-group button:enabled.on:focus, .sun-editor .se-controller .se-btn-group button:enabled.on:hover {\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  outline: 0 none;\n}\n\n.sun-editor .se-controller .se-btn-group button:enabled.on:active {\n  background-color: #c1c1c1;\n  border-color: #b1b1b1;\n  box-shadow: inset 0 3px 5px #b1b1b1;\n}\n\n.sun-editor .se-controller .se-form-group input {\n  min-width: 120px;\n}\n\n.sun-editor .se-controller-resizing {\n  margin-top: -50px !important;\n  padding: 0;\n  font-size: 14px;\n  font-style: normal;\n  font-weight: 400;\n  line-height: 1.42857143;\n}\n\n.sun-editor .se-controller-resizing .se-btn-group .se-btn-group-sub.se-resizing-align-list {\n  width: 74px;\n}\n\n.sun-editor .se-resizing-container {\n  position: absolute;\n  display: none;\n  outline: 1px solid #3f9dff;\n  background-color: transparent;\n}\n\n.sun-editor .se-resizing-container .se-modal-resize {\n  position: absolute;\n  display: inline-block;\n  background-color: #3f9dff;\n  opacity: 0.3;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span {\n  position: absolute;\n  width: 7px;\n  height: 7px;\n  background-color: #3f9dff;\n  border: 1px solid #4592ff;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span.tl {\n  top: -5px;\n  left: -5px;\n  cursor: nw-resize;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span.tr {\n  top: -5px;\n  right: -5px;\n  cursor: ne-resize;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span.bl {\n  bottom: -5px;\n  left: -5px;\n  cursor: sw-resize;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span.br {\n  right: -5px;\n  bottom: -5px;\n  cursor: se-resize;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span.lw {\n  left: -7px;\n  bottom: 50%;\n  cursor: w-resize;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span.th {\n  left: 50%;\n  top: -7px;\n  cursor: n-resize;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span.rw {\n  right: -7px;\n  bottom: 50%;\n  cursor: e-resize;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span.bh {\n  right: 50%;\n  bottom: -7px;\n  cursor: s-resize;\n}\n\n.sun-editor .se-resizing-container .se-resize-display {\n  position: absolute;\n  right: 0;\n  bottom: 0;\n  padding: 5px;\n  margin: 5px;\n  font-size: 12px;\n  color: #fff;\n  background-color: #333;\n  border-radius: 4px;\n}\n\n.sun-editor .se-controller-table, .sun-editor .se-controller-table-cell {\n  width: auto;\n}\n\n.sun-editor .se-controller-link, .sun-editor .se-controller-table, .sun-editor .se-controller-table-cell {\n  padding: 0;\n  font-size: 14px;\n  font-style: normal;\n  font-weight: 400;\n  line-height: 1.42857143;\n}\n\n.sun-editor .se-controller-link:after, .sun-editor .se-controller-link:before {\n  box-sizing: border-box;\n}\n\n.sun-editor .se-controller-link .link-content {\n  padding: 0;\n  margin: 0;\n}\n\n.sun-editor .se-controller-link .link-content a {\n  display: inline-block;\n  color: #4592ff;\n  max-width: 200px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  vertical-align: middle;\n  margin-left: 5px;\n}\n\n.sun-editor .se-select-list {\n  position: absolute;\n  top: 0;\n  left: 0;\n  display: none;\n  width: auto;\n  max-width: 100%;\n  background-color: #fff;\n  padding: 0;\n  margin: 0;\n  border: 1px solid #bababa;\n  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);\n  outline: 0 none;\n}\n\n.sun-editor .se-select-list .se-select-item {\n  line-height: 28px;\n  min-height: 28px;\n  font-size: 13px;\n  padding: 0 5px;\n  margin: 2px 0;\n  cursor: pointer;\n}\n\n.sun-editor .se-select-list.__se_select-menu-mouse-move .se-select-item:hover, .sun-editor .se-select-list:not(.__se_select-menu-mouse-move) .se-select-item.active {\n  background-color: #e1e1e1;\n}\n\n.sun-editor .se-dialog-form-files .se-select-list {\n  width: 100%;\n}\n\n.sun-editor .se-file-browser {\n  position: absolute;\n  display: none;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 2147483647;\n}\n\n.sun-editor .se-file-browser button, .sun-editor .se-file-browser input, .sun-editor .se-file-browser label {\n  font-size: 14px;\n  line-height: 1.5;\n  color: #111;\n  margin: 0;\n}\n\n.sun-editor .se-file-browser .se-file-browser-back {\n  background-color: #222;\n  opacity: 0.5;\n}\n\n.sun-editor .se-file-browser .se-file-browser-back, .sun-editor .se-file-browser .se-file-browser-inner {\n  position: absolute;\n  display: block;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n}\n\n.sun-editor .se-file-browser .se-file-browser-inner .se-file-browser-content {\n  position: relative;\n  width: 960px;\n  max-width: 100%;\n  margin: 20px auto;\n  background-color: #fff;\n  -webkit-background-clip: padding-box;\n  background-clip: padding-box;\n  border: 1px solid rgba(0, 0, 0, 0.2);\n  border-radius: 4px;\n  outline: 0;\n  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);\n}\n\n.sun-editor .se-file-browser .se-file-browser-header {\n  height: auto;\n  min-height: 50px;\n  padding: 6px 15px;\n  border-bottom: 1px solid #e5e5e5;\n}\n\n.sun-editor .se-file-browser .se-file-browser-header .se-file-browser-close {\n  float: right;\n  font-weight: 700;\n  text-shadow: 0 1px 0 #fff;\n  -webkit-appearance: none;\n  filter: alpha(opacity=100);\n  opacity: 1;\n}\n\n.sun-editor .se-file-browser .se-file-browser-header .se-file-browser-close > svg {\n  width: 12px;\n  height: 12px;\n}\n\n.sun-editor .se-file-browser .se-file-browser-header .se-file-browser-title {\n  font-size: 16px;\n  font-weight: 700;\n  margin: 0;\n  padding: 0;\n  line-height: 2.2;\n}\n\n.sun-editor .se-file-browser .se-file-browser-tags {\n  display: block;\n  width: 100%;\n  padding: 0;\n  text-align: left;\n  margin: 0 -15px;\n}\n\n.sun-editor .se-file-browser .se-file-browser-tags a {\n  display: inline-block;\n  background-color: #f5f5f5;\n  padding: 6px 12px;\n  margin: 8px 0 8px 8px;\n  color: #333;\n  text-decoration: none;\n  border-radius: 32px;\n  -moz-border-radius: 32px;\n  -webkit-border-radius: 32px;\n  -moz-background-clip: padding;\n  -webkit-background-clip: padding-box;\n  background-clip: padding-box;\n  cursor: pointer;\n}\n\n.sun-editor .se-file-browser .se-file-browser-tags a:hover {\n  background-color: #e1e1e1;\n}\n\n.sun-editor .se-file-browser .se-file-browser-tags a:active {\n  background-color: #d1d1d1;\n}\n\n.sun-editor .se-file-browser .se-file-browser-tags a.on {\n  background-color: #ebf3fe;\n  color: #4592ff;\n}\n\n.sun-editor .se-file-browser .se-file-browser-tags a.on:hover {\n  background-color: #d8e8fe;\n}\n\n.sun-editor .se-file-browser .se-file-browser-tags a.on:active {\n  background-color: #c7deff;\n}\n\n.sun-editor .se-file-browser .se-file-browser-body {\n  position: relative;\n  height: auto;\n  min-height: 350px;\n  padding: 20px;\n  overflow-y: auto;\n}\n\n.sun-editor .se-file-browser .se-file-browser-body .se-file-browser-list {\n  position: relative;\n  width: 100%;\n}\n\n@media screen and (max-width: 992px) {\n  .sun-editor .se-file-browser .se-file-browser-inner .se-file-browser-content {\n    width: 748px;\n  }\n}\n@media screen and (max-width: 768px) {\n  .sun-editor .se-file-browser .se-file-browser-inner .se-file-browser-content {\n    width: 600px;\n  }\n}\n.sun-editor .se-file-browser .se-file-browser-list .se-file-item-column {\n  position: relative;\n  display: block;\n  height: auto;\n  float: left;\n}\n\n.sun-editor .se-file-browser .se-file-browser-list.se-image-list .se-file-item-column {\n  width: calc(25% - 20px);\n  margin: 0 10px;\n}\n\n@media screen and (max-width: 992px) {\n  .sun-editor .se-file-browser .se-file-browser-list.se-image-list .se-file-item-column {\n    width: calc(33% - 20px);\n  }\n}\n@media screen and (max-width: 768px) {\n  .sun-editor .se-file-browser .se-file-browser-list.se-image-list .se-file-item-column {\n    width: calc(50% - 20px);\n  }\n}\n.sun-editor .se-file-browser .se-file-browser-list.se-image-list .se-file-item-img {\n  position: relative;\n  display: block;\n  cursor: pointer;\n  width: 100%;\n  height: auto;\n  border-radius: 4px;\n  outline: 0;\n  margin: 10px 0;\n}\n\n.sun-editor .se-file-browser .se-file-browser-list.se-image-list .se-file-item-img:hover {\n  opacity: 0.8;\n  box-shadow: 0 0 0 0.2rem #3288ff;\n}\n\n.sun-editor .se-file-browser .se-file-browser-list.se-image-list .se-file-item-img > img {\n  position: relative;\n  display: block;\n  width: 100%;\n  border-radius: 4px;\n  outline: 0;\n  height: auto;\n}\n\n.sun-editor .se-file-browser .se-file-browser-list.se-image-list .se-file-item-img > .se-file-img-name {\n  position: absolute;\n  z-index: 1;\n  font-size: 13px;\n  color: #fff;\n  left: 0;\n  bottom: 0;\n  padding: 5px 10px;\n  background-color: transparent;\n  width: 100%;\n  height: 30px;\n  border-bottom-right-radius: 4px;\n  border-bottom-left-radius: 4px;\n}\n\n.sun-editor .se-file-browser .se-file-browser-list.se-image-list .se-file-item-img > .se-file-img-name.se-file-name-back {\n  background-color: #333;\n  opacity: 0.6;\n}\n\n.sun-editor .se-notice {\n  position: absolute;\n  top: 0;\n  display: none;\n  z-index: 7;\n  width: 100%;\n  height: auto;\n  word-break: break-all;\n  font-size: 13px;\n  color: #b94a48;\n  background-color: #f2dede;\n  padding: 15px;\n  margin: 0;\n  border: 1px solid #eed3d7;\n  user-select: auto;\n  -o-user-select: auto;\n  -moz-user-select: auto;\n  -khtml-user-select: auto;\n  -webkit-user-select: auto;\n  -ms-user-select: auto;\n}\n\n.sun-editor .se-notice button {\n  float: right;\n  padding: 7px;\n}\n\n.sun-editor .se-tooltip {\n  position: relative;\n  overflow: visible;\n}\n\n.sun-editor .se-tooltip .se-tooltip-inner {\n  visibility: hidden;\n  position: absolute;\n  display: block;\n  width: auto;\n  top: 120%;\n  left: 50%;\n  background: transparent;\n  opacity: 0;\n  z-index: 1;\n  line-height: 1.5;\n  transition: opacity 0.5s;\n  margin: 0;\n  padding: 0;\n  bottom: auto;\n  float: none;\n  pointer-events: none;\n  backface-visibility: hidden;\n  -webkit-backface-visibility: hidden;\n  -moz-backface-visibility: hidden;\n}\n\n.sun-editor .se-tooltip .se-tooltip-inner .se-tooltip-text {\n  position: relative;\n  display: inline-block;\n  width: auto;\n  left: -50%;\n  font-size: 0.9em;\n  margin: 0;\n  padding: 4px 6px;\n  border-radius: 2px;\n  background-color: #333;\n  color: #fff;\n  text-align: center;\n  line-height: unset;\n  white-space: nowrap;\n  cursor: auto;\n}\n\n.sun-editor .se-tooltip .se-tooltip-inner .se-tooltip-text:after {\n  content: \"\";\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  margin-left: -5px;\n  border: 5px solid transparent;\n  border-bottom-color: #333;\n}\n\n.sun-editor .se-tooltip:hover .se-tooltip-inner {\n  visibility: visible;\n  opacity: 1;\n}\n\n.sun-editor .se-tooltip .se-tooltip-inner .se-tooltip-text .se-shortcut {\n  display: block !important;\n}\n\n.sun-editor .se-tooltip .se-tooltip-inner .se-tooltip-text .se-shortcut > .se-shortcut-key {\n  display: inline;\n  font-weight: 700;\n}\n\n.sun-editor.se-rtl .se-btn-tray {\n  direction: rtl;\n}\n\n.sun-editor.se-rtl .se-btn-select .txt {\n  flex: auto;\n  text-align: right;\n  direction: rtl;\n}\n\n.sun-editor.se-rtl .se-btn-list {\n  text-align: right;\n}\n\n.sun-editor.se-rtl .se-btn-list > .se-list-icon {\n  margin: -1px 0 0 10px;\n}\n\n.sun-editor.se-rtl .se-menu-list, .sun-editor.se-rtl .se-menu-list li {\n  float: right;\n}\n\n.sun-editor.se-rtl .se-list-layer * {\n  direction: rtl;\n}\n\n.sun-editor.se-rtl .se-list-layer.se-list-format ul blockquote {\n  padding: 0 7px 0 0;\n  border-right-width: 5px;\n  border-left-width: 0;\n}\n\n.sun-editor.se-rtl .se-list-layer .se-selector-color .se-color-pallet li {\n  float: right;\n}\n\n.sun-editor.se-rtl .se-list-inner .se-list-checked li button > .se-svg {\n  float: right;\n  padding: 6px 0 0 6px;\n}\n\n.sun-editor.se-rtl .se-tooltip .se-tooltip-inner .se-tooltip-text, .sun-editor.se-rtl .se-wrapper .se-placeholder {\n  direction: rtl;\n}\n\n.sun-editor.se-rtl .se-tooltip .se-tooltip-inner .se-tooltip-text .se-shortcut {\n  direction: ltr;\n}\n\n.sun-editor.se-rtl .se-dialog * {\n  direction: rtl;\n}\n\n.sun-editor.se-rtl .se-dialog .se-dialog-inner .se-dialog-header .se-dialog-close {\n  float: left;\n}\n\n.sun-editor.se-rtl .se-dialog-tabs button, .sun-editor.se-rtl .se-dialog .se-dialog-inner .se-dialog-header .se-modal-title {\n  float: right;\n}\n\n.sun-editor.se-rtl .se-dialog .se-dialog-inner .se-dialog-size-text {\n  padding-right: 34px;\n}\n\n.sun-editor.se-rtl .se-dialog .se-dialog-inner .se-dialog-footer .se-btn-primary {\n  float: left;\n}\n\n.sun-editor.se-rtl .se-dialog .se-dialog-inner .se-dialog-footer > div {\n  float: right;\n}\n\n.sun-editor.se-rtl .se-dialog .se-dialog-inner .se-dialog-footer > div > label {\n  margin: 0 0 0 5px;\n}\n\n.sun-editor.se-rtl .se-dialog .se-dialog-inner .se-dialog-form-footer label:first-child {\n  margin-left: 16px;\n  margin-right: 0;\n}\n\n.sun-editor.se-rtl .se-dialog .se-dialog-inner .se-anchor-rel-preview {\n  margin-left: 4px;\n  text-align: right;\n}\n\n.sun-editor.se-rtl .se-dialog .se-dialog-inner .se-anchor-rel-btn {\n  float: right;\n}\n\n.sun-editor.se-rtl .se-file-browser * {\n  direction: rtl;\n}\n\n.sun-editor.se-rtl .se-file-browser .se-file-browser-tags {\n  text-align: right;\n}\n\n.sun-editor.se-rtl .se-file-browser .se-file-browser-tags a {\n  margin: 8px 8px 0;\n}\n\n.sun-editor.se-rtl .se-file-browser .se-file-browser-header .se-file-browser-close {\n  float: left;\n}\n\n.sun-editor.se-rtl .se-controller .se-btn-group, .sun-editor.se-rtl .se-resizing-container .se-resize-display {\n  direction: rtl;\n}\n\n@-webkit-keyframes blinker {\n  50% {\n    opacity: 0;\n  }\n}\n\n@keyframes blinker {\n  50% {\n    opacity: 0;\n  }\n}\n@-webkit-keyframes spinner {\n  to {\n    transform: rotate(361deg);\n  }\n}\n@keyframes spinner {\n  to {\n    transform: rotate(361deg);\n  }\n}\n.sun-editor-editable {\n  font-family: Helvetica Neue, sans-serif;\n  font-size: 13px;\n  color: #333;\n  line-height: 1.5;\n  background-color: #fff;\n  word-break: normal;\n  word-wrap: break-word;\n  padding: 16px;\n  margin: 0;\n}\n\n.sun-editor-editable * {\n  box-sizing: border-box;\n  font-family: inherit;\n  font-size: inherit;\n  color: inherit;\n  white-space: normal !important;\n}\n\n.sun-editor-editable.se-rtl * {\n  direction: rtl;\n}\n\n.sun-editor-editable audio, .sun-editor-editable figcaption, .sun-editor-editable figure, .sun-editor-editable iframe, .sun-editor-editable img, .sun-editor-editable td, .sun-editor-editable th, .sun-editor-editable video {\n  position: relative;\n}\n\n.sun-editor-editable .__se__float-left {\n  float: left;\n}\n\n.sun-editor-editable .__se__float-right {\n  float: right;\n}\n\n.sun-editor-editable .__se__float-center {\n  float: center;\n}\n\n.sun-editor-editable .__se__float-none {\n  float: none;\n}\n\n.sun-editor-editable span {\n  display: inline;\n  vertical-align: baseline;\n  margin: 0;\n  padding: 0;\n}\n\n.sun-editor-editable span.katex {\n  display: inline-block;\n}\n\n.sun-editor-editable span.katex * {\n  direction: ltr;\n}\n\n.sun-editor-editable a {\n  color: #004cff;\n  text-decoration: none;\n}\n\n.sun-editor-editable span[style~=\"color:\"] a {\n  color: inherit;\n}\n\n.sun-editor-editable a:focus, .sun-editor-editable a:hover {\n  cursor: pointer;\n  color: #0093ff;\n  text-decoration: underline;\n}\n\n.sun-editor-editable a.on {\n  color: #0093ff;\n  background-color: #e8f7ff;\n}\n\n.sun-editor-editable pre {\n  display: block;\n  padding: 8px;\n  margin: 0 0 10px;\n  font-family: monospace;\n  color: #666;\n  line-height: 1.45;\n  background-color: #f9f9f9;\n  border: 1px solid #e1e1e1;\n  border-radius: 2px;\n  white-space: pre-wrap !important;\n  word-wrap: break-word;\n  overflow: visible;\n}\n\n.sun-editor-editable ol {\n  list-style-type: decimal;\n}\n\n.sun-editor-editable ol, .sun-editor-editable ul {\n  list-style-position: outside;\n  display: block;\n  -webkit-margin-before: 1em;\n          margin-block-start: 1em;\n  -webkit-margin-after: 1em;\n          margin-block-end: 1em;\n  -webkit-margin-start: 0;\n          margin-inline-start: 0;\n  -webkit-margin-end: 0;\n          margin-inline-end: 0;\n  -webkit-padding-start: 40px;\n          padding-inline-start: 40px;\n}\n\n.sun-editor-editable ul {\n  list-style-type: disc;\n}\n\n.sun-editor-editable li {\n  display: list-item;\n  text-align: -webkit-match-parent;\n  margin-bottom: 5px;\n}\n\n.sun-editor-editable ol ol, .sun-editor-editable ol ul, .sun-editor-editable ul ol, .sun-editor-editable ul ul {\n  margin: 0;\n}\n\n.sun-editor-editable ol ol, .sun-editor-editable ul ol {\n  list-style-type: lower-alpha;\n}\n\n.sun-editor-editable ol ol ol, .sun-editor-editable ul ol ol, .sun-editor-editable ul ul ol {\n  list-style-type: upper-roman;\n}\n\n.sun-editor-editable ol ul, .sun-editor-editable ul ul {\n  list-style-type: circle;\n}\n\n.sun-editor-editable ol ol ul, .sun-editor-editable ol ul ul, .sun-editor-editable ul ul ul {\n  list-style-type: square;\n}\n\n.sun-editor-editable sub, .sun-editor-editable sup {\n  font-size: 75%;\n  line-height: 0;\n}\n\n.sun-editor-editable sub {\n  vertical-align: sub;\n}\n\n.sun-editor-editable sup {\n  vertical-align: super;\n}\n\n.sun-editor-editable p {\n  display: block;\n  margin: 0 0 10px;\n}\n\n.sun-editor-editable div {\n  display: block;\n  margin: 0;\n  padding: 0;\n}\n\n.sun-editor-editable blockquote {\n  display: block;\n  font-family: inherit;\n  font-size: inherit;\n  color: #999;\n  -webkit-margin-before: 1em;\n          margin-block-start: 1em;\n  -webkit-margin-after: 1em;\n          margin-block-end: 1em;\n  -webkit-margin-start: 0;\n          margin-inline-start: 0;\n  -webkit-margin-end: 0;\n          margin-inline-end: 0;\n  padding: 0 5px 0 20px;\n  border: solid #b1b1b1;\n  border-width: 0 0 0 5px;\n}\n\n.sun-editor-editable blockquote blockquote {\n  border-color: #c1c1c1;\n}\n\n.sun-editor-editable blockquote blockquote blockquote {\n  border-color: #d1d1d1;\n}\n\n.sun-editor-editable blockquote blockquote blockquote blockquote {\n  border-color: #e1e1e1;\n}\n\n.sun-editor-editable.se-rtl blockquote {\n  padding-left: 5px;\n  padding-right: 20px;\n  border-left-width: 0;\n  border-right-width: 5px;\n}\n\n.sun-editor-editable h1 {\n  font-size: 2em;\n  -webkit-margin-before: 0.67em;\n          margin-block-start: 0.67em;\n  -webkit-margin-after: 0.67em;\n          margin-block-end: 0.67em;\n}\n\n.sun-editor-editable h1, .sun-editor-editable h2 {\n  display: block;\n  -webkit-margin-start: 0;\n          margin-inline-start: 0;\n  -webkit-margin-end: 0;\n          margin-inline-end: 0;\n  font-weight: 700;\n}\n\n.sun-editor-editable h2 {\n  font-size: 1.5em;\n  -webkit-margin-before: 0.83em;\n          margin-block-start: 0.83em;\n  -webkit-margin-after: 0.83em;\n          margin-block-end: 0.83em;\n}\n\n.sun-editor-editable h3 {\n  font-size: 1.17em;\n  -webkit-margin-before: 1em;\n          margin-block-start: 1em;\n  -webkit-margin-after: 1em;\n          margin-block-end: 1em;\n}\n\n.sun-editor-editable h3, .sun-editor-editable h4 {\n  display: block;\n  -webkit-margin-start: 0;\n          margin-inline-start: 0;\n  -webkit-margin-end: 0;\n          margin-inline-end: 0;\n  font-weight: 700;\n}\n\n.sun-editor-editable h4 {\n  font-size: 1em;\n  -webkit-margin-before: 1.33em;\n          margin-block-start: 1.33em;\n  -webkit-margin-after: 1.33em;\n          margin-block-end: 1.33em;\n}\n\n.sun-editor-editable h5 {\n  font-size: 0.83em;\n  -webkit-margin-before: 1.67em;\n          margin-block-start: 1.67em;\n  -webkit-margin-after: 1.67em;\n          margin-block-end: 1.67em;\n}\n\n.sun-editor-editable h5, .sun-editor-editable h6 {\n  display: block;\n  -webkit-margin-start: 0;\n          margin-inline-start: 0;\n  -webkit-margin-end: 0;\n          margin-inline-end: 0;\n  font-weight: 700;\n}\n\n.sun-editor-editable h6 {\n  font-size: 0.67em;\n  -webkit-margin-before: 2.33em;\n          margin-block-start: 2.33em;\n  -webkit-margin-after: 2.33em;\n          margin-block-end: 2.33em;\n}\n\n.sun-editor-editable hr {\n  display: flex;\n  border-width: 1px 0 0;\n  border-color: #000;\n  -o-border-image: initial;\n     border-image: initial;\n  height: 1px;\n}\n\n.sun-editor-editable hr.__se__solid {\n  border-style: solid none none;\n}\n\n.sun-editor-editable hr.__se__dotted {\n  border-style: dotted none none;\n}\n\n.sun-editor-editable hr.__se__dashed {\n  border-style: dashed none none;\n}\n\n.sun-editor-editable hr.on {\n  border-color: #4592ff;\n  box-shadow: 0 0 0 0.1rem #c7deff;\n}\n\n.sun-editor-editable table {\n  display: table;\n  table-layout: auto;\n  border: 1px solid #ccc;\n  width: 100%;\n  max-width: 100%;\n  margin: 0 0 10px;\n  background-color: transparent;\n  border-spacing: 0;\n  border-collapse: collapse;\n}\n\n.sun-editor-editable.se-rtl table {\n  margin: 0 0 10px auto;\n}\n\n.sun-editor-editable table thead {\n  border-bottom: 2px solid #333;\n}\n\n.sun-editor-editable table tr {\n  border: 1px solid #efefef;\n}\n\n.sun-editor-editable table th {\n  background-color: #f3f3f3;\n}\n\n.sun-editor-editable table td, .sun-editor-editable table th {\n  border: 1px solid #e1e1e1;\n  padding: 0.4em;\n  background-clip: padding-box;\n}\n\n.sun-editor-editable table.se-table-size-auto {\n  width: auto !important;\n}\n\n.sun-editor-editable table.se-table-size-100 {\n  width: 100% !important;\n}\n\n.sun-editor-editable table.se-table-layout-auto {\n  table-layout: auto !important;\n}\n\n.sun-editor-editable table.se-table-layout-fixed {\n  table-layout: fixed !important;\n}\n\n.sun-editor-editable table td.se-table-selected-cell, .sun-editor-editable table th.se-table-selected-cell {\n  outline: 1px double #4592ff;\n}\n\n.sun-editor-editable.se-disabled * {\n  user-select: none;\n  -o-user-select: none;\n  -moz-user-select: none;\n  -khtml-user-select: none;\n  -webkit-user-select: none;\n  -ms-user-select: none;\n}\n\n.sun-editor-editable .se-component {\n  display: flex;\n  padding: 1px;\n  margin: 0 0 10px;\n}\n\n.sun-editor-editable[contenteditable=true] .se-component {\n  outline: 1px dashed #e1e1e1;\n  min-width: 16px;\n  min-height: 16px;\n}\n\n.sun-editor-editable[contenteditable=true] .se-component.se-component-copy {\n  box-shadow: 0 0 0 0.2rem #3f9dff;\n  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n}\n\n.sun-editor-editable audio, .sun-editor-editable iframe, .sun-editor-editable img, .sun-editor-editable video {\n  display: block;\n  margin: 0;\n  padding: 0;\n  width: auto;\n  height: auto;\n  max-width: 100%;\n}\n\n.sun-editor-editable[contenteditable=true] figure:after {\n  position: absolute;\n  content: \"\";\n  z-index: 1;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  cursor: default;\n  display: block;\n  background: transparent;\n}\n\n.sun-editor-editable[contenteditable=true] figure a, .sun-editor-editable[contenteditable=true] figure iframe, .sun-editor-editable[contenteditable=true] figure img, .sun-editor-editable[contenteditable=true] figure video {\n  z-index: 0;\n}\n\n.sun-editor-editable[contenteditable=true] figure figcaption {\n  display: block;\n  z-index: 2;\n}\n\n.sun-editor-editable[contenteditable=true] figure figcaption:focus {\n  border-color: #80bdff;\n  outline: 0;\n  box-shadow: 0 0 0 0.2rem #c7deff;\n}\n\n.sun-editor-editable .se-image-container, .sun-editor-editable .se-video-container {\n  width: auto;\n  height: auto;\n  max-width: 100%;\n}\n\n.sun-editor-editable figure {\n  display: block;\n  outline: none;\n  margin: 0;\n  padding: 0;\n}\n\n.sun-editor-editable figure figcaption {\n  padding: 1em 0.5em;\n  margin: 0;\n  background-color: #f9f9f9;\n  outline: none;\n}\n\n.sun-editor-editable figure figcaption p {\n  line-height: 2;\n  margin: 0;\n}\n\n.sun-editor-editable .se-image-container a img {\n  padding: 1px;\n  margin: 1px;\n  outline: 1px solid #4592ff;\n}\n\n.sun-editor-editable .se-video-container iframe, .sun-editor-editable .se-video-container video {\n  outline: 1px solid #9e9e9e;\n  position: absolute;\n  top: 0;\n  left: 0;\n  border: 0;\n  width: 100%;\n  height: 100%;\n}\n\n.sun-editor-editable .se-video-container figure {\n  left: 0;\n  width: 100%;\n  max-width: 100%;\n}\n\n.sun-editor-editable audio {\n  width: 300px;\n  height: 54px;\n}\n\n.sun-editor-editable audio.active {\n  outline: 2px solid #80bdff;\n}\n\n.sun-editor-editable.se-show-block div, .sun-editor-editable.se-show-block h1, .sun-editor-editable.se-show-block h2, .sun-editor-editable.se-show-block h3, .sun-editor-editable.se-show-block h4, .sun-editor-editable.se-show-block h5, .sun-editor-editable.se-show-block h6, .sun-editor-editable.se-show-block li, .sun-editor-editable.se-show-block ol, .sun-editor-editable.se-show-block p, .sun-editor-editable.se-show-block pre, .sun-editor-editable.se-show-block ul {\n  border: 1px dashed #3f9dff !important;\n  padding: 14px 8px 8px !important;\n}\n\n.sun-editor-editable.se-show-block ol, .sun-editor-editable.se-show-block ul {\n  border: 1px dashed #d539ff !important;\n}\n\n.sun-editor-editable.se-show-block pre {\n  border: 1px dashed #27c022 !important;\n}\n\n.se-show-block p {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAPAQMAAAAF7dc0AAAABlBMVEWAgID////n1o2sAAAAAnRSTlP/AOW3MEoAAAAaSURBVAjXY/j/gwGCPvxg+F4BQiAGDP1HQQByxxw0gqOzIwAAAABJRU5ErkJggg==\") no-repeat;\n}\n\n.se-show-block div {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAPAQMAAAAxlBYoAAAABlBMVEWAgID////n1o2sAAAAAnRSTlP/AOW3MEoAAAAmSURBVAjXY/j//wcDDH+8XsHwDYi/hwNx1A8w/nYLKH4XoQYJAwCXnSgcl2MOPgAAAABJRU5ErkJggg==\") no-repeat;\n}\n\n.se-show-block h1 {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPAQMAAAA4f7ZSAAAABlBMVEWAgID////n1o2sAAAAAnRSTlP/AOW3MEoAAAAfSURBVAjXY/j/v4EBhr+9B+LzEPrDeygfhI8j1CBhAEhmJGY4Rf6uAAAAAElFTkSuQmCC\") no-repeat;\n}\n\n.se-show-block h2 {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPAQMAAAA4f7ZSAAAABlBMVEWAgID////n1o2sAAAAAnRSTlP/AOW3MEoAAAAmSURBVAjXY/j/v4EBhr+dB+LtQPy9geEDEH97D8T3gbgdoQYJAwA51iPuD2haEAAAAABJRU5ErkJggg==\") no-repeat;\n}\n\n.se-show-block h3 {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPAQMAAAA4f7ZSAAAABlBMVEWAgID////n1o2sAAAAAnRSTlP/AOW3MEoAAAAiSURBVAjXY/j/v4EBhr+dB+LtQPy9geHDeQgN5p9HqEHCADeWI+69VG2MAAAAAElFTkSuQmCC\") no-repeat;\n}\n\n.se-show-block h4 {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAPAQMAAADTSA1RAAAABlBMVEWAgID////n1o2sAAAAAnRSTlP/AOW3MEoAAAAiSURBVAjXY/j//wADDH97DsTXIfjDdiDdDMTfIRhZHRQDAKJOJ6L+K3y7AAAAAElFTkSuQmCC\") no-repeat;\n}\n\n.se-show-block h5 {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPAQMAAAA4f7ZSAAAABlBMVEWAgID////n1o2sAAAAAnRSTlP/AOW3MEoAAAAlSURBVAjXY/j/v4EBhr+1A/F+IO5vYPiwHUh/B2IQfR6hBgkDABlWIy5uM+9GAAAAAElFTkSuQmCC\") no-repeat;\n}\n\n.se-show-block h6 {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPAQMAAAA4f7ZSAAAABlBMVEWAgID////n1o2sAAAAAnRSTlP/AOW3MEoAAAAiSURBVAjXY/j/v4EBhr+dB+LtQLy/geFDP5S9HSKOrA6KAR9GIza1ptJnAAAAAElFTkSuQmCC\") no-repeat;\n}\n\n.se-show-block li {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA7SURBVDhPYxgFcNDQ0PAfykQBIHEYhgoRB/BpwCfHBKWpBkaggYxQGgOgBzyQD1aLLA4TGwWDGjAwAACR3RcEU9Ui+wAAAABJRU5ErkJggg==\") no-repeat;\n}\n\n.se-show-block ol {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABHSURBVDhPYxgFcNDQ0PAfhKFcFIBLHCdA1oBNM0kGEmMAPgOZoDTVANUNxAqQvURMECADRiiNAWCagDSGGhyW4DRrMAEGBgAu0SX6WpGgjAAAAABJRU5ErkJggg==\") no-repeat;\n}\n\n.se-show-block ul {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA1SURBVDhPYxgFDA0NDf+hTBSALI5LDQgwQWmqgVEDKQcsUBoF4ItFGEBXA+QzQpmDGjAwAAA8DQ4Lni6gdAAAAABJRU5ErkJggg==\") no-repeat;\n}\n\n.sun-editor-editable .__se__p-bordered, .sun-editor .__se__p-bordered {\n  border-top: 1px solid #b1b1b1;\n  border-bottom: 1px solid #b1b1b1;\n  padding: 4px 0;\n}\n\n.sun-editor-editable .__se__p-spaced, .sun-editor .__se__p-spaced {\n  letter-spacing: 1px;\n}\n\n.sun-editor-editable .__se__p-neon, .sun-editor .__se__p-neon {\n  font-weight: 200;\n  font-style: italic;\n  background: #000;\n  color: #fff;\n  padding: 6px 4px;\n  border: 2px solid #fff;\n  border-radius: 6px;\n  text-transform: uppercase;\n  -webkit-animation: neonFlicker 1.5s infinite alternate;\n          animation: neonFlicker 1.5s infinite alternate;\n}\n\n@-webkit-keyframes neonFlicker {\n  0%, 19%, 21%, 23%, 25%, 54%, 56%, to {\n    text-shadow: -0.2rem -0.2rem 1rem #fff, 0.2rem 0.2rem 1rem #fff, 0 0 2px #f40, 0 0 4px #f40, 0 0 6px #f40, 0 0 8px #f40, 0 0 10px #f40;\n    box-shadow: 0 0 0.5px #fff, inset 0 0 0.5px #fff, 0 0 2px #08f, inset 0 0 2px #08f, 0 0 4px #08f, inset 0 0 4px #08f;\n  }\n  20%, 24%, 55% {\n    text-shadow: none;\n    box-shadow: none;\n  }\n}\n\n@keyframes neonFlicker {\n  0%, 19%, 21%, 23%, 25%, 54%, 56%, to {\n    text-shadow: -0.2rem -0.2rem 1rem #fff, 0.2rem 0.2rem 1rem #fff, 0 0 2px #f40, 0 0 4px #f40, 0 0 6px #f40, 0 0 8px #f40, 0 0 10px #f40;\n    box-shadow: 0 0 0.5px #fff, inset 0 0 0.5px #fff, 0 0 2px #08f, inset 0 0 2px #08f, 0 0 4px #08f, inset 0 0 4px #08f;\n  }\n  20%, 24%, 55% {\n    text-shadow: none;\n    box-shadow: none;\n  }\n}\n.sun-editor-editable .__se__t-shadow, .sun-editor .__se__t-shadow {\n  text-shadow: -0.2rem -0.2rem 1rem #fff, 0.2rem 0.2rem 1rem #fff, 0 0 0.2rem #999, 0 0 0.4rem #888, 0 0 0.6rem #777, 0 0 0.8rem #666, 0 0 1rem #555;\n}\n\n.sun-editor-editable .__se__t-code, .sun-editor .__se__t-code {\n  font-family: monospace;\n  color: #666;\n  background-color: rgba(27, 31, 35, 0.05);\n  border-radius: 6px;\n  padding: 0.2em 0.4em;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".sun-editor {\n  width: auto;\n  height: auto;\n  box-sizing: border-box;\n  font-family: Helvetica Neue, sans-serif;\n  border: 1px solid #dadada;\n  background-color: #fff;\n  color: #000;\n  user-select: none;\n  -o-user-select: none;\n  -moz-user-select: none;\n  -khtml-user-select: none;\n  -webkit-user-select: none;\n  -ms-user-select: none;\n}\n\n.se-wrapper-inner.se-wrapper-wysiwyg.sun-editor-editable {\n  min-height: 300px;\n}\n\n.sun-editor * {\n  box-sizing: border-box;\n  -webkit-user-drag: none;\n  overflow: visible;\n}\n\n.sun-editor-common button, .sun-editor-common input, .sun-editor-common select, .sun-editor-common textarea {\n  font-size: 14px;\n  line-height: 1.5;\n}\n\n.sun-editor-common blockquote, .sun-editor-common body, .sun-editor-common button, .sun-editor-common code, .sun-editor-common dd, .sun-editor-common div, .sun-editor-common dl, .sun-editor-common dt, .sun-editor-common fieldset, .sun-editor-common form, .sun-editor-common h1, .sun-editor-common h2, .sun-editor-common h3, .sun-editor-common h4, .sun-editor-common h5, .sun-editor-common h6, .sun-editor-common input, .sun-editor-common legend, .sun-editor-common li, .sun-editor-common ol, .sun-editor-common p, .sun-editor-common pre, .sun-editor-common select, .sun-editor-common td, .sun-editor-common textarea, .sun-editor-common th, .sun-editor-common ul {\n  margin: 0;\n  padding: 0;\n  border: 0;\n}\n\n.sun-editor-common dl, .sun-editor-common li, .sun-editor-common menu, .sun-editor-common ol, .sun-editor-common ul {\n  list-style: none !important;\n}\n\n.sun-editor-common hr {\n  margin: 6px 0 !important;\n}\n\n.sun-editor textarea {\n  resize: none;\n  border: 0;\n  padding: 0;\n}\n\n.sun-editor button {\n  border: 0;\n  background-color: transparent;\n  touch-action: manipulation;\n  cursor: pointer;\n  outline: none;\n}\n\n.sun-editor button, .sun-editor input, .sun-editor select, .sun-editor textarea {\n  vertical-align: middle;\n}\n\n.sun-editor button span {\n  display: block;\n  margin: 0;\n  padding: 0;\n}\n\n.sun-editor button .txt {\n  display: block;\n  margin-top: 0;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.sun-editor button * {\n  pointer-events: none;\n  backface-visibility: hidden;\n  -webkit-backface-visibility: hidden;\n  -moz-backface-visibility: hidden;\n}\n\n.sun-editor .se-svg, .sun-editor button > svg {\n  width: 16px;\n  height: 16px;\n  margin: auto;\n  fill: currentColor;\n  display: block;\n  text-align: center;\n  float: none;\n}\n\n.sun-editor .close > svg, .sun-editor .se-dialog-close > svg {\n  width: 10px;\n  height: 10px;\n}\n\n.sun-editor .se-btn-select > svg {\n  float: right;\n  width: 10px;\n  height: 10px;\n}\n\n.sun-editor .se-btn-list > .se-list-icon {\n  display: inline-block;\n  width: 16px;\n  height: 16px;\n  margin: -1px 10px 0 0;\n  vertical-align: middle;\n}\n\n.sun-editor .se-line-breaker > button > svg {\n  width: 24px;\n  height: 24px;\n}\n\n.sun-editor button > i:before {\n  -moz-osx-font-smoothing: grayscale;\n  -webkit-font-smoothing: antialiased;\n  display: inline-block;\n  font-style: normal;\n  font-variant: normal;\n  text-rendering: auto;\n  font-size: 15px;\n  line-height: 2;\n}\n\n.sun-editor button > [class=se-icon-text] {\n  font-size: 20px;\n  line-height: 1;\n}\n\n.sun-editor .se-arrow, .sun-editor .se-arrow:after {\n  position: absolute;\n  display: block;\n  width: 0;\n  height: 0;\n  border: 11px solid transparent;\n}\n\n.sun-editor .se-arrow.se-arrow-up {\n  top: -11px;\n  left: 20px;\n  margin-left: -11px;\n  border-top-width: 0;\n  border-bottom-color: #dadada;\n}\n\n.sun-editor .se-arrow.se-arrow-up:after {\n  top: 1px;\n  margin-left: -11px;\n  content: \" \";\n  border-top-width: 0;\n  border-bottom-color: #fff;\n}\n\n.sun-editor .se-toolbar .se-arrow.se-arrow-up:after {\n  border-bottom-color: #fafafa;\n}\n\n.sun-editor .se-arrow.se-arrow-down {\n  top: 0;\n  left: 0;\n  margin-left: -11px;\n  border-bottom-width: 0;\n  border-top-color: #dadada;\n}\n\n.sun-editor .se-arrow.se-arrow-down:after {\n  top: -12px;\n  margin-left: -11px;\n  content: \" \";\n  border-bottom-width: 0;\n  border-top-color: #fff;\n}\n\n.sun-editor .se-toolbar .se-arrow.se-arrow-down:after {\n  border-top-color: #fafafa;\n}\n\n.sun-editor .se-container {\n  position: relative;\n  width: 100%;\n  height: 100%;\n}\n\n.sun-editor button {\n  color: #000;\n}\n\n.sun-editor .se-btn {\n  float: left;\n  width: 34px;\n  height: 34px;\n  border: 0;\n  border-radius: 4px;\n  margin: 1px !important;\n  padding: 0;\n  font-size: 12px;\n  line-height: 27px;\n}\n\n.sun-editor .se-btn:enabled:focus, .sun-editor .se-btn:enabled:hover {\n  background-color: #e1e1e1;\n  border-color: #d1d1d1;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn:enabled:active {\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  box-shadow: inset 0 3px 5px #c1c1c1;\n}\n\n.sun-editor .se-btn-primary {\n  color: #000;\n  background-color: #c7deff;\n  border: 1px solid #80bdff;\n  border-radius: 4px;\n}\n\n.sun-editor .se-btn-primary:focus, .sun-editor .se-btn-primary:hover {\n  color: #000;\n  background-color: #80bdff;\n  border-color: #3f9dff;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn-primary:active {\n  color: #fff;\n  background-color: #3f9dff;\n  border-color: #4592ff;\n  box-shadow: inset 0 3px 5px #4592ff;\n}\n\n.sun-editor input, .sun-editor select, .sun-editor textarea {\n  color: #000;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n}\n\n.sun-editor input:focus, .sun-editor select:focus, .sun-editor textarea:focus {\n  border: 1px solid #80bdff;\n  outline: 0;\n  box-shadow: 0 0 0 0.2rem #c7deff;\n  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n}\n\n.sun-editor .se-btn:enabled.active {\n  color: #4592ff;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn:enabled.active:focus, .sun-editor .se-btn:enabled.active:hover {\n  background-color: #e1e1e1;\n  border-color: #d1d1d1;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn:enabled.active:active {\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  box-shadow: inset 0 3px 5px #c1c1c1;\n}\n\n.sun-editor .se-btn:enabled.on {\n  background-color: #e1e1e1;\n  border-color: #d1d1d1;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn:enabled.on:focus, .sun-editor .se-btn:enabled.on:hover {\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn:enabled.on:active {\n  background-color: #c1c1c1;\n  border-color: #b1b1b1;\n  box-shadow: inset 0 3px 5px #b1b1b1;\n}\n\n.sun-editor .se-btn-list:disabled, .sun-editor .se-btn:disabled, .sun-editor button:disabled {\n  cursor: not-allowed;\n  background-color: inherit;\n  color: #bdbdbd;\n}\n\n.sun-editor .se-loading-box {\n  position: absolute;\n  display: none;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  background-color: #fff;\n  opacity: 0.7;\n  filter: alpha(opacity=70);\n  z-index: 2147483647;\n}\n\n.sun-editor .se-loading-box .se-loading-effect {\n  position: absolute;\n  display: block;\n  top: 50%;\n  left: 50%;\n  height: 25px;\n  width: 25px;\n  border-top: 2px solid #07d;\n  border-right: 2px solid transparent;\n  border-radius: 50%;\n  -webkit-animation: spinner 0.8s linear infinite;\n          animation: spinner 0.8s linear infinite;\n  margin: -25px 0 0 -25px;\n}\n\n.sun-editor .se-line-breaker {\n  position: absolute;\n  display: none;\n  width: 100%;\n  height: 1px;\n  cursor: text;\n  border-top: 1px solid #3288ff;\n  z-index: 7;\n}\n\n.sun-editor .se-line-breaker > button.se-btn {\n  position: relative;\n  display: inline-block;\n  width: 30px;\n  height: 30px;\n  top: -15px;\n  float: none;\n  left: -50%;\n  background-color: #fff;\n  border: 1px solid #0c2240;\n  opacity: 0.6;\n  cursor: pointer;\n}\n\n.sun-editor .se-line-breaker > button.se-btn:hover {\n  opacity: 0.9;\n  background-color: #fff;\n  border-color: #041b39;\n}\n\n.sun-editor .se-line-breaker-component {\n  position: absolute;\n  display: none;\n  width: 24px;\n  height: 24px;\n  background-color: #fff;\n  border: 1px solid #0c2240;\n  opacity: 0.6;\n  border-radius: 4px;\n  cursor: pointer;\n  z-index: 7;\n}\n\n.sun-editor .se-line-breaker-component:hover {\n  opacity: 0.9;\n}\n\n.sun-editor .se-toolbar {\n  display: block;\n  position: relative;\n  height: auto;\n  width: 100%;\n  overflow: visible;\n  padding: 0;\n  margin: 0;\n  background-color: #fafafa;\n  outline: 1px solid #dadada;\n  z-index: 5;\n}\n\n.sun-editor .se-toolbar-cover {\n  position: absolute;\n  display: none;\n  font-size: 36px;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  background-color: #fefefe;\n  opacity: 0.5;\n  filter: alpha(opacity=50);\n  cursor: not-allowed;\n  z-index: 4;\n}\n\n.sun-editor .se-toolbar-separator-vertical {\n  display: inline-block;\n  height: 0;\n  width: 0;\n  margin: 1px;\n  vertical-align: top;\n}\n\n.sun-editor .se-toolbar.se-toolbar-balloon, .sun-editor .se-toolbar.se-toolbar-inline {\n  display: none;\n  position: absolute;\n  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);\n  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);\n}\n\n.sun-editor .se-toolbar.se-toolbar-balloon {\n  z-index: 2147483647;\n  width: auto;\n}\n\n.sun-editor .se-toolbar.se-toolbar-sticky {\n  position: fixed;\n  top: 0;\n}\n\n.sun-editor .se-toolbar-sticky-dummy {\n  display: none;\n  position: static;\n  z-index: -1;\n}\n\n.sun-editor .se-btn-module {\n  display: inline-block;\n}\n\n.sun-editor .se-btn-module-border {\n  border: 1px solid #dadada;\n  border-radius: 4px;\n}\n\n.sun-editor .se-btn-module-enter {\n  display: block;\n  width: 100%;\n  height: 1px;\n  margin-bottom: 5px;\n  background-color: transparent;\n}\n\n.sun-editor .se-toolbar-more-layer {\n  margin: 0 -3px;\n  background-color: #fafafa;\n}\n\n.sun-editor .se-toolbar-more-layer .se-more-layer {\n  display: none;\n  border-top: 1px solid #dadada;\n}\n\n.sun-editor .se-toolbar-more-layer .se-more-layer .se-more-form {\n  display: inline-block;\n  width: 100%;\n  height: auto;\n  padding: 4px 3px 0;\n}\n\n.sun-editor .se-btn-module .se-btn-more.se-btn-more-text {\n  width: auto;\n  padding: 0 4px;\n}\n\n.sun-editor .se-btn-module .se-btn-more:focus, .sun-editor .se-btn-module .se-btn-more:hover {\n  color: #000;\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn-module .se-btn-more.on {\n  color: #333;\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn-module .se-btn-more.on:hover {\n  color: #000;\n  background-color: #c1c1c1;\n  border-color: #b1b1b1;\n  outline: 0 none;\n}\n\n.sun-editor .se-menu-list, .sun-editor .se-menu-list li {\n  float: left;\n  padding: 0;\n  margin: 0;\n}\n\n.sun-editor .se-menu-list li {\n  position: relative;\n}\n\n.sun-editor .se-btn-select {\n  width: auto;\n  display: flex;\n  padding: 4px 6px;\n}\n\n.sun-editor .se-btn-select .txt {\n  flex: auto;\n  text-align: left;\n}\n\n.sun-editor.se-rtl .se-btn-select svg {\n  margin: auto 1px;\n}\n\n.sun-editor .se-btn-select.se-btn-tool-font {\n  width: 100px;\n}\n\n.sun-editor .se-btn-select.se-btn-tool-format {\n  width: 82px;\n}\n\n.sun-editor .se-btn-select.se-btn-tool-size {\n  width: 78px;\n}\n\n.sun-editor .se-btn-tray {\n  position: relative;\n  width: 100%;\n  height: auto;\n  padding: 4px 3px 0;\n  margin: 0;\n}\n\n.sun-editor .se-menu-tray {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 0;\n}\n\n.sun-editor .se-submenu {\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n\n.sun-editor .se-list-layer {\n  display: none;\n  position: absolute;\n  top: 0;\n  left: 0;\n  height: auto;\n  z-index: 5;\n  border: 1px solid #bababa;\n  border-radius: 4px;\n  padding: 6px 0;\n  background-color: #fff;\n  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);\n  outline: 0 none;\n}\n\n.sun-editor .se-list-layer .se-list-inner {\n  padding: 0;\n  margin: 0;\n  overflow-x: initial;\n  overflow-y: initial;\n  overflow: visible;\n}\n\n.sun-editor .se-list-layer button {\n  margin: 0;\n  width: 100%;\n}\n\n.sun-editor .se-list-inner ul {\n  width: 100%;\n  padding: 0;\n}\n\n.sun-editor .se-list-inner li > button {\n  min-width: 100%;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n}\n\n.sun-editor .se-list-inner .se-list-basic li {\n  width: 100%;\n}\n\n.sun-editor .se-list-inner .se-list-basic li button.active {\n  background-color: #80bdff;\n  border: 1px solid #3f9dff;\n  border-left: 0;\n  border-right: 0;\n}\n\n.sun-editor .se-list-inner .se-list-basic li button.active:hover {\n  background-color: #3f9dff;\n  border: 1px solid #4592ff;\n  border-left: 0;\n  border-right: 0;\n}\n\n.sun-editor .se-list-inner .se-list-basic li button.active:active {\n  background-color: #4592ff;\n  border: 1px solid #407dd1;\n  border-left: 0;\n  border-right: 0;\n  box-shadow: inset 0 3px 5px #407dd1;\n}\n\n.sun-editor .se-list-inner .se-list-checked li button > .se-svg {\n  float: left;\n  padding: 6px 6px 0 0;\n}\n\n.sun-editor .se-list-inner .se-list-checked li button > .se-svg > svg {\n  display: none;\n}\n\n.sun-editor .se-list-inner .se-list-checked li button.se-checked {\n  color: #4592ff;\n}\n\n.sun-editor .se-list-inner .se-list-checked li button.se-checked > .se-svg > svg {\n  display: block;\n}\n\n.sun-editor .se-btn-list {\n  width: 100%;\n  height: auto;\n  min-height: 32px;\n  padding: 0 14px;\n  cursor: pointer;\n  font-size: 12px;\n  line-height: normal;\n  text-indent: 0;\n  text-decoration: none;\n  text-align: left;\n}\n\n.sun-editor .se-btn-list.default_value {\n  background-color: #f3f3f3;\n  border-top: 1px dotted #b1b1b1;\n  border-bottom: 1px dotted #b1b1b1;\n}\n\n.sun-editor .se-btn-list:focus, .sun-editor .se-btn-list:hover {\n  background-color: #e1e1e1;\n  border-color: #d1d1d1;\n  outline: 0 none;\n}\n\n.sun-editor .se-btn-list:active {\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  box-shadow: inset 0 3px 5px #c1c1c1;\n}\n\n.sun-editor .se-list-layer.se-list-font-size {\n  min-width: 140px;\n  max-height: 300px;\n}\n\n.sun-editor .se-list-layer.se-list-font-family {\n  min-width: 156px;\n}\n\n.sun-editor .se-list-layer.se-list-font-family .default {\n  border-bottom: 1px solid #ccc;\n}\n\n.sun-editor .se-list-layer.se-list-line {\n  width: 125px;\n}\n\n.sun-editor .se-list-layer.se-list-align .se-list-inner {\n  left: 9px;\n  width: 125px;\n}\n\n.sun-editor .se-list-layer.se-list-format {\n  min-width: 156px;\n}\n\n.sun-editor .se-list-layer.se-list-format li {\n  padding: 0;\n  width: 100%;\n}\n\n.sun-editor .se-list-layer.se-list-format ul .se-btn-list {\n  line-height: 100%;\n}\n\n.sun-editor .se-list-layer.se-list-format ul .se-btn-list[data-value=h1] {\n  height: 40px;\n}\n\n.sun-editor .se-list-layer.se-list-format ul .se-btn-list[data-value=h2] {\n  height: 34px;\n}\n\n.sun-editor .se-list-layer.se-list-format ul p {\n  font-size: 13px;\n}\n\n.sun-editor .se-list-layer.se-list-format ul div {\n  font-size: 13px;\n  padding: 4px 2px;\n}\n\n.sun-editor .se-list-layer.se-list-format ul h1 {\n  font-size: 2em;\n  font-weight: 700;\n  color: #333;\n}\n\n.sun-editor .se-list-layer.se-list-format ul h2 {\n  font-size: 1.5em;\n  font-weight: 700;\n  color: #333;\n}\n\n.sun-editor .se-list-layer.se-list-format ul h3 {\n  font-size: 1.17em;\n  font-weight: 700;\n  color: #333;\n}\n\n.sun-editor .se-list-layer.se-list-format ul h4 {\n  font-size: 1em;\n  font-weight: 700;\n  color: #333;\n}\n\n.sun-editor .se-list-layer.se-list-format ul h5 {\n  font-size: 0.83em;\n  font-weight: 700;\n  color: #333;\n}\n\n.sun-editor .se-list-layer.se-list-format ul h6 {\n  font-size: 0.67em;\n  font-weight: 700;\n  color: #333;\n}\n\n.sun-editor .se-list-layer.se-list-format ul blockquote {\n  font-size: 13px;\n  color: #999;\n  height: 22px;\n  margin: 0;\n  background-color: transparent;\n  line-height: 1.5;\n  border-color: #b1b1b1;\n  padding: 0 0 0 7px;\n  border-left: 5px #b1b1b1;\n  border-style: solid;\n}\n\n.sun-editor .se-list-layer.se-list-format ul pre {\n  font-size: 13px;\n  color: #666;\n  padding: 4px 11px;\n  margin: 0;\n  background-color: #f9f9f9;\n  border: 1px solid #e1e1e1;\n  border-radius: 4px;\n}\n\n.sun-editor .se-selector-table {\n  display: none;\n  position: absolute;\n  top: 34px;\n  left: 1px;\n  z-index: 5;\n  padding: 5px 0;\n  float: left;\n  margin: 2px 0 0;\n  font-size: 14px;\n  text-align: left;\n  list-style: none;\n  background-color: #fff;\n  -webkit-background-clip: padding-box;\n  background-clip: padding-box;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);\n}\n\n.sun-editor .se-selector-table .se-table-size {\n  font-size: 18px;\n  padding: 0 5px;\n}\n\n.sun-editor .se-selector-table .se-table-size-picker {\n  position: absolute !important;\n  z-index: 3;\n  font-size: 18px;\n  width: 10em;\n  height: 10em;\n  cursor: pointer;\n}\n\n.sun-editor .se-selector-table .se-table-size-highlighted {\n  position: absolute !important;\n  z-index: 2;\n  font-size: 18px;\n  width: 1em;\n  height: 1em;\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAAZdEVYdFNvZnR3YXJlAEFkb2JlIEltYWdlUmVhZHlxyWU8AAADJmlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDIgNzkuMTYwOTI0LCAyMDE3LzA3LzEzLTAxOjA2OjM5ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo4QTZCNzMzN0I3RUYxMUU4ODcwQ0QwMjM1NTgzRTJDNyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo4QTZCNzMzNkI3RUYxMUU4ODcwQ0QwMjM1NTgzRTJDNyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOCAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0MzYyNEUxRUI3RUUxMUU4ODZGQzgwRjNBODgyNTdFOSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0MzYyNEUxRkI3RUUxMUU4ODZGQzgwRjNBODgyNTdFOSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pl0yAuwAAABBSURBVDhPY/wPBAxUAGCDGvdBeWSAeicIDTfIXREiQArYeR9hEBOEohyMGkQYjBpEGAxjg6ib+yFMygCVvMbAAABj0hwMTNeKJwAAAABJRU5ErkJggg==\") repeat;\n}\n\n.sun-editor .se-selector-table .se-table-size-unhighlighted {\n  position: relative !important;\n  z-index: 1;\n  font-size: 18px;\n  width: 10em;\n  height: 10em;\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASAgMAAAAroGbEAAAACVBMVEUAAIj4+Pjp6ekKlAqjAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfYAR0BKhmnaJzPAAAAG0lEQVQI12NgAAOtVatWMTCohoaGUY+EmIkEAEruEzK2J7tvAAAAAElFTkSuQmCC\") repeat;\n}\n\n.sun-editor .se-selector-table .se-table-size-display {\n  padding-left: 5px;\n}\n\n.sun-editor .se-list-layer.se-table-split {\n  top: 36px;\n}\n\n.sun-editor .se-list-layer .se-selector-color {\n  display: flex;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n  max-width: 270px;\n  height: auto;\n  padding: 0;\n  margin: auto;\n}\n\n.sun-editor .se-list-layer .se-selector-color .se-color-pallet {\n  width: 100%;\n  height: 100%;\n  padding: 0;\n}\n\n.sun-editor .se-list-layer .se-selector-color .se-color-pallet li {\n  display: flex;\n  float: left;\n  position: relative;\n  margin: 0;\n}\n\n.sun-editor .se-list-layer .se-selector-color .se-color-pallet button {\n  display: block;\n  cursor: default;\n  width: 30px;\n  height: 30px;\n  text-indent: -9999px;\n}\n\n.sun-editor .se-list-layer .se-selector-color .se-color-pallet button.active, .sun-editor .se-list-layer .se-selector-color .se-color-pallet button:focus, .sun-editor .se-list-layer .se-selector-color .se-color-pallet button:hover {\n  border: 3px solid #fff;\n}\n\n.sun-editor .se-form-group {\n  display: flex;\n  width: 100%;\n  min-height: 40px;\n  height: auto;\n  padding: 4px;\n}\n\n.sun-editor .se-form-group input {\n  flex: auto;\n  display: inline-block;\n  width: auto;\n  height: 33px;\n  font-size: 12px;\n  margin: 1px 0;\n  padding: 0;\n  border-radius: 0.25rem;\n  border: 1px solid #ccc;\n}\n\n.sun-editor .se-form-group button, .sun-editor .se-submenu-form-group button {\n  float: right;\n  width: 34px;\n  height: 34px;\n  margin: 0 2px !important;\n}\n\n.sun-editor .se-form-group button.se-btn {\n  border: 1px solid #ccc;\n}\n\n.sun-editor .se-form-group > div {\n  position: relative;\n}\n\n.sun-editor .se-form-group label {\n  display: inline-block;\n  max-width: 100%;\n  margin-bottom: 5px;\n  font-weight: 700;\n}\n\n.sun-editor .se-form-group-label {\n  width: 100%;\n  height: auto;\n  padding: 0 4px;\n}\n\n.sun-editor .se-form-group-label label {\n  font-size: 13px;\n  font-weight: 700;\n}\n\n.sun-editor .se-submenu .se-form-group input {\n  width: auto;\n  height: 33px;\n  color: #555;\n}\n\n.sun-editor .se-submenu .se-form-group .se-color-input {\n  width: 72px;\n  text-transform: uppercase;\n  border: none;\n  border-bottom: 2px solid #b1b1b1;\n  outline: none;\n}\n\n.sun-editor .se-submenu .se-form-group .se-color-input:focus {\n  border-bottom: 3px solid #b1b1b1;\n}\n\n.se-wrapper-inner.se-wrapper-wysiwyg.sun-editor-editable {\n  min-height: 300px !important;\n}\n\n.se-wrapper {\n  min-height: 300px !important;\n}\n\n.sun-editor .se-wrapper {\n  position: relative !important;\n  width: 100%;\n  height: auto;\n  overflow: hidden;\n  z-index: 1;\n}\n\n.sun-editor .se-wrapper .se-wrapper-inner {\n  width: 100%;\n  height: 100%;\n  min-height: 65px;\n  overflow-y: auto;\n  overflow-x: auto;\n  -webkit-overflow-scrolling: touch;\n  user-select: auto;\n  -o-user-select: auto;\n  -moz-user-select: auto;\n  -khtml-user-select: auto;\n  -webkit-user-select: auto;\n  -ms-user-select: auto;\n}\n\n.sun-editor .se-wrapper .se-wrapper-inner:focus {\n  outline: none;\n}\n\n.sun-editor .se-wrapper .se-wrapper-code {\n  background-color: #191919;\n  color: #fff;\n  font-size: 13px;\n  word-break: break-all;\n  padding: 4px;\n  margin: 0;\n  resize: none !important;\n}\n\n.sun-editor .se-wrapper .se-wrapper-wysiwyg {\n  background-color: #fff;\n  display: block;\n}\n\n.sun-editor .se-wrapper .se-wrapper-code-mirror {\n  font-size: 13px;\n}\n\n.sun-editor .se-wrapper .se-placeholder {\n  position: absolute;\n  display: none;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  z-index: 1;\n  color: #b1b1b1;\n  font-size: 13px;\n  line-height: 1.5;\n  top: 0;\n  left: 0;\n  right: 0;\n  overflow: hidden;\n  margin-top: 0;\n  padding-top: 16px;\n  padding-left: 16px;\n  margin-left: 0;\n  padding-right: 16px;\n  margin-right: 0;\n  pointer-events: none;\n  backface-visibility: hidden;\n  -webkit-backface-visibility: hidden;\n  -moz-backface-visibility: hidden;\n}\n\n.sun-editor .se-resizing-bar {\n  display: flex;\n  width: auto;\n  height: auto;\n  min-height: 16px;\n  border-top: 1px solid #dadada;\n  padding: 0 4px;\n  background-color: #fafafa;\n  cursor: ns-resize;\n}\n\n.sun-editor .se-resizing-bar.se-resizing-none {\n  cursor: default;\n}\n\n.sun-editor .se-resizing-back {\n  position: absolute;\n  display: none;\n  cursor: default;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 2147483647;\n}\n\n.sun-editor .se-resizing-bar .se-navigation {\n  flex: auto;\n  position: relative;\n  width: auto;\n  height: auto;\n  color: #666;\n  margin: 0;\n  padding: 0;\n  font-size: 10px;\n  font-weight: 700;\n  line-height: 1.5;\n  background: transparent;\n}\n\n.sun-editor .se-resizing-bar .se-char-counter-wrapper {\n  flex: none;\n  position: relative;\n  display: block;\n  width: auto;\n  height: auto;\n  margin: 0;\n  padding: 0;\n  color: #999;\n  font-size: 13px;\n  background: transparent;\n}\n\n.sun-editor .se-resizing-bar .se-char-counter-wrapper.se-blink {\n  color: #b94a48;\n  -webkit-animation: blinker 0.2s linear infinite;\n          animation: blinker 0.2s linear infinite;\n}\n\n.sun-editor .se-resizing-bar .se-char-counter-wrapper .se-char-label {\n  margin-right: 4px;\n}\n\n.sun-editor .se-dialog {\n  position: absolute;\n  display: none;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 2147483647;\n}\n\n.sun-editor .se-dialog button, .sun-editor .se-dialog input, .sun-editor .se-dialog label {\n  font-size: 14px;\n  line-height: 1.5;\n  color: #111;\n  margin: 0;\n}\n\n.sun-editor .se-dialog .se-dialog-back {\n  background-color: #222;\n  opacity: 0.5;\n}\n\n.sun-editor .se-dialog .se-dialog-back, .sun-editor .se-dialog .se-dialog-inner {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-content {\n  position: relative;\n  width: auto;\n  max-width: 500px;\n  margin: 1.75rem auto;\n  background-color: #fff;\n  -webkit-background-clip: padding-box;\n  background-clip: padding-box;\n  border: 1px solid rgba(0, 0, 0, 0.2);\n  border-radius: 4px;\n  outline: 0;\n  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);\n}\n\n@media screen and (max-width: 509px) {\n  .sun-editor .se-dialog .se-dialog-inner .se-dialog-content {\n    width: 100%;\n  }\n}\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-content label {\n  display: inline-block;\n  max-width: 100%;\n  margin-bottom: 5px;\n  font-weight: 700;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-content .se-btn-primary {\n  display: inline-block;\n  padding: 6px 12px;\n  margin: 0 0 10px !important;\n  font-size: 14px;\n  font-weight: 400;\n  line-height: 1.42857143;\n  text-align: center;\n  white-space: nowrap;\n  vertical-align: middle;\n  touch-action: manipulation;\n  border-radius: 4px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-header {\n  height: 50px;\n  padding: 6px 15px;\n  border-bottom: 1px solid #e5e5e5;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-header .se-dialog-close {\n  float: right;\n  font-weight: 700;\n  text-shadow: 0 1px 0 #fff;\n  -webkit-appearance: none;\n  filter: alpha(opacity=100);\n  opacity: 1;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-header .se-modal-title {\n  float: left;\n  font-size: 14px;\n  font-weight: 700;\n  margin: 0;\n  padding: 0;\n  line-height: 2.5;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-body {\n  position: relative;\n  padding: 15px 15px 5px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form {\n  margin-bottom: 10px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form-footer {\n  margin-top: 10px;\n  margin-bottom: 0;\n}\n\n.sun-editor .se-dialog .se-dialog-inner input:disabled {\n  background-color: #f3f3f3;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-size-text {\n  width: 100%;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-size-text .size-h, .sun-editor .se-dialog .se-dialog-inner .se-dialog-size-text .size-w {\n  width: 70px;\n  text-align: center;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-size-x {\n  margin: 0 8px;\n  width: 25px;\n  text-align: center;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-footer {\n  height: auto;\n  min-height: 55px;\n  padding: 10px 15px 0;\n  text-align: right;\n  border-top: 1px solid #e5e5e5;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-footer > div {\n  float: left;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-footer > div > label {\n  margin: 0 5px 0 0;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-btn-radio {\n  margin-left: 12px;\n  margin-right: 6px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-btn-check {\n  margin-left: 12px;\n  margin-right: 4px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form-footer .se-dialog-btn-check {\n  margin-left: 0;\n  margin-right: 4px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form-footer label:first-child {\n  margin-right: 16px;\n  margin-left: 0;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-dialog-form-files {\n  position: relative;\n  display: flex;\n  align-items: center;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-dialog-form-files > input {\n  flex: auto;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-dialog-form-files .se-dialog-files-edge-button {\n  flex: auto;\n  opacity: 0.8;\n  border: 1px solid #ccc;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-dialog-form-files .se-dialog-files-edge-button.se-file-remove > svg {\n  width: 8px;\n  height: 8px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-dialog-form-files .se-dialog-files-edge-button:hover {\n  background-color: #f0f0f0;\n  outline: 0 none;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-dialog-form-files .se-dialog-files-edge-button:active {\n  background-color: #e9e9e9;\n  box-shadow: inset 0 3px 5px #d6d6d6;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-input-select {\n  display: inline-block;\n  width: auto;\n  height: 34px;\n  font-size: 14px;\n  text-align: center;\n  line-height: 1.42857143;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-input-control {\n  display: inline-block;\n  width: 70px;\n  height: 34px;\n  font-size: 14px;\n  text-align: center;\n  line-height: 1.42857143;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-input-form {\n  display: block;\n  width: 100%;\n  height: 34px;\n  font-size: 14px;\n  line-height: 1.42857143;\n  padding: 0 4px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-input-form.se-input-url {\n  direction: ltr;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-input-form.se-input-url:disabled {\n  text-decoration: line-through;\n  color: #999;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-video-ratio {\n  width: 70px;\n  margin-left: 4px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form a {\n  color: #004cff;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-btn-revert {\n  border: 1px solid #ccc;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-btn-revert:hover {\n  background-color: #e1e1e1;\n  border-color: #d1d1d1;\n  outline: 0 none;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-btn-revert:active {\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  box-shadow: inset 0 3px 5px #c1c1c1;\n}\n\n.sun-editor .se-dialog-tabs {\n  width: 100%;\n  height: 25px;\n  border-bottom: 1px solid #e5e5e5;\n}\n\n.sun-editor .se-dialog-tabs button {\n  background-color: #e5e5e5;\n  border-right: 1px solid #e5e5e5;\n  float: left;\n  outline: none;\n  padding: 2px 13px;\n  transition: 0.3s;\n}\n\n.sun-editor .se-dialog-tabs button:hover {\n  background-color: #fff;\n}\n\n.sun-editor .se-dialog-tabs button.active {\n  background-color: #fff;\n  border-bottom: 0;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-input-form.se-math-exp {\n  resize: vertical;\n  height: 4rem;\n  border: 1px solid #ccc;\n  font-size: 13px;\n  padding: 4px;\n  direction: ltr;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-input-select.se-math-size {\n  width: 6em;\n  height: 28px;\n  margin-left: 1em;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-math-preview {\n  font-size: 13px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-math-preview > span {\n  display: inline-block;\n  box-shadow: 0 0 0 0.1rem #c7deff;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-dialog-form .se-math-preview > span * {\n  direction: ltr;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-link-preview {\n  display: block;\n  height: auto;\n  max-height: 18px;\n  font-size: 13px;\n  font-weight: 400;\n  font-family: inherit;\n  color: #666;\n  background-color: transparent;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  word-break: break-all;\n  white-space: pre;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-anchor-preview-form {\n  width: 100%;\n  display: flex;\n  margin-top: 4px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-anchor-preview-form .se-svg.se-anchor-preview-icon {\n  flex: unset;\n  display: none;\n  line-height: 1.5;\n  color: #4592ff;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-anchor-preview-form .se-link-preview {\n  flex: auto;\n  margin: 0;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-anchor-rel {\n  height: 34px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-anchor-rel-btn {\n  width: 46px;\n  color: #3f9dff;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-anchor-rel-wrapper {\n  display: flex;\n  line-height: 1.5;\n  padding-top: 6px;\n}\n\n.sun-editor .se-dialog .se-dialog-inner .se-anchor-rel-preview {\n  text-align: left;\n}\n\n.sun-editor .se-controller .se-arrow.se-arrow-up {\n  border-bottom-color: rgba(0, 0, 0, 0.25);\n}\n\n.sun-editor .se-controller {\n  position: absolute;\n  display: none;\n  overflow: visible;\n  z-index: 6;\n  border: 1px solid rgba(0, 0, 0, 0.25);\n  border-radius: 4px;\n  text-align: start;\n  text-decoration: none;\n  text-shadow: none;\n  text-transform: none;\n  letter-spacing: normal;\n  word-break: normal;\n  word-spacing: normal;\n  word-wrap: normal;\n  white-space: normal;\n  background-color: #fff;\n  -webkit-background-clip: padding-box;\n  background-clip: padding-box;\n  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);\n  line-break: auto;\n}\n\n.sun-editor .se-controller .se-btn-group {\n  position: relative;\n  display: flex;\n  vertical-align: middle;\n  padding: 2px;\n  top: 0;\n  left: 0;\n}\n\n.sun-editor .se-controller .se-btn-group .se-btn-group-sub {\n  left: 50%;\n  min-width: auto;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n  display: none;\n}\n\n.sun-editor .se-controller .se-btn-group .se-btn-group-sub button {\n  margin: 0;\n  min-width: 72px;\n}\n\n.sun-editor .se-controller .se-btn-group button {\n  position: relative;\n  min-height: 34px;\n  height: auto;\n  border: none;\n  border-radius: 4px;\n  margin: 1px;\n  padding: 5px 10px;\n  font-size: 12px;\n  line-height: 1.5;\n  display: inline-block;\n  font-weight: 400;\n  text-align: center;\n  white-space: nowrap;\n  vertical-align: middle;\n  touch-action: manipulation;\n}\n\n.sun-editor .se-controller .se-btn-group button:focus:enabled, .sun-editor .se-controller .se-btn-group button:hover:enabled {\n  background-color: #e1e1e1;\n  border-color: #d1d1d1;\n  outline: 0 none;\n}\n\n.sun-editor .se-controller .se-btn-group button:active:enabled {\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  box-shadow: inset 0 3px 5px #c1c1c1;\n}\n\n.sun-editor .se-controller .se-btn-group button span {\n  display: block;\n  padding: 0;\n  margin: 0;\n}\n\n.sun-editor .se-controller .se-btn-group button:enabled.active {\n  color: #4592ff;\n  outline: 0 none;\n}\n\n.sun-editor .se-controller .se-btn-group button:enabled.active:focus, .sun-editor .se-controller .se-btn-group button:enabled.active:hover {\n  background-color: #e1e1e1;\n  border-color: #d1d1d1;\n  outline: 0 none;\n}\n\n.sun-editor .se-controller .se-btn-group button:enabled.active:active {\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  box-shadow: inset 0 3px 5px #c1c1c1;\n}\n\n.sun-editor .se-controller .se-btn-group button:enabled.on {\n  background-color: #e1e1e1;\n  border-color: #d1d1d1;\n  outline: 0 none;\n}\n\n.sun-editor .se-controller .se-btn-group button:enabled.on:focus, .sun-editor .se-controller .se-btn-group button:enabled.on:hover {\n  background-color: #d1d1d1;\n  border-color: #c1c1c1;\n  outline: 0 none;\n}\n\n.sun-editor .se-controller .se-btn-group button:enabled.on:active {\n  background-color: #c1c1c1;\n  border-color: #b1b1b1;\n  box-shadow: inset 0 3px 5px #b1b1b1;\n}\n\n.sun-editor .se-controller .se-form-group input {\n  min-width: 120px;\n}\n\n.sun-editor .se-controller-resizing {\n  margin-top: -50px !important;\n  padding: 0;\n  font-size: 14px;\n  font-style: normal;\n  font-weight: 400;\n  line-height: 1.42857143;\n}\n\n.sun-editor .se-controller-resizing .se-btn-group .se-btn-group-sub.se-resizing-align-list {\n  width: 74px;\n}\n\n.sun-editor .se-resizing-container {\n  position: absolute;\n  display: none;\n  outline: 1px solid #3f9dff;\n  background-color: transparent;\n}\n\n.sun-editor .se-resizing-container .se-modal-resize {\n  position: absolute;\n  display: inline-block;\n  background-color: #3f9dff;\n  opacity: 0.3;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span {\n  position: absolute;\n  width: 7px;\n  height: 7px;\n  background-color: #3f9dff;\n  border: 1px solid #4592ff;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span.tl {\n  top: -5px;\n  left: -5px;\n  cursor: nw-resize;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span.tr {\n  top: -5px;\n  right: -5px;\n  cursor: ne-resize;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span.bl {\n  bottom: -5px;\n  left: -5px;\n  cursor: sw-resize;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span.br {\n  right: -5px;\n  bottom: -5px;\n  cursor: se-resize;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span.lw {\n  left: -7px;\n  bottom: 50%;\n  cursor: w-resize;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span.th {\n  left: 50%;\n  top: -7px;\n  cursor: n-resize;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span.rw {\n  right: -7px;\n  bottom: 50%;\n  cursor: e-resize;\n}\n\n.sun-editor .se-resizing-container .se-resize-dot > span.bh {\n  right: 50%;\n  bottom: -7px;\n  cursor: s-resize;\n}\n\n.sun-editor .se-resizing-container .se-resize-display {\n  position: absolute;\n  right: 0;\n  bottom: 0;\n  padding: 5px;\n  margin: 5px;\n  font-size: 12px;\n  color: #fff;\n  background-color: #333;\n  border-radius: 4px;\n}\n\n.sun-editor .se-controller-table, .sun-editor .se-controller-table-cell {\n  width: auto;\n}\n\n.sun-editor .se-controller-link, .sun-editor .se-controller-table, .sun-editor .se-controller-table-cell {\n  padding: 0;\n  font-size: 14px;\n  font-style: normal;\n  font-weight: 400;\n  line-height: 1.42857143;\n}\n\n.sun-editor .se-controller-link:after, .sun-editor .se-controller-link:before {\n  box-sizing: border-box;\n}\n\n.sun-editor .se-controller-link .link-content {\n  padding: 0;\n  margin: 0;\n}\n\n.sun-editor .se-controller-link .link-content a {\n  display: inline-block;\n  color: #4592ff;\n  max-width: 200px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  vertical-align: middle;\n  margin-left: 5px;\n}\n\n.sun-editor .se-select-list {\n  position: absolute;\n  top: 0;\n  left: 0;\n  display: none;\n  width: auto;\n  max-width: 100%;\n  background-color: #fff;\n  padding: 0;\n  margin: 0;\n  border: 1px solid #bababa;\n  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);\n  outline: 0 none;\n}\n\n.sun-editor .se-select-list .se-select-item {\n  line-height: 28px;\n  min-height: 28px;\n  font-size: 13px;\n  padding: 0 5px;\n  margin: 2px 0;\n  cursor: pointer;\n}\n\n.sun-editor .se-select-list.__se_select-menu-mouse-move .se-select-item:hover, .sun-editor .se-select-list:not(.__se_select-menu-mouse-move) .se-select-item.active {\n  background-color: #e1e1e1;\n}\n\n.sun-editor .se-dialog-form-files .se-select-list {\n  width: 100%;\n}\n\n.sun-editor .se-file-browser {\n  position: absolute;\n  display: none;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 2147483647;\n}\n\n.sun-editor .se-file-browser button, .sun-editor .se-file-browser input, .sun-editor .se-file-browser label {\n  font-size: 14px;\n  line-height: 1.5;\n  color: #111;\n  margin: 0;\n}\n\n.sun-editor .se-file-browser .se-file-browser-back {\n  background-color: #222;\n  opacity: 0.5;\n}\n\n.sun-editor .se-file-browser .se-file-browser-back, .sun-editor .se-file-browser .se-file-browser-inner {\n  position: absolute;\n  display: block;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n}\n\n.sun-editor .se-file-browser .se-file-browser-inner .se-file-browser-content {\n  position: relative;\n  width: 960px;\n  max-width: 100%;\n  margin: 20px auto;\n  background-color: #fff;\n  -webkit-background-clip: padding-box;\n  background-clip: padding-box;\n  border: 1px solid rgba(0, 0, 0, 0.2);\n  border-radius: 4px;\n  outline: 0;\n  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);\n}\n\n.sun-editor .se-file-browser .se-file-browser-header {\n  height: auto;\n  min-height: 50px;\n  padding: 6px 15px;\n  border-bottom: 1px solid #e5e5e5;\n}\n\n.sun-editor .se-file-browser .se-file-browser-header .se-file-browser-close {\n  float: right;\n  font-weight: 700;\n  text-shadow: 0 1px 0 #fff;\n  -webkit-appearance: none;\n  filter: alpha(opacity=100);\n  opacity: 1;\n}\n\n.sun-editor .se-file-browser .se-file-browser-header .se-file-browser-close > svg {\n  width: 12px;\n  height: 12px;\n}\n\n.sun-editor .se-file-browser .se-file-browser-header .se-file-browser-title {\n  font-size: 16px;\n  font-weight: 700;\n  margin: 0;\n  padding: 0;\n  line-height: 2.2;\n}\n\n.sun-editor .se-file-browser .se-file-browser-tags {\n  display: block;\n  width: 100%;\n  padding: 0;\n  text-align: left;\n  margin: 0 -15px;\n}\n\n.sun-editor .se-file-browser .se-file-browser-tags a {\n  display: inline-block;\n  background-color: #f5f5f5;\n  padding: 6px 12px;\n  margin: 8px 0 8px 8px;\n  color: #333;\n  text-decoration: none;\n  border-radius: 32px;\n  -moz-border-radius: 32px;\n  -webkit-border-radius: 32px;\n  -moz-background-clip: padding;\n  -webkit-background-clip: padding-box;\n  background-clip: padding-box;\n  cursor: pointer;\n}\n\n.sun-editor .se-file-browser .se-file-browser-tags a:hover {\n  background-color: #e1e1e1;\n}\n\n.sun-editor .se-file-browser .se-file-browser-tags a:active {\n  background-color: #d1d1d1;\n}\n\n.sun-editor .se-file-browser .se-file-browser-tags a.on {\n  background-color: #ebf3fe;\n  color: #4592ff;\n}\n\n.sun-editor .se-file-browser .se-file-browser-tags a.on:hover {\n  background-color: #d8e8fe;\n}\n\n.sun-editor .se-file-browser .se-file-browser-tags a.on:active {\n  background-color: #c7deff;\n}\n\n.sun-editor .se-file-browser .se-file-browser-body {\n  position: relative;\n  height: auto;\n  min-height: 350px;\n  padding: 20px;\n  overflow-y: auto;\n}\n\n.sun-editor .se-file-browser .se-file-browser-body .se-file-browser-list {\n  position: relative;\n  width: 100%;\n}\n\n@media screen and (max-width: 992px) {\n  .sun-editor .se-file-browser .se-file-browser-inner .se-file-browser-content {\n    width: 748px;\n  }\n}\n@media screen and (max-width: 768px) {\n  .sun-editor .se-file-browser .se-file-browser-inner .se-file-browser-content {\n    width: 600px;\n  }\n}\n.sun-editor .se-file-browser .se-file-browser-list .se-file-item-column {\n  position: relative;\n  display: block;\n  height: auto;\n  float: left;\n}\n\n.sun-editor .se-file-browser .se-file-browser-list.se-image-list .se-file-item-column {\n  width: calc(25% - 20px);\n  margin: 0 10px;\n}\n\n@media screen and (max-width: 992px) {\n  .sun-editor .se-file-browser .se-file-browser-list.se-image-list .se-file-item-column {\n    width: calc(33% - 20px);\n  }\n}\n@media screen and (max-width: 768px) {\n  .sun-editor .se-file-browser .se-file-browser-list.se-image-list .se-file-item-column {\n    width: calc(50% - 20px);\n  }\n}\n.sun-editor .se-file-browser .se-file-browser-list.se-image-list .se-file-item-img {\n  position: relative;\n  display: block;\n  cursor: pointer;\n  width: 100%;\n  height: auto;\n  border-radius: 4px;\n  outline: 0;\n  margin: 10px 0;\n}\n\n.sun-editor .se-file-browser .se-file-browser-list.se-image-list .se-file-item-img:hover {\n  opacity: 0.8;\n  box-shadow: 0 0 0 0.2rem #3288ff;\n}\n\n.sun-editor .se-file-browser .se-file-browser-list.se-image-list .se-file-item-img > img {\n  position: relative;\n  display: block;\n  width: 100%;\n  border-radius: 4px;\n  outline: 0;\n  height: auto;\n}\n\n.sun-editor .se-file-browser .se-file-browser-list.se-image-list .se-file-item-img > .se-file-img-name {\n  position: absolute;\n  z-index: 1;\n  font-size: 13px;\n  color: #fff;\n  left: 0;\n  bottom: 0;\n  padding: 5px 10px;\n  background-color: transparent;\n  width: 100%;\n  height: 30px;\n  border-bottom-right-radius: 4px;\n  border-bottom-left-radius: 4px;\n}\n\n.sun-editor .se-file-browser .se-file-browser-list.se-image-list .se-file-item-img > .se-file-img-name.se-file-name-back {\n  background-color: #333;\n  opacity: 0.6;\n}\n\n.sun-editor .se-notice {\n  position: absolute;\n  top: 0;\n  display: none;\n  z-index: 7;\n  width: 100%;\n  height: auto;\n  word-break: break-all;\n  font-size: 13px;\n  color: #b94a48;\n  background-color: #f2dede;\n  padding: 15px;\n  margin: 0;\n  border: 1px solid #eed3d7;\n  user-select: auto;\n  -o-user-select: auto;\n  -moz-user-select: auto;\n  -khtml-user-select: auto;\n  -webkit-user-select: auto;\n  -ms-user-select: auto;\n}\n\n.sun-editor .se-notice button {\n  float: right;\n  padding: 7px;\n}\n\n.sun-editor .se-tooltip {\n  position: relative;\n  overflow: visible;\n}\n\n.sun-editor .se-tooltip .se-tooltip-inner {\n  visibility: hidden;\n  position: absolute;\n  display: block;\n  width: auto;\n  top: 120%;\n  left: 50%;\n  background: transparent;\n  opacity: 0;\n  z-index: 1;\n  line-height: 1.5;\n  transition: opacity 0.5s;\n  margin: 0;\n  padding: 0;\n  bottom: auto;\n  float: none;\n  pointer-events: none;\n  backface-visibility: hidden;\n  -webkit-backface-visibility: hidden;\n  -moz-backface-visibility: hidden;\n}\n\n.sun-editor .se-tooltip .se-tooltip-inner .se-tooltip-text {\n  position: relative;\n  display: inline-block;\n  width: auto;\n  left: -50%;\n  font-size: 0.9em;\n  margin: 0;\n  padding: 4px 6px;\n  border-radius: 2px;\n  background-color: #333;\n  color: #fff;\n  text-align: center;\n  line-height: unset;\n  white-space: nowrap;\n  cursor: auto;\n}\n\n.sun-editor .se-tooltip .se-tooltip-inner .se-tooltip-text:after {\n  content: \"\";\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  margin-left: -5px;\n  border: 5px solid transparent;\n  border-bottom-color: #333;\n}\n\n.sun-editor .se-tooltip:hover .se-tooltip-inner {\n  visibility: visible;\n  opacity: 1;\n}\n\n.sun-editor .se-tooltip .se-tooltip-inner .se-tooltip-text .se-shortcut {\n  display: block !important;\n}\n\n.sun-editor .se-tooltip .se-tooltip-inner .se-tooltip-text .se-shortcut > .se-shortcut-key {\n  display: inline;\n  font-weight: 700;\n}\n\n.sun-editor.se-rtl .se-btn-tray {\n  direction: rtl;\n}\n\n.sun-editor.se-rtl .se-btn-select .txt {\n  flex: auto;\n  text-align: right;\n  direction: rtl;\n}\n\n.sun-editor.se-rtl .se-btn-list {\n  text-align: right;\n}\n\n.sun-editor.se-rtl .se-btn-list > .se-list-icon {\n  margin: -1px 0 0 10px;\n}\n\n.sun-editor.se-rtl .se-menu-list, .sun-editor.se-rtl .se-menu-list li {\n  float: right;\n}\n\n.sun-editor.se-rtl .se-list-layer * {\n  direction: rtl;\n}\n\n.sun-editor.se-rtl .se-list-layer.se-list-format ul blockquote {\n  padding: 0 7px 0 0;\n  border-right-width: 5px;\n  border-left-width: 0;\n}\n\n.sun-editor.se-rtl .se-list-layer .se-selector-color .se-color-pallet li {\n  float: right;\n}\n\n.sun-editor.se-rtl .se-list-inner .se-list-checked li button > .se-svg {\n  float: right;\n  padding: 6px 0 0 6px;\n}\n\n.sun-editor.se-rtl .se-tooltip .se-tooltip-inner .se-tooltip-text, .sun-editor.se-rtl .se-wrapper .se-placeholder {\n  direction: rtl;\n}\n\n.sun-editor.se-rtl .se-tooltip .se-tooltip-inner .se-tooltip-text .se-shortcut {\n  direction: ltr;\n}\n\n.sun-editor.se-rtl .se-dialog * {\n  direction: rtl;\n}\n\n.sun-editor.se-rtl .se-dialog .se-dialog-inner .se-dialog-header .se-dialog-close {\n  float: left;\n}\n\n.sun-editor.se-rtl .se-dialog-tabs button, .sun-editor.se-rtl .se-dialog .se-dialog-inner .se-dialog-header .se-modal-title {\n  float: right;\n}\n\n.sun-editor.se-rtl .se-dialog .se-dialog-inner .se-dialog-size-text {\n  padding-right: 34px;\n}\n\n.sun-editor.se-rtl .se-dialog .se-dialog-inner .se-dialog-footer .se-btn-primary {\n  float: left;\n}\n\n.sun-editor.se-rtl .se-dialog .se-dialog-inner .se-dialog-footer > div {\n  float: right;\n}\n\n.sun-editor.se-rtl .se-dialog .se-dialog-inner .se-dialog-footer > div > label {\n  margin: 0 0 0 5px;\n}\n\n.sun-editor.se-rtl .se-dialog .se-dialog-inner .se-dialog-form-footer label:first-child {\n  margin-left: 16px;\n  margin-right: 0;\n}\n\n.sun-editor.se-rtl .se-dialog .se-dialog-inner .se-anchor-rel-preview {\n  margin-left: 4px;\n  text-align: right;\n}\n\n.sun-editor.se-rtl .se-dialog .se-dialog-inner .se-anchor-rel-btn {\n  float: right;\n}\n\n.sun-editor.se-rtl .se-file-browser * {\n  direction: rtl;\n}\n\n.sun-editor.se-rtl .se-file-browser .se-file-browser-tags {\n  text-align: right;\n}\n\n.sun-editor.se-rtl .se-file-browser .se-file-browser-tags a {\n  margin: 8px 8px 0;\n}\n\n.sun-editor.se-rtl .se-file-browser .se-file-browser-header .se-file-browser-close {\n  float: left;\n}\n\n.sun-editor.se-rtl .se-controller .se-btn-group, .sun-editor.se-rtl .se-resizing-container .se-resize-display {\n  direction: rtl;\n}\n\n@-webkit-keyframes blinker {\n  50% {\n    opacity: 0;\n  }\n}\n\n@keyframes blinker {\n  50% {\n    opacity: 0;\n  }\n}\n@-webkit-keyframes spinner {\n  to {\n    transform: rotate(361deg);\n  }\n}\n@keyframes spinner {\n  to {\n    transform: rotate(361deg);\n  }\n}\n.sun-editor-editable {\n  font-family: Helvetica Neue, sans-serif;\n  font-size: 13px;\n  color: #333;\n  line-height: 1.5;\n  background-color: #fff;\n  word-break: normal;\n  word-wrap: break-word;\n  padding: 16px;\n  margin: 0;\n}\n\n.sun-editor-editable * {\n  box-sizing: border-box;\n  font-family: inherit;\n  font-size: inherit;\n  color: inherit;\n  white-space: normal !important;\n}\n\n.sun-editor-editable.se-rtl * {\n  direction: rtl;\n}\n\n.sun-editor-editable audio, .sun-editor-editable figcaption, .sun-editor-editable figure, .sun-editor-editable iframe, .sun-editor-editable img, .sun-editor-editable td, .sun-editor-editable th, .sun-editor-editable video {\n  position: relative;\n}\n\n.sun-editor-editable .__se__float-left {\n  float: left;\n}\n\n.sun-editor-editable .__se__float-right {\n  float: right;\n}\n\n.sun-editor-editable .__se__float-center {\n  float: center;\n}\n\n.sun-editor-editable .__se__float-none {\n  float: none;\n}\n\n.sun-editor-editable span {\n  display: inline;\n  vertical-align: baseline;\n  margin: 0;\n  padding: 0;\n}\n\n.sun-editor-editable span.katex {\n  display: inline-block;\n}\n\n.sun-editor-editable span.katex * {\n  direction: ltr;\n}\n\n.sun-editor-editable a {\n  color: #004cff;\n  text-decoration: none;\n}\n\n.sun-editor-editable span[style~=\"color:\"] a {\n  color: inherit;\n}\n\n.sun-editor-editable a:focus, .sun-editor-editable a:hover {\n  cursor: pointer;\n  color: #0093ff;\n  text-decoration: underline;\n}\n\n.sun-editor-editable a.on {\n  color: #0093ff;\n  background-color: #e8f7ff;\n}\n\n.sun-editor-editable pre {\n  display: block;\n  padding: 8px;\n  margin: 0 0 10px;\n  font-family: monospace;\n  color: #666;\n  line-height: 1.45;\n  background-color: #f9f9f9;\n  border: 1px solid #e1e1e1;\n  border-radius: 2px;\n  white-space: pre-wrap !important;\n  word-wrap: break-word;\n  overflow: visible;\n}\n\n.sun-editor-editable ol {\n  list-style-type: decimal;\n}\n\n.sun-editor-editable ol, .sun-editor-editable ul {\n  list-style-position: outside;\n  display: block;\n  -webkit-margin-before: 1em;\n          margin-block-start: 1em;\n  -webkit-margin-after: 1em;\n          margin-block-end: 1em;\n  -webkit-margin-start: 0;\n          margin-inline-start: 0;\n  -webkit-margin-end: 0;\n          margin-inline-end: 0;\n  -webkit-padding-start: 40px;\n          padding-inline-start: 40px;\n}\n\n.sun-editor-editable ul {\n  list-style-type: disc;\n}\n\n.sun-editor-editable li {\n  display: list-item;\n  text-align: -webkit-match-parent;\n  margin-bottom: 5px;\n}\n\n.sun-editor-editable ol ol, .sun-editor-editable ol ul, .sun-editor-editable ul ol, .sun-editor-editable ul ul {\n  margin: 0;\n}\n\n.sun-editor-editable ol ol, .sun-editor-editable ul ol {\n  list-style-type: lower-alpha;\n}\n\n.sun-editor-editable ol ol ol, .sun-editor-editable ul ol ol, .sun-editor-editable ul ul ol {\n  list-style-type: upper-roman;\n}\n\n.sun-editor-editable ol ul, .sun-editor-editable ul ul {\n  list-style-type: circle;\n}\n\n.sun-editor-editable ol ol ul, .sun-editor-editable ol ul ul, .sun-editor-editable ul ul ul {\n  list-style-type: square;\n}\n\n.sun-editor-editable sub, .sun-editor-editable sup {\n  font-size: 75%;\n  line-height: 0;\n}\n\n.sun-editor-editable sub {\n  vertical-align: sub;\n}\n\n.sun-editor-editable sup {\n  vertical-align: super;\n}\n\n.sun-editor-editable p {\n  display: block;\n  margin: 0 0 10px;\n}\n\n.sun-editor-editable div {\n  display: block;\n  margin: 0;\n  padding: 0;\n}\n\n.sun-editor-editable blockquote {\n  display: block;\n  font-family: inherit;\n  font-size: inherit;\n  color: #999;\n  -webkit-margin-before: 1em;\n          margin-block-start: 1em;\n  -webkit-margin-after: 1em;\n          margin-block-end: 1em;\n  -webkit-margin-start: 0;\n          margin-inline-start: 0;\n  -webkit-margin-end: 0;\n          margin-inline-end: 0;\n  padding: 0 5px 0 20px;\n  border: solid #b1b1b1;\n  border-width: 0 0 0 5px;\n}\n\n.sun-editor-editable blockquote blockquote {\n  border-color: #c1c1c1;\n}\n\n.sun-editor-editable blockquote blockquote blockquote {\n  border-color: #d1d1d1;\n}\n\n.sun-editor-editable blockquote blockquote blockquote blockquote {\n  border-color: #e1e1e1;\n}\n\n.sun-editor-editable.se-rtl blockquote {\n  padding-left: 5px;\n  padding-right: 20px;\n  border-left-width: 0;\n  border-right-width: 5px;\n}\n\n.sun-editor-editable h1 {\n  font-size: 2em;\n  -webkit-margin-before: 0.67em;\n          margin-block-start: 0.67em;\n  -webkit-margin-after: 0.67em;\n          margin-block-end: 0.67em;\n}\n\n.sun-editor-editable h1, .sun-editor-editable h2 {\n  display: block;\n  -webkit-margin-start: 0;\n          margin-inline-start: 0;\n  -webkit-margin-end: 0;\n          margin-inline-end: 0;\n  font-weight: 700;\n}\n\n.sun-editor-editable h2 {\n  font-size: 1.5em;\n  -webkit-margin-before: 0.83em;\n          margin-block-start: 0.83em;\n  -webkit-margin-after: 0.83em;\n          margin-block-end: 0.83em;\n}\n\n.sun-editor-editable h3 {\n  font-size: 1.17em;\n  -webkit-margin-before: 1em;\n          margin-block-start: 1em;\n  -webkit-margin-after: 1em;\n          margin-block-end: 1em;\n}\n\n.sun-editor-editable h3, .sun-editor-editable h4 {\n  display: block;\n  -webkit-margin-start: 0;\n          margin-inline-start: 0;\n  -webkit-margin-end: 0;\n          margin-inline-end: 0;\n  font-weight: 700;\n}\n\n.sun-editor-editable h4 {\n  font-size: 1em;\n  -webkit-margin-before: 1.33em;\n          margin-block-start: 1.33em;\n  -webkit-margin-after: 1.33em;\n          margin-block-end: 1.33em;\n}\n\n.sun-editor-editable h5 {\n  font-size: 0.83em;\n  -webkit-margin-before: 1.67em;\n          margin-block-start: 1.67em;\n  -webkit-margin-after: 1.67em;\n          margin-block-end: 1.67em;\n}\n\n.sun-editor-editable h5, .sun-editor-editable h6 {\n  display: block;\n  -webkit-margin-start: 0;\n          margin-inline-start: 0;\n  -webkit-margin-end: 0;\n          margin-inline-end: 0;\n  font-weight: 700;\n}\n\n.sun-editor-editable h6 {\n  font-size: 0.67em;\n  -webkit-margin-before: 2.33em;\n          margin-block-start: 2.33em;\n  -webkit-margin-after: 2.33em;\n          margin-block-end: 2.33em;\n}\n\n.sun-editor-editable hr {\n  display: flex;\n  border-width: 1px 0 0;\n  border-color: #000;\n  -o-border-image: initial;\n     border-image: initial;\n  height: 1px;\n}\n\n.sun-editor-editable hr.__se__solid {\n  border-style: solid none none;\n}\n\n.sun-editor-editable hr.__se__dotted {\n  border-style: dotted none none;\n}\n\n.sun-editor-editable hr.__se__dashed {\n  border-style: dashed none none;\n}\n\n.sun-editor-editable hr.on {\n  border-color: #4592ff;\n  box-shadow: 0 0 0 0.1rem #c7deff;\n}\n\n.sun-editor-editable table {\n  display: table;\n  table-layout: auto;\n  border: 1px solid #ccc;\n  width: 100%;\n  max-width: 100%;\n  margin: 0 0 10px;\n  background-color: transparent;\n  border-spacing: 0;\n  border-collapse: collapse;\n}\n\n.sun-editor-editable.se-rtl table {\n  margin: 0 0 10px auto;\n}\n\n.sun-editor-editable table thead {\n  border-bottom: 2px solid #333;\n}\n\n.sun-editor-editable table tr {\n  border: 1px solid #efefef;\n}\n\n.sun-editor-editable table th {\n  background-color: #f3f3f3;\n}\n\n.sun-editor-editable table td, .sun-editor-editable table th {\n  border: 1px solid #e1e1e1;\n  padding: 0.4em;\n  background-clip: padding-box;\n}\n\n.sun-editor-editable table.se-table-size-auto {\n  width: auto !important;\n}\n\n.sun-editor-editable table.se-table-size-100 {\n  width: 100% !important;\n}\n\n.sun-editor-editable table.se-table-layout-auto {\n  table-layout: auto !important;\n}\n\n.sun-editor-editable table.se-table-layout-fixed {\n  table-layout: fixed !important;\n}\n\n.sun-editor-editable table td.se-table-selected-cell, .sun-editor-editable table th.se-table-selected-cell {\n  outline: 1px double #4592ff;\n}\n\n.sun-editor-editable.se-disabled * {\n  user-select: none;\n  -o-user-select: none;\n  -moz-user-select: none;\n  -khtml-user-select: none;\n  -webkit-user-select: none;\n  -ms-user-select: none;\n}\n\n.sun-editor-editable .se-component {\n  display: flex;\n  padding: 1px;\n  margin: 0 0 10px;\n}\n\n.sun-editor-editable[contenteditable=true] .se-component {\n  outline: 1px dashed #e1e1e1;\n  min-width: 16px;\n  min-height: 16px;\n}\n\n.sun-editor-editable[contenteditable=true] .se-component.se-component-copy {\n  box-shadow: 0 0 0 0.2rem #3f9dff;\n  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n}\n\n.sun-editor-editable audio, .sun-editor-editable iframe, .sun-editor-editable img, .sun-editor-editable video {\n  display: block;\n  margin: 0;\n  padding: 0;\n  width: auto;\n  height: auto;\n  max-width: 100%;\n}\n\n.sun-editor-editable[contenteditable=true] figure:after {\n  position: absolute;\n  content: \"\";\n  z-index: 1;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  cursor: default;\n  display: block;\n  background: transparent;\n}\n\n.sun-editor-editable[contenteditable=true] figure a, .sun-editor-editable[contenteditable=true] figure iframe, .sun-editor-editable[contenteditable=true] figure img, .sun-editor-editable[contenteditable=true] figure video {\n  z-index: 0;\n}\n\n.sun-editor-editable[contenteditable=true] figure figcaption {\n  display: block;\n  z-index: 2;\n}\n\n.sun-editor-editable[contenteditable=true] figure figcaption:focus {\n  border-color: #80bdff;\n  outline: 0;\n  box-shadow: 0 0 0 0.2rem #c7deff;\n}\n\n.sun-editor-editable .se-image-container, .sun-editor-editable .se-video-container {\n  width: auto;\n  height: auto;\n  max-width: 100%;\n}\n\n.sun-editor-editable figure {\n  display: block;\n  outline: none;\n  margin: 0;\n  padding: 0;\n}\n\n.sun-editor-editable figure figcaption {\n  padding: 1em 0.5em;\n  margin: 0;\n  background-color: #f9f9f9;\n  outline: none;\n}\n\n.sun-editor-editable figure figcaption p {\n  line-height: 2;\n  margin: 0;\n}\n\n.sun-editor-editable .se-image-container a img {\n  padding: 1px;\n  margin: 1px;\n  outline: 1px solid #4592ff;\n}\n\n.sun-editor-editable .se-video-container iframe, .sun-editor-editable .se-video-container video {\n  outline: 1px solid #9e9e9e;\n  position: absolute;\n  top: 0;\n  left: 0;\n  border: 0;\n  width: 100%;\n  height: 100%;\n}\n\n.sun-editor-editable .se-video-container figure {\n  left: 0;\n  width: 100%;\n  max-width: 100%;\n}\n\n.sun-editor-editable audio {\n  width: 300px;\n  height: 54px;\n}\n\n.sun-editor-editable audio.active {\n  outline: 2px solid #80bdff;\n}\n\n.sun-editor-editable.se-show-block div, .sun-editor-editable.se-show-block h1, .sun-editor-editable.se-show-block h2, .sun-editor-editable.se-show-block h3, .sun-editor-editable.se-show-block h4, .sun-editor-editable.se-show-block h5, .sun-editor-editable.se-show-block h6, .sun-editor-editable.se-show-block li, .sun-editor-editable.se-show-block ol, .sun-editor-editable.se-show-block p, .sun-editor-editable.se-show-block pre, .sun-editor-editable.se-show-block ul {\n  border: 1px dashed #3f9dff !important;\n  padding: 14px 8px 8px !important;\n}\n\n.sun-editor-editable.se-show-block ol, .sun-editor-editable.se-show-block ul {\n  border: 1px dashed #d539ff !important;\n}\n\n.sun-editor-editable.se-show-block pre {\n  border: 1px dashed #27c022 !important;\n}\n\n.se-show-block p {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAPAQMAAAAF7dc0AAAABlBMVEWAgID////n1o2sAAAAAnRSTlP/AOW3MEoAAAAaSURBVAjXY/j/gwGCPvxg+F4BQiAGDP1HQQByxxw0gqOzIwAAAABJRU5ErkJggg==\") no-repeat;\n}\n\n.se-show-block div {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAPAQMAAAAxlBYoAAAABlBMVEWAgID////n1o2sAAAAAnRSTlP/AOW3MEoAAAAmSURBVAjXY/j//wcDDH+8XsHwDYi/hwNx1A8w/nYLKH4XoQYJAwCXnSgcl2MOPgAAAABJRU5ErkJggg==\") no-repeat;\n}\n\n.se-show-block h1 {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPAQMAAAA4f7ZSAAAABlBMVEWAgID////n1o2sAAAAAnRSTlP/AOW3MEoAAAAfSURBVAjXY/j/v4EBhr+9B+LzEPrDeygfhI8j1CBhAEhmJGY4Rf6uAAAAAElFTkSuQmCC\") no-repeat;\n}\n\n.se-show-block h2 {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPAQMAAAA4f7ZSAAAABlBMVEWAgID////n1o2sAAAAAnRSTlP/AOW3MEoAAAAmSURBVAjXY/j/v4EBhr+dB+LtQPy9geEDEH97D8T3gbgdoQYJAwA51iPuD2haEAAAAABJRU5ErkJggg==\") no-repeat;\n}\n\n.se-show-block h3 {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPAQMAAAA4f7ZSAAAABlBMVEWAgID////n1o2sAAAAAnRSTlP/AOW3MEoAAAAiSURBVAjXY/j/v4EBhr+dB+LtQPy9geHDeQgN5p9HqEHCADeWI+69VG2MAAAAAElFTkSuQmCC\") no-repeat;\n}\n\n.se-show-block h4 {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAPAQMAAADTSA1RAAAABlBMVEWAgID////n1o2sAAAAAnRSTlP/AOW3MEoAAAAiSURBVAjXY/j//wADDH97DsTXIfjDdiDdDMTfIRhZHRQDAKJOJ6L+K3y7AAAAAElFTkSuQmCC\") no-repeat;\n}\n\n.se-show-block h5 {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPAQMAAAA4f7ZSAAAABlBMVEWAgID////n1o2sAAAAAnRSTlP/AOW3MEoAAAAlSURBVAjXY/j/v4EBhr+1A/F+IO5vYPiwHUh/B2IQfR6hBgkDABlWIy5uM+9GAAAAAElFTkSuQmCC\") no-repeat;\n}\n\n.se-show-block h6 {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPAQMAAAA4f7ZSAAAABlBMVEWAgID////n1o2sAAAAAnRSTlP/AOW3MEoAAAAiSURBVAjXY/j/v4EBhr+dB+LtQLy/geFDP5S9HSKOrA6KAR9GIza1ptJnAAAAAElFTkSuQmCC\") no-repeat;\n}\n\n.se-show-block li {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA7SURBVDhPYxgFcNDQ0PAfykQBIHEYhgoRB/BpwCfHBKWpBkaggYxQGgOgBzyQD1aLLA4TGwWDGjAwAACR3RcEU9Ui+wAAAABJRU5ErkJggg==\") no-repeat;\n}\n\n.se-show-block ol {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABHSURBVDhPYxgFcNDQ0PAfhKFcFIBLHCdA1oBNM0kGEmMAPgOZoDTVANUNxAqQvURMECADRiiNAWCagDSGGhyW4DRrMAEGBgAu0SX6WpGgjAAAAABJRU5ErkJggg==\") no-repeat;\n}\n\n.se-show-block ul {\n  background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA1SURBVDhPYxgFDA0NDf+hTBSALI5LDQgwQWmqgVEDKQcsUBoF4ItFGEBXA+QzQpmDGjAwAAA8DQ4Lni6gdAAAAABJRU5ErkJggg==\") no-repeat;\n}\n\n.sun-editor-editable .__se__p-bordered, .sun-editor .__se__p-bordered {\n  border-top: 1px solid #b1b1b1;\n  border-bottom: 1px solid #b1b1b1;\n  padding: 4px 0;\n}\n\n.sun-editor-editable .__se__p-spaced, .sun-editor .__se__p-spaced {\n  letter-spacing: 1px;\n}\n\n.sun-editor-editable .__se__p-neon, .sun-editor .__se__p-neon {\n  font-weight: 200;\n  font-style: italic;\n  background: #000;\n  color: #fff;\n  padding: 6px 4px;\n  border: 2px solid #fff;\n  border-radius: 6px;\n  text-transform: uppercase;\n  -webkit-animation: neonFlicker 1.5s infinite alternate;\n          animation: neonFlicker 1.5s infinite alternate;\n}\n\n@-webkit-keyframes neonFlicker {\n  0%, 19%, 21%, 23%, 25%, 54%, 56%, to {\n    text-shadow: -0.2rem -0.2rem 1rem #fff, 0.2rem 0.2rem 1rem #fff, 0 0 2px #f40, 0 0 4px #f40, 0 0 6px #f40, 0 0 8px #f40, 0 0 10px #f40;\n    box-shadow: 0 0 0.5px #fff, inset 0 0 0.5px #fff, 0 0 2px #08f, inset 0 0 2px #08f, 0 0 4px #08f, inset 0 0 4px #08f;\n  }\n  20%, 24%, 55% {\n    text-shadow: none;\n    box-shadow: none;\n  }\n}\n\n@keyframes neonFlicker {\n  0%, 19%, 21%, 23%, 25%, 54%, 56%, to {\n    text-shadow: -0.2rem -0.2rem 1rem #fff, 0.2rem 0.2rem 1rem #fff, 0 0 2px #f40, 0 0 4px #f40, 0 0 6px #f40, 0 0 8px #f40, 0 0 10px #f40;\n    box-shadow: 0 0 0.5px #fff, inset 0 0 0.5px #fff, 0 0 2px #08f, inset 0 0 2px #08f, 0 0 4px #08f, inset 0 0 4px #08f;\n  }\n  20%, 24%, 55% {\n    text-shadow: none;\n    box-shadow: none;\n  }\n}\n.sun-editor-editable .__se__t-shadow, .sun-editor .__se__t-shadow {\n  text-shadow: -0.2rem -0.2rem 1rem #fff, 0.2rem 0.2rem 1rem #fff, 0 0 0.2rem #999, 0 0 0.4rem #888, 0 0 0.6rem #777, 0 0 0.8rem #666, 0 0 1rem #555;\n}\n\n.sun-editor-editable .__se__t-code, .sun-editor .__se__t-code {\n  font-family: monospace;\n  color: #666;\n  background-color: rgba(27, 31, 35, 0.05);\n  border-radius: 6px;\n  padding: 0.2em 0.4em;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -7490,7 +7714,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "@media screen and (max-width: 1024px) {\n  #icon-item-list {\n    display: none;\n  }\n\n  span#sub-menu-custom {\n    display: block !important;\n  }\n\n  .nav-custom {\n    font-size: 13px;\n  }\n}\nspan#sub-menu-custom {\n  display: none;\n  width: 30px;\n  height: 30px;\n  position: absolute;\n  left: 30px;\n  line-height: 2.9;\n  top: 0px;\n  bottom: 0px;\n  margin: auto 0;\n  text-align: center;\n}\n\n.back-blur {\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 99999;\n  display: none;\n  top: 0px;\n  right: 0px;\n}\n.back-blur #bottom-chip {\n  border-radius: 20px 20px 0 0;\n  box-shadow: 0 0 30px 8px rgba(0, 0, 0, 0.2);\n  width: 100%;\n  position: absolute;\n  bottom: -100%;\n  height: 280px;\n  background: #fff;\n  right: 0px;\n  z-index: 99;\n  transition: 0.3s all ease;\n}\n.back-blur #bottom-chip.active {\n  bottom: 0% !important;\n}\n.back-blur #bottom-chip .form-check {\n  padding: 0px;\n}\n.back-blur #bottom-chip .form-check ul {\n  list-style: none;\n  text-align: center;\n  padding: 0px;\n  margin: 0px;\n}\n.back-blur #bottom-chip .form-check ul li {\n  width: 100%;\n  height: 45px;\n  cursor: pointer;\n  float: left;\n  line-height: 3;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "@media screen and (max-width: 1024px) {\n  #icon-item-list {\n    display: none;\n  }\n\n  span#sub-menu-custom {\n    display: block !important;\n  }\n\n  .nav-custom {\n    font-size: 13px;\n  }\n}\n#disable-div {\n  opacity: 0.3 !important;\n  cursor: not-allowed !important;\n}\n\nspan#sub-menu-custom {\n  display: none;\n  width: 30px;\n  height: 30px;\n  position: absolute;\n  left: 30px;\n  line-height: 2.9;\n  top: 0px;\n  bottom: 0px;\n  margin: auto 0;\n  text-align: center;\n}\n\n.back-blur {\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 99999;\n  display: none;\n  top: 0px;\n  right: 0px;\n}\n.back-blur #bottom-chip {\n  border-radius: 20px 20px 0 0;\n  box-shadow: 0 0 30px 8px rgba(0, 0, 0, 0.2);\n  width: 100%;\n  position: absolute;\n  bottom: -100%;\n  height: 280px;\n  background: #fff;\n  right: 0px;\n  z-index: 99;\n  transition: 0.3s all ease;\n}\n.back-blur #bottom-chip.active {\n  bottom: 0% !important;\n}\n.back-blur #bottom-chip .form-check {\n  padding: 0px;\n}\n.back-blur #bottom-chip .form-check ul {\n  list-style: none;\n  text-align: center;\n  padding: 0px;\n  margin: 0px;\n}\n.back-blur #bottom-chip .form-check ul li {\n  width: 100%;\n  height: 45px;\n  cursor: pointer;\n  float: left;\n  line-height: 3;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -38,6 +38,8 @@ class CreateContentRequest extends FormRequest
             'is_menu'=>'boolean',
             'tag_list'=>'array',
             'tag_list.*'=>'string',
+            'metadata'=>''
+
 
         ];
     }

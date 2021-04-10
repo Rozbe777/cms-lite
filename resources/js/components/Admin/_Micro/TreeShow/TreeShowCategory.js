@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Item} from './Item'
 import $ from 'jquery';
 
-export const TreeShowCategory = ({data, loading, callBack: pushCallBack, itemClicks: pushItemCliks}) => {
+export const TreeShowCategory = ({data, loading, callBack: pushCallBack, itemClicks: pushItemCliks , duplicate : pushDuplicate ,delClick : pushDelClick , updateData : pushUpdateData}) => {
 
     $(function () {
         $("span#sub-menu-custom").click(function () {
@@ -22,7 +22,17 @@ export const TreeShowCategory = ({data, loading, callBack: pushCallBack, itemCli
         pushCallBack(item);
     }
     const HandleClick = (id) => {
+        console.log("tree id : " , id)
         pushItemCliks(id);
+    }
+    const HndleDuplicate = (item) => {
+        pushDuplicate(item)
+    }
+    const HandleDelClick = (item) => {
+        pushDelClick(item)
+    }
+    const HandleDataForUpdate = (data) => {
+        pushUpdateData(data);
     }
     if (loading) {
         return <p>در حال پردازش ...</p>
@@ -32,31 +42,29 @@ export const TreeShowCategory = ({data, loading, callBack: pushCallBack, itemCli
         <ul className={"content-li"}>
             {data ? Object.keys(data).map((keyName, i) => {
                     return (
-                        // <p>{data[keyName].name}</p>
                         <li style={{position: 'relative'}}>
 
 
                             <div className={"branch-top"}>
-
                             </div>
 
-
                             <Item key={data[keyName].name} name={data[keyName].name}
+                                  allData = {JSON.stringify(data[keyName])}
                                   id={data[keyName].id} status={data[keyName].status}
                                   callBack={item => handlePush(item)}
+                                  duplicate = {item => HndleDuplicate(item)}
+                                  delClick = {item => HandleDelClick(item)}
+                                  dataForEdit = {item => HandleDataForUpdate(item)}
                                   itemClick={itemId => HandleClick(itemId)}
                             />
-                            {console.log("childern : ", data[keyName].childern.length)}
                             {data[keyName].childern.length > 0 ? data[keyName].childern.map((itemClildOne, i) => {
                                     return (
                                         <ul style={{padding: '0 50px 0 0', listStyle: 'inherit', position: 'relative'}}>
                                             {console.log("indexed : ", i)}
 
-
                                             <li>
 
                                                 <div className={"branch-top"}>
-
                                                 </div>
 
 
@@ -65,7 +73,11 @@ export const TreeShowCategory = ({data, loading, callBack: pushCallBack, itemCli
                                                 </div>
                                                 <Item key={itemClildOne.id} status={itemClildOne.status}
                                                       name={itemClildOne.name} id={itemClildOne.id}
+                                                      allData = {JSON.stringify(itemClildOne)}
                                                       callBack={item => handlePush(item)}
+                                                      duplicate = {item => HndleDuplicate(item)}
+                                                      delClick = {item => HandleDelClick(item)}
+                                                      dataForEdit = {item => HandleDataForUpdate(item)}
                                                       itemClick={itemId => HandleClick(itemId)}
                                                 />
 
@@ -88,6 +100,10 @@ export const TreeShowCategory = ({data, loading, callBack: pushCallBack, itemCli
                                                             <Item key={childThree.id} status={childThree.status}
                                                                   name={childThree.name} id={childThree.id}
                                                                   callBack={item => handlePush(item)}
+                                                                  allData = {JSON.stringify(childThree)}
+                                                                  duplicate = {item => HndleDuplicate(item)}
+                                                                  delClick = {item => HandleDelClick(item)}
+                                                                  dataForEdit = {item => HandleDataForUpdate(item)}
                                                                   itemClick={itemId => HandleClick(itemId)}
                                                             />
                                                         </li>

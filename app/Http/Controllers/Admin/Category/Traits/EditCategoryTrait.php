@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Category\Traits;
 
+use App\Helpers\FileManager\FileManager;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 
 trait EditCategoryTrait
 {
@@ -18,14 +20,23 @@ trait EditCategoryTrait
         if (!empty($category['slug']))
             $categoryModel->slug = $category['slug'];
 
-        if (!empty($category['image']))
-            $categoryModel->image = $category['image'];
+        if (isset($category['image'])){
+//            Storage::delete($categoryModel->image);//FIXME delete last image after update
+            $file_path = config("upload.path.category_images");
+
+            $file_name = FileManager::type('image')
+                ->make($category['image'])
+                ->upload($file_path);
+
+            $categoryModel->image = $file_name;
+
+        }
 
         if (!empty($category['content']))
             $categoryModel->content = $category['content'];
 
-        if (!empty($category['fields']))
-            $categoryModel->fields = $category['fields'];
+        if (!empty($category['metadata']))
+            $categoryModel->fields = $category['metadata'];
 
         if (!empty($category['parent_id']))
             $categoryModel->parent_id = bcrypt($category['parent_id']);

@@ -119,8 +119,6 @@ class CategoryController extends Controller
             'status' => $request->input('status'),
             'category_id' => $categoryId,
             'is_menu' => $request->input('is_menu'),
-
-
         ]);
 
         if ($request->input('tag_list'))
@@ -133,9 +131,7 @@ class CategoryController extends Controller
                     'category_id' => $categoryId,
                 ]);
             }
-
-        return redirect(route("admin.category.edit", $categoryId))->with("info", "عملیات ویرایش دسته بندی با موفقیت انجام شد");
-
+        return success();
 
     }
 

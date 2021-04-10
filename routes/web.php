@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Category\CategoryController;
 use App\Http\Controllers\Admin\Content\ContentController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
+use App\Http\Controllers\Admin\Layout\LayoutController;
 use App\Http\Controllers\Admin\Page\PageController;
 use App\Http\Controllers\Admin\Profile\ProfileController;
 use App\Http\Controllers\Admin\Role\RoleController;
@@ -83,7 +84,7 @@ Route::group(['middleware' => 'user_permission'], function () {
 
             Route::get('/export', [UserController::class, 'export'])->name('export');
             Route::get('/', [UserController::class, 'index'])->name('index');
-            Route::get('/list', [UserController::class, 'userList'])->name('list');
+            Route::get('/list', [UserController::class, 'userList'])->name('userList');
             Route::get('/create', [UserController::class, 'create'])->name('create');
             Route::post('/', [UserController::class, 'store'])->name('store');
             Route::get('/{userId}/edit', [UserController::class, 'edit'])->name('edit');
@@ -168,6 +169,21 @@ Route::group(['middleware' => 'user_permission'], function () {
             Route::get('/{pageId}/destroy', [PageController::class, 'destroy'])->name('destroy');
             Route::get('/search', [PageController::class, 'search'])->name('search');
             Route::post('/destroys', [PageController::class, 'multipleDestroy'])->name('multipleDestroy');
+
+
+        });
+
+        Route::group(['as' => 'layout.', 'prefix' => 'layout', 'namespace' => 'Layout', 'name' => 'layout.'], function () {
+
+            Route::get('/', [LayoutController::class, 'index'])->name('index');
+            Route::get('/list', [LayoutController::class, 'list'])->name('list');
+            Route::get('/create', [LayoutController::class, 'create'])->name('create');
+            Route::post('/', [LayoutController::class, 'store'])->name('store');
+            Route::get('/{layoutId}/edit', [LayoutController::class, 'edit'])->name('edit');
+            Route::put('/{layoutId}/update', [LayoutController::class, 'update'])->name('update');
+            Route::get('/{layoutId}/destroy', [LayoutController::class, 'destroy'])->name('destroy');
+            Route::get('/search', [LayoutController::class, 'search'])->name('search');
+            Route::post('/destroys', [LayoutController::class, 'multipleDestroy'])->name('multipleDestroy');
 
 
         });
