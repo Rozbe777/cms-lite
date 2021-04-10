@@ -21,7 +21,7 @@
                     </div>
 
                     <div class="col-md-4">
-                        <button id="add-category" onclick="handlePageAdd()" class="btn btn-primary glow mr-1 mb-1" type="button" style="float: left">
+                        <button id="add-category" class="btn btn-primary glow mr-1 mb-1" type="button" style="float: left">
                             <i class="bx bx-plus"></i>
                             <span class="align-middle ml-25">افزودن صفحه</span>
                         </button>
@@ -32,7 +32,7 @@
 
 
         <div id="category_box" style="margin-top: 15px"></div>
-        <div id="category_add_pop" data-display="true"></div>
+{{--        <div id="category_add_pop" data-display="true"></div>--}}
 
 
     </div>
@@ -47,15 +47,5 @@
     <script src="{{asset('panel/themes/frest/js/scripts/editors/highlight.min.js')}}"></script>
     <script src="{{asset('panel/themes/frest/js/scripts/editors/katex.min.js')}}"></script>
     <script src="{{asset('panel/themes/frest/js/scripts/editors/quill.min.js')}}"></script>
-
-    <script>
-
-        $(function (){
-            $("#add-category").click(function (){
-                $(".back-loader").fadeIn();
-            })
-        })
-    </script>
-
     <script src="{{asset("/js/app.js")}}"></script>
 @endsection

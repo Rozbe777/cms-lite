@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from 'react'
 import ReactDom from 'react-dom';
-import {BackLoader} from './../../_Shared/java'
+import {BackLoader} from './../../_Micro/BackLoader'
 import {TreeShowCategory} from './../../_Micro/TreeShow/TreeShowCategory';
 import {Request} from './../../../../services/AdminService/Api'
-import './../../_Micro/TreeShow/_Shared/style.scss'
+import './../../_Micro/TreeShow/_Shared/style.scss';
+import AddCategory from './../CategoryAdd';
 import $ from 'jquery';
+const LOCAL_CAT = "localcat-zerone-cmslite";
 
 export const CategoryList = () => {
     const [dispaly, setDisplay] = useState(false)
-    const [dispalyAdd, setDisplayAdd] = useState(true)
+    const [dispalyAdd, setDisplayAdd] = useState({dispaly : false})
     const [loading, setLoading] = useState(false);
     const [categoryData, setCategoryData] = useState({})
 
@@ -16,6 +18,7 @@ export const CategoryList = () => {
         setLoading(true)
         Request.GetAllCategory()
             .then(res => {
+                localStorage.setItem(LOCAL_CAT , JSON.stringify(res));
                 setLoading(false)
                 setCategoryData(res.data)
             })
@@ -23,6 +26,18 @@ export const CategoryList = () => {
     }
     useEffect(() => {
         GetAllCategory();
+        $(function (){
+            $("#add-category").click(()=>{
+                $(".back-loader").fadeIn();
+            })
+            $(".back-loader").click(()=>{
+                $(".back-loader").fadeOut();
+                setTimeout(() => {
+                    let dispalys = {...dispalyAdd}
+                    dispalys.dispaly = true;
+                }, 200)
+            })
+        })
     }, [])
 
 
@@ -32,15 +47,53 @@ export const CategoryList = () => {
             setDisplay(true)
         })
     })
-    const handleAdding = (e) => {
-        $(".back-loader").fadeOut();
-        setTimeout(() => {
-            $("#category_add_pop_base").fadeIn();
-        }, 200)
-    }
+
     const handleAddPage = () => {
         $("#category_add_pop_base").fadeIn();
     }
+
+    const HandleAdd = (item) => {
+        if(item.status == 200){
+            GetAllCategory();
+            ReactDom.render('',document.getElementById("add-datas"))
+        }else{
+            console.log("error in add : " , item)
+        }
+    }
+
+    const HandleDelete = (status) => {
+        if (status == 200)
+        {
+            GetAllCategory();
+        }else{
+            console.log("you have an error");
+        }
+    }
+
+
+    const handleClickItem = (clickId) => {
+        ReactDom.render(<AddCategory display={true} idParent={clickId} result={item => handleBack(item)} /> , document.getElementById("add-datas"))
+
+    }
+
+    const handleBack = (item) => {
+        if (item.status == 200)
+        {
+            GetAllCategory();
+            ReactDom.render('' , document.getElementById('add-datas'))
+        }
+    }
+    const HandleBackLoader = (data) => {
+        let dataNew = JSON.parse(data);
+        let display = {...dispalyAdd};
+        display.dispaly = true;
+        if (dataNew.display)
+        {
+            ReactDom.render(<AddCategory display={true} idParent={null} result={item => handleBack(item)} /> , document.getElementById("add-datas"))
+        }
+    }
+
+
     return (
         <div>
             <ul className="nav nav-tabs tab-layout" role="tablist">
@@ -67,7 +120,7 @@ export const CategoryList = () => {
             <div className="tab-content" style={{padding: 0}}>
                 <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
 
-                    <TreeShowCategory data={categoryData} loading={loading}/>
+                    <TreeShowCategory handleCata={itemCat => console.log("cat back ," , itemCat)} itemClicks={clicks => handleClickItem(clicks)} callBack={item => HandleDelete(item)} data={categoryData} loading={loading}/>
 
                 </div>
                 <div className="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">
@@ -109,7 +162,8 @@ export const CategoryList = () => {
             </div>
 
 
-            <BackLoader/>
+            <BackLoader states={item =>(HandleBackLoader(item))}/>
+            <div id={"add-datas"}></div>
 
         </div>
 

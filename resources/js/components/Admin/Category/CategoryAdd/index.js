@@ -8,58 +8,55 @@ import {SelectOptions} from './../../../HOC/SelectOptions'
 import {CaegoryAleert} from './../../_Shared/java'
 import MyEditor from "../../_Micro/MyEditor/MyEditor";
 import './../../_Micro/TreeShow/_Shared/style.scss';
-
-const Index = (props) => {
+const LOCAL_CAT = "localcat-zerone-cmslite";
+const AddCategory = ({display ,idParent, result : pushResult}) => {
     const [comments, setComments] = useState();
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
     const [metaData, setMetaData] = useState({
         robots: false,
-        slug: ''
     });
+
     const [slugManage, setSlugManage] = useState(false);
     const [formData, setFormData] = useState({
         is_menu: true,
         status: "active",
         content: '',
-        parent_id: 0
+        parent_id : idParent,
+        slug : ''
     });
 
-    const GetAllCategory = () => {
-        setLoading(true)
-        Request.GetAllCategory()
-            .then(res => {
-                setLoading(false)
-                setCategoryData(res.data.data);
-            })
-            .catch(err => console.log("errpr : ", err))
-    }
 
-    const CreateAddCategory = (data) => {
+    // get category data from localstorage
+    const dataCategory=JSON.parse(localStorage.getItem(LOCAL_CAT));
+
+
+    const CreateAddCategory = (e,data) => {
+        e.preventDefault();
         Request.AddNewCategory(data)
-            .then(res => console.log("response add : ", res))
+            .then(res => pushResult(res))
             .catch(error => console.log("error add :", error))
     }
 
     useEffect(() => {
-        GetAllCategory();
     }, [])
 
-    let {display} = props;
+    // let {display} = props;
 
 
     const handleClose = () => {
-        $("#category_add_pop_base").fadeOut();
+        ReactDOM.render('' , document.getElementById("add-datas"));
         // let newFormData =
         setFormData({
             is_menu: true,
             status: "active",
             content: '',
-            parent_id: 0
+            parent_id: 0,
+            slug: ''
         });
         setMetaData({
             robots: false,
-            slug: ''
+
         })
         $("#my-editor").attr("defaultValue" , "");
     }
@@ -71,35 +68,15 @@ const Index = (props) => {
         })
     }
 
-    const HandleSlug = (e) => {
 
-        if (e.target.name == "name") {
-            setMetaData({
-                ...metaData,
-                slug: e.target.value
-            })
-
-
-
-            let newFormData = {...formData};
-            newFormData.name = e.target.value
-            setFormData(newFormData)
-
-        } else {
-            setMetaData({
-                ...metaData,
-                slug: e.target.value
-            })
-        }
-    }
 
     const HandleForm = (e) => {
         let formNew = {...formData};
         if (slugManage == false){
-            formNew.metadata = "";
+            formNew.slug = formNew.name;
         }else{
-            formNew.metadata = metaData;
         }
+        formNew.metadata = JSON.stringify(metaData);
 
         let msg = "اضافه کردن دسته بندی "+formData.name
         console.log("datasss : ", formNew)
@@ -112,9 +89,7 @@ const Index = (props) => {
             $("input[name=name]").addClass("is-invalid");
 
         }
-        console.log("data out : " , formNew);
-        // CaegoryAleert(e , "data" , msg , "با موفقیت اضافه شد!");
-        // CreateAddCategory(formNew);
+        CreateAddCategory(e , formNew);
     }
 
     const HandleMetaData = (e) => {
@@ -126,6 +101,14 @@ const Index = (props) => {
     const HandlerBigSwitcher = (states) => {
         let metaD = {...metaData};
         metaD.robots = states;
+    }
+
+    const HandleSlug = (e) => {
+        e.preventDefault();
+        setFormData({
+            ...formData,
+            [e.target.name] : e.target.value
+        })
     }
 
     const handleSwitchStatus = (status) => {
@@ -149,12 +132,9 @@ const Index = (props) => {
     }
 
     const HandleSelectOption = (check) => {
-        // let newFormData = {...formData};
-        // newFormData.parent_id = check;
-        // setFormData(newFormData);
         setFormData({
             ...formData,
-            parent_id: check
+            parent_id: parseInt(check)
         })
     }
 
@@ -162,6 +142,7 @@ const Index = (props) => {
     return (
         <div id={"category_add_pop_base"}>
             <form action={"#"}>
+                {console.log("data cat : " , dataCategory.data)}
             <ul className="nav nav-tabs tab-layout" role="tablist">
                 <li className="nEav-item col-6 nav-custom">
                     <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
@@ -184,15 +165,20 @@ const Index = (props) => {
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان دسته بندی</label>
-                                    <input type={"text"} onChange={e => HandleSlug(e)} name={"name"} id={"title"}
+                                    <input type={"text"} onChange={e => handleInput(e)} name={"name"} id={"title"}
                                            className={"form-control"}/>
                                 </fieldset>
                             </div>
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>دسته بندی پدر</label>
-                                    <SelectOptions selection={check => HandleSelectOption(check)}
-                                                   loading={loading} data={JSON.stringify(categoryData)}/>
+                                    {categoryData ? (
+                                        <SelectOptions parents={idParent} selection={check => HandleSelectOption(check)}
+                                                       loading={loading} data={JSON.stringify(dataCategory.data)}/>
+                                    ): (
+                                        <p>wait ...</p>
+                                    )}
+
                                 </fieldset>
                             </div>
                             <div className={"col-lg-2 col-md-3 col-sm-12"}>
@@ -257,11 +243,11 @@ const Index = (props) => {
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس صفحه دسته بندی</label>
                                     {slugManage ? (
-                                        <input type={"cancel"} value={metaData.slug}
-                                               onChange={e => HandleSlug(e)} name={"slug"} id={"title"}
+                                        <input type={"cancel"} defaultValue={formData.name}
+                                               onChange={e => handleInput(e)} name={"slug"} id={"title"}
                                                className={"form-control slugest"}/>
                                     ) : (
-                                        <input type={"cancel"} value={metaData.slug}
+                                        <input type={"cancel"} defaultValue={formData.name}
                                                disabled id={"title"} className={"form-control slugest"}/>
                                     )}
                                 </fieldset>
@@ -277,13 +263,9 @@ const Index = (props) => {
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان صفحه ( حداکثر 60 حرف )</label>
-                                    {slugManage ? (
                                         <input type={"text"} onChange={e => HandleMetaData(e)} name={"title"} id={"title"}
                                                className={"form-control"}/>
-                                    ) : (
-                                        <input type={"text"} disabled name={"title"} id={"title"}
-                                               className={"form-control"}/>
-                                    )}
+
 
                                 </fieldset>
                             </div>
@@ -291,13 +273,9 @@ const Index = (props) => {
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>توضیح صفحه ( حداکثر 155 حرف )</label>
-                                    {slugManage ? (
                                         <textarea type={"text"} onChange={e => HandleMetaData(e)} name={"content"}
                                                   id={"title"} className={"form-control"}/>
-                                    ) : (
-                                        <textarea type={"text"} disabled name={"content"}
-                                                  id={"title"} className={"form-control"}/>
-                                    )}
+
 
                                 </fieldset>
                             </div>
@@ -306,13 +284,9 @@ const Index = (props) => {
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>کلمات کلیدی صفحه ( با ویرگول جدا کنید )</label>
-                                    {slugManage ? (
                                         <input type={"text"} onChange={e => HandleMetaData(e)} name={"tags"} id={"title"}
                                                className={"form-control"}/>
-                                    ) : (
-                                        <input type={"text"} disabled name={"tags"} id={"title"}
-                                               className={"form-control"}/>
-                                    )}
+
 
                                 </fieldset>
                             </div>
@@ -320,26 +294,17 @@ const Index = (props) => {
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس داخلی برای انتقال (301 Redirect)</label>
-                                    {slugManage ? (
                                         <input type={"text"} onChange={e => HandleMetaData(e)} name={"redirect"}
                                                id={"title"} className={"form-control"}/>
-                                    ) : (
-                                        <input type={"text"} disabled name={"redirect"}
-                                               id={"title"} className={"form-control"}/>
-                                    )}
+
                                 </fieldset>
                             </div>
 
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس Canonical</label>
-                                    {slugManage ? (
                                         <input onChange={e => HandleMetaData(e)} name={"canonical"} type={"text"}
                                                id={"title"} className={"form-control"}/>
-                                    ) : (
-                                        <input disabled name={"canonical"} type={"text"}
-                                               id={"title"} className={"form-control"}/>
-                                    )}
                                 </fieldset>
                             </div>
 
@@ -380,10 +345,10 @@ const Index = (props) => {
 
 
 }
-export default Index;
+export default AddCategory;
 
-let element = document.getElementById("category_add_pop");
-if (element) {
-    let props = Object.assign({}, element.dataset);
-    ReactDOM.render(<Index  {...props} />, element);
-}
+// let element = document.getElementById("category_add_pop");
+// if (element) {
+//     let props = Object.assign({}, element.dataset);
+//     ReactDOM.render(<Index  {...props} />, element);
+// }

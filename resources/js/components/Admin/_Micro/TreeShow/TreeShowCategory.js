@@ -1,56 +1,120 @@
-import React , {useEffect , useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Item} from './Item'
 import $ from 'jquery';
-export const TreeShowCategory = (props) => {
 
-    useEffect(()=>{
+export const TreeShowCategory = ({data, loading, callBack: pushCallBack, itemClicks: pushItemCliks}) => {
 
-    })
-
-    $(function (){
-        $("span#sub-menu-custom").click(function (){
+    $(function () {
+        $("span#sub-menu-custom").click(function () {
             $(".back-blur").fadeIn(100);
-            setTimeout(()=>{
+            setTimeout(() => {
                 $("#bottom-chip").addClass("active");
-            },200)
+            }, 200)
         })
-        $(".back-blur").click(()=>{
+        $(".back-blur").click(() => {
             $("#bottom-chip").removeClass("active");
-            setTimeout(()=>{
+            setTimeout(() => {
                 $(".back-blur").fadeOut(100)
-            },200)
+            }, 200)
         })
     })
-    if(props.loading){
+    const handlePush = (item) => {
+        pushCallBack(item);
+    }
+    const HandleClick = (id) => {
+        pushItemCliks(id);
+    }
+    if (loading) {
         return <p>در حال پردازش ...</p>
     }
+
     return (
         <ul className={"content-li"}>
+            {data ? Object.keys(data).map((keyName, i) => {
+                    return (
+                        // <p>{data[keyName].name}</p>
+                        <li style={{position: 'relative'}}>
 
-            <li>
-               <Item />
-                <ul style={{padding: '0 50px 0 0', listStyle: 'inherit', position: 'relative'}}>
-                    <div className={"branch"}>
-                        <div className={"box"}></div>
-                    </div>
 
-                    <li>
-                        <Item />
+                            <div className={"branch-top"}>
 
-                        <ul style={{padding: '0 50px 0 0', listStyle: 'inherit', position: 'relative'}}>
-                            <div className={"branch"}>
-                                <div className={"box"}></div>
                             </div>
 
-                            <li>
-                                <Item />
-                            </li>
-                        </ul>
-                    </li>
 
-                </ul>
+                            <Item key={data[keyName].name} name={data[keyName].name}
+                                  allData = {JSON.stringify(data[keyName])}
+                                  id={data[keyName].id} status={data[keyName].status}
+                                  callBack={item => handlePush(item)}
+                                  itemClick={itemId => HandleClick(itemId)}
+                            />
+                            {data[keyName].childern.length > 0 ? data[keyName].childern.map((itemClildOne, i) => {
+                                    return (
+                                        <ul style={{padding: '0 50px 0 0', listStyle: 'inherit', position: 'relative'}}>
+                                            {console.log("indexed : ", i)}
 
-            </li>
+
+                                            <li>
+
+                                                <div className={"branch-top"}>
+
+                                                </div>
+
+
+                                                <div className={"branch"}>
+                                                    <div className={"box"}></div>
+                                                </div>
+                                                <Item key={itemClildOne.id} status={itemClildOne.status}
+                                                      name={itemClildOne.name} id={itemClildOne.id}
+                                                      allData = {JSON.stringify(itemClildOne)}
+                                                      callBack={item => handlePush(item)}
+                                                      itemClick={itemId => HandleClick(itemId)}
+                                                />
+
+                                                {itemClildOne.children.length > 0 ? itemClildOne.children.map((childThree, i) => (
+                                                    <ul style={{
+                                                        padding: '0 50px 0 0',
+                                                        listStyle: 'inherit',
+                                                        position: 'relative'
+                                                    }}>
+
+                                                        <li>
+
+                                                            <div className={"branch-top"}>
+
+                                                            </div>
+                                                            <div className={"branch"}>
+                                                                <div className={"box"}></div>
+                                                            </div>
+
+                                                            <Item key={childThree.id} status={childThree.status}
+                                                                  name={childThree.name} id={childThree.id}
+                                                                  callBack={item => handlePush(item)}
+                                                                  allData = {JSON.stringify(childThree)}
+                                                                  itemClick={itemId => HandleClick(itemId)}
+                                                            />
+                                                        </li>
+                                                    </ul>
+                                                )) : ''}
+
+
+                                            </li>
+
+                                        </ul>
+
+                                    )
+                                }
+                            ) : (
+                                ''
+                            )}
+                        </li>
+
+                    )
+                }
+            ) : (
+                <p>wait</p>
+            )}
+
+
         </ul>
     )
 

@@ -2,22 +2,25 @@
     #icon-item-list {
         display: none;
     }
-    #sub-menu-custom {
-        display: block;
+    span#sub-menu-custom {
+        display: block !important;
     }
     .nav-custom{
         font-size: 13px;
     }
 }
-@media screen and (max-width: 728px) {
-    #tab-list-icon{
-        display: none;
-    }
-}
+//@media screen and (max-width: 728px) {
+//    #tab-list-icon{
+//        display: none;
+//    }
+//    span#sub-menu-custom{
+//        display: block;
+//    }
+//}
 
 
 span#sub-menu-custom {
-    //display: none;
+    display: none;
     width: 30px;
     height: 30px;
     position: absolute;

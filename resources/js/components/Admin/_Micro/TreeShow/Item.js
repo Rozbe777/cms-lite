@@ -1,13 +1,40 @@
 import React from 'react';
-import './_Shared/style.scss'
+import ReactDOM from 'react-dom';
+import './_Shared/style.scss';
+import AddCategory from './../../Category/CategoryAdd';
+import {Request} from './../../../../services/AdminService/Api';
+import ReactDom from "react-dom";
 
-export const Item = () => {
+export const Item = ({allData , key , id ,name ,status , itemClick : pushItemClisk,callBack : pushCallBack}) => {
+
+
 
     const handleAdding = (e) => {
-        $(".back-loader").fadeOut();
-        setTimeout(() => {
-            $("#category_add_pop_base").fadeIn();
-        }, 300)
+        e.preventDefault();
+        pushItemClisk(id);
+    }
+
+
+    const HandleDel = (e , idDel) => {
+        e.preventDefault()
+        Request.DeleteCategoryOne(idDel)
+            .then(res => {
+                pushCallBack(res.status)
+            }).cache(error => console.log("error : " , error))
+    }
+    const HandleDuplicate = (e , id) => {
+        e.preventDefault();
+        let JsonData = JSON.parse(allData);
+        let dataFit = {...JsonData};
+        dataFit.name = dataFit.name+"_کپی";
+        dataFit.slug = dataFit.slug+"_کپی";
+        dataFit.image = '';
+        console.log("dataaaaaaaa: ",dataFit)
+        Request.AddNewCategory(dataFit)
+            .then(res => {
+                console.log("res adding : " , res)
+                // pushCallBack(res.stat)
+            }).cache(error => console.log("error : " , error))
     }
     return (
         <div id={"li-div"}>
@@ -18,7 +45,7 @@ export const Item = () => {
                                id={"checkAll"}
                                className="form-check-input check-category"/>
                         <label className="form-check-label"></label>
-                        <span> تست دسته بندی</span>
+                        <span>{name}</span>
                     </div>
                 </div>
 
@@ -30,13 +57,17 @@ export const Item = () => {
 
                 <div className={"col-md-6 col-sm-4"} style={{padding: 13}} id={"icon-item-list"}>
                     <div className={"form-check"}>
-                        <i className={"bx bx-plus"} onClick={() => handleAdding("cd")}></i>
+                        <i className={"bx bx-plus"} onClick={handleAdding}></i>
                         <i className={"bx bx-show"}></i>
-                        <i className={"bx bx-trash-alt"}></i>
+                        <i className={"bx bx-trash-alt"} onClick={e=>HandleDel(e ,id)}></i>
                         <i className={"bx bx-edit"}></i>
-                        <i className={"bx bx-duplicate"}></i>
+                        <i className={"bx bx-duplicate"} onClick={e => HandleDuplicate(e , id)}></i>
 
-                        <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
+                        {status == "active" ? (
+                            <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
+                        ):(
+                            <span className={"badge badge-warning badge-pill ml-50"}>غیرفعال</span>
+                        )}
                     </div>
                 </div>
 

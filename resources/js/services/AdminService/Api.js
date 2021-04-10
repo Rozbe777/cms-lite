@@ -5,4 +5,5 @@ export const Request = {
     GroupDelUser : (userIds) =>  request.post("/admin/user/destroys" , userIds),
     GetAllCategory : () =>  request.get("/admin/category/list"),
     AddNewCategory : (data) =>  request.post("/admin/category/" , data),
+    DeleteCategoryOne : (data) =>  request.get("/admin/category/"+data+"/destroy/"),
 }
