@@ -26,7 +26,7 @@ class CreateCategoryRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:categories,name',
             'slug' => 'required|string|max:255|unique:categories,slug',
-            'image' => 'image',
+            //'image' => 'image',
             'content' => '',
             'fields' => '',
             'parent_id' => 'exists:categories,id',
