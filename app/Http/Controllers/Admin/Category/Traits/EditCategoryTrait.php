@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Category\Traits;
 use App\Helpers\FileManager\FileManager;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
+use function PHPUnit\Framework\fileExists;
 
 trait EditCategoryTrait
 {
@@ -21,7 +22,10 @@ trait EditCategoryTrait
             $categoryModel->slug = $category['slug'];
 
         if (isset($category['image'])){
-//            Storage::delete($categoryModel->image);//FIXME delete last image after update
+
+            if (Storage::exists('public/'.$categoryModel->image))
+             unlink(storage_path('app/public/'.$categoryModel->image));
+
             $file_path = config("upload.path.category_images");
 
             $file_name = FileManager::type('image')

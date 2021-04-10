@@ -8,6 +8,7 @@ use App\Helpers\FileManager\FileManager;
 use App\Models\Content;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 trait EditContentTrait
 {
@@ -41,12 +42,16 @@ trait EditContentTrait
         if (!empty($content['layout_id']))
             $contentModel->layout_id = $content['layout_id'];
 
-        if (isset($category['image'])){
+        if (isset($content['image'])){
 //            Storage::delete($contentModel->image);//FIXME delete last image after update
+
+            if (Storage::exists('public/'.$contentModel->image))
+                unlink(storage_path('app/public/'.$contentModel->image));
+
             $file_path = config("upload.path.content_images");
 
             $file_name = FileManager::type('image')
-                ->make($category['image'])
+                ->make($content['image'])
                 ->upload($file_path);
 
             $contentModel->image = $file_name;

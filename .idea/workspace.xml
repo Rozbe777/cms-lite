@@ -28,36 +28,14 @@
   <component name="ChangeListManager">
     <list default="true" id="1689f59b-008c-4f0b-922b-1b8ed073bfd8" name="Default Changelist" comment="workspace">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/CategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/CreateCategoryTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/CreateCategoryTrait.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/EditCategoryTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Category/Traits/EditCategoryTrait.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/CreateContentTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/CreateContentTrait.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/EditContentTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Content/Traits/EditContentTrait.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Admin/User/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Admin/User/UserController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/CreateCategoryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/CreateCategoryRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/EditCategoryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/EditCategoryRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/SearchCategoryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/SearchCategoryRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/multipleDestroyRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Category/multipleDestroyRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Content/CreateContentRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Content/CreateContentRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Content/EditContentRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Content/EditContentRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Content/SearchContentRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Content/SearchContentRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Content/multipleDestroyRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Content/multipleDestroyRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Page/multipleDestroyRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Page/multipleDestroyRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Role/CreateRoleRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Role/CreateRoleRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Role/EditRoleRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Role/EditRoleRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Setting/UpdateSettingRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Setting/UpdateSettingRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Tag/CreateTagRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Tag/CreateTagRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Tag/EditTagRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Tag/EditTagRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Tag/SearchTagRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Tag/SearchTagRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Tag/multipleDestroyRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Tag/multipleDestroyRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/EditUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/SearchUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/SearchUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/User/multipleDestroyRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/User/multipleDestroyRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-3aAyfwsxNwgrPeIrlHAF4QrZ8XhOl9TL.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-QI0uUyVaxgVE1dscfGYxF47CS0cnIRK8.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-UbniR0qIZ417jG4JhrZCinPCDWP8Lycw.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-W0UIleCGkD8LH4edK7DfnJnp4JRG8H59.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-ZRviZY5GdmMj4Bnp72upn2DJ6dM09CVz.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-cBwZkuPn1oNG2wnFgrkzl9mYLJ8v6B45.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/laravel-excel/laravel-excel-gaqN6QUYRFb5mjk9x8r0zz9Av02a8OLY.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Feature/Auth/LoginTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Feature/Auth/LoginTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Feature/Auth/RegisterTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Feature/Auth/RegisterTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -218,7 +196,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../pharmacy" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -271,9 +249,25 @@
     <option name="LAST_COMMIT_MESSAGE" value="workspace" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1618045291894">
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1618058302550">
       <screen x="1440" y="0" width="1280" height="678" />
     </state>
-    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1618045291894" />
+    <state x="1811" y="95" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1618058302550" />
+    <state x="1861" y="95" key="FileChooserDialogImpl" timestamp="1618057187039">
+      <screen x="1440" y="0" width="1280" height="678" />
+    </state>
+    <state x="1861" y="95" key="FileChooserDialogImpl/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1618057187039" />
+    <state x="1673" y="69" key="Vcs.Push.Dialog.v2" timestamp="1618049164468">
+      <screen x="1440" y="0" width="1280" height="678" />
+    </state>
+    <state x="1673" y="69" key="Vcs.Push.Dialog.v2/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1618049164468" />
+    <state x="1792" y="58" width="576" height="562" key="find.popup" timestamp="1618058292975">
+      <screen x="1440" y="0" width="1280" height="678" />
+    </state>
+    <state x="1792" y="58" width="576" height="562" key="find.popup/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1618058292975" />
+    <state x="1813" y="113" key="git4idea.merge.GitPullDialog" timestamp="1618049147961">
+      <screen x="1440" y="0" width="1280" height="678" />
+    </state>
+    <state x="1813" y="113" key="git4idea.merge.GitPullDialog/0.0.1440.860/1440.0.1280.678@1440.0.1280.678" timestamp="1618049147961" />
   </component>
 </project>

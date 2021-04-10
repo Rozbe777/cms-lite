@@ -44,7 +44,6 @@ class CategoryController extends Controller
     public function store(CreateCategoryRequest $request)
     {
 
-
         $category = $this->createCategory(
             [
                 'name' => $request->input('name'),
@@ -110,7 +109,7 @@ class CategoryController extends Controller
         $category = $this->EditCategory([
             'name' => $request->input('name'),
             'slug' => $request->input('slug'),
-            'image' => $request->input('image'),
+            'image' => $request->image,
             'content' => $request->input('content'),
             'fields' => $request->input('fields'),
             'parent_id' => $request->input('parent_id'),

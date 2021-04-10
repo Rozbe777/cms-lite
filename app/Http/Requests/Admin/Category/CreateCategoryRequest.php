@@ -26,8 +26,8 @@ class CreateCategoryRequest extends BaseRequest
         return [
             'name' => 'required|string|max:255|unique:categories,name',
             'slug' => 'required|string|max:255|unique:categories,slug',
-            //
-            //'image' => 'image',
+
+            'image' => 'required|image',
             'content' => '',
             'fields' => '',
             //'parent_id' => 'exists:categories,id',

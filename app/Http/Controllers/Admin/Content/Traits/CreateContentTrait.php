@@ -41,12 +41,11 @@ trait CreateContentTrait
 //        if (!empty($content['layout_id']))
 //            $contentModel->layout_id = $content['layout_id']; //FIXME after insert layouts table
 
-        if (isset($category['image'])){
-//            Storage::delete($contentModel->image);//FIXME delete last image after update
+        if (isset($content['image'])){
             $file_path = config("upload.path.content_images");
 
             $file_name = FileManager::type('image')
-                ->make($category['image'])
+                ->make($content['image'])
                 ->upload($file_path);
 
             $contentModel->image = $file_name;
