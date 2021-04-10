@@ -5,9 +5,9 @@ import {BigSwitcher} from './../../../HOC/BigSwitcher';
 import './../../_Shared/Style.scss'
 import {Request} from './../../../../services/AdminService/Api'
 import {SelectOptions} from './../../../HOC/SelectOptions'
-import {CaegoryAleert} from './../../_Shared/java'
 import MyEditor from "../../_Micro/MyEditor/MyEditor";
 import './../../_Micro/TreeShow/_Shared/style.scss';
+
 const LOCAL_CAT = "localcat-zerone-cmslite";
 const AddCategory = ({display ,idParent, result : pushResult}) => {
     const [comments, setComments] = useState();
@@ -41,12 +41,8 @@ const AddCategory = ({display ,idParent, result : pushResult}) => {
     useEffect(() => {
     }, [])
 
-    // let {display} = props;
-
-
     const handleClose = () => {
         ReactDOM.render('' , document.getElementById("add-datas"));
-        // let newFormData =
         setFormData({
             is_menu: true,
             status: "active",
@@ -56,7 +52,6 @@ const AddCategory = ({display ,idParent, result : pushResult}) => {
         });
         setMetaData({
             robots: false,
-
         })
         $("#my-editor").attr("defaultValue" , "");
     }
@@ -346,9 +341,3 @@ const AddCategory = ({display ,idParent, result : pushResult}) => {
 
 }
 export default AddCategory;
-
-// let element = document.getElementById("category_add_pop");
-// if (element) {
-//     let props = Object.assign({}, element.dataset);
-//     ReactDOM.render(<Index  {...props} />, element);
-// }

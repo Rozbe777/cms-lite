@@ -120,7 +120,7 @@ export const CategoryList = () => {
             <div className="tab-content" style={{padding: 0}}>
                 <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
 
-                    <TreeShowCategory handleCata={itemCat => console.log("cat back ," , itemCat)} itemClicks={clicks => handleClickItem(clicks)} callBack={item => HandleDelete(item)} data={categoryData} loading={loading}/>
+                    <TreeShowCategory handleCata={itemCat => console.log("cat back ," , itemCat)} duplicate={item => console.log("duplicatessss : " , item)} itemClicks={clicks => handleClickItem(clicks)} callBack={item => HandleDelete(item)} data={categoryData} loading={loading}/>
 
                 </div>
                 <div className="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">

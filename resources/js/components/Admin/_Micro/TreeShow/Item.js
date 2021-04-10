@@ -5,21 +5,18 @@ import AddCategory from './../../Category/CategoryAdd';
 import {Request} from './../../../../services/AdminService/Api';
 import ReactDom from "react-dom";
 
-export const Item = ({allData , key , id ,name ,status , itemClick : pushItemClisk,callBack : pushCallBack}) => {
-
-
+export const Item = ({allData , key , id ,name ,status , itemClick : pushItemClisk,duplicate : pushDuplicate}) => {
 
     const handleAdding = (e) => {
         e.preventDefault();
         pushItemClisk(id);
     }
 
-
     const HandleDel = (e , idDel) => {
         e.preventDefault()
         Request.DeleteCategoryOne(idDel)
             .then(res => {
-                pushCallBack(res.status)
+                pushItemClick(res.status)
             }).cache(error => console.log("error : " , error))
     }
     const HandleDuplicate = (e , id) => {
@@ -33,7 +30,7 @@ export const Item = ({allData , key , id ,name ,status , itemClick : pushItemCli
         Request.AddNewCategory(dataFit)
             .then(res => {
                 console.log("res adding : " , res)
-                // pushCallBack(res.stat)
+                pushDuplicate(res.stat)
             }).cache(error => console.log("error : " , error))
     }
     return (
