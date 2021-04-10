@@ -5,6 +5,8 @@ return [
     ],
     "path"=>[
         "category_images"=>"category/images",
+        "content_images"=>"category/images",
+
 
     ]
 

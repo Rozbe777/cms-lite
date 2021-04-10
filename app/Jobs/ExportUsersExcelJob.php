@@ -37,7 +37,7 @@ class ExportUsersExcelJob implements ShouldQueue
     public function handle()
     {
         $fileName = "usersList" . ".xlsx";
-        Excel::queue(new UserListExport($this->users), $fileName);
+        $exel=Excel::queue(new UserListExport($this->users), $fileName);
         //FIXME how download exported file in queue?
     }
 }
