@@ -3065,6 +3065,14 @@ var AddCategory = function AddCategory(_ref) {
     setSlugManage(status);
   };
 
+  var HandleUpdateForm = function HandleUpdateForm(data, id) {
+    _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_5__.Request.UpdateDataCategory(data, id).then(function (res) {
+      return pushResult(res);
+    })["catch"](function (error) {
+      return console.log("error add :", error);
+    });
+  };
+
   var HandleEdit = function HandleEdit() {
     var formOldData = _objectSpread({}, formData);
 
@@ -3074,7 +3082,7 @@ var AddCategory = function AddCategory(_ref) {
 
     formOldData.status = status;
     formOldData.is_menu = parseInt(is_menu);
-    console.log("edit status : ", formOldData);
+    HandleUpdateForm(formOldData, formOldData.id);
   };
 
   var handleEditorData = function handleEditorData(data) {
@@ -3086,12 +3094,12 @@ var AddCategory = function AddCategory(_ref) {
 
   var handleSwitchStatus = function handleSwitchStatus(status) {
     setEdit(true);
-    localStorage.setItem("status", status ? "active" : "deactivate"); // setStatusNew({status : status ? "active" : "deactive"});
+    localStorage.setItem("status", status ? "active" : "deactivate");
   };
 
   var handleSwitchMenu = function handleSwitchMenu(status) {
     setEdit(true);
-    localStorage.setItem("is_menu", status ? 1 : 0); // setMenuShow({is_menu : status ? 1 : 0})
+    localStorage.setItem("is_menu", status ? 1 : 0);
   };
 
   var HandleSelectOption = function HandleSelectOption(check) {
@@ -3099,8 +3107,7 @@ var AddCategory = function AddCategory(_ref) {
     setFormData(_objectSpread(_objectSpread({}, formData), {}, {
       parent_id: parseInt(check)
     }));
-  }; // console.log("meta data : " , MetaData);
-
+  };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
     id: "category_add_pop_base",
@@ -7607,6 +7614,9 @@ var Request = {
   },
   DeleteCategoryOne: function DeleteCategoryOne(data) {
     return _Request__WEBPACK_IMPORTED_MODULE_0__.request.get("/admin/category/" + data + "/destroy/");
+  },
+  UpdateDataCategory: function UpdateDataCategory(data, id) {
+    return _Request__WEBPACK_IMPORTED_MODULE_0__.request.put("/admin/category/" + id + "/update", data);
   }
 };
 

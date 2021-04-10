@@ -142,6 +142,12 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         setSlugManage(status)
     }
 
+    const HandleUpdateForm=(data , id)=>{
+        Request.UpdateDataCategory(data , id)
+            .then(res => pushResult(res))
+            .catch(error => console.log("error add :", error))
+    }
+
     const HandleEdit = () => {
         let formOldData = {...formData};
         formOldData.content = contentNew;
@@ -150,7 +156,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         // console.log("status : " , status , " / menu : " , is_menu);
         formOldData.status = status;
         formOldData.is_menu = parseInt(is_menu);
-        console.log("edit status : ", formOldData)
+        HandleUpdateForm(formOldData , formOldData.id);
     }
     const handleEditorData = (data) => {
         setEdit(true);
@@ -158,20 +164,15 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             ...formData,
             content: data
         })
-
     }
 
     const handleSwitchStatus = (status) => {
         setEdit(true)
         localStorage.setItem("status", status ? "active" : "deactivate");
-        // setStatusNew({status : status ? "active" : "deactive"});
-
     }
     const handleSwitchMenu = ( status) => {
         setEdit(true)
         localStorage.setItem("is_menu", status ? 1 : 0);
-
-        // setMenuShow({is_menu : status ? 1 : 0})
     }
 
     const HandleSelectOption = (check) => {
@@ -181,8 +182,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             parent_id: parseInt(check)
         })
     }
-    // console.log("meta data : " , MetaData);
-
 
     return (
         <div id={"category_add_pop_base"}>
