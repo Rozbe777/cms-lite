@@ -124,7 +124,6 @@ class UserController extends Controller
 
         $file = new Filesystem;
         $file->cleanDirectory(storage_path('framework/laravel-excel'));
-        //FIXME cleanDirectory not working
         $exel=Excel::download(new UserListExport($users), $fileName);
 //        $userList=new ExportUsersExcelJob($users);
         return $exel;

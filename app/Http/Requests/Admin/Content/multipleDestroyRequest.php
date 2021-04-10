@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Admin\Content;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseRequest;
 
-class multipleDestroyRequest extends FormRequest
+class multipleDestroyRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class multipleDestroyRequest extends FormRequest
     public function rules()
     {
         return [
-            'contentIds'=>'required'
+            'contentIds'=>'required|array'
 
         ];
     }

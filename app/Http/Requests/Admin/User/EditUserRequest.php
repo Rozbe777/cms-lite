@@ -2,8 +2,7 @@
 
 namespace App\Http\Requests\Admin\User;
 
-use App\Rules\iran_mobile;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseRequest;
 use Illuminate\Support\Carbon;
 
 /**
@@ -17,7 +16,7 @@ use Illuminate\Support\Carbon;
  * @property string role
  * @property Carbon|null email_verified_at
  */
-class EditUserRequest extends FormRequest
+class EditUserRequest extends BaseRequest
 {
     /**
      * @var mixed

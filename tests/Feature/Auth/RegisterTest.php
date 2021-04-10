@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -19,6 +20,26 @@ class RegisterTest extends TestCase
         $response->assertSee("ثبت نام");
 
 
+
+    }
+
+    public function test_load_register_page_as_user_redirect_with_code_302()
+    {
+        $user = Role::where('name', 'user')->first()->users()->first();
+        $response = $this->actingAs($user, 'web')
+            ->get(route('auth.register'));
+        $response->assertStatus(302);
+        $response->assertSee("داشبورد");
+
+    }
+
+    public function test_load_register_page_as_admin_redirect_with_code_302()
+    {
+        $admin = Role::where('name', 'admin')->first()->users()->first();
+        $response = $this->actingAs($admin, 'web')
+            ->get(route('auth.register'));
+        $response->assertStatus(302);
+        $response->assertSee("داشبورد");
 
     }
 
