@@ -35,8 +35,8 @@ trait EditCategoryTrait
         if (!empty($category['content']))
             $categoryModel->content = $category['content'];
 
-        if (!empty($category['fields']))
-            $categoryModel->fields = $category['fields'];
+        if (!empty($category['metadata']))
+            $categoryModel->fields = $category['metadata'];
 
         if (!empty($category['parent_id']))
             $categoryModel->parent_id = bcrypt($category['parent_id']);
