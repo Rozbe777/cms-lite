@@ -2976,7 +2976,7 @@ var AddCategory = function AddCategory(_ref) {
   var dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
 
   var CreateAddCategory = function CreateAddCategory(data) {
-    console.log("form dataaaa : ", data);
+    console.log("new data add : ", data);
     swal({
       title: 'افزودن دسته بندی جدید',
       text: "آیا مطمئنید؟",
@@ -2990,13 +2990,13 @@ var AddCategory = function AddCategory(_ref) {
     }).then(function (result) {
       if (result.value) {
         _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_5__.Request.AddNewCategory(data).then(function (res) {
-          console.log("resultttttttt ok : ", res.data);
+          console.log("resultttttttt ok : ", res);
           localStorage.removeItem("is_menu");
           localStorage.removeItem("status");
-          localStorage.removeItem("select");
+          localStorage.removeItem("selected");
           pushResult(res);
 
-          if (res.data.status) {
+          if (res.status == 200) {
             Swal.fire({
               type: "success",
               title: 'با موفقیت اضافه شد !',
@@ -3067,8 +3067,10 @@ var AddCategory = function AddCategory(_ref) {
 
     var is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
     var status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
+    var parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formNew.parent_id;
     formNew.status = status;
-    console.log("menusssssss : ", is_menu);
+    console.log("checked id : ", localStorage.getItem("selected"));
+    formNew.parent_id = parseInt(parent_id);
     formNew.is_menu = is_menu ? 1 : 0;
 
     if (slugManage == false) {
@@ -3119,7 +3121,7 @@ var AddCategory = function AddCategory(_ref) {
     _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_5__.Request.UpdateDataCategory(data, id).then(function (res) {
       localStorage.removeItem("is_menu");
       localStorage.removeItem("status");
-      localStorage.removeItem("select");
+      localStorage.removeItem("selected");
       pushResult(res);
     })["catch"](function (error) {
       return console.log("error add :", error);
@@ -3132,10 +3134,11 @@ var AddCategory = function AddCategory(_ref) {
     formOldData.content = contentNew;
     var is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
     var status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-    var parent_id = localStorage.getItem("select") ? localStorage.getItem("select") : formData.parent_id;
+    console.log("selected");
+    var parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
     formOldData.status = status;
     formOldData.is_menu = parseInt(is_menu);
-    formOldData.parent_id = parseInt(parent_id);
+    formOldData.parent_id = parseInt(parent_ids);
     HandleUpdateForm(formOldData, formOldData.id);
   };
 
@@ -3145,10 +3148,12 @@ var AddCategory = function AddCategory(_ref) {
     formOldData.content = contentNew;
     var is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
     var status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-    var parent_id = localStorage.getItem("select") ? localStorage.getItem("select") : formData.parent_id;
+    console.log("selected : duplicate  : ", localStorage.getItem("selected"));
+    var parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
     formOldData.status = status;
     formOldData.is_menu = parseInt(is_menu);
-    formOldData.parent_id = parseInt(parent_id);
+    formOldData.parent_id = parseInt(parent_id); // console.log("data duplicate : " , formOldData);
+
     CreateAddCategory(formOldData);
   };
 
@@ -3164,6 +3169,7 @@ var AddCategory = function AddCategory(_ref) {
     var max = 1000;
     var rand = Number(min + Math.random() * (max - min)).toFixed(0);
     formData.name = name + rand + "_کپی";
+    formData.slug = name + rand + "_کپی";
     return name + rand + "_کپی";
   };
 
@@ -3186,11 +3192,10 @@ var AddCategory = function AddCategory(_ref) {
   };
 
   var HandleSelectOption = function HandleSelectOption(check) {
-    setEdit(true);
+    setEdit(true); // console.log("data checked : " , check)
+
     localStorage.setItem("selected", check);
   };
-
-  console.log("data upppppp : ", formData);
 
   var HandleDefaultValuSlug = function HandleDefaultValuSlug() {
     if (dataUpdateParse) {
@@ -3213,6 +3218,7 @@ var AddCategory = function AddCategory(_ref) {
         return dataUpdateParse.name;
       }
     } else {
+      formData.slug = formData.name;
       return formData.name;
     }
   };
@@ -3777,7 +3783,7 @@ var CategoryList = function CategoryList() {
   };
 
   var handleBack = function handleBack(item) {
-    if (item.data.status == true) {
+    if (item.status == 200) {
       GetAllCategory();
       react_dom__WEBPACK_IMPORTED_MODULE_1__.render('', document.getElementById('add-datas'));
     }
@@ -4891,14 +4897,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Item": () => (/* binding */ Item)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _Shared_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./_Shared/style.scss */ "./resources/js/components/Admin/_Micro/TreeShow/_Shared/style.scss");
-/* harmony import */ var _Category_CategoryAdd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../Category/CategoryAdd */ "./resources/js/components/Admin/Category/CategoryAdd/index.js");
-/* harmony import */ var _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../../../services/AdminService/Api */ "./resources/js/services/AdminService/Api.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
-
-
+/* harmony import */ var _Shared_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_Shared/style.scss */ "./resources/js/components/Admin/_Micro/TreeShow/_Shared/style.scss");
+/* harmony import */ var _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../../services/AdminService/Api */ "./resources/js/services/AdminService/Api.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
@@ -4924,10 +4925,40 @@ var Item = function Item(_ref) {
 
   var HandleDel = function HandleDel(e, idDel) {
     e.preventDefault();
-    _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_4__.Request.DeleteCategoryOne(idDel).then(function (res) {
-      pushDelClick(res.status);
-    }).cache(function (error) {
-      return console.log("error : ", error);
+    swal({
+      title: 'حذف دسته بندی',
+      text: "آیا مطمئنید؟",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'تایید',
+      confirmButtonClass: 'btn btn-primary',
+      cancelButtonClass: 'btn btn-danger ml-1',
+      cancelButtonText: 'انصراف',
+      buttonsStyling: false
+    }).then(function (result) {
+      if (result.value) {
+        _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_2__.Request.DeleteCategoryOne(idDel).then(function (res) {
+          pushDelClick(res.status);
+
+          if (res.status == 200) {
+            Swal.fire({
+              type: "success",
+              title: 'با موفقیت حذف شد !',
+              confirmButtonClass: 'btn btn-success',
+              confirmButtonText: 'باشه'
+            });
+          } else {
+            Swal.fire({
+              type: "error",
+              title: 'خطایی رخ داده است !',
+              cancelButtonClass: 'btn btn-primary',
+              cancelButtonText: 'تلاش مجدد'
+            });
+          }
+        })["catch"](function (error) {
+          return console.log("error", error);
+        });
+      }
     });
   }; // handle edit single item by id and data
   // this function used for edit and duplicate category
@@ -4942,70 +4973,70 @@ var Item = function Item(_ref) {
     pushDataForEdit(editOrDup);
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
     id: "li-div",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       className: "row",
       style: {
         padding: '0 20px',
         position: 'relative'
       },
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "col-md-6 col-sm-8",
         style: {
           padding: 13
         },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "form-check",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
             type: "checkbox",
             id: "checkAll",
             className: "form-check-input check-category"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("label", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
             className: "form-check-label"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
             children: name
           })]
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
         id: "sub-menu-custom",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
           className: "bx bx-chevron-down"
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "col-md-6 col-sm-4",
         style: {
           padding: 13
         },
         id: "icon-item-list",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "form-check",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
             className: "bx bx-plus",
             onClick: function onClick(e) {
               return handleAdding(e);
             }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
             className: "bx bx-show"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
             className: "bx bx-trash-alt",
             onClick: function onClick(e) {
               return HandleDel(e, id);
             }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
             className: "bx bx-edit",
             onClick: function onClick(e) {
               return HandleEdit(e, "edit");
             }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
             className: "bx bx-duplicate",
             onClick: function onClick(e) {
               return HandleEdit(e, "dup");
             }
-          }), status == "active" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          }), status == "active" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
             className: "badge badge-success badge-pill ml-50",
             children: "\u0641\u0639\u0627\u0644"
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
             className: "badge badge-warning badge-pill ml-50",
             children: "\u063A\u06CC\u0631\u0641\u0639\u0627\u0644"
           })]

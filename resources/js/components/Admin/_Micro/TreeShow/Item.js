@@ -1,9 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './_Shared/style.scss';
-import AddCategory from './../../Category/CategoryAdd';
 import {Request} from './../../../../services/AdminService/Api';
-import ReactDom from "react-dom";
 
 export const Item = ({allData , key , id ,name ,status , duplicate : pushDuplicate , itemClick : pushItemClisk , delClick : pushDelClick , dataForEdit  : pushDataForEdit}) => {
 
@@ -16,10 +13,41 @@ export const Item = ({allData , key , id ,name ,status , duplicate : pushDuplica
     // handle delete single item by category id
     const HandleDel = (e , idDel) => {
         e.preventDefault()
-        Request.DeleteCategoryOne(idDel)
-            .then(res => {
-                pushDelClick(res.status);
-            }).cache(error => console.log("error : " , error))
+
+        swal({
+            title: 'حذف دسته بندی',
+            text: "آیا مطمئنید؟",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'تایید',
+            confirmButtonClass: 'btn btn-primary',
+            cancelButtonClass: 'btn btn-danger ml-1',
+            cancelButtonText: 'انصراف',
+            buttonsStyling: false,
+        }).then(function (result) {
+            if (result.value) {
+                Request.DeleteCategoryOne(idDel)
+                    .then(res => {
+                        pushDelClick(res.status)
+                        if (res.status == 200) {
+                            Swal.fire({
+                                type: "success",
+                                title: 'با موفقیت حذف شد !',
+                                confirmButtonClass: 'btn btn-success',
+                                confirmButtonText: 'باشه',
+                            })
+                        } else {
+                            Swal.fire({
+                                type: "error",
+                                title: 'خطایی رخ داده است !',
+                                cancelButtonClass: 'btn btn-primary',
+                                cancelButtonText: 'تلاش مجدد',
+                            })
+                        }
+                    }).catch(error => console.log("error", error))
+            }
+        });
+
     }
 
 

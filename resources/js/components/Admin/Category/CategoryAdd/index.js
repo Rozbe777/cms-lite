@@ -41,8 +41,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
     const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
     const CreateAddCategory = (data) => {
-        console.log("form dataaaa : " , data)
-
+        console.log("new data add : " , data)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -57,12 +56,12 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             if (result.value) {
                 Request.AddNewCategory(data)
                     .then(res => {
-                        console.log("resultttttttt ok : ", res.data)
+                        console.log("resultttttttt ok : ", res)
                         localStorage.removeItem("is_menu");
                         localStorage.removeItem("status");
-                        localStorage.removeItem("select");
+                        localStorage.removeItem("selected");
                         pushResult(res);
-                        if (res.data.status) {
+                        if (res.status  == 200) {
                             Swal.fire({
                                 type: "success",
                                 title: 'با موفقیت اضافه شد !',
@@ -132,8 +131,10 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         // console.log("form dataaaaaaaaaaa : " , forms);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
+        let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formNew.parent_id;
         formNew.status = status;
-        console.log("menusssssss : ", is_menu)
+        console.log("checked id : " , localStorage.getItem("selected"))
+        formNew.parent_id = parseInt(parent_id);
         formNew.is_menu = is_menu ? 1 : 0;
         if (slugManage == false) {
             formNew.slug = formNew.name;
@@ -190,7 +191,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             .then(res => {
                 localStorage.removeItem("is_menu");
                 localStorage.removeItem("status");
-                localStorage.removeItem("select");
+                localStorage.removeItem("selected");
                 pushResult(res)
             })
             .catch(error => console.log("error add :", error))
@@ -202,10 +203,11 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         formOldData.content = contentNew;
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-        let parent_id = localStorage.getItem("select") ? localStorage.getItem("select") : formData.parent_id;
+        console.log("selected");
+        let parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
         formOldData.status = status;
         formOldData.is_menu = parseInt(is_menu);
-        formOldData.parent_id = parseInt(parent_id);
+        formOldData.parent_id = parseInt(parent_ids);
         HandleUpdateForm(formOldData, formOldData.id);
     }
 
@@ -214,10 +216,12 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         formOldData.content = contentNew;
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-        let parent_id = localStorage.getItem("select") ? localStorage.getItem("select") : formData.parent_id;
+        console.log("selected : duplicate  : " , localStorage.getItem("selected"));
+        let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
         formOldData.status = status;
         formOldData.is_menu = parseInt(is_menu);
         formOldData.parent_id = parseInt(parent_id);
+        // console.log("data duplicate : " , formOldData);
         CreateAddCategory(formOldData);
     }
 
@@ -235,6 +239,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         const max = 1000;
         const rand = Number(min + Math.random() * (max - min)).toFixed(0);
         formData.name = name + rand + "_کپی";
+        formData.slug = name + rand + "_کپی";
         return name + rand + "_کپی";
     }
     let MakeNewSlug = (name) => {
@@ -255,17 +260,16 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
     const HandleSelectOption = (check) => {
         setEdit(true)
+        // console.log("data checked : " , check)
         localStorage.setItem("selected", check)
     }
 
-    console.log("data upppppp : ", formData);
     let HandleDefaultValuSlug = () => {
         if (dataUpdateParse) {
             if (type == "dup") {
                 return MakeNewName(dataUpdateParse.slug);
             } else {
                 return dataUpdateParse.slug;
-
             }
         } else {
             formData.slug = formData.name;
@@ -282,6 +286,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
             }
         } else {
+            formData.slug = formData.name;
             return formData.name;
         }
     }
