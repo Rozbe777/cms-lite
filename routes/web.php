@@ -84,7 +84,7 @@ Route::group(['middleware' => 'user_permission'], function () {
 
             Route::get('/export', [UserController::class, 'export'])->name('export');
             Route::get('/', [UserController::class, 'index'])->name('index');
-            Route::get('/list', [UserController::class, 'userList'])->name('userList');
+            Route::get('/list', [UserController::class, 'userList'])->name('list');
             Route::get('/create', [UserController::class, 'create'])->name('create');
             Route::post('/', [UserController::class, 'store'])->name('store');
             Route::get('/{userId}/edit', [UserController::class, 'edit'])->name('edit');
