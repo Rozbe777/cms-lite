@@ -18,6 +18,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     const [statusNew, setStatusNew] = useState();
     const [menuShow, setMenuShow] = useState();
     const [edit, setEdit] = useState(false);
+    const [file, setFile] = useState();
     const StatusSwitch = useRef(null);
     const [metaData, setMetaData] = useState({
         robots: false,
@@ -26,8 +27,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     const dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
 
     const type = dataGet ? dataGet.type : '';
-
-    // const MetaData = dataUpdateParse.metadata ? JSON.parse(dataUpdateParse.metadata) : '';
 
     const [slugManage, setSlugManage] = useState(true);
     const [formData, setFormData] = useState({});
@@ -42,11 +41,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
     const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
     const CreateAddCategory = (data) => {
-
-        console.log("data : " , data)
-
-        {/*
-
+        console.log("form dataaaa : " , data)
 
         swal({
             title: 'افزودن دسته بندی جدید',
@@ -62,24 +57,32 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             if (result.value) {
                 Request.AddNewCategory(data)
                     .then(res => {
+                        console.log("resultttttttt ok : ", res.data)
                         localStorage.removeItem("is_menu");
                         localStorage.removeItem("status");
                         localStorage.removeItem("select");
-                        pushResult(res)
-                        Swal.fire({
-                            type: "success",
-                            title: 'با موفقیت اضافه شد !',
-                            confirmButtonClass: 'btn btn-success',
-                            confirmButtonText: 'باشه',
-                        })
+                        pushResult(res);
+                        if (res.data.status) {
+                            Swal.fire({
+                                type: "success",
+                                title: 'با موفقیت اضافه شد !',
+                                confirmButtonClass: 'btn btn-success',
+                                confirmButtonText: 'باشه',
+                            })
+                        } else {
+                            Swal.fire({
+                                type: "error",
+                                title: 'خطایی رخ داده است !',
+                                cancelButtonClass: 'btn btn-primary',
+                                cancelButtonText: 'تلاش مجدد',
+                            })
+                        }
+
                     }).catch(error => console.log("error", error))
             }
         });
 
-        */}
-
     }
-
 
     useEffect(() => {
         let formNews = {...formData};
@@ -99,7 +102,14 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         setMetaData({
             robots: false,
         })
-        $("#my-editor").attr("defaultValue" , "");
+        $("#my-editor").attr("defaultValue", "");
+    }
+
+    const HandleFile = (e) => {
+        let filesss = e.target.files;
+        setFile({
+            image: filesss
+        })
     }
 
     const handleInput = (e) => {
@@ -108,20 +118,27 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             ...formData,
             [e.target.name]: e.target.value
         })
+        let formDataOld = {...formData};
+        formDataOld.slug = e.target.value;
     }
 
-
-
     const HandleForm = (e) => {
-
         let formNew = {...formData};
-        let is_menu = localStorage.getItem("is_menu");
-        let status = localStorage.getItem("status");
+        let forms = new FormData();
+        // console.log("form data sssssssssss : " , file.image[0]);
+        // if (file.image[0]){
+        //     forms.append("image", file.image[0])
+        // }
+        // console.log("form dataaaaaaaaaaa : " , forms);
+        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
+        let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
         formNew.status = status;
-        formNew.is_menu = parseInt(is_menu);
+        console.log("menusssssss : ", is_menu)
+        formNew.is_menu = is_menu ? 1 : 0;
         if (slugManage == false) {
             formNew.slug = formNew.name;
         } else {
+
         }
 
         if (formData.slug == "") {
@@ -129,7 +146,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         }
         formNew.content = contentNew;
         formNew.metadata = "vsdvsdvsdvsdv";
-        let msg = "اضافه کردن دسته بندی " + formData.name
         if (formData.name && formData.name !== '') {
             $("input[name=name]").removeClass("is-invalid");
             CreateAddCategory(formNew);
@@ -242,6 +258,34 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         localStorage.setItem("selected", check)
     }
 
+    console.log("data upppppp : ", formData);
+    let HandleDefaultValuSlug = () => {
+        if (dataUpdateParse) {
+            if (type == "dup") {
+                return MakeNewName(dataUpdateParse.slug);
+            } else {
+                return dataUpdateParse.slug;
+
+            }
+        } else {
+            formData.slug = formData.name;
+            return formData.name;
+        }
+    }
+
+    let HandleMakeName = () => {
+        if (dataUpdateParse) {
+            if (type == "dup") {
+                return MakeNewName(dataUpdateParse.name);
+            } else {
+                return dataUpdateParse.name;
+
+            }
+        } else {
+            return formData.name;
+        }
+    }
+
     return (
         <div id={"category_add_pop_base"}>
             <form action={"#"}>
@@ -268,7 +312,8 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان دسته بندی</label>
-                                    <input type={"text"} defaultValue={dataUpdateParse ? type == "dup" ? MakeNewName(dataUpdateParse.name) : dataUpdateParse.name : ''} onChange={e => handleInput(e)} name={"name"} id={"title"}
+                                    <input type={"text"} defaultValue={HandleMakeName()} onChange={e => handleInput(e)}
+                                           name={"name"} id={"title"}
                                            className={"form-control"}/>
                                 </fieldset>
                             </div>
@@ -308,10 +353,13 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>افزودن فایل</label>
                                     <div id={"file"}>
-                                        <input type={"file"} name={"file-attach"}
+                                        <input type={"file"} name={"image"}
+                                               multiple="multiple"
+                                               onChange={e => HandleFile(e)}
                                                style={{
                                                    opacity: 0,
                                                    zIndex: 9,
+                                                   height: '100%',
                                                    position: 'absolute',
                                                    cursor: 'pointer'
                                                }}/>
@@ -356,10 +404,10 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             <div className={"col-lg-9 col-md-8 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس صفحه دسته بندی</label>
-                                    {console.log("slugssssssss : " , formData)}
+                                    {console.log("slugssssssss : ", dataUpdateParse)}
                                     {slugManage ? (
                                         <input type={"text"}
-                                               defaultValue={dataUpdateParse ? type == "dup" ? MakeNewSlug(dataUpdateParse.slug) : dataUpdateParse.name : ''}
+                                               defaultValue={HandleDefaultValuSlug()}
                                                disabled id={"title"} className={"form-control slugest"}/>
                                     ) : (
                                         <input type={"text"}

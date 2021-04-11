@@ -90,7 +90,7 @@ export const CategoryList = () => {
     }
 
     const handleBack = (item) => {
-        if (item.status == 200) {
+        if (item.data.status == true) {
             GetAllCategory();
             ReactDom.render('' , document.getElementById('add-datas'))
         }

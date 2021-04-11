@@ -2938,28 +2938,33 @@ var AddCategory = function AddCategory(_ref) {
       edit = _useState14[0],
       setEdit = _useState14[1];
 
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+      _useState16 = _slicedToArray(_useState15, 2),
+      file = _useState16[0],
+      setFile = _useState16[1];
+
   var StatusSwitch = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
 
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     robots: false
   }),
-      _useState16 = _slicedToArray(_useState15, 2),
-      metaData = _useState16[0],
-      setMetaData = _useState16[1];
+      _useState18 = _slicedToArray(_useState17, 2),
+      metaData = _useState18[0],
+      setMetaData = _useState18[1];
 
   var dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
   var dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
-  var type = dataGet ? dataGet.type : ''; // const MetaData = dataUpdateParse.metadata ? JSON.parse(dataUpdateParse.metadata) : '';
+  var type = dataGet ? dataGet.type : '';
 
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
-      _useState18 = _slicedToArray(_useState17, 2),
-      slugManage = _useState18[0],
-      setSlugManage = _useState18[1];
-
-  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState20 = _slicedToArray(_useState19, 2),
-      formData = _useState20[0],
-      setFormData = _useState20[1];
+      slugManage = _useState20[0],
+      setSlugManage = _useState20[1];
+
+  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState22 = _slicedToArray(_useState21, 2),
+      formData = _useState22[0],
+      setFormData = _useState22[1];
 
   var default_value = {
     is_menu: true,
@@ -2971,38 +2976,46 @@ var AddCategory = function AddCategory(_ref) {
   var dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
 
   var CreateAddCategory = function CreateAddCategory(data) {
-    console.log("data : ", data);
-    {
-      /*
-       swal({
-         title: 'افزودن دسته بندی جدید',
-         text: "آیا مطمئنید؟",
-         type: 'warning',
-         showCancelButton: true,
-         confirmButtonText: 'تایید',
-         confirmButtonClass: 'btn btn-primary',
-         cancelButtonClass: 'btn btn-danger ml-1',
-         cancelButtonText: 'انصراف',
-         buttonsStyling: false,
-      }).then(function (result) {
-         if (result.value) {
-             Request.AddNewCategory(data)
-                 .then(res => {
-                     localStorage.removeItem("is_menu");
-                     localStorage.removeItem("status");
-                     localStorage.removeItem("select");
-                     pushResult(res)
-                     Swal.fire({
-                         type: "success",
-                         title: 'با موفقیت اضافه شد !',
-                         confirmButtonClass: 'btn btn-success',
-                         confirmButtonText: 'باشه',
-                     })
-                 }).catch(error => console.log("error", error))
-         }
-      });
-      */
-    }
+    console.log("form dataaaa : ", data);
+    swal({
+      title: 'افزودن دسته بندی جدید',
+      text: "آیا مطمئنید؟",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'تایید',
+      confirmButtonClass: 'btn btn-primary',
+      cancelButtonClass: 'btn btn-danger ml-1',
+      cancelButtonText: 'انصراف',
+      buttonsStyling: false
+    }).then(function (result) {
+      if (result.value) {
+        _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_5__.Request.AddNewCategory(data).then(function (res) {
+          console.log("resultttttttt ok : ", res.data);
+          localStorage.removeItem("is_menu");
+          localStorage.removeItem("status");
+          localStorage.removeItem("select");
+          pushResult(res);
+
+          if (res.data.status) {
+            Swal.fire({
+              type: "success",
+              title: 'با موفقیت اضافه شد !',
+              confirmButtonClass: 'btn btn-success',
+              confirmButtonText: 'باشه'
+            });
+          } else {
+            Swal.fire({
+              type: "error",
+              title: 'خطایی رخ داده است !',
+              cancelButtonClass: 'btn btn-primary',
+              cancelButtonText: 'تلاش مجدد'
+            });
+          }
+        })["catch"](function (error) {
+          return console.log("error", error);
+        });
+      }
+    });
   };
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -3027,18 +3040,36 @@ var AddCategory = function AddCategory(_ref) {
     $("#my-editor").attr("defaultValue", "");
   };
 
+  var HandleFile = function HandleFile(e) {
+    var filesss = e.target.files;
+    setFile({
+      image: filesss
+    });
+  };
+
   var handleInput = function handleInput(e) {
     setEdit(true);
     setFormData(_objectSpread(_objectSpread({}, formData), {}, _defineProperty({}, e.target.name, e.target.value)));
+
+    var formDataOld = _objectSpread({}, formData);
+
+    formDataOld.slug = e.target.value;
   };
 
   var HandleForm = function HandleForm(e) {
     var formNew = _objectSpread({}, formData);
 
-    var is_menu = localStorage.getItem("is_menu");
-    var status = localStorage.getItem("status");
+    var forms = new FormData(); // console.log("form data sssssssssss : " , file.image[0]);
+    // if (file.image[0]){
+    //     forms.append("image", file.image[0])
+    // }
+    // console.log("form dataaaaaaaaaaa : " , forms);
+
+    var is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
+    var status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
     formNew.status = status;
-    formNew.is_menu = parseInt(is_menu);
+    console.log("menusssssss : ", is_menu);
+    formNew.is_menu = is_menu ? 1 : 0;
 
     if (slugManage == false) {
       formNew.slug = formNew.name;
@@ -3050,7 +3081,6 @@ var AddCategory = function AddCategory(_ref) {
 
     formNew.content = contentNew;
     formNew.metadata = "vsdvsdvsdvsdv";
-    var msg = "اضافه کردن دسته بندی " + formData.name;
 
     if (formData.name && formData.name !== '') {
       $("input[name=name]").removeClass("is-invalid");
@@ -3160,6 +3190,33 @@ var AddCategory = function AddCategory(_ref) {
     localStorage.setItem("selected", check);
   };
 
+  console.log("data upppppp : ", formData);
+
+  var HandleDefaultValuSlug = function HandleDefaultValuSlug() {
+    if (dataUpdateParse) {
+      if (type == "dup") {
+        return MakeNewName(dataUpdateParse.slug);
+      } else {
+        return dataUpdateParse.slug;
+      }
+    } else {
+      formData.slug = formData.name;
+      return formData.name;
+    }
+  };
+
+  var HandleMakeName = function HandleMakeName() {
+    if (dataUpdateParse) {
+      if (type == "dup") {
+        return MakeNewName(dataUpdateParse.name);
+      } else {
+        return dataUpdateParse.name;
+      }
+    } else {
+      return formData.name;
+    }
+  };
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
     id: "category_add_pop_base",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("form", {
@@ -3225,7 +3282,7 @@ var AddCategory = function AddCategory(_ref) {
                     children: "\u0639\u0646\u0648\u0627\u0646 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
                     type: "text",
-                    defaultValue: dataUpdateParse ? type == "dup" ? MakeNewName(dataUpdateParse.name) : dataUpdateParse.name : '',
+                    defaultValue: HandleMakeName(),
                     onChange: function onChange(e) {
                       return handleInput(e);
                     },
@@ -3297,10 +3354,15 @@ var AddCategory = function AddCategory(_ref) {
                     id: "file",
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
                       type: "file",
-                      name: "file-attach",
+                      name: "image",
+                      multiple: "multiple",
+                      onChange: function onChange(e) {
+                        return HandleFile(e);
+                      },
                       style: {
                         opacity: 0,
                         zIndex: 9,
+                        height: '100%',
                         position: 'absolute',
                         cursor: 'pointer'
                       }
@@ -3363,9 +3425,9 @@ var AddCategory = function AddCategory(_ref) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                     htmlFor: "title",
                     children: "\u0622\u062F\u0631\u0633 \u0635\u0641\u062D\u0647 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
-                  }), console.log("slugssssssss : ", formData), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
+                  }), console.log("slugssssssss : ", dataUpdateParse), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
                     type: "text",
-                    defaultValue: dataUpdateParse ? type == "dup" ? MakeNewSlug(dataUpdateParse.slug) : dataUpdateParse.name : '',
+                    defaultValue: HandleDefaultValuSlug(),
                     disabled: true,
                     id: "title",
                     className: "form-control slugest"
@@ -3715,7 +3777,7 @@ var CategoryList = function CategoryList() {
   };
 
   var handleBack = function handleBack(item) {
-    if (item.status == 200) {
+    if (item.data.status == true) {
       GetAllCategory();
       react_dom__WEBPACK_IMPORTED_MODULE_1__.render('', document.getElementById('add-datas'));
     }
@@ -7664,7 +7726,7 @@ var REQUEST_URL = "".concat(BASE_URL).concat(VERSION);
 var TIMEOUT = 60000;
 var REQUEST_HEADER_TOKEN = {
   'Access-Control-Allow-Origin': '*',
-  'Content-Type': 'application/json',
+  // 'Content-Type': 'multipart/form-data',
   'Authentication': ''
 };
 
