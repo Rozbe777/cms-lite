@@ -25,6 +25,9 @@ export const CategoryList = () => {
             })
             .catch(err => console.log("errpr : " , err))
     }
+
+
+
     useEffect(() => {
         GetAllCategory();
         $(function (){
@@ -42,11 +45,11 @@ export const CategoryList = () => {
 
 
 
-    $(function () {
-        $("#add-category").click(() => {
-            setDisplay(true)
-        })
-    })
+    // $(function () {
+    //     $("#add-category").click(() => {
+    //         setDisplay(true)
+    //     })
+    // })
 
     const handleAddPage = () => {
         ReactDom.render(<AddCategory display={true} dataUpdate={''} idParent={null}

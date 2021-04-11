@@ -24,7 +24,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     });
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
-    console.log("data :::::: : ", dataUpdateParse)
 
     const type = dataGet ? dataGet.type : '';
 
@@ -42,19 +41,49 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     };
 
     const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
+    const CreateAddCategory = (data) => {
+
+        console.log("data : " , data)
+
+        {/*
 
 
-    const CreateAddCategory = (e, data) => {
-        e.preventDefault();
-        Request.AddNewCategory(data)
-            .then(res => pushResult(res))
-            .catch(error => console.log("error add :", error))
+        swal({
+            title: 'افزودن دسته بندی جدید',
+            text: "آیا مطمئنید؟",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'تایید',
+            confirmButtonClass: 'btn btn-primary',
+            cancelButtonClass: 'btn btn-danger ml-1',
+            cancelButtonText: 'انصراف',
+            buttonsStyling: false,
+        }).then(function (result) {
+            if (result.value) {
+                Request.AddNewCategory(data)
+                    .then(res => {
+                        localStorage.removeItem("is_menu");
+                        localStorage.removeItem("status");
+                        localStorage.removeItem("select");
+                        pushResult(res)
+                        Swal.fire({
+                            type: "success",
+                            title: 'با موفقیت اضافه شد !',
+                            confirmButtonClass: 'btn btn-success',
+                            confirmButtonText: 'باشه',
+                        })
+                    }).catch(error => console.log("error", error))
+            }
+        });
+
+        */}
+
     }
+
 
     useEffect(() => {
         let formNews = {...formData};
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
-        console.log("form newssss : ", formNews)
         setFormData(formNews);
     }, [])
 
@@ -98,20 +127,17 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         if (formData.slug == "") {
             formNew.slug = formNew.name
         }
+        formNew.content = contentNew;
+        formNew.metadata = "vsdvsdvsdvsdv";
         let msg = "اضافه کردن دسته بندی " + formData.name
-        console.log("datasss : ", formNew)
         if (formData.name && formData.name !== '') {
             $("input[name=name]").removeClass("is-invalid");
-            console.log("cat name : ", formNew.name)
+            CreateAddCategory(formNew);
         } else {
-            console.log("name is null")
             $("input[name=name]").addClass("is-invalid");
 
         }
-        formNew.content = contentNew;
-        formNew.metadata = "vsdvsdvsdvsdv";
-        console.log("form data : " , formNew)
-        CreateAddCategory(e, formNew);
+
     }
 
     const HandleMetaData = (e) => {
@@ -142,26 +168,44 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         setSlugManage(status)
     }
 
-    const HandleUpdateForm=(data , id)=>{
-        Request.UpdateDataCategory(data , id)
+    const HandleUpdateForm=(data , id)=> {
+        console.log("data update : ", data)
+        Request.UpdateDataCategory(data, id)
             .then(res => {
                 localStorage.removeItem("is_menu");
                 localStorage.removeItem("status");
+                localStorage.removeItem("select");
                 pushResult(res)
             })
             .catch(error => console.log("error add :", error))
     }
+
 
     const HandleEdit = () => {
         let formOldData = {...formData};
         formOldData.content = contentNew;
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-        // console.log("status : " , status , " / menu : " , is_menu);
+        let parent_id = localStorage.getItem("select") ? localStorage.getItem("select") : formData.parent_id;
         formOldData.status = status;
         formOldData.is_menu = parseInt(is_menu);
-        HandleUpdateForm(formOldData , formOldData.id);
+        formOldData.parent_id = parseInt(parent_id);
+        HandleUpdateForm(formOldData, formOldData.id);
     }
+
+    const HandleDuplicate = () => {
+        let formOldData = {...formData};
+        formOldData.content = contentNew;
+        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
+        let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
+        let parent_id = localStorage.getItem("select") ? localStorage.getItem("select") : formData.parent_id;
+        formOldData.status = status;
+        formOldData.is_menu = parseInt(is_menu);
+        formOldData.parent_id = parseInt(parent_id);
+        CreateAddCategory(formOldData);
+    }
+
+
     const handleEditorData = (data) => {
         setEdit(true);
         setFormData({
@@ -174,23 +218,28 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         const min = 1;
         const max = 1000;
         const rand = Number(min + Math.random() * (max - min)).toFixed(0);
-        return name+rand+"_کپی";
+        formData.name = name + rand + "_کپی";
+        return name + rand + "_کپی";
+    }
+    let MakeNewSlug = (name) => {
+        const min = 1;
+        const max = 1000;
+        const rand = Number(min + Math.random() * (max - min)).toFixed(0);
+        formData.slug = name + rand + "_کپی";
+        return name + rand + "_کپی";
     }
     const handleSwitchStatus = (status) => {
         setEdit(true)
         localStorage.setItem("status", status ? "active" : "deactivate");
     }
-    const handleSwitchMenu = ( status) => {
+    const handleSwitchMenu = (status) => {
         setEdit(true)
         localStorage.setItem("is_menu", status ? 1 : 0);
     }
 
     const HandleSelectOption = (check) => {
         setEdit(true)
-        setFormData({
-            ...formData,
-            parent_id: parseInt(check)
-        })
+        localStorage.setItem("selected", check)
     }
 
     return (
@@ -226,7 +275,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>دسته بندی پدر</label>
-                                    {console.log("item selected : " ,idParent )}
                                     {categoryData ? (
                                         <SelectOptions parents={idParent ? idParent : dataUpdateParse.parent_id}
                                                        selection={check => HandleSelectOption(check)}
@@ -308,9 +356,10 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             <div className={"col-lg-9 col-md-8 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس صفحه دسته بندی</label>
+                                    {console.log("slugssssssss : " , formData)}
                                     {slugManage ? (
                                         <input type={"text"}
-                                               defaultValue={dataUpdateParse.slug ? dataUpdateParse.slug : formData.name}
+                                               defaultValue={dataUpdateParse ? type == "dup" ? MakeNewSlug(dataUpdateParse.slug) : dataUpdateParse.name : ''}
                                                disabled id={"title"} className={"form-control slugest"}/>
                                     ) : (
                                         <input type={"text"}

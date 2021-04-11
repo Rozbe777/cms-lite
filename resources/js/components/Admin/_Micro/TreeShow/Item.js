@@ -7,12 +7,13 @@ import ReactDom from "react-dom";
 
 export const Item = ({allData , key , id ,name ,status , duplicate : pushDuplicate , itemClick : pushItemClisk , delClick : pushDelClick , dataForEdit  : pushDataForEdit}) => {
 
+    // adding new item by click on ( + ) in category item
     const handleAdding = (e) => {
         e.preventDefault();
-        console.log("item id : " , id);
         pushItemClisk(id);
     }
 
+    // handle delete single item by category id
     const HandleDel = (e , idDel) => {
         e.preventDefault()
         Request.DeleteCategoryOne(idDel)
@@ -20,6 +21,10 @@ export const Item = ({allData , key , id ,name ,status , duplicate : pushDuplica
                 pushDelClick(res.status);
             }).cache(error => console.log("error : " , error))
     }
+
+
+    // handle edit single item by id and data
+    // this function used for edit and duplicate category
     const HandleEdit = (e , type) => {
         e.preventDefault();
         let editOrDup = JSON.stringify({type , allData})
@@ -27,22 +32,6 @@ export const Item = ({allData , key , id ,name ,status , duplicate : pushDuplica
     }
 
 
-    const HandleDuplicate = (e , id) => {
-        e.preventDefault();
-        let JsonData = JSON.parse(allData);
-        let dataFit = {...JsonData};
-        const min = 1;
-        const max = 1000;
-        const rand = Number(min + Math.random() * (max - min)).toFixed(0);
-        dataFit.name = dataFit.name+rand+"_کپی";
-        dataFit.slug = dataFit.slug+rand+"_کپی";
-        dataFit.image = '';
-        // console.log("dataaaaaaaa: ",dataFit)
-        Request.AddNewCategory(dataFit)
-            .then(res => {
-                pushDuplicate(res.status)
-            }).cache(error => console.log("error : " , error))
-    }
     return (
         <div id={"li-div"}>
             <div className={"row"} style={{padding: '0 20px' , position : 'relative'}}>
