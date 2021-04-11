@@ -88,7 +88,7 @@ Route::group([], function () {
             Route::post('/', [UserController::class, 'store'])->name('store');
             Route::get('/{userId}/edit', [UserController::class, 'edit'])->name('edit');
             Route::put('/{userId}/update', [UserController::class, 'update'])->name('update');
-            Route::get('/{userId}/destroy', [UserController::class, 'destroy'])->name('destroy');
+            Route::delete('/{userId}/destroy', [UserController::class, 'destroy'])->name('destroy');
             Route::get('/search', [UserController::class, 'search'])->name('search');
             Route::post('/destroys', [UserController::class, 'multipleDestroy'])->name('multipleDestroy');
 
@@ -120,9 +120,9 @@ Route::group([], function () {
             Route::post('/', [CategoryController::class, 'store'])->name('store');
             Route::get('/{categoryId}/edit', [CategoryController::class, 'edit'])->name('edit');
             Route::put('/{categoryId}/update', [CategoryController::class, 'update'])->name('update');
-            Route::get('/{categoryId}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
+            Route::delete('/{categoryId}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
             Route::get('/search', [CategoryController::class, 'search'])->name('search');
-            Route::get('/destroys', [CategoryController::class, 'multipleDestroy'])->name('multipleDestroy');
+            Route::post('/destroys', [CategoryController::class, 'multipleDestroy'])->name('multipleDestroy');
 
 
         });
@@ -135,9 +135,9 @@ Route::group([], function () {
             Route::post('/', [TagController::class, 'store'])->name('store');
             Route::get('/{tagId}/edit', [TagController::class, 'edit'])->name('edit');
             Route::put('/{tagId}/update', [TagController::class, 'update'])->name('update');
-            Route::get('/{tagId}/destroy', [TagController::class, 'destroy'])->name('destroy');
+            Route::delete('/{tagId}/destroy', [TagController::class, 'destroy'])->name('destroy');
             Route::get('/search', [TagController::class, 'search'])->name('search');
-            Route::get('/destroys', [TagController::class, 'multipleDestroy'])->name('multipleDestroy');
+            Route::post('/destroys', [TagController::class, 'multipleDestroy'])->name('multipleDestroy');
 
 
         });
@@ -150,9 +150,9 @@ Route::group([], function () {
             Route::post('/', [ContentController::class, 'store'])->name('store');
             Route::get('/{contentId}/edit', [ContentController::class, 'edit'])->name('edit');
             Route::put('/{contentId}/update', [ContentController::class, 'update'])->name('update');
-            Route::get('/{contentId}/destroy', [ContentController::class, 'destroy'])->name('destroy');
+            Route::delete('/{contentId}/destroy', [ContentController::class, 'destroy'])->name('destroy');
             Route::get('/search', [ContentController::class, 'search'])->name('search');
-            Route::get('/destroys', [ContentController::class, 'multipleDestroy'])->name('multipleDestroy');
+            Route::post('/destroys', [ContentController::class, 'multipleDestroy'])->name('multipleDestroy');
 
 
         });
@@ -165,9 +165,9 @@ Route::group([], function () {
             Route::post('/', [PageController::class, 'store'])->name('store');
             Route::get('/{pageId}/edit', [PageController::class, 'edit'])->name('edit');
             Route::put('/{contentId}/update', [PageController::class, 'update'])->name('update');
-            Route::get('/{pageId}/destroy', [PageController::class, 'destroy'])->name('destroy');
+            Route::delete('/{pageId}/destroy', [PageController::class, 'destroy'])->name('destroy');
             Route::get('/search', [PageController::class, 'search'])->name('search');
-            Route::get('/destroys', [PageController::class, 'multipleDestroy'])->name('multipleDestroy');
+            Route::post('/destroys', [PageController::class, 'multipleDestroy'])->name('multipleDestroy');
 
 
         });

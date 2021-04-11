@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Admin\Category;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseRequest;
 
-class CreateCategoryRequest extends FormRequest
+class CreateCategoryRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,8 +26,8 @@ class CreateCategoryRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:categories,name',
             'slug' => 'required|string|max:255|unique:categories,slug',
-            //
-            //'image' => 'image',
+
+            'image' => 'required|image',
             'content' => '',
             'fields' => '',
             //'parent_id' => 'exists:categories,id',

@@ -31,6 +31,7 @@ class CreateUserRequest extends BaseRequest
             'phone' => ['required','unique:users' , 'mobile'],
             'password' => 'required|string|min:4',
             'role_id' => 'required|exists:roles,id',
+            'status' => 'nullable|in:active,deactivate',
 
         ];
     }

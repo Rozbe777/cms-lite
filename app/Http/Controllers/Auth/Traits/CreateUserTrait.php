@@ -33,6 +33,10 @@ trait CreateUserTrait
         if (!empty($user['password']))
             $userModel->password = bcrypt($user['password']);
 
+        if (!empty($user['status']))
+            $userModel->status = $user['status'];
+
+
         $userModel->email_verified_at = now();
         $userModel->status = config('user.register.default_status');
 

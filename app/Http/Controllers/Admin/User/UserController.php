@@ -32,6 +32,8 @@ class UserController extends Controller
                 'email'=>$request->input('email'),
                 'password'=>$request->input('password'),
                 'registration_source'=>$request->input('registration_source','web'),
+                'status'=>$request->input('status'),
+
 
             ]
         );
@@ -75,7 +77,6 @@ class UserController extends Controller
 
     public function update(EditUserRequest $request,$userId)
     {
-//|unique:users,email,'.$this->request->get("userId")
         $user=$this->EditUser([
             'name'=>$request->name,
             'last_name'=>$request->last_name,
@@ -123,7 +124,6 @@ class UserController extends Controller
 
         $file = new Filesystem;
         $file->cleanDirectory(storage_path('framework/laravel-excel'));
-        //FIXME cleanDirectory not working
         $exel=Excel::download(new UserListExport($users), $fileName);
 //        $userList=new ExportUsersExcelJob($users);
         return $exel;

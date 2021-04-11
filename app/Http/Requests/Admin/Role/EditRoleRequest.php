@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Admin\Role;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseRequest;
 
-class EditRoleRequest extends FormRequest
+class EditRoleRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,10 @@ class EditRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            "name"=>"required|min:3|unique:permissions,name,".$this->request->get("id"),
-            "display_name"=>"required|min:3|unique:permissions,display_name,".$this->request->get("id")
+            "name"=>"required|min:3|unique:permissions,name,".$this->route('roleId'),
+            "display_name"=>"required|min:3|unique:permissions,display_name,".$this->route('roleId'),
+            "permissions"=> "array",
+            "permissions.*" => "exists:permissions,id",
         ];
     }
 }

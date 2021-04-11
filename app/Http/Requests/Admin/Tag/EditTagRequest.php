@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Admin\Tag;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseRequest;
 
-class EditTagRequest extends FormRequest
+class EditTagRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.

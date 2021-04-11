@@ -2,8 +2,7 @@
 
 namespace App\Http\Requests\Admin\User;
 
-use App\Rules\iran_mobile;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseRequest;
 use Illuminate\Support\Carbon;
 
 /**
@@ -17,7 +16,7 @@ use Illuminate\Support\Carbon;
  * @property string role
  * @property Carbon|null email_verified_at
  */
-class EditUserRequest extends FormRequest
+class EditUserRequest extends BaseRequest
 {
     /**
      * @var mixed
@@ -44,8 +43,8 @@ class EditUserRequest extends FormRequest
             'name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
             'email' => 'nullable|string|email|max:255unique:users,email,'.$this->route('userId'),
-            'phone' => ['nullable','unique:users,phone,'.$this->route('userId') , new iran_mobile()],
-            'password' => 'nullable|string|min:4|confirmed',
+            'phone' => ['nullable','unique:users,phone,'.$this->route('userId') , 'mobile'],
+            'password' => 'nullable|string|min:4',
             'status' => 'nullable|in:active,deactivate',
             'role' => 'nullable|exists:roles,id',
 

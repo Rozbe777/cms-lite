@@ -19,8 +19,8 @@ trait CreateCategoryTrait
         if (!empty($category['slug']))
             $categoryModel->slug = $category['slug'];
 
-
         if (isset($category['image'])){
+
             $file_path = config("upload.path.category_images");
 
             $file_name = FileManager::type('image')
