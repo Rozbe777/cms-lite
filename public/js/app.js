@@ -2861,11 +2861,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _HOC_Switch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../HOC/Switch */ "./resources/js/components/HOC/Switch.js");
 /* harmony import */ var _HOC_BigSwitcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../HOC/BigSwitcher */ "./resources/js/components/HOC/BigSwitcher.js");
 /* harmony import */ var _Shared_Style_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../_Shared/Style.scss */ "./resources/js/components/Admin/_Shared/Style.scss");
-/* harmony import */ var _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../../../services/AdminService/Api */ "./resources/js/services/AdminService/Api.js");
-/* harmony import */ var _HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../../../HOC/SelectOptions */ "./resources/js/components/HOC/SelectOptions.js");
-/* harmony import */ var _Micro_MyEditor_MyEditor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../_Micro/MyEditor/MyEditor */ "./resources/js/components/Admin/_Micro/MyEditor/MyEditor.js");
-/* harmony import */ var _Micro_TreeShow_Shared_style_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./../../_Micro/TreeShow/_Shared/style.scss */ "./resources/js/components/Admin/_Micro/TreeShow/_Shared/style.scss");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../../../helper */ "./resources/js/helper.js");
+/* harmony import */ var _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../../../../services/AdminService/Api */ "./resources/js/services/AdminService/Api.js");
+/* harmony import */ var _HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./../../../HOC/SelectOptions */ "./resources/js/components/HOC/SelectOptions.js");
+/* harmony import */ var _Micro_MyEditor_MyEditor__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../_Micro/MyEditor/MyEditor */ "./resources/js/components/Admin/_Micro/MyEditor/MyEditor.js");
+/* harmony import */ var _HOC_ChipsetHandler__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./../../../HOC/ChipsetHandler */ "./resources/js/components/HOC/ChipsetHandler.js");
+/* harmony import */ var _Micro_TreeShow_Shared_style_scss__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./../../_Micro/TreeShow/_Shared/style.scss */ "./resources/js/components/Admin/_Micro/TreeShow/_Shared/style.scss");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2883,6 +2893,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 
@@ -2933,38 +2945,45 @@ var AddCategory = function AddCategory(_ref) {
       menuShow = _useState12[0],
       setMenuShow = _useState12[1];
 
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState14 = _slicedToArray(_useState13, 2),
-      edit = _useState14[0],
-      setEdit = _useState14[1];
+      chipset = _useState14[0],
+      setChipset = _useState14[1];
 
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+  var tags = [];
+
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState16 = _slicedToArray(_useState15, 2),
-      file = _useState16[0],
-      setFile = _useState16[1];
+      edit = _useState16[0],
+      setEdit = _useState16[1];
+
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+      _useState18 = _slicedToArray(_useState17, 2),
+      file = _useState18[0],
+      setFile = _useState18[1];
 
   var StatusSwitch = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
 
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     robots: false
   }),
-      _useState18 = _slicedToArray(_useState17, 2),
-      metaData = _useState18[0],
-      setMetaData = _useState18[1];
+      _useState20 = _slicedToArray(_useState19, 2),
+      metaData = _useState20[0],
+      setMetaData = _useState20[1];
 
   var dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
   var dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
   var type = dataGet ? dataGet.type : '';
 
-  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
-      _useState20 = _slicedToArray(_useState19, 2),
-      slugManage = _useState20[0],
-      setSlugManage = _useState20[1];
-
-  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState22 = _slicedToArray(_useState21, 2),
-      formData = _useState22[0],
-      setFormData = _useState22[1];
+      slugManage = _useState22[0],
+      setSlugManage = _useState22[1];
+
+  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState24 = _slicedToArray(_useState23, 2),
+      formData = _useState24[0],
+      setFormData = _useState24[1];
 
   var default_value = {
     is_menu: true,
@@ -2989,24 +3008,28 @@ var AddCategory = function AddCategory(_ref) {
       buttonsStyling: false
     }).then(function (result) {
       if (result.value) {
-        _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_5__.Request.AddNewCategory(data).then(function (res) {
+        _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_6__.Request.AddNewCategory(data).then(function (res) {
           console.log("resultttttttt ok : ", res);
-          localStorage.removeItem("is_menu");
-          localStorage.removeItem("status");
-          localStorage.removeItem("selected");
-          pushResult(res);
+          var resError = res.data.message ? res.data.message : '';
+          console.log("status error : ", res.data.size);
 
-          if (res.status == 200) {
+          if (res.status == 200 && resError == '') {
+            pushResult(res);
+            localStorage.removeItem("is_menu");
+            localStorage.removeItem("status");
+            localStorage.removeItem("selected");
             Swal.fire({
               type: "success",
               title: 'با موفقیت اضافه شد !',
               confirmButtonClass: 'btn btn-success',
               confirmButtonText: 'باشه'
             });
+          } else if (res.status == 200 && resError !== '') {
+            (0,_helper__WEBPACK_IMPORTED_MODULE_5__.error)(resError);
           } else {
             Swal.fire({
               type: "error",
-              title: 'خطایی رخ داده است !',
+              title: 'خطایی غیر منتظره ای رخ داده است !',
               cancelButtonClass: 'btn btn-primary',
               cancelButtonText: 'تلاش مجدد'
             });
@@ -3082,10 +3105,11 @@ var AddCategory = function AddCategory(_ref) {
     }
 
     formNew.content = contentNew;
-    formNew.metadata = "vsdvsdvsdvsdv";
+    formNew.metadata = JSON.stringify(metaData);
 
     if (formData.name && formData.name !== '') {
-      $("input[name=name]").removeClass("is-invalid");
+      $("input[name=name]").removeClass("is-invalid"); // console.log("data added new : " , formNew)
+
       CreateAddCategory(formNew);
     } else {
       $("input[name=name]").addClass("is-invalid");
@@ -3118,7 +3142,7 @@ var AddCategory = function AddCategory(_ref) {
 
   var HandleUpdateForm = function HandleUpdateForm(data, id) {
     console.log("data update : ", data);
-    _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_5__.Request.UpdateDataCategory(data, id).then(function (res) {
+    _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_6__.Request.UpdateDataCategory(data, id).then(function (res) {
       localStorage.removeItem("is_menu");
       localStorage.removeItem("status");
       localStorage.removeItem("selected");
@@ -3192,8 +3216,8 @@ var AddCategory = function AddCategory(_ref) {
   };
 
   var HandleSelectOption = function HandleSelectOption(check) {
-    setEdit(true); // console.log("data checked : " , check)
-
+    setEdit(true);
+    console.log("data checked : ", check);
     localStorage.setItem("selected", check);
   };
 
@@ -3223,407 +3247,429 @@ var AddCategory = function AddCategory(_ref) {
     }
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
     id: "category_add_pop_base",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("form", {
-      action: "#",
-      children: [console.log("data cat : ", dataCategory.data), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("ul", {
-        className: "nav nav-tabs tab-layout",
-        role: "tablist",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("li", {
-          className: "nEav-item col-6 nav-custom",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
-            className: "nav-link active",
-            id: "cat-tab",
-            "data-toggle": "tab",
-            href: "#cat",
-            "aria-controls": "cat",
-            role: "tab",
-            "aria-selected": "true",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
-              className: "align-middle",
-              children: "\u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
-            })
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("ul", {
+      className: "nav nav-tabs tab-layout",
+      role: "tablist",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("li", {
+        className: "nEav-item col-6 nav-custom",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("a", {
+          className: "nav-link active",
+          id: "cat-tab",
+          "data-toggle": "tab",
+          href: "#cat",
+          "aria-controls": "cat",
+          role: "tab",
+          "aria-selected": "true",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+            className: "align-middle",
+            children: "\u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("li", {
-          className: "nav-item col-6 nav-custom ",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
-            className: "nav-link",
-            id: "seo-tab",
-            "data-toggle": "tab",
-            href: "#seo",
-            "aria-controls": "seos",
-            role: "tab",
-            "aria-selected": "false",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
-              className: "align-middle",
-              children: "\u0633\u0626\u0648 \u0648 \u0622\u062F\u0631\u0633"
-            })
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("li", {
+        className: "nav-item col-6 nav-custom ",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("a", {
+          className: "nav-link",
+          id: "seo-tab",
+          "data-toggle": "tab",
+          href: "#seo",
+          "aria-controls": "seos",
+          role: "tab",
+          "aria-selected": "false",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+            className: "align-middle",
+            children: "\u0633\u0626\u0648 \u0648 \u0622\u062F\u0631\u0633"
           })
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-        className: "tab-content",
-        style: {
-          padding: 0,
-          position: 'relative'
-        },
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-          className: "tab-pane active",
-          id: "cat",
-          "aria-labelledby": "cat-tab",
-          role: "tabpanel",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-            className: "content-pages",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-              className: "row",
-              style: {
-                padding: '20px'
-              },
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-                className: "col-lg-3 col-md-4 col-sm-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
-                  className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
-                    htmlFor: "title",
-                    children: "\u0639\u0646\u0648\u0627\u0646 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
-                    type: "text",
-                    defaultValue: HandleMakeName(),
-                    onChange: function onChange(e) {
-                      return handleInput(e);
-                    },
-                    name: "name",
-                    id: "title",
-                    className: "form-control"
-                  })]
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-                className: "col-lg-3 col-md-4 col-sm-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
-                  className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
-                    id: "selectParent",
-                    children: "\u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC \u067E\u062F\u0631"
-                  }), categoryData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_6__.SelectOptions, {
-                    parents: idParent ? idParent : dataUpdateParse.parent_id,
-                    selection: function selection(check) {
-                      return HandleSelectOption(check);
-                    },
-                    loading: loading,
-                    data: JSON.stringify(dataCategory.data)
-                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("p", {
-                    children: "wait ..."
-                  })]
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-                className: "col-lg-2 col-md-3 col-sm-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
-                  className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
-                    id: "selectParent",
-                    children: "\u0648\u0636\u0639\u06CC\u062A \u0646\u0645\u0627\u06CC\u0634"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_HOC_Switch__WEBPACK_IMPORTED_MODULE_2__.Switcher, {
-                    defaultState: dataUpdateParse ? dataUpdateParse.status == "active" ? true : false : true,
-                    status: function status(state) {
-                      return handleSwitchStatus(state);
-                    },
-                    name: "showState",
-                    valueActive: "فعال",
-                    valueDeActive: "غیرفعال"
-                  })]
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-                className: "col-lg-2 col-md-3 col-sm-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
-                  className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
-                    id: "selectParent",
-                    children: "\u0646\u0645\u0627\u06CC\u0634 \u062F\u0631 \u0645\u0646\u0648"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_HOC_Switch__WEBPACK_IMPORTED_MODULE_2__.Switcher, {
-                    defaultState: dataUpdateParse ? dataUpdateParse.is_menu == 0 ? false : true : true,
-                    status: function status(state) {
-                      return handleSwitchMenu(state);
-                    },
-                    name: "showMenu",
-                    valueActive: "فعال",
-                    valueDeActive: "غیرفعال"
-                  })]
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-                className: "col-lg-2 col-md-3 col-sm-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
-                  className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
-                    id: "selectParent",
-                    children: "\u0627\u0641\u0632\u0648\u062F\u0646 \u0641\u0627\u06CC\u0644"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-                    id: "file",
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
-                      type: "file",
-                      name: "image",
-                      multiple: "multiple",
-                      onChange: function onChange(e) {
-                        return HandleFile(e);
-                      },
-                      style: {
-                        opacity: 0,
-                        zIndex: 9,
-                        height: '100%',
-                        position: 'absolute',
-                        cursor: 'pointer'
-                      }
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("button", {
-                      id: "select-files",
-                      className: "btn btn-primary mb-1",
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("i", {
-                        className: "icon-file2"
-                      }), "\u0627\u0646\u062A\u062E\u0627\u0628 \u0641\u0627\u06CC\u0644"]
-                    })]
-                  })]
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-                className: "col-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Micro_MyEditor_MyEditor__WEBPACK_IMPORTED_MODULE_7__.default, {
-                  editorData: function editorData(data) {
-                    setEdit(true);
-                    setContentNew(data);
-                  },
-                  id: "my-editor",
-                  defaultVal: dataUpdateParse ? dataUpdateParse.content : '',
-                  placeholder: "توضیحات دسته بندی را بنویسید ..."
-                })
-              })]
-            })
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-          className: "tab-pane",
-          id: "seo",
-          "aria-labelledby": "seo-tab",
-          role: "tabpanel",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-            className: "content-pages",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-              className: "row",
-              style: {
-                padding: '25px'
-              },
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-                className: "col-lg-3 col-md-4 col-sm-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
-                  className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
-                    id: "selectParent",
-                    children: "\u0646\u0648\u0639 \u0622\u062F\u0631\u0633"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_HOC_Switch__WEBPACK_IMPORTED_MODULE_2__.Switcher, {
-                    defaultState: true,
-                    status: function status(state) {
-                      return handleAddress(state);
-                    },
-                    name: "AddressType",
-                    valueActive: "خودکار",
-                    valueDeActive: "دستی"
-                  })]
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-                className: "col-lg-9 col-md-8 col-sm-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
-                  className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
-                    htmlFor: "title",
-                    children: "\u0622\u062F\u0631\u0633 \u0635\u0641\u062D\u0647 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
-                  }), console.log("slugssssssss : ", dataUpdateParse), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
-                    type: "text",
-                    defaultValue: HandleDefaultValuSlug(),
-                    disabled: true,
-                    id: "title",
-                    className: "form-control slugest"
-                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
-                    type: "text",
-                    defaultValue: dataUpdateParse.slug ? dataUpdateParse.slug : formData.name,
-                    onChange: function onChange(e) {
-                      return handleInput(e);
-                    },
-                    name: "slug",
-                    id: "title",
-                    className: "form-control slugest"
-                  })]
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-                className: "col s12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-                  className: "alert alert-primary mb-2 col-12",
-                  role: "alert",
-                  children: "\u0627\u0637\u0644\u0627\u0639\u0627\u062A \u062A\u06CC\u062A\u0631 \u0648 \u062A\u0648\u0636\u06CC\u062D\u0627\u062A \u0635\u0641\u062D\u0647 \u0628\u0647 \u0635\u0648\u0631\u062A \u062E\u0648\u062F\u06A9\u0627\u0631 \u062A\u0648\u0633\u0637 zerone \u0628\u0631\u0627\u06CC \u0633\u0626\u0648\u06CC \u0628\u0647\u062A\u0631 \u0627\u06CC\u062C\u0627\u062F \u0645\u06CC\u200C\u0634\u0648\u0646\u062F. \u062F\u0631 \u0635\u0648\u0631\u062A\u06CC \u06A9\u0647 \u062A\u0645\u0627\u06CC\u0644 \u0628\u0647 \u0634\u062E\u0635\u06CC\u200C\u0633\u0627\u0632\u06CC \u0622\u0646 \u062F\u0627\u0631\u06CC\u062F\u060C \u0645\u06CC\u200C\u062A\u0648\u0627\u0646\u06CC\u062F \u0627\u0632 \u0628\u062E\u0634 \u0632\u06CC\u0631 \u0627\u0633\u062A\u0641\u0627\u062F\u0647 \u06A9\u0646\u06CC\u062F."
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-                className: "col-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
-                  className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
-                    htmlFor: "title",
-                    children: "\u0639\u0646\u0648\u0627\u0646 \u0635\u0641\u062D\u0647 ( \u062D\u062F\u0627\u06A9\u062B\u0631 60 \u062D\u0631\u0641 )"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
-                    type: "text",
-                    onChange: function onChange(e) {
-                      return HandleMetaData(e);
-                    },
-                    name: "title",
-                    id: "title",
-                    className: "form-control"
-                  })]
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-                className: "col-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
-                  className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
-                    htmlFor: "title",
-                    children: "\u062A\u0648\u0636\u06CC\u062D \u0635\u0641\u062D\u0647 ( \u062D\u062F\u0627\u06A9\u062B\u0631 155 \u062D\u0631\u0641 )"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("textarea", {
-                    type: "text",
-                    onChange: function onChange(e) {
-                      return HandleMetaData(e);
-                    },
-                    name: "content",
-                    id: "title",
-                    className: "form-control"
-                  })]
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-                className: "col-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
-                  className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
-                    htmlFor: "title",
-                    children: "\u06A9\u0644\u0645\u0627\u062A \u06A9\u0644\u06CC\u062F\u06CC \u0635\u0641\u062D\u0647 ( \u0628\u0627 \u0648\u06CC\u0631\u06AF\u0648\u0644 \u062C\u062F\u0627 \u06A9\u0646\u06CC\u062F )"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
-                    type: "text",
-                    onChange: function onChange(e) {
-                      return HandleMetaData(e);
-                    },
-                    name: "tags",
-                    id: "title",
-                    className: "form-control"
-                  })]
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-                className: "col-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
-                  className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
-                    htmlFor: "title",
-                    children: "\u0622\u062F\u0631\u0633 \u062F\u0627\u062E\u0644\u06CC \u0628\u0631\u0627\u06CC \u0627\u0646\u062A\u0642\u0627\u0644 (301 Redirect)"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
-                    type: "text",
-                    onChange: function onChange(e) {
-                      return HandleMetaData(e);
-                    },
-                    name: "redirect",
-                    id: "title",
-                    className: "form-control"
-                  })]
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-                className: "col-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("fieldset", {
-                  className: "form-group",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
-                    htmlFor: "title",
-                    children: "\u0622\u062F\u0631\u0633 Canonical"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
-                    onChange: function onChange(e) {
-                      return HandleMetaData(e);
-                    },
-                    name: "canonical",
-                    type: "text",
-                    id: "title",
-                    className: "form-control"
-                  })]
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-                className: "col-12",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
-                  children: "\u062A\u0646\u0638\u06CC\u0645\u0627\u062A Robots"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_HOC_BigSwitcher__WEBPACK_IMPORTED_MODULE_3__.BigSwitcher, {
-                  status: function status(states) {
-                    return HandlerBigSwitcher(states);
-                  },
-                  name: "Robots",
-                  valueOne: "غیرفعال",
-                  valueTow: "noindex,follow",
-                  valueThree: "noindex,unfolow"
-                })]
-              })]
-            })
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-          className: "col-12 bottom-footer",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+        })
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+      className: "tab-content",
+      style: {
+        padding: 0,
+        position: 'relative'
+      },
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+        className: "tab-pane active",
+        id: "cat",
+        "aria-labelledby": "cat-tab",
+        role: "tabpanel",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          className: "content-pages",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
             className: "row",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-              className: "col-6",
-              onClick: handleClose,
-              style: {
-                cursor: 'pointer',
-                textAlign: 'center',
-                borderLeft: '1px solid #a9a9a9'
-              },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("button", {
-                type: "reset",
-                id: "clear",
-                children: "\u0627\u0646\u0635\u0631\u0627\u0641"
+            style: {
+              padding: '20px'
+            },
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: "col-lg-3 col-md-4 col-sm-12",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("fieldset", {
+                className: "form-group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
+                  htmlFor: "title",
+                  children: "\u0639\u0646\u0648\u0627\u0646 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("input", {
+                  type: "text",
+                  defaultValue: HandleMakeName(),
+                  onChange: function onChange(e) {
+                    return handleInput(e);
+                  },
+                  name: "name",
+                  id: "title",
+                  className: "form-control"
+                })]
               })
-            }), type ? type == 'edit' ? edit ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-              onClick: function onClick(e) {
-                return HandleEdit(e);
-              },
-              className: "col-6",
-              style: {
-                textAlign: 'center',
-                cursor: 'pointer'
-              },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
-                children: "\u0648\u06CC\u0631\u0627\u06CC\u0634"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: "col-lg-3 col-md-4 col-sm-12",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("fieldset", {
+                className: "form-group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
+                  id: "selectParent",
+                  children: "\u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC \u067E\u062F\u0631"
+                }), categoryData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_7__.SelectOptions, {
+                  parents: idParent ? idParent : dataUpdateParse.parent_id,
+                  selection: function selection(check) {
+                    return HandleSelectOption(check);
+                  },
+                  loading: loading,
+                  data: JSON.stringify(dataCategory.data)
+                }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("p", {
+                  children: "wait ..."
+                })]
               })
-            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-              id: "disable-div",
-              className: "col-6",
-              style: {
-                textAlign: 'center',
-                cursor: 'pointer'
-              },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
-                children: "\u0648\u06CC\u0631\u0627\u06CC\u0634"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: "col-lg-2 col-md-3 col-sm-12",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("fieldset", {
+                className: "form-group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
+                  id: "selectParent",
+                  children: "\u0648\u0636\u0639\u06CC\u062A \u0646\u0645\u0627\u06CC\u0634"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_HOC_Switch__WEBPACK_IMPORTED_MODULE_2__.Switcher, {
+                  defaultState: dataUpdateParse ? dataUpdateParse.status == "active" ? true : false : true,
+                  status: function status(state) {
+                    return handleSwitchStatus(state);
+                  },
+                  name: "showState",
+                  valueActive: "فعال",
+                  valueDeActive: "غیرفعال"
+                })]
               })
-            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-              onClick: function onClick(e) {
-                return HandleDuplicate(e);
-              },
-              className: "col-6",
-              style: {
-                textAlign: 'center',
-                cursor: 'pointer'
-              },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
-                children: "\u0630\u062E\u06CC\u0631\u0647 \u06A9\u067E\u06CC"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: "col-lg-2 col-md-3 col-sm-12",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("fieldset", {
+                className: "form-group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
+                  id: "selectParent",
+                  children: "\u0646\u0645\u0627\u06CC\u0634 \u062F\u0631 \u0645\u0646\u0648"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_HOC_Switch__WEBPACK_IMPORTED_MODULE_2__.Switcher, {
+                  defaultState: dataUpdateParse ? dataUpdateParse.is_menu == 0 ? false : true : true,
+                  status: function status(state) {
+                    return handleSwitchMenu(state);
+                  },
+                  name: "showMenu",
+                  valueActive: "فعال",
+                  valueDeActive: "غیرفعال"
+                })]
               })
-            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-              onClick: function onClick(e) {
-                return HandleForm(e);
-              },
-              className: "col-6",
-              style: {
-                textAlign: 'center',
-                cursor: 'pointer'
-              },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
-                children: "\u0630\u062E\u06CC\u0631\u0647"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: "col-lg-2 col-md-3 col-sm-12",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("fieldset", {
+                className: "form-group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
+                  id: "selectParent",
+                  children: "\u0627\u0641\u0632\u0648\u062F\u0646 \u0641\u0627\u06CC\u0644"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                  id: "file",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("input", {
+                    type: "file",
+                    name: "image",
+                    multiple: "multiple",
+                    onChange: function onChange(e) {
+                      return HandleFile(e);
+                    },
+                    style: {
+                      opacity: 0,
+                      zIndex: 9,
+                      height: '100%',
+                      position: 'absolute',
+                      cursor: 'pointer'
+                    }
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("button", {
+                    id: "select-files",
+                    className: "btn btn-primary mb-1",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("i", {
+                      className: "icon-file2"
+                    }), "\u0627\u0646\u062A\u062E\u0627\u0628 \u0641\u0627\u06CC\u0644"]
+                  })]
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: "col-12",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Micro_MyEditor_MyEditor__WEBPACK_IMPORTED_MODULE_8__.default, {
+                editorData: function editorData(data) {
+                  setEdit(true);
+                  setContentNew(data);
+                },
+                id: "my-editor",
+                defaultVal: dataUpdateParse ? dataUpdateParse.content : '',
+                placeholder: "توضیحات دسته بندی را بنویسید ..."
               })
             })]
           })
-        })]
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+        className: "tab-pane",
+        id: "seo",
+        "aria-labelledby": "seo-tab",
+        role: "tabpanel",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          className: "content-pages",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            className: "row",
+            style: {
+              padding: '25px'
+            },
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: "col-lg-3 col-md-4 col-sm-12",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("fieldset", {
+                className: "form-group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
+                  id: "selectParent",
+                  children: "\u0646\u0648\u0639 \u0622\u062F\u0631\u0633"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_HOC_Switch__WEBPACK_IMPORTED_MODULE_2__.Switcher, {
+                  defaultState: true,
+                  status: function status(state) {
+                    return handleAddress(state);
+                  },
+                  name: "AddressType",
+                  valueActive: "خودکار",
+                  valueDeActive: "دستی"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: "col-lg-9 col-md-8 col-sm-12",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("fieldset", {
+                className: "form-group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
+                  htmlFor: "title",
+                  children: "\u0622\u062F\u0631\u0633 \u0635\u0641\u062D\u0647 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
+                }), console.log("slugssssssss : ", dataUpdateParse), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("input", {
+                  type: "text",
+                  defaultValue: HandleDefaultValuSlug(),
+                  disabled: true,
+                  id: "title",
+                  className: "form-control slugest"
+                }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("input", {
+                  type: "text",
+                  defaultValue: dataUpdateParse.slug ? dataUpdateParse.slug : formData.name,
+                  onChange: function onChange(e) {
+                    return handleInput(e);
+                  },
+                  name: "slug",
+                  id: "title",
+                  className: "form-control slugest"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: "col s12",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                className: "alert alert-primary mb-2 col-12",
+                role: "alert",
+                children: "\u0627\u0637\u0644\u0627\u0639\u0627\u062A \u062A\u06CC\u062A\u0631 \u0648 \u062A\u0648\u0636\u06CC\u062D\u0627\u062A \u0635\u0641\u062D\u0647 \u0628\u0647 \u0635\u0648\u0631\u062A \u062E\u0648\u062F\u06A9\u0627\u0631 \u062A\u0648\u0633\u0637 zerone \u0628\u0631\u0627\u06CC \u0633\u0626\u0648\u06CC \u0628\u0647\u062A\u0631 \u0627\u06CC\u062C\u0627\u062F \u0645\u06CC\u200C\u0634\u0648\u0646\u062F. \u062F\u0631 \u0635\u0648\u0631\u062A\u06CC \u06A9\u0647 \u062A\u0645\u0627\u06CC\u0644 \u0628\u0647 \u0634\u062E\u0635\u06CC\u200C\u0633\u0627\u0632\u06CC \u0622\u0646 \u062F\u0627\u0631\u06CC\u062F\u060C \u0645\u06CC\u200C\u062A\u0648\u0627\u0646\u06CC\u062F \u0627\u0632 \u0628\u062E\u0634 \u0632\u06CC\u0631 \u0627\u0633\u062A\u0641\u0627\u062F\u0647 \u06A9\u0646\u06CC\u062F."
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: "col-12",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("fieldset", {
+                className: "form-group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
+                  htmlFor: "title",
+                  children: "\u0639\u0646\u0648\u0627\u0646 \u0635\u0641\u062D\u0647 ( \u062D\u062F\u0627\u06A9\u062B\u0631 60 \u062D\u0631\u0641 )"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("input", {
+                  type: "text",
+                  onChange: function onChange(e) {
+                    return HandleMetaData(e);
+                  },
+                  name: "title",
+                  id: "title",
+                  className: "form-control"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: "col-12",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("fieldset", {
+                className: "form-group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
+                  htmlFor: "title",
+                  children: "\u062A\u0648\u0636\u06CC\u062D \u0635\u0641\u062D\u0647 ( \u062D\u062F\u0627\u06A9\u062B\u0631 155 \u062D\u0631\u0641 )"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("textarea", {
+                  type: "text",
+                  onChange: function onChange(e) {
+                    return HandleMetaData(e);
+                  },
+                  name: "content",
+                  id: "title",
+                  className: "form-control"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+              className: "col-12",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
+                htmlFor: "title",
+                children: "\u06A9\u0644\u0645\u0627\u062A \u06A9\u0644\u06CC\u062F\u06CC \u0635\u0641\u062D\u0647 ( \u0628\u0627 \u0648\u06CC\u0631\u06AF\u0648\u0644 \u062C\u062F\u0627 \u06A9\u0646\u06CC\u062F )"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                className: "row",
+                style: {
+                  padding: '15px'
+                },
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                  className: "col-12",
+                  id: "chip-box",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                    className: "row",
+                    children: [chipset.map(function (item) {
+                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                        className: "chip mr-1",
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                          className: "chip-body",
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                            className: "chip-text",
+                            children: item
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                            className: "chip-closeable",
+                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("i", {
+                              className: "bx bx-x"
+                            })
+                          })]
+                        })
+                      });
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                      className: "col-sm-12 col-md-4 col-lg-3",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_HOC_ChipsetHandler__WEBPACK_IMPORTED_MODULE_9__.ChipsetHandler, {
+                        callback: function callback(item) {
+                          return setChipset([].concat(_toConsumableArray(chipset), [item]));
+                        }
+                      })
+                    })]
+                  })
+                })
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: "col-12",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("fieldset", {
+                className: "form-group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
+                  htmlFor: "title",
+                  children: "\u0622\u062F\u0631\u0633 \u062F\u0627\u062E\u0644\u06CC \u0628\u0631\u0627\u06CC \u0627\u0646\u062A\u0642\u0627\u0644 (301 Redirect)"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("input", {
+                  type: "text",
+                  onChange: function onChange(e) {
+                    return HandleMetaData(e);
+                  },
+                  name: "redirect",
+                  id: "title",
+                  className: "form-control"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: "col-12",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("fieldset", {
+                className: "form-group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
+                  htmlFor: "title",
+                  children: "\u0622\u062F\u0631\u0633 Canonical"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("input", {
+                  onChange: function onChange(e) {
+                    return HandleMetaData(e);
+                  },
+                  name: "canonical",
+                  type: "text",
+                  id: "title",
+                  className: "form-control"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+              className: "col-12",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
+                children: "\u062A\u0646\u0638\u06CC\u0645\u0627\u062A Robots"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_HOC_BigSwitcher__WEBPACK_IMPORTED_MODULE_3__.BigSwitcher, {
+                status: function status(states) {
+                  return HandlerBigSwitcher(states);
+                },
+                name: "Robots",
+                valueOne: "غیرفعال",
+                valueTow: "noindex,follow",
+                valueThree: "noindex,unfolow"
+              })]
+            })]
+          })
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+        className: "col-12 bottom-footer",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          className: "row",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+            className: "col-6",
+            onClick: handleClose,
+            style: {
+              cursor: 'pointer',
+              textAlign: 'center',
+              borderLeft: '1px solid #a9a9a9'
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
+              type: "reset",
+              id: "clear",
+              children: "\u0627\u0646\u0635\u0631\u0627\u0641"
+            })
+          }), type ? type == 'edit' ? edit ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+            onClick: function onClick(e) {
+              return HandleEdit(e);
+            },
+            className: "col-6",
+            style: {
+              textAlign: 'center',
+              cursor: 'pointer'
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              children: "\u0648\u06CC\u0631\u0627\u06CC\u0634"
+            })
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+            id: "disable-div",
+            className: "col-6",
+            style: {
+              textAlign: 'center',
+              cursor: 'pointer'
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              children: "\u0648\u06CC\u0631\u0627\u06CC\u0634"
+            })
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+            onClick: function onClick(e) {
+              return HandleDuplicate(e);
+            },
+            className: "col-6",
+            style: {
+              textAlign: 'center',
+              cursor: 'pointer'
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              children: "\u0630\u062E\u06CC\u0631\u0647 \u06A9\u067E\u06CC"
+            })
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+            onClick: function onClick(e) {
+              return HandleForm(e);
+            },
+            className: "col-6",
+            style: {
+              textAlign: 'center',
+              cursor: 'pointer'
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              children: "\u0630\u062E\u06CC\u0631\u0647"
+            })
+          })]
+        })
       })]
-    })
+    })]
   });
 };
 
@@ -3783,6 +3829,8 @@ var CategoryList = function CategoryList() {
   };
 
   var handleBack = function handleBack(item) {
+    console.log("result items : ", item);
+
     if (item.status == 200) {
       GetAllCategory();
       react_dom__WEBPACK_IMPORTED_MODULE_1__.render('', document.getElementById('add-datas'));
@@ -5659,6 +5707,51 @@ var BigSwitcher = function BigSwitcher(_ref) {
           }), valueThree]
         })]
       })
+    })
+  });
+};
+
+/***/ }),
+
+/***/ "./resources/js/components/HOC/ChipsetHandler.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/HOC/ChipsetHandler.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ChipsetHandler": () => (/* binding */ ChipsetHandler)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+var ChipsetHandler = function ChipsetHandler(_ref) {
+  var pushCallBack = _ref.callback;
+
+  var HandleChipset = function HandleChipset(e) {
+    var chips_input = $(".chips_input");
+
+    if (e.charCode === 13) {
+      pushCallBack(e.target.value);
+      chips_input.val('');
+    }
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("fieldset", {
+    className: "form-group",
+    id: "form-group-chipset",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+      type: "text",
+      onKeyPress: function onKeyPress(e) {
+        return HandleChipset(e);
+      },
+      name: "tags",
+      id: "title",
+      placeholder: "تایپ کنید و Enter را فشار دهید ",
+      className: "chips_input form-control"
     })
   });
 };
@@ -7804,7 +7897,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "@media screen and (max-width: 1024px) {\n  #icon-item-list {\n    display: none;\n  }\n\n  span#sub-menu-custom {\n    display: block !important;\n  }\n\n  .nav-custom {\n    font-size: 13px;\n  }\n}\n#disable-div {\n  opacity: 0.3 !important;\n  cursor: not-allowed !important;\n}\n\nspan#sub-menu-custom {\n  display: none;\n  width: 30px;\n  height: 30px;\n  position: absolute;\n  left: 30px;\n  line-height: 2.9;\n  top: 0px;\n  bottom: 0px;\n  margin: auto 0;\n  text-align: center;\n}\n\n.back-blur {\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 99999;\n  display: none;\n  top: 0px;\n  right: 0px;\n}\n.back-blur #bottom-chip {\n  border-radius: 20px 20px 0 0;\n  box-shadow: 0 0 30px 8px rgba(0, 0, 0, 0.2);\n  width: 100%;\n  position: absolute;\n  bottom: -100%;\n  height: 280px;\n  background: #fff;\n  right: 0px;\n  z-index: 99;\n  transition: 0.3s all ease;\n}\n.back-blur #bottom-chip.active {\n  bottom: 0% !important;\n}\n.back-blur #bottom-chip .form-check {\n  padding: 0px;\n}\n.back-blur #bottom-chip .form-check ul {\n  list-style: none;\n  text-align: center;\n  padding: 0px;\n  margin: 0px;\n}\n.back-blur #bottom-chip .form-check ul li {\n  width: 100%;\n  height: 45px;\n  cursor: pointer;\n  float: left;\n  line-height: 3;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "@media screen and (max-width: 1024px) {\n  #icon-item-list {\n    display: none;\n  }\n\n  span#sub-menu-custom {\n    display: block !important;\n  }\n\n  .nav-custom {\n    font-size: 13px;\n  }\n}\n#disable-div {\n  opacity: 0.3 !important;\n  cursor: not-allowed !important;\n}\n\nspan#sub-menu-custom {\n  display: none;\n  width: 30px;\n  height: 30px;\n  position: absolute;\n  left: 30px;\n  line-height: 2.9;\n  top: 0px;\n  bottom: 0px;\n  margin: auto 0;\n  text-align: center;\n}\n\n.back-blur {\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 99999;\n  display: none;\n  top: 0px;\n  right: 0px;\n}\n.back-blur #bottom-chip {\n  border-radius: 20px 20px 0 0;\n  box-shadow: 0 0 30px 8px rgba(0, 0, 0, 0.2);\n  width: 100%;\n  position: absolute;\n  bottom: -100%;\n  height: 280px;\n  background: #fff;\n  right: 0px;\n  z-index: 99;\n  transition: 0.3s all ease;\n}\n.back-blur #bottom-chip.active {\n  bottom: 0% !important;\n}\n.back-blur #bottom-chip .form-check {\n  padding: 0px;\n}\n.back-blur #bottom-chip .form-check ul {\n  list-style: none;\n  text-align: center;\n  padding: 0px;\n  margin: 0px;\n}\n.back-blur #bottom-chip .form-check ul li {\n  width: 100%;\n  height: 45px;\n  cursor: pointer;\n  float: left;\n  line-height: 3;\n}\n\n#form-group-chipset {\n  margin-bottom: 0px !important;\n}\n\n.chips_input {\n  border: 0px !important;\n  border-radius: 50px;\n}\n.chips_input:focus {\n  box-shadow: none !important;\n}\n\n.chip {\n  height: 30px !important;\n  margin-top: 8px !important;\n}\n\n#chip-box {\n  border: 1px solid #dfe3e7;\n  border-radius: 5px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

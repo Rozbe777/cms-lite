@@ -52,6 +52,7 @@ class CategoryController extends Controller
                 'content' => $request->input('content'),
                 'fields' => $request->input('fields'),
                 'parent_id' => $request->input('parent_id'),
+                'metadata' => $request->input('metadata'),
                 'layout_id' => $request->input('layout_id'),
                 'module_id' => $request->input('module_id'),
                 'status' => $request->input('status'),

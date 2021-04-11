@@ -25,7 +25,6 @@ export default class Login extends Component {
                     </div>
                 </div>
 
-
                 <div className="card-content">
                     <div className="card-body">
 

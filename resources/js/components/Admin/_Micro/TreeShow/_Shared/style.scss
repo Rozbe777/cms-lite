@@ -83,3 +83,24 @@ span#sub-menu-custom {
     }
 }
 
+#form-group-chipset {
+    margin-bottom: 0px !important;
+}
+
+.chips_input {
+    border: 0px !important;
+    border-radius: 50px;
+
+    &:focus {
+        box-shadow: none !important;
+    }
+}
+.chip{
+    height: 30px !important;
+    margin-top: 8px !important;
+}
+
+#chip-box {
+    border: 1px solid #dfe3e7;
+    border-radius: 5px;
+}

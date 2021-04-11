@@ -3,20 +3,23 @@ import ReactDOM from 'react-dom';
 import {Switcher} from './../../../HOC/Switch'
 import {BigSwitcher} from './../../../HOC/BigSwitcher';
 import './../../_Shared/Style.scss'
+import {error} from './../../../../helper'
 import {Request} from './../../../../services/AdminService/Api'
 import {SelectOptions} from './../../../HOC/SelectOptions'
 import MyEditor from "../../_Micro/MyEditor/MyEditor";
+import {ChipsetHandler} from './../../../HOC/ChipsetHandler'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
 const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
-
     const [comments, setComments] = useState();
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
     const [contentNew, setContentNew] = useState({});
     const [statusNew, setStatusNew] = useState();
     const [menuShow, setMenuShow] = useState();
+    const [chipset, setChipset] = useState([]);
+    let tags = [];
     const [edit, setEdit] = useState(false);
     const [file, setFile] = useState();
     const StatusSwitch = useRef(null);
@@ -57,21 +60,25 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                 Request.AddNewCategory(data)
                     .then(res => {
                         console.log("resultttttttt ok : ", res)
-                        localStorage.removeItem("is_menu");
-                        localStorage.removeItem("status");
-                        localStorage.removeItem("selected");
-                        pushResult(res);
-                        if (res.status  == 200) {
+                        let resError = res.data.message ? res.data.message : '';
+                        console.log("status error : ", res.data.size)
+                        if (res.status == 200 && resError == '') {
+                            pushResult(res);
+                            localStorage.removeItem("is_menu");
+                            localStorage.removeItem("status");
+                            localStorage.removeItem("selected");
                             Swal.fire({
                                 type: "success",
                                 title: 'با موفقیت اضافه شد !',
                                 confirmButtonClass: 'btn btn-success',
                                 confirmButtonText: 'باشه',
                             })
+                        } else if (res.status == 200 && resError !== '') {
+                            error(resError)
                         } else {
                             Swal.fire({
                                 type: "error",
-                                title: 'خطایی رخ داده است !',
+                                title: 'خطایی غیر منتظره ای رخ داده است !',
                                 cancelButtonClass: 'btn btn-primary',
                                 cancelButtonText: 'تلاش مجدد',
                             })
@@ -146,9 +153,10 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             formNew.slug = formNew.name
         }
         formNew.content = contentNew;
-        formNew.metadata = "vsdvsdvsdvsdv";
+        formNew.metadata = JSON.stringify(metaData);
         if (formData.name && formData.name !== '') {
             $("input[name=name]").removeClass("is-invalid");
+            // console.log("data added new : " , formNew)
             CreateAddCategory(formNew);
         } else {
             $("input[name=name]").addClass("is-invalid");
@@ -257,10 +265,9 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         setEdit(true)
         localStorage.setItem("is_menu", status ? 1 : 0);
     }
-
     const HandleSelectOption = (check) => {
         setEdit(true)
-        // console.log("data checked : " , check)
+        console.log("data checked : ", check)
         localStorage.setItem("selected", check)
     }
 
@@ -293,22 +300,20 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
     return (
         <div id={"category_add_pop_base"}>
-            <form action={"#"}>
-                {console.log("data cat : ", dataCategory.data)}
-                <ul className="nav nav-tabs tab-layout" role="tablist">
-                    <li className="nEav-item col-6 nav-custom">
-                        <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
-                           role="tab" aria-selected="true">
-                            <span className="align-middle">دسته بندی</span>
-                        </a>
-                    </li>
-                    <li className="nav-item col-6 nav-custom ">
-                        <a className="nav-link" id="seo-tab" data-toggle="tab" href="#seo" aria-controls="seos"
-                           role="tab" aria-selected="false">
-                            <span className="align-middle">سئو و آدرس</span>
-                        </a>
-                    </li>
-                </ul>
+            <ul className="nav nav-tabs tab-layout" role="tablist">
+                <li className="nEav-item col-6 nav-custom">
+                    <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
+                       role="tab" aria-selected="true">
+                        <span className="align-middle">دسته بندی</span>
+                    </a>
+                </li>
+                <li className="nav-item col-6 nav-custom ">
+                    <a className="nav-link" id="seo-tab" data-toggle="tab" href="#seo" aria-controls="seos"
+                       role="tab" aria-selected="false">
+                        <span className="align-middle">سئو و آدرس</span>
+                    </a>
+                </li>
+            </ul>
             <div className="tab-content" style={{padding: 0, position: 'relative'}}>
                 <div className="tab-pane active" id="cat" aria-labelledby="cat-tab" role="tabpanel">
                     <div className={"content-pages"}>
@@ -452,13 +457,30 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
 
                             <div className={"col-12"}>
-                                <fieldset className="form-group">
-                                    <label htmlFor={"title"}>کلمات کلیدی صفحه ( با ویرگول جدا کنید )</label>
-                                        <input type={"text"} onChange={e => HandleMetaData(e)} name={"tags"} id={"title"}
-                                               className={"form-control"}/>
+                                <label htmlFor={"title"}>کلمات کلیدی صفحه ( با ویرگول جدا کنید )</label>
+                                <div className={"row"} style={{padding : '15px'}}>
+                                    <div className={"col-12"} id={"chip-box"}>
+                                        <div className={"row"}>
+                                                {chipset.map(item => (
+                                                    <div className="chip mr-1">
+                                                        <div className="chip-body">
+                                                            <span className="chip-text">{item}</span>
+                                                            <div className="chip-closeable">
+                                                                <i className="bx bx-x"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+
+                                            <div className={"col-sm-12 col-md-4 col-lg-3"}>
+                                                <ChipsetHandler callback={item => setChipset([...chipset, item])}/>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
 
 
-                                </fieldset>
                             </div>
 
                             <div className={"col-12"}>
@@ -533,8 +555,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
                 </div>
             </div>
-
-            </form>
 
         </div>
     )
