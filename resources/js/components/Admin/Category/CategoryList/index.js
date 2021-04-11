@@ -78,7 +78,6 @@ export const CategoryList = () => {
         }
     }
 
-
     const handleClickItem = (clickId) => {
         console.log("data id parent : " , clickId)
         ReactDom.render(<AddCategory display={true} idParent={clickId}
@@ -94,8 +93,9 @@ export const CategoryList = () => {
         }
     }
     const HandleBackLoader = (data) => {
-        // let dataNew = JSON.parse(data);
-        ReactDom.render(<AddCategory display={true} dataUpdate={data} idParent={null}
+        let id_parents = JSON.parse(data).allData.parent_id;
+        console.log("id parenssssss : " , id_parents);
+        ReactDom.render(<AddCategory display={true} dataUpdate={data} idParent={id_parents}
                                      result={item => handleBack(item)}/>, document.getElementById("add-datas"))
 
     }

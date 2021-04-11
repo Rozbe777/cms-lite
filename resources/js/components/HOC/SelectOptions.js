@@ -17,6 +17,7 @@ export const SelectOptions = ({parents, data, loading, selection: pushSelectiong
     if ((loading == false && data) || (loading == true && data)) {
         let dataFit = JSON.parse(data);
 
+
         return (
             <select defaultValue={parents} className="form-control selectVal" name={"parent_id"}
                     id="selectParent">

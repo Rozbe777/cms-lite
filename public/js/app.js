@@ -3067,7 +3067,9 @@ var AddCategory = function AddCategory(_ref) {
 
   var HandleUpdateForm = function HandleUpdateForm(data, id) {
     _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_5__.Request.UpdateDataCategory(data, id).then(function (res) {
-      return pushResult(res);
+      localStorage.removeItem("is_menu");
+      localStorage.removeItem("status");
+      pushResult(res);
     })["catch"](function (error) {
       return console.log("error add :", error);
     });
@@ -3077,8 +3079,8 @@ var AddCategory = function AddCategory(_ref) {
     var formOldData = _objectSpread({}, formData);
 
     formOldData.content = contentNew;
-    var is_menu = localStorage.getItem("is_menu");
-    var status = localStorage.getItem("status"); // console.log("status : " , status , " / menu : " , is_menu);
+    var is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
+    var status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status; // console.log("status : " , status , " / menu : " , is_menu);
 
     formOldData.status = status;
     formOldData.is_menu = parseInt(is_menu);
@@ -3090,6 +3092,13 @@ var AddCategory = function AddCategory(_ref) {
     setFormData(_objectSpread(_objectSpread({}, formData), {}, {
       content: data
     }));
+  };
+
+  var MakeNewName = function MakeNewName(name) {
+    var min = 1;
+    var max = 1000;
+    var rand = Number(min + Math.random() * (max - min)).toFixed(0);
+    return name + rand + "_کپی";
   };
 
   var handleSwitchStatus = function handleSwitchStatus(status) {
@@ -3174,7 +3183,7 @@ var AddCategory = function AddCategory(_ref) {
                     children: "\u0639\u0646\u0648\u0627\u0646 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
                     type: "text",
-                    defaultValue: dataUpdateParse ? dataUpdateParse.name : '',
+                    defaultValue: dataUpdateParse ? type == "dup" ? MakeNewName(dataUpdateParse.name) : dataUpdateParse.name : '',
                     onChange: function onChange(e) {
                       return handleInput(e);
                     },
@@ -3190,7 +3199,7 @@ var AddCategory = function AddCategory(_ref) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("label", {
                     id: "selectParent",
                     children: "\u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC \u067E\u062F\u0631"
-                  }), categoryData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_6__.SelectOptions, {
+                  }), console.log("item selected : ", idParent), categoryData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_6__.SelectOptions, {
                     parents: idParent ? idParent : dataUpdateParse.parent_id,
                     selection: function selection(check) {
                       return HandleSelectOption(check);
@@ -3672,11 +3681,12 @@ var CategoryList = function CategoryList() {
   };
 
   var HandleBackLoader = function HandleBackLoader(data) {
-    // let dataNew = JSON.parse(data);
+    var id_parents = JSON.parse(data).allData.parent_id;
+    console.log("id parenssssss : ", id_parents);
     react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_6__.default, {
       display: true,
       dataUpdate: data,
-      idParent: null,
+      idParent: id_parents,
       result: function result(item) {
         return handleBack(item);
       }

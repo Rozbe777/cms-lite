@@ -144,15 +144,19 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
     const HandleUpdateForm=(data , id)=>{
         Request.UpdateDataCategory(data , id)
-            .then(res => pushResult(res))
+            .then(res => {
+                localStorage.removeItem("is_menu");
+                localStorage.removeItem("status");
+                pushResult(res)
+            })
             .catch(error => console.log("error add :", error))
     }
 
     const HandleEdit = () => {
         let formOldData = {...formData};
         formOldData.content = contentNew;
-        let is_menu = localStorage.getItem("is_menu");
-        let status = localStorage.getItem("status");
+        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
+        let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         // console.log("status : " , status , " / menu : " , is_menu);
         formOldData.status = status;
         formOldData.is_menu = parseInt(is_menu);
@@ -166,6 +170,12 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         })
     }
 
+    let MakeNewName = (name) => {
+        const min = 1;
+        const max = 1000;
+        const rand = Number(min + Math.random() * (max - min)).toFixed(0);
+        return name+rand+"_کپی";
+    }
     const handleSwitchStatus = (status) => {
         setEdit(true)
         localStorage.setItem("status", status ? "active" : "deactivate");
@@ -209,13 +219,14 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان دسته بندی</label>
-                                    <input type={"text"} defaultValue={dataUpdateParse ? dataUpdateParse.name : ''} onChange={e => handleInput(e)} name={"name"} id={"title"}
+                                    <input type={"text"} defaultValue={dataUpdateParse ? type == "dup" ? MakeNewName(dataUpdateParse.name) : dataUpdateParse.name : ''} onChange={e => handleInput(e)} name={"name"} id={"title"}
                                            className={"form-control"}/>
                                 </fieldset>
                             </div>
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>دسته بندی پدر</label>
+                                    {console.log("item selected : " ,idParent )}
                                     {categoryData ? (
                                         <SelectOptions parents={idParent ? idParent : dataUpdateParse.parent_id}
                                                        selection={check => HandleSelectOption(check)}
