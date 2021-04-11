@@ -31,8 +31,8 @@ class CreateCategoryRequest extends BaseRequest
             'content' => '',
             'fields' => '',
             //'parent_id' => 'exists:categories,id',
-//            'layout_id' => '',//not using now FIXME after insert layout and module
-//            'module_id' => '',
+            //'layout_id' => '',//not using now FIXME after insert layout and module
+            //'module_id' => '',
             'status' => 'required|string|in:active,deactivate',
             'is_menu' => 'boolean',
             'tag_list' => 'array',
