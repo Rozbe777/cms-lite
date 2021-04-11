@@ -43,7 +43,7 @@ trait EditCategoryTrait
             $categoryModel->metadata = $category['metadata'];
 
         if (!empty($category['parent_id']))
-            $categoryModel->parent_id = bcrypt($category['parent_id']);
+            $categoryModel->parent_id = $category['parent_id'];
 
         if (!empty($category['layout_id']))
             $categoryModel->layout_id = $category['layout_id'];
