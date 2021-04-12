@@ -3064,10 +3064,7 @@ var AddCategory = function AddCategory(_ref) {
   };
 
   var HandleFile = function HandleFile(e) {
-    var filesss = e.target.files;
-    setFile({
-      image: filesss
-    });
+    setFile(e.target.files[0]);
   };
 
   var handleInput = function handleInput(e) {
@@ -3082,7 +3079,8 @@ var AddCategory = function AddCategory(_ref) {
   var HandleForm = function HandleForm(e) {
     var formNew = _objectSpread({}, formData);
 
-    var forms = new FormData(); // console.log("form data sssssssssss : " , file.image[0]);
+    var formFile = new FormData();
+    formFile.append("file", file); // console.log("form data sssssssssss : " , file.image[0]);
     // if (file.image[0]){
     //     forms.append("image", file.image[0])
     // }
@@ -3094,6 +3092,7 @@ var AddCategory = function AddCategory(_ref) {
     formNew.status = status;
     console.log("checked id : ", localStorage.getItem("selected"));
     formNew.parent_id = parseInt(parent_id);
+    formNew.image = file;
     formNew.is_menu = is_menu ? 1 : 0;
 
     if (slugManage == false) {
@@ -3104,7 +3103,9 @@ var AddCategory = function AddCategory(_ref) {
       formNew.slug = formNew.name;
     }
 
-    formNew.content = contentNew;
+    formNew.content = contentNew; // formFile.append("content" , contentNew);
+
+    console.log("form dataaaaaaaa : ", formNew);
     formNew.metadata = JSON.stringify(metaData);
 
     if (formData.name && formData.name !== '') {
@@ -3158,8 +3159,8 @@ var AddCategory = function AddCategory(_ref) {
     formOldData.content = contentNew;
     var is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
     var status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-    console.log("selected");
     var parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
+    console.log("selected parent id : ", parent_ids);
     formOldData.status = status;
     formOldData.is_menu = parseInt(is_menu);
     formOldData.parent_id = parseInt(parent_ids);
@@ -3627,7 +3628,9 @@ var AddCategory = function AddCategory(_ref) {
             className: "col-6",
             style: {
               textAlign: 'center',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              background: "#5a8dee",
+              color: '#fff'
             },
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
               children: "\u0648\u06CC\u0631\u0627\u06CC\u0634"
@@ -3637,7 +3640,9 @@ var AddCategory = function AddCategory(_ref) {
             className: "col-6",
             style: {
               textAlign: 'center',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              background: "#5a8dee",
+              color: '#fff'
             },
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
               children: "\u0648\u06CC\u0631\u0627\u06CC\u0634"
@@ -3661,7 +3666,9 @@ var AddCategory = function AddCategory(_ref) {
             className: "col-6",
             style: {
               textAlign: 'center',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              background: "#5a8dee",
+              color: '#fff'
             },
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
               children: "\u0630\u062E\u06CC\u0631\u0647"
@@ -3904,12 +3911,12 @@ var CategoryList = function CategoryList() {
       style: {
         padding: 0
       },
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
         className: "tab-pane active",
         id: "home",
         "aria-labelledby": "home-tab",
         role: "tabpanel",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Micro_TreeShow_TreeShowCategory__WEBPACK_IMPORTED_MODULE_3__.TreeShowCategory, {
+        children: [console.log("category data : ", categoryData.length), categoryData && categoryData.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Micro_TreeShow_TreeShowCategory__WEBPACK_IMPORTED_MODULE_3__.TreeShowCategory, {
           handleCata: function handleCata(itemCat) {
             return console.log("cat back ,", itemCat);
           },
@@ -3930,7 +3937,32 @@ var CategoryList = function CategoryList() {
           },
           data: categoryData,
           loading: loading
-        })
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
+            style: {
+              textAlign: 'center',
+              marginTop: 20
+            },
+            children: "\u0644\u06CC\u0633\u062A \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC \u0628\u0631\u0627\u06CC \u0646\u0645\u0627\u06CC\u0634 \u0648\u062C\u0648\u062F \u0646\u062F\u0627\u0631\u062F!"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+            id: "maines",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+              id: "add-category",
+              onClick: function onClick() {
+                return handleAddPage();
+              },
+              style: {
+                width: 180
+              },
+              className: "btn btn-primary glow mr-1 mb-1",
+              type: "button",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+                className: "align-middle ml-25",
+                children: "\u0627\u0641\u0632\u0648\u062F\u0646 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
+              })
+            })
+          })]
+        })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
         className: "tab-pane",
         id: "profile",
@@ -3956,7 +3988,7 @@ var CategoryList = function CategoryList() {
             type: "button",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
               className: "align-middle ml-25",
-              children: "\u0633\u0627\u062E\u062A \u0635\u0641\u062D\u0647 \u062C\u062F\u06CC\u062F"
+              children: "\u0627\u0641\u0632\u0648\u062F\u0646 \u0635\u0641\u062D\u0647 "
             })
           })
         })]
@@ -7850,6 +7882,7 @@ var REQUEST_URL = "".concat(BASE_URL).concat(VERSION);
 var TIMEOUT = 60000;
 var REQUEST_HEADER_TOKEN = {
   'Access-Control-Allow-Origin': '*',
+  'X-Custom-Header': 'foobar',
   // 'Content-Type': 'multipart/form-data',
   'Authentication': ''
 };

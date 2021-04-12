@@ -112,10 +112,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     }
 
     const HandleFile = (e) => {
-        let filesss = e.target.files;
-        setFile({
-            image: filesss
-        })
+        setFile(e.target.files[0]);
     }
 
     const handleInput = (e) => {
@@ -130,7 +127,8 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
     const HandleForm = (e) => {
         let formNew = {...formData};
-        let forms = new FormData();
+        let formFile = new FormData();
+        formFile.append("file" , file);
         // console.log("form data sssssssssss : " , file.image[0]);
         // if (file.image[0]){
         //     forms.append("image", file.image[0])
@@ -142,17 +140,20 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         formNew.status = status;
         console.log("checked id : " , localStorage.getItem("selected"))
         formNew.parent_id = parseInt(parent_id);
+        formNew.image  = file;
         formNew.is_menu = is_menu ? 1 : 0;
         if (slugManage == false) {
             formNew.slug = formNew.name;
         } else {
-
         }
 
         if (formData.slug == "") {
             formNew.slug = formNew.name
         }
         formNew.content = contentNew;
+        // formFile.append("content" , contentNew);
+        console.log("form dataaaaaaaa : " , formNew)
+
         formNew.metadata = JSON.stringify(metaData);
         if (formData.name && formData.name !== '') {
             $("input[name=name]").removeClass("is-invalid");
@@ -211,8 +212,9 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         formOldData.content = contentNew;
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-        console.log("selected");
         let parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
+        console.log("selected parent id : " ,parent_ids );
+
         formOldData.status = status;
         formOldData.is_menu = parseInt(is_menu);
         formOldData.parent_id = parseInt(parent_ids);
@@ -524,7 +526,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                         {type ? type == 'edit' ? edit ? (
                                 <div onClick={(e) => HandleEdit(e)}
                                      className={"col-6"}
-                                     style={{textAlign: 'center', cursor: 'pointer'}}>
+                                     style={{textAlign: 'center', cursor: 'pointer', background : "#5a8dee" , color : '#fff'}}>
                                     <span>ویرایش</span>
                                 </div>
                             )
@@ -532,7 +534,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                                 <div
                                     id={"disable-div"}
                                      className={"col-6"}
-                                     style={{textAlign: 'center', cursor: 'pointer'}}>
+                                     style={{textAlign: 'center', cursor: 'pointer', background : "#5a8dee" , color : '#fff'}}>
                                     <span>ویرایش</span>
                                 </div>
                             )
@@ -546,7 +548,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
                             (
                                 <div onClick={(e) => HandleForm(e)} className={"col-6"}
-                                     style={{textAlign: 'center', cursor: 'pointer'}}>
+                                     style={{textAlign: 'center', cursor: 'pointer' , background : "#5a8dee" , color : '#fff'}}>
                                     <span>ذخیره</span>
                                 </div>
                             )}

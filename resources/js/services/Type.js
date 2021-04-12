@@ -6,6 +6,7 @@ export const TIMEOUT = 60000;
 
 export const REQUEST_HEADER_TOKEN = {
     'Access-Control-Allow-Origin': '*',
+    'X-Custom-Header': 'foobar',
     // 'Content-Type': 'multipart/form-data',
     'Authentication' : ''
 }
