@@ -42,6 +42,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     };
     const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
     const CreateAddCategory = (data) => {
+        console.log("data : " , data)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -197,8 +198,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     }
     const HandlerBigSwitcher = (states) => {
         setEdit(true)
-        let metaD = {...metaData};
-        metaD.robots = states;
+        localStorage.setItem("robots" , states)
     }
 
     const HandleSlug = (e) => {
@@ -218,10 +218,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
     const HandleUpdateForm=(data , id)=> {
         console.log("data update : ", data)
-
-
-
-
         swal({
             title: 'ویرایش دسته بندی',
             text: "آیا مطمئنید؟",
@@ -243,6 +239,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             localStorage.removeItem("is_menu");
                             localStorage.removeItem("status");
                             localStorage.removeItem("selected");
+                            localStorage.removeItem("robots");
                             Swal.fire({
                                 type: "success",
                                 title: 'با موفقیت ویرایش شد !',
@@ -273,25 +270,34 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
+        let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
 
         console.log("meta data New sssss : " , metaData);
+        let metaDatas = {...metaData};
+        metaDatas.robots = robots;
         formOldData.status = status;
-        formOldData.metadata = metaData;
-        // console.log("is _menuuuuu : ", is_menu)
+        formOldData.metadata = JSON.stringify(metaDatas);
         formOldData.is_menu = parseInt(is_menu);
         formOldData.parent_id = parseInt(parent_ids);
-
         HandleUpdateForm(formOldData, formOldData.id);
     }
 
     const HandleDuplicate = () => {
         let formOldData = {...formData};
         formOldData.content = contentNew;
+        let names = $("input.titleCat").val();
+        let slugs = $("input.slugest").val();
+        console.log("data category in : " , names);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-        // console.log("selected : duplicate  : " , localStorage.getItem("selected"));
+        let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
+        let metaDatas = {...metaData};
+        metaDatas.robots = robots;
         formOldData.status = status;
+        formOldData.name = names;
+        formOldData.slug = slugs;
+        formOldData.metadata = JSON.stringify(metaDatas);
         formOldData.is_menu = parseInt(is_menu);
         formOldData.parent_id = parseInt(parent_id);
         // console.log("data duplicate : " , formOldData);
@@ -308,20 +314,20 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     }
 
     let MakeNewName = (name) => {
-        let formDatas = {...formData}
         const min = 1;
         const max = 1000;
         const rand = Number(min + Math.random() * (max - min)).toFixed(0);
-        formDatas.name = name + rand + "_کپی";
-        formDatas.slug = name + rand + "_کپی";
+        let names = name + rand + "_کپی";
+        let slugs = name + rand + "_کپی";
+
         return name + rand + "_کپی";
     }
     let MakeNewSlug = (name) => {
-        let formDatas = {...formData}
         const min = 1;
         const max = 1000;
         const rand = Number(min + Math.random() * (max - min)).toFixed(0);
-        formDatas.slug = name + rand + "_کپی";
+        let slugs = name + rand + "_کپی";
+
         return name + rand + "_کپی";
     }
     const handleSwitchStatus = (status) => {
@@ -391,7 +397,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                                     <label htmlFor={"title"}>عنوان دسته بندی</label>
                                     <input type={"text"} defaultValue={HandleMakeName()} onChange={e => handleInput(e)}
                                            name={"name"} id={"title"}
-                                           className={"form-control"}/>
+                                           className={"form-control titleCat"}/>
                                 </fieldset>
                             </div>
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
@@ -483,7 +489,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                                     <label htmlFor={"title"}>آدرس صفحه دسته بندی</label>
                                     {slugManage ? (
                                         <input type={"text"}
-                                               defaultValue={HandleDefaultValuSlug()}
+                                               defaultValue={$("input.titleCat").val()}
                                                disabled id={"title"} className={"form-control slugest"}/>
                                     ) : (
                                         <input type={"text"}
@@ -578,8 +584,10 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
                             <div className={"col-12"}>
                                 <label>تنظیمات Robots</label>
+
+                                {/*{console.log("robots : " , MetaDataUpdate)}*/}
                                 <BigSwitcher status={states => HandlerBigSwitcher(states)} name={"Robots"}
-                                             defaultStatus={MetaDataUpdate ? MetaDataUpdate.Robots : false}
+                                             defaultStatus={MetaDataUpdate ? MetaDataUpdate.robots : false}
                                              valueOne={"غیرفعال"} valueTow={"noindex,follow"}
                                              valueThree={"noindex,unfolow"}/>
                             </div>

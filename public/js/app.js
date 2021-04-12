@@ -2996,6 +2996,7 @@ var AddCategory = function AddCategory(_ref) {
   var dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
 
   var CreateAddCategory = function CreateAddCategory(data) {
+    console.log("data : ", data);
     swal({
       title: 'افزودن دسته بندی جدید',
       text: "آیا مطمئنید؟",
@@ -3163,10 +3164,7 @@ var AddCategory = function AddCategory(_ref) {
 
   var HandlerBigSwitcher = function HandlerBigSwitcher(states) {
     setEdit(true);
-
-    var metaD = _objectSpread({}, metaData);
-
-    metaD.robots = states;
+    localStorage.setItem("robots", states);
   };
 
   var HandleSlug = function HandleSlug(e) {
@@ -3203,6 +3201,7 @@ var AddCategory = function AddCategory(_ref) {
             localStorage.removeItem("is_menu");
             localStorage.removeItem("status");
             localStorage.removeItem("selected");
+            localStorage.removeItem("robots");
             Swal.fire({
               type: "success",
               title: 'با موفقیت ویرایش شد !',
@@ -3233,10 +3232,14 @@ var AddCategory = function AddCategory(_ref) {
     var is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
     var status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
     var parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
+    var robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
     console.log("meta data New sssss : ", metaData);
-    formOldData.status = status;
-    formOldData.metadata = metaData; // console.log("is _menuuuuu : ", is_menu)
 
+    var metaDatas = _objectSpread({}, metaData);
+
+    metaDatas.robots = robots;
+    formOldData.status = status;
+    formOldData.metadata = JSON.stringify(metaDatas);
     formOldData.is_menu = parseInt(is_menu);
     formOldData.parent_id = parseInt(parent_ids);
     HandleUpdateForm(formOldData, formOldData.id);
@@ -3246,11 +3249,21 @@ var AddCategory = function AddCategory(_ref) {
     var formOldData = _objectSpread({}, formData);
 
     formOldData.content = contentNew;
+    var names = $("input.titleCat").val();
+    var slugs = $("input.slugest").val();
+    console.log("data category in : ", names);
     var is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
-    var status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status; // console.log("selected : duplicate  : " , localStorage.getItem("selected"));
-
+    var status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
+    var robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
     var parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
+
+    var metaDatas = _objectSpread({}, metaData);
+
+    metaDatas.robots = robots;
     formOldData.status = status;
+    formOldData.name = names;
+    formOldData.slug = slugs;
+    formOldData.metadata = JSON.stringify(metaDatas);
     formOldData.is_menu = parseInt(is_menu);
     formOldData.parent_id = parseInt(parent_id); // console.log("data duplicate : " , formOldData);
 
@@ -3265,23 +3278,19 @@ var AddCategory = function AddCategory(_ref) {
   };
 
   var MakeNewName = function MakeNewName(name) {
-    var formDatas = _objectSpread({}, formData);
-
     var min = 1;
     var max = 1000;
     var rand = Number(min + Math.random() * (max - min)).toFixed(0);
-    formDatas.name = name + rand + "_کپی";
-    formDatas.slug = name + rand + "_کپی";
+    var names = name + rand + "_کپی";
+    var slugs = name + rand + "_کپی";
     return name + rand + "_کپی";
   };
 
   var MakeNewSlug = function MakeNewSlug(name) {
-    var formDatas = _objectSpread({}, formData);
-
     var min = 1;
     var max = 1000;
     var rand = Number(min + Math.random() * (max - min)).toFixed(0);
-    formDatas.slug = name + rand + "_کپی";
+    var slugs = name + rand + "_کپی";
     return name + rand + "_کپی";
   };
 
@@ -3396,7 +3405,7 @@ var AddCategory = function AddCategory(_ref) {
                   },
                   name: "name",
                   id: "title",
-                  className: "form-control"
+                  className: "form-control titleCat"
                 })]
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
@@ -3535,7 +3544,7 @@ var AddCategory = function AddCategory(_ref) {
                   children: "\u0622\u062F\u0631\u0633 \u0635\u0641\u062D\u0647 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
                 }), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("input", {
                   type: "text",
-                  defaultValue: HandleDefaultValuSlug(),
+                  defaultValue: $("input.titleCat").val(),
                   disabled: true,
                   id: "title",
                   className: "form-control slugest"
@@ -3683,7 +3692,7 @@ var AddCategory = function AddCategory(_ref) {
                   return HandlerBigSwitcher(states);
                 },
                 name: "Robots",
-                defaultStatus: MetaDataUpdate ? MetaDataUpdate.Robots : false,
+                defaultStatus: MetaDataUpdate ? MetaDataUpdate.robots : false,
                 valueOne: "غیرفعال",
                 valueTow: "noindex,follow",
                 valueThree: "noindex,unfolow"
@@ -7173,6 +7182,7 @@ var BigSwitcher = function BigSwitcher(_ref) {
   jquery__WEBPACK_IMPORTED_MODULE_2___default()(function () {
     jquery__WEBPACK_IMPORTED_MODULE_2___default()("input[name=" + name + "]").on("change", function () {
       var content = jquery__WEBPACK_IMPORTED_MODULE_2___default()(this).attr("cont");
+      console.log("default content big  : ", content);
       pushStatus(content);
       var radioButtons = jquery__WEBPACK_IMPORTED_MODULE_2___default()("#myFormID input:radio[name=" + name + "]");
       var selectedIndex = radioButtons.index(radioButtons.filter(':checked'));

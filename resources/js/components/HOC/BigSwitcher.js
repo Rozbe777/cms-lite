@@ -9,6 +9,7 @@ export const BigSwitcher = ({name ,defaultStatus, valueOne ,valueTow ,valueThree
     $(function (){
         $("input[name="+name+"]").on("change" , function (){
             let content = $(this).attr("cont");
+            console.log("default content big  : " , content);
             pushStatus(content);
             let radioButtons = $("#myFormID input:radio[name="+name+"]")
             var selectedIndex = radioButtons.index(radioButtons.filter(':checked'));
