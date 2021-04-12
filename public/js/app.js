@@ -2861,10 +2861,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _HOC_Switch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../HOC/Switch */ "./resources/js/components/HOC/Switch.js");
 /* harmony import */ var _HOC_BigSwitcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../HOC/BigSwitcher */ "./resources/js/components/HOC/BigSwitcher.js");
 /* harmony import */ var _Shared_Style_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../_Shared/Style.scss */ "./resources/js/components/Admin/_Shared/Style.scss");
-/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../../../helper */ "./resources/js/helper.js");
-/* harmony import */ var _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../../../../services/AdminService/Api */ "./resources/js/services/AdminService/Api.js");
-/* harmony import */ var _HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./../../../HOC/SelectOptions */ "./resources/js/components/HOC/SelectOptions.js");
-/* harmony import */ var _Micro_MyEditor_MyEditor__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../_Micro/MyEditor/MyEditor */ "./resources/js/components/Admin/_Micro/MyEditor/MyEditor.js");
+/* harmony import */ var _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../../../services/AdminService/Api */ "./resources/js/services/AdminService/Api.js");
+/* harmony import */ var _HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../../../HOC/SelectOptions */ "./resources/js/components/HOC/SelectOptions.js");
+/* harmony import */ var _Micro_MyEditor_MyEditor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../_Micro/MyEditor/MyEditor */ "./resources/js/components/Admin/_Micro/MyEditor/MyEditor.js");
+/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./../../../../helper */ "./resources/js/helper.js");
 /* harmony import */ var _HOC_ChipsetHandler__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./../../../HOC/ChipsetHandler */ "./resources/js/components/HOC/ChipsetHandler.js");
 /* harmony import */ var _Micro_TreeShow_Shared_style_scss__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./../../_Micro/TreeShow/_Shared/style.scss */ "./resources/js/components/Admin/_Micro/TreeShow/_Shared/style.scss");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
@@ -2914,6 +2914,7 @@ var AddCategory = function AddCategory(_ref) {
       dataUpdate = _ref.dataUpdate,
       idParent = _ref.idParent,
       pushResult = _ref.result;
+  console.log("duplicate data : ", dataUpdate);
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState2 = _slicedToArray(_useState, 2),
@@ -2986,7 +2987,7 @@ var AddCategory = function AddCategory(_ref) {
       setFormData = _useState24[1];
 
   var default_value = {
-    is_menu: true,
+    is_menu: 1,
     status: "active",
     content: '',
     parent_id: idParent,
@@ -2995,7 +2996,6 @@ var AddCategory = function AddCategory(_ref) {
   var dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
 
   var CreateAddCategory = function CreateAddCategory(data) {
-    console.log("new data add : ", data);
     swal({
       title: 'افزودن دسته بندی جدید',
       text: "آیا مطمئنید؟",
@@ -3008,8 +3008,7 @@ var AddCategory = function AddCategory(_ref) {
       buttonsStyling: false
     }).then(function (result) {
       if (result.value) {
-        _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_6__.Request.AddNewCategory(data).then(function (res) {
-          console.log("resultttttttt ok : ", res);
+        _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_5__.Request.AddNewCategory(data).then(function (res) {
           var resError = res.data.message ? res.data.message : '';
           console.log("status error : ", res.data.size);
 
@@ -3025,7 +3024,7 @@ var AddCategory = function AddCategory(_ref) {
               confirmButtonText: 'باشه'
             });
           } else if (res.status == 200 && resError !== '') {
-            (0,_helper__WEBPACK_IMPORTED_MODULE_5__.error)(resError);
+            (0,_helper__WEBPACK_IMPORTED_MODULE_8__.error)(resError);
           } else {
             Swal.fire({
               type: "error",
@@ -3051,7 +3050,7 @@ var AddCategory = function AddCategory(_ref) {
   var handleClose = function handleClose() {
     react_dom__WEBPACK_IMPORTED_MODULE_1__.render('', document.getElementById("add-datas"));
     setFormData({
-      is_menu: true,
+      is_menu: 1,
       status: "active",
       content: '',
       parent_id: 0,
@@ -3069,28 +3068,66 @@ var AddCategory = function AddCategory(_ref) {
 
   var handleInput = function handleInput(e) {
     setEdit(true);
-    setFormData(_objectSpread(_objectSpread({}, formData), {}, _defineProperty({}, e.target.name, e.target.value)));
 
     var formDataOld = _objectSpread({}, formData);
 
-    formDataOld.slug = e.target.value;
+    if (e.target.name == "name") {
+      formDataOld.name = e.target.value;
+      formDataOld.slug = e.target.value;
+      setFormData(formDataOld);
+    } else {
+      formDataOld.slug = e.target.value;
+      setFormData(formDataOld);
+    } // if (dataUpdateParse)
+    // {
+    //     if (e.target.name == "name") {
+    //         dataUpdateParse.name = e.target.value;
+    //         dataUpdateParse.slug = e.target.value;
+    //     } else {
+    //         dataUpdateParse.slug = e.target.value;
+    //     }
+    // }else{
+    // }
+
+  };
+
+  var RemoveChipset = function RemoveChipset(name) {
+    var metaData = _objectSpread({}, metaData);
+
+    var chipsetArr = _toConsumableArray(chipset);
+
+    var index = chipsetArr.indexOf(name);
+
+    if (index !== -1) {
+      chipsetArr.splice(index, 1);
+      setChipset(chipsetArr);
+      metaData.tags = chipsetArr;
+      setMetaData(metaData);
+    }
+  };
+
+  var handleAddChip = function handleAddChip(item) {
+    var metaDatas = _objectSpread({}, metaData);
+
+    var chipsets = _toConsumableArray(chipset);
+
+    chipsets.push(item);
+    setChipset(chipsets);
+    metaDatas.tags = chipsets;
+    setMetaData(metaDatas);
+    console.log("meta dataaaaaa : ", metaDatas);
   };
 
   var HandleForm = function HandleForm(e) {
     var formNew = _objectSpread({}, formData);
 
     var formFile = new FormData();
-    formFile.append("file", file); // console.log("form data sssssssssss : " , file.image[0]);
-    // if (file.image[0]){
-    //     forms.append("image", file.image[0])
-    // }
-    // console.log("form dataaaaaaaaaaa : " , forms);
-
+    formFile.append("file", file);
     var is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
     var status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
     var parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formNew.parent_id;
-    formNew.status = status;
-    console.log("checked id : ", localStorage.getItem("selected"));
+    formNew.status = status; // console.log("checked id : " , localStorage.getItem("selected"))
+
     formNew.parent_id = parseInt(parent_id);
     formNew.image = file;
     formNew.is_menu = is_menu ? 1 : 0;
@@ -3103,17 +3140,17 @@ var AddCategory = function AddCategory(_ref) {
       formNew.slug = formNew.name;
     }
 
-    formNew.content = contentNew; // formFile.append("content" , contentNew);
-
-    console.log("form dataaaaaaaa : ", formNew);
+    formNew.content = contentNew;
     formNew.metadata = JSON.stringify(metaData);
 
     if (formData.name && formData.name !== '') {
       $("input[name=name]").removeClass("is-invalid"); // console.log("data added new : " , formNew)
 
+      console.log("form dataaaaaaaa : ", formNew);
       CreateAddCategory(formNew);
     } else {
       $("input[name=name]").addClass("is-invalid");
+      (0,_helper__WEBPACK_IMPORTED_MODULE_8__.error)("لطفا فیلد نام دسته بندی را پر کنید !");
     }
   };
 
@@ -3143,13 +3180,47 @@ var AddCategory = function AddCategory(_ref) {
 
   var HandleUpdateForm = function HandleUpdateForm(data, id) {
     console.log("data update : ", data);
-    _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_6__.Request.UpdateDataCategory(data, id).then(function (res) {
-      localStorage.removeItem("is_menu");
-      localStorage.removeItem("status");
-      localStorage.removeItem("selected");
-      pushResult(res);
-    })["catch"](function (error) {
-      return console.log("error add :", error);
+    swal({
+      title: 'ویرایش دسته بندی',
+      text: "آیا مطمئنید؟",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'تایید',
+      confirmButtonClass: 'btn btn-primary',
+      cancelButtonClass: 'btn btn-danger ml-1',
+      cancelButtonText: 'انصراف',
+      buttonsStyling: false
+    }).then(function (result) {
+      if (result.value) {
+        _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_5__.Request.UpdateDataCategory(data, id).then(function (res) {
+          var resError = res.data.message ? res.data.message : '';
+          console.log("status error : ", res.data.size);
+
+          if (res.status == 200 && resError == '') {
+            pushResult(res);
+            localStorage.removeItem("is_menu");
+            localStorage.removeItem("status");
+            localStorage.removeItem("selected");
+            Swal.fire({
+              type: "success",
+              title: 'با موفقیت ویرایش شد !',
+              confirmButtonClass: 'btn btn-success',
+              confirmButtonText: 'باشه'
+            });
+          } else if (res.status == 200 && resError !== '') {
+            (0,_helper__WEBPACK_IMPORTED_MODULE_8__.error)(resError);
+          } else {
+            Swal.fire({
+              type: "error",
+              title: 'خطایی غیر منتظره ای رخ داده است !',
+              cancelButtonClass: 'btn btn-primary',
+              cancelButtonText: 'تلاش مجدد'
+            });
+          }
+        })["catch"](function (error) {
+          return console.log("error", error);
+        });
+      }
     });
   };
 
@@ -3160,8 +3231,8 @@ var AddCategory = function AddCategory(_ref) {
     var is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
     var status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
     var parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
-    console.log("selected parent id : ", parent_ids);
     formOldData.status = status;
+    console.log("is _menuuuuu : ", is_menu);
     formOldData.is_menu = parseInt(is_menu);
     formOldData.parent_id = parseInt(parent_ids);
     HandleUpdateForm(formOldData, formOldData.id);
@@ -3172,8 +3243,8 @@ var AddCategory = function AddCategory(_ref) {
 
     formOldData.content = contentNew;
     var is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
-    var status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-    console.log("selected : duplicate  : ", localStorage.getItem("selected"));
+    var status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status; // console.log("selected : duplicate  : " , localStorage.getItem("selected"));
+
     var parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
     formOldData.status = status;
     formOldData.is_menu = parseInt(is_menu);
@@ -3190,19 +3261,23 @@ var AddCategory = function AddCategory(_ref) {
   };
 
   var MakeNewName = function MakeNewName(name) {
+    var formDatas = _objectSpread({}, formData);
+
     var min = 1;
     var max = 1000;
     var rand = Number(min + Math.random() * (max - min)).toFixed(0);
-    formData.name = name + rand + "_کپی";
-    formData.slug = name + rand + "_کپی";
+    formDatas.name = name + rand + "_کپی";
+    formDatas.slug = name + rand + "_کپی";
     return name + rand + "_کپی";
   };
 
   var MakeNewSlug = function MakeNewSlug(name) {
+    var formDatas = _objectSpread({}, formData);
+
     var min = 1;
     var max = 1000;
     var rand = Number(min + Math.random() * (max - min)).toFixed(0);
-    formData.slug = name + rand + "_کپی";
+    formDatas.slug = name + rand + "_کپی";
     return name + rand + "_کپی";
   };
 
@@ -3327,7 +3402,7 @@ var AddCategory = function AddCategory(_ref) {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
                   id: "selectParent",
                   children: "\u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC \u067E\u062F\u0631"
-                }), categoryData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_7__.SelectOptions, {
+                }), categoryData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_6__.SelectOptions, {
                   parents: idParent ? idParent : dataUpdateParse.parent_id,
                   selection: function selection(check) {
                     return HandleSelectOption(check);
@@ -3406,7 +3481,7 @@ var AddCategory = function AddCategory(_ref) {
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
               className: "col-12",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Micro_MyEditor_MyEditor__WEBPACK_IMPORTED_MODULE_8__.default, {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Micro_MyEditor_MyEditor__WEBPACK_IMPORTED_MODULE_7__.default, {
                 editorData: function editorData(data) {
                   setEdit(true);
                   setContentNew(data);
@@ -3454,7 +3529,7 @@ var AddCategory = function AddCategory(_ref) {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
                   htmlFor: "title",
                   children: "\u0622\u062F\u0631\u0633 \u0635\u0641\u062D\u0647 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
-                }), console.log("slugssssssss : ", dataUpdateParse), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("input", {
+                }), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("input", {
                   type: "text",
                   defaultValue: HandleDefaultValuSlug(),
                   disabled: true,
@@ -3516,7 +3591,7 @@ var AddCategory = function AddCategory(_ref) {
               className: "col-12",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
                 htmlFor: "title",
-                children: "\u06A9\u0644\u0645\u0627\u062A \u06A9\u0644\u06CC\u062F\u06CC \u0635\u0641\u062D\u0647 ( \u0628\u0627 \u0648\u06CC\u0631\u06AF\u0648\u0644 \u062C\u062F\u0627 \u06A9\u0646\u06CC\u062F )"
+                children: "\u06A9\u0644\u0645\u0627\u062A \u06A9\u0644\u06CC\u062F\u06CC \u0635\u0641\u062D\u0647 ( \u062A\u0627\u06CC\u067E \u06A9\u0646\u06CC\u062F \u0648 Enter \u0628\u0632\u0646\u06CC\u062F \u062A\u0627 \u0627\u0636\u0627\u0641\u0647 \u0634\u0648\u062F. )"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
                 className: "row",
                 style: {
@@ -3537,6 +3612,9 @@ var AddCategory = function AddCategory(_ref) {
                             children: item
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
                             className: "chip-closeable",
+                            onClick: function onClick(e) {
+                              return RemoveChipset(item);
+                            },
                             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("i", {
                               className: "bx bx-x"
                             })
@@ -3547,7 +3625,7 @@ var AddCategory = function AddCategory(_ref) {
                       className: "col-sm-12 col-md-4 col-lg-3",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_HOC_ChipsetHandler__WEBPACK_IMPORTED_MODULE_9__.ChipsetHandler, {
                         callback: function callback(item) {
-                          return setChipset([].concat(_toConsumableArray(chipset), [item]));
+                          return handleAddChip(item);
                         }
                       })
                     })]
@@ -3608,20 +3686,7 @@ var AddCategory = function AddCategory(_ref) {
         className: "col-12 bottom-footer",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
           className: "row",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-            className: "col-6",
-            onClick: handleClose,
-            style: {
-              cursor: 'pointer',
-              textAlign: 'center',
-              borderLeft: '1px solid #a9a9a9'
-            },
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
-              type: "reset",
-              id: "clear",
-              children: "\u0627\u0646\u0635\u0631\u0627\u0641"
-            })
-          }), type ? type == 'edit' ? edit ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          children: [type ? type == 'edit' ? edit ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
             onClick: function onClick(e) {
               return HandleEdit(e);
             },
@@ -3645,6 +3710,9 @@ var AddCategory = function AddCategory(_ref) {
               color: '#fff'
             },
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              style: {
+                color: '#fff !important'
+              },
               children: "\u0648\u06CC\u0631\u0627\u06CC\u0634"
             })
           }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
@@ -3654,9 +3722,14 @@ var AddCategory = function AddCategory(_ref) {
             className: "col-6",
             style: {
               textAlign: 'center',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              background: "#5a8dee",
+              color: '#fff'
             },
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              style: {
+                color: '#fff !important'
+              },
               children: "\u0630\u062E\u06CC\u0631\u0647 \u06A9\u067E\u06CC"
             })
           }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
@@ -3671,7 +3744,27 @@ var AddCategory = function AddCategory(_ref) {
               color: '#fff'
             },
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              style: {
+                color: '#fff !important'
+              },
               children: "\u0630\u062E\u06CC\u0631\u0647"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+            className: "col-6",
+            onClick: handleClose,
+            style: {
+              cursor: 'pointer',
+              textAlign: 'center',
+              background: '#FF5B5C',
+              borderLeft: '1px solid #a9a9a9'
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
+              type: "reset",
+              id: "clear",
+              style: {
+                color: '#fff !important'
+              },
+              children: "\u0627\u0646\u0635\u0631\u0627\u0641"
             })
           })]
         })
@@ -3702,9 +3795,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../../../services/AdminService/Api */ "./resources/js/services/AdminService/Api.js");
 /* harmony import */ var _Micro_TreeShow_Shared_style_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../_Micro/TreeShow/_Shared/style.scss */ "./resources/js/components/Admin/_Micro/TreeShow/_Shared/style.scss");
 /* harmony import */ var _CategoryAdd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../CategoryAdd */ "./resources/js/components/Admin/Category/CategoryAdd/index.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _Micro_Loading__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./../../_Micro/Loading */ "./resources/js/components/Admin/_Micro/Loading.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -3722,6 +3816,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -3770,12 +3865,12 @@ var CategoryList = function CategoryList() {
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     GetAllCategory();
-    jquery__WEBPACK_IMPORTED_MODULE_7___default()(function () {
-      jquery__WEBPACK_IMPORTED_MODULE_7___default()("#add-category").click(function () {
-        jquery__WEBPACK_IMPORTED_MODULE_7___default()(".back-loader").fadeIn();
+    jquery__WEBPACK_IMPORTED_MODULE_8___default()(function () {
+      jquery__WEBPACK_IMPORTED_MODULE_8___default()("#add-category").click(function () {
+        jquery__WEBPACK_IMPORTED_MODULE_8___default()(".back-loader").fadeIn();
       });
-      jquery__WEBPACK_IMPORTED_MODULE_7___default()(".back-loader").click(function () {
-        jquery__WEBPACK_IMPORTED_MODULE_7___default()(".back-loader").fadeOut();
+      jquery__WEBPACK_IMPORTED_MODULE_8___default()(".back-loader").click(function () {
+        jquery__WEBPACK_IMPORTED_MODULE_8___default()(".back-loader").fadeOut();
         setTimeout(function () {
           handleAddPage();
         }, 200);
@@ -3788,7 +3883,7 @@ var CategoryList = function CategoryList() {
   // })
 
   var handleAddPage = function handleAddPage() {
-    react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_6__.default, {
+    react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_6__.default, {
       display: true,
       dataUpdate: '',
       idParent: null,
@@ -3825,7 +3920,7 @@ var CategoryList = function CategoryList() {
 
   var handleClickItem = function handleClickItem(clickId) {
     console.log("data id parent : ", clickId);
-    react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_6__.default, {
+    react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_6__.default, {
       display: true,
       idParent: clickId,
       dataUpdate: '',
@@ -3845,9 +3940,9 @@ var CategoryList = function CategoryList() {
   };
 
   var HandleBackLoader = function HandleBackLoader(data) {
-    var id_parents = JSON.parse(data).allData.parent_id;
-    console.log("id parenssssss : ", id_parents);
-    react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_6__.default, {
+    var id_parents = JSON.parse(JSON.parse(data).allData).parent_id;
+    console.log("id parenssssss : ", data);
+    react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_6__.default, {
       display: true,
       dataUpdate: data,
       idParent: id_parents,
@@ -3857,13 +3952,13 @@ var CategoryList = function CategoryList() {
     }), document.getElementById("add-datas"));
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("ul", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("ul", {
       className: "nav nav-tabs tab-layout",
       role: "tablist",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("li", {
         className: "nav-item col-6 nav-custom",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("a", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("a", {
           className: "nav-link active",
           id: "home-tab",
           "data-toggle": "tab",
@@ -3871,21 +3966,21 @@ var CategoryList = function CategoryList() {
           "aria-controls": "home",
           role: "tab",
           "aria-selected": "true",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("i", {
             className: "bx bxs-categories align-middle",
             id: "tab-list-icon",
             style: {
               marginTop: '4px',
               fontSize: '35px !important'
             }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
             className: "align-middle",
             children: "\u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
           })]
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("li", {
         className: "nav-item col-6 nav-custom",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("a", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("a", {
           className: "nav-link",
           id: "profile-tab",
           "data-toggle": "tab",
@@ -3893,30 +3988,30 @@ var CategoryList = function CategoryList() {
           "aria-controls": "profile",
           role: "tab",
           "aria-selected": "false",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("i", {
             className: "bx bxs-layer align-middle",
             id: "tab-list-icon",
             style: {
               marginTop: '4px',
               fontSize: '35px !important'
             }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
             className: "align-middle",
             children: "\u0635\u0641\u062D\u0627\u062A \u062F\u0627\u062E\u0644\u06CC"
           })]
         })
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
       className: "tab-content",
       style: {
         padding: 0
       },
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
         className: "tab-pane active",
         id: "home",
         "aria-labelledby": "home-tab",
         role: "tabpanel",
-        children: [console.log("category data : ", categoryData.length), categoryData && categoryData.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Micro_TreeShow_TreeShowCategory__WEBPACK_IMPORTED_MODULE_3__.TreeShowCategory, {
+        children: categoryData && categoryData.length > 0 && loading == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Micro_TreeShow_TreeShowCategory__WEBPACK_IMPORTED_MODULE_3__.TreeShowCategory, {
           handleCata: function handleCata(itemCat) {
             return console.log("cat back ,", itemCat);
           },
@@ -3937,16 +4032,16 @@ var CategoryList = function CategoryList() {
           },
           data: categoryData,
           loading: loading
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
+        }) : loading == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("p", {
             style: {
               textAlign: 'center',
               marginTop: 20
             },
             children: "\u0644\u06CC\u0633\u062A \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC \u0628\u0631\u0627\u06CC \u0646\u0645\u0627\u06CC\u0634 \u0648\u062C\u0648\u062F \u0646\u062F\u0627\u0631\u062F!"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
             id: "maines",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("button", {
               id: "add-category",
               onClick: function onClick() {
                 return handleAddPage();
@@ -3956,27 +4051,27 @@ var CategoryList = function CategoryList() {
               },
               className: "btn btn-primary glow mr-1 mb-1",
               type: "button",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
                 className: "align-middle ml-25",
                 children: "\u0627\u0641\u0632\u0648\u062F\u0646 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
               })
             })
           })]
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Micro_Loading__WEBPACK_IMPORTED_MODULE_7__.default, {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
         className: "tab-pane",
         id: "profile",
         "aria-labelledby": "profile-tab",
         role: "tabpanel",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("p", {
           style: {
             textAlign: 'center',
             marginTop: 20
           },
           children: "\u0635\u0641\u062D\u0647 \u0627\u06CC \u0628\u0631\u0627\u06CC \u0646\u0645\u0627\u06CC\u0634 \u0648\u062C\u0648\u062F \u0646\u062F\u0627\u0631\u062F!"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           id: "maines",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("button", {
             id: "add-category",
             onClick: function onClick() {
               return handleAddPage();
@@ -3986,32 +4081,32 @@ var CategoryList = function CategoryList() {
             },
             className: "btn btn-primary glow mr-1 mb-1",
             type: "button",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
               className: "align-middle ml-25",
               children: "\u0627\u0641\u0632\u0648\u062F\u0646 \u0635\u0641\u062D\u0647 "
             })
           })
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
       className: "back-blur",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
         id: "bottom-chip",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "form-check",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("ul", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("ul", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("li", {
               children: "\u06A9\u067E\u06CC \u062F\u0633\u062A\u0647"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("li", {
               children: "\u0648\u06CC\u0631\u0627\u06CC\u0634"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("li", {
               children: "\u062D\u0630\u0641"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("li", {
               children: "\u0645\u0634\u0627\u0647\u062F\u0647"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("li", {
               children: "\u0632\u06CC\u0631\u062F\u0633\u062A\u0647"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("li", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
                 className: "badge badge-success badge-pill ml-50",
                 children: "\u0641\u0639\u0627\u0644"
               })
@@ -4019,11 +4114,11 @@ var CategoryList = function CategoryList() {
           })
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Micro_BackLoader__WEBPACK_IMPORTED_MODULE_2__.BackLoader, {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Micro_BackLoader__WEBPACK_IMPORTED_MODULE_2__.BackLoader, {
       states: function states(item) {
         return HandleBackLoader(item);
       }
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
       id: "add-datas"
     })]
   });
@@ -4032,7 +4127,7 @@ var elements = document.getElementById("category_box");
 
 if (elements) {
   var props = Object.assign({}, elements.dataset);
-  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(CategoryList, _objectSpread({}, props)), elements);
+  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(CategoryList, _objectSpread({}, props)), elements);
 }
 
 /***/ }),
@@ -4641,6 +4736,71 @@ var BackLoader = function BackLoader(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Admin/_Micro/Loading.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/Admin/_Micro/Loading.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var Loading = /*#__PURE__*/function (_Component) {
+  _inherits(Loading, _Component);
+
+  var _super = _createSuper(Loading);
+
+  function Loading() {
+    _classCallCheck(this, Loading);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(Loading, [{
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        children: "\u062F\u0631 \u062D\u0627\u0644 \u067E\u0631\u062F\u0627\u0632\u0634 ....."
+      });
+    }
+  }]);
+
+  return Loading;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Loading);
+
+/***/ }),
+
 /***/ "./resources/js/components/Admin/_Micro/MyEditor/MyEditor.js":
 /*!*******************************************************************!*\
   !*** ./resources/js/components/Admin/_Micro/MyEditor/MyEditor.js ***!
@@ -5046,6 +5206,7 @@ var Item = function Item(_ref) {
 
   var HandleEdit = function HandleEdit(e, type) {
     e.preventDefault();
+    console.log("dataaaaaaaa dup : ", allData);
     var editOrDup = JSON.stringify({
       type: type,
       allData: allData
@@ -5141,9 +5302,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _Item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Item */ "./resources/js/components/Admin/_Micro/TreeShow/Item.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _Micro_Loading__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../_Micro/Loading */ "./resources/js/components/Admin/_Micro/Loading.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -5157,17 +5320,17 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
       pushDuplicate = _ref.duplicate,
       pushDelClick = _ref.delClick,
       pushUpdateData = _ref.updateData;
-  jquery__WEBPACK_IMPORTED_MODULE_2___default()(function () {
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()("span#sub-menu-custom").click(function () {
-      jquery__WEBPACK_IMPORTED_MODULE_2___default()(".back-blur").fadeIn(100);
+  jquery__WEBPACK_IMPORTED_MODULE_3___default()(function () {
+    jquery__WEBPACK_IMPORTED_MODULE_3___default()("span#sub-menu-custom").click(function () {
+      jquery__WEBPACK_IMPORTED_MODULE_3___default()(".back-blur").fadeIn(100);
       setTimeout(function () {
-        jquery__WEBPACK_IMPORTED_MODULE_2___default()("#bottom-chip").addClass("active");
+        jquery__WEBPACK_IMPORTED_MODULE_3___default()("#bottom-chip").addClass("active");
       }, 200);
     });
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()(".back-blur").click(function () {
-      jquery__WEBPACK_IMPORTED_MODULE_2___default()("#bottom-chip").removeClass("active");
+    jquery__WEBPACK_IMPORTED_MODULE_3___default()(".back-blur").click(function () {
+      jquery__WEBPACK_IMPORTED_MODULE_3___default()("#bottom-chip").removeClass("active");
       setTimeout(function () {
-        jquery__WEBPACK_IMPORTED_MODULE_2___default()(".back-blur").fadeOut(100);
+        jquery__WEBPACK_IMPORTED_MODULE_3___default()(".back-blur").fadeOut(100);
       }, 200);
     });
   });
@@ -5194,21 +5357,19 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
   };
 
   if (loading) {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-      children: "\u062F\u0631 \u062D\u0627\u0644 \u067E\u0631\u062F\u0627\u0632\u0634 ..."
-    });
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Micro_Loading__WEBPACK_IMPORTED_MODULE_2__.default, {});
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("ul", {
     className: "content-li",
     children: data ? Object.keys(data).map(function (keyName, i) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("li", {
         style: {
           position: 'relative'
         },
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           className: "branch-top"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
           name: data[keyName].name,
           allData: JSON.stringify(data[keyName]),
           id: data[keyName].id,
@@ -5229,21 +5390,21 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
             return HandleClick(itemId);
           }
         }, data[keyName].name), data[keyName].childern.length > 0 ? data[keyName].childern.map(function (itemClildOne, i) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("ul", {
             style: {
               padding: '0 50px 0 0',
               listStyle: 'inherit',
               position: 'relative'
             },
-            children: [console.log("indexed : ", i), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            children: [console.log("indexed : ", i), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("li", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                 className: "branch-top"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                 className: "branch",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                   className: "box"
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
                 status: itemClildOne.status,
                 name: itemClildOne.name,
                 id: itemClildOne.id,
@@ -5264,21 +5425,21 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
                   return HandleClick(itemId);
                 }
               }, itemClildOne.id), itemClildOne.children.length > 0 ? itemClildOne.children.map(function (childThree, i) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("ul", {
                   style: {
                     padding: '0 50px 0 0',
                     listStyle: 'inherit',
                     position: 'relative'
                   },
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("li", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                       className: "branch-top"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                       className: "branch",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                         className: "box"
                       })
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
                       status: childThree.status,
                       name: childThree.name,
                       id: childThree.id,
@@ -5306,9 +5467,7 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
           });
         }) : '']
       });
-    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-      children: "wait"
-    })
+    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Micro_Loading__WEBPACK_IMPORTED_MODULE_2__.default, {})
   });
 };
 
@@ -5909,6 +6068,7 @@ var Switcher = function Switcher(_ref) {
       }
     });
   });
+  console.log("state default:", defaultState);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
     className: "switch-container",
     children: defaultState ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
@@ -7930,7 +8090,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "@media screen and (max-width: 1024px) {\n  #icon-item-list {\n    display: none;\n  }\n\n  span#sub-menu-custom {\n    display: block !important;\n  }\n\n  .nav-custom {\n    font-size: 13px;\n  }\n}\n#disable-div {\n  opacity: 0.3 !important;\n  cursor: not-allowed !important;\n}\n\nspan#sub-menu-custom {\n  display: none;\n  width: 30px;\n  height: 30px;\n  position: absolute;\n  left: 30px;\n  line-height: 2.9;\n  top: 0px;\n  bottom: 0px;\n  margin: auto 0;\n  text-align: center;\n}\n\n.back-blur {\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 99999;\n  display: none;\n  top: 0px;\n  right: 0px;\n}\n.back-blur #bottom-chip {\n  border-radius: 20px 20px 0 0;\n  box-shadow: 0 0 30px 8px rgba(0, 0, 0, 0.2);\n  width: 100%;\n  position: absolute;\n  bottom: -100%;\n  height: 280px;\n  background: #fff;\n  right: 0px;\n  z-index: 99;\n  transition: 0.3s all ease;\n}\n.back-blur #bottom-chip.active {\n  bottom: 0% !important;\n}\n.back-blur #bottom-chip .form-check {\n  padding: 0px;\n}\n.back-blur #bottom-chip .form-check ul {\n  list-style: none;\n  text-align: center;\n  padding: 0px;\n  margin: 0px;\n}\n.back-blur #bottom-chip .form-check ul li {\n  width: 100%;\n  height: 45px;\n  cursor: pointer;\n  float: left;\n  line-height: 3;\n}\n\n#form-group-chipset {\n  margin-bottom: 0px !important;\n}\n\n.chips_input {\n  border: 0px !important;\n  border-radius: 50px;\n}\n.chips_input:focus {\n  box-shadow: none !important;\n}\n\n.chip {\n  height: 30px !important;\n  margin-top: 8px !important;\n}\n\n#chip-box {\n  border: 1px solid #dfe3e7;\n  border-radius: 5px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "@media screen and (max-width: 1024px) {\n  #icon-item-list {\n    display: none;\n  }\n\n  span#sub-menu-custom {\n    display: block !important;\n  }\n\n  .nav-custom {\n    font-size: 13px;\n  }\n}\n#disable-div {\n  opacity: 0.3 !important;\n  cursor: not-allowed !important;\n}\n\nspan#sub-menu-custom {\n  display: none;\n  width: 30px;\n  height: 30px;\n  position: absolute;\n  left: 30px;\n  line-height: 2.9;\n  top: 0px;\n  bottom: 0px;\n  margin: auto 0;\n  text-align: center;\n}\n\n.back-blur {\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 99999;\n  display: none;\n  top: 0px;\n  right: 0px;\n}\n.back-blur #bottom-chip {\n  border-radius: 20px 20px 0 0;\n  box-shadow: 0 0 30px 8px rgba(0, 0, 0, 0.2);\n  width: 100%;\n  position: absolute;\n  bottom: -100%;\n  height: 280px;\n  background: #fff;\n  right: 0px;\n  z-index: 99;\n  transition: 0.3s all ease;\n}\n.back-blur #bottom-chip.active {\n  bottom: 0% !important;\n}\n.back-blur #bottom-chip .form-check {\n  padding: 0px;\n}\n.back-blur #bottom-chip .form-check ul {\n  list-style: none;\n  text-align: center;\n  padding: 0px;\n  margin: 0px;\n}\n.back-blur #bottom-chip .form-check ul li {\n  width: 100%;\n  height: 45px;\n  cursor: pointer;\n  float: left;\n  line-height: 3;\n}\n\n#form-group-chipset {\n  margin-bottom: 0px !important;\n}\n\n.chips_input {\n  border: 0px !important;\n  border-radius: 50px;\n}\n.chips_input:focus {\n  box-shadow: none !important;\n}\n\n.chip {\n  height: 30px !important;\n  margin-top: 13px !important;\n  margin-right: 10px;\n  margin-left: 0px !important;\n}\n\n#chip-box {\n  border: 1px solid #dfe3e7;\n  border-radius: 5px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -7954,7 +8114,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "#header-card-custom {\n  border-radius: 5px 5px 0px 0px !important;\n  margin-bottom: 0px !important;\n  padding: 10px 0px 5px 0 !important;\n}\n\n#icon-delete-list {\n  padding: 0px !important;\n  float: left !important;\n  margin-left: -20px !important;\n  margin-top: 2px !important;\n}\n\n.page-item {\n  cursor: pointer !important;\n}\n\ninput::-moz-placeholder {\n  font-size: 13px !important;\n}\n\ninput:-ms-input-placeholder {\n  font-size: 13px !important;\n}\n\ninput::placeholder {\n  font-size: 13px !important;\n}\n\n#spinner-loading {\n  padding: 10px;\n  margin-right: 20px;\n}\n\n#edit-boxes {\n  width: 200px;\n  position: absolute;\n  right: 30px;\n  display: none;\n  top: 3px;\n  z-index: 99;\n  background: #fff;\n  padding: 5px;\n  box-shadow: 8px 0px 20px 5px rgba(0, 0, 0, 0.1);\n  border-radius: 5px;\n}\n#edit-boxes::after {\n  position: absolute;\n  content: \"\";\n  -webkit-clip-path: polygon(100% 0, 0 0, 0 100%);\n          clip-path: polygon(100% 0, 0 0, 0 100%);\n  width: 15px;\n  height: 15px;\n  top: 7px;\n  right: -13px;\n  background: #fff;\n}\n\n.nav-custom {\n  padding: 0px !important;\n  margin: 0px !important;\n  height: 60px;\n  font-size: 15px;\n  line-height: 2.1;\n}\n.nav-custom a {\n  display: flex;\n  height: 60px;\n  background: none !important;\n  color: #64788F !important;\n  justify-content: center;\n  border-radius: 0px !important;\n}\n.nav-custom a.active {\n  border-bottom: 2px solid #606CEC !important;\n  color: #606CEC !important;\n}\n.nav-custom a i {\n  font-size: 25px !important;\n  margin-left: 10px !important;\n}\n\nul.tab-layout {\n  padding-top: 10px;\n  background: white none repeat scroll 0% 0%;\n  border-radius: 5px;\n  overflow: hidden;\n  box-shadow: 0px 0 8px 0px rgba(0, 0, 0, 0.1);\n}\n\nul.content-li {\n  list-style: none;\n  padding: 0px;\n}\nul.content-li li {\n  float: right;\n  width: 100%;\n  z-index: 9;\n  position: relative;\n  cursor: pointer;\n}\nul.content-li li #li-div {\n  background: #fff;\n  height: 55px;\n  z-index: 9;\n  margin-bottom: 12px;\n  border-radius: 5px;\n  transition: 0.3s all ease;\n  position: relative;\n}\nul.content-li li #li-div:hover {\n  transform: scale(1.01);\n  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);\n}\nul.content-li li #li-div .form-check {\n  margin-top: -3px;\n}\nul.content-li li #li-div .form-check .badge {\n  float: left;\n  margin-top: 7px;\n  font-size: 13px;\n}\nul.content-li li #li-div .form-check span {\n  font-size: 15px;\n  margin-right: 15px;\n}\nul.content-li li #li-div .form-check i {\n  float: left;\n  font-size: 23px;\n  margin-top: 7px;\n  margin-right: 25px;\n  transition: 0.3s ease;\n}\nul.content-li li #li-div .form-check i:hover {\n  color: #606CEC;\n}\nul.content-li li #li-div .check-category {\n  margin-left: 5px;\n  float: right !important;\n  margin-top: 10px;\n}\n\n.back-loader {\n  width: 100%;\n  height: 100%;\n  position: fixed;\n  top: 0px;\n  display: none;\n  right: 0px;\n  z-index: 999999;\n  background: rgba(255, 255, 255, 0.95);\n}\n.back-loader #close-select {\n  width: 45px;\n  height: 45px;\n  background: #ccc;\n  right: 15px;\n  top: 15px;\n  position: absolute;\n  color: #000;\n  border-radius: 100%;\n  text-align: center;\n  font-size: 20px;\n  line-height: 2.2;\n  cursor: pointer;\n}\n.back-loader .box-selected {\n  width: 400px;\n  position: absolute;\n  height: 190px;\n  overflow: hidden;\n  border-radius: 10px;\n  left: 0px;\n  box-shadow: 0 0 14px 2px rgba(0, 0, 0, 0.1);\n  right: 0px;\n  bottom: 0px;\n  top: 0px;\n  margin: auto;\n  border: 1px solid #BBC3CE;\n  background: #fff;\n}\n.back-loader .box-selected ul {\n  padding: 0px;\n  list-style: none;\n}\n.back-loader .box-selected ul li#first {\n  height: 50px;\n  width: 100%;\n  color: #000;\n  text-align: center;\n  line-height: 2.9;\n  border-bottom: 1px solid #BBC3CE;\n}\n.back-loader .box-selected ul li#last {\n  width: 100%;\n  cursor: pointer;\n  height: 70px;\n  border-bottom: 1px solid #BBC3CE;\n  transition: 0.1s all ease;\n}\n.back-loader .box-selected ul li#last:hover {\n  border-right: 2px solid darkgreen;\n  background: #f3f3f3;\n}\n.back-loader .box-selected ul li#last #icon {\n  float: right;\n  width: 70px;\n  text-align: center;\n  line-height: 4.6 !important;\n  height: 70px;\n}\n.back-loader .box-selected ul li#last #icon i {\n  font-size: 35px !important;\n}\n.back-loader .box-selected ul li#last #desc {\n  float: right;\n}\n.back-loader .box-selected ul li#last #desc p#first {\n  font-size: 18px;\n  color: #000;\n  margin-top: 5px;\n  margin-bottom: 0 !important;\n}\n.back-loader .box-selected ul li#last #desc p#last {\n  padding: 0px;\n  font-size: 13px;\n  margin-top: -10px;\n  margin-bottom: 0px;\n}\n\n.branch {\n  width: 25px;\n  height: 45px;\n  position: absolute;\n  right: -25px;\n  top: -12px;\n  border-right: 1px solid #6b7c93;\n  border-bottom: 1px solid #6b7c93;\n}\n.branch .box {\n  width: 16px;\n  height: 16px;\n  border-radius: 100%;\n  right: -8px;\n  bottom: -8px;\n  position: absolute;\n  background: #6b7c93;\n  border: 2px solid #f2f4f4;\n}\n\n.branch-more {\n  width: 25px;\n  height: 100%;\n  position: absolute;\n  right: -25px;\n  top: -32px;\n  border-right: 1px solid #6b7c93;\n  border-bottom: 1px solid #6b7c93;\n}\n.branch-more .box {\n  width: 16px;\n  height: 16px;\n  border-radius: 100%;\n  right: -8px;\n  bottom: -8px;\n  position: absolute;\n  background: #6b7c93;\n  border: 2px solid #f2f4f4;\n}\n\n.branch-top {\n  position: absolute;\n  border-bottom: 1px solid #6b7c93;\n  top: 0px;\n  right: 25px;\n  bottom: 35px;\n  width: 43px;\n  border-right: 1px solid #6b7c93;\n}\n\n#category_add_pop_base {\n  width: 100%;\n  height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  display: block;\n  z-index: 999999;\n  background: #fff;\n}\n\n#maines {\n  display: flex;\n  justify-content: center;\n  flex-direction: inherit;\n}\n\n.slugest {\n  text-align: left;\n}\n\nbutton#clear {\n  color: #6b6b6b !important;\n  width: 100% !important;\n  height: 100% !important;\n  border: none !important;\n  background: none !important;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "#header-card-custom {\n  border-radius: 5px 5px 0px 0px !important;\n  margin-bottom: 0px !important;\n  padding: 10px 0px 5px 0 !important;\n}\n\n#icon-delete-list {\n  padding: 0px !important;\n  float: left !important;\n  margin-left: -20px !important;\n  margin-top: 2px !important;\n}\n\n.page-item {\n  cursor: pointer !important;\n}\n\ninput::-moz-placeholder {\n  font-size: 13px !important;\n}\n\ninput:-ms-input-placeholder {\n  font-size: 13px !important;\n}\n\ninput::placeholder {\n  font-size: 13px !important;\n}\n\n#spinner-loading {\n  padding: 10px;\n  margin-right: 20px;\n}\n\n#edit-boxes {\n  width: 200px;\n  position: absolute;\n  right: 30px;\n  display: none;\n  top: 3px;\n  z-index: 99;\n  background: #fff;\n  padding: 5px;\n  box-shadow: 8px 0px 20px 5px rgba(0, 0, 0, 0.1);\n  border-radius: 5px;\n}\n#edit-boxes::after {\n  position: absolute;\n  content: \"\";\n  -webkit-clip-path: polygon(100% 0, 0 0, 0 100%);\n          clip-path: polygon(100% 0, 0 0, 0 100%);\n  width: 15px;\n  height: 15px;\n  top: 7px;\n  right: -13px;\n  background: #fff;\n}\n\n.nav-custom {\n  padding: 0px !important;\n  margin: 0px !important;\n  height: 60px;\n  font-size: 15px;\n  line-height: 2.1;\n}\n.nav-custom a {\n  display: flex;\n  height: 60px;\n  background: none !important;\n  color: #64788F !important;\n  justify-content: center;\n  border-radius: 0px !important;\n}\n.nav-custom a.active {\n  border-bottom: 2px solid #606CEC !important;\n  color: #606CEC !important;\n}\n.nav-custom a i {\n  font-size: 25px !important;\n  margin-left: 10px !important;\n}\n\nul.tab-layout {\n  padding-top: 10px;\n  background: white none repeat scroll 0% 0%;\n  border-radius: 5px;\n  overflow: hidden;\n  box-shadow: 0px 0 8px 0px rgba(0, 0, 0, 0.1);\n}\n\nul.content-li {\n  list-style: none;\n  padding: 0px;\n}\nul.content-li li {\n  float: right;\n  width: 100%;\n  z-index: 9;\n  position: relative;\n  cursor: pointer;\n}\nul.content-li li #li-div {\n  background: #fff;\n  height: 55px;\n  z-index: 9;\n  margin-bottom: 12px;\n  border-radius: 5px;\n  transition: 0.3s all ease;\n  position: relative;\n}\nul.content-li li #li-div:hover {\n  transform: scale(1.01);\n  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);\n}\nul.content-li li #li-div .form-check {\n  margin-top: -3px;\n}\nul.content-li li #li-div .form-check .badge {\n  float: left;\n  margin-top: 7px;\n  font-size: 13px;\n}\nul.content-li li #li-div .form-check span {\n  font-size: 15px;\n  margin-right: 15px;\n}\nul.content-li li #li-div .form-check i {\n  float: left;\n  font-size: 23px;\n  margin-top: 7px;\n  margin-right: 25px;\n  transition: 0.3s ease;\n}\nul.content-li li #li-div .form-check i:hover {\n  color: #606CEC;\n}\nul.content-li li #li-div .check-category {\n  margin-left: 5px;\n  float: right !important;\n  margin-top: 10px;\n}\n\n.back-loader {\n  width: 100%;\n  height: 100%;\n  position: fixed;\n  top: 0px;\n  display: none;\n  right: 0px;\n  z-index: 999999;\n  background: rgba(255, 255, 255, 0.95);\n}\n.back-loader #close-select {\n  width: 45px;\n  height: 45px;\n  background: #ccc;\n  right: 15px;\n  top: 15px;\n  position: absolute;\n  color: #000;\n  border-radius: 100%;\n  text-align: center;\n  font-size: 20px;\n  line-height: 2.2;\n  cursor: pointer;\n}\n.back-loader .box-selected {\n  width: 400px;\n  position: absolute;\n  height: 190px;\n  overflow: hidden;\n  border-radius: 10px;\n  left: 0px;\n  box-shadow: 0 0 14px 2px rgba(0, 0, 0, 0.1);\n  right: 0px;\n  bottom: 0px;\n  top: 0px;\n  margin: auto;\n  border: 1px solid #BBC3CE;\n  background: #fff;\n}\n.back-loader .box-selected ul {\n  padding: 0px;\n  list-style: none;\n}\n.back-loader .box-selected ul li#first {\n  height: 50px;\n  width: 100%;\n  color: #000;\n  text-align: center;\n  line-height: 2.9;\n  border-bottom: 1px solid #BBC3CE;\n}\n.back-loader .box-selected ul li#last {\n  width: 100%;\n  cursor: pointer;\n  height: 70px;\n  border-bottom: 1px solid #BBC3CE;\n  transition: 0.1s all ease;\n}\n.back-loader .box-selected ul li#last:hover {\n  border-right: 2px solid darkgreen;\n  background: #f3f3f3;\n}\n.back-loader .box-selected ul li#last #icon {\n  float: right;\n  width: 70px;\n  text-align: center;\n  line-height: 4.6 !important;\n  height: 70px;\n}\n.back-loader .box-selected ul li#last #icon i {\n  font-size: 35px !important;\n}\n.back-loader .box-selected ul li#last #desc {\n  float: right;\n}\n.back-loader .box-selected ul li#last #desc p#first {\n  font-size: 18px;\n  color: #000;\n  margin-top: 5px;\n  margin-bottom: 0 !important;\n}\n.back-loader .box-selected ul li#last #desc p#last {\n  padding: 0px;\n  font-size: 13px;\n  margin-top: -10px;\n  margin-bottom: 0px;\n}\n\n.branch {\n  width: 25px;\n  height: 45px;\n  position: absolute;\n  right: -25px;\n  top: -12px;\n  border-right: 1px solid #6b7c93;\n  border-bottom: 1px solid #6b7c93;\n}\n.branch .box {\n  width: 16px;\n  height: 16px;\n  border-radius: 100%;\n  right: -8px;\n  bottom: -8px;\n  position: absolute;\n  background: #6b7c93;\n  border: 2px solid #f2f4f4;\n}\n\n.branch-more {\n  width: 25px;\n  height: 100%;\n  position: absolute;\n  right: -25px;\n  top: -32px;\n  border-right: 1px solid #6b7c93;\n  border-bottom: 1px solid #6b7c93;\n}\n.branch-more .box {\n  width: 16px;\n  height: 16px;\n  border-radius: 100%;\n  right: -8px;\n  bottom: -8px;\n  position: absolute;\n  background: #6b7c93;\n  border: 2px solid #f2f4f4;\n}\n\n.branch-top {\n  position: absolute;\n  border-bottom: 1px solid #6b7c93;\n  top: 0px;\n  right: 25px;\n  bottom: 35px;\n  width: 43px;\n  border-right: 1px solid #6b7c93;\n}\n\n#category_add_pop_base {\n  width: 100%;\n  height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  display: block;\n  z-index: 999999;\n  background: #fff;\n}\n\n#maines {\n  display: flex;\n  justify-content: center;\n  flex-direction: inherit;\n}\n\n.slugest {\n  text-align: left;\n}\n\nbutton#clear {\n  color: #fff !important;\n  width: 100% !important;\n  height: 100% !important;\n  border: none !important;\n  background: none !important;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

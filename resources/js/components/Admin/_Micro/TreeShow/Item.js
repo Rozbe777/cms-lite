@@ -55,6 +55,7 @@ export const Item = ({allData , key , id ,name ,status , duplicate : pushDuplica
     // this function used for edit and duplicate category
     const HandleEdit = (e , type) => {
         e.preventDefault();
+        console.log("dataaaaaaaa dup : " , allData)
         let editOrDup = JSON.stringify({type , allData})
         pushDataForEdit(editOrDup)
     }

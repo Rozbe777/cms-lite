@@ -23,6 +23,7 @@
     cursor: not-allowed !important;
 }
 
+
 span#sub-menu-custom {
     display: none;
     width: 30px;
@@ -95,9 +96,11 @@ span#sub-menu-custom {
         box-shadow: none !important;
     }
 }
-.chip{
+.chip {
     height: 30px !important;
-    margin-top: 8px !important;
+    margin-top: 13px !important;
+    margin-right: 10px;
+    margin-left: 0px !important;
 }
 
 #chip-box {

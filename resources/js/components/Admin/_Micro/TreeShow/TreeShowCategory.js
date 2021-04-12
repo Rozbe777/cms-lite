@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Item} from './Item'
+import {Item} from './Item';
+import Loading from './../../_Micro/Loading'
 import $ from 'jquery';
 
 export const TreeShowCategory = ({data, loading, callBack: pushCallBack, itemClicks: pushItemCliks , duplicate : pushDuplicate ,delClick : pushDelClick , updateData : pushUpdateData}) => {
@@ -35,7 +36,7 @@ export const TreeShowCategory = ({data, loading, callBack: pushCallBack, itemCli
         pushUpdateData(data);
     }
     if (loading) {
-        return <p>در حال پردازش ...</p>
+        return <Loading />
     }
 
     return (
@@ -125,10 +126,8 @@ export const TreeShowCategory = ({data, loading, callBack: pushCallBack, itemCli
                     )
                 }
             ) : (
-                <p>wait</p>
+               <Loading />
             )}
-
-
         </ul>
     )
 

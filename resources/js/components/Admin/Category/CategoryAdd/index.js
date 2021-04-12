@@ -3,15 +3,16 @@ import ReactDOM from 'react-dom';
 import {Switcher} from './../../../HOC/Switch'
 import {BigSwitcher} from './../../../HOC/BigSwitcher';
 import './../../_Shared/Style.scss'
-import {error} from './../../../../helper'
 import {Request} from './../../../../services/AdminService/Api'
 import {SelectOptions} from './../../../HOC/SelectOptions'
 import MyEditor from "../../_Micro/MyEditor/MyEditor";
+import {error} from './../../../../helper'
 import {ChipsetHandler} from './../../../HOC/ChipsetHandler'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
 const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
+    console.log("duplicate data : " , dataUpdate);
     const [comments, setComments] = useState();
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
@@ -35,7 +36,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     const [formData, setFormData] = useState({});
 
     let default_value = {
-        is_menu: true,
+        is_menu: 1,
         status: "active",
         content: '',
         parent_id: idParent,
@@ -44,7 +45,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
     const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
     const CreateAddCategory = (data) => {
-        console.log("new data add : " , data)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -59,7 +59,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             if (result.value) {
                 Request.AddNewCategory(data)
                     .then(res => {
-                        console.log("resultttttttt ok : ", res)
                         let resError = res.data.message ? res.data.message : '';
                         console.log("status error : ", res.data.size)
                         if (res.status == 200 && resError == '') {
@@ -87,7 +86,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                     }).catch(error => console.log("error", error))
             }
         });
-
     }
 
     useEffect(() => {
@@ -99,7 +97,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     const handleClose = () => {
         ReactDOM.render('', document.getElementById("add-datas"));
         setFormData({
-            is_menu: true,
+            is_menu: 1,
             status: "active",
             content: '',
             parent_id: 0,
@@ -116,29 +114,69 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     }
 
     const handleInput = (e) => {
-        setEdit(true)
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        })
+        setEdit(true);
+
         let formDataOld = {...formData};
-        formDataOld.slug = e.target.value;
+        if (e.target.name == "name") {
+            formDataOld.name = e.target.value;
+            formDataOld.slug = e.target.value;
+            setFormData(formDataOld);
+        } else {
+            formDataOld.slug = e.target.value;
+            setFormData(formDataOld);
+        }
+
+
+
+
+
+
+        // if (dataUpdateParse)
+        // {
+        //     if (e.target.name == "name") {
+        //         dataUpdateParse.name = e.target.value;
+        //         dataUpdateParse.slug = e.target.value;
+        //     } else {
+        //         dataUpdateParse.slug = e.target.value;
+        //     }
+        // }else{
+
+        // }
+
     }
+
+    const RemoveChipset = (name) => {
+        let metaData = {...metaData};
+        var chipsetArr = [...chipset];
+        var index = chipsetArr.indexOf(name);
+        if (index !== -1) {
+            chipsetArr.splice(index, 1);
+            setChipset(chipsetArr);
+            metaData.tags = chipsetArr;
+            setMetaData(metaData)
+        }
+    }
+
+    const handleAddChip = (item) => {
+        let metaDatas = {...metaData};
+        let chipsets = [...chipset];
+        chipsets.push(item);
+        setChipset(chipsets);
+        metaDatas.tags = chipsets;
+        setMetaData(metaDatas);
+        console.log("meta dataaaaaa : ", metaDatas)
+    }
+
 
     const HandleForm = (e) => {
         let formNew = {...formData};
         let formFile = new FormData();
-        formFile.append("file" , file);
-        // console.log("form data sssssssssss : " , file.image[0]);
-        // if (file.image[0]){
-        //     forms.append("image", file.image[0])
-        // }
-        // console.log("form dataaaaaaaaaaa : " , forms);
+        formFile.append("file", file);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
         let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formNew.parent_id;
         formNew.status = status;
-        console.log("checked id : " , localStorage.getItem("selected"))
+        // console.log("checked id : " , localStorage.getItem("selected"))
         formNew.parent_id = parseInt(parent_id);
         formNew.image  = file;
         formNew.is_menu = is_menu ? 1 : 0;
@@ -151,17 +189,17 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             formNew.slug = formNew.name
         }
         formNew.content = contentNew;
-        // formFile.append("content" , contentNew);
-        console.log("form dataaaaaaaa : " , formNew)
 
         formNew.metadata = JSON.stringify(metaData);
         if (formData.name && formData.name !== '') {
             $("input[name=name]").removeClass("is-invalid");
             // console.log("data added new : " , formNew)
+            console.log("form dataaaaaaaa : ", formNew)
+
             CreateAddCategory(formNew);
         } else {
             $("input[name=name]").addClass("is-invalid");
-
+            error("لطفا فیلد نام دسته بندی را پر کنید !")
         }
 
     }
@@ -196,14 +234,52 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
     const HandleUpdateForm=(data , id)=> {
         console.log("data update : ", data)
-        Request.UpdateDataCategory(data, id)
-            .then(res => {
-                localStorage.removeItem("is_menu");
-                localStorage.removeItem("status");
-                localStorage.removeItem("selected");
-                pushResult(res)
-            })
-            .catch(error => console.log("error add :", error))
+
+
+
+
+        swal({
+            title: 'ویرایش دسته بندی',
+            text: "آیا مطمئنید؟",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'تایید',
+            confirmButtonClass: 'btn btn-primary',
+            cancelButtonClass: 'btn btn-danger ml-1',
+            cancelButtonText: 'انصراف',
+            buttonsStyling: false,
+        }).then(function (result) {
+            if (result.value) {
+                Request.UpdateDataCategory(data, id)
+                    .then(res => {
+                        let resError = res.data.message ? res.data.message : '';
+                        console.log("status error : ", res.data.size)
+                        if (res.status == 200 && resError == '') {
+                            pushResult(res);
+                            localStorage.removeItem("is_menu");
+                            localStorage.removeItem("status");
+                            localStorage.removeItem("selected");
+                            Swal.fire({
+                                type: "success",
+                                title: 'با موفقیت ویرایش شد !',
+                                confirmButtonClass: 'btn btn-success',
+                                confirmButtonText: 'باشه',
+                            })
+                        } else if (res.status == 200 && resError !== '') {
+                            error(resError)
+                        } else {
+                            Swal.fire({
+                                type: "error",
+                                title: 'خطایی غیر منتظره ای رخ داده است !',
+                                cancelButtonClass: 'btn btn-primary',
+                                cancelButtonText: 'تلاش مجدد',
+                            })
+                        }
+
+                    }).catch(error => console.log("error", error))
+            }
+        });
+
     }
 
 
@@ -213,11 +289,12 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
-        console.log("selected parent id : " ,parent_ids );
 
         formOldData.status = status;
+        console.log("is _menuuuuu : ", is_menu)
         formOldData.is_menu = parseInt(is_menu);
         formOldData.parent_id = parseInt(parent_ids);
+
         HandleUpdateForm(formOldData, formOldData.id);
     }
 
@@ -226,7 +303,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         formOldData.content = contentNew;
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-        console.log("selected : duplicate  : " , localStorage.getItem("selected"));
+        // console.log("selected : duplicate  : " , localStorage.getItem("selected"));
         let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
         formOldData.status = status;
         formOldData.is_menu = parseInt(is_menu);
@@ -245,18 +322,20 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     }
 
     let MakeNewName = (name) => {
+        let formDatas = {...formData}
         const min = 1;
         const max = 1000;
         const rand = Number(min + Math.random() * (max - min)).toFixed(0);
-        formData.name = name + rand + "_کپی";
-        formData.slug = name + rand + "_کپی";
+        formDatas.name = name + rand + "_کپی";
+        formDatas.slug = name + rand + "_کپی";
         return name + rand + "_کپی";
     }
     let MakeNewSlug = (name) => {
+        let formDatas = {...formData}
         const min = 1;
         const max = 1000;
         const rand = Number(min + Math.random() * (max - min)).toFixed(0);
-        formData.slug = name + rand + "_کپی";
+        formDatas.slug = name + rand + "_کپی";
         return name + rand + "_کپی";
     }
     const handleSwitchStatus = (status) => {
@@ -292,13 +371,13 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                 return MakeNewName(dataUpdateParse.name);
             } else {
                 return dataUpdateParse.name;
-
             }
         } else {
             formData.slug = formData.name;
             return formData.name;
         }
     }
+
 
     return (
         <div id={"category_add_pop_base"}>
@@ -416,7 +495,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             <div className={"col-lg-9 col-md-8 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس صفحه دسته بندی</label>
-                                    {console.log("slugssssssss : ", dataUpdateParse)}
                                     {slugManage ? (
                                         <input type={"text"}
                                                defaultValue={HandleDefaultValuSlug()}
@@ -457,25 +535,26 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                                 </fieldset>
                             </div>
 
-
                             <div className={"col-12"}>
-                                <label htmlFor={"title"}>کلمات کلیدی صفحه ( با ویرگول جدا کنید )</label>
-                                <div className={"row"} style={{padding : '15px'}}>
+                                <label htmlFor={"title"}>کلمات کلیدی صفحه ( تایپ کنید و Enter بزنید تا اضافه شود.
+                                    )</label>
+                                <div className={"row"} style={{padding: '15px'}}>
                                     <div className={"col-12"} id={"chip-box"}>
                                         <div className={"row"}>
-                                                {chipset.map(item => (
-                                                    <div className="chip mr-1">
-                                                        <div className="chip-body">
-                                                            <span className="chip-text">{item}</span>
-                                                            <div className="chip-closeable">
-                                                                <i className="bx bx-x"></i>
-                                                            </div>
+                                            {chipset.map(item => (
+                                                <div className="chip mr-1">
+                                                    <div className="chip-body">
+                                                        <span className="chip-text">{item}</span>
+                                                        <div className="chip-closeable"
+                                                             onClick={e => RemoveChipset(item)}>
+                                                            <i className="bx bx-x"></i>
+                                                        </div>
                                                         </div>
                                                     </div>
                                                 ))}
 
                                             <div className={"col-sm-12 col-md-4 col-lg-3"}>
-                                                <ChipsetHandler callback={item => setChipset([...chipset, item])}/>
+                                                <ChipsetHandler callback={item => handleAddChip(item)}/>
                                             </div>
                                         </div>
 
@@ -517,12 +596,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                 <div className={"col-12 bottom-footer"}>
                     <div className={"row"}>
 
-                        <div className={"col-6"} onClick={handleClose}
-                             style={{cursor: 'pointer', textAlign: 'center', borderLeft: '1px solid #a9a9a9'}}>
-                            <button type={"reset"} id={"clear"}>
-                                انصراف
-                            </button>
-                        </div>
+
                         {type ? type == 'edit' ? edit ? (
                                 <div onClick={(e) => HandleEdit(e)}
                                      className={"col-6"}
@@ -535,23 +609,30 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                                     id={"disable-div"}
                                      className={"col-6"}
                                      style={{textAlign: 'center', cursor: 'pointer', background : "#5a8dee" , color : '#fff'}}>
-                                    <span>ویرایش</span>
+                                    <span style={{color : '#fff !important'}}>ویرایش</span>
                                 </div>
                             )
                             : (
                                 <div onClick={(e) => HandleDuplicate(e)}
                                      className={"col-6"}
-                                     style={{textAlign: 'center', cursor: 'pointer'}}>
-                                    <span>ذخیره کپی</span>
+                                     style={{textAlign: 'center', cursor: 'pointer', background : "#5a8dee" , color : '#fff'}}>
+                                    <span style={{color : '#fff !important'}}>ذخیره کپی</span>
                                 </div>
                             ) :
 
                             (
                                 <div onClick={(e) => HandleForm(e)} className={"col-6"}
-                                     style={{textAlign: 'center', cursor: 'pointer' , background : "#5a8dee" , color : '#fff'}}>
-                                    <span>ذخیره</span>
+                                     style={{textAlign: 'center', cursor: 'pointer' , background : "#5a8dee" ,color : '#fff'}}>
+                                    <span style={{color : '#fff !important'}}>ذخیره</span>
                                 </div>
                             )}
+
+                        <div className={"col-6"} onClick={handleClose}
+                             style={{cursor: 'pointer', textAlign: 'center',background : '#FF5B5C' , borderLeft: '1px solid #a9a9a9'}}>
+                            <button type={"reset"} id={"clear"} style={{color : '#fff !important'}}>
+                                انصراف
+                            </button>
+                        </div>
 
                     </div>
 

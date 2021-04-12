@@ -5,6 +5,7 @@ import {TreeShowCategory} from './../../_Micro/TreeShow/TreeShowCategory';
 import {Request} from './../../../../services/AdminService/Api'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import AddCategory from './../CategoryAdd';
+import Loading from './../../_Micro/Loading'
 import $ from 'jquery';
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
@@ -95,8 +96,8 @@ export const CategoryList = () => {
         }
     }
     const HandleBackLoader = (data) => {
-        let id_parents = JSON.parse(data).allData.parent_id;
-        console.log("id parenssssss : ", id_parents);
+        let id_parents = JSON.parse(JSON.parse(data).allData).parent_id;
+        console.log("id parenssssss : ", data);
         ReactDom.render(<AddCategory display={true} dataUpdate={data} idParent={id_parents}
                                      result={item => handleBack(item)}/>, document.getElementById("add-datas"))
 
@@ -129,8 +130,7 @@ export const CategoryList = () => {
             <div className="tab-content" style={{padding: 0}}>
                 <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
 
-                    {console.log("category data : " , categoryData.length)}
-                    {categoryData && categoryData.length >  0 ? (
+                    {categoryData && categoryData.length  >  0 && loading == false ? (
                         <TreeShowCategory handleCata={itemCat => console.log("cat back ,", itemCat)}
                                           duplicate={item => HandleDuplicate(item)}
                                           itemClicks={clicks => handleClickItem(clicks)}
@@ -139,7 +139,7 @@ export const CategoryList = () => {
                                           updateData={item => HandleBackLoader(item)}
                                           data={categoryData}
                                           loading={loading}/>
-                    ) : (
+                    ) : loading == false ?  (
                         <div>
                             <p style={{textAlign: 'center', marginTop: 20}}>
                                 لیست دسته بندی برای نمایش وجود ندارد!
@@ -155,7 +155,7 @@ export const CategoryList = () => {
                                 </button>
                             </div>
                         </div>
-                        )}
+                        ) : <Loading />}
 
                 </div>
                 <div className="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">
