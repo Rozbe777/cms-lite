@@ -2,9 +2,11 @@ import React, {useEffect, useState} from 'react'
 import ReactDom from 'react-dom';
 import {BackLoader} from './../../_Micro/BackLoader'
 import {TreeShowCategory} from './../../_Micro/TreeShow/TreeShowCategory';
+import {TreeShowPage} from './../../_Micro/PageComponents/TreeShowPage';
 import {Request} from './../../../../services/AdminService/Api'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import AddCategory from './../CategoryAdd';
+import PageAdd from './../../Page/PageAdd'
 import Loading from './../../_Micro/Loading'
 import $ from 'jquery';
 
@@ -15,6 +17,7 @@ export const CategoryList = () => {
     const [dispalyAdd, setDisplayAdd] = useState({dispaly: false})
     const [loading, setLoading] = useState(false);
     const [categoryData, setCategoryData] = useState({})
+    const [pageData, setPageData] = useState({})
 
     const GetAllCategory = () => {
         setLoading(true)
@@ -27,32 +30,35 @@ export const CategoryList = () => {
             .catch(err => console.log("errpr : ", err))
     }
 
+    const GetAllPages = () => {
+        setLoading(true)
+        Request.GetAllPages()
+            .then(res => {
+                console.log("page data : " , res)
+                localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
+                setLoading(false)
+                setPageData(res.data)
+            })
+            .catch(err => console.log("errpr : ", err))
+    }
+
 
     useEffect(() => {
         GetAllCategory();
+        GetAllPages();
         $(function () {
-            $("#add-category").click(() => {
+            $("#add-category-selected").click(() => {
                 $(".back-loader").fadeIn();
             })
             $(".back-loader").click(() => {
                 $(".back-loader").fadeOut();
-                setTimeout(() => {
-                    handleAddPage();
-                }, 200)
             })
         })
     }, [])
 
-
-    // $(function () {
-    //     $("#add-category").click(() => {
-    //         setDisplay(true)
-    //     })
-    // })
-
     const handleAddPage = () => {
-        ReactDom.render(<AddCategory display={true} dataUpdate={''} idParent={null}
-                                     result={item => handleBack(item)}/>, document.getElementById("add-datas"))
+        ReactDom.render(<PageAdd display={true} dataUpdate={''} idParent={null}
+                                     result={item => handleBackPage(item)}/>, document.getElementById("add-datas"))
     }
 
     const HandleAdd = (item) => {
@@ -89,18 +95,34 @@ export const CategoryList = () => {
     }
 
     const handleBack = (item) => {
-        console.log("result items : ", item)
         if (item.status == 200) {
             GetAllCategory();
             ReactDom.render('', document.getElementById('add-datas'))
         }
     }
+    const handleBackPage = (item) => {
+        if (item.status == 200) {
+            GetAllPages();
+            ReactDom.render('', document.getElementById('add-datas'))
+        }
+    }
     const HandleBackLoader = (data) => {
         let id_parents = JSON.parse(JSON.parse(data).allData).parent_id;
-        console.log("id parenssssss : ", data);
+        // console.log("id parenssssss : ", data);
         ReactDom.render(<AddCategory display={true} dataUpdate={data} idParent={id_parents}
                                      result={item => handleBack(item)}/>, document.getElementById("add-datas"))
+    }
 
+    const HandleAddContentSelect = (data) => {
+        let datas = JSON.parse(data);
+        if (datas.type == "category")
+        {
+            ReactDom.render(<AddCategory display={true} dataUpdate={''} idParent={0}
+                                         result={item => handleBack(item)}/>, document.getElementById("add-datas"))
+        }else{
+            ReactDom.render(<PageAdd display={true} dataUpdate={''}
+                                         result={item => handleBack(item)}/>, document.getElementById("add-datas"))
+        }
     }
 
 
@@ -159,19 +181,42 @@ export const CategoryList = () => {
 
                 </div>
                 <div className="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">
-                    <p style={{textAlign: 'center', marginTop: 20}}>
-                        صفحه ای برای نمایش وجود ندارد!
-                    </p>
 
-                    <div id={"maines"}>
-                        <button id="add-category"
-                                onClick={() => handleAddPage()}
-                                style={{width: 180}}
-                                className="btn btn-primary glow mr-1 mb-1"
-                                type="button">
-                            <span className="align-middle ml-25">افزودن صفحه </span>
-                        </button>
-                    </div>
+
+                    {console.log("data page : " , pageData)}
+                    {pageData && pageData.length  >  0 && loading == false ? (
+                        <TreeShowPage handleCata={itemCat => console.log("cat back ,", itemCat)}
+                                          duplicate={item => HandleDuplicate(item)}
+                                          itemClicks={clicks => handleClickItem(clicks)}
+                                          callBack={item => HandleDelete(item)}
+                                          delClick={item => HandleDelete(item)}
+                                          updateData={item => HandleBackLoader(item)}
+                                          data={pageData}
+                                          loading={loading}/>
+                    ) : loading == false ?  (
+                        <div>
+                            <p style={{textAlign: 'center', marginTop: 20}}>
+                                صفحه ای برای نمایش وجود ندارد!
+                            </p>
+
+                            <div id={"maines"}>
+                                <button id="add-category"
+                                        onClick={() => handleAddPage()}
+                                        style={{width: 180}}
+                                        className="btn btn-primary glow mr-1 mb-1"
+                                        type="button">
+                                    <span className="align-middle ml-25">افزودن صفحه </span>
+                                </button>
+                            </div>
+                        </div>
+                    ) : <Loading />}
+
+
+
+
+
+
+
                 </div>
             </div>
 
@@ -197,7 +242,7 @@ export const CategoryList = () => {
             </div>
 
 
-            <BackLoader states={item => (HandleBackLoader(item))}/>
+            <BackLoader states={item => (HandleAddContentSelect(item))}/>
             <div id={"add-datas"}></div>
 
         </div>

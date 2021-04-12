@@ -4,14 +4,14 @@ import {Switcher} from './../../../HOC/Switch'
 import {BigSwitcher} from './../../../HOC/BigSwitcher';
 import './../../_Shared/Style.scss'
 import {Request} from './../../../../services/AdminService/Api'
-import {SelectOptions} from './../../../HOC/SelectOptions'
 import MyEditor from "../../_Micro/MyEditor/MyEditor";
 import {error} from './../../../../helper'
 import {ChipsetHandler} from './../../../HOC/ChipsetHandler'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
-const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
+const AddPage = ({display, dataUpdate, result: pushResult}) => {
+    console.log("duplicate data : ", dataUpdate);
     const [comments, setComments] = useState();
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
@@ -28,20 +28,22 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     });
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
-    const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : '';
+
     const type = dataGet ? dataGet.type : '';
 
     const [slugManage, setSlugManage] = useState(true);
     const [formData, setFormData] = useState({});
+
     let default_value = {
         is_menu: 1,
         status: "active",
         content: '',
-        parent_id: idParent,
         slug: ''
     };
+
     const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
-    const CreateAddCategory = (data) => {
+    const CreateAddPage = (data) => {
+        console.log("data : ", data);
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -54,7 +56,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-                Request.AddNewCategory(data)
+                Request.AddNewPage(data)
                     .then(res => {
                         let resError = res.data.message ? res.data.message : '';
                         console.log("status error : ", res.data.size)
@@ -84,14 +86,11 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             }
         });
     }
+
     useEffect(() => {
         let formNews = {...formData};
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
         setFormData(formNews);
-        let metaDataNew = {...metaData};
-        metaDataNew = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
-        setMetaData(metaDataNew)
-        MetaDataUpdate.tags ? setChipset(MetaDataUpdate.tags) : '';
     }, [])
 
     const handleClose = () => {
@@ -100,7 +99,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             is_menu: 1,
             status: "active",
             content: '',
-            parent_id: 0,
             slug: ''
         });
         setMetaData({
@@ -115,6 +113,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
     const handleInput = (e) => {
         setEdit(true);
+
         let formDataOld = {...formData};
         if (e.target.name == "name") {
             formDataOld.name = e.target.value;
@@ -125,30 +124,28 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             setFormData(formDataOld);
         }
 
-
     }
 
     const RemoveChipset = (name) => {
-        setEdit(true)
-        let metaDatas = {...metaData};
+        let metaData = {...metaData};
         var chipsetArr = [...chipset];
         var index = chipsetArr.indexOf(name);
         if (index !== -1) {
             chipsetArr.splice(index, 1);
+            setChipset(chipsetArr);
+            metaData.tags = chipsetArr;
+            setMetaData(metaData)
         }
-        setChipset(chipsetArr);
-        metaDatas.tags = chipsetArr;
-        setMetaData(metaDatas)
     }
 
     const handleAddChip = (item) => {
-        setEdit(true)
         let metaDatas = {...metaData};
         let chipsets = [...chipset];
         chipsets.push(item);
         setChipset(chipsets);
         metaDatas.tags = chipsets;
         setMetaData(metaDatas);
+        console.log("meta dataaaaaa : ", metaDatas)
     }
 
 
@@ -158,11 +155,8 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         formFile.append("file", file);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
-        let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formNew.parent_id;
         formNew.status = status;
-        // console.log("checked id : " , localStorage.getItem("selected"))
-        formNew.parent_id = parseInt(parent_id);
-        formNew.image  = file;
+        formNew.image = file;
         formNew.is_menu = is_menu ? 1 : 0;
         if (slugManage == false) {
             formNew.slug = formNew.name;
@@ -180,7 +174,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             // console.log("data added new : " , formNew)
             console.log("form dataaaaaaaa : ", formNew)
 
-            CreateAddCategory(formNew);
+            CreateAddPage(formNew);
         } else {
             $("input[name=name]").addClass("is-invalid");
             error("لطفا فیلد نام دسته بندی را پر کنید !")
@@ -216,10 +210,8 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         setSlugManage(status)
     }
 
-    const HandleUpdateForm=(data , id)=> {
+    const HandleUpdateForm = (data, id) => {
         console.log("data update : ", data)
-
-
 
 
         swal({
@@ -272,14 +264,10 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         formOldData.content = contentNew;
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-        let parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
 
-        console.log("meta data New sssss : " , metaData);
         formOldData.status = status;
-        formOldData.metadata = metaData;
-        // console.log("is _menuuuuu : ", is_menu)
+        console.log("is _menuuuuu : ", is_menu)
         formOldData.is_menu = parseInt(is_menu);
-        formOldData.parent_id = parseInt(parent_ids);
 
         HandleUpdateForm(formOldData, formOldData.id);
     }
@@ -290,12 +278,10 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         // console.log("selected : duplicate  : " , localStorage.getItem("selected"));
-        let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
         formOldData.status = status;
         formOldData.is_menu = parseInt(is_menu);
-        formOldData.parent_id = parseInt(parent_id);
         // console.log("data duplicate : " , formOldData);
-        CreateAddCategory(formOldData);
+        CreateAddPage(formOldData);
     }
 
 
@@ -386,27 +372,15 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                     <div className={"content-pages"}>
 
                         <div className={"row"} style={{padding: '20px'}}>
-                            <div className={"col-lg-3 col-md-4 col-sm-12"}>
+                            <div className={"col-lg-6 col-md-8 col-sm-12"}>
                                 <fieldset className="form-group">
-                                    <label htmlFor={"title"}>عنوان دسته بندی</label>
+                                    <label htmlFor={"title"}>عنوان صفحه</label>
                                     <input type={"text"} defaultValue={HandleMakeName()} onChange={e => handleInput(e)}
                                            name={"name"} id={"title"}
                                            className={"form-control"}/>
                                 </fieldset>
                             </div>
-                            <div className={"col-lg-3 col-md-4 col-sm-12"}>
-                                <fieldset className="form-group">
-                                    <label id={"selectParent"}>دسته بندی پدر</label>
-                                    {categoryData ? (
-                                        <SelectOptions parents={idParent ? idParent : dataUpdateParse.parent_id}
-                                                       selection={check => HandleSelectOption(check)}
-                                                       loading={loading} data={JSON.stringify(dataCategory.data)}/>
-                                    ): (
-                                        <p>wait ...</p>
-                                    )}
 
-                                </fieldset>
-                            </div>
                             <div className={"col-lg-2 col-md-3 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>وضعیت نمایش</label>
@@ -504,9 +478,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان صفحه ( حداکثر 60 حرف )</label>
-                                    <input type={"text"}
-                                           defaultValue={MetaDataUpdate ? MetaDataUpdate.title : ''}
-                                           onChange={e => HandleMetaData(e)} name={"title"} id={"title"}
+                                    <input type={"text"} onChange={e => HandleMetaData(e)} name={"title"} id={"title"}
                                            className={"form-control"}/>
 
 
@@ -516,12 +488,10 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>توضیح صفحه ( حداکثر 155 حرف )</label>
-                                    <textarea
-                                        defaultValue={MetaDataUpdate ? MetaDataUpdate.content : ''}
-                                        type={"text"}
-                                        onChange={e => HandleMetaData(e)} name={"content"}
-                                        id={"title"}
-                                        className={"form-control"}/>
+                                    <textarea type={"text"} onChange={e => HandleMetaData(e)} name={"content"}
+                                              id={"title"} className={"form-control"}/>
+
+
                                 </fieldset>
                             </div>
 
@@ -539,9 +509,9 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                                                              onClick={e => RemoveChipset(item)}>
                                                             <i className="bx bx-x"></i>
                                                         </div>
-                                                        </div>
                                                     </div>
-                                                ))}
+                                                </div>
+                                            ))}
 
                                             <div className={"col-sm-12 col-md-4 col-lg-3"}>
                                                 <ChipsetHandler callback={item => handleAddChip(item)}/>
@@ -557,10 +527,8 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس داخلی برای انتقال (301 Redirect)</label>
-                                        <input type={"text"}
-                                               defaultValue={MetaDataUpdate ? MetaDataUpdate.redirect : ''}
-                                               onChange={e => HandleMetaData(e)} name={"redirect"}
-                                               id={"title"} className={"form-control"}/>
+                                    <input type={"text"} onChange={e => HandleMetaData(e)} name={"redirect"}
+                                           id={"title"} className={"form-control"}/>
 
                                 </fieldset>
                             </div>
@@ -568,19 +536,16 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس Canonical</label>
-                                        <input
-                                            defaultValue={MetaDataUpdate ? MetaDataUpdate.canonical : ''}
-                                            onChange={e => HandleMetaData(e)}
-                                            name={"canonical"} type={"text"}
-                                            id={"title"} className={"form-control"}/>
+                                    <input onChange={e => HandleMetaData(e)} name={"canonical"} type={"text"}
+                                           id={"title"} className={"form-control"}/>
                                 </fieldset>
                             </div>
 
                             <div className={"col-12"}>
                                 <label>تنظیمات Robots</label>
                                 <BigSwitcher status={states => HandlerBigSwitcher(states)} name={"Robots"}
-                                             defaultStatus={MetaDataUpdate ? MetaDataUpdate.Robots : false}
                                              valueOne={"غیرفعال"} valueTow={"noindex,follow"}
+                                             default={''}
                                              valueThree={"noindex,unfolow"}/>
                             </div>
 
@@ -592,14 +557,16 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                 <div className={"col-12 bottom-footer"}>
                     <div className={"row"}>
 
-
                         <div className={"col-6"} onClick={handleClose}
-                             style={{cursor: 'pointer', textAlign: 'center', borderLeft: '1px solid #a9a9a9'}}>
+                             style={{
+                                 cursor: 'pointer',
+                                 textAlign: 'center',
+                                 borderLeft: '1px solid #a9a9a9'
+                             }}>
                             <button type={"reset"} id={"clear"}>
                                 انصراف
                             </button>
                         </div>
-
 
                         {type ? type == 'edit' ? edit ? (
                                 <div onClick={(e) => HandleEdit(e)}
@@ -611,23 +578,38 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             : (
                                 <div
                                     id={"disable-div"}
-                                     className={"col-6"}
-                                     style={{textAlign: 'center', cursor: 'pointer', background : "#5a8dee" , color : '#fff'}}>
-                                    <span style={{color : '#fff !important'}}>ویرایش</span>
+                                    className={"col-6"}
+                                    style={{
+                                        textAlign: 'center',
+                                        cursor: 'pointer',
+                                        background: "#5a8dee",
+                                        color: '#fff'
+                                    }}>
+                                    <span style={{color: '#fff !important'}}>ویرایش</span>
                                 </div>
                             )
                             : (
                                 <div onClick={(e) => HandleDuplicate(e)}
                                      className={"col-6"}
-                                     style={{textAlign: 'center', cursor: 'pointer', background : "#5a8dee" , color : '#fff'}}>
-                                    <span style={{color : '#fff !important'}}>ذخیره کپی</span>
+                                     style={{
+                                         textAlign: 'center',
+                                         cursor: 'pointer',
+                                         background: "#5a8dee",
+                                         color: '#fff'
+                                     }}>
+                                    <span style={{color: '#fff !important'}}>ذخیره کپی</span>
                                 </div>
                             ) :
 
                             (
                                 <div onClick={(e) => HandleForm(e)} className={"col-6"}
-                                     style={{textAlign: 'center', cursor: 'pointer' , background : "#5a8dee" ,color : '#fff'}}>
-                                    <span style={{color : '#fff !important'}}>ذخیره</span>
+                                     style={{
+                                         textAlign: 'center',
+                                         cursor: 'pointer',
+                                         background: "#5a8dee",
+                                         color: '#fff'
+                                     }}>
+                                    <span style={{color: '#fff !important'}}>ذخیره</span>
                                 </div>
                             )}
 
@@ -642,4 +624,4 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
 
 }
-export default AddCategory;
+export default AddPage;

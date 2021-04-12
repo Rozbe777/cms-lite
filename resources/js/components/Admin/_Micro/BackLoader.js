@@ -6,6 +6,7 @@ export const BackLoader = ({states : pushStates}) => {
         states.type = type;
         pushStates(JSON.stringify(states))
     }
+
     return (
         <div className={"back-loader"}>
             <div id={"close-select"} onClick={() => {

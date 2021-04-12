@@ -21,7 +21,7 @@
                     </div>
 
                     <div class="col-md-4">
-                        <button id="add-category" class="btn btn-primary glow mr-1 mb-1" type="button" style="float: left">
+                        <button id="add-category-selected" class="btn btn-primary glow mr-1 mb-1" type="button" style="float: left">
                             <i class="bx bx-plus"></i>
                             <span class="align-middle ml-25">افزودن </span>
                         </button>

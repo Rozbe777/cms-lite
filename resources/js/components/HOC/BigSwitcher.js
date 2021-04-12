@@ -1,7 +1,11 @@
 import React from 'react';
 import './_Shared/style.scss'
 import $ from 'jquery';
-export const BigSwitcher = ({name , valueOne ,valueTow ,valueThree , status:pushStatus }) => {
+export const BigSwitcher = ({name ,defaultStatus, valueOne ,valueTow ,valueThree , status:pushStatus }) => {
+
+    console.log("default value : " , defaultStatus);
+
+
     $(function (){
         $("input[name="+name+"]").on("change" , function (){
             let content = $(this).attr("cont");
