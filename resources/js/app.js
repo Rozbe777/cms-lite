@@ -21,3 +21,4 @@ require('./components/User/CreateUser');
 require("./components/Admin/UserList/UserList");
 require("./components/Admin/Category/CategoryList");
 require("./components/Admin/Category/CategoryAdd");
+require("./components/Admin/Dasboard");

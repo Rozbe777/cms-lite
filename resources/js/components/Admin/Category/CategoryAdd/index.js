@@ -116,12 +116,19 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
 
     const handleInput = (e) => {
         setEdit(true);
-        let formDataOld = {...formData};
         if (e.target.name == "name") {
-            formDataOld.name = e.target.value;
-            formDataOld.slug = e.target.value;
-            setFormData(formDataOld);
+            if(slugManage){
+                let formDataOld = {...formData};
+                formDataOld.name = e.target.value;
+                formDataOld.slug = e.target.value;
+                setFormData(formDataOld);
+            }else{
+                let formDataOld = {...formData};
+                formDataOld.name = e.target.value;
+                setFormData(formDataOld);
+            }
         } else {
+            let formDataOld = {...formData};
             formDataOld.slug = e.target.value;
             setFormData(formDataOld);
         }
@@ -319,7 +326,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         const rand = Number(min + Math.random() * (max - min)).toFixed(0);
         let names = name + rand + "_کپی";
         let slugs = name + rand + "_کپی";
-
         return name + rand + "_کپی";
     }
     let MakeNewSlug = (name) => {
@@ -487,13 +493,16 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             <div className={"col-lg-9 col-md-8 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس صفحه دسته بندی</label>
+                                    {console.log("form data new change : " , formData)}
+                                    {console.log("slug manages : " , slugManage)}
+                                    {console.log("update data" , dataUpdateParse)}
                                     {slugManage ? (
                                         <input type={"text"}
-                                               defaultValue={$("input.titleCat").val()}
+                                               value={formData.slug}
                                                disabled id={"title"} className={"form-control slugest"}/>
                                     ) : (
                                         <input type={"text"}
-                                               defaultValue={dataUpdateParse.slug ? dataUpdateParse.slug : formData.name}
+                                               defaultValue={formData.slug}
                                                onChange={e => handleInput(e)} name={"slug"} id={"title"}
                                                className={"form-control slugest"}/>
                                     )}

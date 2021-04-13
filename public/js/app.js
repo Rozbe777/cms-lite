@@ -2639,6 +2639,8 @@ __webpack_require__(/*! ./components/Admin/Category/CategoryList */ "./resources
 
 __webpack_require__(/*! ./components/Admin/Category/CategoryAdd */ "./resources/js/components/Admin/Category/CategoryAdd/index.js");
 
+__webpack_require__(/*! ./components/Admin/Dasboard */ "./resources/js/components/Admin/Dasboard/index.js");
+
 /***/ }),
 
 /***/ "./resources/js/classes/webservice.js":
@@ -3078,15 +3080,24 @@ var AddCategory = function AddCategory(_ref) {
   var handleInput = function handleInput(e) {
     setEdit(true);
 
-    var formDataOld = _objectSpread({}, formData);
-
     if (e.target.name == "name") {
-      formDataOld.name = e.target.value;
-      formDataOld.slug = e.target.value;
-      setFormData(formDataOld);
+      if (slugManage) {
+        var formDataOld = _objectSpread({}, formData);
+
+        formDataOld.name = e.target.value;
+        formDataOld.slug = e.target.value;
+        setFormData(formDataOld);
+      } else {
+        var _formDataOld = _objectSpread({}, formData);
+
+        _formDataOld.name = e.target.value;
+        setFormData(_formDataOld);
+      }
     } else {
-      formDataOld.slug = e.target.value;
-      setFormData(formDataOld);
+      var _formDataOld2 = _objectSpread({}, formData);
+
+      _formDataOld2.slug = e.target.value;
+      setFormData(_formDataOld2);
     }
   };
 
@@ -3542,15 +3553,15 @@ var AddCategory = function AddCategory(_ref) {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
                   htmlFor: "title",
                   children: "\u0622\u062F\u0631\u0633 \u0635\u0641\u062D\u0647 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
-                }), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("input", {
+                }), console.log("form data new change : ", formData), console.log("slug manages : ", slugManage), console.log("update data", dataUpdateParse), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("input", {
                   type: "text",
-                  defaultValue: $("input.titleCat").val(),
+                  value: formData.slug,
                   disabled: true,
                   id: "title",
                   className: "form-control slugest"
                 }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("input", {
                   type: "text",
-                  defaultValue: dataUpdateParse.slug ? dataUpdateParse.slug : formData.name,
+                  defaultValue: formData.slug,
                   onChange: function onChange(e) {
                     return handleInput(e);
                   },
@@ -4208,6 +4219,38 @@ var elements = document.getElementById("category_box");
 if (elements) {
   var props = Object.assign({}, elements.dataset);
   react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(CategoryList, _objectSpread({}, props)), elements);
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/Admin/Dasboard/index.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/Admin/Dasboard/index.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+var Dashboard = function Dashboard() {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    children: "dashbard"
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Dashboard);
+
+if (document.getElementById("main-dashboard")) {
+  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Dashboard, {}), document.getElementById("main-dashboard"));
 }
 
 /***/ }),

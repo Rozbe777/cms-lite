@@ -169,8 +169,6 @@ Route::group(['middleware' => 'user_permission'], function () {
             Route::get('/{pageId}/destroy', [PageController::class, 'destroy'])->name('destroy');
             Route::get('/search', [PageController::class, 'search'])->name('search');
             Route::post('/destroys', [PageController::class, 'multipleDestroy'])->name('multipleDestroy');
-
-
         });
 
         Route::group(['as' => 'layout.', 'prefix' => 'layout', 'namespace' => 'Layout', 'name' => 'layout.'], function () {
