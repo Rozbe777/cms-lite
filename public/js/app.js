@@ -5996,11 +5996,8 @@ var MyEditor = function MyEditor(_ref) {
         toolbarContainer: '#toolbar_container',
         showPathLabel: false,
         charCounter: true,
-        maxCharCount: 720,
-        maxWidth: '700px',
         height: 'auto',
         minHeight: '100px',
-        maxHeight: '250px',
         buttonList: [['undo', 'redo', 'font', 'fontSize', 'formatBlock'], ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'removeFormat'], ['fontColor', 'hiliteColor', 'outdent', 'indent', 'align', 'horizontalRule', 'list', 'table'], ['link', 'image', 'video', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save']]
       },
       defaultValue: defaultVal,
