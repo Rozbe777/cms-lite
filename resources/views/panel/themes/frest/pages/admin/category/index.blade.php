@@ -8,14 +8,14 @@
                 <div class="row breadcrumbs-top" style="position: relative">
 
                     <div class="col-md-8">
-                        <h5 class="content-header-title float-left pr-1">لیست کاربران</h5>
+                        <h5 class="content-header-title float-left pr-1">مدیریت صفحات و دسته بندی ها</h5>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb p-0 mb-0">
                                 <li class="breadcrumb-item"><a href="index.html"><i class="bx bx-home-alt"></i></a>
                                 </li>
                                 <li class="breadcrumb-item"><a href="#">اجزاء</a>
                                 </li>
-                                <li class="breadcrumb-item active">لیست کاربران</li>
+                                <li class="breadcrumb-item active">لیست صفحات و دسته بندی ها</li>
                             </ol>
                         </div>
                     </div>

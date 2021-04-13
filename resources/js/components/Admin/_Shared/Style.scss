@@ -154,7 +154,7 @@ ul.content-li{
 
     }
     .box-selected{
-        width: 400px;
+        width: 340px;
         position: absolute;
         height: 190px;
         overflow: hidden;
@@ -200,6 +200,7 @@ ul.content-li{
                 }
                 #desc{
                     float: right;
+                    width: 260px !important;
                     p#first{
                         font-size: 18px;
                         color: #000;
@@ -211,6 +212,10 @@ ul.content-li{
                         font-size: 13px;
                         margin-top: -10px;
                         margin-bottom: 0px;
+                        width: 100%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
                     }
                 }
             }

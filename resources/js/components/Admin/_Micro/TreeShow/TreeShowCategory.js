@@ -15,8 +15,6 @@ export const TreeShowCategory = ({
                                      delClick: pushDelClick,
                                      updateData: pushUpdateData,
                                  }) => {
-
-
     const [responseData , setResponseData] = useState({});
     const [idDelete , setIdDelete] = useState();
     useEffect(() => {

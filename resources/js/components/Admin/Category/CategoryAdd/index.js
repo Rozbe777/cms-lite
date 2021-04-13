@@ -7,9 +7,8 @@ import {Request} from './../../../../services/AdminService/Api'
 import {SelectOptions} from './../../../HOC/SelectOptions'
 import MyEditor from "../../_Micro/MyEditor/MyEditor";
 import {error} from './../../../../helper'
-import {ChipsetHandler} from './../../../HOC/ChipsetHandler'
+import {ChipsetHandler} from './../../../HOC/ChipsetHandler';
 import './../../_Micro/TreeShow/_Shared/style.scss';
-
 const LOCAL_CAT = "localcat-zerone-cmslite";
 const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     const [comments, setComments] = useState();
