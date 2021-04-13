@@ -40,9 +40,13 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         parent_id: idParent,
         slug: ''
     };
+
+
+
+
+
     const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
     const CreateAddCategory = (data) => {
-        console.log("data : " , data)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -89,6 +93,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         let formNews = {...formData};
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
         setFormData(formNews);
+        console.log("data................." , formNews);
         let metaDataNew = {...metaData};
         metaDataNew = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
         setMetaData(metaDataNew)
@@ -247,6 +252,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             localStorage.removeItem("status");
                             localStorage.removeItem("selected");
                             localStorage.removeItem("robots");
+
                             Swal.fire({
                                 type: "success",
                                 title: 'با موفقیت ویرایش شد !',
@@ -279,7 +285,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         let parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
 
-        console.log("meta data New sssss : " , metaData);
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
         formOldData.status = status;
@@ -498,7 +503,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                                     {console.log("update data" , dataUpdateParse)}
                                     {slugManage ? (
                                         <input type={"text"}
-                                               value={formData.slug}
+                                               defaultValue={type=="dup" ? $(".titleCat").val() : formData.slug}
                                                disabled id={"title"} className={"form-control slugest"}/>
                                     ) : (
                                         <input type={"text"}

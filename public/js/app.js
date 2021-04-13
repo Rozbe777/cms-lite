@@ -2998,7 +2998,6 @@ var AddCategory = function AddCategory(_ref) {
   var dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
 
   var CreateAddCategory = function CreateAddCategory(data) {
-    console.log("data : ", data);
     swal({
       title: 'افزودن دسته بندی جدید',
       text: "آیا مطمئنید؟",
@@ -3048,6 +3047,7 @@ var AddCategory = function AddCategory(_ref) {
 
     formNews = dataUpdateParse ? dataUpdateParse : default_value;
     setFormData(formNews);
+    console.log("data.................", formNews);
 
     var metaDataNew = _objectSpread({}, metaData);
 
@@ -3244,7 +3244,6 @@ var AddCategory = function AddCategory(_ref) {
     var status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
     var parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
     var robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
-    console.log("meta data New sssss : ", metaData);
 
     var metaDatas = _objectSpread({}, metaData);
 
@@ -3555,7 +3554,7 @@ var AddCategory = function AddCategory(_ref) {
                   children: "\u0622\u062F\u0631\u0633 \u0635\u0641\u062D\u0647 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
                 }), console.log("form data new change : ", formData), console.log("slug manages : ", slugManage), console.log("update data", dataUpdateParse), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("input", {
                   type: "text",
-                  value: formData.slug,
+                  defaultValue: type == "dup" ? $(".titleCat").val() : formData.slug,
                   disabled: true,
                   id: "title",
                   className: "form-control slugest"
@@ -3985,8 +3984,8 @@ var CategoryList = function CategoryList() {
   };
 
   var HandleBackLoader = function HandleBackLoader(data) {
-    var id_parents = JSON.parse(JSON.parse(data).allData).parent_id; // console.log("id parenssssss : ", data);
-
+    var id_parents = JSON.parse(JSON.parse(data).allData).parent_id;
+    console.log("loading loader : ", id_parents);
     react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_7__.default, {
       display: true,
       dataUpdate: data,
@@ -4179,32 +4178,6 @@ var CategoryList = function CategoryList() {
           })]
         }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Micro_Loading__WEBPACK_IMPORTED_MODULE_9__.default, {})]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-      className: "back-blur",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-        id: "bottom-chip",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-          className: "form-check",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("ul", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("li", {
-              children: "\u06A9\u067E\u06CC \u062F\u0633\u062A\u0647"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("li", {
-              children: "\u0648\u06CC\u0631\u0627\u06CC\u0634"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("li", {
-              children: "\u062D\u0630\u0641"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("li", {
-              children: "\u0645\u0634\u0627\u0647\u062F\u0647"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("li", {
-              children: "\u0632\u06CC\u0631\u062F\u0633\u062A\u0647"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("li", {
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
-                className: "badge badge-success badge-pill ml-50",
-                children: "\u0641\u0639\u0627\u0644"
-              })
-            })]
-          })
-        })
-      })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Micro_BackLoader__WEBPACK_IMPORTED_MODULE_2__.BackLoader, {
       states: function states(item) {
         return HandleAddContentSelect(item);
@@ -4236,21 +4209,167 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _Shared_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./_Shared/style.scss */ "./resources/js/components/Admin/Dasboard/_Shared/style.scss");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
 
 
 
 
 var Dashboard = function Dashboard() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-    children: "dashbard"
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    className: "container-fluid",
+    style: {
+      padding: 0
+    },
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      className: "col-12",
+      style: {
+        padding: 0,
+        margin: 0,
+        position: 'relative'
+      },
+      id: "rol-status-dashboard",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        id: "rol-status-header",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+          children: "\u0628\u0631\u0627\u06CC \u062A\u06A9\u0645\u06CC\u0644 \u0633\u0631\u06CC\u0639\u200C\u062A\u0631 \u0641\u0631\u0648\u0634\u06AF\u0627\u0647 \u0645\u0631\u0627\u062D\u0644 \u0632\u06CC\u0631 \u0631\u0627 \u0627\u0646\u062C\u0627\u0645 \u062F\u0647\u06CC\u062F"
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        id: "rol-status-body",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+            "data-toggle": "tooltip",
+            "data-placement": "top",
+            title: "Tooltip on top",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              id: "content",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: "check-status",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: "rounded",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    id: "faded"
+                  })
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+                children: "\u0622\u067E\u0644\u0648\u062F \u0644\u0648\u06AF\u0648"
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              id: "content",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: "check-status",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                  className: "rounded active",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    id: "faded",
+                    className: "deactive"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                    className: "bx bx-check"
+                  })]
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+                children: "\u0627\u062A\u0635\u0627\u0644 \u062F\u0627\u0645\u0646\u0647"
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              id: "content",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: "check-status",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                  className: "rounded active",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    id: "faded",
+                    className: "deactive"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                    className: "bx bx-check"
+                  })]
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+                children: "\u0627\u0636\u0627\u0641\u0647 \u06A9\u0631\u062F\u0646 \u0645\u062D\u0635\u0648\u0644"
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              id: "content",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: "check-status",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: "rounded",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    id: "faded"
+                  })
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+                children: "\u0627\u0636\u0627\u0641\u0647 \u06A9\u0631\u062F\u0646 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              id: "content",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: "check-status",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: "rounded",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    id: "faded"
+                  })
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+                children: "\u062A\u0646\u0638\u06CC\u0645\u0627\u062A \u067E\u0631\u062F\u0627\u062E\u062A"
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              id: "content",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: "check-status",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                  className: "rounded active",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    id: "faded",
+                    className: "deactive"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                    className: "bx bx-check"
+                  })]
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+                children: "\u062A\u0646\u0638\u06CC\u0645\u0627\u062A \u0627\u0631\u0633\u0627\u0644"
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              id: "content",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: "check-status",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                  className: "rounded active",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    id: "faded",
+                    className: "deactive"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                    className: "bx bx-check"
+                  })]
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+                children: "\u062A\u063A\u06CC\u06CC\u0631 \u067E\u0648\u0633\u062A\u0647"
+              })]
+            })
+          })]
+        })
+      })]
+    })
   });
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Dashboard);
 
 if (document.getElementById("main-dashboard")) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Dashboard, {}), document.getElementById("main-dashboard"));
+  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(Dashboard, {}), document.getElementById("main-dashboard"));
 }
 
 /***/ }),
@@ -5873,8 +5992,18 @@ var MyEditor = function MyEditor(_ref) {
       children: "\u062A\u0648\u0636\u06CC\u062D\u0627\u062A"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)((suneditor_react__WEBPACK_IMPORTED_MODULE_1___default()), {
       show: false,
+      setOptions: {
+        toolbarContainer: '#toolbar_container',
+        showPathLabel: false,
+        charCounter: true,
+        maxCharCount: 720,
+        maxWidth: '700px',
+        height: 'auto',
+        minHeight: '100px',
+        maxHeight: '250px',
+        buttonList: [['undo', 'redo', 'font', 'fontSize', 'formatBlock'], ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'removeFormat'], ['fontColor', 'hiliteColor', 'outdent', 'indent', 'align', 'horizontalRule', 'list', 'table'], ['link', 'image', 'video', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save']]
+      },
       defaultValue: defaultVal,
-      placeholder: placeholder,
       onChange: handleChange,
       ref: editorRef
     })]
@@ -6506,13 +6635,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var dataTransitionKey = "cmsLiteData123548$%";
 var Item = function Item(_ref) {
   var allData = _ref.allData,
+      level = _ref.level,
       key = _ref.key,
       id = _ref.id,
       name = _ref.name,
       status = _ref.status,
       pushDuplicate = _ref.duplicate,
+      resPushDataUpdate = _ref.responseUpdate,
       pushItemClisk = _ref.itemClick,
       pushDelClick = _ref.delClick,
       pushDataForEdit = _ref.dataForEdit;
@@ -6566,13 +6698,19 @@ var Item = function Item(_ref) {
 
 
   var HandleEdit = function HandleEdit(e, type) {
-    e.preventDefault();
-    console.log("dataaaaaaaa dup : ", allData);
+    e.preventDefault(); // console.log("dataaaaaaaa dup : " , allData)
+
     var editOrDup = JSON.stringify({
       type: type,
       allData: allData
     });
     pushDataForEdit(editOrDup);
+  };
+
+  var handleDataRes = function handleDataRes() {
+    resPushDataUpdate(allData); // localStorage.removeItem(dataTransitionKey);
+    // localStorage.setItem(dataTransitionKey , allData);
+    // console.log("all dataaaaaaas new click : " , allData)
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -6588,20 +6726,14 @@ var Item = function Item(_ref) {
         style: {
           padding: 13
         },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          className: "form-check",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-            type: "checkbox",
-            id: "checkAll",
-            className: "form-check-input check-category"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
-            className: "form-check-label"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-            children: name
-          })]
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+          id: "item-tree-show",
+          children: name
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
         id: "sub-menu-custom",
+        onClick: handleDataRes,
+        "attr-ids": id,
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
           className: "bx bx-chevron-down"
         })
@@ -6613,7 +6745,12 @@ var Item = function Item(_ref) {
         id: "icon-item-list",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "form-check",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+          children: [level == 3 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+            style: {
+              opacity: '0.3'
+            },
+            className: "bx bx-plus"
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
             className: "bx bx-plus",
             onClick: function onClick(e) {
               return handleAdding(e);
@@ -6663,16 +6800,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _Item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Item */ "./resources/js/components/Admin/_Micro/TreeShow/Item.js");
-/* harmony import */ var _Micro_Loading__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../_Micro/Loading */ "./resources/js/components/Admin/_Micro/Loading.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../../services/AdminService/Api */ "./resources/js/services/AdminService/Api.js");
+/* harmony import */ var _Micro_Loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../_Micro/Loading */ "./resources/js/components/Admin/_Micro/Loading.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
 
 
+
+
+var dataTransitionKey = "cmsLiteData123548$%";
 var TreeShowCategory = function TreeShowCategory(_ref) {
   var data = _ref.data,
       loading = _ref.loading,
@@ -6681,17 +6833,32 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
       pushDuplicate = _ref.duplicate,
       pushDelClick = _ref.delClick,
       pushUpdateData = _ref.updateData;
-  jquery__WEBPACK_IMPORTED_MODULE_3___default()(function () {
-    jquery__WEBPACK_IMPORTED_MODULE_3___default()("span#sub-menu-custom").click(function () {
-      jquery__WEBPACK_IMPORTED_MODULE_3___default()(".back-blur").fadeIn(100);
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState2 = _slicedToArray(_useState, 2),
+      responseData = _useState2[0],
+      setResponseData = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+      _useState4 = _slicedToArray(_useState3, 2),
+      idDelete = _useState4[0],
+      setIdDelete = _useState4[1];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {});
+  jquery__WEBPACK_IMPORTED_MODULE_4___default()(function () {
+    jquery__WEBPACK_IMPORTED_MODULE_4___default()("span#sub-menu-custom").click(function () {
+      jquery__WEBPACK_IMPORTED_MODULE_4___default()(".back-blur").fadeIn(100);
+      var ids = jquery__WEBPACK_IMPORTED_MODULE_4___default()(this).attr("attr-ids");
+      setIdDelete(ids);
       setTimeout(function () {
-        jquery__WEBPACK_IMPORTED_MODULE_3___default()("#bottom-chip").addClass("active");
+        jquery__WEBPACK_IMPORTED_MODULE_4___default()("#bottom-chip").addClass("active");
       }, 200);
     });
-    jquery__WEBPACK_IMPORTED_MODULE_3___default()(".back-blur").click(function () {
-      jquery__WEBPACK_IMPORTED_MODULE_3___default()("#bottom-chip").removeClass("active");
+    jquery__WEBPACK_IMPORTED_MODULE_4___default()(".back-blur").click(function () {
+      // localStorage.removeItem(dataTransitionKey);
+      jquery__WEBPACK_IMPORTED_MODULE_4___default()("#bottom-chip").removeClass("active");
       setTimeout(function () {
-        jquery__WEBPACK_IMPORTED_MODULE_3___default()(".back-blur").fadeOut(100);
+        jquery__WEBPACK_IMPORTED_MODULE_4___default()(".back-blur").fadeOut(100);
       }, 200);
     });
   });
@@ -6718,117 +6885,216 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
   };
 
   if (loading) {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Micro_Loading__WEBPACK_IMPORTED_MODULE_2__.default, {});
-  }
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Micro_Loading__WEBPACK_IMPORTED_MODULE_3__.default, {});
+  } // delte category or product when i used responsive mode
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("ul", {
-    className: "content-li",
-    children: data ? Object.keys(data).map(function (keyName, i) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("li", {
-        style: {
-          position: 'relative'
-        },
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-          className: "branch-top"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
-          name: data[keyName].name,
-          allData: JSON.stringify(data[keyName]),
-          id: data[keyName].id,
-          status: data[keyName].status,
-          callBack: function callBack(item) {
-            return handlePush(item);
-          },
-          duplicate: function duplicate(item) {
-            return HndleDuplicate(item);
-          },
-          delClick: function delClick(item) {
-            return HandleDelClick(item);
-          },
-          dataForEdit: function dataForEdit(item) {
-            return HandleDataForUpdate(item);
-          },
-          itemClick: function itemClick(itemId) {
-            return HandleClick(itemId);
-          }
-        }, data[keyName].name), data[keyName].childern.length > 0 ? data[keyName].childern.map(function (itemClildOne, i) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("ul", {
-            style: {
-              padding: '0 50px 0 0',
-              listStyle: 'inherit',
-              position: 'relative'
-            },
-            children: [console.log("indexed : ", i), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("li", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                className: "branch-top"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                className: "branch",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                  className: "box"
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
-                status: itemClildOne.status,
-                name: itemClildOne.name,
-                id: itemClildOne.id,
-                allData: JSON.stringify(itemClildOne),
-                callBack: function callBack(item) {
-                  return handlePush(item);
-                },
-                duplicate: function duplicate(item) {
-                  return HndleDuplicate(item);
-                },
-                delClick: function delClick(item) {
-                  return HandleDelClick(item);
-                },
-                dataForEdit: function dataForEdit(item) {
-                  return HandleDataForUpdate(item);
-                },
-                itemClick: function itemClick(itemId) {
-                  return HandleClick(itemId);
-                }
-              }, itemClildOne.id), itemClildOne.children.length > 0 ? itemClildOne.children.map(function (childThree, i) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("ul", {
-                  style: {
-                    padding: '0 50px 0 0',
-                    listStyle: 'inherit',
-                    position: 'relative'
-                  },
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("li", {
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                      className: "branch-top"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                      className: "branch",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                        className: "box"
-                      })
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
-                      status: childThree.status,
-                      name: childThree.name,
-                      id: childThree.id,
-                      callBack: function callBack(item) {
-                        return handlePush(item);
-                      },
-                      allData: JSON.stringify(childThree),
-                      duplicate: function duplicate(item) {
-                        return HndleDuplicate(item);
-                      },
-                      delClick: function delClick(item) {
-                        return HandleDelClick(item);
-                      },
-                      dataForEdit: function dataForEdit(item) {
-                        return HandleDataForUpdate(item);
-                      },
-                      itemClick: function itemClick(itemId) {
-                        return HandleClick(itemId);
-                      }
-                    }, childThree.id)]
-                  })
-                });
-              }) : '']
-            })]
+
+  var HandleDel = function HandleDel(e) {
+    e.preventDefault();
+    console.log(("idsssssss : ", idDelete));
+
+    if (idDelete) {
+      swal({
+        title: 'حذف دسته بندی',
+        text: "آیا مطمئنید؟",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'تایید',
+        confirmButtonClass: 'btn btn-primary',
+        cancelButtonClass: 'btn btn-danger ml-1',
+        cancelButtonText: 'انصراف',
+        buttonsStyling: false
+      }).then(function (result) {
+        if (result.value) {
+          _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_2__.Request.DeleteCategoryOne(idDelete).then(function (res) {
+            pushDelClick(res.status);
+
+            if (res.status == 200) {
+              Swal.fire({
+                type: "success",
+                title: 'با موفقیت حذف شد !',
+                confirmButtonClass: 'btn btn-success',
+                confirmButtonText: 'باشه'
+              });
+            } else {
+              Swal.fire({
+                type: "error",
+                title: 'خطایی رخ داده است !',
+                cancelButtonClass: 'btn btn-primary',
+                cancelButtonText: 'تلاش مجدد'
+              });
+            }
+          })["catch"](function (error) {
+            return console.log("error", error);
           });
-        }) : '']
+        }
       });
-    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Micro_Loading__WEBPACK_IMPORTED_MODULE_2__.default, {})
+    } else {
+      alert("لطفا آیتمی را برای حذف انتخاب کنید!");
+    }
+  };
+
+  var handleAdding = function handleAdding() {
+    pushItemCliks(ids);
+  };
+
+  var HandleEdit = function HandleEdit(e, type) {
+    e.preventDefault();
+    var editOrDup = JSON.stringify({
+      type: type,
+      allData: responseData
+    });
+    console.log("loading dataaaaaaa  : ", editOrDup);
+    pushUpdateData(editOrDup);
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("ul", {
+      className: "content-li",
+      children: data ? Object.keys(data).map(function (keyName, i) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
+          id: "li-back-item",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+            className: "branch-top"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
+            name: data[keyName].name,
+            allData: JSON.stringify(data[keyName]),
+            id: data[keyName].id,
+            status: data[keyName].status,
+            callBack: function callBack(item) {
+              return handlePush(item);
+            },
+            duplicate: function duplicate(item) {
+              return HndleDuplicate(item);
+            },
+            delClick: function delClick(item) {
+              return HandleDelClick(item);
+            },
+            level: 1,
+            dataForEdit: function dataForEdit(item) {
+              return HandleDataForUpdate(item);
+            },
+            itemClick: function itemClick(itemId) {
+              return HandleClick(itemId);
+            },
+            responseUpdate: function responseUpdate(item) {
+              return setResponseData(item);
+            }
+          }, data[keyName].name), data[keyName].childern.length > 0 ? data[keyName].childern.map(function (itemClildOne, i) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
+              style: {
+                padding: '0 50px 0 0',
+                listStyle: 'inherit'
+              },
+              children: [console.log("indexed : ", i), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
+                id: "li-back-item",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+                  className: "branch-top"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+                  className: "branch",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+                    className: "box"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
+                  status: itemClildOne.status,
+                  name: itemClildOne.name,
+                  id: itemClildOne.id,
+                  allData: JSON.stringify(itemClildOne),
+                  callBack: function callBack(item) {
+                    return handlePush(item);
+                  },
+                  duplicate: function duplicate(item) {
+                    return HndleDuplicate(item);
+                  },
+                  delClick: function delClick(item) {
+                    return HandleDelClick(item);
+                  },
+                  level: 2,
+                  dataForEdit: function dataForEdit(item) {
+                    return HandleDataForUpdate(item);
+                  },
+                  itemClick: function itemClick(itemId) {
+                    return HandleClick(itemId);
+                  }
+                }, itemClildOne.id), itemClildOne.children.length > 0 ? itemClildOne.children.map(function (childThree, i) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("ul", {
+                    style: {
+                      padding: '0 50px 0 0',
+                      listStyle: 'inherit'
+                    },
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
+                      id: "li-back-item",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+                        className: "branch-top"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+                        className: "branch",
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+                          className: "box"
+                        })
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
+                        status: childThree.status,
+                        name: childThree.name,
+                        id: childThree.id,
+                        callBack: function callBack(item) {
+                          return handlePush(item);
+                        },
+                        allData: JSON.stringify(childThree),
+                        duplicate: function duplicate(item) {
+                          return HndleDuplicate(item);
+                        },
+                        delClick: function delClick(item) {
+                          return HandleDelClick(item);
+                        },
+                        level: 3,
+                        dataForEdit: function dataForEdit(item) {
+                          return HandleDataForUpdate(item);
+                        },
+                        itemClick: function itemClick(itemId) {
+                          return HandleClick(itemId);
+                        }
+                      }, childThree.id)]
+                    })
+                  });
+                }) : '']
+              })]
+            });
+          }) : '']
+        });
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Micro_Loading__WEBPACK_IMPORTED_MODULE_3__.default, {})
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      className: "back-blur",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        id: "bottom-chip",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          className: "form-check",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+              onClick: function onClick(e) {
+                return HandleEdit(e, "dup");
+              },
+              children: "\u06A9\u067E\u06CC \u062F\u0633\u062A\u0647"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+              onClick: function onClick(e) {
+                return HandleEdit(e, "edit");
+              },
+              children: "\u0648\u06CC\u0631\u0627\u06CC\u0634"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+              onClick: function onClick(e) {
+                return HandleDel(e);
+              },
+              children: "\u062D\u0630\u0641"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+              children: "\u0645\u0634\u0627\u0647\u062F\u0647"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+              onClick: function onClick(e) {
+                return handleAdding(e);
+              },
+              children: "\u0632\u06CC\u0631\u062F\u0633\u062A\u0647"
+            })]
+          })
+        })
+      })
+    })]
   });
 };
 
@@ -9419,6 +9685,30 @@ var REQUEST_HEADER_TOKEN = {
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[3]!./resources/js/components/Admin/Dasboard/_Shared/style.scss":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[3]!./resources/js/components/Admin/Dasboard/_Shared/style.scss ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "#rol-status-dashboard {\n  padding: 0px;\n  margin: 0px;\n  background-color: #3ECF8E;\n  position: relative;\n  background-image: linear-gradient(65deg, #3ECF8E 0%, #606CEC 100%);\n  border-radius: 5px;\n  overflow: hidden;\n}\n\n#rol-status-header {\n  width: 100%;\n  height: 55px;\n  background: rgba(0, 0, 0, 0.1);\n  float: right;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n#rol-status-header p {\n  padding: 0px;\n  margin: 0;\n  text-align: center;\n  color: #fff;\n}\n\n#rol-status-body {\n  width: 100%;\n  display: flex;\n  height: auto;\n  margin-bottom: 15px;\n  align-items: center;\n  justify-content: space-around;\n}\n#rol-status-body ul {\n  list-style: none;\n  padding: 0px;\n  margin: 0px;\n}\n#rol-status-body ul li {\n  margin-bottom: 15px;\n  margin-top: 15px;\n  width: 135px;\n  text-align: center;\n  padding: 15px;\n  float: right;\n}\n#rol-status-body ul li #content {\n  width: 100%;\n  color: #fff;\n}\n#rol-status-body ul li #content p {\n  font-size: 12px;\n  padding: 0px;\n  margin: 0px;\n}\n#rol-status-body ul li #content .check-status {\n  width: 100%;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: space-around;\n}\n#rol-status-body ul li #content .check-status .rounded {\n  position: relative;\n  width: 30px;\n  height: 30px;\n  border: 3px solid #fff;\n  border-radius: 100% !important;\n}\n#rol-status-body ul li #content .check-status .rounded.active {\n  background: darkgreen;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n#rol-status-body ul li #content .check-status .rounded #faded {\n  position: absolute;\n  border-radius: 100% !important;\n  opacity: 0.3;\n  -webkit-animation: circle-fade 4s infinite;\n          animation: circle-fade 4s infinite;\n}\n#rol-status-body ul li #content .check-status .rounded #faded.deactive {\n  display: none;\n}\n\n@-webkit-keyframes circle-fade {\n  0% {\n    width: 30px;\n    top: -3px;\n    right: -3px;\n    border: 0px !important;\n    height: 30px;\n    opacity: 0 !important;\n  }\n  70% {\n    width: 30px;\n    top: -3px;\n    right: -3px;\n    height: 30px;\n    border: 2px solid #fff;\n    opacity: 1;\n  }\n  100% {\n    width: 45px;\n    top: -11px;\n    right: -11px;\n    border: 7px solid #fff;\n    height: 45px;\n    opacity: 0;\n  }\n}\n\n@keyframes circle-fade {\n  0% {\n    width: 30px;\n    top: -3px;\n    right: -3px;\n    border: 0px !important;\n    height: 30px;\n    opacity: 0 !important;\n  }\n  70% {\n    width: 30px;\n    top: -3px;\n    right: -3px;\n    height: 30px;\n    border: 2px solid #fff;\n    opacity: 1;\n  }\n  100% {\n    width: 45px;\n    top: -11px;\n    right: -11px;\n    border: 7px solid #fff;\n    height: 45px;\n    opacity: 0;\n  }\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[3]!./resources/js/components/Admin/_Micro/MyEditor/_Shared/style.scss":
 /*!****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[3]!./resources/js/components/Admin/_Micro/MyEditor/_Shared/style.scss ***!
@@ -9460,7 +9750,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "@media screen and (max-width: 1024px) {\n  #icon-item-list {\n    display: none;\n  }\n\n  span#sub-menu-custom {\n    display: block !important;\n  }\n\n  .nav-custom {\n    font-size: 13px;\n  }\n}\n#disable-div {\n  opacity: 0.3 !important;\n  cursor: not-allowed !important;\n}\n\nspan#sub-menu-custom {\n  display: none;\n  width: 30px;\n  height: 30px;\n  position: absolute;\n  left: 30px;\n  line-height: 2.9;\n  top: 0px;\n  bottom: 0px;\n  margin: auto 0;\n  text-align: center;\n}\n\n.back-blur {\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 99999;\n  display: none;\n  top: 0px;\n  right: 0px;\n}\n.back-blur #bottom-chip {\n  border-radius: 20px 20px 0 0;\n  box-shadow: 0 0 30px 8px rgba(0, 0, 0, 0.2);\n  width: 100%;\n  position: absolute;\n  bottom: -100%;\n  height: 280px;\n  background: #fff;\n  right: 0px;\n  z-index: 99;\n  transition: 0.3s all ease;\n}\n.back-blur #bottom-chip.active {\n  bottom: 0% !important;\n}\n.back-blur #bottom-chip .form-check {\n  padding: 0px;\n}\n.back-blur #bottom-chip .form-check ul {\n  list-style: none;\n  text-align: center;\n  padding: 0px;\n  margin: 0px;\n}\n.back-blur #bottom-chip .form-check ul li {\n  width: 100%;\n  height: 45px;\n  cursor: pointer;\n  float: left;\n  line-height: 3;\n}\n\n#form-group-chipset {\n  margin-bottom: 0px !important;\n}\n\n.chips_input {\n  border: 0px !important;\n  border-radius: 50px;\n}\n.chips_input:focus {\n  box-shadow: none !important;\n}\n\n.chip {\n  height: 30px !important;\n  margin-top: 13px !important;\n  margin-right: 10px;\n  margin-left: 0px !important;\n}\n\n#chip-box {\n  border: 1px solid #dfe3e7;\n  border-radius: 5px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "@media screen and (max-width: 1024px) {\n  #icon-item-list {\n    display: none;\n  }\n\n  span#sub-menu-custom {\n    display: block !important;\n  }\n\n  .nav-custom {\n    font-size: 13px;\n  }\n}\n#disable-div {\n  opacity: 0.3 !important;\n  cursor: not-allowed !important;\n}\n\nspan#sub-menu-custom {\n  display: none;\n  width: 30px;\n  height: 30px;\n  position: absolute;\n  left: 30px;\n  line-height: 2.9;\n  top: 0px;\n  bottom: 0px;\n  margin: auto 0;\n  text-align: center;\n}\n\n.back-blur {\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 99999;\n  display: none;\n  top: 0px;\n  right: 0px;\n}\n.back-blur #bottom-chip {\n  border-radius: 20px 20px 0 0;\n  box-shadow: 0 0 30px 8px rgba(0, 0, 0, 0.2);\n  width: 100%;\n  position: absolute;\n  bottom: -100%;\n  height: 235px;\n  background: #fff;\n  right: 0px;\n  z-index: 99;\n  transition: 0.3s all ease;\n}\n.back-blur #bottom-chip.active {\n  bottom: 0% !important;\n}\n.back-blur #bottom-chip .form-check {\n  padding: 0px;\n}\n.back-blur #bottom-chip .form-check ul {\n  list-style: none;\n  text-align: center;\n  padding: 0px;\n  margin: 0px;\n}\n.back-blur #bottom-chip .form-check ul li {\n  width: 100%;\n  height: 45px;\n  cursor: pointer;\n  float: left;\n  line-height: 3;\n}\n\n#form-group-chipset {\n  margin-bottom: 0px !important;\n}\n\n.chips_input {\n  border: 0px !important;\n  border-radius: 50px;\n}\n.chips_input:focus {\n  box-shadow: none !important;\n}\n\n.chip {\n  height: 30px !important;\n  margin-top: 13px !important;\n  margin-right: 10px;\n  margin-left: 0px !important;\n}\n\n#chip-box {\n  border: 1px solid #dfe3e7;\n  border-radius: 5px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -9484,7 +9774,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "@media screen and (max-width: 1024px) {\n  #icon-item-list {\n    display: none;\n  }\n\n  span#sub-menu-custom {\n    display: block !important;\n  }\n\n  .nav-custom {\n    font-size: 13px;\n  }\n}\n#disable-div {\n  opacity: 0.3 !important;\n  cursor: not-allowed !important;\n}\n\nspan#sub-menu-custom {\n  display: none;\n  width: 30px;\n  height: 30px;\n  position: absolute;\n  left: 30px;\n  line-height: 2.9;\n  top: 0px;\n  bottom: 0px;\n  margin: auto 0;\n  text-align: center;\n}\n\n.back-blur {\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 99999;\n  display: none;\n  top: 0px;\n  right: 0px;\n}\n.back-blur #bottom-chip {\n  border-radius: 20px 20px 0 0;\n  box-shadow: 0 0 30px 8px rgba(0, 0, 0, 0.2);\n  width: 100%;\n  position: absolute;\n  bottom: -100%;\n  height: 280px;\n  background: #fff;\n  right: 0px;\n  z-index: 99;\n  transition: 0.3s all ease;\n}\n.back-blur #bottom-chip.active {\n  bottom: 0% !important;\n}\n.back-blur #bottom-chip .form-check {\n  padding: 0px;\n}\n.back-blur #bottom-chip .form-check ul {\n  list-style: none;\n  text-align: center;\n  padding: 0px;\n  margin: 0px;\n}\n.back-blur #bottom-chip .form-check ul li {\n  width: 100%;\n  height: 45px;\n  cursor: pointer;\n  float: left;\n  line-height: 3;\n}\n\n#form-group-chipset {\n  margin-bottom: 0px !important;\n}\n\n.chips_input {\n  border: 0px !important;\n  border-radius: 50px;\n}\n.chips_input:focus {\n  box-shadow: none !important;\n}\n\n.chip {\n  height: 30px !important;\n  margin-top: 13px !important;\n  margin-right: 10px;\n  margin-left: 0px !important;\n}\n\n#chip-box {\n  border: 1px solid #dfe3e7;\n  border-radius: 5px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "@media screen and (max-width: 1024px) {\n  #icon-item-list {\n    display: none;\n  }\n\n  span#sub-menu-custom {\n    display: block !important;\n  }\n\n  .nav-custom {\n    font-size: 13px;\n  }\n\n  #tab-list-icon {\n    display: none;\n  }\n}\n#disable-div {\n  opacity: 0.3 !important;\n  cursor: not-allowed !important;\n}\n\nspan#sub-menu-custom {\n  display: none;\n  width: 30px;\n  height: 30px;\n  position: absolute;\n  left: 30px;\n  line-height: 2.9;\n  top: 0px;\n  bottom: 0px;\n  margin: auto 0;\n  text-align: center;\n}\n\n#item-tree-show {\n  float: right;\n  margin-top: 5px;\n  width: 80%;\n  height: 25px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n#li-back-item {\n  position: relative;\n}\n\n.back-blur {\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.7) !important;\n  position: sticky;\n  z-index: 99999;\n  display: none;\n  top: 0px;\n  right: 0px;\n}\n.back-blur #bottom-chip {\n  border-radius: 20px 20px 0 0;\n  box-shadow: 0 0 30px 8px rgba(0, 0, 0, 0.2);\n  width: 100%;\n  position: absolute;\n  bottom: -100%;\n  height: 235px;\n  background: #fff;\n  right: 0px;\n  z-index: 99;\n  transition: 0.3s all ease;\n}\n.back-blur #bottom-chip.active {\n  bottom: 0% !important;\n}\n.back-blur #bottom-chip .form-check {\n  padding: 0px;\n}\n.back-blur #bottom-chip .form-check ul {\n  list-style: none;\n  text-align: center;\n  padding: 0px;\n  margin: 0px;\n}\n.back-blur #bottom-chip .form-check ul li {\n  width: 100%;\n  height: 45px;\n  cursor: pointer;\n  float: left;\n  line-height: 3;\n}\n\n#form-group-chipset {\n  margin-bottom: 0px !important;\n}\n\n.chips_input {\n  border: 0px !important;\n  border-radius: 50px;\n}\n.chips_input:focus {\n  box-shadow: none !important;\n}\n\n.chip {\n  height: 30px !important;\n  margin-top: 13px !important;\n  margin-right: 10px;\n  margin-left: 0px !important;\n}\n\n#chip-box {\n  border: 1px solid #dfe3e7;\n  border-radius: 5px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -50153,6 +50443,36 @@ if (false) {} else {
   module.exports = __webpack_require__(/*! ./cjs/scheduler-tracing.development.js */ "./node_modules/scheduler/cjs/scheduler-tracing.development.js");
 }
 
+
+/***/ }),
+
+/***/ "./resources/js/components/Admin/Dasboard/_Shared/style.scss":
+/*!*******************************************************************!*\
+  !*** ./resources/js/components/Admin/Dasboard/_Shared/style.scss ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_2_node_modules_sass_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_3_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!../../../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!../../../../../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[3]!./style.scss */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[3]!./resources/js/components/Admin/Dasboard/_Shared/style.scss");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_2_node_modules_sass_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_3_style_scss__WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_2_node_modules_sass_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_3_style_scss__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 

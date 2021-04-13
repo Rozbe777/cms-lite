@@ -108,7 +108,7 @@ export const CategoryList = () => {
     }
     const HandleBackLoader = (data) => {
         let id_parents = JSON.parse(JSON.parse(data).allData).parent_id;
-        // console.log("id parenssssss : ", data);
+        console.log("loading loader : " , id_parents)
         ReactDom.render(<AddCategory display={true} dataUpdate={data} idParent={id_parents}
                                      result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
@@ -124,7 +124,6 @@ export const CategoryList = () => {
                                          result={item => handleBack(item)}/>, document.getElementById("add-datas"))
         }
     }
-
 
     return (
         <div>
@@ -151,7 +150,6 @@ export const CategoryList = () => {
 
             <div className="tab-content" style={{padding: 0}}>
                 <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
-
                     {categoryData && categoryData.length  >  0 && loading == false ? (
                         <TreeShowCategory handleCata={itemCat => console.log("cat back ,", itemCat)}
                                           duplicate={item => HandleDuplicate(item)}
@@ -217,29 +215,13 @@ export const CategoryList = () => {
 
 
 
+
+
                 </div>
             </div>
 
 
-            <div className={"back-blur"}>
 
-                <div id={"bottom-chip"}>
-                    <div className={"form-check"}>
-
-                        <ul>
-                            <li>کپی دسته</li>
-                            <li>ویرایش</li>
-                            <li>حذف</li>
-                            <li>مشاهده</li>
-                            <li>زیردسته</li>
-                            <li>
-                                <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
-                            </li>
-                        </ul>
-
-                    </div>
-                </div>
-            </div>
 
 
             <BackLoader states={item => (HandleAddContentSelect(item))}/>
