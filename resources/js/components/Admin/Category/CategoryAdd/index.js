@@ -11,7 +11,7 @@ import {ChipsetHandler} from './../../../HOC/ChipsetHandler';
 import './../../_Micro/TreeShow/_Shared/style.scss';
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
-const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
+const AddCategory = ({display ,dataUpdate  ,  idParent, result : pushResult}) => {
     const [comments, setComments] = useState();
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
@@ -27,7 +27,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         robots: false,
     });
 
-    console.log("update data ----------------- : " , JSON.parse(dataUpdate))
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : '';
@@ -387,7 +386,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             <div className="tab-content" style={{padding: 0, position: 'relative'}}>
                 <div className="tab-pane active" id="cat" aria-labelledby="cat-tab" role="tabpanel">
                     <div className={"content-pages"}>
-
                         <div className={"row"} style={{padding: '20px'}}>
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
@@ -404,7 +402,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                                     {categoryData ? (
                                         <SelectOptions parents={idParent ? idParent : dataUpdateParse.parent_id}
                                                        selection={check => HandleSelectOption(check)}
-                                                       loading={loading} data={JSON.parse(dataUpdate).allData}/>
+                                                       loading={loading} data={JSON.parse(dataUpdate).allCatData}/>
                                     ): (
                                         <p>wait ...</p>
                                     )}

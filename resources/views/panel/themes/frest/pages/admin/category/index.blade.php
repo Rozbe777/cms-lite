@@ -31,6 +31,26 @@
         </div>
 
 
+        <ul class="nav nav-tabs tab-layout" role="tablist">
+            <li class="nav-item col-6 nav-custom">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" aria-controls="home"
+                   role="tab" aria-selected="true">
+                    <i class="bx bxs-categories align-middle" id={"tab-list-icon"}
+                       style="margin-top: 4px; fontS-size: '35px !important"></i>
+                    <span class="align-middle">دسته بندی</span>
+                </a>
+            </li>
+            <li class="nav-item col-6 nav-custom">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" aria-controls="profile"
+                   role="tab" aria-selected="false">
+                    <i class="bx bxs-layer align-middle"
+                       id={"tab-list-icon"}
+                       style="margin-top: 4px; fontS-size: '35px !important"></i>
+                    <span class="align-middle">صفحات داخلی</span>
+                </a>
+            </li>
+
+        </ul>
         <div id="category_box" style="margin-top: 15px"></div>
 {{--        <div id="category_add_pop" data-display="true"></div>--}}
 

@@ -121,6 +121,7 @@ export const TreeShowCategory = ({
     return (
         <div>
             <ul className={"content-li"}>
+                {console.log("all dataaaaaa : " , data )}
                 {data ? Object.keys(data).map((keyName, i) => {
                         return (
                             <li id={"li-back-item"}>
@@ -138,6 +139,7 @@ export const TreeShowCategory = ({
                                       level={1}
                                       dataForEdit={item => HandleDataForUpdate(item)}
                                       itemClick={itemId => HandleClick(itemId)}
+                                      dataAlls = {data}
                                       responseUpdate = {item => setResponseData(item)}
                                 />
                                 {data[keyName].childern.length > 0 ? data[keyName].childern.map((itemClildOne, i) => {
@@ -161,6 +163,7 @@ export const TreeShowCategory = ({
                                                           duplicate={item => HndleDuplicate(item)}
                                                           delClick={item => HandleDelClick(item)}
                                                           level={2}
+                                                          dataAlls = {data}
                                                           dataForEdit={item => HandleDataForUpdate(item)}
                                                           itemClick={itemId => HandleClick(itemId)}
                                                     />
@@ -187,6 +190,7 @@ export const TreeShowCategory = ({
                                                                       duplicate={item => HndleDuplicate(item)}
                                                                       delClick={item => HandleDelClick(item)}
                                                                       level={3}
+                                                                      dataAlls = {data}
                                                                       dataForEdit={item => HandleDataForUpdate(item)}
                                                                       itemClick={itemId => HandleClick(itemId)}
                                                                 />

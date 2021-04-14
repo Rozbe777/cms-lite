@@ -2973,7 +2973,6 @@ var AddCategory = function AddCategory(_ref) {
       metaData = _useState20[0],
       setMetaData = _useState20[1];
 
-  console.log("update data ----------------- : ", JSON.parse(dataUpdate));
   var dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
   var dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
   var MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : '';
@@ -3429,7 +3428,7 @@ var AddCategory = function AddCategory(_ref) {
                     return HandleSelectOption(check);
                   },
                   loading: loading,
-                  data: JSON.parse(dataUpdate).allData
+                  data: JSON.parse(dataUpdate).allCatData
                 }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("p", {
                   children: "wait ..."
                 })]
@@ -3924,7 +3923,7 @@ var CategoryList = function CategoryList() {
     react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Page_PageAdd__WEBPACK_IMPORTED_MODULE_8__.default, {
       display: true,
       dataUpdate: '',
-      idParent: null,
+      idParent: 0,
       result: function result(item) {
         return handleBackPage(item);
       }
@@ -3934,6 +3933,7 @@ var CategoryList = function CategoryList() {
   var HandleAdd = function HandleAdd(item) {
     if (item.status == 200) {
       GetAllCategory();
+      GetAllPages();
       react_dom__WEBPACK_IMPORTED_MODULE_1__.render('', document.getElementById("add-datas"));
     } else {
       console.log("error in add : ", item);
@@ -3943,6 +3943,7 @@ var CategoryList = function CategoryList() {
   var HandleDelete = function HandleDelete(status) {
     if (status == 200) {
       GetAllCategory();
+      GetAllPages();
     } else {
       console.log("you have an error");
     }
@@ -3951,6 +3952,7 @@ var CategoryList = function CategoryList() {
   var HandleDuplicate = function HandleDuplicate(status) {
     if (status == 200) {
       GetAllCategory();
+      GetAllPages();
     } else {
       console.log("you have an error");
     }
@@ -3970,6 +3972,7 @@ var CategoryList = function CategoryList() {
   var handleBack = function handleBack(item) {
     if (item.status == 200) {
       GetAllCategory();
+      GetAllPages();
       react_dom__WEBPACK_IMPORTED_MODULE_1__.render('', document.getElementById('add-datas'));
     }
   };
@@ -3982,8 +3985,9 @@ var CategoryList = function CategoryList() {
   };
 
   var HandleBackLoader = function HandleBackLoader(data) {
-    var id_parents = JSON.parse(JSON.parse(data).allData).parent_id;
-    console.log("loading loader : ", id_parents);
+    // console.log("+++++++" , JSON.parse(JSON.parse(data).allData).parent_id)
+    var id_parents = JSON.parse(JSON.parse(data).allData).parent_id; // console.log("loading loader : " , id_parents)
+
     react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_7__.default, {
       display: true,
       dataUpdate: data,
@@ -4010,73 +4014,68 @@ var CategoryList = function CategoryList() {
       react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Page_PageAdd__WEBPACK_IMPORTED_MODULE_8__.default, {
         display: true,
         dataUpdate: '',
+        idParent: 0,
         result: function result(item) {
           return handleBack(item);
         }
       }), document.getElementById("add-datas"));
     }
+  }; // page handlersssss
+
+
+  var HandleDuplicatePage = function HandleDuplicatePage(status) {
+    if (status == 200) {
+      GetAllPages();
+    } else {
+      console.log("you have an error");
+    }
+  };
+
+  var handleClickItemPage = function handleClickItemPage(clickId) {
+    react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Page_PageAdd__WEBPACK_IMPORTED_MODULE_8__.default, {
+      display: true,
+      idParent: clickId,
+      dataUpdate: '',
+      result: function result(item) {
+        return handleBack(item);
+      }
+    }), document.getElementById("add-datas"));
+  };
+
+  var HandleDeletePage = function HandleDeletePage(status) {
+    if (status == 200) {
+      GetAllPages();
+    } else {
+      console.log("you have an error");
+    }
+  };
+
+  var HandleBackLoaderPage = function HandleBackLoaderPage(data) {
+    // console.log("+++++++" , JSON.parse(JSON.parse(data).allData).parent_id)
+    // let id_parents = JSON.parse(JSON.parse(data).allData).parent_id;
+    // console.log("loading loader : " , id_parents)
+    react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Page_PageAdd__WEBPACK_IMPORTED_MODULE_8__.default, {
+      display: true,
+      dataUpdate: data,
+      idParent: 0,
+      result: function result(item) {
+        return handleBack(item);
+      }
+    }), document.getElementById("add-datas"));
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("ul", {
-      className: "nav nav-tabs tab-layout",
-      role: "tablist",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("li", {
-        className: "nav-item col-6 nav-custom",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("a", {
-          className: "nav-link active",
-          id: "home-tab",
-          "data-toggle": "tab",
-          href: "#home",
-          "aria-controls": "home",
-          role: "tab",
-          "aria-selected": "true",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("i", {
-            className: "bx bxs-categories align-middle",
-            id: "tab-list-icon",
-            style: {
-              marginTop: '4px',
-              fontSize: '35px !important'
-            }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
-            className: "align-middle",
-            children: "\u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
-          })]
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("li", {
-        className: "nav-item col-6 nav-custom",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("a", {
-          className: "nav-link",
-          id: "profile-tab",
-          "data-toggle": "tab",
-          href: "#profile",
-          "aria-controls": "profile",
-          role: "tab",
-          "aria-selected": "false",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("i", {
-            className: "bx bxs-layer align-middle",
-            id: "tab-list-icon",
-            style: {
-              marginTop: '4px',
-              fontSize: '35px !important'
-            }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
-            className: "align-middle",
-            children: "\u0635\u0641\u062D\u0627\u062A \u062F\u0627\u062E\u0644\u06CC"
-          })]
-        })
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
       className: "tab-content",
       style: {
         padding: 0
       },
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
         className: "tab-pane active",
         id: "home",
         "aria-labelledby": "home-tab",
         role: "tabpanel",
-        children: categoryData && categoryData.length > 0 && loading == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Micro_TreeShow_TreeShowCategory__WEBPACK_IMPORTED_MODULE_3__.TreeShowCategory, {
+        children: [console.log("category dataaaaaaaa ...... : ", categoryData), categoryData && categoryData.length > 0 && loading == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Micro_TreeShow_TreeShowCategory__WEBPACK_IMPORTED_MODULE_3__.TreeShowCategory, {
           handleCata: function handleCata(itemCat) {
             return console.log("cat back ,", itemCat);
           },
@@ -4122,30 +4121,30 @@ var CategoryList = function CategoryList() {
               })
             })
           })]
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Micro_Loading__WEBPACK_IMPORTED_MODULE_9__.default, {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Micro_Loading__WEBPACK_IMPORTED_MODULE_9__.default, {})]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
         className: "tab-pane",
         id: "profile",
         "aria-labelledby": "profile-tab",
         role: "tabpanel",
-        children: [console.log("data page : ", pageData), pageData && pageData.length > 0 && loading == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Micro_PageComponents_TreeShowPage__WEBPACK_IMPORTED_MODULE_4__.TreeShowPage, {
+        children: pageData.data && pageData.data.length > 0 && loading == false ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Micro_PageComponents_TreeShowPage__WEBPACK_IMPORTED_MODULE_4__.TreeShowPage, {
           handleCata: function handleCata(itemCat) {
             return console.log("cat back ,", itemCat);
           },
           duplicate: function duplicate(item) {
-            return HandleDuplicate(item);
+            return HandleDuplicatePage(item);
           },
           itemClicks: function itemClicks(clicks) {
-            return handleClickItem(clicks);
+            return handleClickItemPage(clicks);
           },
           callBack: function callBack(item) {
-            return HandleDelete(item);
+            return HandleDeletePage(item);
           },
           delClick: function delClick(item) {
-            return HandleDelete(item);
+            return HandleDeletePage(item);
           },
           updateData: function updateData(item) {
-            return HandleBackLoader(item);
+            return HandleBackLoaderPage(item);
           },
           data: pageData,
           loading: loading
@@ -4174,7 +4173,7 @@ var CategoryList = function CategoryList() {
               })
             })
           })]
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Micro_Loading__WEBPACK_IMPORTED_MODULE_9__.default, {})]
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Micro_Loading__WEBPACK_IMPORTED_MODULE_9__.default, {})
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Micro_BackLoader__WEBPACK_IMPORTED_MODULE_2__.BackLoader, {
       states: function states(item) {
@@ -4438,7 +4437,8 @@ var AddPage = function AddPage(_ref) {
   var display = _ref.display,
       dataUpdate = _ref.dataUpdate,
       pushResult = _ref.result;
-  console.log("duplicate data : ", dataUpdate);
+  var dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
+  var dataUpdateParse = dataGet ? dataGet.allData : ''; // console.log("*************", dataGet);
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState2 = _slicedToArray(_useState, 2),
@@ -4496,8 +4496,6 @@ var AddPage = function AddPage(_ref) {
       metaData = _useState20[0],
       setMetaData = _useState20[1];
 
-  var dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
-  var dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
   var type = dataGet ? dataGet.type : '';
 
   var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
@@ -4519,7 +4517,7 @@ var AddPage = function AddPage(_ref) {
   var dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
 
   var CreateAddPage = function CreateAddPage(data) {
-    console.log("data : ", data);
+    console.log("+++++++++++++++++++++ : ", data);
     swal({
       title: 'افزودن دسته بندی جدید',
       text: "آیا مطمئنید؟",
@@ -4594,8 +4592,8 @@ var AddPage = function AddPage(_ref) {
 
     var formDataOld = _objectSpread({}, formData);
 
-    if (e.target.name == "name") {
-      formDataOld.name = e.target.value;
+    if (e.target.name == "title") {
+      formDataOld.title = e.target.value;
       formDataOld.slug = e.target.value;
       setFormData(formDataOld);
     } else {
@@ -4638,29 +4636,31 @@ var AddPage = function AddPage(_ref) {
     formFile.append("file", file);
     var is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
     var status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
+    var comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formNew.comment_status;
     formNew.status = status;
+    formNew.comment_status = comment_status;
     formNew.image = file;
     formNew.is_menu = is_menu ? 1 : 0;
 
     if (slugManage == false) {
-      formNew.slug = formNew.name;
+      formNew.slug = formNew.title;
     } else {}
 
     if (formData.slug == "") {
-      formNew.slug = formNew.name;
+      formNew.slug = formNew.title;
     }
 
     formNew.content = contentNew;
     formNew.metadata = JSON.stringify(metaData);
 
-    if (formData.name && formData.name !== '') {
-      $("input[name=name]").removeClass("is-invalid"); // console.log("data added new : " , formNew)
+    if (formData.title && formData.title !== '') {
+      $("input[name=title]").removeClass("is-invalid"); // console.log("data added new : " , formNew)
 
       console.log("form dataaaaaaaa : ", formNew);
       CreateAddPage(formNew);
     } else {
-      $("input[name=name]").addClass("is-invalid");
-      (0,_helper__WEBPACK_IMPORTED_MODULE_7__.error)("لطفا فیلد نام دسته بندی را پر کنید !");
+      $("input[name=title]").addClass("is-invalid");
+      (0,_helper__WEBPACK_IMPORTED_MODULE_7__.error)("لطفا فیلد عنوان صفحه را پر کنید !");
     }
   };
 
@@ -4691,7 +4691,7 @@ var AddPage = function AddPage(_ref) {
   var HandleUpdateForm = function HandleUpdateForm(data, id) {
     console.log("data update : ", data);
     swal({
-      title: 'ویرایش دسته بندی',
+      title: 'ویرایش صفحه',
       text: "آیا مطمئنید؟",
       type: 'warning',
       showCancelButton: true,
@@ -4702,7 +4702,7 @@ var AddPage = function AddPage(_ref) {
       buttonsStyling: false
     }).then(function (result) {
       if (result.value) {
-        _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_5__.Request.UpdateDataCategory(data, id).then(function (res) {
+        _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_5__.Request.UpdateDataPage(data, id).then(function (res) {
           var resError = res.data.message ? res.data.message : '';
           console.log("status error : ", res.data.size);
 
@@ -4711,6 +4711,7 @@ var AddPage = function AddPage(_ref) {
             localStorage.removeItem("is_menu");
             localStorage.removeItem("status");
             localStorage.removeItem("selected");
+            localStorage.removeItem("comment_status");
             Swal.fire({
               type: "success",
               title: 'با موفقیت ویرایش شد !',
@@ -4740,7 +4741,9 @@ var AddPage = function AddPage(_ref) {
     formOldData.content = contentNew;
     var is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
     var status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
+    var comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
     formOldData.status = status;
+    formOldData.comment_status = comment_status;
     console.log("is _menuuuuu : ", is_menu);
     formOldData.is_menu = parseInt(is_menu);
     HandleUpdateForm(formOldData, formOldData.id);
@@ -4751,9 +4754,11 @@ var AddPage = function AddPage(_ref) {
 
     formOldData.content = contentNew;
     var is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
-    var status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status; // console.log("selected : duplicate  : " , localStorage.getItem("selected"));
+    var status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
+    var comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status; // console.log("selected : duplicate  : " , localStorage.getItem("selected"));
 
     formOldData.status = status;
+    formOldData.comment_status = comment_status;
     formOldData.is_menu = parseInt(is_menu); // console.log("data duplicate : " , formOldData);
 
     CreateAddPage(formOldData);
@@ -4772,7 +4777,7 @@ var AddPage = function AddPage(_ref) {
     var min = 1;
     var max = 1000;
     var rand = Number(min + Math.random() * (max - min)).toFixed(0);
-    formDatas.name = name + rand + "_کپی";
+    formDatas.title = name + rand + "_کپی";
     formDatas.slug = name + rand + "_کپی";
     return name + rand + "_کپی";
   };
@@ -4797,6 +4802,11 @@ var AddPage = function AddPage(_ref) {
     localStorage.setItem("is_menu", status ? 1 : 0);
   };
 
+  var handleSwitchComment = function handleSwitchComment(status) {
+    setEdit(true);
+    localStorage.setItem("comment_status", status ? "active" : "deactivate");
+  };
+
   var HandleSelectOption = function HandleSelectOption(check) {
     setEdit(true);
     console.log("data checked : ", check);
@@ -4811,21 +4821,21 @@ var AddPage = function AddPage(_ref) {
         return dataUpdateParse.slug;
       }
     } else {
-      formData.slug = formData.name;
-      return formData.name;
+      formData.slug = formData.title;
+      return formData.title;
     }
   };
 
   var HandleMakeName = function HandleMakeName() {
     if (dataUpdateParse) {
       if (type == "dup") {
-        return MakeNewName(dataUpdateParse.name);
+        return MakeNewName(dataUpdateParse.title);
       } else {
-        return dataUpdateParse.name;
+        return dataUpdateParse.title;
       }
     } else {
-      formData.slug = formData.name;
-      return formData.name;
+      formData.slug = formData.title;
+      return formData.title;
     }
   };
 
@@ -4884,7 +4894,7 @@ var AddPage = function AddPage(_ref) {
               padding: '20px'
             },
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
-              className: "col-lg-6 col-md-8 col-sm-12",
+              className: "col-lg-4 col-md-12 col-sm-12",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("fieldset", {
                 className: "form-group",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
@@ -4896,7 +4906,7 @@ var AddPage = function AddPage(_ref) {
                   onChange: function onChange(e) {
                     return handleInput(e);
                   },
-                  name: "name",
+                  name: "title",
                   id: "title",
                   className: "form-control"
                 })]
@@ -4931,6 +4941,23 @@ var AddPage = function AddPage(_ref) {
                     return handleSwitchMenu(state);
                   },
                   name: "showMenu",
+                  valueActive: "فعال",
+                  valueDeActive: "غیرفعال"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              className: "col-lg-2 col-md-3 col-sm-12",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("fieldset", {
+                className: "form-group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
+                  id: "selectParent",
+                  children: "\u0646\u0638\u0631\u0633\u0646\u062C\u06CC"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_HOC_Switch__WEBPACK_IMPORTED_MODULE_2__.Switcher, {
+                  defaultState: dataUpdateParse ? dataUpdateParse.comment_status == "active" ? true : false : true,
+                  status: function status(state) {
+                    return handleSwitchComment(state);
+                  },
+                  name: "comment_status",
                   valueActive: "فعال",
                   valueDeActive: "غیرفعال"
                 })]
@@ -5025,7 +5052,7 @@ var AddPage = function AddPage(_ref) {
                   className: "form-control slugest"
                 }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
                   type: "text",
-                  defaultValue: dataUpdateParse.slug ? dataUpdateParse.slug : formData.name,
+                  defaultValue: dataUpdateParse.slug ? dataUpdateParse.slug : formData.title,
                   onChange: function onChange(e) {
                     return handleInput(e);
                   },
@@ -6060,7 +6087,7 @@ var Item = function Item(_ref) {
   var HandleDel = function HandleDel(e, idDel) {
     e.preventDefault();
     swal({
-      title: 'حذف دسته بندی',
+      title: 'حذف صفحه',
       text: "آیا مطمئنید؟",
       type: 'warning',
       showCancelButton: true,
@@ -6071,7 +6098,7 @@ var Item = function Item(_ref) {
       buttonsStyling: false
     }).then(function (result) {
       if (result.value) {
-        _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_2__.Request.DeleteCategoryOne(idDel).then(function (res) {
+        _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_2__.Request.DeletePageOne(idDel).then(function (res) {
           pushDelClick(res.status);
 
           if (res.status == 200) {
@@ -6100,7 +6127,6 @@ var Item = function Item(_ref) {
 
   var HandleEdit = function HandleEdit(e, type) {
     e.preventDefault();
-    console.log("dataaaaaaaa dup : ", allData);
     var editOrDup = JSON.stringify({
       type: type,
       allData: allData
@@ -6147,11 +6173,6 @@ var Item = function Item(_ref) {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "form-check",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
-            className: "bx bx-plus",
-            onClick: function onClick(e) {
-              return handleAdding(e);
-            }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
             className: "bx bx-show"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
             className: "bx bx-trash-alt",
@@ -6228,6 +6249,7 @@ var TreeShowPage = function TreeShowPage(_ref) {
       }, 200);
     });
   });
+  var dataWithOutPaginate = data.data;
 
   var handlePush = function handlePush(item) {
     pushCallBack(item);
@@ -6256,7 +6278,8 @@ var TreeShowPage = function TreeShowPage(_ref) {
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("ul", {
     className: "content-li",
-    children: data ? Object.keys(data).map(function (keyName, i) {
+    children: dataWithOutPaginate ? dataWithOutPaginate.map(function (keyName) {
+      console.log(keyName.name, "\n");
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("li", {
         style: {
           position: 'relative'
@@ -6264,10 +6287,10 @@ var TreeShowPage = function TreeShowPage(_ref) {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           className: "branch-top"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
-          name: data[keyName].name,
-          allData: JSON.stringify(data[keyName]),
-          id: data[keyName].id,
-          status: data[keyName].status,
+          name: keyName.title,
+          allData: keyName,
+          id: keyName.id,
+          status: keyName.status,
           callBack: function callBack(item) {
             return handlePush(item);
           },
@@ -6283,83 +6306,7 @@ var TreeShowPage = function TreeShowPage(_ref) {
           itemClick: function itemClick(itemId) {
             return HandleClick(itemId);
           }
-        }, data[keyName].name), data[keyName].childern.length > 0 ? data[keyName].childern.map(function (itemClildOne, i) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("ul", {
-            style: {
-              padding: '0 50px 0 0',
-              listStyle: 'inherit',
-              position: 'relative'
-            },
-            children: [console.log("indexed : ", i), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("li", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                className: "branch-top"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                className: "branch",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                  className: "box"
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
-                status: itemClildOne.status,
-                name: itemClildOne.name,
-                id: itemClildOne.id,
-                allData: JSON.stringify(itemClildOne),
-                callBack: function callBack(item) {
-                  return handlePush(item);
-                },
-                duplicate: function duplicate(item) {
-                  return HndleDuplicate(item);
-                },
-                delClick: function delClick(item) {
-                  return HandleDelClick(item);
-                },
-                dataForEdit: function dataForEdit(item) {
-                  return HandleDataForUpdate(item);
-                },
-                itemClick: function itemClick(itemId) {
-                  return HandleClick(itemId);
-                }
-              }, itemClildOne.id), itemClildOne.children.length > 0 ? itemClildOne.children.map(function (childThree, i) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("ul", {
-                  style: {
-                    padding: '0 50px 0 0',
-                    listStyle: 'inherit',
-                    position: 'relative'
-                  },
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("li", {
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                      className: "branch-top"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                      className: "branch",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                        className: "box"
-                      })
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_1__.Item, {
-                      status: childThree.status,
-                      name: childThree.name,
-                      id: childThree.id,
-                      callBack: function callBack(item) {
-                        return handlePush(item);
-                      },
-                      allData: JSON.stringify(childThree),
-                      duplicate: function duplicate(item) {
-                        return HndleDuplicate(item);
-                      },
-                      delClick: function delClick(item) {
-                        return HandleDelClick(item);
-                      },
-                      dataForEdit: function dataForEdit(item) {
-                        return HandleDataForUpdate(item);
-                      },
-                      itemClick: function itemClick(itemId) {
-                        return HandleClick(itemId);
-                      }
-                    }, childThree.id)]
-                  })
-                });
-              }) : '']
-            })]
-          });
-        }) : '']
+        }, keyName.id)]
       });
     }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Micro_Loading__WEBPACK_IMPORTED_MODULE_2__.default, {})
   });
@@ -6640,9 +6587,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var dataTransitionKey = "cmsLiteData123548$%";
+var dataTransitionKey = "cmsLiteData123548$%"; // allData => all data for this item BUT dataAlls => is all category data for category selected parent
+
 var Item = function Item(_ref) {
   var allData = _ref.allData,
+      dataAlls = _ref.dataAlls,
       level = _ref.level,
       key = _ref.key,
       id = _ref.id,
@@ -6657,6 +6606,7 @@ var Item = function Item(_ref) {
   // adding new item by click on ( + ) in category item
   var handleAdding = function handleAdding(e) {
     e.preventDefault();
+    var data;
     pushItemClisk(id);
   }; // handle delete single item by category id
 
@@ -6703,19 +6653,17 @@ var Item = function Item(_ref) {
 
 
   var HandleEdit = function HandleEdit(e, type) {
-    e.preventDefault(); // console.log("dataaaaaaaa dup : " , allData)
-
+    e.preventDefault();
     var editOrDup = JSON.stringify({
       type: type,
-      allData: allData
+      allData: allData,
+      allCatData: dataAlls
     });
     pushDataForEdit(editOrDup);
   };
 
   var handleDataRes = function handleDataRes() {
-    resPushDataUpdate(allData); // localStorage.removeItem(dataTransitionKey);
-    // localStorage.setItem(dataTransitionKey , allData);
-    // console.log("all dataaaaaaas new click : " , allData)
+    resPushDataUpdate(allData);
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -6955,9 +6903,9 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("ul", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
       className: "content-li",
-      children: data ? Object.keys(data).map(function (keyName, i) {
+      children: [console.log("all dataaaaaa : ", data), data ? Object.keys(data).map(function (keyName, i) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
           id: "li-back-item",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
@@ -6983,6 +6931,7 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
             itemClick: function itemClick(itemId) {
               return HandleClick(itemId);
             },
+            dataAlls: data,
             responseUpdate: function responseUpdate(item) {
               return setResponseData(item);
             }
@@ -7016,6 +6965,7 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
                     return HandleDelClick(item);
                   },
                   level: 2,
+                  dataAlls: data,
                   dataForEdit: function dataForEdit(item) {
                     return HandleDataForUpdate(item);
                   },
@@ -7052,6 +7002,7 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
                           return HandleDelClick(item);
                         },
                         level: 3,
+                        dataAlls: data,
                         dataForEdit: function dataForEdit(item) {
                           return HandleDataForUpdate(item);
                         },
@@ -7066,7 +7017,7 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
             });
           }) : '']
         });
-      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Micro_Loading__WEBPACK_IMPORTED_MODULE_3__.default, {})
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Micro_Loading__WEBPACK_IMPORTED_MODULE_3__.default, {})]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
       className: "back-blur",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
@@ -7622,7 +7573,6 @@ var SelectOptions = function SelectOptions(_ref) {
   });
 
   if (loading == false && data || loading == true && data) {
-    var dataFit = JSON.parse(data);
     console.log("dataaaaaaa : ", data);
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
       defaultValue: parents,
@@ -7633,7 +7583,7 @@ var SelectOptions = function SelectOptions(_ref) {
         id: "optionss",
         value: 0,
         children: "\u0646\u062F\u0627\u0631\u062F"
-      }), dataFit ? dataFit.map(function (item) {
+      }), data ? data.map(function (item) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
             style: {
@@ -9633,8 +9583,14 @@ var Request = {
   DeleteCategoryOne: function DeleteCategoryOne(data) {
     return _Request__WEBPACK_IMPORTED_MODULE_0__.request.get("/admin/category/" + data + "/destroy/");
   },
+  DeletePageOne: function DeletePageOne(data) {
+    return _Request__WEBPACK_IMPORTED_MODULE_0__.request.get("/admin/page/" + data + "/destroy/");
+  },
   UpdateDataCategory: function UpdateDataCategory(data, id) {
     return _Request__WEBPACK_IMPORTED_MODULE_0__.request.put("/admin/category/" + id + "/update", data);
+  },
+  UpdateDataPage: function UpdateDataPage(data, id) {
+    return _Request__WEBPACK_IMPORTED_MODULE_0__.request.put("/admin/page/" + id + "/update", data);
   }
 };
 

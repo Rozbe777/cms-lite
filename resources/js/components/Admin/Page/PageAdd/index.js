@@ -11,7 +11,16 @@ import './../../_Micro/TreeShow/_Shared/style.scss';
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
 const AddPage = ({display, dataUpdate, result: pushResult}) => {
-    console.log("duplicate data : ", dataUpdate);
+
+
+
+
+    const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
+    const dataUpdateParse = dataGet ? dataGet.allData : '';
+
+    // console.log("*************", dataGet);
+
+
     const [comments, setComments] = useState();
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
@@ -26,8 +35,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
     const [metaData, setMetaData] = useState({
         robots: false,
     });
-    const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
-    const dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
+
 
     const type = dataGet ? dataGet.type : '';
 
@@ -43,7 +51,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
 
     const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
     const CreateAddPage = (data) => {
-        console.log("data : ", data);
+        console.log("+++++++++++++++++++++ : ", data);
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -115,8 +123,8 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
         setEdit(true);
 
         let formDataOld = {...formData};
-        if (e.target.name == "name") {
-            formDataOld.name = e.target.value;
+        if (e.target.name == "title") {
+            formDataOld.title = e.target.value;
             formDataOld.slug = e.target.value;
             setFormData(formDataOld);
         } else {
@@ -155,29 +163,31 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
         formFile.append("file", file);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
+        let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formNew.comment_status;
         formNew.status = status;
+        formNew.comment_status = comment_status;
         formNew.image = file;
         formNew.is_menu = is_menu ? 1 : 0;
         if (slugManage == false) {
-            formNew.slug = formNew.name;
+            formNew.slug = formNew.title;
         } else {
         }
 
         if (formData.slug == "") {
-            formNew.slug = formNew.name
+            formNew.slug = formNew.title
         }
         formNew.content = contentNew;
 
         formNew.metadata = JSON.stringify(metaData);
-        if (formData.name && formData.name !== '') {
-            $("input[name=name]").removeClass("is-invalid");
+        if (formData.title && formData.title !== '') {
+            $("input[name=title]").removeClass("is-invalid");
             // console.log("data added new : " , formNew)
             console.log("form dataaaaaaaa : ", formNew)
 
             CreateAddPage(formNew);
         } else {
-            $("input[name=name]").addClass("is-invalid");
-            error("لطفا فیلد نام دسته بندی را پر کنید !")
+            $("input[name=title]").addClass("is-invalid");
+            error("لطفا فیلد عنوان صفحه را پر کنید !")
         }
 
     }
@@ -212,10 +222,8 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
 
     const HandleUpdateForm = (data, id) => {
         console.log("data update : ", data)
-
-
         swal({
-            title: 'ویرایش دسته بندی',
+            title: 'ویرایش صفحه',
             text: "آیا مطمئنید؟",
             type: 'warning',
             showCancelButton: true,
@@ -226,7 +234,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-                Request.UpdateDataCategory(data, id)
+                Request.UpdateDataPage(data, id)
                     .then(res => {
                         let resError = res.data.message ? res.data.message : '';
                         console.log("status error : ", res.data.size)
@@ -235,6 +243,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                             localStorage.removeItem("is_menu");
                             localStorage.removeItem("status");
                             localStorage.removeItem("selected");
+                            localStorage.removeItem("comment_status");
                             Swal.fire({
                                 type: "success",
                                 title: 'با موفقیت ویرایش شد !',
@@ -264,8 +273,10 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
         formOldData.content = contentNew;
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
+        let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
 
         formOldData.status = status;
+        formOldData.comment_status = comment_status;
         console.log("is _menuuuuu : ", is_menu)
         formOldData.is_menu = parseInt(is_menu);
 
@@ -277,8 +288,10 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
         formOldData.content = contentNew;
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
+        let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
         // console.log("selected : duplicate  : " , localStorage.getItem("selected"));
         formOldData.status = status;
+        formOldData.comment_status = comment_status;
         formOldData.is_menu = parseInt(is_menu);
         // console.log("data duplicate : " , formOldData);
         CreateAddPage(formOldData);
@@ -298,7 +311,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
         const min = 1;
         const max = 1000;
         const rand = Number(min + Math.random() * (max - min)).toFixed(0);
-        formDatas.name = name + rand + "_کپی";
+        formDatas.title = name + rand + "_کپی";
         formDatas.slug = name + rand + "_کپی";
         return name + rand + "_کپی";
     }
@@ -318,6 +331,10 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
         setEdit(true)
         localStorage.setItem("is_menu", status ? 1 : 0);
     }
+    const handleSwitchComment = (status) => {
+        setEdit(true)
+        localStorage.setItem("comment_status", status ? "active" : "deactivate");
+    }
     const HandleSelectOption = (check) => {
         setEdit(true)
         console.log("data checked : ", check)
@@ -332,21 +349,21 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                 return dataUpdateParse.slug;
             }
         } else {
-            formData.slug = formData.name;
-            return formData.name;
+            formData.slug = formData.title;
+            return formData.title;
         }
     }
 
     let HandleMakeName = () => {
         if (dataUpdateParse) {
             if (type == "dup") {
-                return MakeNewName(dataUpdateParse.name);
+                return MakeNewName(dataUpdateParse.title);
             } else {
-                return dataUpdateParse.name;
+                return dataUpdateParse.title;
             }
         } else {
-            formData.slug = formData.name;
-            return formData.name;
+            formData.slug = formData.title;
+            return formData.title;
         }
     }
 
@@ -372,11 +389,11 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                     <div className={"content-pages"}>
 
                         <div className={"row"} style={{padding: '20px'}}>
-                            <div className={"col-lg-6 col-md-8 col-sm-12"}>
+                            <div className={"col-lg-4 col-md-12 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان صفحه</label>
                                     <input type={"text"} defaultValue={HandleMakeName()} onChange={e => handleInput(e)}
-                                           name={"name"} id={"title"}
+                                           name={"title"} id={"title"}
                                            className={"form-control"}/>
                                 </fieldset>
                             </div>
@@ -398,6 +415,16 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                                         defaultState={dataUpdateParse ? dataUpdateParse.is_menu == 0 ? false : true : true}
                                         status={(state) => handleSwitchMenu(state)} name={"showMenu"}
                                         valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
+                                </fieldset>
+                            </div>
+                            <div className={"col-lg-2 col-md-3 col-sm-12"}>
+                                <fieldset className="form-group">
+                                    <label id={"selectParent"}>نظرسنجی</label>
+                                    <Switcher
+                                        defaultState={dataUpdateParse ? dataUpdateParse.comment_status == "active" ? true : false : true}
+                                        status={(state) => handleSwitchComment(state)} name={"comment_status"}
+                                        valueActive={"فعال"}
+                                        valueDeActive={"غیرفعال"}/>
                                 </fieldset>
                             </div>
                             <div className={"col-lg-2 col-md-3 col-sm-12"}>
@@ -460,7 +487,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                                                disabled id={"title"} className={"form-control slugest"}/>
                                     ) : (
                                         <input type={"text"}
-                                               defaultValue={dataUpdateParse.slug ? dataUpdateParse.slug : formData.name}
+                                               defaultValue={dataUpdateParse.slug ? dataUpdateParse.slug : formData.title}
                                                onChange={e => handleInput(e)} name={"slug"} id={"title"}
                                                className={"form-control slugest"}/>
                                     )}

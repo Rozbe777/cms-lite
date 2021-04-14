@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Item} from './Item';
 import Loading from './../../_Micro/Loading'
 import $ from 'jquery';
@@ -18,11 +18,13 @@ export const TreeShowPage = ({data, loading, callBack: pushCallBack, itemClicks:
             }, 200)
         })
     })
+
+    let dataWithOutPaginate = data.data;
     const handlePush = (item) => {
         pushCallBack(item);
     }
     const HandleClick = (id) => {
-        console.log("tree id : " , id)
+        console.log("tree id : ", id)
         pushItemCliks(id);
     }
     const HndleDuplicate = (item) => {
@@ -40,87 +42,24 @@ export const TreeShowPage = ({data, loading, callBack: pushCallBack, itemClicks:
 
     return (
         <ul className={"content-li"}>
-            {data ? Object.keys(data).map((keyName, i) => {
-                    return (
-                        <li style={{position: 'relative'}}>
+            {dataWithOutPaginate ? dataWithOutPaginate.map((keyName) => {
+                console.log(keyName.name , "\n")
+                return (
+                    <li style={{position: 'relative'}}>
+                        <div className={"branch-top"}>
+                        </div>
+                        <Item key={keyName.id} name={keyName.title}
+                              allData={keyName}
+                              id={keyName.id}
+                              status={keyName.status}
+                              callBack={item => handlePush(item)}
+                              duplicate={item => HndleDuplicate(item)}
+                              delClick={item => HandleDelClick(item)}
+                              dataForEdit={item => HandleDataForUpdate(item)}
+                              itemClick={itemId => HandleClick(itemId)}
+                        />
 
-
-                            <div className={"branch-top"}>
-                            </div>
-
-                            <Item key={data[keyName].name} name={data[keyName].name}
-                                  allData = {JSON.stringify(data[keyName])}
-                                  id={data[keyName].id} status={data[keyName].status}
-                                  callBack={item => handlePush(item)}
-                                  duplicate = {item => HndleDuplicate(item)}
-                                  delClick = {item => HandleDelClick(item)}
-                                  dataForEdit = {item => HandleDataForUpdate(item)}
-                                  itemClick={itemId => HandleClick(itemId)}
-                            />
-                            {data[keyName].childern.length > 0 ? data[keyName].childern.map((itemClildOne, i) => {
-                                    return (
-                                        <ul style={{padding: '0 50px 0 0', listStyle: 'inherit', position: 'relative'}}>
-                                            {console.log("indexed : ", i)}
-
-                                            <li>
-
-                                                <div className={"branch-top"}>
-                                                </div>
-
-
-                                                <div className={"branch"}>
-                                                    <div className={"box"}></div>
-                                                </div>
-                                                <Item key={itemClildOne.id} status={itemClildOne.status}
-                                                      name={itemClildOne.name} id={itemClildOne.id}
-                                                      allData = {JSON.stringify(itemClildOne)}
-                                                      callBack={item => handlePush(item)}
-                                                      duplicate = {item => HndleDuplicate(item)}
-                                                      delClick = {item => HandleDelClick(item)}
-                                                      dataForEdit = {item => HandleDataForUpdate(item)}
-                                                      itemClick={itemId => HandleClick(itemId)}
-                                                />
-
-                                                {itemClildOne.children.length > 0 ? itemClildOne.children.map((childThree, i) => (
-                                                    <ul style={{
-                                                        padding: '0 50px 0 0',
-                                                        listStyle: 'inherit',
-                                                        position: 'relative'
-                                                    }}>
-
-                                                        <li>
-
-                                                            <div className={"branch-top"}>
-
-                                                            </div>
-                                                            <div className={"branch"}>
-                                                                <div className={"box"}></div>
-                                                            </div>
-
-                                                            <Item key={childThree.id} status={childThree.status}
-                                                                  name={childThree.name} id={childThree.id}
-                                                                  callBack={item => handlePush(item)}
-                                                                  allData = {JSON.stringify(childThree)}
-                                                                  duplicate = {item => HndleDuplicate(item)}
-                                                                  delClick = {item => HandleDelClick(item)}
-                                                                  dataForEdit = {item => HandleDataForUpdate(item)}
-                                                                  itemClick={itemId => HandleClick(itemId)}
-                                                            />
-                                                        </li>
-                                                    </ul>
-                                                )) : ''}
-
-
-                                            </li>
-
-                                        </ul>
-
-                                    )
-                                }
-                            ) : (
-                                ''
-                            )}
-                        </li>
+                    </li>
 
                     )
                 }

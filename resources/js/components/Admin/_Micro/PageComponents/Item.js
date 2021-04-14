@@ -13,9 +13,8 @@ export const Item = ({allData , key , id ,name ,status , duplicate : pushDuplica
     // handle delete single item by category id
     const HandleDel = (e , idDel) => {
         e.preventDefault()
-
         swal({
-            title: 'حذف دسته بندی',
+            title: 'حذف صفحه',
             text: "آیا مطمئنید؟",
             type: 'warning',
             showCancelButton: true,
@@ -26,7 +25,7 @@ export const Item = ({allData , key , id ,name ,status , duplicate : pushDuplica
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-                Request.DeleteCategoryOne(idDel)
+                Request.DeletePageOne(idDel)
                     .then(res => {
                         pushDelClick(res.status)
                         if (res.status == 200) {
@@ -55,7 +54,6 @@ export const Item = ({allData , key , id ,name ,status , duplicate : pushDuplica
     // this function used for edit and duplicate category
     const HandleEdit = (e , type) => {
         e.preventDefault();
-        console.log("dataaaaaaaa dup : " , allData)
         let editOrDup = JSON.stringify({type , allData})
         pushDataForEdit(editOrDup)
     }
@@ -82,7 +80,6 @@ export const Item = ({allData , key , id ,name ,status , duplicate : pushDuplica
 
                 <div className={"col-md-6 col-sm-4"} style={{padding: 13}} id={"icon-item-list"}>
                     <div className={"form-check"}>
-                        <i className={"bx bx-plus"} onClick={e => handleAdding(e)}></i>
                         <i className={"bx bx-show"}></i>
                         <i className={"bx bx-trash-alt"} onClick={e=>HandleDel(e ,id)}></i>
                         <i className={"bx bx-edit"} onClick={e => HandleEdit(e , "edit")}></i>

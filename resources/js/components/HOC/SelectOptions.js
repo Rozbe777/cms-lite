@@ -14,8 +14,6 @@ export const SelectOptions = ({parents, data, loading, selection: pushSelectiong
     })
 
     if ((loading == false && data) || (loading == true && data)) {
-        let dataFit = JSON.parse(data);
-
         console.log("dataaaaaaa : " , data)
         return (
             <select defaultValue={parents} className="form-control selectVal" name={"parent_id"}
@@ -23,7 +21,7 @@ export const SelectOptions = ({parents, data, loading, selection: pushSelectiong
 
                 <option id={"optionss"} value={0}>ندارد</option>
 
-                {dataFit ? dataFit.map(item => (
+                {data ? data.map(item => (
                     <>
                         <option style={{height: '50px'}} value={item.id}>{item.name}</option>
                         {item.childern.length > 0 ? item.childern.map(itemTow => (

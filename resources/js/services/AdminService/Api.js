@@ -8,5 +8,7 @@ export const Request = {
     AddNewCategory : (data) =>  request.post("/admin/category/" , data),
     AddNewPage : (data) =>  request.post("/admin/page/" , data),
     DeleteCategoryOne : (data) =>  request.get("/admin/category/"+data+"/destroy/"),
+    DeletePageOne : (data) =>  request.get("/admin/page/"+data+"/destroy/"),
     UpdateDataCategory :  (data , id) =>  request.put("/admin/category/"+id+"/update" , data),
+    UpdateDataPage :  (data , id) =>  request.put("/admin/page/"+id+"/update" , data),
 }

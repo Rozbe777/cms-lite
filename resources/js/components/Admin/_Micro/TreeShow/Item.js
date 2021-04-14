@@ -2,18 +2,19 @@ import React from 'react';
 import './_Shared/style.scss';
 import {Request} from './../../../../services/AdminService/Api';
 const dataTransitionKey = "cmsLiteData123548$%";
-export const Item = ({allData ,level , key , id ,name ,status , duplicate : pushDuplicate , responseUpdate:resPushDataUpdate , itemClick : pushItemClisk , delClick : pushDelClick , dataForEdit  : pushDataForEdit}) => {
+// allData => all data for this item BUT dataAlls => is all category data for category selected parent
+export const Item = ({allData  ,dataAlls ,level , key , id ,name ,status , duplicate : pushDuplicate , responseUpdate:resPushDataUpdate , itemClick : pushItemClisk , delClick : pushDelClick , dataForEdit  : pushDataForEdit}) => {
 
     // adding new item by click on ( + ) in category item
     const handleAdding = (e) => {
         e.preventDefault();
+        let data
         pushItemClisk(id);
     }
 
     // handle delete single item by category id
     const HandleDel = (e , idDel) => {
         e.preventDefault()
-
         swal({
             title: 'حذف دسته بندی',
             text: "آیا مطمئنید؟",
@@ -55,18 +56,13 @@ export const Item = ({allData ,level , key , id ,name ,status , duplicate : push
     // this function used for edit and duplicate category
     const HandleEdit = (e , type) => {
         e.preventDefault();
-        // console.log("dataaaaaaaa dup : " , allData)
-        let editOrDup = JSON.stringify({type , allData})
+        let editOrDup = JSON.stringify({type , allData , allCatData : dataAlls})
         pushDataForEdit(editOrDup)
     }
 
     const handleDataRes = () => {
-
         resPushDataUpdate(allData);
 
-        // localStorage.removeItem(dataTransitionKey);
-        // localStorage.setItem(dataTransitionKey , allData);
-        // console.log("all dataaaaaaas new click : " , allData)
     }
 
     return (

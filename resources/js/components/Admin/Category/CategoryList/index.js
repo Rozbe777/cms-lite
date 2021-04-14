@@ -57,13 +57,14 @@ export const CategoryList = () => {
     }, [])
 
     const handleAddPage = () => {
-        ReactDom.render(<PageAdd display={true} dataUpdate={''} idParent={null}
+        ReactDom.render(<PageAdd display={true} dataUpdate={''} idParent={0}
                                      result={item => handleBackPage(item)}/>, document.getElementById("add-datas"))
     }
 
     const HandleAdd = (item) => {
         if (item.status == 200) {
             GetAllCategory();
+            GetAllPages();
             ReactDom.render('', document.getElementById("add-datas"))
         } else {
             console.log("error in add : ", item)
@@ -73,6 +74,7 @@ export const CategoryList = () => {
     const HandleDelete = (status) => {
         if (status == 200) {
             GetAllCategory();
+            GetAllPages();
         } else {
             console.log("you have an error");
         }
@@ -81,6 +83,7 @@ export const CategoryList = () => {
     const HandleDuplicate = (status) => {
         if (status == 200) {
             GetAllCategory();
+            GetAllPages();
         } else {
             console.log("you have an error");
         }
@@ -96,6 +99,7 @@ export const CategoryList = () => {
     const handleBack = (item) => {
         if (item.status == 200) {
             GetAllCategory();
+            GetAllPages();
             ReactDom.render('', document.getElementById('add-datas'))
         }
     }
@@ -106,8 +110,9 @@ export const CategoryList = () => {
         }
     }
     const HandleBackLoader = (data) => {
+        // console.log("+++++++" , JSON.parse(JSON.parse(data).allData).parent_id)
         let id_parents = JSON.parse(JSON.parse(data).allData).parent_id;
-        console.log("loading loader : " , id_parents)
+        // console.log("loading loader : " , id_parents)
         ReactDom.render(<AddCategory display={true} dataUpdate={data} idParent={id_parents}
                                      result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
@@ -119,37 +124,53 @@ export const CategoryList = () => {
             ReactDom.render(<AddCategory display={true} dataUpdate={''} idParent={0}
                                          result={item => handleBack(item)}/>, document.getElementById("add-datas"))
         }else{
-            ReactDom.render(<PageAdd display={true} dataUpdate={''}
+            ReactDom.render(<PageAdd display={true} dataUpdate={''} idParent={0}
                                          result={item => handleBack(item)}/>, document.getElementById("add-datas"))
         }
     }
 
+
+    // page handlersssss
+
+    const HandleDuplicatePage = (status) => {
+        if (status == 200) {
+            GetAllPages();
+        } else {
+            console.log("you have an error");
+        }
+    }
+
+
+    const handleClickItemPage = (clickId) => {
+        ReactDom.render(<PageAdd display={true} idParent={clickId}
+                                     dataUpdate={''}
+                                     result={item => handleBack(item)}/>, document.getElementById("add-datas"))
+
+    }
+
+    const HandleDeletePage = (status) => {
+        if (status == 200) {
+            GetAllPages();
+        } else {
+            console.log("you have an error");
+        }
+    }
+
+    const HandleBackLoaderPage = (data) => {
+
+        // console.log("+++++++" , JSON.parse(JSON.parse(data).allData).parent_id)
+        // let id_parents = JSON.parse(JSON.parse(data).allData).parent_id;
+        // console.log("loading loader : " , id_parents)
+        ReactDom.render(<PageAdd display={true} dataUpdate={data} idParent={0}
+                                     result={item => handleBack(item)}/>, document.getElementById("add-datas"))
+    }
+
+
     return (
         <div>
-            <ul className="nav nav-tabs tab-layout" role="tablist">
-                <li className="nav-item col-6 nav-custom">
-                    <a className="nav-link active" id="home-tab" data-toggle="tab" href="#home" aria-controls="home"
-                       role="tab" aria-selected="true">
-                        <i className="bx bxs-categories align-middle" id={"tab-list-icon"}
-                           style={{marginTop: '4px', fontSize: '35px !important'}}></i>
-                        <span className="align-middle">دسته بندی</span>
-                    </a>
-                </li>
-                <li className="nav-item col-6 nav-custom">
-                    <a className="nav-link" id="profile-tab" data-toggle="tab" href="#profile" aria-controls="profile"
-                       role="tab" aria-selected="false">
-                        <i className="bx bxs-layer align-middle"
-                           id={"tab-list-icon"}
-                           style={{marginTop: '4px', fontSize: '35px !important'}}></i>
-                        <span className="align-middle">صفحات داخلی</span>
-                    </a>
-                </li>
-
-            </ul>
-
             <div className="tab-content" style={{padding: 0}}>
                 <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
-                    {/*{console.log("category dataaaaaaaa ...... : " , categoryData)}*/}
+                    {console.log("category dataaaaaaaa ...... : " , categoryData)}
                     {categoryData && categoryData.length  >  0 && loading == false ? (
                         <TreeShowCategory handleCata={itemCat => console.log("cat back ,", itemCat)}
                                           duplicate={item => HandleDuplicate(item)}
@@ -180,15 +201,14 @@ export const CategoryList = () => {
                 </div>
                 <div className="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">
 
-
-                    {console.log("data page : " , pageData)}
-                    {pageData && pageData.length  >  0 && loading == false ? (
+                    {/*{console.log("data page : " , pageData)}*/}
+                    {pageData.data && pageData.data.length  >  0 && loading == false ? (
                         <TreeShowPage handleCata={itemCat => console.log("cat back ,", itemCat)}
-                                          duplicate={item => HandleDuplicate(item)}
-                                          itemClicks={clicks => handleClickItem(clicks)}
-                                          callBack={item => HandleDelete(item)}
-                                          delClick={item => HandleDelete(item)}
-                                          updateData={item => HandleBackLoader(item)}
+                                          duplicate={item => HandleDuplicatePage(item)}
+                                          itemClicks={clicks => handleClickItemPage(clicks)}
+                                          callBack={item => HandleDeletePage(item)}
+                                          delClick={item => HandleDeletePage(item)}
+                                          updateData={item => HandleBackLoaderPage(item)}
                                           data={pageData}
                                           loading={loading}/>
                     ) : loading == false ?  (
