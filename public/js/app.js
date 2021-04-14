@@ -3510,6 +3510,7 @@ var AddCategory = function AddCategory(_ref) {
                   setContentNew(data);
                 },
                 id: "my-editor",
+                type: "small",
                 defaultVal: dataUpdateParse ? dataUpdateParse.content : '',
                 placeholder: "توضیحات دسته بندی را بنویسید ..."
               })
@@ -4977,8 +4978,8 @@ var AddPage = function AddPage(_ref) {
                   setContentNew(data);
                 },
                 id: "my-editor",
-                defaultVal: dataUpdateParse ? dataUpdateParse.content : '',
-                placeholder: "توضیحات دسته بندی را بنویسید ..."
+                type: "perfect",
+                defaultVal: dataUpdateParse ? dataUpdateParse.content : ''
               })
             })]
           })
@@ -5971,6 +5972,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var MyEditor = function MyEditor(_ref) {
   var placeholder = _ref.placeholder,
       defaultVal = _ref.defaultVal,
+      type = _ref.type,
       pushEditorData = _ref.editorData;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
@@ -5987,19 +5989,28 @@ var MyEditor = function MyEditor(_ref) {
     pushEditorData(content);
   };
 
+  var smallEditorOptions = {
+    toolbarContainer: '#toolbar_container',
+    showPathLabel: false,
+    charCounter: true,
+    height: 'auto',
+    minHeight: '100px',
+    buttonList: [['undo', 'redo', 'font', 'fontSize', 'formatBlock'], ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'removeFormat'], ['fontColor', 'hiliteColor', 'outdent', 'indent', 'align'], ['link', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save']]
+  };
+  var perfectEditorOptions = {
+    toolbarContainer: '#toolbar_container',
+    showPathLabel: false,
+    charCounter: true,
+    height: 'auto',
+    minHeight: '100px',
+    buttonList: [['undo', 'redo', 'font', 'fontSize', 'formatBlock'], ['bold', 'underline', 'italic', 'removeFormat'], ['fontColor', 'hiliteColor', 'outdent', 'indent', 'align', 'horizontalRule', 'list', 'table'], ['link', 'image', 'video', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save']]
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
       children: "\u062A\u0648\u0636\u06CC\u062D\u0627\u062A"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)((suneditor_react__WEBPACK_IMPORTED_MODULE_1___default()), {
       show: false,
-      setOptions: {
-        toolbarContainer: '#toolbar_container',
-        showPathLabel: false,
-        charCounter: true,
-        height: 'auto',
-        minHeight: '100px',
-        buttonList: [['undo', 'redo', 'font', 'fontSize', 'formatBlock'], ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'removeFormat'], ['fontColor', 'hiliteColor', 'outdent', 'indent', 'align', 'horizontalRule', 'list', 'table'], ['link', 'image', 'video', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save']]
-      },
+      setOptions: type == "small" ? smallEditorOptions : perfectEditorOptions,
       defaultValue: defaultVal,
       onChange: handleChange,
       ref: editorRef
@@ -9699,7 +9710,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "#rol-status-dashboard {\n  padding: 0px;\n  margin: 0px;\n  background-color: #3ECF8E;\n  position: relative;\n  background-image: linear-gradient(65deg, #3ECF8E 0%, #606CEC 100%);\n  border-radius: 5px;\n  overflow: hidden;\n}\n\n#rol-status-header {\n  width: 100%;\n  height: 55px;\n  background: rgba(0, 0, 0, 0.1);\n  float: right;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n#rol-status-header p {\n  padding: 0px;\n  margin: 0;\n  text-align: center;\n  color: #fff;\n}\n\n#rol-status-body {\n  width: 100%;\n  display: flex;\n  height: auto;\n  margin-bottom: 15px;\n  align-items: center;\n  justify-content: space-around;\n}\n#rol-status-body ul {\n  list-style: none;\n  padding: 0px;\n  margin: 0px;\n}\n#rol-status-body ul li {\n  margin-bottom: 15px;\n  margin-top: 15px;\n  width: 135px;\n  text-align: center;\n  padding: 15px;\n  float: right;\n}\n#rol-status-body ul li #content {\n  width: 100%;\n  color: #fff;\n}\n#rol-status-body ul li #content p {\n  font-size: 12px;\n  padding: 0px;\n  margin: 0px;\n}\n#rol-status-body ul li #content .check-status {\n  width: 100%;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: space-around;\n}\n#rol-status-body ul li #content .check-status .rounded {\n  position: relative;\n  width: 30px;\n  height: 30px;\n  border: 3px solid #fff;\n  border-radius: 100% !important;\n}\n#rol-status-body ul li #content .check-status .rounded.active {\n  background: darkgreen;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n#rol-status-body ul li #content .check-status .rounded #faded {\n  position: absolute;\n  border-radius: 100% !important;\n  opacity: 0.3;\n  -webkit-animation: circle-fade 4s infinite;\n          animation: circle-fade 4s infinite;\n}\n#rol-status-body ul li #content .check-status .rounded #faded.deactive {\n  display: none;\n}\n\n@-webkit-keyframes circle-fade {\n  0% {\n    width: 30px;\n    top: -3px;\n    right: -3px;\n    border: 0px !important;\n    height: 30px;\n    opacity: 0 !important;\n  }\n  70% {\n    width: 30px;\n    top: -3px;\n    right: -3px;\n    height: 30px;\n    border: 2px solid #fff;\n    opacity: 1;\n  }\n  100% {\n    width: 45px;\n    top: -11px;\n    right: -11px;\n    border: 7px solid #fff;\n    height: 45px;\n    opacity: 0;\n  }\n}\n\n@keyframes circle-fade {\n  0% {\n    width: 30px;\n    top: -3px;\n    right: -3px;\n    border: 0px !important;\n    height: 30px;\n    opacity: 0 !important;\n  }\n  70% {\n    width: 30px;\n    top: -3px;\n    right: -3px;\n    height: 30px;\n    border: 2px solid #fff;\n    opacity: 1;\n  }\n  100% {\n    width: 45px;\n    top: -11px;\n    right: -11px;\n    border: 7px solid #fff;\n    height: 45px;\n    opacity: 0;\n  }\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "#rol-status-dashboard {\n  padding: 0px;\n  margin: 0px;\n  background-color: #3ECF8E;\n  position: relative;\n  background-image: linear-gradient(65deg, #3ECF8E 0%, #606CEC 100%);\n  border-radius: 5px;\n  overflow: hidden;\n}\n\n#rol-status-header {\n  width: 100%;\n  height: 55px;\n  background: rgba(0, 0, 0, 0.1);\n  float: right;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n#rol-status-header p {\n  padding: 0px;\n  margin: 0;\n  text-align: center;\n  color: #fff;\n}\n\n#rol-status-body {\n  width: 100%;\n  display: flex;\n  height: auto;\n  margin-bottom: 15px;\n  align-items: center;\n  justify-content: space-around;\n}\n#rol-status-body ul {\n  list-style: none;\n  padding: 0px;\n  margin: 0px;\n}\n#rol-status-body ul li {\n  margin-bottom: 15px;\n  margin-top: 15px;\n  width: 135px;\n  text-align: center;\n  padding: 15px;\n  float: right;\n}\n#rol-status-body ul li #content {\n  width: 100%;\n  color: #fff;\n}\n#rol-status-body ul li #content p {\n  font-size: 12px;\n  padding: 0px;\n  margin: 0px;\n}\n#rol-status-body ul li #content .check-status {\n  width: 100%;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: space-around;\n}\n#rol-status-body ul li #content .check-status .rounded {\n  position: relative;\n  width: 30px;\n  height: 30px;\n  border: 3px solid #fff;\n  border-radius: 100% !important;\n}\n#rol-status-body ul li #content .check-status .rounded.active {\n  background: darkgreen;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n#rol-status-body ul li #content .check-status .rounded #faded {\n  position: absolute;\n  border-radius: 100% !important;\n  opacity: 0.3;\n  -webkit-animation: circle-fade 3.5s infinite;\n          animation: circle-fade 3.5s infinite;\n}\n#rol-status-body ul li #content .check-status .rounded #faded.deactive {\n  display: none;\n}\n\n@-webkit-keyframes circle-fade {\n  0% {\n    width: 30px;\n    top: -3px;\n    right: -3px;\n    border: 0px !important;\n    height: 30px;\n    opacity: 0 !important;\n  }\n  60% {\n    width: 30px;\n    top: -3px;\n    right: -3px;\n    height: 30px;\n    border: 2px solid #fff;\n    opacity: 1;\n  }\n  100% {\n    width: 45px;\n    top: -11px;\n    right: -11px;\n    border: 7px solid #fff;\n    height: 45px;\n    opacity: 0;\n  }\n}\n\n@keyframes circle-fade {\n  0% {\n    width: 30px;\n    top: -3px;\n    right: -3px;\n    border: 0px !important;\n    height: 30px;\n    opacity: 0 !important;\n  }\n  60% {\n    width: 30px;\n    top: -3px;\n    right: -3px;\n    height: 30px;\n    border: 2px solid #fff;\n    opacity: 1;\n  }\n  100% {\n    width: 45px;\n    top: -11px;\n    right: -11px;\n    border: 7px solid #fff;\n    height: 45px;\n    opacity: 0;\n  }\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -471,6 +471,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                                     setContentNew(data)
                                 }}
                                           id={"my-editor"}
+                                          type={"small"}
                                           defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
                                           placeholder={"توضیحات دسته بندی را بنویسید ..."}/>
                             </div>

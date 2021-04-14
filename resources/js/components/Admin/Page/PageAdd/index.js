@@ -429,8 +429,9 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                                     setContentNew(data)
                                 }}
                                           id={"my-editor"}
+                                          type={"perfect"}
                                           defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
-                                          placeholder={"توضیحات دسته بندی را بنویسید ..."}/>
+                                          />
                             </div>
 
 
