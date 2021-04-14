@@ -149,6 +149,7 @@ export const CategoryList = () => {
 
             <div className="tab-content" style={{padding: 0}}>
                 <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
+                    {/*{console.log("category dataaaaaaaa ...... : " , categoryData)}*/}
                     {categoryData && categoryData.length  >  0 && loading == false ? (
                         <TreeShowCategory handleCata={itemCat => console.log("cat back ,", itemCat)}
                                           duplicate={item => HandleDuplicate(item)}

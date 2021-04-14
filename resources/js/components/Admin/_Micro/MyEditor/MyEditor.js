@@ -45,7 +45,7 @@ const MyEditor = ({placeholder , defaultVal , type , editorData : pushEditorData
             <label>توضیحات</label>
             <SunEditor
                 show={false}
-                setOptions={type == "small" ? smallEditorOptions : perfectEditorOptions}
+                setOptions={perfectEditorOptions}
                 defaultValue={defaultVal}
                 onChange={handleChange}
                 ref={editorRef}

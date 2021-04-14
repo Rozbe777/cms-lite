@@ -26,6 +26,8 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     const [metaData, setMetaData] = useState({
         robots: false,
     });
+
+    console.log("update data ----------------- : " , JSON.parse(dataUpdate))
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : '';
@@ -95,7 +97,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         setMetaData(metaDataNew)
         MetaDataUpdate.tags ? setChipset(MetaDataUpdate.tags) : '';
     }, [])
-
     const handleClose = () => {
         ReactDOM.render('', document.getElementById("add-datas"));
         setFormData({
@@ -399,10 +400,11 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>دسته بندی پدر</label>
+                                    {console.log("cat .......... : " , JSON.parse(JSON.parse(dataUpdate).allData))}
                                     {categoryData ? (
                                         <SelectOptions parents={idParent ? idParent : dataUpdateParse.parent_id}
                                                        selection={check => HandleSelectOption(check)}
-                                                       loading={loading} data={JSON.stringify(dataCategory.data)}/>
+                                                       loading={loading} data={JSON.parse(dataUpdate).allData}/>
                                     ): (
                                         <p>wait ...</p>
                                     )}
@@ -457,7 +459,7 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                                     setContentNew(data)
                                 }}
                                           id={"my-editor"}
-                                          type={"small"}
+                                          type={"perfect"}
                                           defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
                                           placeholder={"توضیحات دسته بندی را بنویسید ..."}/>
                             </div>

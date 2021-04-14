@@ -20,6 +20,8 @@ export const TreeShowCategory = ({
     useEffect(() => {
     })
 
+    console.log("data shoooooowwww ....  : " , data);
+
     $(function () {
         $("span#sub-menu-custom").click(function () {
             $(".back-blur").fadeIn(100);

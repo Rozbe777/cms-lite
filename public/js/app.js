@@ -2973,6 +2973,7 @@ var AddCategory = function AddCategory(_ref) {
       metaData = _useState20[0],
       setMetaData = _useState20[1];
 
+  console.log("update data ----------------- : ", JSON.parse(dataUpdate));
   var dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
   var dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
   var MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : '';
@@ -3422,13 +3423,13 @@ var AddCategory = function AddCategory(_ref) {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
                   id: "selectParent",
                   children: "\u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC \u067E\u062F\u0631"
-                }), categoryData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_6__.SelectOptions, {
+                }), console.log("cat .......... : ", JSON.parse(JSON.parse(dataUpdate).allData)), categoryData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_6__.SelectOptions, {
                   parents: idParent ? idParent : dataUpdateParse.parent_id,
                   selection: function selection(check) {
                     return HandleSelectOption(check);
                   },
                   loading: loading,
-                  data: JSON.stringify(dataCategory.data)
+                  data: JSON.parse(dataUpdate).allData
                 }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("p", {
                   children: "wait ..."
                 })]
@@ -3507,7 +3508,7 @@ var AddCategory = function AddCategory(_ref) {
                   setContentNew(data);
                 },
                 id: "my-editor",
-                type: "small",
+                type: "perfect",
                 defaultVal: dataUpdateParse ? dataUpdateParse.content : '',
                 placeholder: "توضیحات دسته بندی را بنویسید ..."
               })
@@ -6006,7 +6007,7 @@ var MyEditor = function MyEditor(_ref) {
       children: "\u062A\u0648\u0636\u06CC\u062D\u0627\u062A"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)((suneditor_react__WEBPACK_IMPORTED_MODULE_1___default()), {
       show: false,
-      setOptions: type == "small" ? smallEditorOptions : perfectEditorOptions,
+      setOptions: perfectEditorOptions,
       defaultValue: defaultVal,
       onChange: handleChange,
       ref: editorRef
@@ -6849,6 +6850,7 @@ var TreeShowCategory = function TreeShowCategory(_ref) {
       setIdDelete = _useState4[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {});
+  console.log("data shoooooowwww ....  : ", data);
   jquery__WEBPACK_IMPORTED_MODULE_4___default()(function () {
     jquery__WEBPACK_IMPORTED_MODULE_4___default()("span#sub-menu-custom").click(function () {
       jquery__WEBPACK_IMPORTED_MODULE_4___default()(".back-blur").fadeIn(100);
@@ -7621,6 +7623,7 @@ var SelectOptions = function SelectOptions(_ref) {
 
   if (loading == false && data || loading == true && data) {
     var dataFit = JSON.parse(data);
+    console.log("dataaaaaaa : ", data);
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
       defaultValue: parents,
       className: "form-control selectVal",
@@ -7630,7 +7633,7 @@ var SelectOptions = function SelectOptions(_ref) {
         id: "optionss",
         value: 0,
         children: "\u0646\u062F\u0627\u0631\u062F"
-      }), dataFit.map(function (item) {
+      }), dataFit ? dataFit.map(function (item) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
             style: {
@@ -7648,7 +7651,7 @@ var SelectOptions = function SelectOptions(_ref) {
             });
           }) : '']
         });
-      })]
+      }) : '']
     });
   } else {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
@@ -9616,7 +9619,7 @@ var Request = {
     return _Request__WEBPACK_IMPORTED_MODULE_0__.request.post("/admin/user/destroys", userIds);
   },
   GetAllCategory: function GetAllCategory() {
-    return _Request__WEBPACK_IMPORTED_MODULE_0__.request.get("/admin/category/list");
+    return _Request__WEBPACK_IMPORTED_MODULE_0__.request.get("/admin/category/list?page=1");
   },
   GetAllPages: function GetAllPages() {
     return _Request__WEBPACK_IMPORTED_MODULE_0__.request.get("/admin/page/list");
