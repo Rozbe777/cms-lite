@@ -81,6 +81,15 @@ class PermissionSeeder extends Seeder
                     ],
                 ]
             ],
+            'admin.page' => [
+                'display_name' => 'محتوا',
+                'description' => 'نمایش و ویرایش محتوا',
+                'access' => 'i,c,s,e,u,des,search,multides,l',
+                'is_menu' => 'i,c',
+                'children' => [
+
+                ]
+            ],
             'admin.setting' => [
                 'display_name' => 'تنظیمات',
                 'description' => '(بخش مدیر)',
