@@ -9,6 +9,7 @@ import MyEditor from "../../_Micro/MyEditor/MyEditor";
 import {error} from './../../../../helper'
 import {ChipsetHandler} from './../../../HOC/ChipsetHandler';
 import './../../_Micro/TreeShow/_Shared/style.scss';
+
 const LOCAL_CAT = "localcat-zerone-cmslite";
 const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
     const [comments, setComments] = useState();
@@ -39,10 +40,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         parent_id: idParent,
         slug: ''
     };
-
-
-
-
 
     const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
     const CreateAddCategory = (data) => {
@@ -162,8 +159,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         metaDatas.tags = chipsets;
         setMetaData(metaDatas);
     }
-
-
     const HandleForm = (e) => {
         let formNew = {...formData};
         let formFile = new FormData();
@@ -172,7 +167,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
         let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formNew.parent_id;
         formNew.status = status;
-        // console.log("checked id : " , localStorage.getItem("selected"))
         formNew.parent_id = parseInt(parent_id);
         formNew.image  = file;
         formNew.is_menu = is_menu ? 1 : 0;
@@ -189,7 +183,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         formNew.metadata = JSON.stringify(metaData);
         if (formData.name && formData.name !== '') {
             $("input[name=name]").removeClass("is-invalid");
-            // console.log("data added new : " , formNew)
             console.log("form dataaaaaaaa : ", formNew)
 
             CreateAddCategory(formNew);
@@ -197,7 +190,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             $("input[name=name]").addClass("is-invalid");
             error("لطفا فیلد نام دسته بندی را پر کنید !")
         }
-
     }
 
     const HandleMetaData = (e) => {
@@ -220,7 +212,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
             [e.target.name]: e.target.value
         })
     }
-
 
     const handleAddress = (status) => {
         setEdit(true)
@@ -268,13 +259,10 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
                                 cancelButtonText: 'تلاش مجدد',
                             })
                         }
-
                     }).catch(error => console.log("error", error))
             }
         });
-
     }
-
 
     const HandleEdit = () => {
         let formOldData = {...formData};
@@ -283,7 +271,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
-
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
         formOldData.status = status;
@@ -311,7 +298,6 @@ const AddCategory = ({display ,dataUpdate , idParent, result : pushResult}) => {
         formOldData.metadata = JSON.stringify(metaDatas);
         formOldData.is_menu = parseInt(is_menu);
         formOldData.parent_id = parseInt(parent_id);
-        // console.log("data duplicate : " , formOldData);
         CreateAddCategory(formOldData);
     }
 

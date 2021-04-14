@@ -87,7 +87,6 @@ export const CategoryList = () => {
     }
 
     const handleClickItem = (clickId) => {
-        console.log("data id parent : ", clickId)
         ReactDom.render(<AddCategory display={true} idParent={clickId}
                                      dataUpdate={''}
                                      result={item => handleBack(item)}/>, document.getElementById("add-datas"))

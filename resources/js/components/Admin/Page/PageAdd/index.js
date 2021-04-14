@@ -433,8 +433,6 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                                           defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
                                           />
                             </div>
-
-
                         </div>
 
 

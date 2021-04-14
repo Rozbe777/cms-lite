@@ -3140,8 +3140,7 @@ var AddCategory = function AddCategory(_ref) {
     var is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
     var status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
     var parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formNew.parent_id;
-    formNew.status = status; // console.log("checked id : " , localStorage.getItem("selected"))
-
+    formNew.status = status;
     formNew.parent_id = parseInt(parent_id);
     formNew.image = file;
     formNew.is_menu = is_menu ? 1 : 0;
@@ -3158,8 +3157,7 @@ var AddCategory = function AddCategory(_ref) {
     formNew.metadata = JSON.stringify(metaData);
 
     if (formData.name && formData.name !== '') {
-      $("input[name=name]").removeClass("is-invalid"); // console.log("data added new : " , formNew)
-
+      $("input[name=name]").removeClass("is-invalid");
       console.log("form dataaaaaaaa : ", formNew);
       CreateAddCategory(formNew);
     } else {
@@ -3275,8 +3273,7 @@ var AddCategory = function AddCategory(_ref) {
     formOldData.slug = slugs;
     formOldData.metadata = JSON.stringify(metaDatas);
     formOldData.is_menu = parseInt(is_menu);
-    formOldData.parent_id = parseInt(parent_id); // console.log("data duplicate : " , formOldData);
-
+    formOldData.parent_id = parseInt(parent_id);
     CreateAddCategory(formOldData);
   };
 
@@ -3959,7 +3956,6 @@ var CategoryList = function CategoryList() {
   };
 
   var handleClickItem = function handleClickItem(clickId) {
-    console.log("data id parent : ", clickId);
     react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_7__.default, {
       display: true,
       idParent: clickId,
