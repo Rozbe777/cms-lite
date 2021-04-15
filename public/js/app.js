@@ -2641,6 +2641,8 @@ __webpack_require__(/*! ./components/Admin/Category/CategoryAdd */ "./resources/
 
 __webpack_require__(/*! ./components/Admin/Dasboard */ "./resources/js/components/Admin/Dasboard/index.js");
 
+__webpack_require__(/*! ./components/Admin/Shop/ProductManager */ "./resources/js/components/Admin/Shop/ProductManager/index.js");
+
 /***/ }),
 
 /***/ "./resources/js/classes/webservice.js":
@@ -3625,7 +3627,14 @@ var AddCategory = function AddCategory(_ref) {
                   id: "chip-box",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                     className: "row",
-                    children: [chipset.map(function (item) {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                      className: "col-sm-12 col-md-4 col-lg-3",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_HOC_ChipsetHandler__WEBPACK_IMPORTED_MODULE_9__.ChipsetHandler, {
+                        callback: function callback(item) {
+                          return handleAddChip(item);
+                        }
+                      })
+                    }), chipset.map(function (item) {
                       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
                         className: "chip mr-1",
                         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
@@ -3644,13 +3653,6 @@ var AddCategory = function AddCategory(_ref) {
                           })]
                         })
                       });
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-                      className: "col-sm-12 col-md-4 col-lg-3",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_HOC_ChipsetHandler__WEBPACK_IMPORTED_MODULE_9__.ChipsetHandler, {
-                        callback: function callback(item) {
-                          return handleAddChip(item);
-                        }
-                      })
                     })]
                   })
                 })
@@ -5117,7 +5119,14 @@ var AddPage = function AddPage(_ref) {
                   id: "chip-box",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
                     className: "row",
-                    children: [chipset.map(function (item) {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+                      className: "col-sm-12 col-md-3 col-lg-2",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_HOC_ChipsetHandler__WEBPACK_IMPORTED_MODULE_8__.ChipsetHandler, {
+                        callback: function callback(item) {
+                          return handleAddChip(item);
+                        }
+                      })
+                    }), chipset.map(function (item) {
                       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
                         className: "chip mr-1",
                         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
@@ -5136,13 +5145,6 @@ var AddPage = function AddPage(_ref) {
                           })]
                         })
                       });
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
-                      className: "col-sm-12 col-md-4 col-lg-3",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_HOC_ChipsetHandler__WEBPACK_IMPORTED_MODULE_8__.ChipsetHandler, {
-                        callback: function callback(item) {
-                          return handleAddChip(item);
-                        }
-                      })
                     })]
                   })
                 })
@@ -5286,6 +5288,289 @@ var AddPage = function AddPage(_ref) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AddPage);
+
+/***/ }),
+
+/***/ "./resources/js/components/Admin/Shop/ProductManager/index.js":
+/*!********************************************************************!*\
+  !*** ./resources/js/components/Admin/Shop/ProductManager/index.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _HOC_Switch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../HOC/Switch */ "./resources/js/components/HOC/Switch.js");
+/* harmony import */ var _HOC_ChipsetHandler__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../HOC/ChipsetHandler */ "./resources/js/components/HOC/ChipsetHandler.js");
+/* harmony import */ var _Shared_style_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./_Shared/style.scss */ "./resources/js/components/Admin/Shop/ProductManager/_Shared/style.scss");
+/* harmony import */ var _Micro_MyEditor_MyEditor__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../_Micro/MyEditor/MyEditor */ "./resources/js/components/Admin/_Micro/MyEditor/MyEditor.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+ // import DropZone from './../../../HOC/DropZone'
+
+
+
+
+var Index = function Index() {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      chipset = _useState2[0],
+      setChipset = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+      _useState4 = _slicedToArray(_useState3, 2),
+      contentNew = _useState4[0],
+      setContentNew = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState6 = _slicedToArray(_useState5, 2),
+      edit = _useState6[0],
+      setEdit = _useState6[1];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {});
+
+  var HandleMakeName = function HandleMakeName() {};
+
+  var handleInput = function handleInput(e) {};
+
+  var handleSwitchStatus = function handleSwitchStatus() {};
+
+  var handleAddChip = function handleAddChip(item) {
+    // let metaDatas = {...metaData};
+    var chipsets = _toConsumableArray(chipset);
+
+    console.log(chipset);
+    chipsets.push(item);
+    setChipset(chipsets); // metaDatas.tags = chipsets;
+    // setMetaData(metaDatas);
+    // console.log("meta dataaaaaa : ", metaDatas)
+  };
+
+  var RemoveChipset = function RemoveChipset(name) {
+    // let metaData = {...metaData};
+    var chipsetArr = _toConsumableArray(chipset);
+
+    var index = chipsetArr.indexOf(name);
+
+    if (index !== -1) {
+      chipsetArr.splice(index, 1);
+      setChipset(chipsetArr); // metaData.tags = chipsetArr;
+      // setMetaData(metaData)
+    }
+  };
+
+  var dataUpdateParse = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    status: true
+  });
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      className: "tab-content pt-1",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        className: "tab-pane active",
+        id: "home-fill",
+        role: "tabpanel",
+        "aria-labelledby": "home-tab-fill",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          className: "row",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            className: "col-lg-8 col-md-8 col-sm-12",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("fieldset", {
+              className: "form-group",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+                htmlFor: "title",
+                children: "\u0639\u0646\u0648\u0627\u0646 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+                type: "text",
+                defaultValue: HandleMakeName(),
+                onChange: function onChange(e) {
+                  return handleInput(e);
+                },
+                name: "name",
+                id: "title",
+                className: "form-control titleCat"
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            className: "col-lg-4 col-md-4 col-sm-12",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("fieldset", {
+              className: "form-group",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+                id: "selectParent",
+                children: "\u0648\u0636\u0639\u06CC\u062A \u0646\u0645\u0627\u06CC\u0634"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_HOC_Switch__WEBPACK_IMPORTED_MODULE_2__.Switcher, {
+                defaultState: dataUpdateParse ? dataUpdateParse.status == "active" ? true : false : true,
+                status: function status(state) {
+                  return handleSwitchStatus(state);
+                },
+                name: "showState",
+                valueActive: "فعال",
+                valueDeActive: "غیرفعال"
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            className: "col-12",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("form", {
+              action: "#",
+              className: "dropzone dropzone-area",
+              id: "dpz-file-limits",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                className: "dz-message",
+                children: "\u0641\u0627\u06CC\u0644 \u0647\u0627\u06CC \u062E\u0648\u062F \u0631\u0627 \u0628\u0631\u0627\u06CC \u0627\u0631\u0633\u0627\u0644 \u0628\u0647 \u0627\u06CC\u0646\u062C\u0627 \u0628\u06A9\u0634\u06CC\u062F"
+              })
+            })
+          })]
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        className: "tab-pane",
+        id: "profile-fill",
+        role: "tabpanel",
+        "aria-labelledby": "profile-tab-fill",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          className: "row",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            className: "col-md-6",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+              className: "form-group",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("select", {
+                className: "select2-size-lg form-control",
+                multiple: true,
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("optgroup", {
+                  label: "\u0634\u06A9\u0644 \u0647\u0627",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
+                    value: "romboid",
+                    children: "\u062F\u0627\u06CC\u0631\u0647"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
+                    value: "trapeze",
+                    selected: true,
+                    children: "\u0628\u06CC\u0636\u06CC"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
+                    value: "triangle",
+                    children: "\u0645\u062B\u0644\u062B"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
+                    value: "polygon",
+                    children: "\u0686\u0646\u062F \u0636\u0644\u0639\u06CC"
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("optgroup", {
+                  label: "\u0631\u0646\u06AF \u0647\u0627",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
+                    value: "red",
+                    children: "\u0642\u0631\u0645\u0632"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
+                    value: "green",
+                    children: "\u0633\u0628\u0632"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
+                    value: "blue",
+                    selected: true,
+                    children: "\u0622\u0628\u06CC"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
+                    value: "purple",
+                    children: "\u0628\u0646\u0641\u0634"
+                  })]
+                })]
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            className: "col-md-6",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              className: "row",
+              id: "chipset-container",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                className: "col-sm-12 col-md-4 col-lg-4",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_HOC_ChipsetHandler__WEBPACK_IMPORTED_MODULE_3__.ChipsetHandler, {
+                  callback: function callback(item) {
+                    return handleAddChip(item);
+                  }
+                })
+              }), chipset ? chipset.map(function (item) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                  className: "chip mr-1",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+                    className: "chip-body",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                      className: "chip-text",
+                      children: item
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                      className: "chip-closeable",
+                      onClick: function onClick(e) {
+                        return RemoveChipset(item);
+                      },
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+                        className: "bx bx-x"
+                      })
+                    })]
+                  })
+                });
+              }) : '']
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            className: "col-12",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Micro_MyEditor_MyEditor__WEBPACK_IMPORTED_MODULE_5__.default, {
+              editorData: function editorData(data) {
+                setEdit(true);
+                setContentNew(data);
+              },
+              id: "my-editor",
+              type: "small",
+              defaultVal: dataUpdateParse ? dataUpdateParse.content : '',
+              placeholder: "توضیحات دسته بندی را بنویسید ..."
+            })
+          })]
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        className: "tab-pane",
+        id: "messages-fill",
+        role: "tabpanel",
+        "aria-labelledby": "messages-tab-fill",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+          children: "\u0644\u0648\u0631\u0645 \u0627\u06CC\u067E\u0633\u0648\u0645 \u0645\u062A\u0646 \u0633\u0627\u062E\u062A\u06AF\u06CC \u0628\u0627 \u062A\u0648\u0644\u06CC\u062F \u0633\u0627\u062F\u06AF\u06CC \u0646\u0627\u0645\u0641\u0647\u0648\u0645 \u0627\u0632 \u0635\u0646\u0639\u062A \u0686\u0627\u067E \u0648 \u0628\u0627 \u0627\u0633\u062A\u0641\u0627\u062F\u0647 \u0627\u0632 \u0637\u0631\u0627\u062D\u0627\u0646 \u06AF\u0631\u0627\u0641\u06CC\u06A9 \u0627\u0633\u062A. \u0686\u0627\u067E\u06AF\u0631\u0647\u0627 \u0648 \u0645\u062A\u0648\u0646 \u0628\u0644\u06A9\u0647 \u0631\u0648\u0632\u0646\u0627\u0645\u0647"
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        className: "tab-pane",
+        id: "settings-fill",
+        role: "tabpanel",
+        "aria-labelledby": "settings-tab-fill",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+          children: "\u0644\u0648\u0631\u0645 \u0627\u06CC\u067E\u0633\u0648\u0645 \u0645\u062A\u0646 \u0633\u0627\u062E\u062A\u06AF\u06CC \u0628\u0627 \u062A\u0648\u0644\u06CC\u062F \u0633\u0627\u062F\u06AF\u06CC \u0646\u0627\u0645\u0641\u0647\u0648\u0645 \u0627\u0632 \u0635\u0646\u0639\u062A \u0686\u0627\u067E \u0648 \u0628\u0627 \u0627\u0633\u062A\u0641\u0627\u062F\u0647 \u0627\u0632 \u0637\u0631\u0627\u062D\u0627\u0646 \u06AF\u0631\u0627\u0641\u06CC\u06A9 \u0627\u0633\u062A. \u0686\u0627\u067E\u06AF\u0631\u0647\u0627 \u0648 \u0645\u062A\u0648\u0646 \u0628\u0644\u06A9\u0647 \u0631\u0648\u0632\u0646\u0627\u0645\u0647 \u0648 \u0645\u062C\u0644\u0647 \u062F\u0631 \u0633\u062A\u0648\u0646 \u0648 \u0633\u0637\u0631\u0622\u0646\u0686\u0646\u0627\u0646 \u06A9\u0647 \u0644\u0627\u0632\u0645 \u0627\u0633\u062A \u0648 \u0628\u0631\u0627\u06CC \u0634\u0631\u0627\u06CC\u0637 \u0641\u0639\u0644\u06CC \u062A\u06A9\u0646\u0648\u0644\u0648\u0698\u06CC \u0645\u0648\u0631\u062F \u0646\u06CC\u0627\u0632 \u0648 \u06A9\u0627\u0631\u0628\u0631\u062F\u0647\u0627\u06CC \u0645\u062A\u0646\u0648\u0639"
+        })
+      })]
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Index);
+var eleman = document.getElementById("shop_product_manager");
+
+if (eleman) {
+  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(Index, {}), eleman);
+}
 
 /***/ }),
 
@@ -6019,7 +6304,7 @@ var MyEditor = function MyEditor(_ref) {
     charCounter: true,
     height: 'auto',
     minHeight: '100px',
-    buttonList: [['undo', 'redo', 'font', 'fontSize', 'formatBlock'], ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'removeFormat'], ['fontColor', 'hiliteColor', 'outdent', 'indent', 'align'], ['link', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save']]
+    buttonList: [['undo', 'redo', 'fontSize'], ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'removeFormat'], ['fontColor', 'hiliteColor', 'outdent', 'indent', 'align'], ['link', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save']]
   };
   var perfectEditorOptions = {
     toolbarContainer: '#toolbar_container',
@@ -6027,14 +6312,14 @@ var MyEditor = function MyEditor(_ref) {
     charCounter: true,
     height: 'auto',
     minHeight: '100px',
-    buttonList: [['undo', 'redo', 'font', 'fontSize', 'formatBlock'], ['bold', 'underline', 'italic', 'removeFormat'], ['fontColor', 'hiliteColor', 'outdent', 'indent', 'align', 'horizontalRule', 'list', 'table'], ['link', 'image', 'video', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save']]
+    buttonList: [['undo', 'redo', 'fontSize'], ['bold', 'underline', 'italic', 'removeFormat'], ['fontColor', 'hiliteColor', 'outdent', 'indent', 'align', 'horizontalRule', 'list', 'table'], ['link', 'image', 'video', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save']]
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
       children: "\u062A\u0648\u0636\u06CC\u062D\u0627\u062A"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)((suneditor_react__WEBPACK_IMPORTED_MODULE_1___default()), {
       show: false,
-      setOptions: perfectEditorOptions,
+      setOptions: type == 'small' ? smallEditorOptions : perfectEditorOptions,
       defaultValue: defaultVal,
       onChange: handleChange,
       ref: editorRef
@@ -7528,7 +7813,7 @@ var ChipsetHandler = function ChipsetHandler(_ref) {
       },
       name: "tags",
       id: "title",
-      placeholder: "تایپ کنید و Enter را فشار دهید ",
+      placeholder: "تایپ کن و Enter بزن ",
       className: "chips_input form-control"
     })
   });
@@ -9666,6 +9951,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "#rol-status-dashboard {\n  padding: 0px;\n  margin: 0px;\n  background-color: #3ECF8E;\n  position: relative;\n  background-image: linear-gradient(65deg, #3ECF8E 0%, #606CEC 100%);\n  border-radius: 5px;\n  overflow: hidden;\n}\n\n#rol-status-header {\n  width: 100%;\n  height: 55px;\n  background: rgba(0, 0, 0, 0.1);\n  float: right;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n#rol-status-header p {\n  padding: 0px;\n  margin: 0;\n  text-align: center;\n  color: #fff;\n}\n\n#rol-status-body {\n  width: 100%;\n  display: flex;\n  height: auto;\n  margin-bottom: 15px;\n  align-items: center;\n  justify-content: space-around;\n}\n#rol-status-body ul {\n  list-style: none;\n  padding: 0px;\n  margin: 0px;\n}\n#rol-status-body ul li {\n  margin-bottom: 15px;\n  margin-top: 15px;\n  width: 135px;\n  text-align: center;\n  padding: 15px;\n  float: right;\n}\n#rol-status-body ul li #content {\n  width: 100%;\n  color: #fff;\n}\n#rol-status-body ul li #content p {\n  font-size: 12px;\n  padding: 0px;\n  margin: 0px;\n}\n#rol-status-body ul li #content .check-status {\n  width: 100%;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: space-around;\n}\n#rol-status-body ul li #content .check-status .rounded {\n  position: relative;\n  width: 30px;\n  height: 30px;\n  border: 3px solid #fff;\n  border-radius: 100% !important;\n}\n#rol-status-body ul li #content .check-status .rounded.active {\n  background: darkgreen;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n#rol-status-body ul li #content .check-status .rounded #faded {\n  position: absolute;\n  border-radius: 100% !important;\n  opacity: 0.3;\n  -webkit-animation: circle-fade 3.5s infinite;\n          animation: circle-fade 3.5s infinite;\n}\n#rol-status-body ul li #content .check-status .rounded #faded.deactive {\n  display: none;\n}\n\n@-webkit-keyframes circle-fade {\n  0% {\n    width: 30px;\n    top: -3px;\n    right: -3px;\n    border: 0px !important;\n    height: 30px;\n    opacity: 0 !important;\n  }\n  60% {\n    width: 30px;\n    top: -3px;\n    right: -3px;\n    height: 30px;\n    border: 2px solid #fff;\n    opacity: 1;\n  }\n  100% {\n    width: 45px;\n    top: -11px;\n    right: -11px;\n    border: 7px solid #fff;\n    height: 45px;\n    opacity: 0;\n  }\n}\n\n@keyframes circle-fade {\n  0% {\n    width: 30px;\n    top: -3px;\n    right: -3px;\n    border: 0px !important;\n    height: 30px;\n    opacity: 0 !important;\n  }\n  60% {\n    width: 30px;\n    top: -3px;\n    right: -3px;\n    height: 30px;\n    border: 2px solid #fff;\n    opacity: 1;\n  }\n  100% {\n    width: 45px;\n    top: -11px;\n    right: -11px;\n    border: 7px solid #fff;\n    height: 45px;\n    opacity: 0;\n  }\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[3]!./resources/js/components/Admin/Shop/ProductManager/_Shared/style.scss":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[3]!./resources/js/components/Admin/Shop/ProductManager/_Shared/style.scss ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "#chipset-container {\n  background: #fff;\n  border-radius: 5px;\n  border: 1px solid #dfe3e7;\n  height: 50px !important;\n  overflow: hidden;\n}\n\ninput#title {\n  height: 50px !important;\n  margin-top: -2px !important;\n  padding: 0px !important;\n}\n\n.chip {\n  margin-top: 10px !important;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -50423,6 +50732,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_2_node_modules_sass_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_3_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!../../../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!../../../../../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[3]!./style.scss */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[3]!./resources/js/components/Admin/Dasboard/_Shared/style.scss");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_2_node_modules_sass_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_3_style_scss__WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_2_node_modules_sass_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_3_style_scss__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
+/***/ "./resources/js/components/Admin/Shop/ProductManager/_Shared/style.scss":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/Admin/Shop/ProductManager/_Shared/style.scss ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_2_node_modules_sass_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_3_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!../../../../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!../../../../../../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[3]!./style.scss */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[3]!./resources/js/components/Admin/Shop/ProductManager/_Shared/style.scss");
 
             
 

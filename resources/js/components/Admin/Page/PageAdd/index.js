@@ -525,8 +525,14 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                                 <label htmlFor={"title"}>کلمات کلیدی صفحه ( تایپ کنید و Enter بزنید تا اضافه شود.
                                     )</label>
                                 <div className={"row"} style={{padding: '15px'}}>
+
                                     <div className={"col-12"} id={"chip-box"}>
                                         <div className={"row"}>
+
+                                            <div className={"col-sm-12 col-md-3 col-lg-2"}>
+                                                <ChipsetHandler callback={item => handleAddChip(item)}/>
+                                            </div>
+
                                             {chipset.map(item => (
                                                 <div className="chip mr-1">
                                                     <div className="chip-body">
@@ -539,9 +545,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                                                 </div>
                                             ))}
 
-                                            <div className={"col-sm-12 col-md-4 col-lg-3"}>
-                                                <ChipsetHandler callback={item => handleAddChip(item)}/>
-                                            </div>
+
                                         </div>
 
                                     </div>

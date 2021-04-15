@@ -21,7 +21,7 @@ const MyEditor = ({placeholder , defaultVal , type , editorData : pushEditorData
         height: 'auto',
         minHeight: '100px',
         buttonList: [
-            ['undo', 'redo', 'font', 'fontSize', 'formatBlock'],
+            ['undo', 'redo', 'fontSize'],
             ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'removeFormat'],
             ['fontColor', 'hiliteColor', 'outdent', 'indent', 'align'],
             ['link', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save']
@@ -34,7 +34,7 @@ const MyEditor = ({placeholder , defaultVal , type , editorData : pushEditorData
         height: 'auto',
         minHeight: '100px',
         buttonList: [
-            ['undo', 'redo', 'font', 'fontSize', 'formatBlock'],
+            ['undo', 'redo', 'fontSize'],
             ['bold', 'underline', 'italic', 'removeFormat'],
             ['fontColor', 'hiliteColor', 'outdent', 'indent', 'align', 'horizontalRule', 'list', 'table'],
             ['link', 'image', 'video', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save']
@@ -45,7 +45,7 @@ const MyEditor = ({placeholder , defaultVal , type , editorData : pushEditorData
             <label>توضیحات</label>
             <SunEditor
                 show={false}
-                setOptions={perfectEditorOptions}
+                setOptions={type == 'small' ? smallEditorOptions : perfectEditorOptions}
                 defaultValue={defaultVal}
                 onChange={handleChange}
                 ref={editorRef}
