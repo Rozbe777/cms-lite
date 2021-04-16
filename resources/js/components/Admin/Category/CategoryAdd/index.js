@@ -11,7 +11,7 @@ import {ChipsetHandler} from './../../../HOC/ChipsetHandler';
 import './../../_Micro/TreeShow/_Shared/style.scss';
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
-const AddCategory = ({display ,dataUpdate  ,  idParent, result : pushResult}) => {
+const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushResult}) => {
     const [comments, setComments] = useState();
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
@@ -27,10 +27,11 @@ const AddCategory = ({display ,dataUpdate  ,  idParent, result : pushResult}) =>
         robots: false,
     });
 
+    console.log("dataaa************** : " , dataUpdate);
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : '';
-    const type = dataGet ? dataGet.type : '';
+    const types = dataGet ? dataGet.type : '';
 
     const [slugManage, setSlugManage] = useState(true);
     const [formData, setFormData] = useState({});
@@ -42,8 +43,9 @@ const AddCategory = ({display ,dataUpdate  ,  idParent, result : pushResult}) =>
         slug: ''
     };
 
-    const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
+    // const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
     const CreateAddCategory = (data) => {
+        console.log("adding dataaaaaa : " , data)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -137,6 +139,10 @@ const AddCategory = ({display ,dataUpdate  ,  idParent, result : pushResult}) =>
 
     }
 
+
+    // {console.log("cat .......... : " , dataUpdate ? JSON.parse(JSON.parse(dataUpdate).allData) : '')}
+
+
     const RemoveChipset = (name) => {
         setEdit(true)
         let metaDatas = {...metaData};
@@ -184,7 +190,7 @@ const AddCategory = ({display ,dataUpdate  ,  idParent, result : pushResult}) =>
         if (formData.name && formData.name !== '') {
             $("input[name=name]").removeClass("is-invalid");
             console.log("form dataaaaaaaa : ", formNew)
-
+            formNew.parent_id = formNew.parent_id ? formNew.parent_id : 0;
             CreateAddCategory(formNew);
         } else {
             $("input[name=name]").addClass("is-invalid");
@@ -342,7 +348,7 @@ const AddCategory = ({display ,dataUpdate  ,  idParent, result : pushResult}) =>
 
     let HandleDefaultValuSlug = () => {
         if (dataUpdateParse) {
-            if (type == "dup") {
+            if (types == "dup") {
                 return MakeNewName(dataUpdateParse.slug);
             } else {
                 return dataUpdateParse.slug;
@@ -355,7 +361,7 @@ const AddCategory = ({display ,dataUpdate  ,  idParent, result : pushResult}) =>
 
     let HandleMakeName = () => {
         if (dataUpdateParse) {
-            if (type == "dup") {
+            if (types == "dup") {
                 return MakeNewName(dataUpdateParse.name);
             } else {
                 return dataUpdateParse.name;
@@ -398,11 +404,12 @@ const AddCategory = ({display ,dataUpdate  ,  idParent, result : pushResult}) =>
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>دسته بندی پدر</label>
-                                    {console.log("cat .......... : " , JSON.parse(JSON.parse(dataUpdate).allData))}
+                                    {console.log("cat //////////////" , dataAll)}
                                     {categoryData ? (
                                         <SelectOptions parents={idParent ? idParent : dataUpdateParse.parent_id}
+                                                       dataAllCat = {dataAll}
                                                        selection={check => HandleSelectOption(check)}
-                                                       loading={loading} data={JSON.parse(dataUpdate).allCatData}/>
+                                                       loading={loading}/>
                                     ): (
                                         <p>wait ...</p>
                                     )}
@@ -489,7 +496,7 @@ const AddCategory = ({display ,dataUpdate  ,  idParent, result : pushResult}) =>
                                     {console.log("update data" , dataUpdateParse)}
                                     {slugManage ? (
                                         <input type={"text"}
-                                               defaultValue={type=="dup" ? $(".titleCat").val() : formData.slug}
+                                               defaultValue={types=="dup" ? $(".titleCat").val() : formData.slug}
                                                disabled id={"title"} className={"form-control slugest"}/>
                                     ) : (
                                         <input type={"text"}
@@ -610,7 +617,7 @@ const AddCategory = ({display ,dataUpdate  ,  idParent, result : pushResult}) =>
                         </div>
 
 
-                        {type ? type == 'edit' ? edit ? (
+                        {types ? types == 'edit' ? edit ? (
                                 <div onClick={(e) => HandleEdit(e)}
                                      className={"col-6"}
                                      style={{textAlign: 'center', cursor: 'pointer', background: "#5a8dee", color: '#fff'}}>

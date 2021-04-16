@@ -34,7 +34,6 @@ export const CategoryList = () => {
         setLoading(true)
         Request.GetAllPages()
             .then(res => {
-                console.log("page data : " , res)
                 localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
                 setLoading(false)
                 setPageData(res.data)
@@ -58,7 +57,17 @@ export const CategoryList = () => {
 
     const handleAddPage = () => {
         ReactDom.render(<PageAdd display={true} dataUpdate={''} idParent={0}
-                                     result={item => handleBackPage(item)}/>, document.getElementById("add-datas"))
+                                 result={item => handleBackPage(item)}/>, document.getElementById("add-datas"))
+    }
+
+    const handleAddCategory = () => {
+        console.log("category data : " , categoryData);
+        if (!loading) {
+            ReactDom.render(<AddCategory display={true}
+                                         dataAll={JSON.stringify(categoryData)}
+                                         result={item => handleBackPage(item)}/>, document.getElementById("add-datas"))
+        } else {
+        }
     }
 
     const HandleAdd = (item) => {
@@ -91,9 +100,8 @@ export const CategoryList = () => {
 
     const handleClickItem = (clickId) => {
         ReactDom.render(<AddCategory display={true} idParent={clickId}
-                                     dataUpdate={''}
+                                     dataAll={JSON.stringify(categoryData)}
                                      result={item => handleBack(item)}/>, document.getElementById("add-datas"))
-
     }
 
     const handleBack = (item) => {
@@ -106,6 +114,7 @@ export const CategoryList = () => {
     const handleBackPage = (item) => {
         if (item.status == 200) {
             GetAllPages();
+            GetAllCategory();
             ReactDom.render('', document.getElementById('add-datas'))
         }
     }
@@ -113,25 +122,22 @@ export const CategoryList = () => {
         // console.log("+++++++" , JSON.parse(JSON.parse(data).allData).parent_id)
         let id_parents = JSON.parse(JSON.parse(data).allData).parent_id;
         // console.log("loading loader : " , id_parents)
-        ReactDom.render(<AddCategory display={true} dataUpdate={data} idParent={id_parents}
+        ReactDom.render(<AddCategory display={true} dataUpdate={data}
+                                     dataAll={JSON.stringify(categoryData)}
+                                     idParent={id_parents}
                                      result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
 
     const HandleAddContentSelect = (data) => {
         let datas = JSON.parse(data);
-        if (datas.type == "category")
-        {
-            ReactDom.render(<AddCategory display={true} dataUpdate={''} idParent={0}
-                                         result={item => handleBack(item)}/>, document.getElementById("add-datas"))
-        }else{
-            ReactDom.render(<PageAdd display={true} dataUpdate={''} idParent={0}
-                                         result={item => handleBack(item)}/>, document.getElementById("add-datas"))
+        if (datas.type == "category") {
+            handleAddCategory();
+        } else {
+            handleAddPage();
         }
     }
 
-
     // page handlersssss
-
     const HandleDuplicatePage = (status) => {
         if (status == 200) {
             GetAllPages();
@@ -139,15 +145,11 @@ export const CategoryList = () => {
             console.log("you have an error");
         }
     }
-
-
     const handleClickItemPage = (clickId) => {
         ReactDom.render(<PageAdd display={true} idParent={clickId}
-                                     dataUpdate={''}
-                                     result={item => handleBack(item)}/>, document.getElementById("add-datas"))
-
+                                 dataUpdate={''}
+                                 result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
-
     const HandleDeletePage = (status) => {
         if (status == 200) {
             GetAllPages();
@@ -155,23 +157,16 @@ export const CategoryList = () => {
             console.log("you have an error");
         }
     }
-
     const HandleBackLoaderPage = (data) => {
-
-        // console.log("+++++++" , JSON.parse(JSON.parse(data).allData).parent_id)
-        // let id_parents = JSON.parse(JSON.parse(data).allData).parent_id;
-        // console.log("loading loader : " , id_parents)
         ReactDom.render(<PageAdd display={true} dataUpdate={data} idParent={0}
-                                     result={item => handleBack(item)}/>, document.getElementById("add-datas"))
+                                 result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
-
-
     return (
         <div>
             <div className="tab-content" style={{padding: 0}}>
                 <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
-                    {console.log("category dataaaaaaaa ...... : " , categoryData)}
-                    {categoryData && categoryData.length  >  0 && loading == false ? (
+                    {console.log("category dataaaaaaaa ...... : ", categoryData)}
+                    {categoryData && categoryData.length > 0 && loading == false ? (
                         <TreeShowCategory handleCata={itemCat => console.log("cat back ,", itemCat)}
                                           duplicate={item => HandleDuplicate(item)}
                                           itemClicks={clicks => handleClickItem(clicks)}
@@ -180,15 +175,14 @@ export const CategoryList = () => {
                                           updateData={item => HandleBackLoader(item)}
                                           data={categoryData}
                                           loading={loading}/>
-                    ) : loading == false ?  (
+                    ) : loading == false ? (
                         <div>
                             <p style={{textAlign: 'center', marginTop: 20}}>
                                 لیست دسته بندی برای نمایش وجود ندارد!
                             </p>
-
                             <div id={"maines"}>
                                 <button id="add-category"
-                                        onClick={() => handleAddPage()}
+                                        onClick={() => handleAddCategory()}
                                         style={{width: 180}}
                                         className="btn btn-primary glow mr-1 mb-1"
                                         type="button">
@@ -196,27 +190,23 @@ export const CategoryList = () => {
                                 </button>
                             </div>
                         </div>
-                        ) : <Loading />}
-
+                    ) : <Loading/>}
                 </div>
                 <div className="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">
-
-                    {/*{console.log("data page : " , pageData)}*/}
-                    {pageData.data && pageData.data.length  >  0 && loading == false ? (
+                    {pageData.data && pageData.data.length > 0 && loading == false ? (
                         <TreeShowPage handleCata={itemCat => console.log("cat back ,", itemCat)}
-                                          duplicate={item => HandleDuplicatePage(item)}
-                                          itemClicks={clicks => handleClickItemPage(clicks)}
-                                          callBack={item => HandleDeletePage(item)}
-                                          delClick={item => HandleDeletePage(item)}
-                                          updateData={item => HandleBackLoaderPage(item)}
-                                          data={pageData}
-                                          loading={loading}/>
-                    ) : loading == false ?  (
+                                      duplicate={item => HandleDuplicatePage(item)}
+                                      itemClicks={clicks => handleClickItemPage(clicks)}
+                                      callBack={item => HandleDeletePage(item)}
+                                      delClick={item => HandleDeletePage(item)}
+                                      updateData={item => HandleBackLoaderPage(item)}
+                                      data={pageData}
+                                      loading={loading}/>
+                    ) : loading == false ? (
                         <div>
                             <p style={{textAlign: 'center', marginTop: 20}}>
                                 صفحه ای برای نمایش وجود ندارد!
                             </p>
-
                             <div id={"maines"}>
                                 <button id="add-category"
                                         onClick={() => handleAddPage()}
@@ -227,31 +217,14 @@ export const CategoryList = () => {
                                 </button>
                             </div>
                         </div>
-                    ) : <Loading />}
-
-
-
-
-
-
-
-
-
+                    ) : <Loading/>}
                 </div>
             </div>
-
-
-
-
-
             <BackLoader states={item => (HandleAddContentSelect(item))}/>
             <div id={"add-datas"}></div>
-
         </div>
-
     )
 }
-
 let elements = document.getElementById("category_box");
 if (elements) {
     const props = Object.assign({}, elements.dataset)

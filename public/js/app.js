@@ -2915,6 +2915,7 @@ var LOCAL_CAT = "localcat-zerone-cmslite";
 
 var AddCategory = function AddCategory(_ref) {
   var display = _ref.display,
+      dataAll = _ref.dataAll,
       dataUpdate = _ref.dataUpdate,
       idParent = _ref.idParent,
       pushResult = _ref.result;
@@ -2975,10 +2976,11 @@ var AddCategory = function AddCategory(_ref) {
       metaData = _useState20[0],
       setMetaData = _useState20[1];
 
+  console.log("dataaa************** : ", dataUpdate);
   var dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
   var dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
   var MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : '';
-  var type = dataGet ? dataGet.type : '';
+  var types = dataGet ? dataGet.type : '';
 
   var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState22 = _slicedToArray(_useState21, 2),
@@ -2996,10 +2998,10 @@ var AddCategory = function AddCategory(_ref) {
     content: '',
     parent_id: idParent,
     slug: ''
-  };
-  var dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
+  }; // const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
 
   var CreateAddCategory = function CreateAddCategory(data) {
+    console.log("adding dataaaaaa : ", data);
     swal({
       title: 'افزودن دسته بندی جدید',
       text: "آیا مطمئنید؟",
@@ -3101,7 +3103,8 @@ var AddCategory = function AddCategory(_ref) {
       _formDataOld2.slug = e.target.value;
       setFormData(_formDataOld2);
     }
-  };
+  }; // {console.log("cat .......... : " , dataUpdate ? JSON.parse(JSON.parse(dataUpdate).allData) : '')}
+
 
   var RemoveChipset = function RemoveChipset(name) {
     setEdit(true);
@@ -3161,6 +3164,7 @@ var AddCategory = function AddCategory(_ref) {
     if (formData.name && formData.name !== '') {
       $("input[name=name]").removeClass("is-invalid");
       console.log("form dataaaaaaaa : ", formNew);
+      formNew.parent_id = formNew.parent_id ? formNew.parent_id : 0;
       CreateAddCategory(formNew);
     } else {
       $("input[name=name]").addClass("is-invalid");
@@ -3321,7 +3325,7 @@ var AddCategory = function AddCategory(_ref) {
 
   var HandleDefaultValuSlug = function HandleDefaultValuSlug() {
     if (dataUpdateParse) {
-      if (type == "dup") {
+      if (types == "dup") {
         return MakeNewName(dataUpdateParse.slug);
       } else {
         return dataUpdateParse.slug;
@@ -3334,7 +3338,7 @@ var AddCategory = function AddCategory(_ref) {
 
   var HandleMakeName = function HandleMakeName() {
     if (dataUpdateParse) {
-      if (type == "dup") {
+      if (types == "dup") {
         return MakeNewName(dataUpdateParse.name);
       } else {
         return dataUpdateParse.name;
@@ -3424,13 +3428,13 @@ var AddCategory = function AddCategory(_ref) {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("label", {
                   id: "selectParent",
                   children: "\u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC \u067E\u062F\u0631"
-                }), console.log("cat .......... : ", JSON.parse(JSON.parse(dataUpdate).allData)), categoryData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_6__.SelectOptions, {
+                }), console.log("cat //////////////", dataAll), categoryData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_HOC_SelectOptions__WEBPACK_IMPORTED_MODULE_6__.SelectOptions, {
                   parents: idParent ? idParent : dataUpdateParse.parent_id,
+                  dataAllCat: dataAll,
                   selection: function selection(check) {
                     return HandleSelectOption(check);
                   },
-                  loading: loading,
-                  data: JSON.parse(dataUpdate).allCatData
+                  loading: loading
                 }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("p", {
                   children: "wait ..."
                 })]
@@ -3554,7 +3558,7 @@ var AddCategory = function AddCategory(_ref) {
                   children: "\u0622\u062F\u0631\u0633 \u0635\u0641\u062D\u0647 \u062F\u0633\u062A\u0647 \u0628\u0646\u062F\u06CC"
                 }), console.log("form data new change : ", formData), console.log("slug manages : ", slugManage), console.log("update data", dataUpdateParse), slugManage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("input", {
                   type: "text",
-                  defaultValue: type == "dup" ? $(".titleCat").val() : formData.slug,
+                  defaultValue: types == "dup" ? $(".titleCat").val() : formData.slug,
                   disabled: true,
                   id: "title",
                   className: "form-control slugest"
@@ -3727,7 +3731,7 @@ var AddCategory = function AddCategory(_ref) {
               id: "clear",
               children: "\u0627\u0646\u0635\u0631\u0627\u0641"
             })
-          }), type ? type == 'edit' ? edit ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          }), types ? types == 'edit' ? edit ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
             onClick: function onClick(e) {
               return HandleEdit(e);
             },
@@ -3899,7 +3903,6 @@ var CategoryList = function CategoryList() {
   var GetAllPages = function GetAllPages() {
     setLoading(true);
     _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_5__.Request.GetAllPages().then(function (res) {
-      console.log("page data : ", res);
       localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
       setLoading(false);
       setPageData(res.data);
@@ -3930,6 +3933,20 @@ var CategoryList = function CategoryList() {
         return handleBackPage(item);
       }
     }), document.getElementById("add-datas"));
+  };
+
+  var handleAddCategory = function handleAddCategory() {
+    console.log("category data : ", categoryData);
+
+    if (!loading) {
+      react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_7__.default, {
+        display: true,
+        dataAll: JSON.stringify(categoryData),
+        result: function result(item) {
+          return handleBackPage(item);
+        }
+      }), document.getElementById("add-datas"));
+    } else {}
   };
 
   var HandleAdd = function HandleAdd(item) {
@@ -3964,7 +3981,7 @@ var CategoryList = function CategoryList() {
     react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_7__.default, {
       display: true,
       idParent: clickId,
-      dataUpdate: '',
+      dataAll: JSON.stringify(categoryData),
       result: function result(item) {
         return handleBack(item);
       }
@@ -3982,6 +3999,7 @@ var CategoryList = function CategoryList() {
   var handleBackPage = function handleBackPage(item) {
     if (item.status == 200) {
       GetAllPages();
+      GetAllCategory();
       react_dom__WEBPACK_IMPORTED_MODULE_1__.render('', document.getElementById('add-datas'));
     }
   };
@@ -3993,6 +4011,7 @@ var CategoryList = function CategoryList() {
     react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_7__.default, {
       display: true,
       dataUpdate: data,
+      dataAll: JSON.stringify(categoryData),
       idParent: id_parents,
       result: function result(item) {
         return handleBack(item);
@@ -4004,23 +4023,9 @@ var CategoryList = function CategoryList() {
     var datas = JSON.parse(data);
 
     if (datas.type == "category") {
-      react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_CategoryAdd__WEBPACK_IMPORTED_MODULE_7__.default, {
-        display: true,
-        dataUpdate: '',
-        idParent: 0,
-        result: function result(item) {
-          return handleBack(item);
-        }
-      }), document.getElementById("add-datas"));
+      handleAddCategory();
     } else {
-      react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Page_PageAdd__WEBPACK_IMPORTED_MODULE_8__.default, {
-        display: true,
-        dataUpdate: '',
-        idParent: 0,
-        result: function result(item) {
-          return handleBack(item);
-        }
-      }), document.getElementById("add-datas"));
+      handleAddPage();
     }
   }; // page handlersssss
 
@@ -4053,9 +4058,6 @@ var CategoryList = function CategoryList() {
   };
 
   var HandleBackLoaderPage = function HandleBackLoaderPage(data) {
-    // console.log("+++++++" , JSON.parse(JSON.parse(data).allData).parent_id)
-    // let id_parents = JSON.parse(JSON.parse(data).allData).parent_id;
-    // console.log("loading loader : " , id_parents)
     react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Page_PageAdd__WEBPACK_IMPORTED_MODULE_8__.default, {
       display: true,
       dataUpdate: data,
@@ -4110,7 +4112,7 @@ var CategoryList = function CategoryList() {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
               id: "add-category",
               onClick: function onClick() {
-                return handleAddPage();
+                return handleAddCategory();
               },
               style: {
                 width: 180
@@ -7836,7 +7838,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Shared_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./_Shared/style.scss */ "./resources/js/components/HOC/_Shared/style.scss");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _services_AdminService_Api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../services/AdminService/Api */ "./resources/js/services/AdminService/Api.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -7845,8 +7849,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var SelectOptions = function SelectOptions(_ref) {
   var parents = _ref.parents,
+      dataAllCat = _ref.dataAllCat,
       data = _ref.data,
-      loading = _ref.loading,
       pushSelectiong = _ref.selection;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     jquery__WEBPACK_IMPORTED_MODULE_1___default()(function () {
@@ -7855,45 +7859,36 @@ var SelectOptions = function SelectOptions(_ref) {
         pushSelectiong(sel);
       });
     });
-  });
-
-  if (loading == false && data || loading == true && data) {
-    console.log("dataaaaaaa : ", data);
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
-      defaultValue: parents,
-      className: "form-control selectVal",
-      name: "parent_id",
-      id: "selectParent",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
-        id: "optionss",
-        value: 0,
-        children: "\u0646\u062F\u0627\u0631\u062F"
-      }), data ? data.map(function (item) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+  }, []);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("select", {
+    defaultValue: parents,
+    className: "form-control selectVal",
+    name: "parent_id",
+    id: "selectParent",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
+      id: "optionss",
+      value: 0,
+      children: "\u0646\u062F\u0627\u0631\u062F"
+    }), JSON.parse(dataAllCat) ? JSON.parse(dataAllCat).map(function (item) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
+          style: {
+            height: '50px'
+          },
+          value: item.id,
+          children: item.name
+        }), item.childern.length > 0 ? item.childern.map(function (itemTow) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("option", {
             style: {
               height: '50px'
             },
-            value: item.id,
-            children: item.name
-          }), item.childern.length > 0 ? item.childern.map(function (itemTow) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("option", {
-              style: {
-                height: '50px'
-              },
-              value: itemTow.id,
-              children: ["\xA0\xA0", " > " + itemTow.name, "\xA0"]
-            });
-          }) : '']
-        });
-      }) : '']
-    });
-  } else {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
-      value: "",
-      children: "wait"
-    });
-  }
+            value: itemTow.id,
+            children: ["\xA0\xA0", " > " + itemTow.name, "\xA0"]
+          });
+        }) : '']
+      });
+    }) : '']
+  });
 };
 
 /***/ }),

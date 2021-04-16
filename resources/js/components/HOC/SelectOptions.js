@@ -1,9 +1,8 @@
 import React, {useEffect} from 'react';
 import $ from 'jquery';
 import './_Shared/style.scss'
-
-export const SelectOptions = ({parents, data, loading, selection: pushSelectiong}) => {
-
+import {Request} from './../../services/AdminService/Api';
+export const SelectOptions = ({parents,dataAllCat ,  data, selection: pushSelectiong}) => {
     useEffect(() => {
         $(function () {
             $("select.selectVal").change(function () {
@@ -11,17 +10,17 @@ export const SelectOptions = ({parents, data, loading, selection: pushSelectiong
                 pushSelectiong(sel)
             })
         })
-    })
+    } , [])
 
-    if ((loading == false && data) || (loading == true && data)) {
-        console.log("dataaaaaaa : " , data)
+
+
         return (
             <select defaultValue={parents} className="form-control selectVal" name={"parent_id"}
                     id="selectParent">
 
                 <option id={"optionss"} value={0}>ندارد</option>
 
-                {data ? data.map(item => (
+                {JSON.parse(dataAllCat) ? JSON.parse(dataAllCat).map(item => (
                     <>
                         <option style={{height: '50px'}} value={item.id}>{item.name}</option>
                         {item.childern.length > 0 ? item.childern.map(itemTow => (
@@ -32,16 +31,7 @@ export const SelectOptions = ({parents, data, loading, selection: pushSelectiong
                         )
                         }
                     </>
-
-
                 )) : ''}
-
-
             </select>
         )
-
-    } else {
-        return <option value="">wait</option>
-    }
-
 }
