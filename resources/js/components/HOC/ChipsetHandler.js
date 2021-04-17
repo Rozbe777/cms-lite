@@ -12,6 +12,7 @@ export const ChipsetHandler = ({callback : pushCallBack}) => {
     return (
         <fieldset className="form-group" id={"form-group-chipset"}>
             <input type={"text"}
+                   style={{marginTop : '0px !important'}}
                    onKeyPress={e => HandleChipset(e)}
                    name={"tags"} id={"title"}
                    placeholder={"تایپ کن و Enter بزن "}

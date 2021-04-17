@@ -35,4 +35,5 @@
     <link rel="stylesheet" type="text/css" href="{{adminTheme("css/plugins/extensions/toastr.css")}}">
 
     <!-- END: Page CSS-->
+
 </head>

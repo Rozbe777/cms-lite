@@ -23,3 +23,5 @@ require("./components/Admin/Category/CategoryList");
 require("./components/Admin/Category/CategoryAdd");
 require("./components/Admin/Dasboard");
 require("./components/Admin/Shop/ProductManager");
+require("./components/Admin/Shop/ProductAdd");
+require("./components/Admin/Shop/Search");
