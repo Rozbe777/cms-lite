@@ -44,10 +44,7 @@
 @endsection
 
 @section('pageScripts')
-    <script src="/panel/themes/frest/js/scripts/extensions/dropzone.js"></script>
-    <script src="/panel/themes/frest/vendors/js/extensions/dropzone.min.js"></script>
-    <script src="/panel/themes/frest/vendors/js/forms/select/select2.full.min.js"></script>
-    <script src="/panel/themes/frest/js/scripts/forms/select/form-select2.js"></script>
+
 
     <script src="/js/app.js"></script>
 @endsection

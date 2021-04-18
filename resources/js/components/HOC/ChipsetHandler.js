@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const ChipsetHandler = ({callback : pushCallBack}) => {
+export const ChipsetHandler = ({label , callback : pushCallBack}) => {
 
     const HandleChipset = (e) => {
         let chips_input = $(".chips_input");

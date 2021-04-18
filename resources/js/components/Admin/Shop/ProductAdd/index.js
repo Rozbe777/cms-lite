@@ -10,6 +10,8 @@ import Doka from "../../../HOC/DropZone";
 import {MultiSelected} from './../../../HOC/MultiSelected';
 import {ChipsetHandler} from './../../../HOC/ChipsetHandler';
 import './../../_Micro/TreeShow/_Shared/style.scss';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import "swiper/swiper-bundle.css";
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
 const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}) => {
@@ -376,17 +378,17 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
     return (
         <div id={"category_add_pop_base"}>
             <ul className="nav nav-tabs tab-layout" role="tablist">
-                <li className="nav-item col-3 nav-custom">
-                    <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
-                       role="tab" aria-selected="true">
-                        <span className="align-middle">دسته بندی</span>
+                <li className="nav-item col-3 nav-custom ">
+                    <a className="nav-link active" id="descript-tab" data-toggle="tab" href="#descript" aria-controls="descript"
+                       role="tab" aria-selected="false">
+                        <span className="align-middle">عنوان و عکس</span>
                     </a>
                 </li>
                 <li className="nav-item col-3 nav-custom">
-                    <a className="nav-link" id="profile-fill" data-toggle="tab" href="#profile-fill"
-                       aria-controls="profile-fill"
-                       role="tab" aria-selected="true">
-                        <span className="align-middle">دسته بندی</span>
+                    <a className="nav-link" id="catdetail-tab" data-toggle="tab" href="#catdetail"
+                       aria-controls="catdetail"
+                       role="tab" aria-selected="false">
+                        <span className="align-middle">توضیحات  و دسته بندی</span>
                     </a>
                 </li>
                 <li className="nav-item col-3 nav-custom ">
@@ -403,7 +405,8 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                 </li>
             </ul>
             <div className="tab-content" style={{padding: 0, position: 'relative'}}>
-                <div className="tab-pane active" id="cat" aria-labelledby="cat-tab" role="tabpanel">
+
+                <div className="tab-pane active" id="descript" aria-labelledby="descript-tab" role="tabpanel">
                     <div className={"content-pages"}>
                         <div className={"row"} style={{padding: '20px'}}>
                             <div className={"col-lg-8 col-md-8 col-sm-12"}>
@@ -435,15 +438,17 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                 </div>
 
 
-                <div className="tab-pane" id="profile-fill" role="tabpanel" aria-labelledby="profile-tab-fill">
+                <div className="tab-pane" id="catdetail" aria-labelledby="catdetail-tab" role="tabpanel" >
                     <div className={"row"} style={{padding: '20px'}}>
                         <div className="col-md-6">
+                            <label>دسته بندی</label>
                             <MultiSelected/>
                         </div>
                         <div className={"col-md-6"}>
+                            <label>برچسپ ها</label>
                             <div className={"row"} id={"chipset-container"}>
                                 <div className={"col-sm-12 col-md-4 col-lg-4"}>
-                                    <ChipsetHandler callback={item => handleAddChip(item)}/>
+                                    <ChipsetHandler  callback={item => handleAddChip(item)}/>
                                 </div>
                                 {chipset ? chipset.map(item => (
                                     <div className="chip mr-1">
@@ -472,40 +477,68 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                 </div>
 
 
-                <div className="tab-pane" id="price" role="price" aria-labelledby="profile-tab-fill">
+                <div className="tab-pane" id="price" aria-labelledby="price-tab" role="tabpanel" >
                     <div className={"content-pages"} style={{padding: '20px'}}>
                         <div className={"row"}>
-                            <div className="col-md-6">
-                                <MultiSelected/>
-                            </div>
-                            <div className={"col-md-6"}>
-                                <div className={"row"} id={"chipset-container"}>
-                                    <div className={"col-sm-12 col-md-4 col-lg-4"}>
-                                        <ChipsetHandler callback={item => handleAddChip(item)}/>
-                                    </div>
-                                    {chipset ? chipset.map(item => (
-                                        <div className="chip mr-1">
-                                            <div className="chip-body">
-                                                <span className="chip-text">{item}</span>
-                                                <div className="chip-closeable"
-                                                     onClick={e => RemoveChipset(item)}>
-                                                    <i className="bx bx-x"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )) : ''}
-                                </div>
-                            </div>
-                            <div className={"col-12"}>
-                                <MyEditor editorData={data => {
-                                    setEdit(true)
-                                    setContentNew(data)
-                                }}
-                                          id={"my-editor"}
-                                          type={"small"}
-                                          defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
-                                          placeholder={"توضیحات دسته بندی را بنویسید ..."}/>
-                            </div>
+
+                           <div className={"col-12"}>
+
+
+                               <form className="form repeater-default">
+                                   <div data-repeater-list="group-a">
+                                       <div data-repeater-item>
+                                           <div className="row justify-content-between">
+                                               <div className="col-md-2 col-sm-12 form-group">
+                                                   <label htmlFor="Email">ایمیل </label>
+                                                   <input type="email" className="form-control" id="Email"
+                                                          placeholder="ایمیل را وارد کنید" />
+                                               </div>
+                                               <div className="col-md-2 col-sm-12 form-group">
+                                                   <label htmlFor="password">رمز عبور</label>
+                                                   <input type="password" className="form-control" id="password"
+                                                          placeholder="رمز عبور را وارد کنید" />
+                                               </div>
+                                               <div className="col-md-2 col-sm-12 form-group">
+                                                   <label htmlFor="gender">جنسیت</label>
+                                                   <select name="gender" id="gender" className="form-control">
+                                                       <option value="Male">مرد</option>
+                                                       <option value="Female">زن</option>
+                                                   </select>
+                                               </div>
+                                               <div className="col-md-2 col-sm-12 form-group">
+                                                   <label htmlFor="Profession">حرفه</label>
+                                                   <select name="profession" id="Profession" className="form-control">
+                                                       <option value="FontEnd Developer">طراح</option>
+                                                       <option value="BackEnd Developer">توسعه دهنده</option>
+                                                       <option value="Bussiness Analystic">آزمون گر</option>
+                                                       <option value="Project Cordinator">مدیر</option>
+                                                   </select>
+                                               </div>
+                                               <div
+                                                   className="col-md-2 col-sm-12 form-group d-flex align-items-center pt-2">
+                                                   <button className="btn btn-danger text-nowrap px-1" data-repeater-delete
+                                                           type="button"><i className="bx bx-x"></i>
+                                                       حذف
+                                                   </button>
+                                               </div>
+                                           </div>
+                                           <hr />
+                                       </div>
+                                   </div>
+                                   <div className="form-group">
+                                       <div className="col p-0">
+                                           <button className="btn btn-primary" data-repeater-create type="button"><i
+                                               className="bx bx-plus"></i>
+                                               افزودن
+                                           </button>
+                                       </div>
+                                   </div>
+                               </form>
+
+
+
+
+                           </div>
                         </div>
                     </div>
                 </div>
@@ -704,6 +737,7 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
 
                 </div>
             </div>
+
 
         </div>
 
