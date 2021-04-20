@@ -12,9 +12,34 @@ import {ChipsetHandler} from './../../../HOC/ChipsetHandler';
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import "swiper/swiper-bundle.css";
+import {Price} from "../../_Micro/ProductMiniComponent/Price";
+import {Limited} from "../../_Micro/ProductMiniComponent/Limited";
+import {Inventory} from "../../_Micro/ProductMiniComponent/Inventoryz";
+import {NewFeture} from "../../_Micro/ProductMiniComponent/NewFeture";
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
 const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}) => {
+    let defaultCol = {
+        code: 12341216513156,
+        price: 1542,
+        discount: 1000,
+        hasDiscount: true,
+        countInventory: 1254,
+        infiniteInventory: true,
+        limited: 154,
+        isInfinite: true,
+        fetures: {
+            text: [],
+            color: []
+        }
+    };
+
+    const [defaultTableHead, setDefaultTableHead] = useState([
+        'کد کالا',
+        'قیمت',
+        'موجودی',
+        'محدودیت'
+    ])
     const [comments, setComments] = useState();
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
@@ -22,6 +47,9 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
     const [statusNew, setStatusNew] = useState();
     const [menuShow, setMenuShow] = useState();
     const [chipset, setChipset] = useState([]);
+    const [priceData, setPriceData] = useState([
+        defaultCol
+    ]);
     let tags = [];
     const [edit, setEdit] = useState(false);
     const [file, setFile] = useState();
@@ -44,6 +72,15 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
         parent_id: idParent,
         slug: ''
     };
+
+
+    let randomData = () => {
+        const min = 1;
+        const max = 100000000;
+        const rand = min + Math.random() * (max - min);
+        return rand;
+    }
+
 
     // const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
     const CreateAddCategory = (data) => {
@@ -374,171 +411,265 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
         }
     }
 
+    const HandlePrice = (e, price, discount, hasDiscount) => {
+        e.preventDefault();
+        $("#back-loadered").addClass("active");
+        ReactDOM.render(<Price price={price} discount={discount}
+                               hasDiscount={hasDiscount}/>, document.getElementById("back-loadered"));
+    }
+    const HandleInventory = (e, count, hasDis) => {
+        e.preventDefault();
+        $("#back-loadered").addClass("active");
+        ReactDOM.render(<Inventory count={count} hasDiscount={hasDis}/>, document.getElementById("back-loadered"));
+    }
+    const HandleLimited = (e, count, infinte) => {
+        e.preventDefault();
+        $("#back-loadered").addClass("active");
+        ReactDOM.render(<Limited count={count} isInfinite={infinte}/>, document.getElementById("back-loadered"));
+    }
 
+    const HandleAddNew = (e) => {
+        e.preventDefault();
+        let dataaa = [...priceData];
+        dataaa.push(defaultCol);
+        setPriceData(dataaa);
+    }
+
+    const HandleFeture = (e) => {
+        e.preventDefault();
+        $("#back-loadered").addClass("active");
+        ReactDOM.render(<NewFeture
+            dataOut={item => HandleCloseFeture(item)}/>, document.getElementById("back-loadered"));
+    }
+
+    const HandleCloseFeture = (item) => {
+        let newItemHead = [...defaultTableHead];
+        let pricesData = [...priceData];
+        newItemHead.push(item.name)
+        setDefaultTableHead(newItemHead);
+        if (item.type == "text") {
+            priceData.map((items, index) => {
+                let data = [...items.fetures.text];
+                data.push({
+                    name: item.name,
+                    value: ''
+                })
+                pricesData[index].fetures.text  = data;
+                setPriceData(pricesData)
+            })
+        } else {
+            priceData.map((items, index) => {
+                let data = [...items.fetures.color];
+                data.push({
+                    name: item.name,
+                    value: ''
+                })
+                pricesData[index].fetures.color  = data;
+                setPriceData(pricesData)
+            })
+        }
+
+        console.log("dataaaaa : ", pricesData, " / type : ", item.type)
+
+        // console.log("heads : ", newItemHead)
+        $("#back-loadered").removeClass("active");
+        ReactDOM.render('', document.getElementById("back-loadered"));
+    }
     return (
-        <div id={"category_add_pop_base"}>
-            <ul className="nav nav-tabs tab-layout" role="tablist">
-                <li className="nav-item col-3 nav-custom ">
-                    <a className="nav-link active" id="descript-tab" data-toggle="tab" href="#descript" aria-controls="descript"
-                       role="tab" aria-selected="false">
-                        <span className="align-middle">عنوان و عکس</span>
-                    </a>
-                </li>
-                <li className="nav-item col-3 nav-custom">
-                    <a className="nav-link" id="catdetail-tab" data-toggle="tab" href="#catdetail"
-                       aria-controls="catdetail"
-                       role="tab" aria-selected="false">
-                        <span className="align-middle">توضیحات  و دسته بندی</span>
-                    </a>
-                </li>
-                <li className="nav-item col-3 nav-custom ">
-                    <a className="nav-link" id="price-tab" data-toggle="tab" href="#price" aria-controls="price"
-                       role="tab" aria-selected="false">
-                        <span className="align-middle">قیمت و مشخصات</span>
-                    </a>
-                </li>
-                <li className="nav-item col-3 nav-custom ">
-                    <a className="nav-link" id="seo-tab" data-toggle="tab" href="#seo" aria-controls="seo"
-                       role="tab" aria-selected="false">
-                        <span className="align-middle">سئو و آدرس</span>
-                    </a>
-                </li>
-            </ul>
-            <div className="tab-content" style={{padding: 0, position: 'relative'}}>
+        <>
 
-                <div className="tab-pane active" id="descript" aria-labelledby="descript-tab" role="tabpanel">
-                    <div className={"content-pages"}>
-                        <div className={"row"} style={{padding: '20px'}}>
-                            <div className={"col-lg-8 col-md-8 col-sm-12"}>
-                                <fieldset className="form-group">
-                                    <label htmlFor={"title"}>عنوان دسته بندی</label>
-                                    <input type={"text"} defaultValue={HandleMakeName()} onChange={e => handleInput(e)}
-                                           name={"name"} id={"title"}
-                                           className={"form-control titleCat"}/>
-                                </fieldset>
+            <div id={"category_add_pop_base"}>
+                <ul className="nav nav-tabs tab-layout" role="tablist">
+                    <li className="nav-item col-3 nav-custom ">
+                        <a className="nav-link active" id="descript-tab" data-toggle="tab" href="#descript"
+                           aria-controls="descript"
+                           role="tab" aria-selected="false">
+                            <span className="align-middle">عنوان و عکس</span>
+                        </a>
+                    </li>
+                    <li className="nav-item col-3 nav-custom">
+                        <a className="nav-link" id="catdetail-tab" data-toggle="tab" href="#catdetail"
+                           aria-controls="catdetail"
+                           role="tab" aria-selected="false">
+                            <span className="align-middle">توضیحات  و دسته بندی</span>
+                        </a>
+                    </li>
+                    <li className="nav-item col-3 nav-custom ">
+                        <a className="nav-link" id="price-tab" data-toggle="tab" href="#price" aria-controls="price"
+                           role="tab" aria-selected="false">
+                            <span className="align-middle">قیمت و مشخصات</span>
+                        </a>
+                    </li>
+                    <li className="nav-item col-3 nav-custom ">
+                        <a className="nav-link" id="seo-tab" data-toggle="tab" href="#seo" aria-controls="seo"
+                           role="tab" aria-selected="false">
+                            <span className="align-middle">سئو و آدرس</span>
+                        </a>
+                    </li>
+                </ul>
+                <div className="tab-content" style={{padding: 0, position: 'relative'}}>
+
+                    <div className="tab-pane active" id="descript" aria-labelledby="descript-tab" role="tabpanel">
+                        <div className={"content-pages"}>
+                            <div className={"row"} style={{padding: '20px'}}>
+                                <div className={"col-lg-8 col-md-8 col-sm-12"}>
+                                    <fieldset className="form-group">
+                                        <label htmlFor={"title"}>عنوان دسته بندی</label>
+                                        <input type={"text"} defaultValue={HandleMakeName()}
+                                               onChange={e => handleInput(e)}
+                                               name={"name"} id={"title"}
+                                               className={"form-control titleCat"}/>
+                                    </fieldset>
+                                </div>
+                                <div className={"col-lg-4 col-md-4 col-sm-12"}>
+                                    <fieldset className="form-group">
+                                        <label id={"selectParent"}>وضعیت نمایش</label>
+                                        <Switcher
+                                            defaultState={dataUpdateParse ? dataUpdateParse.status == "active" ? true : false : true}
+                                            status={(state) => handleSwitchStatus(state)} name={"showState"}
+                                            valueActive={"فعال"}
+                                            valueDeActive={"غیرفعال"}/>
+                                    </fieldset>
+                                </div>
+                                <div className={"col-12"}>
+                                    <Doka/>
+
+                                </div>
                             </div>
-                            <div className={"col-lg-4 col-md-4 col-sm-12"}>
-                                <fieldset className="form-group">
-                                    <label id={"selectParent"}>وضعیت نمایش</label>
-                                    <Switcher
-                                        defaultState={dataUpdateParse ? dataUpdateParse.status == "active" ? true : false : true}
-                                        status={(state) => handleSwitchStatus(state)} name={"showState"}
-                                        valueActive={"فعال"}
-                                        valueDeActive={"غیرفعال"}/>
-                                </fieldset>
+
+
+                        </div>
+                    </div>
+
+
+                    <div className="tab-pane" id="catdetail" aria-labelledby="catdetail-tab" role="tabpanel">
+                        <div className={"row"} style={{padding: '20px'}}>
+                            <div className="col-md-6">
+                                <label>دسته بندی</label>
+                                <MultiSelected/>
+                            </div>
+                            <div className={"col-md-6"}>
+                                <label>برچسپ ها</label>
+                                <div className={"row"} id={"chipset-container"}>
+                                    <div className={"col-sm-12 col-md-4 col-lg-4"}>
+                                        <ChipsetHandler callback={item => handleAddChip(item)}/>
+                                    </div>
+                                    <div className={"col-sm-12 col-md-8 col-lg-8"}>
+                                        <Swiper
+                                            slidesPerView={3}
+                                            pagination={{clickable: true}}
+                                            scrollbar={{draggable: true}}
+                                        >
+                                            {chipset ? chipset.map(item => (
+                                                <SwiperSlide key={item.id} virtualIndex={item.id}>
+                                                    <div className="chip mr-1">
+                                                        <div className="chip-body">
+                                                            <span className="chip-text">{item}</span>
+                                                            <div className="chip-closeable"
+                                                                 onClick={e => RemoveChipset(item)}>
+                                                                <i className="bx bx-x"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </SwiperSlide>
+                                            )) : ''}
+                                        </Swiper>
+                                    </div>
+
+                                </div>
                             </div>
                             <div className={"col-12"}>
-                                <Doka/>
-
+                                <MyEditor editorData={data => {
+                                    setEdit(true)
+                                    setContentNew(data)
+                                }}
+                                          id={"my-editor"}
+                                          type={"small"}
+                                          defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
+                                          placeholder={"توضیحات دسته بندی را بنویسید ..."}/>
                             </div>
                         </div>
-
-
                     </div>
-                </div>
 
 
-                <div className="tab-pane" id="catdetail" aria-labelledby="catdetail-tab" role="tabpanel" >
-                    <div className={"row"} style={{padding: '20px'}}>
-                        <div className="col-md-6">
-                            <label>دسته بندی</label>
-                            <MultiSelected/>
-                        </div>
-                        <div className={"col-md-6"}>
-                            <label>برچسپ ها</label>
-                            <div className={"row"} id={"chipset-container"}>
-                                <div className={"col-sm-12 col-md-4 col-lg-4"}>
-                                    <ChipsetHandler  callback={item => handleAddChip(item)}/>
-                                </div>
-                                {chipset ? chipset.map(item => (
-                                    <div className="chip mr-1">
-                                        <div className="chip-body">
-                                            <span className="chip-text">{item}</span>
-                                            <div className="chip-closeable"
-                                                 onClick={e => RemoveChipset(item)}>
-                                                <i className="bx bx-x"></i>
-                                            </div>
+                    <div className="tab-pane" id="price" aria-labelledby="price-tab" role="tabpanel">
+                        <div className={"content-pages"} style={{padding: '20px'}}>
+                            <div className={"row"}>
+
+                                <div className={"col-12"}>
+
+
+                                    <p>اطلاعات تکمیلی محصول شامل رنگ، سایز، موجودی انبار، قیمت و... را در بخش زیر وارد
+                                        کنید.</p>
+
+                                    <div className="table-responsive">
+                                        <table className="table">
+                                            <thead>
+                                            <tr className={"product-table-head"}>
+                                                {defaultTableHead.map(items => (
+                                                    <th>{items}</th>
+                                                ))}
+                                                <th>
+                                                    عملیات ها
+                                                </th>
+                                            </tr>
+
+                                            <a id={"add-future"} className={"mr-1 mb-1"} onClick={e => HandleFeture(e)}>
+                                                <i className={"bx bx-plus"}></i>&nbsp;&nbsp;ویژگی
+                                                جدید &nbsp;&nbsp;
+                                            </a>
+
+                                            </thead>
+                                            <tbody>
+
+                                            {
+                                                priceData.map(item => (
+                                                    <tr>
+                                                        <td style={{maxWidth: '120px', padding: '0 10px'}}>
+                                                            <input type={"text"} style={{textAlign: 'center'}}
+                                                                   className={"form-control"}
+                                                                   defaultValue={item.code}
+                                                                   name={"productCode"}
+                                                                   id={"input-code-kala"}/>
+                                                        </td>
+                                                        <td><span
+                                                            onClick={e => HandlePrice(e, item.price, item.discount, item.hasDiscount)}>{item.price} تومان</span>
+                                                        </td>
+                                                        <td><span
+                                                            onClick={e => HandleInventory(e, item.countInventory, item.infiniteInventory)}>{item.infiniteInventory ? 'نامحدود' : item.countInventory}</span>
+                                                        </td>
+                                                        <td><span
+                                                            onClick={e => HandleLimited(e, item.limited, item.isInfinite)}>{item.limited !== 'infinite' ? item.limited : 'نامحدود'}</span>
+                                                        </td>
+                                                        <td id={"actions-item"}>
+                                                    <span>
+                                                        <i className={"bx bx-link"}></i>
+                                                        لینک خرید
+                                                    </span>
+                                                            <a href="#">
+                                                                <i className="bx bx-trash"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            }
+
+
+                                            </tbody>
+                                        </table>
+                                        <div className={"col-md-3"} style={{padding: 0}}>
+                                            <a className={"btn btn-primary"}
+                                               onClick={e => HandleAddNew(e)}
+                                               style={{width: '100%', color: '#fff', cursor: 'pointer'}}>
+                                                <i className={"bx bx-plus"}></i> &nbsp;
+                                                اضافه کردن تنوع محصول
+                                                &nbsp;
+                                            </a>
                                         </div>
                                     </div>
-                                )) : ''}
-                            </div>
-                        </div>
-                        <div className={"col-12"}>
-                            <MyEditor editorData={data => {
-                                setEdit(true)
-                                setContentNew(data)
-                            }}
-                                      id={"my-editor"}
-                                      type={"small"}
-                                      defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
-                                      placeholder={"توضیحات دسته بندی را بنویسید ..."}/>
-                        </div>
-                    </div>
-                </div>
 
 
-                <div className="tab-pane" id="price" aria-labelledby="price-tab" role="tabpanel" >
-                    <div className={"content-pages"} style={{padding: '20px'}}>
-                        <div className={"row"}>
-
-                           <div className={"col-12"}>
-
-
-                               <form className="form repeater-default">
-                                   <div data-repeater-list="group-a">
-                                       <div data-repeater-item>
-                                           <div className="row justify-content-between">
-                                               <div className="col-md-2 col-sm-12 form-group">
-                                                   <label htmlFor="Email">ایمیل </label>
-                                                   <input type="email" className="form-control" id="Email"
-                                                          placeholder="ایمیل را وارد کنید" />
-                                               </div>
-                                               <div className="col-md-2 col-sm-12 form-group">
-                                                   <label htmlFor="password">رمز عبور</label>
-                                                   <input type="password" className="form-control" id="password"
-                                                          placeholder="رمز عبور را وارد کنید" />
-                                               </div>
-                                               <div className="col-md-2 col-sm-12 form-group">
-                                                   <label htmlFor="gender">جنسیت</label>
-                                                   <select name="gender" id="gender" className="form-control">
-                                                       <option value="Male">مرد</option>
-                                                       <option value="Female">زن</option>
-                                                   </select>
-                                               </div>
-                                               <div className="col-md-2 col-sm-12 form-group">
-                                                   <label htmlFor="Profession">حرفه</label>
-                                                   <select name="profession" id="Profession" className="form-control">
-                                                       <option value="FontEnd Developer">طراح</option>
-                                                       <option value="BackEnd Developer">توسعه دهنده</option>
-                                                       <option value="Bussiness Analystic">آزمون گر</option>
-                                                       <option value="Project Cordinator">مدیر</option>
-                                                   </select>
-                                               </div>
-                                               <div
-                                                   className="col-md-2 col-sm-12 form-group d-flex align-items-center pt-2">
-                                                   <button className="btn btn-danger text-nowrap px-1" data-repeater-delete
-                                                           type="button"><i className="bx bx-x"></i>
-                                                       حذف
-                                                   </button>
-                                               </div>
-                                           </div>
-                                           <hr />
-                                       </div>
-                                   </div>
-                                   <div className="form-group">
-                                       <div className="col p-0">
-                                           <button className="btn btn-primary" data-repeater-create type="button"><i
-                                               className="bx bx-plus"></i>
-                                               افزودن
-                                           </button>
-                                       </div>
-                                   </div>
-                               </form>
-
-
-
-
-                           </div>
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -578,7 +709,8 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
 
                             <div className={"col s12"}>
                                 <div className={"alert alert-primary mb-2 col-12"} role={"alert"}>
-                                    اطلاعات تیتر و توضیحات صفحه به صورت خودکار توسط zerone برای سئوی بهتر ایجاد می‌شوند.
+                                    اطلاعات تیتر و توضیحات صفحه به صورت خودکار توسط zerone برای سئوی بهتر ایجاد
+                                    می‌شوند.
                                     در صورتی که تمایل به شخصی‌سازی آن دارید، می‌توانید از بخش زیر استفاده کنید.
                                 </div>
                             </div>
@@ -690,7 +822,12 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                         {types ? types == 'edit' ? edit ? (
                                 <div onClick={(e) => HandleEdit(e)}
                                      className={"col-6"}
-                                     style={{textAlign: 'center', cursor: 'pointer', background: "#5a8dee", color: '#fff'}}>
+                                     style={{
+                                         textAlign: 'center',
+                                         cursor: 'pointer',
+                                         background: "#5a8dee",
+                                         color: '#fff'
+                                     }}>
                                     <span>ویرایش</span>
                                 </div>
                             )
@@ -736,10 +873,15 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                     </div>
 
                 </div>
+                </div>
+
             </div>
 
+            <div id={"back-loadered"}>
 
-        </div>
+            </div>
+        </>
+
 
     )
 

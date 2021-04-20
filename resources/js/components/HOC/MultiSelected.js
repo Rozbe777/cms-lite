@@ -85,7 +85,6 @@ export const MultiSelected = () => {
                                             </div>
                                         </div>
                                     </div>
-
                                 </SwiperSlide>
                             )
                         ) : ''}
@@ -104,7 +103,7 @@ export const MultiSelected = () => {
                     {data ? data.data.length > 0 ? data.data.map(item => (
                         <li>
                             <fieldset>
-                                <span className={"checkboxed "+item.id} style={{color : '#fff'}}>
+                                <span className={"checkboxed "+item.id}>
                                     <i className={"bx bx-check"}></i>
                                 </span>
                                 <input type="checkbox"
