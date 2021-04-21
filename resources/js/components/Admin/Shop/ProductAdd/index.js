@@ -454,57 +454,35 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
     }
 
     const HandleCloseFeture = (item) => {
-        console.log("data a item : " , item)
         let newItemHead = [...defaultTableHead];
-        let pricesData = [...priceData];
         newItemHead.push(item.name)
 
-        let dataCheck = [...pricesData]
-        console.log("head data : " , newItemHead);
         setDefaultTableHead(newItemHead);
-        let prices = [];
+
         if (item.type === "text") {
+            let itemCounts = priceData[0].fetures.text.length;
             priceData.map((items, index) => {
-                // let data = [...items.fetures.text];
-                items.fetures.text.push({
+                items.fetures.text[itemCounts] = {
                     name: item.name,
                     value: ''
-                })
-                prices.push(items);
-                console.log("data texts : " , priceData)
-                // dataCheck[index].fetures.text[dataCheck[index].fetures.text.length]  = {
-                //     name: item.name,
-                //     value: ''
-                // };
+                };
+                priceData[index] = items;
             })
+            setPriceData(priceData);
 
-            console.log("00000 : " , prices);
         } else {
 
-            pricesData.map((items, index) => {
-                // let data = [...items.fetures.color];
-                // data.push({
-                //     name: item.name,
-                //     value: ''
-                // })
-                items.fetures.color.push({
+            let itemCounts = priceData[0].fetures.color.length;
+            priceData.map((items, index) => {
+                items.fetures.color[itemCounts] = {
                     name: item.name,
                     value: ''
-                })
-                console.log("before : " ,dataCheck)
-
-                dataCheck[index] = items;
-                console.log("after : " ,dataCheck)
-
-                setPriceData(dataCheck);
-                // pricesData[index].fetures.color  = data;
+                };
+                priceData[index] = items;
             })
+            setPriceData(priceData);
         }
 
-
-        console.log("dataaaaa : ", pricesData, " / type : ", item.type)
-
-        // console.log("heads : ", newItemHead)
         $("#back-loadered").removeClass("active");
         ReactDOM.render('', document.getElementById("back-loadered"));
     }
