@@ -28,7 +28,7 @@ export const MultiSelected = () => {
 
     const HandleChange = (e, id) => {
 
-        let checkBoxCustom = $("span.checkboxed."+id);
+        let checkBoxCustom = $("span.checkboxeds."+id);
         let checked = [...check]
         if (e.target.checked)
         {
@@ -57,7 +57,7 @@ export const MultiSelected = () => {
     }
 
     const RemoveChipset = (id) => {
-       $("span.checkboxed."+id).removeClass("active");
+       $("span.checkboxeds."+id).removeClass("active");
         $("input[name="+id+"]").prop("checked" , false);
         var result = check.filter(obj => obj.id !== id);
         setCheck(result)
@@ -103,7 +103,7 @@ export const MultiSelected = () => {
                     {data ? data.data.length > 0 ? data.data.map(item => (
                         <li>
                             <fieldset>
-                                <span className={"checkboxed "+item.id}>
+                                <span className={"checkboxeds "+item.id} style={{color : '#fff'}}>
                                     <i className={"bx bx-check"}></i>
                                 </span>
                                 <input type="checkbox"
@@ -120,7 +120,7 @@ export const MultiSelected = () => {
                                         <li>
                                            <fieldset>
                                                &nbsp;&nbsp; <span style={{float : 'right'}}>></span> &nbsp;&nbsp;
-                                               <span className={"checkboxed "+child2.id} id={"child2"} style={{color : '#fff'}}>
+                                               <span className={"checkboxeds "+child2.id} id={"child2"} style={{color : '#fff'}}>
                                                    <i className={"bx bx-check"}></i>
                                                </span>
                                                 <input type="checkbox"
@@ -138,7 +138,7 @@ export const MultiSelected = () => {
                                                             <fieldset>
                                                                 &nbsp;&nbsp; <span style={{float : 'right'}}>>></span> &nbsp;&nbsp;
 
-                                                                <span className={"checkboxed "+child3.id} id={"child3"} style={{color : '#fff'}}>
+                                                                <span  className={"checkboxeds "+child3.id} id={"child3"} style={{color : '#fff'}}>
                                                                     <i className={"bx bx-check"}></i>
                                                                 </span>
 

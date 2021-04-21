@@ -355,6 +355,8 @@ button#clear {
     td {
         text-align: center;
 
+        padding: 25px !important;
+
         span {
             cursor: pointer;
             @include transition;
@@ -383,10 +385,61 @@ button#clear {
 }
 
 #input-code-kala {
-    max-width: 220px;
+    max-width: 120px;
+    min-width: 120px;
+    text-align: center;
     border: none;
 }
+#color-col{
+    width:200px !important;
+    min-width:200px !important;
+}
 
+#btn-color-picker{
+    background: rgb(255, 255, 255);
+    width: 100%;
+    float: right;
+    border-top: 1px solid #ccc;
+    .row{
+        margin: 0px;
+        padding : 0px;
+        .col-6:first-child{
+            border-left: 1px solid #ccc;
+        }
+        .col-6{
+            text-align: center;
+            font-size: 13px;
+            padding: 25px 5px;
+            background: #f3f3f3;
+            cursor: pointer;
+            @include transition;
+            &:hover{
+                background: rgb(246, 246, 246);
+                @include transition;
+            }
+        }
+    }
+}
+
+#color-selected{
+    float: left;
+    width: 20px;
+    margin-top: 7px;
+    height: 20px;
+    border-radius: 5px;
+    background: green;
+}
+.sketch-picker{
+    width: 100% !important;
+    padding: 0px !important;
+    box-sizing: none !important;
+    background: none !important;
+    border-radius: none !important;
+    box-shadow: none !important;
+    .flexbox-fix{
+        padding : 10px !important;
+    }
+}
 #back-loadered {
     width: 100%;
     height: 100%;
@@ -406,11 +459,22 @@ button#clear {
     }
 }
 
-td#actions-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+::-webkit-input-placeholder {
+    text-align: center;
+}
 
+:-ms-input-placeholder {
+    text-align: center;
+}
+
+::placeholder {
+    text-align: center;
+}
+
+
+td#actions-item {
+   width: 190px;
+    min-width: 220px;
     span {
         position: relative;
         float: right;

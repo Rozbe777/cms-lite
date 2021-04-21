@@ -283,3 +283,25 @@ select > option{
         @include transition;
     }
 }
+
+.checkboxeds{
+    right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 20px;
+    cursor: pointer;
+    height: 20px;
+    position: absolute;
+    &#child3{
+        right : 20px !important;
+    }
+    &#child2{
+        right : 15px !important;
+    }
+    @include transition;
+    &.active{
+        border: none;
+        background-color: #1976d2;
+        @include transition;
+    }
+}

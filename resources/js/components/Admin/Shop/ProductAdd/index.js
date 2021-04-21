@@ -15,7 +15,11 @@ import "swiper/swiper-bundle.css";
 import {Price} from "../../_Micro/ProductMiniComponent/Price";
 import {Limited} from "../../_Micro/ProductMiniComponent/Limited";
 import {Inventory} from "../../_Micro/ProductMiniComponent/Inventoryz";
+// import { HexColorPicker } from "react-colorful";
+// import ColorPicker from '@mapbox/react-colorpickr'
+import ColorPicker from './../../../HOC/ColorPicker';
 import {NewFeture} from "../../_Micro/ProductMiniComponent/NewFeture";
+// import "react-colorful/dist/index.css";
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
 const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}) => {
@@ -34,13 +38,19 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
         }
     };
 
+    const onChangepicker = color => {
+        console.log(color);
+    };
+
     const [defaultTableHead, setDefaultTableHead] = useState([
         'کد کالا',
         'قیمت',
         'موجودی',
         'محدودیت'
     ])
+
     const [comments, setComments] = useState();
+    const [color, setColor] = useState("#aabbcc");
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
     const [contentNew, setContentNew] = useState({});
@@ -430,8 +440,9 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
 
     const HandleAddNew = (e) => {
         e.preventDefault();
+        console.log("price data", priceData)
         let dataaa = [...priceData];
-        dataaa.push(defaultCol);
+        dataaa.push(priceData[priceData.length - 1]);
         setPriceData(dataaa);
     }
 
@@ -443,31 +454,53 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
     }
 
     const HandleCloseFeture = (item) => {
+        console.log("data a item : " , item)
         let newItemHead = [...defaultTableHead];
         let pricesData = [...priceData];
         newItemHead.push(item.name)
+
+        let dataCheck = [...pricesData]
+        console.log("head data : " , newItemHead);
         setDefaultTableHead(newItemHead);
-        if (item.type == "text") {
+        let prices = [];
+        if (item.type === "text") {
             priceData.map((items, index) => {
-                let data = [...items.fetures.text];
-                data.push({
+                // let data = [...items.fetures.text];
+                items.fetures.text.push({
                     name: item.name,
                     value: ''
                 })
-                pricesData[index].fetures.text  = data;
-                setPriceData(pricesData)
+                prices.push(items);
+                console.log("data texts : " , priceData)
+                // dataCheck[index].fetures.text[dataCheck[index].fetures.text.length]  = {
+                //     name: item.name,
+                //     value: ''
+                // };
             })
+
+            console.log("00000 : " , prices);
         } else {
-            priceData.map((items, index) => {
-                let data = [...items.fetures.color];
-                data.push({
+
+            pricesData.map((items, index) => {
+                // let data = [...items.fetures.color];
+                // data.push({
+                //     name: item.name,
+                //     value: ''
+                // })
+                items.fetures.color.push({
                     name: item.name,
                     value: ''
                 })
-                pricesData[index].fetures.color  = data;
-                setPriceData(pricesData)
+                console.log("before : " ,dataCheck)
+
+                dataCheck[index] = items;
+                console.log("after : " ,dataCheck)
+
+                setPriceData(dataCheck);
+                // pricesData[index].fetures.color  = data;
             })
         }
+
 
         console.log("dataaaaa : ", pricesData, " / type : ", item.type)
 
@@ -475,6 +508,44 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
         $("#back-loadered").removeClass("active");
         ReactDOM.render('', document.getElementById("back-loadered"));
     }
+
+    const handleShowColorPicker = (e) => {
+        e.preventDefault();
+        $("#back-loadered").addClass("active");
+        ReactDOM.render(<ColorPicker/>, document.getElementById("back-loadered"));
+    }
+    let renderFiture = (feture, type) => {
+        if (type == "text") {
+            return feture.map(item => (
+                <td id={"color-col"}>
+                    <input type={"text"} id={"input-code-kala"}
+                           placeholder={"مقدار"} className={"form-control"}
+                           name={item.name}
+                           style={{maxWidth: '130px'}}
+                           value={item.value ? item.value : ''}/>
+                </td>
+            ))
+        } else if (type == "color") {
+            return feture.map(item => (
+                <td id={"color-col"}>
+                    <input type={"text"} id={"input-code-kala"}
+                           placeholder={"مقدار"} className={"form-control"}
+                           name={item.name}
+                           style={{maxWidth: '120px', float: 'right'}}
+                           value={item.value ? item.value : ''}/>
+
+                    <span id={"color-selected"} onClick={e => handleShowColorPicker(e)}></span>
+                </td>
+            ))
+        } else {
+
+        }
+    }
+
+    const HandlePickerColor = () => {
+        <ColorPicker/>
+    }
+
     return (
         <>
 
@@ -607,7 +678,7 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                                             <thead>
                                             <tr className={"product-table-head"}>
                                                 {defaultTableHead.map(items => (
-                                                    <th>{items}</th>
+                                                    <th id={"color-col"}>{items}</th>
                                                 ))}
                                                 <th>
                                                     عملیات ها
@@ -641,6 +712,8 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                                                         <td><span
                                                             onClick={e => HandleLimited(e, item.limited, item.isInfinite)}>{item.limited !== 'infinite' ? item.limited : 'نامحدود'}</span>
                                                         </td>
+                                                        {item.fetures.text.length > 0 ? renderFiture(item.fetures.text, "text") : ''}
+                                                        {item.fetures.color.length > 0 ? renderFiture(item.fetures.color, "color") : ''}
                                                         <td id={"actions-item"}>
                                                     <span>
                                                         <i className={"bx bx-link"}></i>
@@ -657,15 +730,16 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
 
                                             </tbody>
                                         </table>
-                                        <div className={"col-md-3"} style={{padding: 0}}>
-                                            <a className={"btn btn-primary"}
-                                               onClick={e => HandleAddNew(e)}
-                                               style={{width: '100%', color: '#fff', cursor: 'pointer'}}>
-                                                <i className={"bx bx-plus"}></i> &nbsp;
-                                                اضافه کردن تنوع محصول
-                                                &nbsp;
-                                            </a>
-                                        </div>
+
+                                    </div>
+                                    <div className={"col-md-3"} style={{padding: 0}}>
+                                        <a className={"btn btn-primary"}
+                                           onClick={e => HandleAddNew(e)}
+                                           style={{width: '100%', color: '#fff', cursor: 'pointer', marginTop: '20px'}}>
+                                            <i className={"bx bx-plus"}></i> &nbsp;
+                                            اضافه کردن تنوع محصول
+                                            &nbsp;
+                                        </a>
                                     </div>
 
 
