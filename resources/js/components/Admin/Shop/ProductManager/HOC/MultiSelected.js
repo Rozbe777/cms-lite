@@ -66,6 +66,7 @@ export const MultiSelected = ({selected : pushSelected}) => {
         $("input[name="+id+"]").prop("checked" , false);
         var result = check.filter(obj => obj.id !== id);
         setCheck(result)
+        pushSelected(result)
     }
     return (
         <div className={"main-selected"} >
