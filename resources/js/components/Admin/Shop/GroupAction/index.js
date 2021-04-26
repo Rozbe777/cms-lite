@@ -1,11 +1,22 @@
 import React from 'react';
 
 
-const GroupAction = ({data, clickStatus: pushClickStatus}) => {
+const GroupAction = ({data,allProduct, clickStatus: pushClickStatus , newCheck : pushNewCheck}) => {
+    let idArray = [];
     const HandleClick = (e, type) => {
         e.preventDefault()
         pushClickStatus(type);
     }
+
+    const CheckAll = (e , type) => {
+        e.preventDefault();
+        allProduct.map(item => {
+            idArray.push(item.id);
+        })
+        pushNewCheck({idArray , type});
+    }
+
+    console.log("dataa...... : " , allProduct)
 
     return (
         <div className={"row"}>
@@ -17,7 +28,7 @@ const GroupAction = ({data, clickStatus: pushClickStatus}) => {
             <div className={"col-7 row"} id={"action-btn"}>
                 <div className={"col-3"}>
                     <button type="button" style={{width: '100% !important'}} className="btn btn-primary"
-                            onClick={e => (e , "checkAll")}>انتخاب همه
+                            onClick={e => CheckAll(e , "checkAll")}>انتخاب همه
                     </button>
                 </div>
                 <div className={"col-3"}>
@@ -27,7 +38,7 @@ const GroupAction = ({data, clickStatus: pushClickStatus}) => {
                 </div>
                 <div className={"col-3"}>
                     <button type="button" style={{width: '100% !important'}} className="btn btn-warning"
-                            onClick={e => (e , "cancel")}>لغو
+                            onClick={e => CheckAll(e , "cancelAll")}>لغو
                     </button>
                 </div>
                 <div className={"col-3"}>

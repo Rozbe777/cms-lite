@@ -13,8 +13,8 @@ const Index = () => {
     console.log("data : ", DataInitial);
 
     const [checked, setChecked] = useState([]);
-
     const [chipset, setChipset] = useState([]);
+    const [stateOf , setStateOf] = useState();
     const [contentNew, setContentNew] = useState();
     const [edit, setEdit] = useState(false);
 
@@ -99,10 +99,21 @@ const Index = () => {
     }
 
 
+    const handleCheckAll = (item) => {
+        if (item.type =="checkAll")
+        {
+            setChecked(item.idArray)
+            setStateOf("checkAll")
+        }else{
+            setStateOf("cancelAll")
+            setChecked([]);
+        }
+    }
+
     return (
         <>
             <div id={"actionGroup"} className={"actived"}>
-                <GroupAction data={checked} />
+                <GroupAction data={checked} allProduct={DataInitial.Products} newCheck={item =>handleCheckAll(item)} />
             </div>
 
             <div id={"shop_product_search"} style={{marginBottom: 20}}>
@@ -114,13 +125,11 @@ const Index = () => {
                 </div>
             </div>
 
-
-
             <div className={"container"}>
                 <div className={"row"}>
                     {DataInitial.Products.map(item => {
                         return (
-                            <Item data={item} selected={response => HandleChecked(response)}/>
+                            <Item data={item} checkStateOfOut={checked} stateOf={stateOf} selected={response => HandleChecked(response)}/>
                         )
                     })}
 

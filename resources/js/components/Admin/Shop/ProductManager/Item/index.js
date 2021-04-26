@@ -1,21 +1,42 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './_Shared/style.scss'
 import $ from 'jquery';
 
-const Index = ({data , selected : pushSelected}) => {
+const Index = ({data, checkStateOfOut, stateOf, selected: pushSelected}) => {
 
 
-    const HandleChange = (e , id) => {
-        if (e.target.checked)
-        {
-            $(".item-product#"+id).addClass("activeCheck");
-            pushSelected({type : "added" , id});
-        }else{
-            $(".item-product#"+id).removeClass("activeCheck");
-            pushSelected({type : "removed" , id});
+    useEffect(() => {
+        checkTest();
+    })
+
+
+    function checkTest() {
+        if (stateOf == "checkAll") {
+            checkStateOfOut.map(item => {
+                $(".item-product#" + item).addClass("activeCheck");
+                $("input[name=product_" + item + "]").prop("checked", true);
+
+            })
+        } else if (stateOf == "cancelAll") {
+
+            // barrasi shavad
+            $(".item-product").removeClass("activeCheck");
+            $("input").prop("checked", false);
+            stateOf == "";
         }
-
     }
+
+
+    const HandleChange = (e, id) => {
+        if (e.target.checked) {
+            $(".item-product#" + id).addClass("activeCheck");
+            pushSelected({type: "added", id});
+        } else {
+            $(".item-product#" + id).removeClass("activeCheck");
+            pushSelected({type: "removed", id});
+        }
+    }
+
 
     return (
         <div className={"col-lg-3 col-md-4 col-sm-12"}>
