@@ -2,8 +2,8 @@
 @php($title = "محتوا")
 @section("content")
 
-    <div class="content-wrapper">
-        <div class="content-header row">
+    <div class="content-wrapper" style="padding: 30px 0px !important;">
+        <div class="content-header row" style="padding : 0px 20px !important;">
             <div class="content-header-left col-12 mb-2 mt-1">
                 <div class="row breadcrumbs-top" style="position: relative">
                     <div class="col-md-8">
@@ -30,9 +30,8 @@
             </div>
         </div>
 
-
-        <div id="shop_product_search" style="margin-top: 15px"></div>
-        <div id="shop_product_manager" style="margin-top: 15px"></div>
+        {{--        <div id="shop_product_search" style="margin-top: 15px"></div>--}}
+        <div id="shop_product_manager"></div>
         {{--        <div id="category_add_pop" data-display="true"></div>--}}
 
 

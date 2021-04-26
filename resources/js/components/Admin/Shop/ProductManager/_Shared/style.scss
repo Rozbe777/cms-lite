@@ -1,16 +1,96 @@
-#chipset-container
-{
+@mixin transition {
+    transition: 0.3s all ease;
+    -webkit-transition: 0.3s all ease;
+    -moz-transition: 0.3s all ease;
+}
+
+#chipset-container {
     background: #fff;
     border-radius: 5px;
     border: 1px solid #dfe3e7;
     height: 50px !important;
     overflow: hidden;
 }
-input#title{
+
+input#title {
     height: 50px !important;
-    margin-top : -2px !important;
-    padding : 0px !important;
+    margin-top: -2px !important;
+    padding: 0px !important;
 }
-.chip{
-    margin-top : 10px !important;
+
+.chip {
+    margin-top: 10px !important;
+}
+
+#actionGroup {
+    width: 100%;
+    position: relative;
+    opacity: 0;
+    height: 0px;
+    z-index: -1;
+    transform: translateY(-75px);
+    @include transition;
+    &.actived {
+        @include transition;
+        opacity: 1;
+        z-index: 9;
+        height: 80px;
+        background: #fff;
+        transform: translateY(0px);
+    }
+    p{
+        height: 100%;
+        padding: 0px 20px;
+        margin: 0px;
+        line-height: 5.1;
+    }
+}
+
+#action-btn {
+    padding : 20px 0;
+    button {
+        width: 100% !important;
+    }
+}
+#search-btn{
+    width: 100% !important;
+}
+
+.SearchComponent {
+    width: 100%;
+    position: absolute;
+    opacity: 0;
+    transform: translateY(-75px);
+    @include transition;
+
+    &.actived {
+        @include transition;
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+#header-card-custom {
+    height: 100px !important;
+    margin: 0px !important;
+    position: relative;
+}
+
+.users-list-filter {
+    padding: 0px !important;
+    margin: 0px !important;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.customizer-toggle
+{
+    display: none !important;
+}
+
+.main-selected .optionBox.active{
+    z-index: 9999 !important;
+}
+.main-selected{
+    background: #fff !important;
 }

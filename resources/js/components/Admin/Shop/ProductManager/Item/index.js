@@ -1,32 +1,56 @@
 import React from 'react';
 import './_Shared/style.scss'
-const Index = () => {
-    return(
-    <div className={"col-lg-3 col-md-4 col-sm-12"}>
-        <div className={"item-product"}>
-            <div className={"image"}>
-                <img className={"default"} src="/images/avatar.jpg" alt=""/>
-            </div>
-            <ul>
-                <li>
-                    <p id={"title"}>محصول شماره یثکسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسسس</p>
-                </li>
-                <li>
-                    <span>0 فروش</span>
-                    <span>0 تومان</span>
-                </li>
-            </ul>
+import $ from 'jquery';
 
-            <div className={"back-show-detail-pro"}>
+const Index = ({data , selected : pushSelected}) => {
+
+
+    const HandleChange = (e , id) => {
+        if (e.target.checked)
+        {
+            $(".item-product#"+id).addClass("activeCheck");
+            pushSelected({type : "added" , id});
+        }else{
+            $(".item-product#"+id).removeClass("activeCheck");
+            pushSelected({type : "removed" , id});
+        }
+
+    }
+
+    return (
+        <div className={"col-lg-3 col-md-4 col-sm-12"}>
+            <div className={"item-product"} id={data.id}>
 
                 <div className={"header-box-pro"}>
                     <fieldset>
                         <div className={"checkbox"}>
-                            <input type={"checkbox"} className={"checkbox-input"} id={"checkbox2"} />
-                            <label htmlFor="checkbox2"></label>
+                            <input type={"checkbox"} className={"checkbox-input"} name={"product_"+data.id} id={"checkbox_"+data.id} onChange={e => HandleChange(e , data.id)} />
+                            <label htmlFor={"checkbox_"+data.id}></label>
                         </div>
                     </fieldset>
                 </div>
+
+
+                {data.image ? (
+                    <div className={"image-src"}>
+                        <img className={"default"} src={data.image} alt=""/>
+                    </div>
+                ) : (
+                    <div className={"image"}>
+                        <img className={"default"} src="/images/avatar.jpg" alt=""/>
+                    </div>
+                )}
+                <ul>
+                    <li>
+                        <p id={"title"}>{data.title}</p>
+                    </li>
+                    <li>
+                        <span>{data.buy + " فروش "}</span>
+                        <span>{data.price !== 0 ? data.price + " تومان " : 'رایگان'}</span>
+                    </li>
+                </ul>
+
+            <div className={"back-show-detail-pro"}>
 
                 <div className={"manage-pro"}>
                     <a className={"btn"}>ویرایش</a>

@@ -205,13 +205,16 @@ select > option{
                 min-height: 30px;
                 position: relative;
                 float: right;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
                 label#labels{
                     margin-right: 15px;
                     float: right;
                     margin-top: -6px;
-                    font-size: 15px;
+                    font-size: 14px;
                     margin-bottom: 9px;
-                    line-height: 2.1;
+                    line-height: 2.3;
                 }
                 input[type=radio], input[type=checkbox]{
                     width: 20px !important;
@@ -305,3 +308,5 @@ select > option{
         @include transition;
     }
 }
+
+

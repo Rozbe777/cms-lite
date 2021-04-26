@@ -1,17 +1,35 @@
 import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
 import './_Shared/style.scss'
-import Item from './Item';
 import ProductAdd from './../ProductAdd';
+import SearchComponent from "../Search";
 import $ from 'jquery'
+import Item from './Item'
+import DataInitial from '../InitialData.js';
+import GroupAction from "../GroupAction";
+
 const Index = () => {
+
+    console.log("data : ", DataInitial);
+
+    const [checked, setChecked] = useState([]);
 
     const [chipset, setChipset] = useState([]);
     const [contentNew, setContentNew] = useState();
     const [edit, setEdit] = useState(false);
 
     useEffect(() => {
+    } , [])
 
+// for show component action or search element by animate
+    $(function (){
+        var element = $("#actionGroup");
+        if (checked.length > 0)
+        {
+            element.addClass("actived")
+        }else{
+            element.removeClass("actived")
+        }
     })
 
 
@@ -32,6 +50,20 @@ const Index = () => {
 
     }
 
+
+    const HandleChecked = (data) => {
+        let checkedNew = [...checked];
+        if (data.type == "added") {
+            checkedNew.push(data.id);
+
+        } else {
+            var index = checkedNew.indexOf(data.id);
+            checkedNew.splice(index, 1);
+        }
+
+        setChecked(checkedNew);
+
+    }
 
     const handleAddChip = (item) => {
         // let metaDatas = {...metaData};
@@ -59,23 +91,38 @@ const Index = () => {
     let dataUpdateParse = useState({
         status: true
     });
+
+
+    // search by element
+    const HandleSearchCategory = (input) => {
+
+    }
+
+
     return (
         <>
+            <div id={"actionGroup"} className={"actived"}>
+                <GroupAction data={checked} />
+            </div>
+
+            <div id={"shop_product_search"} style={{marginBottom: 20}}>
+
+                <div className="users-list-filter col-12" style={{padding : '0px !important'}}>
+                    <div className="row col-12" id={"header-card-custom"}>
+                            <SearchComponent category={itemCat => HandleSearchCategory(itemCat)}/>
+                    </div>
+                </div>
+            </div>
+
+
+
             <div className={"container"}>
                 <div className={"row"}>
-                    <Item/>
-
-
-                    <Item/>
-
-
-                    <Item/>
-
-                    <Item/>
-
-                    <Item/>
-
-                    <Item/>
+                    {DataInitial.Products.map(item => {
+                        return (
+                            <Item data={item} selected={response => HandleChecked(response)}/>
+                        )
+                    })}
 
                 </div>
 

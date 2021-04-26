@@ -5,6 +5,7 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import "swiper/swiper-bundle.css";
 import './_Shared/style.scss'
 
+
 export const MultiSelected = () => {
 
     const [check, setCheck] = useState([])
@@ -32,7 +33,7 @@ export const MultiSelected = () => {
         let checked = [...check]
         if (e.target.checked)
         {
-           checkBoxCustom.addClass("active")
+            checkBoxCustom.addClass("active")
             checked.push({
                 id: e.target.name,
                 name: e.target.value
@@ -57,13 +58,13 @@ export const MultiSelected = () => {
     }
 
     const RemoveChipset = (id) => {
-       $("span.checkboxeds."+id).removeClass("active");
+        $("span.checkboxeds."+id).removeClass("active");
         $("input[name="+id+"]").prop("checked" , false);
         var result = check.filter(obj => obj.id !== id);
         setCheck(result)
     }
     return (
-        <div className={"main-selected"} >
+        <div className={"main-selected"} style={{background : '#fff'}}>
             <div className={"show-chipset-multi"}>
                 {check.length > 0 ? (
                     <Swiper
@@ -118,9 +119,9 @@ export const MultiSelected = () => {
                                 <ul style={{padding : '0 20px'}}>
                                     {item.childern.map(child2 => (
                                         <li>
-                                           <fieldset>
-                                               &nbsp;&nbsp; <span style={{float : 'right'}}>></span> &nbsp;&nbsp;
-                                               <span className={"checkboxeds "+child2.id} id={"child2"} style={{color : '#fff'}}>
+                                            <fieldset>
+                                                &nbsp;&nbsp; <span style={{float : 'right'}}>></span> &nbsp;&nbsp;
+                                                <span className={"checkboxeds "+child2.id} id={"child2"} style={{color : '#fff'}}>
                                                    <i className={"bx bx-check"}></i>
                                                </span>
                                                 <input type="checkbox"
@@ -128,7 +129,7 @@ export const MultiSelected = () => {
                                                        onChange={e => HandleChange(e, child2.id)}
                                                        name={child2.id}
                                                        value={child2.name} id="checkbox1"/>
-                                               <label id={"labels"} htmlFor="checkbox1">{child2.name}</label>
+                                                <label id={"labels"} htmlFor="checkbox1">{child2.name}</label>
                                             </fieldset>
 
                                             {child2.children.length > 0 ? (
@@ -172,3 +173,4 @@ export const MultiSelected = () => {
         </div>
     )
 }
+
