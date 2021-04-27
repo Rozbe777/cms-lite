@@ -3496,6 +3496,8 @@ body.navbar-static .navbar-container .search-input.open {
 
 .buy-now .btn {
 	box-shadow: 0 1px 20px 1px #FF5B5C !important;
+    visibility: hidden;
+    display: none;
 }
 
 .buy-now .btn:hover {
@@ -3784,11 +3786,15 @@ body.navbar-static .navbar-container .search-input.open {
 	position: fixed;
 	bottom: 5%;
 	left: 80px;
+    display: none;
+    visibility: hidden;
 	z-index: 1031;
 }
 
 .chat-demo-button i {
 	top: 0;
+    display: none;
+    visibility: hidden;
 	height: 24.5px;
 }
 

@@ -2,33 +2,29 @@ import React, {useEffect} from 'react';
 import './_Shared/style.scss'
 import $ from 'jquery';
 
-const Index = ({data, checkStateOfOut, stateOf, selected: pushSelected}) => {
-
-
+const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected}) => {
     useEffect(() => {
         checkTest();
     })
-
+    console.log(checkStateOfOut.length," //////// " , data);
 
     function checkTest() {
-        if (stateOf == "checkAll") {
+        if (checkStateOfOut.length == sizeOf) {
             checkStateOfOut.map(item => {
                 $(".item-product#" + item).addClass("activeCheck");
                 $("input[name=product_" + item + "]").prop("checked", true);
-
             })
-        } else if (stateOf == "cancelAll") {
-
+        } else if (checkStateOfOut.length == 0) {
             // barrasi shavad
             $(".item-product").removeClass("activeCheck");
-            $("input").prop("checked", false);
-            stateOf == "";
+            $("input[type=checkbox]").prop("checked", false);
+
         }
     }
 
-
     const HandleChange = (e, id) => {
         if (e.target.checked) {
+            $("html, body").animate({scrollTop : 0},700);
             $(".item-product#" + id).addClass("activeCheck");
             pushSelected({type: "added", id});
         } else {
@@ -41,7 +37,6 @@ const Index = ({data, checkStateOfOut, stateOf, selected: pushSelected}) => {
     return (
         <div className={"col-lg-3 col-md-4 col-sm-12"}>
             <div className={"item-product"} id={data.id}>
-
                 <div className={"header-box-pro"}>
                     <fieldset>
                         <div className={"checkbox"}>

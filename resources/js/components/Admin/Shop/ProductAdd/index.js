@@ -469,7 +469,6 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                 priceData[index] = items;
             })
             setPriceData(priceData);
-
         } else {
 
             let itemCounts = priceData[0].fetures.color.length;
@@ -534,6 +533,7 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                            aria-controls="descript"
                            role="tab" aria-selected="false">
                             <span className="align-middle">عنوان و عکس</span>
+                            <i className={"bx bx-image"}></i>
                         </a>
                     </li>
                     <li className="nav-item col-3 nav-custom">
@@ -541,18 +541,21 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                            aria-controls="catdetail"
                            role="tab" aria-selected="false">
                             <span className="align-middle">توضیحات  و دسته بندی</span>
+                            <i className={"bx bx-list-ul"}></i>
                         </a>
                     </li>
                     <li className="nav-item col-3 nav-custom ">
                         <a className="nav-link" id="price-tab" data-toggle="tab" href="#price" aria-controls="price"
                            role="tab" aria-selected="false">
                             <span className="align-middle">قیمت و مشخصات</span>
+                            <i className={"bx bx-dollar-circle"}></i>
                         </a>
                     </li>
                     <li className="nav-item col-3 nav-custom ">
                         <a className="nav-link" id="seo-tab" data-toggle="tab" href="#seo" aria-controls="seo"
                            role="tab" aria-selected="false">
                             <span className="align-middle">سئو و آدرس</span>
+                            <i className={"bx bxl-internet-explorer"}></i>
                         </a>
                     </li>
                 </ul>
