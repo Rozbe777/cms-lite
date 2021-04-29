@@ -92,6 +92,18 @@ const Index = () => {
 
 
 
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
+            $("#actionGroup").addClass("scrolls");
+        } else {
+            $("#actionGroup").removeClass("scrolls");
+
+        }
+    }
+
+
     return (
         <>
             <div id={"actionGroup"} className={"actived"}>

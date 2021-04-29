@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import SunEditor from 'suneditor-react';
 import './_Shared/style.scss'; // Import Sun Editor's CSS File
 
-const MyEditor = ({placeholder , defaultVal , type , editorData : pushEditorData}) => {
+const MyEditor = ({label , placeholder , defaultVal , type , editorData : pushEditorData}) => {
     const [editorData , setEditorData] = useState({});
     const editorRef = useRef();
     useEffect(() => {
@@ -42,7 +42,7 @@ const MyEditor = ({placeholder , defaultVal , type , editorData : pushEditorData
     }
     return (
         <div>
-            <label>توضیحات</label>
+            <label>{label ? label : 'توضیحات'}</label>
             <SunEditor
                 show={false}
                 setOptions={type == 'small' ? smallEditorOptions : perfectEditorOptions}

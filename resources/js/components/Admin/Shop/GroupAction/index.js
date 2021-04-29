@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './_Shared/style.scss';
 
 const GroupAction = ({data,allProduct, clickStatus: pushClickStatus , newCheck : pushNewCheck}) => {
     let idArray = [];
@@ -21,6 +21,18 @@ const GroupAction = ({data,allProduct, clickStatus: pushClickStatus , newCheck :
 
         pushNewCheck(idArray);
     }
+
+
+
+
+    // var header = document.getElementById("header-scroll");
+    // window.onscroll = function () {
+    //     if (document.body.scrollTop >= 150){
+    //         document.getElementById("header-scroll").style.fontSize = "30px";
+    //     }else{
+    //         document.getElementById("header-scroll").style.fontSize = "90px";
+    //     }
+    // }
 
     return (
         <div className={"row"}>

@@ -15,13 +15,9 @@ import "swiper/swiper-bundle.css";
 import {Price} from "../../_Micro/ProductMiniComponent/Price";
 import {Limited} from "../../_Micro/ProductMiniComponent/Limited";
 import {Inventory} from "../../_Micro/ProductMiniComponent/Inventoryz";
-// import { HexColorPicker } from "react-colorful";
-// import ColorPicker from '@mapbox/react-colorpickr'
 import ColorPicker from './../../../HOC/ColorPicker';
 import {NewFeture} from "../../_Micro/ProductMiniComponent/NewFeture";
-// import "react-colorful/dist/index.css";
 
-const LOCAL_CAT = "localcat-zerone-cmslite";
 const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}) => {
     let defaultCol = {
         code: 12341216513156,
