@@ -7,16 +7,6 @@ import Email from "../components/Email";
 const Item = (props) => {
     const ref = useRef();
 
-    const HandleTask = (task) => {
-        switch (task.id){
-            case 'input_1' :
-                return <InputMini />
-            case 'input_2' :
-                return <Email />
-            default : return task.id;
-        }
-    }
-
     return (
         <Draggable key={props.key} draggableId={props.task.id} index={props.index}>
             {(provided , snapshot) => (

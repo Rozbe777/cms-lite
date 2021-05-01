@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import './_Shared/style.scss';
 import MyEditor from "../_Micro/MyEditor/MyEditor";
@@ -7,6 +7,7 @@ import InitialData from "./Data/InitialData";
 import {DragDropContext} from "react-beautiful-dnd";
 import Board from "./HOC/Board";
 import FormDrop from './HOC/FormDrop';
+
 const Index = () => {
 
 

@@ -122,19 +122,18 @@
 }
 
 .element-chose {
+    padding: 7px;
     width: 100%;
     min-height: 200px;
     border-radius: 5px;
     border: 1px dashed #ccc;
 
     p {
-        text-align: center;
         width: 100%;
         height: 30px;
-        position: absolute;
-        top: 0px;
-        bottom: 0px;
-        margin: auto;
+    }
+    input::placeholder{
+        text-align: right !important;
     }
 }
 
