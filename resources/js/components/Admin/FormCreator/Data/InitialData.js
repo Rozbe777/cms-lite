@@ -9,7 +9,7 @@ const InitialData = {
         'input_5': {id: 'input_5', title: 'تلفن', icon: ' bx-phone-call' , size : 'small'},
         'input_6': {id: 'input_6', title: 'عدد', icon: 'bxl-slack-old' , size : 'small'},
         'input_7': {id: 'input_7', title: 'متن بلند', icon: 'bx-align-middle' , size : 'long'},
-        'input_8': {id: 'input_8', title: 'منو کشویی', icon: 'bx-menu' , size : 'small'},
+        // 'input_8': {id: 'input_8', title: 'منو کشویی', icon: 'bx-menu' , size : 'small'},
         'input_9': {id: 'input_9', title: 'وب سایت', icon: 'bx-globe' , size : 'small'},
         'input_10': {id: 'input_10', title: 'فایل', icon: 'bx-file' , size : 'long'},
         'input_11': {id: 'input_11', title: 'زمان', icon: 'bx-time' ,size : 'small'},
@@ -18,7 +18,7 @@ const InitialData = {
         'tools': {
             id: 'tools',
             title: 'افزودن فیلد',
-            taskIds: [ 'input_1' ,  'input_2' , 'input_3', 'input_4', 'input_5', 'input_6', 'input_7', 'input_8', 'input_9', 'input_10', 'input_11', 'input_12']
+            taskIds: [ 'input_1' ,  'input_2' , 'input_3', 'input_4', 'input_5', 'input_6', 'input_7', 'input_9', 'input_10', 'input_11', 'input_12']
         },
         'inspect' : {
             id:'inspect',

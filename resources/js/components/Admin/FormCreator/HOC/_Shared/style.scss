@@ -82,9 +82,18 @@ input{
 
 input.formcreator{
     background: #eee !important;
+    &.url{
+        direction: ltr !important;
+        text-align: left !important;
+        &::placeholder{
+            text-align: left !important;
+            direction: ltr !important;
+        }
+    }
 }
 textarea.formcreator{
     background: #eee !important;
+
 }
 .formcreatorss {
     color : #475F7B;

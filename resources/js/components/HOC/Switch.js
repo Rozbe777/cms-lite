@@ -4,7 +4,6 @@ import $ from 'jquery';
 
 export const Switcher = ({defaultState, name, valueActive, valueDeActive, status: pushState}) => {
     $(function () {
-        $()
         $("input[name=" + name + "]").on("change", function (e) {
             let status = $(this).prop("checked");
             pushState(status)

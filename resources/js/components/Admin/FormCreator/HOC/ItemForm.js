@@ -1,7 +1,8 @@
 import React, {useRef} from "react";
+import ReactDOM from 'react-dom';
 import {Draggable} from "react-beautiful-dnd";
 import InputMini from "../components/InputMini";
-import Email from "../components/Email";
+import Email from "../components/Email"
 import {MultiSelected} from "../components/MultiSelected";
 import Phone from "../components/Phone";
 import Number from "../components/Number";
@@ -9,19 +10,29 @@ import TextArea from "../components/TextArea";
 import {OneSelected} from "../components/OneSelected";
 import YesNo from "../components/YesNo";
 import ImageUploaded from "../components/ImageUploaded";
+import Url from "../components/Url";
+import {EmailSetting} from "../components/Setting/EmailSetting";
+import {MiniInputSetting} from "../components/Setting/MiniInputSetting";
+import {OneSelectedSetting} from "../components/Setting/OneSelectedSetting";
 
 
 const Item = (props) => {
     const ref = useRef();
+    const setting_main_content = document.getElementById("setting_main_content");
+    const handleRendering = (component) => {
+        ReactDOM.render(component, setting_main_content);
+    }
 
     const HandleTask = (task, provider, snapshot, providerDragProp, providerDragHandel) => {
-        // console.log("itemsss : " , )
         switch (task.id) {
             case 'input_1' :
+                handleRendering(<MiniInputSetting />)
                 return <InputMini/>
             case 'input_2' :
+                handleRendering(<EmailSetting />)
                 return <Email/>
             case 'input_3' :
+                handleRendering(<OneSelectedSetting />)
                 return <OneSelected/>
             case 'input_4' :
                 return <MultiSelected/>
@@ -31,6 +42,8 @@ const Item = (props) => {
                 return <Number/>
             case 'input_7' :
                 return <TextArea/>
+            case 'input_9' :
+                return <Url/>
             case 'input_10' :
                 return <ImageUploaded/>
             case 'input_12' :

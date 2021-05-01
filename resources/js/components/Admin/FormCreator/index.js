@@ -6,14 +6,13 @@ import InitialData from "./Data/InitialData";
 // import InitialFormElement from "./Data/InitialFormElement";
 import {DragDropContext} from "react-beautiful-dnd";
 import Board from "./HOC/Board";
+import $ from 'jquery';
 import FormDrop from './HOC/FormDrop';
 
 const Index = () => {
 
-
     const [state , setState] = useState(InitialData);
     const [formBuilder ,setFormBuilder] = useState({});
-
     const onDragStart = () => {
         document.body.style.color = "orange"
     }
@@ -26,18 +25,20 @@ const Index = () => {
         if (destination.droppableId === "tools" && source.droppableId === "inspect")
         {
 
-        }else{
+        }else {
             if (destination.droppableId === source.droppableId && destination.index === source.index) {
                 return;
             }
 
+            $(".nav-tabs li a").removeClass("active");
+            $(".tab-pane").removeClass("active");
+            $(".tab-pane.field").addClass("active");
+            $(".nav-tabs li a.field").addClass("active");
 
             const start = state.columns[source.droppableId];
             const finish = state.columns[destination.droppableId];
 
-
             if (start === finish) {
-
                 const newTaskId = Array.from(start.taskIds);
                 newTaskId.splice(source.index, 1);
                 newTaskId.splice(destination.index, 0, draggableId);
@@ -57,7 +58,6 @@ const Index = () => {
                 setState(newState);
                 return;
             }
-
 
             const startTaskIds = Array.from(start.taskIds);
             startTaskIds.splice(source.index, 1);
@@ -84,17 +84,12 @@ const Index = () => {
             setState(newState);
             return;
         }
-
-
     }
-
-
 
     const Tools = state.columns['tools'];
     const HtmlCreate = state.columns['inspect'];
     const Tasks = Tools.taskIds.map(taskId => state.task[taskId]);
     const HtmlTask = HtmlCreate.taskIds.map(taskId => state.task[taskId]);
-
 
     return (
         <div className={"row"} style={{padding: '15px'}}>
@@ -103,9 +98,7 @@ const Index = () => {
                 onDragStart={onDragStart}
             >
             <div className={"col-md-4"} style={{padding: '7px', borderRadius: 5}}>
-
                 <div className={"row header-form-option"}>
-
                     <div className={"col-12"} style={{padding: 0}}>
                         <ul className="nav nav-tabs" id={"formCreator"} role="tablist"
                             style={{background: '#fff', margin: 0, borderRadius: '5px 5px 0 0'}}>
@@ -128,7 +121,6 @@ const Index = () => {
                         </ul>
                         <div className="tab-content card pt-5" style={{padding: '20px 0 !important'}}
                              id="myTabContentMD">
-
                             <div className="tab-pane" id="settingform-md" role="tabpanel"
                                  aria-labelledby="settingform-tab-md">
                                 <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee
@@ -174,7 +166,6 @@ const Index = () => {
                                     four loko
                                     farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer
                                     mlkshk
-
                                     accusamus
                                     tattooed echo park.</p>
                             </div>
@@ -214,7 +205,8 @@ const Index = () => {
                                aria-selected="true">افزودن فیلد</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" id="profile-tab-md" data-toggle="tab" href="#profile-md" role="tab"
+                            <a className="nav-link field" id="profile-tab-md" data-toggle="tab" href="#profile-md"
+                               role="tab"
                                aria-controls="profile-md"
                                aria-selected="false">ویرایش فیلد</a>
                         </li>
@@ -243,26 +235,9 @@ const Index = () => {
                             </div>
                         </div>
 
-                        <div className="tab-pane" id="profile-md" role="tabpanel" aria-labelledby="profile-tab-md">
-                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
-                                Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson
-                                artisan
-                                four loko
-                                farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer
-                                mlkshk
-                                aliquip
-                                jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore
-                                aesthetic
-                                magna
-                                delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore
-                                stumptown.
-                                Vegan
-                                fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical
-                                culpa terry
-                                richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui
-                                sapiente
-                                accusamus
-                                tattooed echo park.</p>
+                        <div className="tab-pane field" id="profile-md" role="tabpanel"
+                             aria-labelledby="profile-tab-md">
+                           <div id={"setting_main_content"}></div>
                         </div>
                     </div>
                 </div>
