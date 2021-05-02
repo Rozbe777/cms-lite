@@ -8,9 +8,11 @@ export const CheckBox = ({defaultState, name, valueActive, valueDeActive, status
         if (e.target.checked){
             $("li." + name + ".active").addClass("act");
             $("li." + name + ".deactive").removeClass("act");
+            pushState(false)
         }else{
             $("li." + name + ".active").removeClass("act");
             $("li." + name + ".deactive").addClass("act");
+            pushState(true)
         }
     }
 

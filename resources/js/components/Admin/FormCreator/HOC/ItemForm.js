@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import ReactDOM from 'react-dom';
 import {Draggable} from "react-beautiful-dnd";
 import InputMini from "../components/InputMini";
@@ -17,23 +17,33 @@ import {OneSelectedSetting} from "../components/Setting/OneSelectedSetting";
 
 
 const Item = (props) => {
+    const [oneSel , setOneSel] = useState([]);
     const ref = useRef();
     const setting_main_content = document.getElementById("setting_main_content");
     const handleRendering = (component) => {
-        ReactDOM.render(component, setting_main_content);
+
+    }
+    const HandleMini = () => {
+        ReactDOM.render(<MiniInputSetting  />, setting_main_content);
+        return <InputMini />
+    }
+    const HandleEmail = () => {
+        ReactDOM.render(<EmailSetting  />, setting_main_content);
+        return <Email />
+    }
+    const HandleOneSelected = () => {
+        ReactDOM.render(<OneSelectedSetting data={item => setOneSel(item)}  />, setting_main_content);
+        return <OneSelected data={oneSel} />
     }
 
     const HandleTask = (task, provider, snapshot, providerDragProp, providerDragHandel) => {
         switch (task.id) {
             case 'input_1' :
-                handleRendering(<MiniInputSetting />)
-                return <InputMini/>
+                return HandleMini();
             case 'input_2' :
-                handleRendering(<EmailSetting />)
-                return <Email/>
+                return HandleEmail();
             case 'input_3' :
-                handleRendering(<OneSelectedSetting />)
-                return <OneSelected/>
+                return HandleOneSelected();
             case 'input_4' :
                 return <MultiSelected/>
             case 'input_5':
