@@ -9,15 +9,14 @@ import {ONE_OPTION_DATA} from "./Constant";
 export const OneSelected = ({data}) => {
 
 
+    console.log("//////////////////////" , data[0])
+
     const setting_main_content = document.getElementById("setting_main_content");
 
     const handleDropDown = (e) => {
         e.preventDefault();
-        // $(".show-chipset-multi i#droper").removeClass("active");
-        // $(".optionBox").removeClass("active");
         $(".optionBox#options").toggleClass("active");
         $(".options i#droper").toggleClass("active");
-        // console.log("click daaaaaa , " , e.currentTarget.getAttribute('data-appmode'))
     }
 
     const HandleClick = e => {
@@ -26,7 +25,7 @@ export const OneSelected = ({data}) => {
         $(".tab-pane").removeClass("active");
         $(".tab-pane.field").addClass("active");
         $(".nav-tabs li a.field").addClass("active");
-        ReactDOM.render(<OneSelectedSetting  />, setting_main_content);
+        ReactDOM.render(<OneSelectedSetting defaultData={data}  />, setting_main_content);
     }
 
     // localStorage.setItem(ONE_OPTION_DATA , data);
@@ -43,7 +42,7 @@ export const OneSelected = ({data}) => {
                     {/*{console.log("ccccccc : " , data.Options)}*/}
                     <div className={"optionBox formcreator"} id={"options"}>
                         <ul id={"options"} onClick={e => handleDropDown(e)}>
-                            {data.Options ? data.Options.map(item => (
+                            {data[0] ? data[0].Options.map(item => (
                                 <li>{item}</li>
                             )):(
                                 <li>لطفا گزینه برای انتخاب اضافه کنید!</li>

@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
 import './_shared/style.scss'
+import {ONE_OPTION_DATA} from "../../../Constant";
 
 export const Item = ({dataItem, index, delete: pushDel, update: pushUp}) => {
+    console.log("data==============" , dataItem)
     const [states, setStates] = useState(false);
+    // let initialData = localStorage.getItem(ONE_OPTION_DATA) ? JSON.parse(localStorage.getItem(ONE_OPTION_DATA)).Options : dataItem;
     const [data, setData] = useState(dataItem);
     const HandleDel = e => {
         e.preventDefault();

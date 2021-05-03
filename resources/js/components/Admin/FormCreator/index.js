@@ -1,21 +1,90 @@
-import React, {useState} from 'react';
+import React, {useState , useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import './_Shared/style.scss';
 import MyEditor from "../_Micro/MyEditor/MyEditor";
 import InitialData from "./Data/InitialData";
-// import InitialFormElement from "./Data/InitialFormElement";
+import {InitialDataForms} from "./components/Constant/InitialDataForm";
 import {DragDropContext} from "react-beautiful-dnd";
 import Board from "./HOC/Board";
 import $ from 'jquery';
 import FormDrop from './HOC/FormDrop';
-
+// var fs = require('fs');
 const Index = () => {
 
+    console.log("initialalllll : " , InitialDataForms);
+
+
     const [state , setState] = useState(InitialData);
+    const [initialFormData , setInitialFormData] = useState([]);
     const [formBuilder ,setFormBuilder] = useState({});
+
+
+
+    const GetFormInitialData = () => {
+
+
+        // readFile('/InitialData/FormBuilder.json' , 'utf-8' , (err , jsonString) => {
+        //     console.log("datataaaaa : " , jsonString)
+        // })
+
+        // fetch('/InitialData/FormBuilder.json'
+        //     ,{
+        //         headers : {
+        //             'Content-Type': 'application/json',
+        //             'Accept': 'application/json'
+        //         }
+        //     })
+        //     .then(function(response){
+        //         console.log(response)
+        //         return response.json();
+        //     })
+        //     .then(function(myJson) {
+        //         console.log(myJson);
+        //         setInitialFormData(myJson)
+        //     });
+    }
+
+    const PostItemToInitialForm = (e , item) => {
+        e.preventDefault();
+        // fetch('/InitialData/FormBuilder.json'
+        //     ,{
+        //         method : 'POST',
+        //         headers : {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body : JSON.stringify(item)
+        //     })
+
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(item)
+        };
+        fetch('/InitialData/FormBuilder.json', requestOptions)
+            .then(response => response.json())
+            .then(data => console.log("initialalllll Newassaaaa : " , data));
+
+        // InitialDataForms.push({
+        //     company: "vsdvsdvvvvvvvv Inc",
+        //     ticker: "vvvvv",
+        //     stockPrice: "45.28 USD",
+        //     timeElapsed: "10 sec ago",
+        // })
+
+        // console.log("initialalllll : " , InitialDataForms);
+    }
+
+    useEffect(()=>{
+        GetFormInitialData();
+
+    },[])
+
+
+
     const onDragStart = () => {
         document.body.style.color = "orange"
     }
+
 
     const onDragEnd = result => {
         const {destination, source, draggableId} = result;
@@ -91,6 +160,12 @@ const Index = () => {
     const Tasks = Tools.taskIds.map(taskId => state.task[taskId]);
     const HtmlTask = HtmlCreate.taskIds.map(taskId => state.task[taskId]);
 
+    let itemsssss = {
+        "userId": 11,
+        "id": 150,
+        "title": "at nam consequatur ea labore ea harum",
+        "body": "cupiditate quo est a modi nesciunt soluta\nipsa voluptas error itaque dicta in\nautem qui minus magnam et distinctio eum\naccusamus ratione error aut"
+    };
     return (
         <div className={"row"} style={{padding: '15px'}}>
             <DragDropContext
@@ -188,7 +263,7 @@ const Index = () => {
                         </button>
                     </div>
                     <div className={"col-4"}>
-                        <button type={"button"} className={"btn btn-success"}>
+                        <button type={"button"} onClick={e => PostItemToInitialForm(e , itemsssss)} className={"btn btn-success"}>
                             <i className={"bx bx-save"}></i>&nbsp;
                             ذخیره
                         </button>

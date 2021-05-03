@@ -3,7 +3,6 @@ import Item from './ItemForm';
 import {Droppable} from 'react-beautiful-dnd';
 
 const FormDrop = (props) => {
-    console.log("data form builder : " , props);
     return (
         <div className={"container"} style={{display : 'flex' , alignItem : 'center' , justifyContent : 'center' , width : '100%' , padding : 0}}>
                 <Droppable  droppableId={props.column.id} >

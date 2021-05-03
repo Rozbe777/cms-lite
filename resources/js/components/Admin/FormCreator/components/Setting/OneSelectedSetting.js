@@ -6,11 +6,14 @@ import {OneSelected} from "../OneSelected";
 import {Index} from "./MiniInput/AddItem";
 import {ONE_OPTION_DATA} from "../Constant";
 
-export const OneSelectedSetting = ({data : pushData}) => {
+export const OneSelectedSetting = ({defaultData , data : pushDataNew}) => {
+    console.log("old date nnnnnn : " , defaultData)
+    let defaultOld = defaultData[0] ? defaultData[0] : {
+        Options : []
+    } ;
     let OptionData = [];
-    // var dataLocalOld = localStorage.getItem(ONE_OPTION_DATA) ? localStorage.getItem(ONE_OPTION_DATA) : '';
-    const [dataAll , setDataAll] = useState({});
-    // dataLocalOld ? setDataAll(dataLocalOld) : '';
+    const [dataAll , setDataAll] = useState(defaultOld);
+
     const HandleChange = (target) => {
         setDataAll({
             ...dataAll,
@@ -18,20 +21,22 @@ export const OneSelectedSetting = ({data : pushData}) => {
         })
     }
 
-
-
     const HandleStatus = (item) => {
+        event.preventDefault();
         let DataAllNew = {...dataAll};
         DataAllNew.Mandatory = item;
         setDataAll(DataAllNew);
-        pushData(dataAll);
+        let sendData = JSON.stringify(DataAllNew);
+        pushDataNew(sendData);
     }
     const HandleOptionData = (item) => {
+        event.preventDefault();
         let DataAllNew = {...dataAll};
-        DataAllNew.Options = item;
+        DataAllNew.Options = item.Options;
+        let dataPushss = JSON.stringify(DataAllNew);
+        console.log("dataaaa 111111" , dataPushss)
+        pushDataNew(dataPushss);
         setDataAll(DataAllNew);
-        // console.log("oneSelOpSetting : " , DataAllNew)
-        pushData(DataAllNew);
     }
 
     return (
@@ -46,10 +51,8 @@ export const OneSelectedSetting = ({data : pushData}) => {
                 <CheckBox name={"Mandatory"} defaultState={false} valueActive={"غیر اجباری"} valueDeActive={" اجباری"} status={item => HandleStatus(item)}  />
             </div>
             <div className={"col-12"} style={{marginTop : 10}}>
-                <Index data={item => HandleOptionData(item)} />
+                <Index dataOld={defaultOld} dataUpdate={item => HandleOptionData(item)} />
             </div>
-
-
         </div>
     )
 }

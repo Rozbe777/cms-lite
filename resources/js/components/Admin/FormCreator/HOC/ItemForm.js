@@ -14,14 +14,30 @@ import Url from "../components/Url";
 import {EmailSetting} from "../components/Setting/EmailSetting";
 import {MiniInputSetting} from "../components/Setting/MiniInputSetting";
 import {OneSelectedSetting} from "../components/Setting/OneSelectedSetting";
+import {ONE_OPTION_DATA} from "../components/Constant";
 
 
 const Item = (props) => {
-    const [oneSel , setOneSel] = useState([]);
+
+    const [formDataTotal , setFormDataTotal] = useState({
+        input_1 : [],
+        input_2 : [],
+        input_3 : [],
+        input_4 : []
+    })
+
+    const [oneSel , setOneSel] = useState();
     const ref = useRef();
     const setting_main_content = document.getElementById("setting_main_content");
-    const handleRendering = (component) => {
-
+    const HandleTotlaDataOneSel = (data) => {
+        let oldData = [...formDataTotal.input_3];
+        let parseData = JSON.parse(data);
+        oldData[0] = parseData;
+        setFormDataTotal({
+            ...formDataTotal,
+            input_3: oldData
+        })
+        console.log("0..........0 : " , formDataTotal)
     }
     const HandleMini = () => {
         ReactDOM.render(<MiniInputSetting  />, setting_main_content);
@@ -32,11 +48,12 @@ const Item = (props) => {
         return <Email />
     }
     const HandleOneSelected = () => {
-        ReactDOM.render(<OneSelectedSetting data={item => setOneSel(item)}  />, setting_main_content);
-        return <OneSelected data={oneSel} />
+        // console.log("33333333333" , formDataTotal.input_3 )
+        ReactDOM.render(<OneSelectedSetting defaultData={formDataTotal.input_3} data={item => HandleTotlaDataOneSel(item)}  />, setting_main_content);
+        return <OneSelected data={formDataTotal.input_3} />
     }
 
-    const HandleTask = (task, provider, snapshot, providerDragProp, providerDragHandel) => {
+    const HandleTask = (task) => {
         switch (task.id) {
             case 'input_1' :
                 return HandleMini();
@@ -73,7 +90,7 @@ const Item = (props) => {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                 >
-                    {HandleTask(props.task, provided.innerRef, snapshot.isDragging, provided.draggableProps, provided.dragHandleProps)}
+                    {HandleTask(props.task)}
                 </span>
             )}
 
