@@ -98,41 +98,37 @@ class ContentController extends Controller
 
     }
 
-    public function update(EditContentRequest $request, $contentId)
-    {
-        $content=$this->EditContent([
-            'owner'=>$this->owner,
-            'title'=>$request->input('title'),
-            'slug'=>$request->input('slug'),
-            'content'=>$request->input('content'),
-            'fields'=>$request->input('fields'),
-            'status'=>$request->input('status'),
-            'user_id'=>$request->input('user_id'),
-//            'layout_id'=>$request->input('layout_id'),//FIXME after insert layouts table
-            'image'=>$request->input('image'),
-            'comment_status'=>$request->input('comment_status'),
-            'weight'=>$request->input('weight'),
-            'content_id'=>$contentId,
-            'is_index'=>$request->input('is_index'),
-            'is_menu'=>$request->input('is_menu'),
-
-
-        ]);
-
-        if ($request->input('tag_list'))
-            foreach ($request->input('tag_list') as $tagName){
-                $tag=Tag::firstOrCreate([
-                    'name'=>$tagName
-                ]);
-                ContentTag::firstOrCreate([
-                    'tag_id'=>$tag->id,
-                    'content_id'=>$contentId,
-                ]);
-            }
-
-
-        return redirect(route("admin.content.edit",$contentId))->with("info", "عملیات ویرایش محتوا با موفقیت انجام شد");
-
+    public function update(Content $content, Request $request) //EditContentRequest
+    {dd($request);
+//        $content=$this->EditContent([
+//            'owner'=>$this->owner,
+//            'title'=>$request->input('title'),
+//            'slug'=>$request->input('slug'),
+//            'content'=>$request->input('content'),
+//            'fields'=>$request->input('fields'),
+//            'status'=>$request->input('status'),
+//            'user_id'=>$request->input('user_id'),
+////            'layout_id'=>$request->input('layout_id'),//FIXME after insert layouts table
+//            'image'=>$request->input('image'),
+//            'comment_status'=>$request->input('comment_status'),
+//            'weight'=>$request->input('weight'),
+//            'content_id'=>$contentId,
+//            'is_index'=>$request->input('is_index'),
+//            'is_menu'=>$request->input('is_menu'),
+//        ]);
+//
+//        if ($request->input('tag_list'))
+//            foreach ($request->input('tag_list') as $tagName){
+//                $tag=Tag::firstOrCreate([
+//                    'name'=>$tagName
+//                ]);
+//                ContentTag::firstOrCreate([
+//                    'tag_id'=>$tag->id,
+//                    'content_id'=>$contentId,
+//                ]);
+//            }
+//        return redirect(route("admin.content.edit",$contentId))->with("info", "عملیات ویرایش محتوا با موفقیت انجام شد");
+$content->update($request->all());
 
     }
 

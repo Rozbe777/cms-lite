@@ -49,20 +49,33 @@ Route::get('/react/register', function () {
     return redirect(\route('auth.register'));
 });*/
 
-Route::get('csrf',function (){dd(csrf_token());});
+Route::get('csrf', function () {
+    dd(csrf_token());
+});
 //-----------------------Mehrshad Start----------------------
-Route::get('/login',[LoginController::class,'show'])->name('show.login');
-Route::post('auth/login',[LoginController::class,'login'])->name('auth.login');
-Route::get('mobile/register',[MobileRegisterController::class,'show'])->name('show.mobile.form');
-Route::post('mobile/register',[MobileRegisterController::class,'register'])->name('mobile.register');
-Route::get('mobile/token',[MobileRegisterController::class,'verificationForm'])->name('show.verification');
-Route::post('mobile/token',[MobileRegisterController::class,'checkMobile'])->name('check.verification');
-Route::get('auth/register',[RegisterController::class,'show'])->name('show.register');
-Route::post('auth/register',[RegisterController::class,'store'])->name('auth.store');
-Route::get('auth/password/token',[PasswordController::class,'show'])->name('show.password.token');
-Route::post('auth/password/token',[PasswordController::class,'passwordToken'])->name('auth.password.token');
-Route::get('auth/password/recovery',[PasswordController::class,'passwordRecoveryForm'])->name('auth.password.recovery');
-Route::post('auth/password/recovery',[PasswordController::class,'passwordRecovery'])->name('auth.password.recovery');
+Route::get('/login', [LoginController::class, 'show'])->name('show.login');
+Route::post('auth/login', [LoginController::class, 'login'])->name('auth.login');
+
+Route::prefix('mobile')->group(function () {
+    Route::get('/register', [MobileRegisterController::class, 'show'])->name('show.mobile.form');
+    Route::post('/register', [MobileRegisterController::class, 'register'])->name('mobile.register');
+    Route::get('/token', [MobileRegisterController::class, 'verificationForm'])->name('show.verification');
+    Route::post('/token', [MobileRegisterController::class, 'checkMobile'])->name('check.verification');
+});
+
+Route::prefix('auth')->group(function () {
+    Route::get('/register', [RegisterController::class, 'show'])->name('show.register');
+    Route::post('/register', [RegisterController::class, 'store'])->name('auth.store');
+    Route::prefix('/password')->group(function () {
+        Route::get('/token', [PasswordController::class, 'show'])->name('show.password.token');
+        Route::post('/token', [PasswordController::class, 'passwordToken'])->name('auth.password.token');
+        Route::get('/recovery', [PasswordController::class, 'passwordRecoveryForm'])->name('auth.password.recovery');
+        Route::post('/recovery', [PasswordController::class, 'passwordRecovery'])->name('auth.password.recovery');
+    });
+});
+
+Route::get('content/edit', [ContentController::class, 'edit'])->name('content.edit');
+Route::post('content/update', [ContentController::class, 'update'])->name('content.update');
 //-----------------------Mehrshad End----------------------
 
 
