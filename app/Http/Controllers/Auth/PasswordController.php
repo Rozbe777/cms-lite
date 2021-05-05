@@ -24,6 +24,11 @@ class PasswordController extends Controller
         $this->userRepository = $userRepository;
     }
 
+    public function show()
+    {
+        return adminView("pages.auth.password.index");
+    }
+
     /** verify user's mobile when ask for reset password */
     public function passwordToken(MobileRequest $request)
     {
@@ -35,6 +40,11 @@ class PasswordController extends Controller
         dispatch(new SendSmsJob($request->mobile,$user->id));
 
         return $this->response->success("verification code is sent to mobile number");
+    }
+
+    public function passwordRecoveryForm()
+    {
+        return adminView("pages.auth.password.update");
     }
 
     public function passwordRecovery(PasswordRequest $request)

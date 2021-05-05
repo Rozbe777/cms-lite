@@ -32,6 +32,11 @@ class MobileRegisterController extends Controller
         $this->responses = $responses;
     }
 
+    public function show()
+    {
+        return adminView("pages.auth.mobile.index");
+    }
+
     public function register(MobileRequest $request)
     {
         session(['mobile' => mobile($request->mobile)]);
@@ -48,13 +53,13 @@ class MobileRegisterController extends Controller
 
             return $this->responses->success("verification code is sent to mobile number");
 
-        } elseif (isset($user->password)) {dd(2);
+        } elseif (isset($user->password)) {
             /** if user has a password so the mobile number was registered completely
              * {{ Do you Forgot Your Password?? }}
              */
             return $this->responses->notSuccess("the user is existed check if forgot your password", 404);
 
-        } else {dd(3);
+        } else {
             /** check for the last time that we sent a token then resend it after 2 min. */
             $needToPass = 120 - (strtotime(Carbon::now()->toDateTimeString()) - strtotime($this->mobileRepository->find($user->id)->updated_at->toDateTimeString()));
 

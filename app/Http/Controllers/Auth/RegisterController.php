@@ -16,9 +16,9 @@ class RegisterController extends Controller
 
     use CreateUserTrait;
 
-    public function register()
+    public function show()
     {
-        return adminView("pages.auth.mobileRegister");
+        return adminView("pages.auth.register");
     }
 
     public function store(CreateUserRequest $request)
