@@ -23,7 +23,7 @@ export const CheckBox = ({defaultState, name, valueActive, valueDeActive, status
             <span>فیلد اجباری باشد؟</span>
 
             <div className={"switch-container formcreator-switch"}>
-                {defaultState ? (
+                {defaultState == false ? (
                     <ul>
                         <input defaultChecked={true} type={"checkbox"} name={name} onChange={e => handleChange(e)}
                                id={"checked"}/>

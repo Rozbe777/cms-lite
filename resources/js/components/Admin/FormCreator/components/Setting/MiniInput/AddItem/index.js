@@ -1,13 +1,16 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {List} from "./List";
 import $ from 'jquery';
 import './_shared/style.scss';
 import {ONE_OPTION_DATA} from "../../../Constant";
+import {FormContext} from "../../../../Helper/Context";
 
-export const Index = ({dataOld, dataUpdate : pushData}) => {
+export const Index = ({dataUpdate : pushData}) => {
 
-    console.log("mmmmmmm : " , dataOld);
-    let defaultData = dataOld.Options ? dataOld : {
+    const {initialFormData , setInitialFormData} = useContext(FormContext)
+
+    console.log("!!!!!!!!!!!" , initialFormData);
+    let defaultData = initialFormData.input_3 ? initialFormData.input_3 : {
         Options : []
     };
     const [initial, setInitial] = useState({});
@@ -19,52 +22,64 @@ export const Index = ({dataOld, dataUpdate : pushData}) => {
     }
     const HandleAddOption = (e) => {
         e.preventDefault();
+        console.log("^^^^^" , data)
+
         $("input[name=options]").val('');
         if (initial !== '') {
             let dataaa = [...data.Options];
+
+
             let filter = data.Options.filter(item => item == initial);
             if (filter.length == 0) {
                 dataaa.push(initial);
-                setData({
-                    ...data,
-                    Options : dataaa
-                });
-                pushData({
-                    ...data,
-                    Options : dataaa
-                });
+                console.log("^^^^^" , dataaa)
+                setData(
+                    {
+                        ...data,
+                        Options : dataaa
+                    }
+                );
+                pushData(
+                    {
+                        ...data,
+                        Options : dataaa
+                    }
+                );
             }
         }
         setInitial('')
     }
 
     const HandleDelete = (name) => {
-        console.log("dataaaa : " , data)
         var array = data.Options.filter(item => item !== name);
-        setData({
-            ...data,
-            Options : array
-        });
-        pushData({
-            ...data ,
-            Options : array
-        });
+        setData(
+            {
+                ...data,
+                Options : array
+            }
+        );
+        pushData(
+            {
+                ...data ,
+                Options : array
+            }
+        );
     }
     const HandleUpdate = (item) => {
-        console.log("data default******** : " , data)
-        console.log("data default********//// : " , item)
         var array = [...data.Options];
         array[item.index] = item.data;
-        setData({
-            ...data,
-            Options : array
-        });
-        // console.log("0000000000000" , array)
-        // let arrayUpdate = JSON.stringify(array);
-        pushData({
-            ...data ,
-            Options : array
-        });
+        setData(
+            {
+                ...data,
+                Options : array
+            }
+        );
+        pushData(
+            {
+                ...data ,
+                Options : array
+            }
+        );
 
     }
     return (

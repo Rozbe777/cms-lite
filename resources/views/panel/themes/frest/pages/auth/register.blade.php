@@ -11,7 +11,12 @@
                     <div class="card bg-authentication mb-0">
                         <div class="row m-0">
                             <!-- register section left -->
-                            <div id="register-form" data-token="{{csrf_token()}}"></div>
+                            <div class="col-md-6 col-12 px-0" style="position:relative;">
+                                <div
+                                    style="position: absolute;width: 100%;top: 0px;bottom: 0px;margin: auto; height: 300px;"
+                                    id="register-form" data-token="{{csrf_token()}}">
+                                </div>
+                            </div>
                             <!-- image section right -->
                             <div class="col-md-6 d-md-block d-none text-center align-self-center p-3">
                                 <img class="img-fluid" src="{{adminTheme("images/pages/register.png")}}"
@@ -20,7 +25,6 @@
                         </div>
                     </div>
                 </div>
-
 
 
             </section>
@@ -35,6 +39,8 @@
 @endsection
 @section('pageScripts')
 
+    <script src="{{asset("/js/app.js")}}"></script>
+
     <script>
 
         // show when page load
@@ -45,7 +51,7 @@
         //     hideDuration: 3000,
         //     positionClass: 'position-bottom-right'
         // });
-        function showError(){
+        function showError() {
             toastr.options = {
                 "closeButton": false,
                 "debug": false,

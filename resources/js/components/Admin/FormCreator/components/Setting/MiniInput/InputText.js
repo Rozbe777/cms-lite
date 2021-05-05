@@ -1,12 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import {FormContext} from "../../../Helper/Context";
 
 
-export const InputText = ({label , name , placeholder , isInvalid , value : pushValue}) => {
+export const InputText = ({defaultValue , label , name , placeholder , isInvalid , value : pushValue}) => {
+
+    const {initialFormData,setInitialFormData} = useContext(FormContext);
+    let ActiveCheck = initialFormData.input_3.title ? "" : isInvalid;
     return (
         <div className={"form-group"}>
             <label htmlFor={"baseInput"}>{label}</label>
-            <input type={"text"} onChange={e => pushValue(e.target)}  className={"form-control "+isInvalid} id={"baseInput"} placeholder={placeholder} name={name} />
-            {isInvalid ? (
+            <input type={"text"} defaultValue={defaultValue} onChange={e => pushValue(e.target)}  className={"form-control "+ActiveCheck} id={"baseInput"} placeholder={placeholder} name={name} />
+            {!initialFormData.input_3.title ? (
                 <div className="invalid-feedback">
                     <i className="bx bx-radio-circle"></i>
                     وارد کردن این فیلد الزامی است.

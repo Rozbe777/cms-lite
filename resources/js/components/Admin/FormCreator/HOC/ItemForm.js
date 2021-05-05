@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useContext , useEffect} from "react";
 import ReactDOM from 'react-dom';
 import {Draggable} from "react-beautiful-dnd";
 import InputMini from "../components/InputMini";
@@ -14,54 +14,47 @@ import Url from "../components/Url";
 import {EmailSetting} from "../components/Setting/EmailSetting";
 import {MiniInputSetting} from "../components/Setting/MiniInputSetting";
 import {OneSelectedSetting} from "../components/Setting/OneSelectedSetting";
-import {ONE_OPTION_DATA} from "../components/Constant";
+import {FormContext ,FormContextEmail , FormContextMini} from "../Helper/Context";
 
 
 const Item = (props) => {
 
-    const [formDataTotal , setFormDataTotal] = useState({
-        input_1 : [],
-        input_2 : [],
-        input_3 : [],
-        input_4 : []
-    })
+    const {initialFormData , setInitialFormData} = useContext(FormContext)
+    const {initialFormDataEmail , setInitialFormDataEmail} = useContext(FormContextEmail)
+    const {initialFormDataMiniText , setInitialFormDataMiniText} = useContext(FormContextMini)
 
-    const [oneSel , setOneSel] = useState();
-    const ref = useRef();
+    useEffect(()=>{
+    } , [])
+
     const setting_main_content = document.getElementById("setting_main_content");
-    const HandleTotlaDataOneSel = (data) => {
-        let oldData = [...formDataTotal.input_3];
-        let parseData = JSON.parse(data);
-        oldData[0] = parseData;
-        setFormDataTotal({
-            ...formDataTotal,
-            input_3: oldData
-        })
-        console.log("0..........0 : " , formDataTotal)
-    }
+
+
     const HandleMini = () => {
-        ReactDOM.render(<MiniInputSetting  />, setting_main_content);
-        return <InputMini />
+        ReactDOM.render(<FormContext.Provider value={{initialFormDataMiniText , setInitialFormDataMiniText}}><MiniInputSetting  /></FormContext.Provider> , setting_main_content);
+        return <InputMini  />
     }
     const HandleEmail = () => {
-        ReactDOM.render(<EmailSetting  />, setting_main_content);
-        return <Email />
+        ReactDOM.render(<FormContext.Provider value={{initialFormDataEmail , setInitialFormDataEmail}}><EmailSetting  /></FormContext.Provider> , setting_main_content);
+        return <Email  />
     }
     const HandleOneSelected = () => {
-        // console.log("33333333333" , formDataTotal.input_3 )
-        ReactDOM.render(<OneSelectedSetting defaultData={formDataTotal.input_3} data={item => HandleTotlaDataOneSel(item)}  />, setting_main_content);
-        return <OneSelected data={formDataTotal.input_3} />
+        ReactDOM.render(<FormContext.Provider value={{initialFormData , setInitialFormData}}><OneSelectedSetting  /></FormContext.Provider> , setting_main_content);
+        return <OneSelected  />
     }
 
     const HandleTask = (task) => {
         switch (task.id) {
             case 'input_1' :
+                ReactDOM.render('' , setting_main_content);
                 return HandleMini();
             case 'input_2' :
+                ReactDOM.render('' , setting_main_content);
                 return HandleEmail();
             case 'input_3' :
+                ReactDOM.render('' , setting_main_content);
                 return HandleOneSelected();
             case 'input_4' :
+                ReactDOM.render('' , setting_main_content);
                 return <MultiSelected/>
             case 'input_5':
                 return <Phone/>
@@ -81,20 +74,23 @@ const Item = (props) => {
     }
 
     return (
-        <Draggable key={props.key} draggableId={props.task.id} index={props.index}>
-            {(provided, snapshot) => (
-                <span
-                    id={props.task.size === "small" ? "element" : "elementBig"}
-                    ref={provided.innerRef}
-                    isDragging={snapshot.isDragging}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                >
+        <FormContext.Provider value={{initialFormData , setInitialFormData}}>
+            <Draggable key={props.key} draggableId={props.task.id} index={props.index}>
+                {(provided, snapshot) => (
+                    <span
+                        id={props.task.size === "small" ? "element" : "elementBig"}
+                        ref={provided.innerRef}
+                        isDragging={snapshot.isDragging}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                    >
                     {HandleTask(props.task)}
                 </span>
-            )}
+                )}
 
-        </Draggable>
+            </Draggable>
+        </FormContext.Provider>
+
 
     )
 }
