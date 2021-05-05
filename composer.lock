@@ -64,6 +64,7 @@
         },
         {
             "name": "beberlei/assert",
+<<<<<<< HEAD
             "version": "v3.3.1",
             "source": {
                 "type": "git",
@@ -74,6 +75,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/beberlei/assert/zipball/5e721d7e937ca3ba2cdec1e1adf195f9e5188372",
                 "reference": "5e721d7e937ca3ba2cdec1e1adf195f9e5188372",
+=======
+            "version": "v3.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/beberlei/assert.git",
+                "reference": "d63a6943fc4fd1a2aedb65994e3548715105abcf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/beberlei/assert/zipball/d63a6943fc4fd1a2aedb65994e3548715105abcf",
+                "reference": "d63a6943fc4fd1a2aedb65994e3548715105abcf",
+>>>>>>> 5732b0347dcdc5b5c9f25b9dcf51a6b02b23a58a
                 "shasum": ""
             },
             "require": {
@@ -81,13 +94,15 @@
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "ext-simplexml": "*",
-                "php": "^7.0 || ^8.0"
+                "php": "^7"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "*",
-                "phpstan/phpstan": "*",
-                "phpunit/phpunit": ">=6.0.0",
-                "yoast/phpunit-polyfills": "^0.1.0"
+                "phpstan/phpstan-shim": "*",
+                "phpunit/phpunit": ">=6.0.0 <8"
+            },
+            "suggest": {
+                "ext-intl": "Needed to allow Assertion::count(), Assertion::isCountable(), Assertion::minCount(), and Assertion::maxCount() to operate on ResourceBundles"
             },
             "suggest": {
                 "ext-intl": "Needed to allow Assertion::count(), Assertion::isCountable(), Assertion::minCount(), and Assertion::maxCount() to operate on ResourceBundles"
@@ -125,9 +140,15 @@
             ],
             "support": {
                 "issues": "https://github.com/beberlei/assert/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/beberlei/assert/tree/v3.3.1"
             },
             "time": "2021-04-18T20:11:03+00:00"
+=======
+                "source": "https://github.com/beberlei/assert/tree/v3"
+            },
+            "time": "2019-12-19T17:51:41+00:00"
+>>>>>>> 5732b0347dcdc5b5c9f25b9dcf51a6b02b23a58a
         },
         {
             "name": "brick/math",

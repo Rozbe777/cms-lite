@@ -25,7 +25,6 @@ export default class Login extends Component {
                     </div>
                 </div>
 
-
                 <div className="card-content">
                     <div className="card-body">
 
@@ -86,6 +85,7 @@ export default class Login extends Component {
     async onSubmit() {
         let {username, password} = this.state;
         let {action, token} = this.props;
+
         if (empty(username)) {
             return error('نام کاربری وارد نشده است!');
         }

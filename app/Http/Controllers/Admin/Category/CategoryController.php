@@ -52,6 +52,7 @@ class CategoryController extends Controller
                 'content' => $request->input('content'),
                 'fields' => $request->input('fields'),
                 'parent_id' => $request->input('parent_id'),
+                'metadata' => $request->input('metadata'),
                 'layout_id' => $request->input('layout_id'),
                 'module_id' => $request->input('module_id'),
                 'status' => $request->input('status'),
@@ -118,8 +119,6 @@ class CategoryController extends Controller
             'status' => $request->input('status'),
             'category_id' => $categoryId,
             'is_menu' => $request->input('is_menu'),
-
-
         ]);
 
         if ($request->input('tag_list'))
@@ -132,9 +131,7 @@ class CategoryController extends Controller
                     'category_id' => $categoryId,
                 ]);
             }
-
-        return redirect(route("admin.category.edit", $categoryId))->with("info", "عملیات ویرایش دسته بندی با موفقیت انجام شد");
-
+        return success();
 
     }
 

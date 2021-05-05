@@ -28,6 +28,11 @@
 <script src={{adminTheme("js/scripts/error/customError.js")}}></script>
 <script src={{adminTheme("js/scripts/customInfoMessage/customInfoMessage.js")}}></script>
 
+<script src="{{adminTheme("vendors/js/forms/select/select2.full.min.js")}}"></script>
+<script src="{{adminTheme("vendors/js/forms/select/jquery.repeater.min.js")}}"></script>
+<script src="{{adminTheme("js/scripts/forms/select/form-select2.js")}}"></script>
+<script src="{{adminTheme("js/scripts/forms/form-repeater.js")}}"></script>
+
 <!-- END: Page JS-->
 
 
