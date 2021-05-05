@@ -2,6 +2,12 @@ import React, {Component} from "react";
 import ReactDOM from 'react-dom';
 import {csrf_token, error, url, success, info, warning, empty, redirect} from "../../helper";
 import Webservice, {POST_METHOD} from "../../classes/webservice";
+import $ from 'jquery';
+
+
+
+
+
 
 export default class Login extends Component {
     constructor() {
@@ -11,6 +17,9 @@ export default class Login extends Component {
             password: '',
         }
     }
+
+
+
 
     render() {
         let {action, token} = this.props;
@@ -24,6 +33,11 @@ export default class Login extends Component {
                         <h4 className="text-center mb-2">خوش آمدید</h4>
                     </div>
                 </div>
+
+
+
+
+
 
                 <div className="card-content">
                     <div className="card-body">

@@ -13,6 +13,7 @@
  */
 
 require('./components/Auth/Login');
+require('./components/Auth/Register');
 require('./components/Profile/Profile');
 require('./components/Profile/ChangePassword');
 require('./components/Setting/General');

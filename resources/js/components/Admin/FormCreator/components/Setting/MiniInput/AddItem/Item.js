@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import './_shared/style.scss'
 import {ONE_OPTION_DATA} from "../../../Constant";
+import {FormContext} from "../../../../Helper/Context";
 
 export const Item = ({dataItem, index, delete: pushDel, update: pushUp}) => {
-    console.log("data==============" , dataItem)
     const [states, setStates] = useState(false);
-    // let initialData = localStorage.getItem(ONE_OPTION_DATA) ? JSON.parse(localStorage.getItem(ONE_OPTION_DATA)).Options : dataItem;
     const [data, setData] = useState(dataItem);
+    const {initialFormData , setInitialFormData} = useContext(FormContext);
     const HandleDel = e => {
         e.preventDefault();
         pushDel(dataItem);

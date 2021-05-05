@@ -10,6 +10,8 @@
                     <div class="col-xl-8 col-11">
                         <div class="card bg-authentication mb-0">
                             <div class="row m-0">
+
+
                                 <!-- left section-login -->
 
                                 <div class="col-md-6 col-12 px-0">
