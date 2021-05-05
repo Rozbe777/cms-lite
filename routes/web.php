@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\Tag\TagController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\MobileRegisterController;
+use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,21 +49,35 @@ Route::get('/react/register', function () {
     return redirect(\route('auth.register'));
 });*/
 
+Route::get('csrf',function (){dd(csrf_token());});
+//-----------------------Mehrshad Start----------------------
+Route::get('/login',[LoginController::class,'show'])->name('login');
+Route::post('auth/login',[LoginController::class,'login'])->name('auth.login');
+Route::get('auth/register',[RegisterController::class,'register'])->name('register');
+Route::post('mobile/register',[MobileRegisterController::class,'register'])->name('mobile.register');
+Route::get('mobile/token',[MobileRegisterController::class,'verificationForm'])->name('show.verification');
+Route::post('mobile/token',[MobileRegisterController::class,'checkMobile'])->name('check.verification');
+Route::post('auth/register',[RegisterController::class,'store'])->name('auth.store');
+Route::post('auth/password/token',[PasswordController::class,'passwordToken'])->name('auth.password.token');
+Route::post('auth/password/recovery',[PasswordController::class,'passwordRecovery'])->name('auth.password.recovery');
 
-Route::get('/login', function () {
-    return redirect()->route('auth.login');
-});
-Route::get('/register', function () {
-    return redirect()->route('auth.register');
-});
-Route::group(['as' => 'auth.', 'prefix' => 'auth', 'namespace' => 'Auth', 'name' => 'auth.'], function () {
-    Route::get('/register', [RegisterController::class, 'register'])->name('register');
-    Route::get('/login', [LoginController::class, 'show'])->name('login');
-    Route::post('/login', [LoginController::class, 'login'])->name('login');
-    Route::post('/store', [RegisterController::class, 'store'])->name('store');
-    Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+//-----------------------Mehrshad End----------------------
 
-});
+
+//Route::get('/login', function () {
+//    return redirect()->route('auth.login');
+//});
+//Route::get('/register', function () {
+//    return redirect()->route('auth.register');
+//});
+//Route::group(['as' => 'auth.', 'prefix' => 'auth', 'namespace' => 'Auth', 'name' => 'auth.'], function () {
+//    Route::get('/register', [RegisterController::class, 'register'])->name('register');
+//    Route::get('/login', [LoginController::class, 'show'])->name('login');
+//    Route::post('/login', [LoginController::class, 'login'])->name('login');
+//    Route::post('/store', [RegisterController::class, 'store'])->name('store');
+//    Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+//
+//});
 Route::get('admin', function () {
     return redirect()->route('admin.dashboard.index');
 });
