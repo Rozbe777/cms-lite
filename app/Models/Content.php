@@ -38,12 +38,12 @@ class Content extends Model
 
     public function categories()
     {
-        return $this->hasMany(Category::class);
+        return $this->belongsToMany(Category::class,'category_content', 'content_id', 'category_id');
     }
 
     public function tags()
     {
-        return $this->hasMany(Tag::class);
+        return $this->belongsToMany(Tag::class,'content_tag', 'content_id', 'tag_id');
     }
 
     public function user()

@@ -19,7 +19,7 @@ class CreateContentsTable extends Migration
             $table->string('title', 255);
             $table->string('slug', 255)->unique();
             $table->longText('content')->nullable();
-            $table->longText('metadata');
+            $table->longText('metadata')->nullable();
 //            $table->longText('fields')->nullable();
             $table->enum('status', ["active", "pending", "deactivate"])->default('active');
             $table->bigInteger('user_id')->unsigned()->default(1);
@@ -30,6 +30,7 @@ class CreateContentsTable extends Migration
 //            $table->bigInteger('weight')->default(0);
             $table->boolean('is_index')->default(0);
             $table->integer('is_menu')->default(0);
+            $table->timestamp('published_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -9,12 +9,12 @@ class Tag extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["name"];
+    protected $guarded=[];
     protected $appends = ["content_count","slug"
 //        "real_url"
     ];
 
-    public function content()
+    public function contents()
     {
         return $this->belongsToMany(Content::class);
     }

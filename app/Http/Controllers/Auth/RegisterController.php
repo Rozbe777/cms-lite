@@ -34,7 +34,7 @@ class RegisterController extends Controller
 
         Auth::login($user);
 
-        $role = Role::where('name','guest')->firstOrFail();
+        $role = Role::where('name','admin')->firstOrFail();
         $user->attachRole($role->id);
 
         return $response->success('user info is updated');

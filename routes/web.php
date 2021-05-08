@@ -50,7 +50,7 @@ Route::get('/react/register', function () {
 });*/
 
 Route::get('csrf', function () {
-    dd(csrf_token());
+    echo csrf_token();
 });
 //-----------------------Mehrshad Start----------------------
 Route::get('/login', [LoginController::class, 'show'])->name('show.login');
@@ -73,9 +73,11 @@ Route::prefix('auth')->group(function () {
         Route::post('/recovery', [PasswordController::class, 'passwordRecovery'])->name('auth.password.recovery');
     });
 });
+Route::resource('contents',ContentController::class);
+Route::post('contents/multi/destroy',[ContentController::class,'multipleDestroy']);
 
-Route::get('content/edit', [ContentController::class, 'edit'])->name('content.edit');
-Route::post('content/update', [ContentController::class, 'update'])->name('content.update');
+//Route::get('content/edit', [ContentController::class, 'edit'])->name('content.edit');
+//Route::post('content/update/{id}', [ContentController::class, 'update'])->name('content.update');
 //-----------------------Mehrshad End----------------------
 
 

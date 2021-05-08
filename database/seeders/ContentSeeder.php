@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Content;
 use Illuminate\Database\Seeder;
 
 class ContentSeeder extends Seeder
@@ -13,6 +14,6 @@ class ContentSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Content::factory()->times(10)->create();
     }
 }
