@@ -15,6 +15,10 @@
     margin-top: 10%;
     height: auto;
     padding-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     p{
         text-align: center;
         padding: 20px;

@@ -1,8 +1,14 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import $ from 'jquery';
 
 const VerifyPhone = ({time}) => {
 
+    const [verifyCode , setVerifyCode] = useState({
+        code_1 : '',
+        code_2 : '',
+        code_3 : '',
+        code_4 : '',
+    });
     useEffect(() => {
         $("input[name=code_1]").focus();
         Timer();
@@ -11,24 +17,23 @@ const VerifyPhone = ({time}) => {
         var min = Math.floor(time / 60);
         var sec = Math.floor(time - (min * 60));
         setInterval(function () {
-            if (min == 0 && sec == 0) {
+            if (min == 0 && sec == 1) {
                 // time expired
-                document.getElementById("timersPop").innerHTML = "";
+                document.getElementById("timersPop").innerHTML = "مجددا برای دریافت کد تلاش کنید!";
             } else {
                 if (sec == 0) {
                     min--;
                     sec = 60;
                 }
                 sec--;
-            }
+                document.getElementById("timersPop").innerHTML = "0" + min + ":" + sec + " تا انقضای کد ارسالی";
 
-            document.getElementById("timersPop").innerHTML = "0" + min + ":" + sec + " تا انقضای کد ارسالی";
+            }
         }, 1000)
     }
 
 
-    var body = $("#wrapper input");
-
+    var body = $("#wrapper");
     // check kardan daryaft number dar inputhai verify code , paresh be input badi
     function goToNextInput(e) {
         var key = e.which,
@@ -46,96 +51,116 @@ const VerifyPhone = ({time}) => {
         }
         sib.select().focus();
     }
-
     // check kardan vard shodan number baray raftan be input badi
     function onKeyDown(e) {
         var key = e.which;
-
         if (key === 9 || (key >= 48 && key <= 57)) {
             return true;
         }
-
         e.preventDefault();
         return false;
     }
-
     // check kardan focus in input
     function onFocus(e) {
         $(e.target).select();
     }
 
     // transaction hai input
-    body.on("keyup", goToNextInput);
-    body.on("keydown", onKeyDown);
-    body.on("click", onFocus);
+    body.on("keyup", "input", goToNextInput);
+    body.on("keydown", "input", onKeyDown);
+    body.on("click", "input", onFocus);
 
 
-    const verifyCodeGet = (e) => {
-
+    function checkVerifyNumber(str) {
+        if (typeof str != "string") return false
+        return !isNaN(str) &&
+            !isNaN(parseFloat(str))
     }
+    const verifyCodeGet = (e) => {
+        e.preventDefault();
+        setVerifyCode({
+            ...verifyCode,
+            [e.target.name] : e.target.value
+        })
+    }
+
+    const checkButton = () => {
+        if (verifyCode.code_1 !== '' && verifyCode.code_2 !== '' && verifyCode.code_3 !== '' && verifyCode.code_4 !== '')
+        {
+            if (checkVerifyNumber(verifyCode.code_1) && checkVerifyNumber(verifyCode.code_2) && checkVerifyNumber(verifyCode.code_3) && checkVerifyNumber(verifyCode.code_4))
+            {
+                return (
+                    <button className={"btn btn-primary"} style={{fontSize : '11px'}}>بررسی کد</button>
+                )
+            }
+
+        }else{
+            return ''
+        }
+    }
+
 
 
     return (
         <div className={"container-loader"}>
-            <div className={"container"}>
-                <div className="row justify-content-center align-items-center">
+            <div className={"container"} style={{height: '100%'}}>
+                <div className="row justify-content-center align-items-center" style={{height: '100%'}}>
                     <div className="col-md-4 col-sm-10">
                         <div className={"verifyForm"}>
                             <p>کد تایید را وارد کنید</p>
 
-                            <div id={"wrapper"}>
-                                <div id="wrapper">
-                                    <input
-                                        type="text"
-                                        placeholder="--"
-                                        maxLength="1"
-                                        size="1"
-                                        name="code_1"
-                                        onChange={(e) => verifyCodeGet(e)}
-                                        min="0"
-                                        max="9"
-                                        pattern="[0-9]{1}"
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="--"
-                                        maxLength="1"
-                                        size="1"
-                                        onChange={(e) => verifyCodeGet(e)}
-                                        name="code_2"
-                                        min="0"
-                                        max="9"
-                                        pattern="[0-9]{1}"
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="--"
-                                        maxLength="1"
-                                        size="1"
-                                        onChange={(e) => verifyCodeGet(e)}
-                                        name="code_3"
-                                        min="0"
-                                        max="9"
-                                        pattern="[0-9]{1}"
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="--"
-                                        maxLength="1"
-                                        size="1"
-                                        name="code_4"
-                                        min="0"
-                                        max="9"
-                                        onChange={(e) => verifyCodeGet(e)}
-                                        pattern="[0-9]{1}"
-                                    />
-                                </div>
+                            <div id="wrapper">
+                                <input
+                                    type="text"
+                                    placeholder="--"
+                                    maxLength="1"
+                                    size="1"
+                                    step={"1"}
+                                    name="code_1"
+                                    onChange={(e) => verifyCodeGet(e)}
+                                    min="0"
+                                    max="9"
+                                    pattern="\d*"
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="--"
+                                    maxLength="1"
+                                    size="1"
+                                    onChange={(e) => verifyCodeGet(e)}
+                                    name="code_2"
+                                    min="0"
+                                    max="9"
+                                    pattern="[0-9]{1}"
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="--"
+                                    maxLength="1"
+                                    size="1"
+                                    onChange={(e) => verifyCodeGet(e)}
+                                    name="code_3"
+                                    min="0"
+                                    max="9"
+                                    pattern="[0-9]{1}"
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="--"
+                                    maxLength="1"
+                                    size="1"
+                                    name="code_4"
+                                    min="0"
+                                    max="9"
+                                    onChange={(e) => verifyCodeGet(e)}
+                                    pattern="[0-9]{1}"
+                                />
                             </div>
 
-
+                            {checkButton()}
                             <div id={"timersPop"}></div>
                             <div id={"retryCode"}>
-                                <span style={{borderBottom : '1px dashed'}}>دریافت مجدد کد</span>
+                                <span style={{borderBottom: '1px dashed'}}>دریافت مجدد کد</span>
                             </div>
                         </div>
                     </div>
