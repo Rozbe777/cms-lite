@@ -13,7 +13,7 @@
                             <!-- register section left -->
                             <div class="col-md-6 col-12 px-0" style="position:relative;">
                                 <div
-                                    style="position: absolute;width: 100%;top: 0px;bottom: 0px;margin: auto; height: 300px;"
+                                    style="position: absolute;width: 100%;top: 0px;bottom: 0px;margin: auto; min-height: 300px;"
                                     id="register-form" data-token="{{csrf_token()}}">
                                 </div>
                             </div>

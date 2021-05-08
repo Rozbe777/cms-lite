@@ -8,7 +8,7 @@ class Loading extends Component {
                     <span className={"sr-only"}>در حال ارسال کد تایید ...</span>
                 </div>
 
-                <p>در حال ارسال کد تایید ....</p>
+                <p>در حال بررسی ....</p>
 
             </div>
         );

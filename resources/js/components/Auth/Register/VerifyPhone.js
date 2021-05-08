@@ -1,39 +1,56 @@
 import React, {useEffect, useState} from "react";
 import $ from 'jquery';
+import {VERIFY_MOBILE_URL} from "../../../services/Type";
+import {Request} from "../../../services/AuthService/Api";
+import ReactDOM from 'react-dom'
+import Loading from "../Loading";
+import {error as ErrorToast , success} from './../../../helper'
+import FinalDataRegister from "./FinalDataRegister";
 
-const VerifyPhone = ({time}) => {
+const VerifyPhone = ({time, token, phoneNumber , response : pushResponse}) => {
 
-    const [verifyCode , setVerifyCode] = useState({
-        code_1 : '',
-        code_2 : '',
-        code_3 : '',
-        code_4 : '',
+    let timers = 0;
+    console.log("timer" , timers);
+    const [verifyCode, setVerifyCode] = useState({
+        code_1: '',
+        code_2: '',
+        code_3: '',
+        code_4: '',
     });
+
     useEffect(() => {
         $("input[name=code_1]").focus();
         Timer();
+
     }, [])
+
+
+
     const Timer = () => {
-        var min = Math.floor(time / 60);
-        var sec = Math.floor(time - (min * 60));
+        timers = time;
+        var min = Math.floor(timers / 60);
+        var sec = Math.floor(timers - (min * 60));
         setInterval(function () {
-            if (min == 0 && sec == 1) {
+            if (min == 0 && sec == 0) {
                 // time expired
-                document.getElementById("timersPop").innerHTML = "مجددا برای دریافت کد تلاش کنید!";
+                $("#timersPop").html("");
+                $("#timersPop").html("مجددا جهت دریافت کد اقدام فرمایید");
             } else {
                 if (sec == 0) {
                     min--;
                     sec = 60;
                 }
                 sec--;
-                document.getElementById("timersPop").innerHTML = "0" + min + ":" + sec + " تا انقضای کد ارسالی";
-
+                $("#timersPop").html("");
+                $("#timersPop").html("0" + min + ":" + sec + " تا انقضای کد ارسالی");
             }
         }, 1000)
     }
 
+    let loadingElement = document.getElementById("loading-shows");
 
     var body = $("#wrapper");
+
     // check kardan daryaft number dar inputhai verify code , paresh be input badi
     function goToNextInput(e) {
         var key = e.which,
@@ -51,6 +68,7 @@ const VerifyPhone = ({time}) => {
         }
         sib.select().focus();
     }
+
     // check kardan vard shodan number baray raftan be input badi
     function onKeyDown(e) {
         var key = e.which;
@@ -60,6 +78,7 @@ const VerifyPhone = ({time}) => {
         e.preventDefault();
         return false;
     }
+
     // check kardan focus in input
     function onFocus(e) {
         $(e.target).select();
@@ -71,35 +90,94 @@ const VerifyPhone = ({time}) => {
     body.on("click", "input", onFocus);
 
 
+    let elementVerify = document.getElementById("back-loaders-verify")
+    let formInformation = document.getElementById("register-form")
+    const checkCode = (e) => {
+        e.preventDefault();
+        let code = parseInt(verifyCode.code_1 + verifyCode.code_2 + verifyCode.code_3 + verifyCode.code_4);
+        let data = {
+            token: code,
+            _token: token
+        }
+
+        ReactDOM.render(<Loading/>, loadingElement);
+        Request.VerifyCodeCheck(data)
+            .then(response => {
+                ReactDOM.render('', loadingElement);
+                if (response.data.data.http_code == 200){
+                    success("تایید شماره تلفن موفقیت آمیز بود! کمی صبر کنید...")
+                    setTimeout(()=>{
+                        pushResponse(200)
+                    },600)
+                }
+            }).catch(error => {
+            if (error.response.data.http_code == 404) {
+                ReactDOM.render('', loadingElement);
+                ErrorToast("کد را به صورت صحیح وارد کنید!")
+            }
+        })
+    }
+
+    //
+    // const sendRetryCode = (e) => {
+    //     e.preventDefault();
+    //     let phones = {...phoneNumber};
+    //     phones._token = token;
+    //     // ReactDOM.render(<Loading/>, loadingElement);
+    //
+    //     // Request.RegisterPhone(phones)
+    //     //     .then(response => {
+    //     //         CounterTimer = 120;
+    //     //         Timer();
+    //     //         // ReactDOM.render('', loadingElement);
+    //     //     }).catch((error) => {
+    //     //     // Error
+    //     //     if (error.response) {
+    //     //         // ReactDOM.render('', elementLoading);
+    //     //         CounterTimer = error.response.data.data;
+    //     //         Timer();
+    //     //     } else if (error.request) {
+    //     //         console.log(error.request);
+    //     //     } else {
+    //     //         console.log('Error', error.message);
+    //     //     }
+    //     // });
+    //
+    // }
+
+
     function checkVerifyNumber(str) {
         if (typeof str != "string") return false
         return !isNaN(str) &&
             !isNaN(parseFloat(str))
     }
+
     const verifyCodeGet = (e) => {
         e.preventDefault();
         setVerifyCode({
             ...verifyCode,
-            [e.target.name] : e.target.value
+            [e.target.name]: e.target.value
         })
     }
 
     const checkButton = () => {
-        if (verifyCode.code_1 !== '' && verifyCode.code_2 !== '' && verifyCode.code_3 !== '' && verifyCode.code_4 !== '')
-        {
-            if (checkVerifyNumber(verifyCode.code_1) && checkVerifyNumber(verifyCode.code_2) && checkVerifyNumber(verifyCode.code_3) && checkVerifyNumber(verifyCode.code_4))
-            {
+        if (verifyCode.code_1 !== '' && verifyCode.code_2 !== '' && verifyCode.code_3 !== '' && verifyCode.code_4 !== '') {
+            if (checkVerifyNumber(verifyCode.code_1) && checkVerifyNumber(verifyCode.code_2) && checkVerifyNumber(verifyCode.code_3) && checkVerifyNumber(verifyCode.code_4)) {
                 return (
-                    <button className={"btn btn-primary"} style={{fontSize : '11px'}}>بررسی کد</button>
+                    <button className={"btn btn-primary"} style={{fontSize: '11px'}} onClick={e => checkCode(e)}>بررسی
+                        کد</button>
                 )
             }
 
-        }else{
+        } else {
             return ''
         }
     }
 
-
+    const closeModal = e => {
+        e.preventDefault();
+        ReactDOM.render('',elementVerify);
+    }
 
     return (
         <div className={"container-loader"}>
@@ -107,6 +185,11 @@ const VerifyPhone = ({time}) => {
                 <div className="row justify-content-center align-items-center" style={{height: '100%'}}>
                     <div className="col-md-4 col-sm-10">
                         <div className={"verifyForm"}>
+
+                            <span id={"close-icon"} onClick={e => closeModal(e)}>
+                                <i className={"bx bx-x"}></i>
+                            </span>
+
                             <p>کد تایید را وارد کنید</p>
 
                             <div id="wrapper">
@@ -159,9 +242,14 @@ const VerifyPhone = ({time}) => {
 
                             {checkButton()}
                             <div id={"timersPop"}></div>
-                            <div id={"retryCode"}>
-                                <span style={{borderBottom: '1px dashed'}}>دریافت مجدد کد</span>
+
+                            {/*<div id='retryCode'></div>*/}
+
+                            <div id={"loading-shows"}>
+
                             </div>
+
+
                         </div>
                     </div>
                 </div>
