@@ -1,84 +1,117 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import {error as ErrorToast} from './../../../helper';
+import {Request} from './../../../services/AuthService/Api'
+import './_shared/style.scss';
 
-const FinalDataRegister = () => {
+const FinalDataRegister = ({token, id}) => {
+    const [userData, setUserData] = useState({});
+    useEffect(() => {
+
+    }, [])
+    const onChangeInput = e => {
+        e.preventDefault();
+        setUserData({
+            ...userData,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const verifyForm = (e) => {
+        e.preventDefault();
+        let userDataNew = {...userData};
+        userDataNew._token = token;
+        userDataNew.id = id;
+
+        let pass = $("input[name=password]").val();
+        let passCon = $("input[name=password_confirmation]").val();
+        // let passConfirm = userDataNew.password_confirmation;
+        // console.log(pass.toString() , "/" , passConfirm.toString() )
+        if(pass !== passCon){
+            ErrorToast("پسورد ها با هم یکسان نیستند!")
+        } else{
+            let time_toast = 300;
+            Request.StoreUserInfo(userDataNew)
+                .then(response => {
+                    console.log("vsdvsdv response : " , response);
+                }).catch(error => {
+                    Object.keys(error.response.data.errors).map((name , i) => {
+                        setTimeout(()=>{
+                            ErrorToast(error.response.data.errors[name][0])
+                        },time_toast)
+                        time_toast = time_toast+500;
+
+                    })
+            })
+        }
+
+    }
     return (
-        <div className="col-md-6 col-12 px-0">
-            <div className="card disable-rounded-right mb-0 p-2 h-100 d-flex justify-content-center">
-                <div className="card-header pb-1">
-                    <div className="card-title">
-                        <h4 className="text-center mb-2">ثبت نام</h4>
-                    </div>
-                </div>
-                <div className="text-center">
-                    <p>
-                        <small className="line-height-2 d-inline-block"> لطفا جزئیات خود را برای ثبت نام
-                        وارد کرده و عضوی از جامعه عالی ما شوید.</small>
-                    </p>
-                </div>
+        <div className="col-12 px-0">
+            <div className="card disable-rounded-right mb-0 p-2 h-100 d-flex justify-content-center"
+                 id={"card-contents"}>
                 <div className="card-content">
-                    <div className="card-body">
+                    <form onSubmit={e => verifyForm(e)} autocomplete="off">
+
+                        <div className="card-body">
                             <div className="form-row">
                                 <div className="form-group col-md-6 mb-50">
                                     <label htmlFor="inputfirstname4">نام</label>
-                                    <input type="text" className="form-control" id="inputfirstname4"
-                                           name="name" value="{{old('name')}}" placeholder="نام" />
-
+                                    <input type="text" autoComplete="off" className="form-control inputRegister"
+                                           id="inputfirstname4"
+                                           name="name" onChange={e => onChangeInput(e)} placeholder="نام"/>
                                 </div>
                                 <div className="form-group col-md-6 mb-50">
                                     <label htmlFor="inputlastname4">نام خانوادگی</label>
-                                    <input type="text" className="form-control" id="inputlastname4"
-                                           name="last_name" value=""
-                                           placeholder="نام خانوادگی" />
+                                    <input type="text" autoComplete="off" className="form-control inputRegister"
+                                           id="inputlastname4"
+                                           name="last_name" onChange={e => onChangeInput(e)}
+                                           placeholder="نام خانوادگی"/>
                                 </div>
-
                             </div>
-                            <div className="form-group mb-50">
-                                <label className="text-bold-700" htmlFor="exampleInputUsername1">شماره
-                                    موبایل</label>
-                                <input type="text" className="form-control text-left"
-                                       name="phone" value=""
-                                       id="exampleInputUsername1" placeholder="شماره موبایل"
-                                       dir="ltr" />
 
-                            </div>
                             <div className="form-group mb-50">
                                 <label className="text-bold-700" htmlFor="exampleInputEmail1">آدرس
                                     ایمیل</label>
-                                <input type="email" className="form-control text-left"
-                                       name="email" value="" id="exampleInputEmail1"
-                                       placeholder="آدرس ایمیل" dir="ltr" />
-
+                                <input type="email" autoComplete="off" className="form-control inputRegister text-left"
+                                       name="email" onChange={e => onChangeInput(e)} id="exampleInputEmail1"
+                                       placeholder="آدرس ایمیل" dir="ltr"/>
                             </div>
                             <div className="form-group mb-2">
                                 <label className="text-bold-700" htmlFor="exampleInputPassword1">رمز
                                     عبور</label>
-                                <input type="password" className="form-control text-left"
-                                       name="password" id="password" placeholder="رمز عبور"
-                                       dir="ltr" />
-
+                                <input type="password" autoComplete="off"
+                                       className="form-control inputRegister text-left"
+                                       name="password"
+                                       onChange={e => onChangeInput(e)}
+                                       id="password" placeholder="رمز عبور"
+                                       dir="ltr"/>
                             </div>
                             <div className="form-group mb-2">
                                 <label className="text-bold-700" htmlFor="exampleInputPassword1">تایید رمز
                                     عبور </label>
-                                <input type="password" className="form-control text-left"
+                                <input type="password" autoComplete="off"
+                                       className="form-control inputRegister text-left"
+                                       onChange={e => onChangeInput(e)}
                                        name="password_confirmation" id="password-confirm"
-                                       placeholder=" تایید رمز عبور" dir="ltr" />
-
+                                       placeholder=" تایید رمز عبور" dir="ltr"/>
                             </div>
 
-                            <button type="submit"
-                                    className="btn btn-primary glow position-relative w-100">ثبت نام<i
+                            <button type={"submit"}
+                                    className="btn btn-primary glow position-relative w-100">ثبت اطلاعات تکمیلی<i
                                 id="icon-arrow" className="bx bx-left-arrow-alt"></i></button>
-                        <hr />
+                            <hr/>
                             <div className="text-center">
                                 <small className="mr-25">حساب کاربری دارید؟</small>
-                                <a><small>ورود</small></a>
+                                <a href={"/login"}><small>ورود</small></a>
                             </div>
-                    </div>
+                        </div>
+                    </form>
+
+
                 </div>
             </div>
         </div>
     )
 }
 
-    export default FinalDataRegister;
+export default FinalDataRegister;
