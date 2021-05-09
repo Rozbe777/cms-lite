@@ -14,16 +14,17 @@
 
                                 <!-- left section-login -->
 
-                                <div class="col-md-6 col-12 px-0">
-                                    <div data-action="{{route('auth.login')}}" data-token="{{csrf_token()}}" id="login-form"></div>
+                                <div class="col-md-6">
+                                    <div style="width: 100%;height : 100%" data-action="{{route('auth.login')}}"
+                                         data-token="{{csrf_token()}}" id="login-form"></div>
                                 </div>
                                 <!-- right section image -->
+
                                 <div class="col-md-6 d-md-block d-none text-center align-self-center p-3">
-                                    <div class="card-content">
-                                        <img class="img-fluid" src="{{adminTheme("images/pages/login.png")}}"
-                                             alt="branding logo">
-                                    </div>
+                                    <img class="img-fluid" src="{{adminTheme("images/pages/login.png")}}"
+                                         alt="branding logo" />
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -36,3 +37,9 @@
     <!-- /content area -->
 @endsection
 
+@section("pageScripts")
+
+    <script src="{{asset("/js/app.js")}}"></script>
+
+
+@endsection

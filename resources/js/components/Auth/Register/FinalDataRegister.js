@@ -61,12 +61,14 @@ const FinalDataRegister = ({token, id}) => {
                                     <label htmlFor="inputfirstname4">نام</label>
                                     <input type="text" autoComplete="off" className="form-control inputRegister"
                                            id="inputfirstname4"
+                                           autocomplete="one-time-code"
                                            name="name" onChange={e => onChangeInput(e)} placeholder="نام"/>
                                 </div>
                                 <div className="form-group col-md-6 mb-50">
                                     <label htmlFor="inputlastname4">نام خانوادگی</label>
                                     <input type="text" autoComplete="off" className="form-control inputRegister"
                                            id="inputlastname4"
+                                           autocomplete="one-time-code"
                                            name="last_name" onChange={e => onChangeInput(e)}
                                            placeholder="نام خانوادگی"/>
                                 </div>
@@ -76,6 +78,7 @@ const FinalDataRegister = ({token, id}) => {
                                 <label className="text-bold-700" htmlFor="exampleInputEmail1">آدرس
                                     ایمیل</label>
                                 <input type="email" autoComplete="off" className="form-control inputRegister text-left"
+                                       autocomplete="one-time-code"
                                        name="email" onChange={e => onChangeInput(e)} id="exampleInputEmail1"
                                        placeholder="آدرس ایمیل" dir="ltr"/>
                             </div>
@@ -85,6 +88,7 @@ const FinalDataRegister = ({token, id}) => {
                                 <input type="password" autoComplete="off"
                                        className="form-control inputRegister text-left"
                                        name="password"
+                                       autocomplete="one-time-code"
                                        onChange={e => onChangeInput(e)}
                                        id="password" placeholder="رمز عبور"
                                        dir="ltr"/>
@@ -94,6 +98,7 @@ const FinalDataRegister = ({token, id}) => {
                                     عبور </label>
                                 <input type="password" autoComplete="off"
                                        className="form-control inputRegister text-left"
+                                       autocomplete="one-time-code"
                                        onChange={e => onChangeInput(e)}
                                        name="password_confirmation" id="password-confirm"
                                        placeholder=" تایید رمز عبور" dir="ltr"/>

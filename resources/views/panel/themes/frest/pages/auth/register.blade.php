@@ -2,6 +2,7 @@
 @section("content")
 
     <!-- Content area -->
+
     <div class="content-wrapper">
         <div class="content-header row">
         </div>
@@ -11,7 +12,7 @@
                     <div class="card bg-authentication mb-0">
                         <div class="row m-0">
                             <!-- register section left -->
-                            <div class="col-md-6 col-12 px-0" style="position:relative;">
+                            <div class="col-md-6 col-12 px-0">
                                 <div
                                     style="position: absolute;width: 100%;top: 0px;bottom: 0px;margin: auto; min-height: 300px;"
                                     id="register-form" data-token="{{csrf_token()}}">
@@ -20,18 +21,15 @@
                             <!-- image section right -->
                             <div class="col-md-6 d-md-block d-none text-center align-self-center p-3">
                                 <img class="img-fluid" src="{{adminTheme("images/pages/register.png")}}"
-                                     alt="branding logo">
+                                     alt="branding logo" />
                             </div>
                         </div>
                     </div>
                 </div>
-
-
             </section>
             <!-- register section endss -->
         </div>
     </div>
-
 
 
     <!-- /content area -->
@@ -43,14 +41,6 @@
 
     <script>
 
-        // show when page load
-        // toastr.info('Page Loaded!');
-        //
-        // toastr.danger('پنهان سازی آهسته', 'پنهان سازی آهسته', {
-        //     rtl: true,
-        //     hideDuration: 3000,
-        //     positionClass: 'position-bottom-right'
-        // });
         function showError() {
             toastr.options = {
                 "closeButton": false,
