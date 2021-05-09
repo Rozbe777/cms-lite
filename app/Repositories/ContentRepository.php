@@ -31,7 +31,7 @@ class ContentRepository implements Interfaces\RepositoryInterface
     }
 
     public function create(array $data)
-    {
-        // TODO: Implement create() method.
+    {dd($data,gettype($data));
+        $content = Content::create();
     }
 }

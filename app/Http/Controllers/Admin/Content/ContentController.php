@@ -50,19 +50,20 @@ class ContentController extends Controller
      */
     public function store(CreateContentRequest $request)
     {
-        $content = Content::create($request->all());
-        dd($content);
+        $this->contentRepository->create($request);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Content  $content
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Content $content)
     {
-        return adminView("pages.admin.content.create",compact('content'));
+        return response()->json([
+            "data" => $content
+        ]);
     }
 
     /**
