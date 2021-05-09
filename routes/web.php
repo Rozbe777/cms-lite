@@ -55,6 +55,7 @@ Route::get('csrf', function () {
 //-----------------------Mehrshad Start----------------------
 Route::get('/login', [LoginController::class, 'show'])->name('show.login');
 Route::post('auth/login', [LoginController::class, 'login'])->name('auth.login');
+Route::get('logout', [LoginController::class, 'logout'])->name('auth.logout');
 
 Route::prefix('mobile')->group(function () {
     Route::get('/register', [MobileRegisterController::class, 'show'])->name('show.mobile.form');
@@ -74,7 +75,7 @@ Route::prefix('auth')->group(function () {
     });
 });
 Route::resource('contents',ContentController::class);
-Route::post('contents/multi/destroy',[ContentController::class,'multipleDestroy']);
+Route::delete('contents/multi/destroy',[ContentController::class,'multipleDestroy']);
 
 //Route::get('content/edit', [ContentController::class, 'edit'])->name('content.edit');
 //Route::post('content/update/{id}', [ContentController::class, 'update'])->name('content.update');

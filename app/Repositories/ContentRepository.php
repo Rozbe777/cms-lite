@@ -4,8 +4,10 @@
 namespace App\Repositories;
 
 
+use App\Http\Requests\Admin\Content\multipleDestroyRequest;
 use App\Models\Content;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class ContentRepository implements Interfaces\RepositoryInterface
 {
@@ -20,18 +22,27 @@ class ContentRepository implements Interfaces\RepositoryInterface
         // TODO: Implement get() method.
     }
 
-    public function delete($id)
+    public function delete($content)
     {
-        // TODO: Implement delete() method.
+        $content->update(['status'=>'deactivate']);
+        return $content->delete();
     }
 
-    public function update(array $data, $id)
+    public function update(array $data, $content)
     {
-        // TODO: Implement update() method.
+        return $content->update($data);
     }
 
     public function create(array $data)
-    {dd($data,gettype($data));
-        $content = Content::create();
+    {
+        $index['user_id'] = Auth::id();
+        $content = Content::create($data);
+        $content->update($index);
+        return $content;
+    }
+
+    public function multipleDestroy($data)
+    {
+        return Content::whereIn('id',$data['contentIds'])->update(['status'=>'deactivate', "deleted_at"=>Carbon::now()]);
     }
 }
