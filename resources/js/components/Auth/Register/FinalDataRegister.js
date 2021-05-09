@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {error as ErrorToast} from './../../../helper';
+import {error as ErrorToast , success as SuccessToast} from './../../../helper';
 import {Request} from './../../../services/AuthService/Api'
 import './_shared/style.scss';
 
@@ -32,7 +32,10 @@ const FinalDataRegister = ({token, id}) => {
             let time_toast = 300;
             Request.StoreUserInfo(userDataNew)
                 .then(response => {
-                    console.log("vsdvsdv response : " , response);
+                    SuccessToast("اطلاعات شما با موفقیت ثبت شد! کمی صبر کنید...")
+                    setTimeout(()=>{
+
+                    },600)
                 }).catch(error => {
                     Object.keys(error.response.data.errors).map((name , i) => {
                         setTimeout(()=>{
