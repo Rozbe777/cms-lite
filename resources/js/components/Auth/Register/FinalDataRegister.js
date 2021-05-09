@@ -34,7 +34,7 @@ const FinalDataRegister = ({token, id}) => {
                 .then(response => {
                     SuccessToast("اطلاعات شما با موفقیت ثبت شد! کمی صبر کنید...")
                     setTimeout(()=>{
-
+                        window.location.pathname = "/login"
                     },600)
                 }).catch(error => {
                     Object.keys(error.response.data.errors).map((name , i) => {

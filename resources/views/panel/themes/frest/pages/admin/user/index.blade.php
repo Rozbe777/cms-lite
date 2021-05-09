@@ -7,7 +7,7 @@
         </script>
     @endif
 
-    <div class="content-wrapper">
+    <div class="content-wrapper" style="padding : 0px !important;">
         <div class="content-header row">
             <div class="content-header-left col-12 mb-2 mt-1">
                 <div class="row breadcrumbs-top" style="position: relative">
