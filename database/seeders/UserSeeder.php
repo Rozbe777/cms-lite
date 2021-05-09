@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
@@ -65,9 +66,10 @@ class UserSeeder extends Seeder
                 $user->name = $value['name'];
                 $user->last_name = $value['last_name'];
                 $user->email = $value['email'];
-                $user->mobile = $value['mobile'];
+                $user->mobile = mobile($value['mobile']);
                 $user->email_verified_at = now();
-                $user->password = bcrypt("password");
+                $user->password = bcrypt(123456);
+                $user->mobile_verified_at = Carbon::now();
                 $user->save();
                 $user->roles()->attach($role->id);
 

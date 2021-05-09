@@ -30,7 +30,7 @@ class CreateContentsTable extends Migration
 //            $table->bigInteger('weight')->default(0);
             $table->boolean('is_index')->default(0);
             $table->integer('is_menu')->default(0);
-            $table->timestamp('published_at')->nullable();
+            $table->timestamp('published_at')->default(\Carbon\Carbon::now());
             $table->softDeletes();
             $table->timestamps();
         });
