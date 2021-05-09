@@ -43,6 +43,6 @@ class ContentRepository implements Interfaces\RepositoryInterface
 
     public function multipleDestroy($data)
     {
-        dd($data);
+        return Content::whereIn('id',$data['contentIds'])->update(['status'=>'deactivate', "deleted_at"=>Carbon::now()]);
     }
 }

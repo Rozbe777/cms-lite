@@ -107,7 +107,7 @@ class ContentController extends Controller
     }
 
     public function multipleDestroy(multipleDestroyRequest $request)
-    {dd($request->all());
+    {
         $this->contentRepository->multipleDestroy($request);
     }
 }
