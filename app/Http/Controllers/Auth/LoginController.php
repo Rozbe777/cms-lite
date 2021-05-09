@@ -49,6 +49,6 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        return $this->response->success("loginOut successfully");
+        return $this->response->success("logOut successfully");
     }
 }

@@ -46,11 +46,13 @@ class ContentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(CreateContentRequest $request)
     {
-        $this->contentRepository->create($request);
+        return response()->json([
+           'data'=> $this->contentRepository->create($request->all())
+        ]);
     }
 
     /**
@@ -82,33 +84,30 @@ class ContentController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Content  $content
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(EditContentRequest $request, Content $content)
     {
-        $content->update($request->all());
-
-        if (str_contains($request->route()->uri,'api/')){
-            dd(1);
-        }else{
-            dd(2);
-        }
+        return response()->json([
+            'data'=> $this->contentRepository->update($request->all(),$content)
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Content  $content
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Content $content)
     {
-        $content->delete();
-        $content->update(['status'=>'deactivate']);
+        return response()->json([
+            'data'=>$this->contentRepository->delete($content)
+        ]);
     }
 
     public function multipleDestroy(multipleDestroyRequest $request)
-    {
-        dd($request->contentIds);
+    {dd($request->all());
+        $this->contentRepository->multipleDestroy($request);
     }
 }
