@@ -9,14 +9,16 @@ import Loading from "../Loading";
 import FinalDataRegister from "./FinalDataRegister";
 
 const Index = (props) => {
-    useEffect(()=>{
+    useEffect(() => {
         $("input[name=code_1]").focus();
-    },[])
+    }, [])
+
 
     let timerString = "";
     var pattern = /^09([0-9]{2})-?[0-9]{3}-?[0-9]{4}$/;
     let CounterTimer = 0;
     const [responseVerify, setResponseVerify] = useState(0);
+    const [intervals , setIntervalId] = useState();
     const {token} = props;
     const [phone, setPhone] = useState();
     const [response, setResponse] = useState();
@@ -54,22 +56,25 @@ const Index = (props) => {
             ReactDOM.render(<Loading/>, elementLoading);
             Request.RegisterPhone(phones)
                 .then(response => {
-                    Timer(e , 120)
+                    clearInterval(intervals);
+                    Timer(e, 120)
                     ReactDOM.render('', elementLoading);
                     $(".container-loader").fadeIn();
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         $(".verifyForm").addClass("active");
-                    },500)
+                    }, 500)
                     // VerifyModal(e, 120)
                 }).catch((error) => {
                 // Error
+
                 if (error.response) {
+                    clearInterval(intervals);
                     ReactDOM.render('', elementLoading);
-                   Timer(e , error.response.data.data)
+                    Timer(e, error.response.data.data)
                     $(".container-loader").fadeIn();
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         $(".verifyForm").addClass("active");
-                    },500)
+                    }, 500)
                     // VerifyModal(e, error.response.data.data);
                 } else if (error.request) {
 
@@ -84,21 +89,26 @@ const Index = (props) => {
     }
 
 
-    var intervals;
-    const Timer = (e , timers) => {
-        e.preventDefault()
-        let stringis = "";
+    const Timer = (e, timers) => {
 
-        let elementTimer = document.getElementById("timersPop");
+        e.preventDefault()
+        console.log("ffff : " , timers);
+        let stringis = "";
         var min = Math.floor(timers / 60);
         var sec = Math.floor(timers - (min * 60));
-        clearInterval(intervals);
-        intervals = setInterval(function () {
-            console.log("min , sec : " , min , sec)
+
+        if (intervals) {
+            clearInterval(intervals);
+        }
+
+        let elementTimer = document.getElementById("timersPop");
+
+        var intervalsId = setInterval(function () {
+            console.log("min , sec : ", min, sec)
             if (min == 0 && sec == 0) {
                 clearInterval(intervals);
-                // elementTimer.innerHTML =  "";
-                elementTimer.innerHTML =  "مجددا جهت دریافت کد اقدام فرمایید";
+                elementTimer.innerHTML =  "";
+                elementTimer.innerHTML = "مجددا جهت دریافت کد اقدام فرمایید";
             } else {
                 if (sec == 0) {
                     min--;
@@ -109,6 +119,9 @@ const Index = (props) => {
             }
             // elementTimer.innerHTML = stringis;
         }, 1000)
+
+        setIntervalId(intervalsId)
+
     }
 
     let loadingElement = document.getElementById("loading-shows");
@@ -166,13 +179,14 @@ const Index = (props) => {
         Request.VerifyCodeCheck(data)
             .then(response => {
                 ReactDOM.render('', loadingElement);
-                console.log("success : " , response)
-                if (response.data.http_code == 200){
+                console.log("success : ", response)
+                if (response.data.http_code == 200) {
                     SuccessToast("تایید شماره تلفن موفقیت آمیز بود! کمی صبر کنید...")
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         clearInterval(intervals);
-                        ReactDOM.render(<FinalDataRegister token={token} id={response.data.data.id} />  , document.getElementById("register-form"));
-                    },600)
+                        ReactDOM.render(<FinalDataRegister token={token}
+                                                           id={response.data.data.id}/>, document.getElementById("register-form"));
+                    }, 600)
                 }
             }).catch(error => {
             if (error.response.data.http_code == 404) {
@@ -213,16 +227,14 @@ const Index = (props) => {
 
     const closeModal = e => {
         e.preventDefault();
+        console.log("intervals", intervals);
         clearInterval(intervals);
+
         $(".verifyForm").removeClass("active");
-        setTimeout(()=>{
+        setTimeout(() => {
             $(".container-loader").fadeOut();
-        },500)
+        }, 500)
     }
-
-
-
-
 
 
     return (
@@ -257,7 +269,7 @@ const Index = (props) => {
                         </div>
                         <div>
                             <small className="mr-25">قبلا ثبت نام کرده اید؟</small>
-                            <a style={{borderBottom: '1px dashed', cursor: 'pointer'}}><small>ورود به پنل</small></a>
+                            <a href={"/login"} style={{borderBottom: '1px dashed', cursor: 'pointer'}}><small>ورود به پنل</small></a>
                         </div>
                     </div>
                 </div>
@@ -270,81 +282,81 @@ const Index = (props) => {
             </div>
 
 
-                <div className={"container-loader"} >
-                    <div className={"container"} style={{height: '100%'}}>
-                        <div className="row justify-content-center align-items-center" style={{height: '100%'}}>
-                            <div className="col-md-4 col-sm-10">
-                                <div className={"verifyForm"}>
+            <div className={"container-loader"}>
+                <div className={"container"} style={{height: '100%'}}>
+                    <div className="row justify-content-center align-items-center" style={{height: '100%'}}>
+                        <div className="col-md-4 col-sm-10">
+                            <div className={"verifyForm"}>
 
                             <span id={"close-icon"} onClick={e => closeModal(e)}>
                                 <i className={"bx bx-x"}></i>
                             </span>
 
-                                    <p>کد تایید را وارد کنید</p>
+                                <p>کد تایید را وارد کنید</p>
 
-                                    <div id="wrapper">
-                                        <input
-                                            type="text"
-                                            placeholder="--"
-                                            maxLength="1"
-                                            size="1"
-                                            step={"1"}
-                                            name="code_1"
-                                            onChange={(e) => verifyCodeGet(e)}
-                                            min="0"
-                                            max="9"
-                                            pattern="\d*"
-                                        />
-                                        <input
-                                            type="text"
-                                            placeholder="--"
-                                            maxLength="1"
-                                            size="1"
-                                            onChange={(e) => verifyCodeGet(e)}
-                                            name="code_2"
-                                            min="0"
-                                            max="9"
-                                            pattern="[0-9]{1}"
-                                        />
-                                        <input
-                                            type="text"
-                                            placeholder="--"
-                                            maxLength="1"
-                                            size="1"
-                                            onChange={(e) => verifyCodeGet(e)}
-                                            name="code_3"
-                                            min="0"
-                                            max="9"
-                                            pattern="[0-9]{1}"
-                                        />
-                                        <input
-                                            type="text"
-                                            placeholder="--"
-                                            maxLength="1"
-                                            size="1"
-                                            name="code_4"
-                                            min="0"
-                                            max="9"
-                                            onChange={(e) => verifyCodeGet(e)}
-                                            pattern="[0-9]{1}"
-                                        />
-                                    </div>
+                                <div id="wrapper">
+                                    <input
+                                        type="text"
+                                        placeholder="--"
+                                        maxLength="1"
+                                        size="1"
+                                        step={"1"}
+                                        name="code_1"
+                                        onChange={(e) => verifyCodeGet(e)}
+                                        min="0"
+                                        max="9"
+                                        pattern="\d*"
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="--"
+                                        maxLength="1"
+                                        size="1"
+                                        onChange={(e) => verifyCodeGet(e)}
+                                        name="code_2"
+                                        min="0"
+                                        max="9"
+                                        pattern="[0-9]{1}"
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="--"
+                                        maxLength="1"
+                                        size="1"
+                                        onChange={(e) => verifyCodeGet(e)}
+                                        name="code_3"
+                                        min="0"
+                                        max="9"
+                                        pattern="[0-9]{1}"
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="--"
+                                        maxLength="1"
+                                        size="1"
+                                        name="code_4"
+                                        min="0"
+                                        max="9"
+                                        onChange={(e) => verifyCodeGet(e)}
+                                        pattern="[0-9]{1}"
+                                    />
+                                </div>
 
-                                    {checkButton()}
-                                    <div id={"timersPop"}></div>
+                                {checkButton()}
+                                <div id={"timersPop"}></div>
 
-                                    {/*<div id='retryCode'></div>*/}
+                                {/*<div id='retryCode'></div>*/}
 
-                                    <div id={"loading-shows"}>
-
-                                    </div>
-
+                                <div id={"loading-shows"}>
 
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
         </>
 
