@@ -15,8 +15,8 @@ class CreateCategoryContentTable extends Migration
     {
         Schema::create('category_content', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('category_id')->index();
-            $table->bigInteger('content_id')->index();
+            $table->bigInteger('category_id');
+            $table->bigInteger('content_id');
             $table->timestamps();
         });
     }

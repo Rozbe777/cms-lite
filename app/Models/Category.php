@@ -24,19 +24,7 @@ class Category extends Model
 
     use HasFactory;
 
-    protected $fillable = [
-        "name",
-        "slug",
-        "image",
-        "content",
-        "fields",
-        "parent_id",
-        "layout_id",
-        "module_id",
-        "status",
-        "is_menu",
-        "metadata"
-    ];
+    protected $guarded=[];
     protected $appends = [
         "content_count",
 //        "real_url",
