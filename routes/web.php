@@ -100,9 +100,7 @@ Route::get('admin', function () {
     return redirect()->route('admin.dashboard.index');
 });
 Route::group(['middleware' => 'user_permission'], function () {
-Route::get('a',function (){
-   dd(12);
-});
+
     Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'name' => 'admin.', 'middleware' => 'auth'], function () {
 
 

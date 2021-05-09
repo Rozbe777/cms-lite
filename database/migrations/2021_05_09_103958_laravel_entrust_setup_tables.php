@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class LaravelEntrustSetupTables extends Migration
 {
@@ -27,9 +28,12 @@ class LaravelEntrustSetupTables extends Migration
             $table->string('name')->unique();
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
+            $table->integer('is_menu')->default(0);
+            $table->integer('parent_id')->default(0);
+            $table->string('icon')->nullable();
             $table->timestamps();
         });
-        
+
         // Schema to create role_users table
         Schema::create('role_user', function (Blueprint $table) {
             $table->unsignedBigInteger('role_id');

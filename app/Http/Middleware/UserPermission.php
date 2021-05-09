@@ -20,7 +20,7 @@ class UserPermission
         if (auth()->guest())
             return route('auth.login');
 
-        if (!auth()->user()->can(request()->route()->getName())) {
+        if (!auth()->user()->can(request()->route()->getName())) {dd(112323);
             return $request->ajax() ? response(["message" => "شما دسترسی به این بخش را ندارید"],403) : abort(403);
         }
 
