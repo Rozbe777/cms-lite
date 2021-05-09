@@ -70,11 +70,16 @@ const Index = (props) => {
                 if (error.response) {
                     clearInterval(intervals);
                     ReactDOM.render('', elementLoading);
-                    Timer(e, error.response.data.data)
-                    $(".container-loader").fadeIn();
-                    setTimeout(() => {
-                        $(".verifyForm").addClass("active");
-                    }, 500)
+                    if (error.response.data.data){
+                        Timer(e, error.response.data.data)
+                        $(".container-loader").fadeIn();
+                        setTimeout(() => {
+                            $(".verifyForm").addClass("active");
+                        }, 500)
+                    }else{
+                        ErrorToast("این شماره تلفن ثبت نام شده است ! میتوانید بازگردانی پسورد بزنید!")
+                    }
+
                     // VerifyModal(e, error.response.data.data);
                 } else if (error.request) {
 
@@ -219,7 +224,6 @@ const Index = (props) => {
                         کد</button>
                 )
             }
-
         } else {
             return ''
         }
@@ -257,6 +261,7 @@ const Index = (props) => {
                             </label>
                             <input type="text" className="form-control text-left"
                                    id="username"
+                                   autocomplete="one-time-code"
                                    onChange={e => HandlePhone(e)}
                                    name="mobile"
                                    placeholder="شماره تلفن" dir="ltr"/>
