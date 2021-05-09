@@ -14,7 +14,11 @@ class ContentRepository implements Interfaces\RepositoryInterface
 
     public function all()
     {
-        return Content::with('user')->with('tags')->with('categories')->where('published_at','<=', Carbon::now())->get();
+        try {
+            return Content::with('user')->with('tags')->with('categories')->where('published_at', '<=', Carbon::now())->get();
+        } catch (\Exception $exception) {
+            return [$exception->getCode(), $exception->getMessage()];
+        }
     }
 
     public function get($id)
@@ -24,25 +28,38 @@ class ContentRepository implements Interfaces\RepositoryInterface
 
     public function delete($content)
     {
-        $content->update(['status'=>'deactivate']);
+        $content->update(['status' => 'deactivate']);
         return $content->delete();
     }
 
     public function update(array $data, $content)
     {
-        return $content->update($data);
+        try {
+            return $content->update($data);
+        } catch (\Exception $exception) {
+            return [$exception->getCode(), $exception->getMessage()];
+        }
     }
 
     public function create(array $data)
     {
-        $index['user_id'] = Auth::id();
-        $content = Content::create($data);
-        $content->update($index);
-        return $content;
+        try {
+            $index['user_id'] = Auth::id();
+            $content = Content::create($data);
+            $content->update($index);
+            return $content;
+        } catch (\Exception $exception) {
+            return [$exception->getCode(), $exception->getMessage()];
+        }
     }
 
     public function multipleDestroy($data)
     {
-        return Content::whereIn('id',$data['contentIds'])->update(['status'=>'deactivate', "deleted_at"=>Carbon::now()]);
+        try {
+            Content::whereIn('id', $data['contentIds'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);
+            return true;
+        } catch (\Exception $exception) {
+            return [$exception->getCode(), $exception->getMessage()];
+        }
     }
 }

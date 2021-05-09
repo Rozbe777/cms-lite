@@ -46,6 +46,8 @@ Route::get('/react/register', function () {
     return redirect(\route('auth.register'));
 });*/
 
+Route::get('contents',[ContentController::class,'index']);
+
 
 Route::get('/login', function () {
     return redirect()->route('auth.login');
