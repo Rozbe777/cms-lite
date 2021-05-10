@@ -16,6 +16,11 @@ class RegisterController extends Controller
 
     use CreateUserTrait;
 
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
+
     public function show()
     {
         return adminView("pages.auth.register");
@@ -28,13 +33,14 @@ class RegisterController extends Controller
 
         $response = new Responses();
 
-        if (is_array($user)){ /** when throw an exception */
-            return $response->notSuccess($user['exception_message'],404);
+        if (is_array($user)) {
+            /** when throw an exception */
+            return $response->notSuccess($user['exception_message'], 404);
         }
 
         Auth::login($user);
 
-        $role = Role::where('name','admin')->firstOrFail();
+        $role = Role::where('name', 'admin')->firstOrFail();
         $user->attachRole($role->id);
 
         return $response->success('user info is updated');

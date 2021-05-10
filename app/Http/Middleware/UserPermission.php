@@ -18,9 +18,9 @@ class UserPermission
     public function handle(Request $request, Closure $next)
     {
         if (auth()->guest())
-            return route('auth.login');
+            return redirect()->route('show.login');
 
-        if (!auth()->user()->can(request()->route()->getName())) {dd(112323);
+        if (!auth()->user()->can(request()->route()->getName())) {
             return $request->ajax() ? response(["message" => "شما دسترسی به این بخش را ندارید"],403) : abort(403);
         }
 
