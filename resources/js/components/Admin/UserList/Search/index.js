@@ -65,18 +65,18 @@ const SearchComponent = ({category: pushCategory}) => {
                         <div className="col-12 col-sm-6 col-lg-3">
                             <label
                                 htmlFor="users-list-verified">تایید شده</label>
-                            <MultiOption/>
+                            <MultiOption name={"acceeptAble"}/>
                         </div>
 
                         <div className="col-12 col-sm-6 col-lg-3">
                             <label htmlFor="users-list-status">نقش</label>
-                            <MultiOption/>
+                            <MultiOption name={"roles"}/>
                         </div>
 
                         <div className="col-12 col-sm-6 col-lg-3">
                             <label
                                 htmlFor="users-list-role">وضعیت</label>
-                            <MultiOption/>
+                            <MultiOption name={"status"}/>
                         </div>
 
                         {/*<div className="col-6 col-sm-6 col-lg-2" style={{marginBlockStart: 'auto'}}>*/}

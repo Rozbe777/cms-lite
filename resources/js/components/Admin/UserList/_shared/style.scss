@@ -1,0 +1,176 @@
+.itemUserShow {
+    width: 100%;
+    height: 60px;
+    margin-bottom: 15px;
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    transition: 0.3s all ease;
+    -webkit-transition: 0.3s all ease;
+    -moz-transition: 0.3s all ease;
+    &:hover{
+        transition: 0.3s all ease;
+        -webkit-transition: 0.3s all ease;
+        -moz-transition: 0.3s all ease;
+        transform: scale(1.01);
+        box-shadow: 0 0 3px 2px rgb(0 0 0 / 10%);
+    }
+    #checkbox-fieldset {
+        width: 30px;
+        height: 30px;
+        float: right;
+        margin-top: 15px;
+    }
+
+    span {
+
+        font-size: 13px;
+        float: right;
+        margin-top: 13px;
+        max-width: 240px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        border-left: 1px solid #eee;
+        padding-left: 15px;
+        height: 30px;
+        line-height: 2.3;
+        margin-right: 10px;
+
+        a.activeUser {
+            float: left;
+            background: #ccff90;
+            padding: 0px 20px;
+            border-radius: 25px;
+            color: #00c853;
+
+            &:hover {
+                color: #00c853;
+            }
+        }
+
+        a.deactiveUser {
+            float: left;
+            background: #ffccbc ;
+            padding: 0px 20px;
+            border-radius: 25px;
+            color: #bf360c;
+
+            &:hover {
+                color: #bf360c;
+            }
+        }
+
+        a.role {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            float: left;
+            padding: 0px 5px;
+            color: #727E8C;
+
+            &:hover {
+                color: #727E8C;
+            }
+        }
+    }
+
+    #labels{
+        float: right;
+
+    }
+
+
+
+    span.final {
+        font-size: 13px;
+        float: right;
+        max-width: 240px;
+        margin-top: 13px;
+        border-left: none !important;
+        padding-left: 15px;
+        height: 30px;
+        line-height: 2.3;
+        margin-right: 10px;
+
+        a.role {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            float: left;
+            padding: 0px 5px;
+            color: #727E8C;
+
+            &:hover {
+                color: #727E8C;
+            }
+        }
+    }
+
+    a.moreOptions{
+        float: left;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        text-align: center;
+        position: relative;
+        margin-top: 15px;
+        i{
+            font-size: 27px;
+        }
+        ul{
+            opacity: 0;
+            z-index: -1;
+            list-style: none;
+            left: 60px;
+            width: 150px;
+            position: absolute;
+            top: 0px;
+            background: #fff;
+            box-shadow: -8px 0 11px 1px rgb(0 0 0 / 10%);
+            padding: 10px 5px;
+            border-radius: 5px;
+            border: 1px solid #eee;
+            font-size: 13px;
+            transition: 0.3s all ease;
+            -webkit-transition: 0.3s all ease;
+            -moz-transition: 0.3s all ease;
+            &.activeSet{
+                opacity: 1;
+                z-index: 1;
+                left : 40px;
+                transition: 0.3s all ease;
+                -webkit-transition: 0.3s all ease;
+                -moz-transition: 0.3s all ease;
+            }
+            li {
+                i{
+                    float: right;
+                    font-size: 20px;
+                    margin-right: 10px;
+                }
+                &::after{
+                    content: "";
+                    width: 15px;
+                    height: 15px;
+                    background: #fff;
+                    position: absolute;
+                    top: 7px;
+                    left: -12px;
+                    -webkit-clip-path: polygon(0 0, 100% 100%, 100% 0);
+                    clip-path: polygon(0 0, 100% 100%, 100% 0);
+                }
+            }
+        }
+    }
+}
+
+.userListRow {
+    padding: 0 20px;
+}
+
+.pagination .page-item.active{
+    width: 30px;
+}

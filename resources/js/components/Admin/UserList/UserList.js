@@ -5,20 +5,31 @@ import {Request} from "./../../../services/AdminService/Api";
 import {Pagination} from './../_Micro/Pagination';
 import {UserColumns} from './../_Micro/TableColumnsList'
 import {DeleteGroupt} from './../_Shared/java';
+import {Item} from './HOC/Item'
 import $ from 'jquery';
+import {TotalActions} from './HOC/TotalActions'
+import Loading from './../_Micro/Loading'
 import SearchComponent from "./Search";
+import {BreadCrumbs} from './HOC/BreadCrumbs'
+import {CHECK_BOX_CONTENT} from "./Helper/Context";
 
 const UserList = memo((props) => {
     const {token} = props;
     const [allUser, setAllUser] = useState([]);
-    const [allUserSlice, setAllUserSlice] = useState();
+    const [userSelected, setUserSelected] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const [perPage, setPerPage] = useState(3);
     const [userData, setUserData] = useState({});
     const [total, setTotal] = useState();
+    const [checkBox, setCheckBox] = useState([]);
     const [loading, setLoading] = useState(false);
     const [userId, setUserId] = useState({userIds: []});
+    const [breadData] = useState({
+        title: 'لیست کاربران',
+        desc : 'نمایش لیست کاربران و مدیریت آنها'
+    });
     let userIdArr = [];
+
 
     $('.sweet-alert-delete-confirm').on('click', function (event) {
         event.preventDefault();
@@ -49,8 +60,6 @@ const UserList = memo((props) => {
     });
 
 
-
-
     // let token = $('meta[name=author]').attr('content');
     let GetAllUser = (page) => {
         setLoading(true);
@@ -63,7 +72,7 @@ const UserList = memo((props) => {
                 setAllUser(res.data.data);
             }).catch(err => {
             return err
-            })
+        })
     }
 
 
@@ -181,105 +190,68 @@ const UserList = memo((props) => {
             }
         });
     }
+    if (checkBox.length > 0) {
+        $("#totalAction").addClass("activeAction");
+        $("#breadCrumb").removeClass("activeCrumb");
+    } else {
+        $("#totalAction").removeClass("activeAction");
+        $("#breadCrumb").addClass("activeCrumb");
+    }
 
     return (
 
 
-        <>
-            <SearchComponent />
-            <form id="myForm">
-                <div className="heading-layout1">
-                    <div className="item-title" style={{display: "none"}}>
-                        <h3>لیست کاربران</h3>
-                    </div>
-                    <div className="dropdown" style={{display: "none"}}>
-                        <a className="dropdown-toggle" role="button"
-                           data-toggle="dropdown" aria-expanded="false">مدیریت</a>
-                        <div className="dropdown-menu dropdown-menu-right">
-                            <a className="dropdown-item sweet-alert-multi-delete-confirm">
-                                <i className="bx bx-trash mr-1"></i> حذف</a>
-                        </div>
-                    </div>
+        <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
+            <>
+                <div className={"row col-12"} id={"headerContent"}>
+                    <TotalActions allData={userData} data={checkBox}/>
+                    <BreadCrumbs data={breadData}/>
                 </div>
 
-
-
-
-
-                <div className="users-list-table">
-
-                    <div className="card">
-                        <div className="card-content">
-                            <div className="card-body" style={{padding: '0px'}}>
-                                <div className="table-responsive">
-                                    <table id="users-list-datatable" className="table table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th>
-                                                <div className={"form-check"}>
-
-                                                    <div id={"edit-boxes"}>
-                                                        <a className="dropdown-item" onClick={e => handleDeleteGroup(e)}
-                                                           style={{cursor: 'pointer'}}>
-                                                            <i style={{float: 'right'}}
-                                                               className="bx bx-trash mr-1"></i> حذف گروهی</a>
-                                                    </div>
-
-                                                    <input type="checkbox"
-                                                           id={"checkAll"}
-                                                           onClick={() => allUser ? addAll(allUser) : ''}
-                                                           className="form-check-input "/>
-                                                    <label className="form-check-label"></label>
-                                                </div>
-
-                                            </th>
-                                            <th>ID</th>
-                                            <th>کاربر</th>
-                                            <th>ایمیل</th>
-                                            <th>شماره موبایل</th>
-                                            <th>نقش</th>
-                                            <th>وضعیت</th>
-                                            <th>عملیات</th>
-
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <UserColumns oldUserId={userId.userIds} loading={loading}
-                                                     data={currentUsers}
-                                                     userid={item => {
-                                                         selectHandler(item)
-                                                     }}
-                                                     pushPopFade={stat => stat ? $("#edit-boxes").fadeIn(0) : $("#edit-boxes").fadeOut(0)}
-
-                                        />
-
-                                        </tbody>
-                                    </table>
-                                    <div className="col-md-12">
-                                        {userData ? (
-                                            <Pagination
-                                                firstPageUrl={userData.first_page_url}
-                                                lastPageUrl={userData.last_page_url}
-                                                currentPage={userData.cuerrent_page}
-                                                perPage={perPage}
-                                                users={allUser}
-                                                total = {total}
-                                                paginate={paginate}
-                                            />
-                                        ) : 'wait'}
-
-                                    </div>
-                                    <div className="d-flex justify-content-center">
-                                        {/*{!! $users->links('vendor.pagination.custom') !!}*/}
-                                    </div>
-                                </div>
+                <SearchComponent/>
+                <form id="myForm">
+                    <div className="heading-layout1">
+                        <div className="item-title" style={{display: "none"}}>
+                            <h3>لیست کاربران</h3>
+                        </div>
+                        <div className="dropdown" style={{display: "none"}}>
+                            <a className="dropdown-toggle" role="button"
+                               data-toggle="dropdown" aria-expanded="false">مدیریت</a>
+                            <div className="dropdown-menu dropdown-menu-right">
+                                <a className="dropdown-item sweet-alert-multi-delete-confirm">
+                                    <i className="bx bx-trash mr-1"></i> حذف</a>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
-        </>
 
+                    <div className="users-list-table container">
+                        <div className={"row userListRow"}>
+                            {userData.data ? userData.data.map(items => (
+
+                                <Item props={items}/>
+
+                            )) : <Loading/>}
+                        </div>
+
+                        <div className="col-md-12">
+                            {userData ? (
+                                <Pagination
+                                    firstPageUrl={userData.first_page_url}
+                                    lastPageUrl={userData.last_page_url}
+                                    currentPage={userData.cuerrent_page}
+                                    perPage={perPage}
+                                    users={allUser}
+                                    total={total}
+                                    paginate={paginate}
+                                />
+                            ) : 'wait'}
+
+                        </div>
+
+                    </div>
+                </form>
+            </>
+        </CHECK_BOX_CONTENT.Provider>
     )
 })
 

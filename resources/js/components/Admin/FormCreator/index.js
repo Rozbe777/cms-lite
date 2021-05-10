@@ -109,8 +109,6 @@ const Index = () => {
                     onDragEnd={onDragEnd}
                     onDragStart={onDragStart}
                 >
-
-                    {console.log(">>>>>>" , initialFormData)}
                     <div className={"col-md-4"} style={{padding: '7px', borderRadius: 5}}>
                         <div className={"row header-form-option"}>
                             <div className={"col-12"} style={{padding: 0}}>

@@ -22,12 +22,10 @@ const Item = (props) => {
     const {initialFormData , setInitialFormData} = useContext(FormContext)
     const {initialFormDataEmail , setInitialFormDataEmail} = useContext(FormContextEmail)
     const {initialFormDataMiniText , setInitialFormDataMiniText} = useContext(FormContextMini)
-
     useEffect(()=>{
     } , [])
 
     const setting_main_content = document.getElementById("setting_main_content");
-
 
     const HandleMini = () => {
         ReactDOM.render(<FormContext.Provider value={{initialFormDataMiniText , setInitialFormDataMiniText}}><MiniInputSetting  /></FormContext.Provider> , setting_main_content);
