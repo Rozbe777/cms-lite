@@ -6,19 +6,28 @@ import {CHECK_BOX_CONTENT} from "../Helper/Context";
 export const Item = (props) => {
 
     useEffect(() => {
+        let interValOption;
+        $("a.moreOptions").mouseover(function (e) {
+            clearInterval(interValOption)
+            interValOption = setInterval(() => {
+                $("a.moreOptions ul").removeClass("activeSet")
+                let elems = $('ul ', this);
+                elems.addClass("activeSet");
+            }, 300)
+        })
+        $("a.moreOptions").mouseout(function (e) {
+            clearInterval(interValOption)
+            interValOption = setInterval(() => {
+                $("a.moreOptions ul").removeClass("activeSet")
+            }, 300)
+        })
+
 
     }, [])
 
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT);
 
     let {id, fullname, email, persianStatus, userRole} = props.props;
-
-    $("a.moreOptions").on('click', function (e) {
-        e.preventDefault()
-        $("a.moreOptions ul").removeClass("activeSet");
-        let elems = $('ul ', this);
-        elems.addClass("activeSet");
-    })
 
 
     const checkBoxCheck = (e) => {
@@ -34,13 +43,13 @@ export const Item = (props) => {
         setCheckBox(dataCheck)
     }
 
-
     return (
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
             <div className={"col-12 itemUserShow"}>
                 <fieldset id={"checkbox-fieldset"}>
                     <div className={"checkbox"}>
-                        <input type={"checkbox"} checked={checkBox.indexOf(id) == -1 ? false : true} onChange={e => checkBoxCheck(e)} name={"checkbox_check_"+id}
+                        <input type={"checkbox"} checked={checkBox.indexOf(id) == -1 ? false : true}
+                               onChange={e => checkBoxCheck(e)} name={"checkbox_check_" + id}
                                className={"checkbox-input"} id={id}/>
                         <label htmlFor={id}></label>
                     </div>
@@ -49,18 +58,21 @@ export const Item = (props) => {
                 <a className={"role"}>{fullname}</a>
             </span>
 
-                <span>
+                <span className={"d-none d-lg-block"}>
                 {persianStatus == "فعال" ? (<a className={"activeUser"}>فعال</a>) : (
                     <a className={"deactiveUser"}>غیرفعال</a>)} &nbsp;&nbsp;    وضعیت :&nbsp;&nbsp;
             </span>
 
-                <span>
+                <span className={"d-none d-lg-block"}>
               <a className={"role"}>{userRole == "admin" ? "مدیر" : "کاربر"}</a> &nbsp;&nbsp;    نقش :&nbsp;&nbsp;
             </span>
 
-                <span className={"final"}>
+                <span className={"final"} className={"d-none d-lg-block"}>
               <a className={"role"}> {email} </a>  <p id={"labels"}>ایمیل : </p>
             </span>
+
+
+
 
                 <a className={"moreOptions"}>
                     <i id={"moreicon"} className={"bx bx-dots-vertical-rounded"}></i>
@@ -73,6 +85,12 @@ export const Item = (props) => {
                         </li>
                     </ul>
                 </a>
+
+                <a className={"more-details"}>
+                    <i className={"bx bxs-show"}></i>
+                </a>
+
+
             </div>
         </CHECK_BOX_CONTENT.Provider>
     )

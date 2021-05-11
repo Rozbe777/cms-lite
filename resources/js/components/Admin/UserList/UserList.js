@@ -26,7 +26,7 @@ const UserList = memo((props) => {
     const [userId, setUserId] = useState({userIds: []});
     const [breadData] = useState({
         title: 'لیست کاربران',
-        desc : 'نمایش لیست کاربران و مدیریت آنها'
+        desc: 'نمایش لیست کاربران و مدیریت آنها'
     });
     let userIdArr = [];
 
@@ -224,7 +224,7 @@ const UserList = memo((props) => {
                         </div>
                     </div>
 
-                    <div className="users-list-table container">
+                    <div className="users-list-table container-fluid">
                         <div className={"row userListRow"}>
                             {userData.data ? userData.data.map(items => (
 
@@ -250,6 +250,33 @@ const UserList = memo((props) => {
 
                     </div>
                 </form>
+
+                <div className={"bottom-tab-navigator"}>
+
+                    <span className={"counter-seleced"}>
+                            50
+                    </span>
+                    <ul>
+                        <li>
+                        </li>
+                        <li>
+                            <span><i className={"bx bx-check-double"}></i></span>
+                            همه
+                        </li>
+                        <li>
+                            <span><i className={"bx bx-x"}></i></span>
+                            لغو
+                        </li>
+                        <li>
+                            <span><i className={"bx bx-printer"}></i></span>
+                            پرینت
+                        </li>
+                        <li>
+                            <span><i className={"bx bx-trash-alt"}></i></span>
+                            حذف
+                        </li>
+                    </ul>
+                </div>
             </>
         </CHECK_BOX_CONTENT.Provider>
     )
