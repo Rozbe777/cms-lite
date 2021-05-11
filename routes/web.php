@@ -74,8 +74,12 @@ Route::prefix('auth')->group(function () {
         Route::post('/recovery', [PasswordController::class, 'passwordRecovery'])->name('auth.password.recovery');
     });
 });
+
+Route::get('contents/search',[ContentController::class,'search']);
 Route::resource('contents',ContentController::class);
 Route::delete('contents/multi/destroy',[ContentController::class,'multipleDestroy']);
+
+
 
 //Route::get('content/edit', [ContentController::class, 'edit'])->name('content.edit');
 //Route::post('content/update/{id}', [ContentController::class, 'update'])->name('content.update');

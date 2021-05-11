@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Content\CreateContentRequest;
 use App\Http\Requests\Admin\Content\EditContentRequest;
 use App\Http\Requests\Admin\Content\multipleDestroyRequest;
+use App\Http\Requests\Admin\Content\SearchContentRequest;
 use App\Models\Content;
 use App\Repositories\ContentRepository;
+use App\Http\Controllers\Admin\Content\Helper\ContentSearchHelper;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -24,6 +26,7 @@ class ContentController extends Controller
     {
         $this->contentRepository = $contentRepository;
         $this->responses = $responses;
+//        $this->middleware('user_permission');
     }
 
     /**
@@ -125,5 +128,13 @@ class ContentController extends Controller
         return (is_array($content)) ?
             $this->responses->notSuccess(500, $content):
             redirect()->back()->with('success', __('message.content.destroy.successful'));
+    }
+
+    public function search(SearchContentRequest $request){
+        $contents=(new ContentSearchHelper($request))->searchContents();
+
+        return (!$contents) ?
+            redirect()->back()->with('error', __('message.content.search.notSuccess')) :
+            $this->responses->success($contents,"index");
     }
 }

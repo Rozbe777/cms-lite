@@ -130,6 +130,9 @@ return [
         ],
         'destroy'   =>  [
             'successful'    =>  'محتوا مدنظر با موفقیت حذف شد.'
+        ],
+        'search'    =>  [
+            'notSuccess'    =>  'محتوای مورد نظر یافت نشد.'
         ]
     ],
     'about-us'  =>  [

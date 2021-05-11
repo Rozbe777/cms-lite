@@ -20,7 +20,7 @@ class LoginController extends Controller
     {
         $this->response = $response;
         $this->userRepository = $userRepository;
-//        $this->middleware('guest');
+        $this->middleware('guest')->except('logout');
     }
 
     public function show()
