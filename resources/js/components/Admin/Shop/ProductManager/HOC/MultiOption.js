@@ -1,52 +1,44 @@
-import React , {useEffect} from 'react';
+import React, {useEffect} from 'react';
+import $ from 'jquery'
 import "swiper/swiper-bundle.css";
-// import './_Shared/styleAction.scss'
 
 export const MultiOption = ({name}) => {
 
 
-    useEffect(()=>{
-        $("#box-droper").click(() => {
-            let parentGet = $(this).parent(".optionss");
-
-            parentGet.find(".optionBox#options").toggleClass("active");
-            parentGet.find(".options i#droper").toggleClass("active");
+    useEffect(() => {
+        $(".main-options-sel").mouseover(function (){
+            var thisis = $(this);
+            thisis.find(".option-icon i").addClass("active")
         })
-    },[])
-    const handleDropDown = (e) => {
-        e.preventDefault();
-        // $(".show-chipset-multi i#droper").removeClass("active");
-        // $(".optionBox").removeClass("active");
-        $(".optionBox#options").toggleClass("active");
-        $(".options i#droper").toggleClass("active");
-        // console.log("click daaaaaa , " , e.currentTarget.getAttribute('data-appmode'))
-    }
+        $(".main-options-sel").mouseout(function (){
+            var thisis = $(this);
+            thisis.find(".option-icon i").removeClass("active")
+
+        })
+    }, [])
 
 
 
 
 
     return (
-        <div className={"main-selected"} style={{background: '#fff'}}>
-            <div className={"show-chipset-multi optionss"}>
 
-                <div id={"box-droper"} attr-name={name} className={"options"}>
-                    <i className={"bx bx-chevron-down"} id={"droper"}></i>
+        <ul className={"main-options-sel"}>
+            <li id={"header-options"}>
+                <div className={"option-icon"}>
+                    <i className={"bx bx-chevron-down"}></i>
                 </div>
+                <span id={"selected"}>
+cccccccccccccccccsddddddddsddddddddddddddddddddddd
+                </span>
+            </li>
+            <li>
 
-                <span id={"sorting"}>انتخاب کنید</span>
+            </li>
+        </ul>
 
-                <div className={"optionBox"} id={"options"} style={{height: 'auto !important'}}>
-                    <ul id={"options"}>
-                        <li>بر اساس تاریخ انتشار</li>
-                        <li>بر اساس بیشترین قیمت</li>
-                        <li>بر اساس موجود بودن</li>
-                        <li>بر اساس ناموجود بودن</li>
-                        <li>بر اساس با تخفیف</li>
-                        <li>بر اساس بدون تخفیف</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        // <fieldset className={"form-group"}>
+        //
+        // </fieldset>
     )
 }
