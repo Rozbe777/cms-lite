@@ -4,19 +4,30 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tag extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $guarded=[];
     protected $appends = ["content_count","slug"
 //        "real_url"
     ];
 
+    public function users()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function contents()
     {
         return $this->belongsToMany(Content::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
     }
 
 //    public function getRealUrlAttribute()

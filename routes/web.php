@@ -79,6 +79,13 @@ Route::get('contents/search',[ContentController::class,'search']);
 Route::resource('contents',ContentController::class);
 Route::delete('contents/multi/destroy',[ContentController::class,'multipleDestroy']);
 
+Route::get('categories/search',[CategoryController::class,'search']);
+Route::resource('categories',CategoryController::class);
+Route::delete('categories/multi/destroy',[CategoryController::class,'multipleDestroy']);
+
+Route::get('tags/search',[TagController::class,'search']);
+Route::resource('tags',TagController::class);
+Route::delete('tags/multi/destroy',[TagController::class,'multipleDestroy']);
 
 
 //Route::get('content/edit', [ContentController::class, 'edit'])->name('content.edit');

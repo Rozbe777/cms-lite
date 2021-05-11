@@ -36,6 +36,7 @@ class CreateContentRequest extends BaseRequest
             'comment_status' => 'in:active,deactivate',
             'is_index'=>'boolean|nullable',
             'is_menu'=>'boolean|nullable',
+            'tag_list'=>'array'
         ];
     }
 }

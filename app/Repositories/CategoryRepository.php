@@ -4,17 +4,18 @@
 namespace App\Repositories;
 
 
-use App\Models\Content;
+use App\Models\Category;
+use App\Repositories\Interfaces\RepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class ContentRepository implements Interfaces\RepositoryInterface
+class CategoryRepository implements RepositoryInterface
 {
 
     public function all()
     {
         try {
-            return Content::with('user')->with('tags')->with('categories')->where('published_at', '<=', Carbon::now())->get();
+            return Category::with('contents')->with('tags')->get();
         } catch (\Exception $exception) {
             return [$exception->getCode(), $exception->getMessage()];
         }
@@ -25,20 +26,20 @@ class ContentRepository implements Interfaces\RepositoryInterface
         // TODO: Implement get() method.
     }
 
-    public function delete($content)
+    public function delete($category)
     {
-        $content->update(['status' => 'deactivate']);
-        return $content->delete();
+        $category->update(['status' => 'deactivate']);
+        return $category->delete();
     }
 
-    public function update(array $data, $content)
+    public function update(array $data, $category)
     {
         try {
             $tag_list_old = $data['tag_list_old'];
             $tag_list_new = $data['tag_list_new'];
             unset($data['tag_list_old'],$data['tag_list_new']);
 
-            return $content->update($data);
+            return $category->update($data);
         } catch (\Exception $exception) {
             return [$exception->getCode(), $exception->getMessage()];
         }
@@ -48,13 +49,13 @@ class ContentRepository implements Interfaces\RepositoryInterface
     {
         try {
             $tag_list = $data['tag_list'];
-            unset($data["tag_list"]);
+            unset($data['tag_list']);
 
             $index['user_id'] = Auth::id();
-            $content = Content::create($data);
-            $content->tags()->attach($tag_list);
-            $content->update($index);
-            return $content;
+            $category = Category::create($data);
+            $category->tags()->attach($tag_list);
+            $category->update($index);
+            return $category;
         } catch (\Exception $exception) {
             return [$exception->getCode(), $exception->getMessage()];
         }
@@ -63,7 +64,7 @@ class ContentRepository implements Interfaces\RepositoryInterface
     public function multipleDestroy($data)
     {
         try {
-            Content::whereIn('id', $data['contentIds'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);
+            Category::whereIn('id', $data['categoryIds'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);
             return true;
         } catch (\Exception $exception) {
             return [$exception->getCode(), $exception->getMessage()];

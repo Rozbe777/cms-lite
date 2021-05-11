@@ -64,7 +64,7 @@ class ContentController extends Controller
         $content = $this->contentRepository->create($request->all());
 
         return (is_array($content)) ?
-            $this->responses->notSuccess(500, $content):
+            $this->responses->notSuccess(500, $content) :
             $this->responses->success($content, "show");
     }
 
@@ -76,7 +76,11 @@ class ContentController extends Controller
      */
     public function show(Content $content)
     {
-        return $this->responses->success($content, "show");
+        try {
+            return $this->responses->success($content, "show");
+        } catch (\Exception $exception) {
+            return $this->responses->notSuccess(500, $content);
+        }
     }
 
     /**
@@ -121,20 +125,25 @@ class ContentController extends Controller
             redirect()->back()->with('success', __('message.content.destroy.successful'));
     }
 
+    /**
+     * @param multipleDestroyRequest $request
+     * @return JsonResponse|RedirectResponse
+     */
     public function multipleDestroy(multipleDestroyRequest $request)
     {
         $content = $this->contentRepository->multipleDestroy($request);
 
         return (is_array($content)) ?
-            $this->responses->notSuccess(500, $content):
+            $this->responses->notSuccess(500, $content) :
             redirect()->back()->with('success', __('message.content.destroy.successful'));
     }
 
-    public function search(SearchContentRequest $request){
-        $contents=(new ContentSearchHelper($request))->searchContents();
+    public function search(SearchContentRequest $request)
+    {
+        $contents = (new ContentSearchHelper($request))->searchContents();
 
         return (!$contents) ?
             redirect()->back()->with('error', __('message.content.search.notSuccess')) :
-            $this->responses->success($contents,"index");
+            $this->responses->success($contents, "index");
     }
 }

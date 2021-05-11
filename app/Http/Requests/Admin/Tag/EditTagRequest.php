@@ -24,7 +24,9 @@ class EditTagRequest extends BaseRequest
     public function rules()
     {
         return [
-            'name' => 'string|max:255|unique:tags,name,'.$this->route('tagId'),
+            'name' => 'string|max:255|unique:tags,name,',
+            'category_list_old' => 'array|nullable',
+            'category_list_new' => 'array|nullable'
         ];
     }
 }
