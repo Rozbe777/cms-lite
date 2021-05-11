@@ -5,6 +5,15 @@
         display: none;
     }
 
+    .bottom-tab-navigator{
+        display: block;
+    }
+    #breadCrumb{
+        display: none;
+    }
+    #headerContent{
+        display: none;
+    }
     li.nav-item i{
         display: block;
         visibility: visible;
@@ -68,8 +77,9 @@
 
 @media screen and (max-width: 1024px) {
     #shop_product_search {
-        height: 185px;
+        height: 210px;
     }
+
 
     .users-list-filter{
         height: 100%;

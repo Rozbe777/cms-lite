@@ -10,7 +10,6 @@ import FinalDataRegister from "./FinalDataRegister";
 const VerifyPhone = ({time, token, phoneNumber , response : pushResponse}) => {
 
     let timers = 0;
-    console.log("timer" , timers);
     const [verifyCode, setVerifyCode] = useState({
         code_1: '',
         code_2: '',
@@ -23,8 +22,6 @@ const VerifyPhone = ({time, token, phoneNumber , response : pushResponse}) => {
         Timer();
 
     }, [])
-
-
 
     const Timer = () => {
         timers = time;

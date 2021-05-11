@@ -5,7 +5,7 @@ import {OneSelectedSetting} from './Setting/OneSelectedSetting'
 import $ from "jquery";
 import {ONE_OPTION_DATA} from "./Constant";
 import {FormContext} from "../Helper/Context";
-// import './_Shared/style.scss'
+// import './_Shared/styleAction.scss'
 
 export const OneSelected = ({data}) => {
 

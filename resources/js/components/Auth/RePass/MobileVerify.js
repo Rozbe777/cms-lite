@@ -27,7 +27,6 @@ const MobileVerify = (props) => {
 
     let time_toast = 0;
     const RegisterPhone = (e) => {
-
         e.preventDefault()
         let phones = {...phone};
         if (pattern.test(phones.mobile)) {

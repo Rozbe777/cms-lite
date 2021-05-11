@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {MultiOption} from "./../../Shop/ProductManager/HOC/MultiOption";
 import $ from 'jquery';
-import ReactDOM from "react-dom";
 
 const SearchComponent = ({category: pushCategory}) => {
 
@@ -49,10 +48,11 @@ const SearchComponent = ({category: pushCategory}) => {
 
 
     return (
-        <>
-            <div id={"shop_product_search"} style={{marginBottom: 20}}>
+        <div id={"shop_product_search"} style={{marginBottom: 20}}>
 
-                <div className="users-list-filter col-12" style={{padding: '0px !important'}}>
+            <div className="users-list-filter col-12" style={{padding: '0px !important'}}>
+                <div className={"container-fluid"}>
+
                     <div className="row col-12" id={"header-card-custom"}>
 
                         <div className="col-12 col-sm-6 col-lg-3">
@@ -65,18 +65,18 @@ const SearchComponent = ({category: pushCategory}) => {
                         <div className="col-12 col-sm-6 col-lg-3">
                             <label
                                 htmlFor="users-list-verified">تایید شده</label>
-                            <MultiOption/>
+                            <MultiOption name={"acceeptable"} data={["تایید نشده", "تایید شده"]} selected={item => console.log("checkeddddd : " , item)}/>
                         </div>
 
                         <div className="col-12 col-sm-6 col-lg-3">
                             <label htmlFor="users-list-status">نقش</label>
-                            <MultiOption/>
+                            <MultiOption name={"roles"} data={["کاربر", "مدیر"]} selected={item => console.log("checkeddddd : " , item)} />
                         </div>
 
                         <div className="col-12 col-sm-6 col-lg-3">
                             <label
                                 htmlFor="users-list-role">وضعیت</label>
-                            <MultiOption/>
+                            <MultiOption name={"status"} data={["غیرفعال", "فعال"]} selected={item => console.log("checkeddddd : " , item)} />
                         </div>
 
                         {/*<div className="col-6 col-sm-6 col-lg-2" style={{marginBlockStart: 'auto'}}>*/}
@@ -96,18 +96,18 @@ const SearchComponent = ({category: pushCategory}) => {
                     <div className="col-12 col-sm-6 col-lg-3">
                         <label
                             htmlFor="users-list-verified">تایید شده</label>
-                            <MultiOption />
+                        <MultiOption data={["تایید نشده", "تایید شده"]}/>
                     </div>
 
                     <div className="col-12 col-sm-6 col-lg-3">
                         <label htmlFor="users-list-status">نقش</label>
-                        <MultiOption/>
+                        <MultiOption data={["کاربر", "مدیر"]}/>
                     </div>
 
                     <div className="col-12 col-sm-6 col-lg-3">
                         <label
                             htmlFor="users-list-role">وضعیت</label>
-                        <MultiOption />
+                        <MultiOption name={"status"} data={["غیرفعال", "فعال"]}/>
                     </div>
 
                     {/*<div className="col-6 col-sm-6 col-lg-2" style={{marginBlockStart: 'auto'}}>*/}
@@ -138,8 +138,7 @@ const SearchComponent = ({category: pushCategory}) => {
                 </ul>
             </div>
 
-
-        </>
+        </div>
     )
 
 
