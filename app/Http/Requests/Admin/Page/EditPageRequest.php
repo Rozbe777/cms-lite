@@ -10,20 +10,21 @@ class EditPageRequest extends EditContentRequest
     public function rules()
     {
         return [
-            'title' => 'string|max:255|unique:contents,title,'.$this->route('pageId'),
-            'slug' => 'string|max:255|unique:contents,slug,'.$this->route('pageId'),
-            'content' => 'text',
-            'fields' => 'text',
+            'title' => 'string|max:255',
+            'slug' => 'string|max:255|unique:contents,slug,',
+            'content' => 'string|nullable',
             'status' => 'in:active,pending,deactivate',
-            'user_id' => 'integer|exists:users,id',
-            'layout_id' => 'integer|exists:layouts,id',
-            'image' => 'image',
+            'user_id' => 'integer|exists:users,id|nullable',
+//            'layout_id' => 'integer|exists:layouts,id',//FIXME after insert layouts table
+            'image' => 'image|nullable',
             'comment_status' => 'in:active,deactivate',
-            'weight' => 'integer',
-            'is_index'=>'boolean',
-            'is_menu'=>'is_menu',
-            'tag_list'=>'array',
-            'tag_list.*'=>'string',
+            'is_index'=>'boolean|nullable',
+            'is_menu'=>'boolean|nullable',
+            'metadata'=>'string|nullable',
+            'tag_list_old'=>'array',
+            'tag_list_new'=>'array',
+            'category_list_old'=>'array',
+            'category_list_new'=>'array',
         ];
     }
 }

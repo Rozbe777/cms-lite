@@ -28,7 +28,6 @@ class SearchContentRequest extends BaseRequest
             "owner" => "nullable|in:page,content",
             "status" => "nullable|in:active,pending,deactivate",
             "comment_status" => "nullable|in:active,deactivate",
-
         ];
     }
 }

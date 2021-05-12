@@ -87,6 +87,9 @@ Route::get('tags/search',[TagController::class,'search']);
 Route::resource('tags',TagController::class);
 Route::delete('tags/multi/destroy',[TagController::class,'multipleDestroy']);
 
+Route::get('pages/search',[PageController::class,'search']);
+Route::resource('pages',PageController::class);
+Route::delete('pages/multi/destroy',[PageController::class,'multipleDestroy']);
 
 //Route::get('content/edit', [ContentController::class, 'edit'])->name('content.edit');
 //Route::post('content/update/{id}', [ContentController::class, 'update'])->name('content.update');

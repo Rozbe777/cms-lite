@@ -26,7 +26,7 @@ class EditContentRequest extends BaseRequest
         return [
             'title' => 'string|max:255',
             'owner' => 'in:page,content',
-            'slug' => 'string|max:255|unique:contents,slug,'.$this->route('contentId'),
+            'slug' => 'string|max:255|unique:contents,slug',
             'content' => 'string|nullable',
             'status' => 'in:active,pending,deactivate',
             'user_id' => 'integer|exists:users,id|nullable',

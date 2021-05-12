@@ -14,7 +14,7 @@ class ContentRepository implements Interfaces\RepositoryInterface
     public function all()
     {
         try {
-            return Content::with('user')->with('tags')->with('categories')->where('published_at', '<=', Carbon::now())->get();
+            return Content::with('user')->with('tags')->with('categories')->where('published_at', '<=', Carbon::now())->paginate(12);
         } catch (\Exception $exception) {
             return [$exception->getCode(), $exception->getMessage()];
         }

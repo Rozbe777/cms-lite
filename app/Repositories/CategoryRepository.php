@@ -15,7 +15,7 @@ class CategoryRepository implements RepositoryInterface
     public function all()
     {
         try {
-            return Category::with('contents')->with('tags')->get();
+            return Category::with('contents')->with('tags')->paginate(12);
         } catch (\Exception $exception) {
             return [$exception->getCode(), $exception->getMessage()];
         }
