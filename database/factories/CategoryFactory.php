@@ -24,6 +24,7 @@ class CategoryFactory extends Factory
         return [
             'name'=>$this->faker->word,
             'slug'=>$this->faker->slug,
+            'user_id'=>rand(1,18)
         ];
     }
 }

@@ -36,6 +36,8 @@ class EditContentRequest extends BaseRequest
             'is_index'=>'boolean|nullable',
             'is_menu'=>'boolean|nullable',
             'metadata'=>'string|nullable',
+            'tag_list_old'=>'array',
+            'tag_list_new'=>'array',
         ];
     }
 }

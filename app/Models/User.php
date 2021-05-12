@@ -67,6 +67,16 @@ class User extends Authenticatable
      * @var mixed|string
      */
 
+    public function categories()
+    {
+        return $this->hasMany(Category::class, 'user_id','id');
+    }
+
+    public function tags()
+    {
+        return $this->hasMany(Tag::class, 'user_id','id');
+    }
+
     public function getFullnameAttribute()
     {
         if (empty($this->attributes['name']) && empty($this->attributes['last_name'])) {

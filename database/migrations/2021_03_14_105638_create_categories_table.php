@@ -27,6 +27,7 @@ class CreateCategoriesTable extends Migration
             $table->enum('status', ['active', 'deactivate'])->default('active');
             $table->integer('is_menu')->default(0);
             $table->integer('is_index')->default(0);
+            $table->bigInteger('user_id')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });
