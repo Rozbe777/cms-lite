@@ -30,8 +30,7 @@ export const OneSelected = ({data}) => {
     }
 
 
-    console.log("mantory     : " ,initialFormData.input_3.Mandatory)
-    let tags = initialFormData.input_3.Mandatory ? initialFormData.input_3.title ? initialFormData.input_3.title +  "(*)" : 'برچسپ (*)' :  initialFormData.input_3.title ?  initialFormData.input_3.title : 'برچسپ';
+    let tags = initialFormData.Mandatory ? initialFormData.title ? initialFormData.title +  "(*)" : 'برچسپ (*)' :  initialFormData.title ?  initialFormData.title : 'برچسپ';
     return (
         <div onClick={e => HandleClick(e)}>
             <p id={"form-creator-p"}>{tags}</p>
@@ -42,9 +41,8 @@ export const OneSelected = ({data}) => {
                     </div>
                     <span id={"sorting"} onClick={e => handleDropDown(e)}>انتخاب کنید</span>
                     <div className={"optionBox formcreator"} id={"options"}>
-
                         <ul id={"options"} onClick={e => handleDropDown(e)}>
-                            {initialFormData.input_3.Options.length > 0 ? initialFormData.input_3.Options.map(item => (
+                            {initialFormData.Options.length > 0 ? initialFormData.Options.map(item => (
                                 <li>{item}</li>
                             )):(
                                 <li>لطفا گزینه برای انتخاب اضافه کنید!</li>
