@@ -2,146 +2,148 @@
 
 namespace App\Http\Controllers\Admin\Page;
 
-use App\Http\Controllers\Admin\Content\ContentController;
-use App\Http\Requests\Admin\Content\CreateContentRequest;
-use App\Http\Requests\Admin\Content\EditContentRequest;
-use App\Http\Requests\Admin\Content\multipleDestroyRequest;
-use App\Http\Requests\Admin\Content\SearchContentRequest;
-use App\Models\Content;
-use App\Models\ContentTag;
-use App\Models\Tag;
+use App\Classes\Responses\Pages\Responses;
+use App\Http\Controllers\Admin\Page\Helper\PageSearchHelper;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Page\CreatePageRequest;
+use App\Http\Requests\Admin\Page\EditPageRequest;
+use App\Http\Requests\Admin\Page\multipleDestroyRequest;
+use App\Http\Requests\Admin\Page\SearchPageRequest;
+use App\Models\Page;
+use App\Repositories\PageRepository;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
-
-class PageController extends ContentController
+class PageController extends Controller
 {
-    protected $owner='page';
+    protected $pageRepository;
+    protected $responses;
 
+    public function __construct(PageRepository $pageRepository, Responses $responses)
+    {
+        $this->pageRepository = $pageRepository;
+        $this->responses = $responses;
+//        $this->middleware('user_permission');
+    }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return JsonResponse|View
+     */
     public function index()
     {
-        return adminView("pages.admin.page.index");
+        $page = $this->pageRepository->all();
 
+        return (is_array($page)) ?
+            $this->responses->notSuccess(500, $page) :
+            $this->responses->success($page, "index");
     }
 
-    public function list()
-    {
-
-        $content=Content::where('owner',$this->owner)->paginate(12);
-
-        return $content;
-
-    }
-
-    public function store(CreateContentRequest $request){
-        $page=$this->createContent(
-            [
-                'owner'=>$this->owner,
-                'title'=>$request->input('title'),
-                'slug'=>$request->input('slug'),
-                'content'=>$request->input('content'),
-                'fields'=>$request->input('fields'),
-                'status'=>$request->input('status'),
-                'user_id'=>$request->input('user_id'),
-                'layout_id'=>$request->input('layout_id'),
-                'image'=>$request->input('image'),
-                'comment_status'=>$request->input('comment_status'),
-                'weight'=>$request->input('weight'),
-                'is_index'=>$request->input('is_index'),
-                'is_menu'=>$request->input('is_menu'),
-
-            ]
-        );
-        if ($request->input('tag_list'))
-            foreach ($request->input('tag_list') as $tagName){
-                $tag=Tag::firstOrCreate([
-                    'name'=>$tagName
-                ]);
-                ContentTag::firstOrCreate([
-                    'tag_id'=>$tag->id,
-                    'content_id'=>$page->id,
-                ]);
-            }
-
-        return redirect(route("admin.page.index"))->with("info", "ثبت صفحه با موفقیت انجام شد");
-
-
-
-    }
-
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Factory|Response|View
+     */
     public function create()
     {
         return adminView("pages.admin.page.create");
     }
 
-    public function edit($pageId)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return JsonResponse
+     */
+    public function store(CreatePageRequest $request)
     {
-        $page=Content::findOrFail($pageId);
-        return adminView("pages.admin.page.edit")->with("page",$page);
+        $page = $this->pageRepository->create($request->all());
+
+        return (is_array($page)) ?
+            $this->responses->notSuccess(500, $page) :
+            $this->responses->success($page, "show");
     }
 
-    public function destroy($id)
+    /**
+     * Display the specified resource.
+     *
+     * @param Page $page
+     * @return JsonResponse
+     */
+    public function show(Page $page)
     {
-        Content::findOrFail($id)->delete();
-        return redirect(route("admin.page.index"))->with("info", "عملیات حذف صفحه موفقیت انجام شد");
+        try {
+            return $this->responses->success($page, "show");
+        } catch (\Exception $exception) {
+            return $this->responses->notSuccess(500, $page);
+        }
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param Page $page
+     * @return Factory|View|Response
+     */
+    public function edit(Page $page)
+    {
+        return adminView("pages.admin.page.edit", compact('page'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param EditPageRequest $request
+     * @param Page $page
+     * @return JsonResponse
+     */
+    public function update(EditPageRequest $request, Page $page)
+    {
+        $page = $this->pageRepository->update($request->all(), $page);
+
+        return (is_array($page)) ?
+            $this->responses->notSuccess(500, $page) :
+            $this->responses->success($page, "edit");
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Page $page
+     * @return JsonResponse|RedirectResponse
+     */
+    public function destroy(Page $page)
+    {
+        $page = $this->pageRepository->delete($page);
+
+        return (is_array($page)) ?
+            $this->responses->notSuccess(500, $page) :
+            redirect()->back()->with('success', __('message.page.destroy.successful'));
+    }
+
+    /**
+     * @param multipleDestroyRequest $request
+     * @return JsonResponse|RedirectResponse
+     */
     public function multipleDestroy(multipleDestroyRequest $request)
     {
-        if (isset($request->pageIds))
-            Content::whereIn('id',$request->input('pageIds'))->delete();
+        $page = $this->pageRepository->multipleDestroy($request);
 
-        return redirect(route("admin.page.index"))->with('info','صفحه های انتخاب شده حذف شدند');
-
+        return (is_array($page)) ?
+            $this->responses->notSuccess(500, $page) :
+            redirect()->back()->with('success', __('message.page.destroy.successful'));
     }
 
-    public function update(EditContentRequest $request, $contentId)
+    public function search(SearchPageRequest $request)
     {
-//|unique:contents,title&slug,'.$this->request->get("contentId")
-        $page=$this->EditContent([
-            'owner'=>$this->owner,
-            'title'=>$request->input('title'),
-            'slug'=>$request->input('slug'),
-            'content'=>$request->input('content'),
-            'fields'=>$request->input('fields'),
-            'status'=>$request->input('status'),
-            'user_id'=>$request->input('user_id'),
-            'layout_id'=>$request->input('layout_id'),
-            'image'=>$request->input('image'),
-            'comment_status'=>$request->input('comment_status'),
-            'weight'=>$request->input('weight'),
-            'content_id'=>$contentId,
-            'is_index'=>$request->input('is_index'),
-            'is_menu'=>$request->input('is_menu'),
+        $page = (new PageSearchHelper($request))->searchPages();
 
-
-        ]);
-
-        if ($request->input('tag_list'))
-            foreach ($request->input('tag_list') as $tagName){
-                $tag=Tag::firstOrCreate([
-                    'name'=>$tagName
-                ]);
-                ContentTag::firstOrCreate([
-                    'tag_id'=>$tag->id,
-                    'content_id'=>$contentId,
-                ]);
-            }
-
-
-        return redirect(route("admin.page.edit",$contentId))->with("info", "عملیات ویرایش صفحه با موفقیت انجام شد");
-
-
+        return (!$page) ?
+            redirect()->back()->with('error', __('message.page.search.notSuccess')) :
+            $this->responses->success($page, "index");
     }
-
-    public function search(SearchContentRequest $request){
-        $searchHelper=new \ContentSearchHelper($request);
-        $pages=$searchHelper->searchContents();
-        $pages=$searchHelper->ownerContents($pages);
-        $pages=$searchHelper->commentStatusContents($pages);
-        $pages=$searchHelper->statusContents($pages);
-
-        return adminView("pages.admin.page.index")->with('pages',$pages);
-
-    }
-
 }

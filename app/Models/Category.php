@@ -76,6 +76,11 @@ class Category extends Model
         return $this->belongsToMany(Content::class);
     }
 
+    public function pages()
+    {
+        return $this->belongsToMany(Page::class);
+    }
+
     public function tags()
     {
         return $this->belongsToMany(Tag::class, 'category_tag', 'category_id', 'tag_id');

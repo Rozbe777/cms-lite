@@ -15,7 +15,7 @@ class TagRepositories implements RepositoryInterface
     public function all()
     {
         try {
-            return Tag::with('contents')->with('categories')->get();
+            return Tag::with('contents')->with('categories')->paginate(12);
         } catch (\Exception $exception) {
             return [$exception->getCode(), $exception->getMessage()];
         }

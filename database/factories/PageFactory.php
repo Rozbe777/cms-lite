@@ -2,18 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\Content;
+use App\Models\Page;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ContentFactory extends Factory
+class PageFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Content::class;
+    protected $model = Page::class;
 
     /**
      * Define the model's default state.
@@ -23,12 +23,10 @@ class ContentFactory extends Factory
     public function definition()
     {
         return [
-            "owner"=>$this->faker->randomElement(["page", "content"]),
             "title"=>$this->faker->title,
             "slug"=>$this->faker->slug,
             "content"=>$this->faker->text,
             "user_id"=>rand(1,18),
-            "page_id"=>rand(1,10),
             'published_at'=>Carbon::now()
         ];
     }

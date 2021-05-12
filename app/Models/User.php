@@ -77,6 +77,11 @@ class User extends Authenticatable
         return $this->hasMany(Tag::class, 'user_id','id');
     }
 
+    public function pages()
+    {
+        return $this->hasMany(Page::class, 'user_id','id');
+    }
+
     public function getFullnameAttribute()
     {
         if (empty($this->attributes['name']) && empty($this->attributes['last_name'])) {
