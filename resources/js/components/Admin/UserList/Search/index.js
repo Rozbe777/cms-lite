@@ -48,66 +48,92 @@ const SearchComponent = ({category: pushCategory}) => {
 
 
     return (
-        <div id={"shop_product_search"} style={{marginBottom: 20}}>
+        <>
+            <div id={"shop_product_search"} style={{marginBottom: 20}}>
+                <div className="users-list-filter col-12" style={{padding: '0px !important'}}>
+                    <div className={"container-fluid"}>
 
-            <div className="users-list-filter col-12" style={{padding: '0px !important'}}>
-                <div className={"container-fluid"}>
+                        <div className="row col-12" id={"header-card-custom"}>
 
-                    <div className="row col-12" id={"header-card-custom"}>
+                            <div className="col-12 col-sm-6 col-lg-3">
+                                <label htmlFor="users-list-verified">جستجو</label>
+                                <input type="text" className="form-control"
+                                       id={"search_input"}
+                                       placeholder="جستجو با ایمیل و تلفن ..." name="search"/>
 
-                        <div className="col-12 col-sm-6 col-lg-3">
-                            <label htmlFor="users-list-verified">جستجو</label>
-                            <input type="text" className="form-control"
-                                   id={"search_input"}
-                                   placeholder="جستجو با ایمیل و تلفن ..." name="search"/>
+                            </div>
+                            <div className="col-12 col-sm-6 col-lg-3">
+                                <label
+                                    htmlFor="users-list-verified">تایید شده</label>
+                                <MultiOption name={"acceeptable"} data={["تایید نشده", "تایید شده"]}
+                                             selected={item => console.log("checkeddddd : ", item)}/>
+                            </div>
+
+                            <div className="col-12 col-sm-6 col-lg-3">
+                                <label htmlFor="users-list-status">نقش</label>
+                                <MultiOption name={"roles"} data={["کاربر", "مدیر"]}
+                                             selected={item => console.log("checkeddddd : ", item)}/>
+                            </div>
+
+                            <div className="col-12 col-sm-6 col-lg-3">
+                                <label
+                                    htmlFor="users-list-role">وضعیت</label>
+                                <MultiOption name={"status"} data={["غیرفعال", "فعال"]}
+                                             selected={item => console.log("checkeddddd : ", item)}/>
+                            </div>
+
+                            {/*<div className="col-6 col-sm-6 col-lg-2" style={{marginBlockStart: 'auto'}}>*/}
+                            {/*    <button type="submit" className="btn btn-primary mr-1 mb-1" id={"search-btn"}>جستجو</button>*/}
+                            {/*</div>*/}
+
 
                         </div>
-                        <div className="col-12 col-sm-6 col-lg-3">
-                            <label
-                                htmlFor="users-list-verified">تایید شده</label>
-                            <MultiOption name={"acceeptable"} data={["تایید نشده", "تایید شده"]} selected={item => console.log("checkeddddd : " , item)}/>
-                        </div>
-
-                        <div className="col-12 col-sm-6 col-lg-3">
-                            <label htmlFor="users-list-status">نقش</label>
-                            <MultiOption name={"roles"} data={["کاربر", "مدیر"]} selected={item => console.log("checkeddddd : " , item)} />
-                        </div>
-
-                        <div className="col-12 col-sm-6 col-lg-3">
-                            <label
-                                htmlFor="users-list-role">وضعیت</label>
-                            <MultiOption name={"status"} data={["غیرفعال", "فعال"]} selected={item => console.log("checkeddddd : " , item)} />
-                        </div>
-
-                        {/*<div className="col-6 col-sm-6 col-lg-2" style={{marginBlockStart: 'auto'}}>*/}
-                        {/*    <button type="submit" className="btn btn-primary mr-1 mb-1" id={"search-btn"}>جستجو</button>*/}
-                        {/*</div>*/}
-
-
                     </div>
                 </div>
+
             </div>
 
             <div className={"filter-search"} onClick={e => handleFade(e)}>
             </div>
-            <div className={"filter-content-fix"}>
+            <div className={"filter-content-fix"} id={"userlist"}>
                 <div className="row col-12" id={"header-card-custom"}>
 
-                    <div className="col-12 col-sm-6 col-lg-3">
+                    <div className="col-12">
                         <label
                             htmlFor="users-list-verified">تایید شده</label>
-                        <MultiOption data={["تایید نشده", "تایید شده"]}/>
+                        <fieldset className={"form-group"}>
+                            <select className={"form-control"} id={"confirm"}>
+                                <option selected>انتخاب کنید</option>
+                                <option>تایید شده</option>
+                                <option>تایید نشده</option>
+                            </select>
+
+                        </fieldset>
                     </div>
 
-                    <div className="col-12 col-sm-6 col-lg-3">
+                    <div className="col-12">
                         <label htmlFor="users-list-status">نقش</label>
-                        <MultiOption data={["کاربر", "مدیر"]}/>
+                        <fieldset className={"form-group"}>
+                            <select className={"form-control"} id={"confirm"}>
+                                <option selected>انتخاب کنید</option>
+                                <option>مدیر</option>
+                                <option>کاربر</option>
+                            </select>
+
+                        </fieldset>
                     </div>
 
-                    <div className="col-12 col-sm-6 col-lg-3">
+                    <div className="col-12">
                         <label
                             htmlFor="users-list-role">وضعیت</label>
-                        <MultiOption name={"status"} data={["غیرفعال", "فعال"]}/>
+                        <fieldset className={"form-group"}>
+                            <select className={"form-control"} id={"confirm"}>
+                                <option selected>انتخاب کنید</option>
+                                <option>فعال</option>
+                                <option>غیرفعال</option>
+                            </select>
+
+                        </fieldset>
                     </div>
 
                     {/*<div className="col-6 col-sm-6 col-lg-2" style={{marginBlockStart: 'auto'}}>*/}
@@ -121,9 +147,7 @@ const SearchComponent = ({category: pushCategory}) => {
 
             <div className={"float-btn"}>
                 <ul>
-                    <li onClick={e => HandleResponsiveAdd(e)} style={{background: '#0d47a1'}}>
-                        <i className={"bx bx-plus"}></i>
-                    </li>
+
                     <li onClick={e => handleFadeSearch(e)} style={{background: '#424242'}}>
                         <i className={"bx bx-filter-alt"}></i>
                     </li>
@@ -137,8 +161,8 @@ const SearchComponent = ({category: pushCategory}) => {
                     </li>
                 </ul>
             </div>
+        </>
 
-        </div>
     )
 
 

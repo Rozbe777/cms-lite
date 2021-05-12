@@ -18,13 +18,15 @@
         display: block;
         visibility: visible;
     }
-    li.nav-item span{
-        display: none;
-        visibility: hidden;
-    }
+
+    // TODO check shavad ke id new behesh ezafe beshe
+    //li.nav-item span{
+    //    //display: none;
+    //    //visibility: hidden;
+    //}
     .float-btn{
-        display: block;
-        visibility: visible;
+        display: block !important;
+        visibility: visible !important;
     }
     .content-header {
         visibility: hidden;
@@ -80,6 +82,15 @@
         height: 210px;
     }
 
+    a.more-details{
+        visibility: visible !important;
+        display: block !important;
+    }
+
+    //.float-btn{
+    //    display: block !important;
+    //    visibility: visible !important;
+    //}
 
     .users-list-filter{
         height: 100%;

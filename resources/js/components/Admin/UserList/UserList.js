@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import './../_Shared/Style.scss';
 import {Request} from "./../../../services/AdminService/Api";
 import {Pagination} from './../_Micro/Pagination';
-import {UserColumns} from './../_Micro/TableColumnsList'
-import {DeleteGroupt} from './../_Shared/java';
 import {Item} from './HOC/Item'
 import $ from 'jquery';
 import {TotalActions} from './HOC/TotalActions'
@@ -12,6 +10,8 @@ import Loading from './../_Micro/Loading'
 import SearchComponent from "./Search";
 import {BreadCrumbs} from './HOC/BreadCrumbs'
 import {CHECK_BOX_CONTENT} from "./Helper/Context";
+import BottomNavigationBar from './HOC/BottomNavigationBar'
+import './../Shop/ProductManager/_Shared/Responsive.scss'
 
 const UserList = memo((props) => {
     const {token} = props;
@@ -198,6 +198,7 @@ const UserList = memo((props) => {
         $("#breadCrumb").addClass("activeCrumb");
     }
 
+
     return (
 
 
@@ -251,32 +252,7 @@ const UserList = memo((props) => {
                     </div>
                 </form>
 
-                <div className={"bottom-tab-navigator"}>
-
-                    <span className={"counter-seleced"}>
-                            50
-                    </span>
-                    <ul>
-                        <li>
-                        </li>
-                        <li>
-                            <span><i className={"bx bx-check-double"}></i></span>
-                            همه
-                        </li>
-                        <li>
-                            <span><i className={"bx bx-x"}></i></span>
-                            لغو
-                        </li>
-                        <li>
-                            <span><i className={"bx bx-printer"}></i></span>
-                            پرینت
-                        </li>
-                        <li>
-                            <span><i className={"bx bx-trash-alt"}></i></span>
-                            حذف
-                        </li>
-                    </ul>
-                </div>
+                <BottomNavigationBar userData={userData}/>
             </>
         </CHECK_BOX_CONTENT.Provider>
     )
