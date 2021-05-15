@@ -53,6 +53,11 @@ class Content extends Model
         return $this->belongsTo(Page::class);
     }
 
+    public function viewCounts()
+    {
+        return $this->morphOne(ViewCount::class,'viewcountable');
+    }
+
     function scopeActive($query)
     {
         return $query->where('status', 'active');

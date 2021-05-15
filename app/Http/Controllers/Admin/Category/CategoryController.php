@@ -75,6 +75,8 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         try {
+            $this->categoryRepository->get($category);
+
             return $this->responses->success($category, "show");
         } catch (\Exception $exception) {
             return $this->responses->notSuccess(500, $category);

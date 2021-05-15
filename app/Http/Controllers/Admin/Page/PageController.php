@@ -77,6 +77,8 @@ class PageController extends Controller
     public function show(Page $page)
     {
         try {
+            $this->pageRepository->get($page);
+
             return $this->responses->success($page, "show");
         } catch (\Exception $exception) {
             return $this->responses->notSuccess(500, $page);

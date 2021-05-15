@@ -74,6 +74,8 @@ class TagController extends Controller
     public function show(Tag $tag)
     {
         try {
+            $this->tagRepositories->get($tag);
+
             return $this->responses->success($tag, "show");
         } catch (\Exception $exception) {
             return $this->responses->notSuccess(500, $tag);

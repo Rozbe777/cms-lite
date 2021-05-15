@@ -25,10 +25,18 @@ class PageSeeder extends Seeder
         }
 
         foreach (range(1, 10) as $index) {
-                DB::table('category_page')->insert([
-                    'page_id' => $index,
-                    'category_id' => rand(1, 3),
-                ]);
-            }
+            DB::table('category_page')->insert([
+                'page_id' => $index,
+                'category_id' => rand(1, 3),
+            ]);
         }
+
+        foreach (range(1,10) as $index) {
+            DB::table('view_counts')->insert([
+                'viewcountable_type' => 'App\Models\Page',
+                'viewcountable_id' => $index,
+                'view_count' => 1
+            ]);
+        }
+    }
 }

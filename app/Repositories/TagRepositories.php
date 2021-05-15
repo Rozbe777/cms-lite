@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 
+use App\Http\Requests\Admin\Services\RelationsService;
 use App\Models\Tag;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Carbon\Carbon;
@@ -15,15 +16,20 @@ class TagRepositories implements RepositoryInterface
     public function all()
     {
         try {
-            return Tag::with('contents')->with('categories')->paginate(12);
+            return Tag::with('contents')
+                ->with('categories')
+                ->where('status','deactivate')
+                ->paginate(12);
         } catch (\Exception $exception) {
             return [$exception->getCode(), $exception->getMessage()];
         }
     }
 
-    public function get($id)
+    public function get($tag)
     {
-        // TODO: Implement get() method.
+        $instance = $tag->viewCounts;
+        $instance->view_count ++;
+        $instance->save();
     }
 
     public function delete($tag)
@@ -35,9 +41,23 @@ class TagRepositories implements RepositoryInterface
     public function update(array $data, $tag)
     {
         try {
-            $category_list_old = $data['category_list_old'];
-            $category_list_new = $data['category_list_new'];
-            unset($data['category_list_old'],$data['category_list_new']);
+            /** modify category relations in database tables */
+            if (array_key_exists('category_list_old', $data) && array_key_exists('category_list_new', $data)) {
+                $category_list_old = $data['category_list_old'];
+                $category_list_new = $data['category_list_new'];
+                (new RelationsService())->categoryService($tag,$category_list_old,$category_list_new);
+                unset($data['category_list_old'], $data['category_list_new']);
+
+            } elseif (!array_key_exists('category_list_old', $data)) {
+                $category_list_new = $data['category_list_new'];
+                (new RelationsService())->categoryService($tag,'',$category_list_new);
+                unset($data['category_list_new']);
+
+            } elseif (!array_key_exists('category_list_new', $data)) {
+                $category_list_old = $data['category_list_old'];
+                (new RelationsService())->categoryService($tag,$category_list_old,'');
+                unset($data['category_list_old']);
+            }
 
             return $tag->update($data);
         } catch (\Exception $exception) {
@@ -53,6 +73,7 @@ class TagRepositories implements RepositoryInterface
 
             $index['user_id'] = Auth::id();
             $tag = Tag::create($data);
+            $tag->viewCounts()->create();
             $tag->categories()->attach($category_list);
             $tag->update($index);
             return $tag;

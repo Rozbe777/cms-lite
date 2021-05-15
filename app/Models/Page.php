@@ -31,4 +31,9 @@ class Page extends Model
     {
         return $this->hasMany(Content::class,'page_id','id');
     }
+
+    public function viewCounts()
+    {
+        return $this->morphOne(ViewCount::class,'viewcountable');
+    }
 }

@@ -32,5 +32,13 @@ class TagSeeder extends Seeder
                 ]);
             }
         }
+
+        foreach (range(1,10) as $index) {
+            DB::table('view_counts')->insert([
+                'viewcountable_type' => 'App\Models\Tag',
+                'viewcountable_id' => $index,
+                'view_count' => 1
+            ]);
+        }
     }
 }

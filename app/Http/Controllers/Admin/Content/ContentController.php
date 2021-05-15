@@ -76,6 +76,7 @@ class ContentController extends Controller
      */
     public function show(Content $content)
     {
+        $this->contentRepository->get($content);
         try {
             return $this->responses->success($content, "show");
         } catch (\Exception $exception) {
