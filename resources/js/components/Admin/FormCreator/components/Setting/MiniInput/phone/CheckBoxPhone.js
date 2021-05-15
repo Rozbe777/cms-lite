@@ -4,7 +4,6 @@ import $ from 'jquery';
 export const CheckBoxPhone = ({defaultState, name, valueActive, valueDeActive, status: pushState}) => {
 
     const handleChange = e => {
-        // console.log("checked : " , e.target)
         if (e.target.checked){
             $("li." + name + ".active").addClass("act");
             $("li." + name + ".deactive").removeClass("act");

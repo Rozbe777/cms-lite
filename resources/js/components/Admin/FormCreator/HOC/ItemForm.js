@@ -14,19 +14,45 @@ import Url from "../components/Url";
 import {EmailSetting} from "../components/Setting/EmailSetting";
 import {MiniInputSetting} from "../components/Setting/MiniInputSetting";
 import {OneSelectedSetting} from "../components/Setting/OneSelectedSetting";
-import {FormContext, FormContextEmail, FormContextMini} from "../Helper/Context";
+import {
+    FormContext,
+    FormContextEmail,
+    FormContextMini,
+    FormContextMobile,
+    FormContextMultiSelected
+} from "../Helper/Context";
+import {MobileSetting} from "../components/Setting/MobileSetting";
+import {MultiSelectedSetting} from "../components/Setting/MultiSelectedSetting";
 
 
 const Item = (props) => {
 
     const [initialFormData, setInitialFormData] = useState({Options: [], Mandatory: true, title: ''});
+    const [initialFormDataMultiSel, setInitialFormDataMultiSel] = useState({Options: [], Mandatory: true, title: ''});
+
+    // email state
     const [initialFormDataEmail, setInitialFormDataEmail] = useState({
         title: '',
         description: '',
-        Mandatory: false,
+        Mandatory: true,
 
     });
-    const {initialFormDataMiniText, setInitialFormDataMiniText} = useState({})
+
+    // mobile state
+    const [initialFormDataPhone, setInitialFormDataPhone] = useState({
+        title: '',
+        description: '',
+        Mandatory: true,
+
+    });
+    // input mini state
+    const [initialFormDataMiniText, setInitialFormDataMiniText] = useState({
+        title: '',
+        description: '',
+        Mandatory: true,
+        maximum: 0,
+    })
+
     useEffect(() => {
     }, [])
 
@@ -55,6 +81,16 @@ const Item = (props) => {
             setInitialFormDataEmail
         }}><Email/></FormContextEmail.Provider>
     }
+    const HandleMobile = () => {
+        ReactDOM.render(<FormContextMobile.Provider value={{
+            initialFormDataPhone,
+            setInitialFormDataPhone
+        }}><MobileSetting/></FormContextMobile.Provider>, setting_main_content);
+        return <FormContextMobile.Provider value={{
+            initialFormDataPhone,
+            setInitialFormDataPhone
+        }}><Phone/></FormContextMobile.Provider>
+    }
     const HandleOneSelected = () => {
         ReactDOM.render(<FormContext.Provider value={{
             initialFormData,
@@ -64,6 +100,17 @@ const Item = (props) => {
             initialFormData,
             setInitialFormData
         }}><OneSelected/></FormContext.Provider>
+    }
+    const HandleMultiSelected = () => {
+        ReactDOM.render(<FormContextMultiSelected.Provider value={{
+            initialFormDataMultiSel,
+            setInitialFormDataMultiSel
+        }}><MultiSelectedSetting/>
+        </FormContextMultiSelected.Provider>, setting_main_content);
+        return <FormContextMultiSelected.Provider value={{
+            initialFormDataMultiSel,
+            setInitialFormDataMultiSel
+        }}><MultiSelected /></FormContextMultiSelected.Provider>
     }
 
     const HandleTask = (task) => {
@@ -79,9 +126,10 @@ const Item = (props) => {
                 return HandleOneSelected();
             case 'input_4' :
                 ReactDOM.render('', setting_main_content);
-                return <MultiSelected/>
+                return HandleMultiSelected();
             case 'input_5':
-                return <Phone/>
+                ReactDOM.render('', setting_main_content);
+                return HandleMobile();
             case 'input_6' :
                 return <Number/>
             case 'input_7' :

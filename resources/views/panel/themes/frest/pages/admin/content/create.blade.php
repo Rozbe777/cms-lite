@@ -3,6 +3,8 @@
 
 @section("content")
 
+
+
     <div class="content-wrapper" style="padding: 30px 0px !important;">
         <div class="content-header row" style="padding : 0px 20px !important;">
             <div class="content-header-left col-12 mb-2 mt-1">
@@ -28,6 +30,8 @@
         <div id="form-creator">
 
         </div>
+
+
 
 
     </div>

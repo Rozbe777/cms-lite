@@ -22,6 +22,8 @@ const Index = () => {
         document.body.style.color = "orange"
     }
 
+
+
     const onDragEnd = result => {
         const {destination, source, draggableId} = result;
         if (!destination) {
@@ -102,7 +104,7 @@ const Index = () => {
                     onDragEnd={onDragEnd}
                     onDragStart={onDragStart}
                 >
-                    <div className={"col-md-4"} style={{padding: '7px', borderRadius: 5 , position : 'relative' , display : 'initial'}}>
+                    <div className={"col-md-4"} style={{padding: '8px 5px ', borderRadius: 5 , position : 'relative' , display : 'initial'}}>
                         <div className={"row header-form-option"}>
                             <div className={"col-12"} style={{padding: 0}}>
                                 <ul className="nav nav-tabs" id={"formCreator"} role="tablist"
@@ -231,7 +233,7 @@ const Index = () => {
 
 
                     </div>
-                    <div className={"col-md-8"}>
+                    <div className={"col-md-8"} style={{padding : '0 5px'}}>
                         <div className={"action-content"}>
                             <div className={"box-image-desc"}>
                             <span>
@@ -278,6 +280,10 @@ const Index = () => {
                         </div>
                     </div>
                 </DragDropContext>
+
+
+
+
             </div>
 
     )

@@ -1,24 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import "swiper/swiper-bundle.css";
 import '../HOC/_Shared/style.scss';
+import {FormContextMultiSelected} from "../Helper/Context";
+import ReactDOM from "react-dom";
+import $ from "jquery";
+import {MultiSelectedSetting} from "./Setting/MultiSelectedSetting";
 
 
 export const MultiSelected = ({selected: pushSelected}) => {
 
     const [check, setCheck] = useState([])
-    const [data, setData] = useState([
-        {
-            id: 1,
-            name: 'دسته بندی اول'
-        }, {
-            id: 2,
-            name: 'دسته بندی دوم'
-        }, , {
-            id: 3,
-            name: 'دسته بندی سوم'
-        },
-    ])
+
+
+    const {initialFormDataMultiSel, setInitialFormDataMultiSel} = useContext(FormContextMultiSelected)
+    console.log("+++++++++++" , initialFormDataMultiSel)
+
     const [paginateThumbs, setPaginateThumbs] = useState();
     const [load, setLoad] = useState(false);
     let selectCheckBox = new Set();
@@ -64,9 +61,25 @@ export const MultiSelected = ({selected: pushSelected}) => {
         setCheck(result)
         pushSelected(result)
     }
+
+    const HandleClick = e => {
+        e.preventDefault();
+        ReactDOM.render(<FormContextMultiSelected.Provider value={{
+            initialFormDataMultiSel,
+            setInitialFormDataMultiSel
+        }}><MultiSelectedSetting/></FormContextMultiSelected.Provider>, setting_main_content);
+        $(".nav-tabs li a").removeClass("active");
+        $(".tab-pane").removeClass("active");
+        $(".tab-pane.field").addClass("active");
+        $(".nav-tabs li a.field").addClass("active");
+
+    }
+    let tags = initialFormDataMultiSel.Mandatory ? initialFormDataMultiSel.title ? initialFormDataMultiSel.title +  "(*)" : 'عنوان (*)' :  initialFormDataMultiSel.title ?  initialFormDataMultiSel.title : 'عنوان';
+
+
     return (
-        <>
-            <p id={"form-creator-p"}>چند انتخابیییییی</p>
+        <div onClick={e => HandleClick(e)}>
+            <p id={"form-creator-p"}>{tags}</p>
             <div className={"main-selected"} style={{color : '#475F7B'}}>
 
             <div className={"show-chipset-multi"}>
@@ -105,7 +118,9 @@ export const MultiSelected = ({selected: pushSelected}) => {
 
             <div className={"optionBox formcreator"} id={"selected"}>
                 <ul>
-                    {data ? data.length > 0 ? data.map(item => (
+                    {initialFormDataMultiSel.Options ? initialFormDataMultiSel.Options.length > 0 ? initialFormDataMultiSel.Options.map((index , key) =>
+                        console.log("sdvsdvsdv" , index , key)
+                        (
                         <li>
                             <fieldset>
                                 <span className={"checkboxeds " + item.id} style={{color: '#fff'}}>
@@ -115,15 +130,15 @@ export const MultiSelected = ({selected: pushSelected}) => {
                                        onChange={e => HandleChange(e, item.id)}
                                        name={item.id}
                                        style={{background: 'green !important'}}
-                                       value={item.name} id="checkbox1"/>
-                                <span id={"labels"} htmlFor="checkbox1">{item.name}</span>
+                                       value={item.title} id="checkbox1"/>
+                                <span id={"labels"} htmlFor="checkbox1">{index}</span>
                             </fieldset>
 
 
                         </li>
 
                     )) : (<p>انتخاب کنید</p>) : (
-                        <p>fff</p>
+                        <p>wait</p>
                     )}
 
 
@@ -132,9 +147,9 @@ export const MultiSelected = ({selected: pushSelected}) => {
 
         </div>
             <p>
-                <small className="text-muted">لورم ایپسوم متن ساختگی برای چند انتخابی است ...</small>
+                <small className="text-muted">{initialFormDataMultiSel.title ? initialFormDataMultiSel.title : "توضیحات برای چند انتخابی"}</small>
             </p>
-        </>
+        </div>
 
     )
 }

@@ -1,4 +1,4 @@
-import React, {useContext , useState} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import './_shared/style.scss';
 import {CheckBoxEmail} from "./MiniInput/email/CheckBoxEmail";
 import {InputTextEmail} from "./MiniInput/email/InputTextEmail";
@@ -7,11 +7,11 @@ import {FormContextEmail} from "../../Helper/Context";
 export const EmailSetting = () => {
 
     const {initialFormDataEmail, setInitialFormDataEmail} = useContext(FormContextEmail)
-    const [data , setData] = useState({
-        title : '',
-        description : '',
-        Mandatory : true,
-    })
+    const [data, setData] = useState({})
+
+    useEffect(() => {
+        setData(initialFormDataEmail)
+    }, [])
 
     const ChangeValueTitle = val => {
         let dataIn = {...data};
@@ -38,14 +38,17 @@ export const EmailSetting = () => {
                 <div className={"col-12"}>
                     <InputTextEmail placeholder={"عنوان"} name={"title"} label={"نوع فیلد : متن کوتاه"}
                                     defaultValue={initialFormDataEmail.title ? initialFormDataEmail.title : ''}
-                                    isInvalid={"is-invalid"} value={val => ChangeValueTitle(val)} />
+                                    isInvalid={"is-invalid"} value={val => ChangeValueTitle(val)}/>
                 </div>
                 <div className={"col-12"}>
-                    <InputTextEmail placeholder={"توضیح"} name={"desc"} label={"توضیح"} isInvalid={''} value={val => ChangeValueDesc(val)} />
+                    <InputTextEmail
+                        placeholder={"توضیح"} name={"description"}
+                        defaultValue={initialFormDataEmail.description ? initialFormDataEmail.description : ''}
+                        label={"توضیح"} isInvalid={''} value={val => ChangeValueDesc(val)}/>
                 </div>
                 <div className={"col-12"}>
                     <CheckBoxEmail name={"Mandatory"} defaultState={false} valueActive={"غیر اجباری"}
-                                   defaultState={initialFormDataEmail.Mandatory == true ? true : false }
+                                   defaultState={initialFormDataEmail.Mandatory == true ? true : false}
                                    valueDeActive={"اجباری"} status={types => ChangeCheckBox(types)}/>
                 </div>
 
