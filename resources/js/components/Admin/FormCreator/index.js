@@ -1,9 +1,8 @@
-import React, {useState , useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import './_Shared/style.scss';
 import MyEditor from "../_Micro/MyEditor/MyEditor";
 import InitialData from "./Data/InitialData";
-import {InitialDataForms} from "./components/Constant/InitialDataForm";
 import {DragDropContext} from "react-beautiful-dnd";
 import Board from "./HOC/Board";
 import $ from 'jquery';
@@ -11,32 +10,28 @@ import FormDrop from './HOC/FormDrop';
 import {FormContext} from "./Helper/Context";
 
 const Index = () => {
-    const [state , setState] = useState(InitialData);
-    const [initialFormData , setInitialFormData] = useState({
-        input_1 : {},
-        input_2 : {},
-        input_3 : {Options : [] , Mandatory : true},
-        input_4 : {}
-    });
-    const [formBuilder ,setFormBuilder] = useState({});
-    useEffect(()=>{
+    const [state, setState] = useState(InitialData);
+    const [initialFormData, setInitialFormData] = useState({Options: [], Mandatory: true, title: ''});
+    const [initialFormDataEmail, setInitialFormDataEmail] = useState({});
+    const [formBuilder, setFormBuilder] = useState({});
+    useEffect(() => {
 
-    },[])
+    }, [])
 
     const onDragStart = () => {
         document.body.style.color = "orange"
     }
 
 
+
     const onDragEnd = result => {
         const {destination, source, draggableId} = result;
-        if (!destination){
+        if (!destination) {
             return;
         }
-        if (destination.droppableId === "tools" && source.droppableId === "inspect")
-        {
+        if (destination.droppableId === "tools" && source.droppableId === "inspect") {
 
-        }else {
+        } else {
             if (destination.droppableId === source.droppableId && destination.index === source.index) {
                 return;
             }
@@ -103,13 +98,13 @@ const Index = () => {
     const HtmlTask = HtmlCreate.taskIds.map(taskId => state.task[taskId]);
 
     return (
-        <FormContext.Provider value={{initialFormData , setInitialFormData}}>
+
             <div className={"row"} style={{padding: '15px'}}>
                 <DragDropContext
                     onDragEnd={onDragEnd}
                     onDragStart={onDragStart}
                 >
-                    <div className={"col-md-4"} style={{padding: '7px', borderRadius: 5}}>
+                    <div className={"col-md-4"} style={{padding: '8px 5px ', borderRadius: 5 , position : 'relative' , display : 'initial'}}>
                         <div className={"row header-form-option"}>
                             <div className={"col-12"} style={{padding: 0}}>
                                 <ul className="nav nav-tabs" id={"formCreator"} role="tablist"
@@ -138,12 +133,7 @@ const Index = () => {
                                     <div className="tab-pane" id="settingform-md" role="tabpanel"
                                          aria-labelledby="settingform-tab-md">
                                         <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin
-                                            coffee
-                                            sanderson 8-bit, sustainable jean shorts beard ut DIY
-                                            ethical
-                                            culpa terry
-                                            richardson biodiesel. Art party scenester stumptown, tumblr butcher vero
-                                            sint qui
+
                                             sapiente
                                             accusamus
                                             tattooed echo park.</p>
@@ -158,26 +148,7 @@ const Index = () => {
                                             Exercitation +1 labore velit, blog sartorial PBR leggings next level wes
                                             anderson
                                             artisan
-                                            four loko
-                                            farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim
-                                            craft beer
-                                            mlkshk
-                                            aliquip
-                                            jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda
-                                            labore
-                                            aesthetic
-                                            magna
-                                            delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente
-                                            labore
-                                            stumptown.
-                                            Vegan
-                                            fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut
-                                            DIY
-                                            ethical
-                                            culpa terry
-                                            richardson biodiesel. Art party scenester stumptown, tumblr butcher vero
-                                            sint qui
-                                            sapiente
+
                                             accusamus
                                             tattooed echo park.</p>
                                     </div>
@@ -186,13 +157,7 @@ const Index = () => {
                                          aria-labelledby="news-tab-md">
                                         <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin
                                             coffee
-                                            squid.
-                                            Exercitation +1 labore velit, blog sartorial PBR leggings next level wes
-                                            anderson
-                                            artisan
-                                            four loko
-                                            farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim
-                                            craft beer
+
                                             mlkshk
                                             accusamus
                                             tattooed echo park.</p>
@@ -266,8 +231,9 @@ const Index = () => {
                             </div>
                         </div>
 
+
                     </div>
-                    <div className={"col-md-8"}>
+                    <div className={"col-md-8"} style={{padding : '0 5px'}}>
                         <div className={"action-content"}>
                             <div className={"box-image-desc"}>
                             <span>
@@ -314,8 +280,12 @@ const Index = () => {
                         </div>
                     </div>
                 </DragDropContext>
+
+
+
+
             </div>
-        </FormContext.Provider>
+
     )
 }
 

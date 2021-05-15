@@ -4936,3 +4936,8 @@ input::placeholder{
 /*    background: #c1cad3 !important;*/
 /*    border-radius: 100% !important;*/
 /*}*/
+.cont{
+    width: 100%;
+    height: 800px;
+    background: #f00;
+}

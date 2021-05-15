@@ -152,3 +152,37 @@
         width: 100% !important;
     }
 }
+
+.main-sticky{
+    width: 100%;
+    height: 800px;
+    position: static;
+    #mainens{
+        width: 100%;
+        height: 150px;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        background-color: yellow;
+        padding: 50px;
+        font-size: 20px;
+    }
+}
+
+.flexiable{
+    position: sticky;
+    top: 0;
+}
+.cont{
+    width: 100%;
+    height: 900px;
+    background: #f00;
+    .stick{
+        width: 100px;
+        height: 200px;
+        background: #000;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+    }
+}

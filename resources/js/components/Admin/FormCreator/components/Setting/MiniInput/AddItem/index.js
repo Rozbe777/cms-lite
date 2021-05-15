@@ -10,7 +10,7 @@ export const Index = ({dataUpdate : pushData}) => {
     const {initialFormData , setInitialFormData} = useContext(FormContext)
 
     console.log("!!!!!!!!!!!" , initialFormData);
-    let defaultData = initialFormData.input_3 ? initialFormData.input_3 : {
+    let defaultData = initialFormData ? initialFormData : {
         Options : []
     };
     const [initial, setInitial] = useState({});

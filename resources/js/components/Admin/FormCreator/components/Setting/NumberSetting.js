@@ -1,7 +1,7 @@
 import React from "react";
-import {InputText} from "./MiniInput/InputText";
+import {InputText} from "./MiniInput/oneSelected/InputText";
 import './_shared/style.scss';
-import {CheckBox} from "./MiniInput/CheckBox";
+import {CheckBox} from "./MiniInput/oneSelected/CheckBox";
 
 export const MiniInputSetting = () => {
     return (
