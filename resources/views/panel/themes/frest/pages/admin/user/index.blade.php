@@ -7,9 +7,9 @@
         </script>
     @endif
 
-    <div class="content-wrapper" style="padding : 0px !important;">
+    <div class="content-wrapper" style="padding : 0px !important;margin: 0px !important;border-top : 1px solid #eee">
 
-        <div class="content-body" style="padding-top: 20px">
+        <div class="content-body" style="padding-top:0px">
             <section class="users-list-wrapper">
 
 

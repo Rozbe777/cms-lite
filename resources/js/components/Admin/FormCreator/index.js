@@ -8,20 +8,20 @@ import Board from "./HOC/Board";
 import $ from 'jquery';
 import FormDrop from './HOC/FormDrop';
 import {FormContext} from "./Helper/Context";
-
+import {BreadCrumbs} from "../UserList/HOC/BreadCrumbs";
+import FormSetting from "./HOC/FormSetting/FormSetting";
 const Index = () => {
     const [state, setState] = useState(InitialData);
     const [initialFormData, setInitialFormData] = useState({Options: [], Mandatory: true, title: ''});
     const [initialFormDataEmail, setInitialFormDataEmail] = useState({});
     const [formBuilder, setFormBuilder] = useState({});
     useEffect(() => {
-
+        $("#breadCrumb").addClass("activeCrumb");
     }, [])
 
     const onDragStart = () => {
         document.body.style.color = "orange"
     }
-
 
 
     const onDragEnd = result => {
@@ -99,19 +99,24 @@ const Index = () => {
 
     return (
 
-            <div className={"row"} style={{padding: '15px'}}>
+        <>
+            <div className={"row col-12"} id={"headerContent"}>
+                <BreadCrumbs data={{title: 'فرم ساز', desc: 'ساخت و تنظیمات فرمهای شخصی'}}/>
+            </div>
+            <div className={"row"} style={{padding: '5px 20px'}}>
                 <DragDropContext
                     onDragEnd={onDragEnd}
                     onDragStart={onDragStart}
                 >
-                    <div className={"col-md-4"} style={{padding: '8px 5px ', borderRadius: 5 , position : 'relative' , display : 'initial'}}>
+                    <div className={"col-md-4"}
+                         style={{padding: '8px 5px ', borderRadius: 5, position: 'relative', display: 'initial'}}>
                         <div className={"row header-form-option"}>
                             <div className={"col-12"} style={{padding: 0}}>
                                 <ul className="nav nav-tabs" id={"formCreator"} role="tablist"
                                     style={{background: '#fff', margin: 0, borderRadius: '5px 5px 0 0'}}>
                                     <li className="nav-item">
                                         <a className="nav-link active" id="settingform-tab-md" data-toggle="tab"
-                                           href="#settingform" role="tab"
+                                           href="#settingform-md" role="tab"
                                            aria-controls="settingform-md"
                                            aria-selected="true">تنظیمات فرم</a>
                                     </li>
@@ -130,13 +135,13 @@ const Index = () => {
                                 </ul>
                                 <div className="tab-content card pt-5" style={{padding: '20px 0 !important'}}
                                      id="myTabContentMD">
-                                    <div className="tab-pane" id="settingform-md" role="tabpanel"
+                                    <div className="tab-pane active" id="settingform-md" role="tabpanel"
                                          aria-labelledby="settingform-tab-md">
-                                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin
 
-                                            sapiente
-                                            accusamus
-                                            tattooed echo park.</p>
+
+                                        <FormSetting />
+
+
                                     </div>
 
 
@@ -168,26 +173,28 @@ const Index = () => {
                             </div>
 
 
+
                             <div className={"col-4"}>
-                                <button type={"button"} className={"btn btn-primary"}>
+                                <button type={"button"} className={"btn btn-outline-primary mr-1 mb-1"}>
                                     <i className={"bx bxs-show"}></i>&nbsp;
                                     نمایش
                                 </button>
                             </div>
                             <div className={"col-4"}>
-                                <button type={"button"} className={"btn btn-danger"}>
+                                <button type={"button"} className={"btn btn-outline-danger mr-1 mb-1"}>
                                     <i className={"bx bxs-trash"}></i>&nbsp;
                                     حذف
                                 </button>
                             </div>
                             <div className={"col-4"}>
                                 <button type={"button"}
-                                        className={"btn btn-success"}>
+                                        className={"btn btn-outline-success mr-1 mb-1"}>
                                     <i className={"bx bx-save"}></i>&nbsp;
                                     ذخیره
                                 </button>
 
                             </div>
+                            <br/>
                         </div>
 
                         <div className={"flexiable"}>
@@ -233,7 +240,7 @@ const Index = () => {
 
 
                     </div>
-                    <div className={"col-md-8"} style={{padding : '0 5px'}}>
+                    <div className={"col-md-8"} style={{padding: '0 5px'}}>
                         <div className={"action-content"}>
                             <div className={"box-image-desc"}>
                             <span>
@@ -282,9 +289,9 @@ const Index = () => {
                 </DragDropContext>
 
 
-
-
             </div>
+
+        </>
 
     )
 }

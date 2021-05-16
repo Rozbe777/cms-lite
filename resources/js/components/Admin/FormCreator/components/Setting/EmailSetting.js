@@ -35,8 +35,9 @@ export const EmailSetting = () => {
     return (
         <FormContextEmail.Provider value={{initialFormDataEmail, setInitialFormDataEmail}}>
             <div className={"row"} style={{padding: '0 15px'}}>
+                <p style={{padding : '0px 17px' , margin : 0 , color : 'grey' , fontWeight : 300 , fontSize : 13}}>نوع فیلد : ایمیل</p>
                 <div className={"col-12"}>
-                    <InputTextEmail placeholder={"عنوان"} name={"title"} label={"نوع فیلد : متن کوتاه"}
+                    <InputTextEmail placeholder={"عنوان"} name={"title"} label={"عنوان"}
                                     defaultValue={initialFormDataEmail.title ? initialFormDataEmail.title : ''}
                                     isInvalid={"is-invalid"} value={val => ChangeValueTitle(val)}/>
                 </div>

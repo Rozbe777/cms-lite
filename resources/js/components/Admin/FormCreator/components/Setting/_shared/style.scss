@@ -24,12 +24,15 @@
     width: 35%;
     position: relative;
     height: 40px;
-    border: 1px solid #ccc;
+    border: unset;
     border-radius: 5px;
     padding: 2px;
-    float: right;
     font-size: 11px;
     float: left;
     margin-left: 5px;
     margin-top: 5px;
+}
+.custom-switch{
+    float: left;
+    margin-top : 3px;
 }

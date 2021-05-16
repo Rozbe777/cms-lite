@@ -45,8 +45,9 @@ export const MiniInputSetting = () => {
     return (
         <FormContextMini.Provider value={{initialFormDataMiniText, setInitialFormDataMiniText}}>
             <div className={"row"} style={{padding: '0 15px'}}>
+                <p style={{padding : '0px 17px' , margin : 0 , color : 'grey' , fontWeight : 300 , fontSize : 13}}>نوع فیلد : متن کوتاه</p>
                 <div className={"col-12"}>
-                    <InputTextMiniInput placeholder={"عنوان"} name={"title"} label={"نوع فیلد : متن کوتاه"}
+                    <InputTextMiniInput placeholder={"عنوان"} name={"title"} label={"عنوان"}
                                         defaultValue={initialFormDataMiniText.title ? initialFormDataMiniText.title : ''}
                                         isInvalid={"is-invalid"} value={val => ChangeValueTitle(val)}/>
                 </div>
@@ -64,6 +65,7 @@ export const MiniInputSetting = () => {
                 <div className={"col-12"} style={{marginTop: 10}}>
                     <InputTextMiniInput placeholder={"حداکثر تعداد حروف"} name={"maximum"}
                                         value={val => ChangeValueMaximum(val)}
+                                        type={"number"}
                                         defaultValue={initialFormDataMiniText.maximum ? initialFormDataMiniText.maximum : 0}
                                         label={"حداکثر تعداد حروف"} isInvalid={''}/>
                 </div>

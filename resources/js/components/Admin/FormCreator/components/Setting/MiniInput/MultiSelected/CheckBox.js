@@ -6,13 +6,11 @@ export const CheckBox = ({defaultState, name, valueActive, valueDeActive, status
     const handleChange = e => {
         // console.log("checked : " , e.target)
         if (e.target.checked){
-            $("li." + name + ".active").addClass("act");
-            $("li." + name + ".deactive").removeClass("act");
-            pushState(false)
-        }else{
-            $("li." + name + ".active").removeClass("act");
-            $("li." + name + ".deactive").addClass("act");
+
             pushState(true)
+        }else{
+
+            pushState(false)
         }
     }
 
@@ -23,20 +21,14 @@ export const CheckBox = ({defaultState, name, valueActive, valueDeActive, status
             <span>فیلد اجباری باشد؟</span>
 
             <div className={"switch-container formcreator-switch"}>
-                {defaultState == false ? (
-                    <ul>
-                        <input defaultChecked={true} type={"checkbox"} name={name} onChange={e => handleChange(e)}
-                               id={"checked"}/>
-                        <li className={name + " active act"}>{valueActive}</li>
-                        <li className={name + " deactive"}>{valueDeActive}</li>
-                    </ul>
-                ) : (
-                    <ul>
-                        <input defaultChecked={false} type={"checkbox"} name={name} id={"checked"} onChange={e => handleChange(e)} />
-                        <li className={name + " active"}>{valueActive}</li>
-                        <li className={name + " deactive act"}>{valueDeActive}</li>
-                    </ul>
-                )}
+
+                <div className="custom-control custom-switch mr-2 mb-1">
+                    <input type="checkbox" className="custom-control-input" id="customSwitch11" defaultChecked={defaultState} onChange={e => handleChange(e)}  />
+                    <label className="custom-control-label" htmlFor="customSwitch11">
+
+                    </label>
+                </div>
+
             </div>
         </div>
     )

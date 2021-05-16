@@ -36,8 +36,10 @@ export const MobileSetting = () => {
     return (
         <FormContextMobile.Provider value={{initialFormDataPhone, setInitialFormDataPhone}}>
             <div className={"row"} style={{padding: '0 15px'}}>
+                <p style={{padding : '0px 17px' , margin : 0 , color : 'grey' , fontWeight : 300 , fontSize : 13}}>نوع فیلد : موبایل</p>
+
                 <div className={"col-12"}>
-                    <InputTextPhone placeholder={"عنوان"} name={"title"} label={"نوع فیلد : متن کوتاه"}
+                    <InputTextPhone placeholder={"عنوان"} name={"title"} label={"عنوان"}
                                     defaultValue={initialFormDataPhone.title ? initialFormDataPhone.title : ''}
                                     isInvalid={"is-invalid"} value={val => ChangeValueTitle(val)}/>
                 </div>

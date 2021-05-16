@@ -46,8 +46,10 @@ export const MultiSelectedSetting = ({defaultData, data: pushDataNew}) => {
 
     return (
         <div className={"row"} style={{padding: '0 15px'}}>
+            <p style={{padding : '0px 17px' , margin : 0 , color : 'grey' , fontWeight : 300 , fontSize : 13}}>نوع فیلد : چند انتخابی</p>
+
             <div className={"col-12"}>
-                <InputText placeholder={"عنوان"}  name={"title"} defaultValue={initialFormDataMultiSel.title ? initialFormDataMultiSel.title : ''} label={"نوع فیلد : متن کوتاه"} isInvalid={"is-invalid"}
+                <InputText placeholder={"عنوان"}  name={"title"} defaultValue={initialFormDataMultiSel.title ? initialFormDataMultiSel.title : ''} label={"عنوان"} isInvalid={"is-invalid"}
                            value={(item) => HandleChangeTitle(item)}/>
             </div>
             <div className={"col-12"}>
