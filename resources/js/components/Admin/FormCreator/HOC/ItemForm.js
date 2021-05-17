@@ -138,22 +138,22 @@ const Item = (props) => {
     const HandleTask = (task) => {
         switch (task.id) {
             case 'input_1' :
-                ReactDOM.render('', setting_main_content);
+                ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleMini();
             case 'input_2' :
-                ReactDOM.render('', setting_main_content);
+                ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleEmail();
             case 'input_3' :
-                ReactDOM.render('', setting_main_content);
+                ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleOneSelected();
             case 'input_4' :
-                ReactDOM.render('', setting_main_content);
+                ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleMultiSelected();
             case 'input_5':
-                ReactDOM.render('', setting_main_content);
+                ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleMobile();
             case 'input_6' :
-                ReactDOM.render('', setting_main_content);
+                ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleNumber();
             case 'input_7' :
                 return <TextArea/>
@@ -172,6 +172,7 @@ const Item = (props) => {
         <Draggable key={props.key} draggableId={props.task.id} index={props.index}>
             {(provided, snapshot) => (
                 <span
+                    className={"force"}
                     id={props.task.size === "small" ? "element" : "elementBig"}
                     ref={provided.innerRef}
                     isDragging={snapshot.isDragging}

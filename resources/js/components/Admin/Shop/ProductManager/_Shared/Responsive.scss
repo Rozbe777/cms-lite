@@ -18,6 +18,19 @@
         display: block;
         visibility: visible;
     }
+    #theme-item{
+        width: 25% !important;
+    }
+
+    .header-form-option button{
+        font-size: 10px !important;
+    }
+
+    .force{
+        padding:0px;
+        width: 100% !important;
+        height: auto;
+    }
 
     // TODO check shavad ke id new behesh ezafe beshe
     //li.nav-item span{

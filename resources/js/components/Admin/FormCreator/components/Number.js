@@ -16,13 +16,13 @@ const Number = () => {
     let titrs = '';
     useEffect(() => {
         if (min > 0) {
-            titrs = "عددی بزرگتر از" + min
+            titrs = " پاسخ باید بیشتر از " + min
             setMinMaxTitle(titrs)
         } else if (max > 0) {
-            titrs = "عددی کوچکتر از" + max
+            titrs = " پاسخ باید کمتر از " + max
             setMinMaxTitle(titrs)
         } else if (max > 0 && min > 0) {
-            titrs = "عددی بین (" + min + "و" + max + ")"
+            titrs = "پاسخ باید بین (" + min + "و" + max + ")باشد"
             setMinMaxTitle(titrs)
         } else {
         }
@@ -47,25 +47,40 @@ const Number = () => {
 
 
     const ShowTitrs = (value) => {
+        let titrl = " پاسخ باید بیشتر از " + min;
         return (
-            <p style={{margin: 0, fontSize: 11, color: 'grey'}}>{value}</p>
+            <p style={{margin: 0, fontSize: 11, color: 'grey'}}>{titrl}</p>
         )
+    }
+    {console.log("inininini : ", initialFormDataNumber)}
+    let titr_min = " حداقل پاسخ " + initialFormDataNumber.min;
+    let titr_max = "حداکثر پاسخ" + initialFormDataNumber.max;
+    let titr_between =  "محدوده پاسخ بین ( " + initialFormDataNumber.min + " و " + initialFormDataNumber.max + " )";
+
+    function checked(){
+        if (initialFormDataNumber.min > 0 && initialFormDataNumber.max ==0){
+            return titr_min;
+        }else if(initialFormDataNumber.min == 0 && initialFormDataNumber.max > 0){
+            return titr_max;
+        }else if(initialFormDataNumber.min > 0 && initialFormDataNumber.max > 0){
+            return  titr_between;
+        }else{
+
+        }
     }
 
     let mintEXT = (<p style={{margin: 0, fontSize: 11, color: 'grey'}}>{minMaxTitle}</p>)
-
     return (
         <fieldset className="form-group" style={{margin: 7}} onClick={e => HandleClick(e)}>
             <label htmlFor={random + "_label"}>{tags}</label>
-            {console.log("inininini : ", titrs)}
 
-            <p style={{margin: 0, fontSize: 11, color: 'grey'}}>{titrs}</p>
             <input type="number" id={random + "_label"} className="form-control formcreator"
                    required={initialFormDataNumber.Mandatory == true ? true : false}/>
-            <p>
+            <p style={{width : '50%' ,float : 'right'}}>
                 <small
                     className="text-muted">{initialFormDataNumber.description ? initialFormDataNumber.description : 'توضیحات مختصر فیلد'}</small>
             </p>
+            <p id={"between-answer"} style={{margin: 0, fontSize: 11, color: 'grey' , width : '50%'}}>{checked()}</p>
         </fieldset>
     )
 }

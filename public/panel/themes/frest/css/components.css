@@ -4968,3 +4968,7 @@ input::placeholder{
     padding: 5px 20px !important;
     min-height: 70px !important;
 }
+
+.search-input input{
+    padding: 0px !important;
+}

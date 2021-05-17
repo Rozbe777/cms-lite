@@ -43,12 +43,12 @@ span#labels{
 {
     span#element{
         padding: 5px;
-        width: 50% !important;
+        width: 50%;
         height: auto;
     }
     span#elementBig{
         width: 100% !important;
-        height: auto;
+        height: 120px;
     }
 }
 .formcreator.active{
@@ -104,4 +104,20 @@ textarea.formcreator{
         width : 97% !important;
     }
 
+}
+.toggle-setting-click{
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top:8px;
+    left:10px;
+    background: #fff;
+    z-index: 9;
+    border-radius: 50px;
+    text-align: center;
+    line-height: 2.1;
+    cursor: pointer;
+    &:hover{
+        box-shadow: 0 0 3px 2px rgb(0 0 0 / 15%);
+    }
 }
