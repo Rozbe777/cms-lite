@@ -45,7 +45,7 @@
 
     #breadCrumb {
         width: 100%;
-        padding: 25px 20px;
+        padding: 10px 20px;
         margin: 0px;
         position: absolute;
         z-index: -1;
@@ -113,3 +113,11 @@
     }
 
 }
+
+#formBuilderCategory{
+    position: absolute;
+    left: 0px;
+    top: 15px;
+    font-size: 11px;
+}
+

@@ -8,6 +8,10 @@ import Board from "./HOC/Board";
 import $ from 'jquery';
 import FormDrop from './HOC/FormDrop';
 import {FormContext} from "./Helper/Context";
+import {BreadCrumbs} from "../UserList/HOC/BreadCrumbs";
+import FormSetting from "./HOC/FormSetting/FormSetting";
+import StyleSetting from "./HOC/FormSetting/StyleSetting";
+import FeedSetting from "./HOC/FormSetting/FeedSetting";
 
 const Index = () => {
     const [state, setState] = useState(InitialData);
@@ -15,13 +19,49 @@ const Index = () => {
     const [initialFormDataEmail, setInitialFormDataEmail] = useState({});
     const [formBuilder, setFormBuilder] = useState({});
     useEffect(() => {
+        $("#breadCrumb").addClass("activeCrumb");
+        $("#formBuilderCategory").click(function () {
+            $(".form-category-back").fadeIn()
+            setTimeout(() => {
+                $("#form-builder-cat-manage").addClass("active");
+            }, 400)
+        });
 
+        $("#close-cat-manager").click(function () {
+            $("#form-builder-cat-manage").removeClass("active");
+            setTimeout(() => {
+                $(".form-category-back").fadeOut()
+            }, 400)
+        })
+
+        $(".nav-tabs.settingll .nav-item").click(function (){
+            $(".toggle-setting-click").html('');
+            $(".toggle-setting-click").append('<i class="bx bx-minus"></i>');
+        })
+
+        $(".toggle-setting-click").click(function (){
+            var checkACtive = $(".nav-tabs.settingll .nav-item a").hasClass("active");
+            var tabContent = $(".tab-content.settingll .tab-pane");
+            if(checkACtive){
+                $(this).html('');
+                $(this).append('<i class="bx bx-plus"></i>');
+                $(".nav-tabs.settingll .nav-item a").removeClass("active");
+                tabContent.removeClass("active");
+            }else{
+                $(this).html('');
+                $(this).append('<i class="bx bx-minus"></i>');
+                $(".nav-tabs.settingll .nav-item:first-child a").addClass("active");
+                $(".tab-content.settingll .tab-pane").eq(0).addClass("active");
+            }
+
+            // $(this).html('');
+            // $(this).append('<i class="bx bx-minus"></i>');
+        })
     }, [])
 
     const onDragStart = () => {
         document.body.style.color = "orange"
     }
-
 
 
     const onDragEnd = result => {
@@ -96,71 +136,74 @@ const Index = () => {
     const HtmlCreate = state.columns['inspect'];
     const Tasks = Tools.taskIds.map(taskId => state.task[taskId]);
     const HtmlTask = HtmlCreate.taskIds.map(taskId => state.task[taskId]);
-
     return (
 
-            <div className={"row"} style={{padding: '15px'}}>
+        <>
+            <div className={"row col-12"} id={"headerContent"}>
+                <BreadCrumbs data={{title: 'فرم ساز', desc: 'ساخت و تنظیمات فرمهای شخصی'}}
+                             floatBtn={"formBuilderCategory"} titleBtn={"دسته بندی ها"}/>
+            </div>
+            <div className={"row"} style={{padding: '5px 20px'}}>
                 <DragDropContext
                     onDragEnd={onDragEnd}
                     onDragStart={onDragStart}
                 >
-                    <div className={"col-md-4"} style={{padding: '8px 5px ', borderRadius: 5 , position : 'relative' , display : 'initial'}}>
-                        <div className={"row header-form-option"}>
+                    <div className={"col-lg-4 col-md-6"}
+                         style={{padding: '8px 5px ', borderRadius: 5, position: 'relative', display: 'initial'}}>
+                        <div className={"row header-form-option"} style={{padding : 0 , position : 'relative'}}>
+
+                            <div className={"toggle-setting-click"}>
+                                <i className={"bx bx-plus"}></i>
+                            </div>
+
                             <div className={"col-12"} style={{padding: 0}}>
-                                <ul className="nav nav-tabs" id={"formCreator"} role="tablist"
-                                    style={{background: '#fff', margin: 0, borderRadius: '5px 5px 0 0'}}>
-                                    <li className="nav-item">
-                                        <a className="nav-link active" id="settingform-tab-md" data-toggle="tab"
-                                           href="#settingform" role="tab"
+                                <ul className="nav nav-tabs settingll" id={"formCreator"} role="tablist"
+                                    style={{background: '#fff', margin: 0, borderRadius: '5px 5px 0 0' , marginTop : '20px'}}>
+                                    <li className="nav-item col-4">
+                                        <a className="nav-link" id="settingform-tab-md" data-toggle="tab"
+                                           href="#settingform-md" role="tab"
                                            aria-controls="settingform-md"
                                            aria-selected="true">تنظیمات فرم</a>
                                     </li>
-                                    <li className="nav-item">
+                                    <li className="nav-item col-4">
                                         <a className="nav-link" id="style-tab-md" data-toggle="tab" href="#style-md"
                                            role="tab"
                                            aria-controls="style-md"
                                            aria-selected="false">تنظیمات ظاهری</a>
                                     </li>
-                                    <li className="nav-item">
+                                    <li className="nav-item col-4">
                                         <a className="nav-link" id="news-tab-md" data-toggle="tab" href="#news-md"
                                            role="tab"
                                            aria-controls="news-md"
                                            aria-selected="false">اطلاع رسانی</a>
                                     </li>
                                 </ul>
-                                <div className="tab-content card pt-5" style={{padding: '20px 0 !important'}}
+                                <div className="tab-content settingll card pt-5" style={{padding: '20px 0 !important'}}
                                      id="myTabContentMD">
                                     <div className="tab-pane" id="settingform-md" role="tabpanel"
                                          aria-labelledby="settingform-tab-md">
-                                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin
 
-                                            sapiente
-                                            accusamus
-                                            tattooed echo park.</p>
+
+                                        <FormSetting/>
+
+
                                     </div>
 
 
                                     <div className="tab-pane" id="style-md" role="tabpanel"
                                          aria-labelledby="style-tab-md">
-                                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin
-                                            coffee
-                                            squid.
-                                            Exercitation +1 labore velit, blog sartorial PBR leggings next level wes
-                                            anderson
-                                            artisan
 
-                                            accusamus
-                                            tattooed echo park.</p>
+                                        <StyleSetting/>
+
                                     </div>
 
                                     <div className="tab-pane" id="news-md" role="tabpanel"
                                          aria-labelledby="news-tab-md">
-                                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin
-                                            coffee
 
-                                            mlkshk
-                                            accusamus
-                                            tattooed echo park.</p>
+
+                                        <FeedSetting/>
+
+
                                     </div>
 
 
@@ -168,24 +211,27 @@ const Index = () => {
                             </div>
 
 
-                            <div className={"col-4"}>
-                                <button type={"button"} className={"btn btn-primary"}>
-                                    <i className={"bx bxs-show"}></i>&nbsp;
-                                    نمایش
-                                </button>
-                            </div>
-                            <div className={"col-4"}>
-                                <button type={"button"} className={"btn btn-danger"}>
-                                    <i className={"bx bxs-trash"}></i>&nbsp;
-                                    حذف
-                                </button>
-                            </div>
-                            <div className={"col-4"}>
-                                <button type={"button"}
-                                        className={"btn btn-success"}>
-                                    <i className={"bx bx-save"}></i>&nbsp;
-                                    ذخیره
-                                </button>
+                            <div className={"row"} style={{padding : '0 0 5px 5px' , margin : 0}}>
+                                <div className={"col-4"}>
+                                    <button type={"button"} className={"btn btn-outline-primary mr-1 mb-1"}>
+                                        <i className={"bx bxs-show"}></i>&nbsp;
+                                        نمایش
+                                    </button>
+                                </div>
+                                <div className={"col-4"}>
+                                    <button type={"button"} className={"btn btn-outline-danger mr-1 mb-1"}>
+                                        <i className={"bx bxs-trash"}></i>&nbsp;
+                                        حذف
+                                    </button>
+                                </div>
+                                <div className={"col-4"}>
+                                    <button type={"button"}
+                                            className={"btn btn-outline-success mr-1 mb-1"}>
+                                        <i className={"bx bx-save"}></i>&nbsp;
+                                        ذخیره
+                                    </button>
+
+                                </div>
 
                             </div>
                         </div>
@@ -226,14 +272,16 @@ const Index = () => {
                                 </div>
                                 <div className="tab-pane field" id="profile-md" role="tabpanel"
                                      aria-labelledby="profile-tab-md">
-                                    <div id={"setting_main_content"}></div>
+                                    <div id={"setting_main_content"}>
+                                        <p style={{textAlign :'center'}}>فیلدی انتخاب نشده است!</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
 
                     </div>
-                    <div className={"col-md-8"} style={{padding : '0 5px'}}>
+                    <div className={"col-lg-8 col-md-6"} style={{padding: '0 5px'}}>
                         <div className={"action-content"}>
                             <div className={"box-image-desc"}>
                             <span>
@@ -282,9 +330,117 @@ const Index = () => {
                 </DragDropContext>
 
 
-
-
             </div>
+
+
+            <div className={"form-category-back"}>
+                <div className="row justify-content-center " id={"form-builder-cat-manage"}>
+                    <div className="col-lg-5 col-md-8 col-sm-10" style={{
+                        borderRadius: 5,
+                        background: '#fff',
+                        marginTop: '10vh',
+                        padding: 0,
+                        overflow: 'hidden'
+                    }}>
+
+
+                        <div className={"top-add-cat"}>
+                            <span style={{right: '0px'}} id={"close-cat-manager"}>
+                                <i className={"bx bx-x"}></i>
+                            </span>
+                            <input type={"text"} name={"new-form-cat"}
+                                   placeholder={"نام دسته بندی جدید را تایپ کنید ..."}/>
+
+                            <span>
+                                <i className={"bx bx-plus"}></i>
+                            </span>
+                        </div>
+
+                        <div className={"content-cat"}>
+
+                            {/*<p id="none-object">شما هنوز دسته ای اضافه نکرده اید!</p>*/}
+
+
+                            <ul>
+                                <li>
+
+                                    <p id={"cat-title-show"}> 1 - این یک تست است برای دسته بندییییی و تست ان در موارد
+                                        بالاتر ی و تست ان در موارد بالاتر برای هر کاربر</p>
+                                    <div id={"action-cat"}>
+                                        <i className={"bx bx-trash-alt"}></i>
+                                        <i className={"bx bxs-pencil"}></i>
+                                    </div>
+
+                                </li>
+
+                                <li>
+
+                                    <p id={"cat-title-show"}>این یک تست است برای دسته بندییییی و تست ان در موارد بالاتر
+                                        ی و تست ان در موارد بالاتر برای هر کاربر</p>
+                                    <div id={"action-cat"}>
+                                        <i className={"bx bx-trash-alt"}></i>
+                                        <i className={"bx bxs-pencil"}></i>
+                                    </div>
+
+                                </li>
+
+                                <li>
+
+                                    <p id={"cat-title-show"}>این یک تست است برای دسته بندییییی و تست ان در موارد بالاتر
+                                        ی و تست ان در موارد بالاتر برای هر کاربر</p>
+                                    <div id={"action-cat"}>
+                                        <i className={"bx bx-trash-alt"}></i>
+                                        <i className={"bx bxs-pencil"}></i>
+                                    </div>
+
+                                </li>
+
+                                <li>
+
+                                    <p id={"cat-title-show"}>این یک تست است برای دسته بندییییی و تست ان در موارد بالاتر
+                                        ی و تست ان در موارد بالاتر برای هر کاربر</p>
+                                    <div id={"action-cat"}>
+                                        <i className={"bx bx-trash-alt"}></i>
+                                        <i className={"bx bxs-pencil"}></i>
+                                    </div>
+
+                                </li>
+
+                                <li>
+
+                                    <p id={"cat-title-show"}>این یک تست است برای دسته بندییییی و تست ان در موارد بالاتر
+                                        ی و تست ان در موارد بالاتر برای هر کاربر</p>
+                                    <div id={"action-cat"}>
+                                        <i className={"bx bx-trash-alt"}></i>
+                                        <i className={"bx bxs-pencil"}></i>
+                                    </div>
+
+                                </li>
+
+                                <li>
+
+                                    <p id={"cat-title-show"}>این یک تست است برای دسته بندییییی و تست ان در موارد بالاتر
+                                        ی و تست ان در موارد بالاتر برای هر کاربر</p>
+                                    <div id={"action-cat"}>
+                                        <i className={"bx bx-trash-alt"}></i>
+                                        <i className={"bx bxs-pencil"}></i>
+                                    </div>
+
+                                </li>
+
+
+                            </ul>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </>
 
     )
 }

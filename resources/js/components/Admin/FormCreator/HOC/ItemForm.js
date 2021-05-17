@@ -19,37 +19,48 @@ import {
     FormContextEmail,
     FormContextMini,
     FormContextMobile,
-    FormContextMultiSelected
+    FormContextMultiSelected,
+    FormContextNumber
 } from "../Helper/Context";
 import {MobileSetting} from "../components/Setting/MobileSetting";
+import {NumberSetting} from "../components/Setting/NumberSetting";
 import {MultiSelectedSetting} from "../components/Setting/MultiSelectedSetting";
 
 
 const Item = (props) => {
 
-    const [initialFormData, setInitialFormData] = useState({Options: [], Mandatory: true, title: ''});
-    const [initialFormDataMultiSel, setInitialFormDataMultiSel] = useState({Options: [], Mandatory: true, title: ''});
+    const [initialFormData, setInitialFormData] = useState({Options: [], Mandatory: false, title: ''});
+    const [initialFormDataMultiSel, setInitialFormDataMultiSel] = useState({Options: [], Mandatory: false, title: ''});
 
     // email state
     const [initialFormDataEmail, setInitialFormDataEmail] = useState({
         title: '',
         description: '',
-        Mandatory: true,
+        Mandatory: false,
 
+    });
+
+    // number state
+    const [initialFormDataNumber, setInitialFormDataNumber] = useState({
+        title: '',
+        description: '',
+        Mandatory: false,
+        min : 0,
+        max : 0
     });
 
     // mobile state
     const [initialFormDataPhone, setInitialFormDataPhone] = useState({
         title: '',
         description: '',
-        Mandatory: true,
+        Mandatory: false,
 
     });
     // input mini state
     const [initialFormDataMiniText, setInitialFormDataMiniText] = useState({
         title: '',
         description: '',
-        Mandatory: true,
+        Mandatory: false,
         maximum: 0,
     })
 
@@ -91,6 +102,17 @@ const Item = (props) => {
             setInitialFormDataPhone
         }}><Phone/></FormContextMobile.Provider>
     }
+
+    const HandleNumber = () => {
+        ReactDOM.render(<FormContextNumber.Provider value={{
+            initialFormDataNumber,
+            setInitialFormDataNumber
+        }}><NumberSetting /></FormContextNumber.Provider>, setting_main_content);
+        return <FormContextNumber.Provider value={{
+            initialFormDataNumber,
+            setInitialFormDataNumber
+        }}><Number /></FormContextNumber.Provider>
+    }
     const HandleOneSelected = () => {
         ReactDOM.render(<FormContext.Provider value={{
             initialFormData,
@@ -116,22 +138,23 @@ const Item = (props) => {
     const HandleTask = (task) => {
         switch (task.id) {
             case 'input_1' :
-                ReactDOM.render('', setting_main_content);
+                ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleMini();
             case 'input_2' :
-                ReactDOM.render('', setting_main_content);
+                ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleEmail();
             case 'input_3' :
-                ReactDOM.render('', setting_main_content);
+                ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleOneSelected();
             case 'input_4' :
-                ReactDOM.render('', setting_main_content);
+                ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleMultiSelected();
             case 'input_5':
-                ReactDOM.render('', setting_main_content);
+                ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleMobile();
             case 'input_6' :
-                return <Number/>
+                ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
+                return HandleNumber();
             case 'input_7' :
                 return <TextArea/>
             case 'input_9' :
@@ -149,6 +172,7 @@ const Item = (props) => {
         <Draggable key={props.key} draggableId={props.task.id} index={props.index}>
             {(provided, snapshot) => (
                 <span
+                    className={"force"}
                     id={props.task.size === "small" ? "element" : "elementBig"}
                     ref={provided.innerRef}
                     isDragging={snapshot.isDragging}

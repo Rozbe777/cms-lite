@@ -6,42 +6,30 @@ import {FormContextMultiSelected} from "../Helper/Context";
 import ReactDOM from "react-dom";
 import $ from "jquery";
 import {MultiSelectedSetting} from "./Setting/MultiSelectedSetting";
-
-
 export const MultiSelected = ({selected: pushSelected}) => {
-
     const [check, setCheck] = useState([])
-
-
     const {initialFormDataMultiSel, setInitialFormDataMultiSel} = useContext(FormContextMultiSelected)
-    console.log("+++++++++++" , initialFormDataMultiSel)
-
-    const [paginateThumbs, setPaginateThumbs] = useState();
-    const [load, setLoad] = useState(false);
-    let selectCheckBox = new Set();
     useEffect(() => {
     }, [])
-
-
     const HandleChange = (e, id) => {
-
         let checkBoxCustom = $("span.checkboxeds." + id);
         let checked = [...check]
-        if (e.target.checked) {
+        console.log("e.target : " , e.target.checked , " / customs : " , checkBoxCustom , " id : " , id , " checked : " , checked)
+        let checkTarget = e.target.checked;
+        console.log(checkTarget);
+
+        if (checkTarget) {
             checkBoxCustom.addClass("active")
             checked.push({
                 id: e.target.name,
                 name: e.target.value
             })
             setCheck(checked)
-            pushSelected(checked)
-            // console.log("1111111 : " , check)
         } else {
+            console.log("un checked");
             checkBoxCustom.removeClass("active")
             const results = check.filter(obj => parseInt(obj.id) !== id);
-            // var result = check.filter(obj => console.log("object name : " , parseInt(obj.id) , " / name : " , id));
             setCheck(results)
-            pushSelected(results)
         }
 
     }
@@ -51,7 +39,6 @@ export const MultiSelected = ({selected: pushSelected}) => {
         e.preventDefault();
         $(".optionBox#selected").toggleClass("active")
         $(".selecteddd i#droper").toggleClass("active");
-        // console.log("click daaaaaa , " , e.currentTarget.getAttribute('data-appmode'))
     }
 
     const RemoveChipset = (id) => {
@@ -59,7 +46,6 @@ export const MultiSelected = ({selected: pushSelected}) => {
         $("input[name=" + id + "]").prop("checked", false);
         var result = check.filter(obj => obj.id !== id);
         setCheck(result)
-        pushSelected(result)
     }
 
     const HandleClick = e => {
@@ -88,8 +74,6 @@ export const MultiSelected = ({selected: pushSelected}) => {
                         slidesPerView={1}
                         pagination={{clickable: true}}
                         scrollbar={{draggable: true}}
-                        // onSlideChange={(e) => CheckWidth(e)}
-                        // onSwiper={(swiper) => console.log(swiper)}
                     >
                         {check ? check.map(item => (
                                 <SwiperSlide key={item.id} virtualIndex={item.id}>
@@ -119,18 +103,17 @@ export const MultiSelected = ({selected: pushSelected}) => {
             <div className={"optionBox formcreator"} id={"selected"}>
                 <ul>
                     {initialFormDataMultiSel.Options ? initialFormDataMultiSel.Options.length > 0 ? initialFormDataMultiSel.Options.map((index , key) =>
-                        console.log("sdvsdvsdv" , index , key)
                         (
                         <li>
                             <fieldset>
-                                <span className={"checkboxeds " + item.id} style={{color: '#fff'}}>
+                                <span className={"checkboxeds " + key} style={{color: '#fff'}}>
                                     <i className={"bx bx-check"}></i>
                                 </span>
                                 <input type="checkbox"
-                                       onChange={e => HandleChange(e, item.id)}
-                                       name={item.id}
+                                       onChange={e => HandleChange(e, key)}
+                                       name={key}
                                        style={{background: 'green !important'}}
-                                       value={item.title} id="checkbox1"/>
+                                       value={index} id="checkbox1"/>
                                 <span id={"labels"} htmlFor="checkbox1">{index}</span>
                             </fieldset>
 
@@ -146,9 +129,7 @@ export const MultiSelected = ({selected: pushSelected}) => {
             </div>
 
         </div>
-            <p>
-                <small className="text-muted">{initialFormDataMultiSel.title ? initialFormDataMultiSel.title : "توضیحات برای چند انتخابی"}</small>
-            </p>
+
         </div>
 
     )

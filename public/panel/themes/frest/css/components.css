@@ -4941,3 +4941,34 @@ input::placeholder{
     height: 800px;
     background: #f00;
 }
+
+.shadow-bottom{
+    background:unset !important;
+}
+.navbar-header.expanded{
+    background: #fff !important;
+    border-bottom: 1px solid #eee;
+}
+.navigation.navigation-main{
+    background: #fff !important;
+}
+.main-menu ul{
+    background: #fff !important;
+}
+.navbar-header{
+    background: #fff !important;
+}
+.main-menu .main-menu-content{
+    background: #fff !important;
+}
+.main-menu{
+    background: #fff !important;
+}
+#headerContent{
+    padding: 5px 20px !important;
+    min-height: 70px !important;
+}
+
+.search-input input{
+    padding: 0px !important;
+}

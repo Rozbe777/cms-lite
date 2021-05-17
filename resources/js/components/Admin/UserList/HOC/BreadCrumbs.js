@@ -1,7 +1,7 @@
 import React from "react";
 import './styleAction.scss'
 
-export const BreadCrumbs = ({data}) => {
+export const BreadCrumbs = ({data , floatBtn , titleBtn , icon}) => {
     return (
         <div id={"breadCrumb"} style={{width: '100%'}}>
             <div className={"container-fluid"}>
@@ -20,6 +20,14 @@ export const BreadCrumbs = ({data}) => {
                     </div>
                 </div>
             </div>
+            {floatBtn ? (
+                <button className={"btn btn-primary mr-1 mb-1"} id={floatBtn}>
+                    {icon ? (
+                        <i className={"bx "+icon}></i>
+                    ) : ('')}
+                    {titleBtn}
+                </button>
+            ) : ('')}
         </div>
     )
 }
