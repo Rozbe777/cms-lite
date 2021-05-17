@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Category;
 
-use App\Classes\Responses\Categories\Responses;
+
+use App\Classes\Responses\Admin\Responses;
 use App\Http\Controllers\Admin\Category\Helper\CategorySearchHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Category\CreateCategoryRequest;
@@ -25,6 +26,8 @@ class CategoryController extends Controller
     {
         $this->responses = $responses;
         $this->categoryRepository = $categoryRepository;
+        $this->middleware('user_permission');
+
     }
 
     /**
@@ -38,7 +41,7 @@ class CategoryController extends Controller
 
         return (is_array($category)) ?
             $this->responses->notSuccess(500, $category) :
-            $this->responses->success($category, "index");
+            $this->responses->success($category, "category.index");
     }
 
     /**
@@ -63,7 +66,7 @@ class CategoryController extends Controller
 
         return (is_array($category)) ?
             $this->responses->notSuccess(500, $category) :
-            $this->responses->success($category, "show");
+            $this->responses->success($category, "category.show");
     }
 
     /**
@@ -77,7 +80,7 @@ class CategoryController extends Controller
         try {
             $this->categoryRepository->get($category);
 
-            return $this->responses->success($category, "show");
+            return $this->responses->success($category, "category.show");
         } catch (\Exception $exception) {
             return $this->responses->notSuccess(500, $category);
         }
@@ -107,7 +110,7 @@ class CategoryController extends Controller
 
         return (is_array($category)) ?
             $this->responses->notSuccess(500, $category) :
-            $this->responses->success($category, "edit");
+            $this->responses->success($category, "category.edit");
     }
 
     /**
@@ -140,6 +143,6 @@ class CategoryController extends Controller
 
         return (!$category) ?
             redirect()->back()->with('error', __('message.content.search.notSuccess')) :
-            $this->responses->success($category, "index");
+            $this->responses->success($category, "category.index");
     }
 }
