@@ -19,7 +19,7 @@ const Index = () => {
         buttonBackground: '#e91e63',
         buttonColor: '#ffffff',
         bodyBackground: '#ffffff',
-        inputBackground: '#ffffff',
+        inputBackground: '#f2f4f4',
         inputBorder: '#f0f0f0',
         textColor : '#555555',
         placeholderColor : '#000000',

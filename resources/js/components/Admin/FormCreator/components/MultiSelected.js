@@ -2,13 +2,14 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import "swiper/swiper-bundle.css";
 import '../HOC/_Shared/style.scss';
-import {FormContextMultiSelected} from "../Helper/Context";
+import {FormContextMultiSelected, FormTheme} from "../Helper/Context";
 import ReactDOM from "react-dom";
 import $ from "jquery";
 import {MultiSelectedSetting} from "./Setting/MultiSelectedSetting";
 export const MultiSelected = ({selected: pushSelected}) => {
     const [check, setCheck] = useState([])
     const {initialFormDataMultiSel, setInitialFormDataMultiSel} = useContext(FormContextMultiSelected)
+    const {formTheme} = useContext(FormTheme);
     useEffect(() => {
     }, [])
     const HandleChange = (e, id) => {
@@ -65,8 +66,8 @@ export const MultiSelected = ({selected: pushSelected}) => {
 
     return (
         <div onClick={e => HandleClick(e)}>
-            <p id={"form-creator-p"}>{tags}</p>
-            <div className={"main-selected"} style={{color : '#475F7B'}}>
+            <p id={"form-creator-p"} style={{color : formTheme.textColor}}>{tags}</p>
+            <div className={"main-selected"} style={{borderColor : formTheme.inputBorder , backgroundColor : formTheme.inputBackground , color : formTheme.placeholderColor}}>
 
             <div className={"show-chipset-multi"}>
                 {check.length > 0 ? (
@@ -97,7 +98,7 @@ export const MultiSelected = ({selected: pushSelected}) => {
 
             </div>
             <div id={"box-droper"} className={"selecteddd formcreatordroper"} onClick={e => handleDropDown(e)}>
-                <i className={"bx bx-chevron-down"} id={"droper"}></i>
+                <i className={"bx bx-chevron-down"} id={"droper"} style={{color : formTheme.placeholderColor}}></i>
             </div>
 
             <div className={"optionBox formcreator"} id={"selected"}>

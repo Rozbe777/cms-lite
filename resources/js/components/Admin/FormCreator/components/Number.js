@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useState} from "react";
-import {FormContextNumber} from "../Helper/Context";
+import {FormContextNumber , FormTheme} from "../Helper/Context";
 import ReactDOM from "react-dom";
 import $ from "jquery";
 import {NumberSetting} from "./Setting/NumberSetting";
 
 const Number = () => {
     const {initialFormDataNumber, setInitialFormDataNumber} = useContext(FormContextNumber);
-
+    const {formTheme} = useContext(FormTheme);
     const random = min + Math.random() * (max - min);
     const [minMaxTitle, setMinMaxTitle] = useState('');
     const setting_main_content = document.getElementById("setting_main_content");
@@ -72,15 +72,15 @@ const Number = () => {
     let mintEXT = (<p style={{margin: 0, fontSize: 11, color: 'grey'}}>{minMaxTitle}</p>)
     return (
         <fieldset className="form-group" style={{margin: 7}} onClick={e => HandleClick(e)}>
-            <label htmlFor={random + "_label"}>{tags}</label>
+            <label style={{textAlign: 'left', fontSize: '11px' ,color : formTheme.textColor}} htmlFor={random + "_label"}>{tags}</label>
 
             <input type="number" id={random + "_label"} className="form-control formcreator"
+                   style={{borderColor : formTheme.inputBorder , backgroundColor : formTheme.inputBackground , color : formTheme.placeholderColor}}
                    required={initialFormDataNumber.Mandatory == true ? true : false}/>
             <p style={{width : '50%' ,float : 'right'}}>
-                <small
-                    className="text-muted">{initialFormDataNumber.description ? initialFormDataNumber.description : 'توضیحات مختصر فیلد'}</small>
+                <small style={{textAlign: 'left', fontSize: '11px' , color : formTheme.textColor}}>{initialFormDataNumber.description ? initialFormDataNumber.description : 'توضیحات مختصر فیلد'}</small>
             </p>
-            <p id={"between-answer"} style={{margin: 0, fontSize: 11, color: 'grey' , width : '50%'}}>{checked()}</p>
+            <p id={"between-answer"} style={{margin: 0, fontSize: 11, color: formTheme.textColor , width : '50%'}}>{checked()}</p>
         </fieldset>
     )
 }

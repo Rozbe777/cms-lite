@@ -81,7 +81,7 @@ input{
 }
 
 input.formcreator{
-    background: #eee !important;
+    background: #eee;
     &.url{
         direction: ltr !important;
         text-align: left !important;
@@ -92,7 +92,7 @@ input.formcreator{
     }
 }
 textarea.formcreator{
-    background: #eee !important;
+    background: #eee;
 
 }
 .formcreatorss {
