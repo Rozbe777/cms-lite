@@ -324,3 +324,9 @@
     width: 50%;
     text-align : left;
 }
+input[type="text"]#title {
+    padding-right : 10px !important;
+    &::placeholder{
+        padding-right : 10px !important;
+    }
+}
