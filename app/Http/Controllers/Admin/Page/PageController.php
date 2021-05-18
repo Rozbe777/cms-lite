@@ -103,7 +103,7 @@ class PageController extends Controller
      * @param Page $page
      * @return JsonResponse
      */
-    public function update(EditPageRequest $request, Page $page)
+    public function update(EditPageRequest $request, Page $page): ?JsonResponse
     {
         $page = $this->pageRepository->update($request->all(), $page);
 

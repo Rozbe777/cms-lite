@@ -75,24 +75,29 @@ Route::prefix('auth')->group(function () {
     });
 });
 
-Route::get('contents/search', [ContentController::class, 'search']);
-Route::resource('contents', ContentController::class);
-Route::delete('contents/multi/destroy', [ContentController::class, 'multipleDestroy']);
+Route::name('admin.')->group(function (){
 
-Route::get('categories/search', [CategoryController::class, 'search']);
-Route::resource('categories', CategoryController::class);
-Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy']);
+    //----------------------------Contents---------------------------
+    Route::get('contents/search', [ContentController::class, 'search'])->name('contents.search');
+    Route::resource('contents', ContentController::class);
+    Route::delete('contents/multi/destroy', [ContentController::class, 'multipleDestroy'])->name('contents.multipleDestroy');
 
-Route::get('tags/search', [TagController::class, 'search']);
-Route::resource('tags', TagController::class);
-Route::delete('tags/multi/destroy', [TagController::class, 'multipleDestroy']);
+    //---------------------------Categories--------------------------
+    Route::get('categories/search', [CategoryController::class, 'search'])->name('categories.search');
+    Route::resource('categories', CategoryController::class);
+    Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy'])->name('categories.multipleDestroy');
 
-Route::get('pages/search', [PageController::class, 'search']);
-Route::resource('pages', PageController::class);
-Route::delete('pages/multi/destroy', [PageController::class, 'multipleDestroy']);
+    //------------------------------Tags-----------------------------
+    Route::get('tags/search', [TagController::class, 'search'])->name('tags.search');
+    Route::resource('tags', TagController::class);
+    Route::delete('tags/multi/destroy', [TagController::class, 'multipleDestroy'])->name('tags.multipleDestroy');
 
-//Route::get('content/edit', [ContentController::class, 'edit'])->name('content.edit');
-//Route::post('content/update/{id}', [ContentController::class, 'update'])->name('content.update');
+    //------------------------------Pages----------------------------
+    Route::get('pages/search', [PageController::class, 'search'])->name('pages.search');
+    Route::resource('pages', PageController::class);
+    Route::delete('pages/multi/destroy', [PageController::class, 'multipleDestroy'])->name('pages.multipleDestroy');
+});
+
 //-----------------------Mehrshad End----------------------
 
 
