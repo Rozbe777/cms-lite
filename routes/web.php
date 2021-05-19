@@ -75,24 +75,33 @@ Route::prefix('auth')->group(function () {
     });
 });
 
-Route::get('contents/search', [ContentController::class, 'search']);
-Route::resource('contents', ContentController::class);
-Route::delete('contents/multi/destroy', [ContentController::class, 'multipleDestroy']);
+Route::name('admin.')->group(function (){
 
-Route::get('categories/search', [CategoryController::class, 'search']);
-Route::resource('categories', CategoryController::class);
-Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy']);
+    Route::get('/',function (){
+       echo "admin.role";
+    })->name('role');
 
-Route::get('tags/search', [TagController::class, 'search']);
-Route::resource('tags', TagController::class);
-Route::delete('tags/multi/destroy', [TagController::class, 'multipleDestroy']);
+    //----------------------------Contents---------------------------
+    Route::get('contents/search', [ContentController::class, 'search'])->name('contents.search');
+    Route::resource('contents', ContentController::class);
+    Route::delete('contents/multi/destroy', [ContentController::class, 'multipleDestroy'])->name('contents.multipleDestroy');
 
-Route::get('pages/search', [PageController::class, 'search']);
-Route::resource('pages', PageController::class);
-Route::delete('pages/multi/destroy', [PageController::class, 'multipleDestroy']);
+    //---------------------------Categories--------------------------
+    Route::get('categories/search', [CategoryController::class, 'search'])->name('categories.search');
+    Route::resource('categories', CategoryController::class);
+    Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy'])->name('categories.multipleDestroy');
 
-//Route::get('content/edit', [ContentController::class, 'edit'])->name('content.edit');
-//Route::post('content/update/{id}', [ContentController::class, 'update'])->name('content.update');
+    //------------------------------Tags-----------------------------
+    Route::get('tags/search', [TagController::class, 'search'])->name('tags.search');
+    Route::resource('tags', TagController::class);
+    Route::delete('tags/multi/destroy', [TagController::class, 'multipleDestroy'])->name('tags.multipleDestroy');
+
+    //------------------------------Pages----------------------------
+    Route::get('pages/search', [PageController::class, 'search'])->name('pages.search');
+    Route::resource('pages', PageController::class);
+    Route::delete('pages/multi/destroy', [PageController::class, 'multipleDestroy'])->name('pages.multipleDestroy');
+});
+
 //-----------------------Mehrshad End----------------------
 
 
@@ -110,129 +119,129 @@ Route::delete('pages/multi/destroy', [PageController::class, 'multipleDestroy'])
 //    Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
 //
 //});
-Route::get('admin', function () {
-    return redirect()->route('admin.dashboard.index');
-});
-Route::group(['middleware' => 'user_permission'], function () {
-
-    Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'name' => 'admin.', 'middleware' => 'auth'], function () {
-
-
-        Route::group(['as' => 'dashboard.', 'prefix' => 'dashboard', 'namespace' => 'Dashboard', 'name' => 'dashboard.'], function () {
-            Route::get('/', [DashboardController::class, 'index'])->name('index');
-        });
-
-        Route::group(['as' => 'profile.', 'prefix' => 'profile', 'namespace' => 'Profile', 'name' => 'profile.'], function () {
-            Route::get('/', [ProfileController::class, 'index'])->name('index');
-            Route::put('/', [ProfileController::class, 'update'])->name('update');
-            Route::put('/password', [ProfileController::class, 'changePassword'])->name('password');
-        });
-
-        Route::group(['as' => 'user.', 'prefix' => 'user', 'namespace' => 'User', 'name' => 'user.'], function () {
-
-            Route::get('/export', [UserController::class, 'export'])->name('export');
-            Route::get('/', [UserController::class, 'index'])->name('index');
-            Route::get('/list', [UserController::class, 'userList'])->name('list');
-            Route::get('/create', [UserController::class, 'create'])->name('create');
-            Route::post('/', [UserController::class, 'store'])->name('store');
-            Route::get('/{userId}/edit', [UserController::class, 'edit'])->name('edit');
-            Route::put('/{userId}/update', [UserController::class, 'update'])->name('update');
-            Route::get('/{userId}/destroy', [UserController::class, 'destroy'])->name('destroy');
-            Route::get('/search', [UserController::class, 'search'])->name('search');
-            Route::post('/destroys', [UserController::class, 'multipleDestroy'])->name('multipleDestroy');
-
-
-        });
-
-        Route::group(['as' => 'role.', 'prefix' => 'role', 'namespace' => 'Role', 'name' => 'role.'], function () {
-
-            Route::get('/', [RoleController::class, 'index'])->name('index');
-            Route::get('/list', [RoleController::class, 'list'])->name('list');
-            Route::get('/create', [RoleController::class, 'create'])->name('create');
-            Route::post('/', [RoleController::class, 'store'])->name('store');
-            Route::get('/{roleId}/edit', [RoleController::class, 'edit'])->name('edit');
-            Route::put('/{roleId}/update', [RoleController::class, 'update'])->name('update');
-            Route::post('/{roleId}/destroy', [RoleController::class, 'destroy'])->name('destroy');
-
-        });
-
-        Route::group(['as' => 'setting.', 'prefix' => 'setting', 'namespace' => 'Setting', 'name' => 'setting.'], function () {
-            Route::get('/', [SettingController::class, 'index'])->name('index');
-            Route::put('/', [SettingController::class, 'update'])->name('update');
-        });
-
-        Route::group(['as' => 'category.', 'prefix' => 'category', 'namespace' => 'Category', 'name' => 'category.'], function () {
-
-            Route::get('/', [CategoryController::class, 'index'])->name('index');
-            Route::get('/list', [CategoryController::class, 'list'])->name('list');
-            Route::get('/create', [CategoryController::class, 'create'])->name('create');
-            Route::post('/', [CategoryController::class, 'store'])->name('store');
-            Route::get('/{categoryId}/edit', [CategoryController::class, 'edit'])->name('edit');
-            Route::put('/{categoryId}/update', [CategoryController::class, 'update'])->name('update');
-            Route::get('/{categoryId}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
-            Route::get('/search', [CategoryController::class, 'search'])->name('search');
-            Route::post('/destroys', [CategoryController::class, 'multipleDestroy'])->name('multipleDestroy');
-
-
-        });
-
-        Route::group(['as' => 'tag.', 'prefix' => 'tag', 'namespace' => 'Tag', 'name' => 'tag.'], function () {
-
-            Route::get('/', [TagController::class, 'index'])->name('index');
-            Route::get('/list', [TagController::class, 'list'])->name('list');
-            Route::get('/create', [TagController::class, 'create'])->name('create');
-            Route::post('/', [TagController::class, 'store'])->name('store');
-            Route::get('/{tagId}/edit', [TagController::class, 'edit'])->name('edit');
-            Route::put('/{tagId}/update', [TagController::class, 'update'])->name('update');
-            Route::get('/{tagId}/destroy', [TagController::class, 'destroy'])->name('destroy');
-            Route::get('/search', [TagController::class, 'search'])->name('search');
-            Route::post('/destroys', [TagController::class, 'multipleDestroy'])->name('multipleDestroy');
-
-
-        });
-
-        Route::group(['as' => 'content.', 'prefix' => 'content', 'namespace' => 'Content', 'name' => 'content.'], function () {
-
-            Route::get('/', [ContentController::class, 'index'])->name('index');
-            Route::get('/list', [ContentController::class, 'list'])->name('list');
-            Route::get('/create', [ContentController::class, 'create'])->name('create');
-            Route::post('/', [ContentController::class, 'store'])->name('store');
-            Route::get('/{contentId}/edit', [ContentController::class, 'edit'])->name('edit');
-            Route::put('/{contentId}/update', [ContentController::class, 'update'])->name('update');
-            Route::get('/{contentId}/destroy', [ContentController::class, 'destroy'])->name('destroy');
-            Route::get('/search', [ContentController::class, 'search'])->name('search');
-            Route::post('/destroys', [ContentController::class, 'multipleDestroy'])->name('multipleDestroy');
-
-
-        });
-
-        Route::group(['as' => 'page.', 'prefix' => 'page', 'namespace' => 'Page', 'name' => 'page.'], function () {
-
-            Route::get('/', [PageController::class, 'index'])->name('index');
-            Route::get('/list', [PageController::class, 'list'])->name('list');
-            Route::get('/create', [PageController::class, 'create'])->name('create');
-            Route::post('/', [PageController::class, 'store'])->name('store');
-            Route::get('/{pageId}/edit', [PageController::class, 'edit'])->name('edit');
-            Route::put('/{contentId}/update', [PageController::class, 'update'])->name('update');
-            Route::get('/{pageId}/destroy', [PageController::class, 'destroy'])->name('destroy');
-            Route::get('/search', [PageController::class, 'search'])->name('search');
-            Route::post('/destroys', [PageController::class, 'multipleDestroy'])->name('multipleDestroy');
-        });
-
-        Route::group(['as' => 'layout.', 'prefix' => 'layout', 'namespace' => 'Layout', 'name' => 'layout.'], function () {
-
-            Route::get('/', [LayoutController::class, 'index'])->name('index');
-            Route::get('/list', [LayoutController::class, 'list'])->name('list');
-            Route::get('/create', [LayoutController::class, 'create'])->name('create');
-            Route::post('/', [LayoutController::class, 'store'])->name('store');
-            Route::get('/{layoutId}/edit', [LayoutController::class, 'edit'])->name('edit');
-            Route::put('/{layoutId}/update', [LayoutController::class, 'update'])->name('update');
-            Route::get('/{layoutId}/destroy', [LayoutController::class, 'destroy'])->name('destroy');
-            Route::get('/search', [LayoutController::class, 'search'])->name('search');
-            Route::post('/destroys', [LayoutController::class, 'multipleDestroy'])->name('multipleDestroy');
-
-
-        });
-    });
-});
+//Route::get('admin', function () {
+//    return redirect()->route('admin.dashboard.index');
+//});
+//Route::group(['middleware' => 'user_permission'], function () {
+//
+//    Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'name' => 'admin.', 'middleware' => 'auth'], function () {
+//
+//
+//        Route::group(['as' => 'dashboard.', 'prefix' => 'dashboard', 'namespace' => 'Dashboard', 'name' => 'dashboard.'], function () {
+//            Route::get('/', [DashboardController::class, 'index'])->name('index');
+//        });
+//
+//        Route::group(['as' => 'profile.', 'prefix' => 'profile', 'namespace' => 'Profile', 'name' => 'profile.'], function () {
+//            Route::get('/', [ProfileController::class, 'index'])->name('index');
+//            Route::put('/', [ProfileController::class, 'update'])->name('update');
+//            Route::put('/password', [ProfileController::class, 'changePassword'])->name('password');
+//        });
+//
+//        Route::group(['as' => 'user.', 'prefix' => 'user', 'namespace' => 'User', 'name' => 'user.'], function () {
+//
+//            Route::get('/export', [UserController::class, 'export'])->name('export');
+//            Route::get('/', [UserController::class, 'index'])->name('index');
+//            Route::get('/list', [UserController::class, 'userList'])->name('list');
+//            Route::get('/create', [UserController::class, 'create'])->name('create');
+//            Route::post('/', [UserController::class, 'store'])->name('store');
+//            Route::get('/{userId}/edit', [UserController::class, 'edit'])->name('edit');
+//            Route::put('/{userId}/update', [UserController::class, 'update'])->name('update');
+//            Route::get('/{userId}/destroy', [UserController::class, 'destroy'])->name('destroy');
+//            Route::get('/search', [UserController::class, 'search'])->name('search');
+//            Route::post('/destroys', [UserController::class, 'multipleDestroy'])->name('multipleDestroy');
+//
+//
+//        });
+//
+//        Route::group(['as' => 'role.', 'prefix' => 'role', 'namespace' => 'Role', 'name' => 'role.'], function () {
+//
+//            Route::get('/', [RoleController::class, 'index'])->name('index');
+//            Route::get('/list', [RoleController::class, 'list'])->name('list');
+//            Route::get('/create', [RoleController::class, 'create'])->name('create');
+//            Route::post('/', [RoleController::class, 'store'])->name('store');
+//            Route::get('/{roleId}/edit', [RoleController::class, 'edit'])->name('edit');
+//            Route::put('/{roleId}/update', [RoleController::class, 'update'])->name('update');
+//            Route::post('/{roleId}/destroy', [RoleController::class, 'destroy'])->name('destroy');
+//
+//        });
+//
+//        Route::group(['as' => 'setting.', 'prefix' => 'setting', 'namespace' => 'Setting', 'name' => 'setting.'], function () {
+//            Route::get('/', [SettingController::class, 'index'])->name('index');
+//            Route::put('/', [SettingController::class, 'update'])->name('update');
+//        });
+//
+//        Route::group(['as' => 'category.', 'prefix' => 'category', 'namespace' => 'Category', 'name' => 'category.'], function () {
+//
+//            Route::get('/', [CategoryController::class, 'index'])->name('index');
+//            Route::get('/list', [CategoryController::class, 'list'])->name('list');
+//            Route::get('/create', [CategoryController::class, 'create'])->name('create');
+//            Route::post('/', [CategoryController::class, 'store'])->name('store');
+//            Route::get('/{categoryId}/edit', [CategoryController::class, 'edit'])->name('edit');
+//            Route::put('/{categoryId}/update', [CategoryController::class, 'update'])->name('update');
+//            Route::get('/{categoryId}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
+//            Route::get('/search', [CategoryController::class, 'search'])->name('search');
+//            Route::post('/destroys', [CategoryController::class, 'multipleDestroy'])->name('multipleDestroy');
+//
+//
+//        });
+//
+//        Route::group(['as' => 'tag.', 'prefix' => 'tag', 'namespace' => 'Tag', 'name' => 'tag.'], function () {
+//
+//            Route::get('/', [TagController::class, 'index'])->name('index');
+//            Route::get('/list', [TagController::class, 'list'])->name('list');
+//            Route::get('/create', [TagController::class, 'create'])->name('create');
+//            Route::post('/', [TagController::class, 'store'])->name('store');
+//            Route::get('/{tagId}/edit', [TagController::class, 'edit'])->name('edit');
+//            Route::put('/{tagId}/update', [TagController::class, 'update'])->name('update');
+//            Route::get('/{tagId}/destroy', [TagController::class, 'destroy'])->name('destroy');
+//            Route::get('/search', [TagController::class, 'search'])->name('search');
+//            Route::post('/destroys', [TagController::class, 'multipleDestroy'])->name('multipleDestroy');
+//
+//
+//        });
+//
+//        Route::group(['as' => 'content.', 'prefix' => 'content', 'namespace' => 'Content', 'name' => 'content.'], function () {
+//
+//            Route::get('/', [ContentController::class, 'index'])->name('index');
+//            Route::get('/list', [ContentController::class, 'list'])->name('list');
+//            Route::get('/create', [ContentController::class, 'create'])->name('create');
+//            Route::post('/', [ContentController::class, 'store'])->name('store');
+//            Route::get('/{contentId}/edit', [ContentController::class, 'edit'])->name('edit');
+//            Route::put('/{contentId}/update', [ContentController::class, 'update'])->name('update');
+//            Route::get('/{contentId}/destroy', [ContentController::class, 'destroy'])->name('destroy');
+//            Route::get('/search', [ContentController::class, 'search'])->name('search');
+//            Route::post('/destroys', [ContentController::class, 'multipleDestroy'])->name('multipleDestroy');
+//
+//
+//        });
+//
+//        Route::group(['as' => 'page.', 'prefix' => 'page', 'namespace' => 'Page', 'name' => 'page.'], function () {
+//
+//            Route::get('/', [PageController::class, 'index'])->name('index');
+//            Route::get('/list', [PageController::class, 'list'])->name('list');
+//            Route::get('/create', [PageController::class, 'create'])->name('create');
+//            Route::post('/', [PageController::class, 'store'])->name('store');
+//            Route::get('/{pageId}/edit', [PageController::class, 'edit'])->name('edit');
+//            Route::put('/{contentId}/update', [PageController::class, 'update'])->name('update');
+//            Route::get('/{pageId}/destroy', [PageController::class, 'destroy'])->name('destroy');
+//            Route::get('/search', [PageController::class, 'search'])->name('search');
+//            Route::post('/destroys', [PageController::class, 'multipleDestroy'])->name('multipleDestroy');
+//        });
+//
+//        Route::group(['as' => 'layout.', 'prefix' => 'layout', 'namespace' => 'Layout', 'name' => 'layout.'], function () {
+//
+//            Route::get('/', [LayoutController::class, 'index'])->name('index');
+//            Route::get('/list', [LayoutController::class, 'list'])->name('list');
+//            Route::get('/create', [LayoutController::class, 'create'])->name('create');
+//            Route::post('/', [LayoutController::class, 'store'])->name('store');
+//            Route::get('/{layoutId}/edit', [LayoutController::class, 'edit'])->name('edit');
+//            Route::put('/{layoutId}/update', [LayoutController::class, 'update'])->name('update');
+//            Route::get('/{layoutId}/destroy', [LayoutController::class, 'destroy'])->name('destroy');
+//            Route::get('/search', [LayoutController::class, 'search'])->name('search');
+//            Route::post('/destroys', [LayoutController::class, 'multipleDestroy'])->name('multipleDestroy');
+//
+//
+//        });
+//    });
+//});
 

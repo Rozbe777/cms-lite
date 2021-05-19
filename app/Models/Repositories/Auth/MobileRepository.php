@@ -8,8 +8,15 @@ use App\Models\VerifyMobile;
 
 class MobileRepository
 {
-    public function find($id)
+    public function find($mobile)
     {
-        return VerifyMobile::where('user_id',$id)->first();
+        return VerifyMobile::where('mobile',$mobile)->first();
+    }
+
+    public function creatClient($mobile)
+    {
+        return VerifyMobile::create([
+           'mobile'=>$mobile,
+        ]);
     }
 }

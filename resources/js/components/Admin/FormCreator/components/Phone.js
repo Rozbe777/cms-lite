@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {FormContextMobile} from "../Helper/Context";
+import {FormContextMobile , FormTheme} from "../Helper/Context";
 import ReactDOM from "react-dom";
 import $ from "jquery";
 import {MobileSetting} from "./Setting/MobileSetting";
@@ -10,7 +10,7 @@ const Phone = () => {
     const min = 1;
     const max = 100;
     const random = min + Math.random() * (max - min);
-
+    const {formTheme} = useContext(FormTheme);
     const setting_main_content = document.getElementById("setting_main_content");
 
     const HandleClick = e => {
@@ -25,17 +25,16 @@ const Phone = () => {
         $(".nav-tabs li a.field").addClass("active");
 
     }
-    let tags = initialFormDataPhone.Mandatory ? initialFormDataPhone.title ? initialFormDataPhone.title + "(*)" : 'عنوان (*)' : initialFormDataPhone.title ? initialFormDataPhone.title : 'عنوان';
-
+    let tags = initialFormDataPhone.Mandatory ? initialFormDataPhone.title ? initialFormDataPhone.title + " (*) " : 'عنوان (*) ' : initialFormDataPhone.title ? initialFormDataPhone.title : 'عنوان';
 
     return (
         <fieldset className="form-group" style={{margin: 7}} onClick={e => HandleClick(e)}>
-            <label htmlFor={random + "_label"}>{tags}</label>
+            <label style={{textAlign: 'left', fontSize: '11px' ,color : formTheme.textColor}} htmlFor={random + "_label"}>{tags}</label>
             <input type="email" id={random + "_label"} className="form-control formcreator"
+                   style={{borderColor : formTheme.inputBorder , backgroundColor : formTheme.inputBackground , color : formTheme.placeholderColor}}
                    required={initialFormDataPhone.Mandatory == true ? true : false}/>
             <p>
-                <small
-                    className="text-muted">{initialFormDataPhone.description ? initialFormDataPhone.description : 'توضیحات مختصر فیلد'}</small>
+                <small style={{textAlign: 'left', fontSize: '11px' , color : formTheme.textColor}}>{initialFormDataPhone.description ? initialFormDataPhone.description : 'توضیحات مختصر فیلد'}</small>
             </p>
         </fieldset>
     )

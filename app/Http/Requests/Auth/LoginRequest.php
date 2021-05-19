@@ -29,7 +29,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'mobile' => 'required|string|max:255',
-            'password' => 'required',
+            'password' => 'required|string',
         ];
     }
 }

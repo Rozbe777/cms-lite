@@ -16,11 +16,6 @@ class RegisterController extends Controller
 
     use CreateUserTrait;
 
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
     public function show()
     {
         return adminView("pages.auth.register");

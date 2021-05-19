@@ -170,8 +170,10 @@
 }
 
 .flexiable{
-    position: sticky;
-    top: 0;
+    &.stickyss{
+        position: fixed !important;
+        top: 10px;
+    }
 }
 .cont{
     width: 100%;
@@ -323,4 +325,13 @@
     float: right;
     width: 50%;
     text-align : left;
+}
+input[type="text"]#title {
+    padding-right : 10px !important;
+    &::placeholder{
+        padding-right : 10px !important;
+    }
+}
+.imageUpload{
+    height: 100% !important;
 }

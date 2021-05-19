@@ -37,7 +37,7 @@ class PasswordController extends Controller
         $user = $this->userRepository->findByMobile(session('mobile'));
 
         /** API panel SMS */
-        dispatch(new SendSmsJob($request->mobile,$user->id));
+        dispatch(new SendSmsJob($request->mobile));
 
         return $this->response->success("verification code is sent to mobile number");
     }
@@ -52,7 +52,7 @@ class PasswordController extends Controller
         $user = (new UserModelRepository())->findByMobile(session('mobile'));
 
         /** check the mobile in trait */
-        $response = $this->checkMobileTrait($user, $request->token);
+        $response = $this->checkMobileTrait($user, $request->token, $passReset=1);
 
         if (!$response){
             return $this->response->notSuccess("the token is not correct",404);

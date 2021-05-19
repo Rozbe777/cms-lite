@@ -20,10 +20,11 @@ class UserModelRepository
         return User::findOrFail($id);
     }
 
-    public function create($mobile)
+    public function create($client)
     {
         $user = new User([
-            "mobile" => $mobile
+            "mobile" => $client->mobile,
+            "mobile_verified_at"=> $client->updated_at,
         ]);
         $user->save();
         return $user;
@@ -34,9 +35,6 @@ class UserModelRepository
         try {
             /** find user by request->id */
             $user = $this->findById($request->id);
-
-            if ($user->status != "active")
-                return ['exception_message'=>"user mobile is not active",'exception_code'=>404];
 
             /** check submit the registration form with or without an image */
             if ($request->avatar) {
@@ -51,7 +49,6 @@ class UserModelRepository
             $data['password'] = bcrypt($request->password);
 
             $user->update($data);
-            (new SmsRepository())->deleteToken($user->id);
 
             return $user;
 

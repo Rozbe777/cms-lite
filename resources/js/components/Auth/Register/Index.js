@@ -15,7 +15,7 @@ const Index = (props) => {
 
 
     let timerString = "";
-    var pattern = /^09([0-9]{2})-?[0-9]{3}-?[0-9]{4}$/;
+    var pattern = /0?9([0-9]{9})/;
     let CounterTimer = 0;
     const [responseVerify, setResponseVerify] = useState(0);
     const [intervals , setIntervalId] = useState();

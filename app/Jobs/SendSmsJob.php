@@ -23,10 +23,9 @@ class SendSmsJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($mobile,$id)
+    public function __construct($mobile)
     {
         $this->mobile = $mobile;
-        $this->id = $id;
     }
 
     /**
@@ -36,6 +35,6 @@ class SendSmsJob implements ShouldQueue
      */
     public function handle()
     {
-        (new SmsCenter())->sendToken($this->mobile, (new SmsRepository())->createToken($this->id)->token);
+        (new SmsCenter())->sendToken($this->mobile, (new SmsRepository())->createToken($this->mobile)->token);
     }
 }

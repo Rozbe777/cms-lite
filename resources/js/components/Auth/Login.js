@@ -30,25 +30,37 @@ const LoginForm = ({token}) => {
         let mobile = $("input[name=mobile]").val();
         let password = $("input[name=password]").val();
 
+        let patt = /0?9([0-9]{9})/;
         let user = {...userData};
         user._token = token;
         user.mobile = mobile;
         user.password = password;
-        ReactDOM.render(<Loading/>, elementLoading);
-        Request.Login(user)
-            .then(response => {
-                ReactDOM.render('', elementLoading);
-                success("در حال انتقال به داشبورد ...")
-                setTimeout(() => {
-                    window.location.pathname = "/admin"
-                }, 500)
-            }, error => {
-                ReactDOM.render('', elementLoading);
-                ErrorToast("اطلاعات ورود صحیح نمی باشد!");
-            }).catch(error => {
-            ReactDOM.render('', elementLoading);
-            ErrorToast("اطلاعات ورود صحیح نمی باشد!");
-        })
+
+        if (mobile.length > 0 && password.length > 0){
+            if (patt.test(mobile)){
+                ReactDOM.render(<Loading/>, elementLoading);
+                Request.Login(user)
+                    .then(response => {
+                        ReactDOM.render('', elementLoading);
+                        success("در حال انتقال به داشبورد ...")
+                        setTimeout(() => {
+                            window.location.pathname = "/admin"
+                        }, 500)
+                    }, error => {
+                        ReactDOM.render('', elementLoading);
+                        ErrorToast("اطلاعات ورود صحیح نمی باشد!");
+                    }).catch(error => {
+                    ReactDOM.render('', elementLoading);
+                    ErrorToast("اطلاعات ورود صحیح نمی باشد!");
+                })
+            }else{
+                ErrorToast("شماره تلفن را به شکل صحیح وارد کنید");
+            }
+        }else{
+            ErrorToast("فیلد ها را پر کنید");
+        }
+
+
     }
 
     const changeRemember = (e) => {
