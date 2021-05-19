@@ -15,6 +15,7 @@ import FeedSetting from "./HOC/FormSetting/FeedSetting";
 
 const Index = () => {
     const [state, setState] = useState(InitialData);
+    const [toolsBox , setToolsBox] = useState();
     const [formTheme, setFormTheme] = useState({
         buttonBackground: '#e91e63',
         buttonColor: '#ffffff',
@@ -66,10 +67,68 @@ const Index = () => {
                 $(".tab-content.settingll .tab-pane").eq(0).addClass("active");
             }
 
+
+
+
+
+
+
+            // console.log("box offset " , $(".flexiable").offset().top );
+
             // $(this).html('');
             // $(this).append('<i class="bx bx-minus"></i>');
         })
     }, [])
+
+        // console.log("box offset " , $(".flexiable").offset().top );
+
+    //
+    // $(window).scroll(function (){
+    //     let winOffset = $(this).scrollTop();
+    //     var
+    //     console.log("vsdvsdv", $(".flexiable").offset().top)
+    // })
+
+
+
+    //     if($(this).scrollTop > $(".flexiable").offset().top){
+    //         header.classList.add("stickyss");
+    //     }else{
+    //         header.classList.remove("stickyss");
+    //     }
+    // })
+
+
+
+    // window.onscroll = function() {myFunction()};
+    //
+
+    //
+    window.onscroll = function () {
+        var header = document.querySelector(".flexiable");
+        var sticky = header.offsetTop;
+        if (sticky > 10){
+            setToolsBox(sticky)
+        }else{
+
+        }
+        checkScroll(sticky)
+    }
+
+
+    const checkScroll = (offset) => {
+        var header = document.querySelector(".flexiable");
+        console.log("offset : " , offset)
+        if (window.pageYOffset > offset) {
+            header.classList.add("stickyss");
+        } else {
+            header.classList.remove("stickyss");
+        }
+    }
+
+
+
+
 
     const onDragStart = () => {
         document.body.style.color = "orange"
@@ -152,6 +211,15 @@ const Index = () => {
     const HtmlCreate = state.columns['inspect'];
     const Tasks = Tools.taskIds.map(taskId => state.task[taskId]);
     const HtmlTask = HtmlCreate.taskIds.map(taskId => state.task[taskId]);
+
+
+
+
+
+
+
+
+
     return (
 
         <>
