@@ -1,0 +1,2156 @@
+{
+	"info": {
+		"_postman_id": "ff881d30-ed22-49be-8dd2-4b5257a9f56e",
+		"name": "zerone",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Content Crud",
+			"item": [
+				{
+					"name": "get all Contents",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/contents",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"contents"
+							]
+						},
+						"description": "this route is for retrieve all Contents with eager load"
+					},
+					"response": []
+				},
+				{
+					"name": "show a content",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:8000/contents/1",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"contents",
+								"1"
+							]
+						},
+						"description": "contents/{content_id}\nthis route is for showing specific content."
+					},
+					"response": []
+				},
+				{
+					"name": "store a content",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "_token",
+									"value": "78J3JjxYeRaaMWDVjC54yXmeFyooFWc7Xc30WfYZ",
+									"type": "text"
+								},
+								{
+									"key": "owner",
+									"value": "content",
+									"description": "default = content, [page,content]",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "any title6",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "slug",
+									"value": "any slug6",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "any content",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "metadata",
+									"value": "any metadata",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"description": "default = active, [\"active\", \"pending\", \"deactivate\"]",
+									"type": "text"
+								},
+								{
+									"key": "layout_id",
+									"value": "0",
+									"description": "default=0, [0 or ID]",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"value": "",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "comment_status",
+									"value": "active",
+									"description": "default= active, ['active', 'deactivate']",
+									"type": "text"
+								},
+								{
+									"key": "is_index",
+									"value": "0",
+									"description": "default = 0",
+									"type": "text"
+								},
+								{
+									"key": "is_menu",
+									"value": "0",
+									"description": "default = 0",
+									"type": "text"
+								},
+								{
+									"key": "tag_list[0]",
+									"value": "1",
+									"description": "optional, array",
+									"type": "text"
+								},
+								{
+									"key": "category_list[0]",
+									"value": "1",
+									"description": "optional, array",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "127.0.0.1:8000/contents",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"contents"
+							]
+						},
+						"description": "this route is for store the content"
+					},
+					"response": []
+				},
+				{
+					"name": "update a content",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "_token",
+									"value": "8aWzQZm2sKXgoitFF5xjMWQXLS4INrKhySMsykqP",
+									"type": "text"
+								},
+								{
+									"key": "owner",
+									"value": "content",
+									"description": "default = content, [page,content]",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "any title6",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "slug",
+									"value": "any slug11",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "any content",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "metadata",
+									"value": "any metadata",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"description": "default = active, [\"active\", \"pending\", \"deactivate\"]",
+									"type": "text"
+								},
+								{
+									"key": "layout_id",
+									"value": "0",
+									"description": "default=0, [0 or ID]",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"value": "",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "comment_status",
+									"value": "active",
+									"description": "default= active, ['active', 'deactivate']",
+									"type": "text"
+								},
+								{
+									"key": "is_index",
+									"value": "0",
+									"description": "default = 0",
+									"type": "text"
+								},
+								{
+									"key": "is_menu",
+									"value": "0",
+									"description": "default = 0",
+									"type": "text"
+								},
+								{
+									"key": "tag_list_new[0]",
+									"value": "2",
+									"description": " optional, array",
+									"type": "text"
+								},
+								{
+									"key": "tag_list_old[0]",
+									"value": "1",
+									"description": " optional, array",
+									"type": "text"
+								},
+								{
+									"key": "category_list_old[0]",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "category_list_new[0]",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "127.0.0.1:8000/contents/3",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"contents",
+								"3"
+							]
+						},
+						"description": "this route is for updating a content"
+					},
+					"response": []
+				},
+				{
+					"name": "delete a category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "_token",
+									"value": "AOytmWmsZZ8kdW3DzUgwYtqY7nnR1OqKM1imQAIE",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "127.0.0.1:8000/contents/2",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"contents",
+								"2"
+							]
+						},
+						"description": "this route is for delete a content"
+					},
+					"response": []
+				},
+				{
+					"name": "delete a list of category",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "_token",
+									"value": "78J3JjxYeRaaMWDVjC54yXmeFyooFWc7Xc30WfYZ",
+									"type": "text"
+								},
+								{
+									"key": "contentIds[0]",
+									"value": "1",
+									"description": "array",
+									"type": "text"
+								},
+								{
+									"key": "contentIds[1]",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "127.0.0.1:8000/contents/multi/destroy",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"contents",
+								"multi",
+								"destroy"
+							]
+						},
+						"description": "this route is for delete a list of contents"
+					},
+					"response": []
+				},
+				{
+					"name": "search contents",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/contents/search?search=magnam&owner=page&comment_status=active&status=pending",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"contents",
+								"search"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "magnam",
+									"description": "string"
+								},
+								{
+									"key": "owner",
+									"value": "page",
+									"description": "optional, [page,content]"
+								},
+								{
+									"key": "comment_status",
+									"value": "active",
+									"description": "optional, [active,deactivate]"
+								},
+								{
+									"key": "status",
+									"value": "pending",
+									"description": "optional, [active,pending,deactivate]"
+								}
+							]
+						},
+						"description": "this route is for searching contents"
+					},
+					"response": []
+				},
+				{
+					"name": "edit content form",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:8000/contents/3/edit",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"contents",
+								"3",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show create form contents",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/contents/create",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"contents",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "get all Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/categories",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show a category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/categories/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"categories",
+								"1"
+							]
+						},
+						"description": "this route is for retrieve a category."
+					},
+					"response": []
+				},
+				{
+					"name": "store a category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "_token",
+									"value": "AOytmWmsZZ8kdW3DzUgwYtqY7nnR1OqKM1imQAIE",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "category name 21",
+									"description": "required, string",
+									"type": "text"
+								},
+								{
+									"key": "slug",
+									"value": "category slug 21",
+									"description": "required, string",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "category content 2",
+									"description": "optional, string",
+									"type": "text"
+								},
+								{
+									"key": "fields",
+									"value": "category fields 2",
+									"description": "optional, string",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"description": "required , [active,deactivate]",
+									"type": "text"
+								},
+								{
+									"key": "is_menu",
+									"value": "0",
+									"description": "default = 0",
+									"type": "text"
+								},
+								{
+									"key": "tag_list[0]",
+									"value": "1",
+									"description": "optional, array",
+									"type": "text"
+								},
+								{
+									"key": "metadata",
+									"value": "category metadata 1",
+									"description": "optional, string",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"value": "",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "is_index",
+									"value": "0",
+									"description": "default = 0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/categories",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit category form",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/categories/1/edit",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"categories",
+								"1",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update a category",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "_token",
+									"value": "8aWzQZm2sKXgoitFF5xjMWQXLS4INrKhySMsykqP",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "category name 311",
+									"description": " string",
+									"type": "text"
+								},
+								{
+									"key": "slug",
+									"value": "category slug 311",
+									"description": " string",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "category content 2",
+									"description": " string",
+									"type": "text"
+								},
+								{
+									"key": "fields",
+									"value": "category fields 2",
+									"description": " string",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"description": " [active,deactivate]",
+									"type": "text"
+								},
+								{
+									"key": "is_menu",
+									"value": "0",
+									"description": "default = 0",
+									"type": "text"
+								},
+								{
+									"key": "metadata",
+									"value": "category metadata 1",
+									"description": " string",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "is_index",
+									"value": "0",
+									"description": "default = 0",
+									"type": "text"
+								},
+								{
+									"key": "tag_list_new[0]",
+									"value": "1",
+									"description": " optional, array",
+									"type": "text"
+								},
+								{
+									"key": "tag_list_old[0]",
+									"value": "2",
+									"description": " optional, array",
+									"type": "text"
+								},
+								{
+									"key": "tag_list_old[1]",
+									"value": "3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/categories/3",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"categories",
+								"3"
+							]
+						},
+						"description": "this route is for updating a category"
+					},
+					"response": []
+				},
+				{
+					"name": "delete a category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "_token",
+									"value": "AOytmWmsZZ8kdW3DzUgwYtqY7nnR1OqKM1imQAIE",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/categories/6",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"categories",
+								"6"
+							]
+						},
+						"description": "this route is for deleting a category"
+					},
+					"response": []
+				},
+				{
+					"name": "delete a list of categories",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "_token",
+									"value": "AOytmWmsZZ8kdW3DzUgwYtqY7nnR1OqKM1imQAIE",
+									"type": "text"
+								},
+								{
+									"key": "categoryIds[0]",
+									"value": "4",
+									"description": "array",
+									"type": "text"
+								},
+								{
+									"key": "categoryIds[1]",
+									"value": "5",
+									"description": "array",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "127.0.0.1:8000/categories/multi/destroy",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"categories",
+								"multi",
+								"destroy"
+							]
+						},
+						"description": "this route is for deleting a list of Categories"
+					},
+					"response": []
+				},
+				{
+					"name": "search categories",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/categories/search?search=category name",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"categories",
+								"search"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "category name",
+									"description": "string"
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"description": "optional, [active,pending,deactivate]",
+									"disabled": true
+								}
+							]
+						},
+						"description": "this route is for searching in Categories table"
+					},
+					"response": []
+				},
+				{
+					"name": "show create form category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/categories/create",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"categories",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tag",
+			"item": [
+				{
+					"name": "get all Tag",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/tags",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"tags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show a Tag",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/tags/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"tags",
+								"1"
+							]
+						},
+						"description": "this route is for retrieve a category."
+					},
+					"response": []
+				},
+				{
+					"name": "store a Tag",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "_token",
+									"value": "8aWzQZm2sKXgoitFF5xjMWQXLS4INrKhySMsykqP",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "tag name5122",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "category_list[0]",
+									"value": "category",
+									"description": "optional, array",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/tags",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"tags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit tag form",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/tags/1/edit",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"tags",
+								"1",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update a tag",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "_token",
+									"value": "8aWzQZm2sKXgoitFF5xjMWQXLS4INrKhySMsykqP",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "updated tag name 31",
+									"description": " string",
+									"type": "text"
+								},
+								{
+									"key": "category_list_old[0]",
+									"value": "2",
+									"description": " optional, array",
+									"type": "text"
+								},
+								{
+									"key": "category_list_new[0]",
+									"value": "3",
+									"description": " optional, array",
+									"type": "text"
+								},
+								{
+									"key": "category_list_old[1]",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/tags/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"tags",
+								"1"
+							]
+						},
+						"description": "this route is for updating a category"
+					},
+					"response": []
+				},
+				{
+					"name": "delete a Tag",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "_token",
+									"value": "b0NmOpDiMBdjFkwPDJABkSAYA6QRcRcQOFw1BUZF",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/tags/3",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"tags",
+								"3"
+							]
+						},
+						"description": "this route is for deleting a category"
+					},
+					"response": []
+				},
+				{
+					"name": "delete a list of Tag",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "_token",
+									"value": "b0NmOpDiMBdjFkwPDJABkSAYA6QRcRcQOFw1BUZF",
+									"type": "text"
+								},
+								{
+									"key": "tagIds[0]",
+									"value": "1",
+									"description": "array",
+									"type": "text"
+								},
+								{
+									"key": "tagIds[1]",
+									"value": "2",
+									"description": "array",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "127.0.0.1:8000/tags/multi/destroy",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"tags",
+								"multi",
+								"destroy"
+							]
+						},
+						"description": "this route is for deleting a list of Categories"
+					},
+					"response": []
+				},
+				{
+					"name": "search Tag",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/tags/search?search=name&status=active",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"tags",
+								"search"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "name",
+									"description": "string"
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"description": "optional, [active,deactivate]"
+								}
+							]
+						},
+						"description": "this route is for searching in Categories table"
+					},
+					"response": []
+				},
+				{
+					"name": "show create form tags",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/tags/create",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"tags",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Page",
+			"item": [
+				{
+					"name": "get all Page",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/pages",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"pages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show a Page",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/pages/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"pages",
+								"1"
+							]
+						},
+						"description": "this route is for retrieve a category."
+					},
+					"response": []
+				},
+				{
+					"name": "store a Page",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "_token",
+									"value": "3DyJJmMEIyjNyJh1G6KaZUKTkQAomDESbfy4Z6eZ",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "page title",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "slug",
+									"value": "page slug",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "content",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"description": "default=active, [active,pending,deactivate]",
+									"type": "text"
+								},
+								{
+									"key": "metadata",
+									"value": "",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "comment_status",
+									"value": "active",
+									"description": "default=active, [active,deactivate]",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"value": "",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "is_index",
+									"value": "0",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "is_menu",
+									"value": "0",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "tag_list[0]",
+									"value": "page tag",
+									"description": "optional, array",
+									"type": "text"
+								},
+								{
+									"key": "category_list[0]",
+									"value": "page category",
+									"description": "optional, array",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/pages",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"pages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit Page form",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/pages/1/edit",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"pages",
+								"1",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update a Page",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "_token",
+									"value": "8aWzQZm2sKXgoitFF5xjMWQXLS4INrKhySMsykqP",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "updated page title",
+									"description": " optional",
+									"type": "text"
+								},
+								{
+									"key": "slug",
+									"value": "updated page slyg",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "updated page content",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"description": "default = active, [\"active\", \"pending\", \"deactivate\"]",
+									"type": "text"
+								},
+								{
+									"key": "comment_status",
+									"value": "active",
+									"description": "default= active, ['active', 'deactivate']",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"value": "",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "is_index",
+									"value": "0",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "is_menu",
+									"value": "0",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "metadata",
+									"value": "",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "category_list_new[0]",
+									"value": "1",
+									"description": " optional, array",
+									"type": "text"
+								},
+								{
+									"key": "category_list_old[0]",
+									"value": "3",
+									"description": " optional, array",
+									"type": "text"
+								},
+								{
+									"key": "tag_list_old[0]",
+									"value": "3",
+									"description": " optional, array",
+									"type": "text"
+								},
+								{
+									"key": "tag_list_new[0]",
+									"value": "1",
+									"description": " optional, array",
+									"type": "text"
+								},
+								{
+									"key": "tag_list_old[1]",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/pages/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"pages",
+								"1"
+							]
+						},
+						"description": "this route is for updating a category"
+					},
+					"response": []
+				},
+				{
+					"name": "delete a Page",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "_token",
+									"value": "3DyJJmMEIyjNyJh1G6KaZUKTkQAomDESbfy4Z6eZ",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/pages/3",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"pages",
+								"3"
+							]
+						},
+						"description": "this route is for deleting a category"
+					},
+					"response": []
+				},
+				{
+					"name": "delete a list of Page",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "_token",
+									"value": "3DyJJmMEIyjNyJh1G6KaZUKTkQAomDESbfy4Z6eZ",
+									"type": "text"
+								},
+								{
+									"key": "pageIds[0]",
+									"value": "1",
+									"description": "array",
+									"type": "text"
+								},
+								{
+									"key": "pageIds[1]",
+									"value": "2",
+									"description": "array",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "127.0.0.1:8000/pages/multi/destroy",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"pages",
+								"multi",
+								"destroy"
+							]
+						},
+						"description": "this route is for deleting a list of Categories"
+					},
+					"response": []
+				},
+				{
+					"name": "search Page",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/pages/search?search=odit&status=active&comment_status",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"pages",
+								"search"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "odit",
+									"description": "string"
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"description": "optional, [active,pending,deactivate]"
+								},
+								{
+									"key": "comment_status",
+									"value": null,
+									"description": "optional, [active,deactivate]"
+								}
+							]
+						},
+						"description": "this route is for searching in Categories table"
+					},
+					"response": []
+				},
+				{
+					"name": "show create form Page",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/pages/create",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"pages",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "get csrf",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/csrf",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"csrf"
+					]
+				},
+				"description": "fo rpost request we need csrf token"
+			},
+			"response": []
+		},
+		{
+			"name": "register mobile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "_token",
+							"value": "xCj9GzO1rmDiukRqDdB08O0gDujGYLRufhULAFBC",
+							"type": "text"
+						},
+						{
+							"key": "mobile",
+							"value": "09124702987",
+							"description": "required",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/mobile/register",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"mobile",
+						"register"
+					]
+				},
+				"description": "this is fot asking to enter the mobile number."
+			},
+			"response": []
+		},
+		{
+			"name": "store user info",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "_token",
+							"value": "xCj9GzO1rmDiukRqDdB08O0gDujGYLRufhULAFBC",
+							"type": "text"
+						},
+						{
+							"key": "id",
+							"value": "20",
+							"description": "required",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "md",
+							"description": "required",
+							"type": "text"
+						},
+						{
+							"key": "last_name",
+							"value": "md",
+							"description": "required",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "md@gmail.com",
+							"description": "optional - unique",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345",
+							"description": "required",
+							"type": "text"
+						},
+						{
+							"key": "password_confirmation",
+							"value": "12345",
+							"description": "required",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/auth/register",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"register"
+					]
+				},
+				"description": "this route is for asking user info\nid & name & last_name & password & password_confirmation Are Requierd,\nemail is not required.\n< id was sent in response data of url: mobile/token>"
+			},
+			"response": []
+		},
+		{
+			"name": "verify mobile with token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "_token",
+							"value": "xCj9GzO1rmDiukRqDdB08O0gDujGYLRufhULAFBC",
+							"type": "text"
+						},
+						{
+							"key": "token",
+							"value": "8267",
+							"description": "required",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/mobile/token",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"mobile",
+						"token"
+					]
+				},
+				"description": "this route is for asking to enter the token that client has been recieved.\nthe ID is in response and required for < url: /auth/register >"
+			},
+			"response": []
+		},
+		{
+			"name": "password token sending",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "_token",
+							"value": "xCj9GzO1rmDiukRqDdB08O0gDujGYLRufhULAFBC",
+							"type": "text"
+						},
+						{
+							"key": "mobile",
+							"value": "09124702987",
+							"description": "required",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/auth/password/token",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"password",
+						"token"
+					]
+				},
+				"description": "this rout is for sending the token to verify users while asking for reset the password.\nmobile is required"
+			},
+			"response": []
+		},
+		{
+			"name": "password reset route",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "_token",
+							"value": "xCj9GzO1rmDiukRqDdB08O0gDujGYLRufhULAFBC",
+							"type": "text"
+						},
+						{
+							"key": "token",
+							"value": "9902",
+							"description": "required",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"description": "required",
+							"type": "text"
+						},
+						{
+							"key": "password_confirmation",
+							"value": "1234",
+							"description": "required",
+							"type": "text"
+						},
+						{
+							"key": "remember_me",
+							"value": "1",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/auth/password/recovery",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"password",
+						"recovery"
+					]
+				},
+				"description": "this route is fo asking to enter new password and the token to reset password.\ntoken and password and password_confirmation is required."
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "_token",
+							"value": "AOytmWmsZZ8kdW3DzUgwYtqY7nnR1OqKM1imQAIE",
+							"type": "text"
+						},
+						{
+							"key": "mobile",
+							"value": "09120000000",
+							"description": "required",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"description": "required",
+							"type": "text"
+						},
+						{
+							"key": "remember_me",
+							"value": "1",
+							"description": "optional",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/auth/login",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"login"
+					]
+				},
+				"description": "mobile and password is required\nremember_me is optional"
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:8000/logout",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"logout"
+					]
+				},
+				"description": "this route is for logout user"
+			},
+			"response": []
+		}
+	]
+}
