@@ -1,7 +1,10 @@
-import React, {useEffect} from 'react';
-import './../_Shared/style.scss'
+import React, {useEffect , useContext} from 'react';
+import './../_Shared/style.scss';
+import {FormTheme} from "../../../Helper/Context";
 import $ from 'jquery'
 const LinkAddressInput = ({name, label, defaultAddresss, value: pushValue}) => {
+
+    const {formTheme, setFormTheme} = useContext(FormTheme)
 
     useEffect(()=>{
 

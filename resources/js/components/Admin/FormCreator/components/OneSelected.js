@@ -4,13 +4,13 @@ import ReactDOM from "react-dom";
 import {OneSelectedSetting} from './Setting/OneSelectedSetting'
 import $ from "jquery";
 import {ONE_OPTION_DATA} from "./Constant";
-import {FormContext} from "../Helper/Context";
+import {FormContext ,FormTheme} from "../Helper/Context";
 // import './_Shared/styleAction.scss'
 
 export const OneSelected = ({data}) => {
 
     const setting_main_content = document.getElementById("setting_main_content");
-
+    const {formTheme} = useContext(FormTheme);
     const handleDropDown = (e) => {
         e.preventDefault();
         $(".optionBox#options").toggleClass("active");
@@ -33,11 +33,11 @@ export const OneSelected = ({data}) => {
     let tags = initialFormData.Mandatory ? initialFormData.title ? initialFormData.title +  "(*)" : 'برچسپ (*)' :  initialFormData.title ?  initialFormData.title : 'برچسپ';
     return (
         <div onClick={e => HandleClick(e)}>
-            <p id={"form-creator-p"}>{tags}</p>
-            <div className={"main-selected"} style={{background: '#fff',color : '#475F7B'}}>
+            <p id={"form-creator-p"} style={{color : formTheme.textColor}}>{tags}</p>
+            <div className={"main-selected"} style={{borderColor : formTheme.inputBorder , backgroundColor : formTheme.inputBackground , color : formTheme.placeholderColor}}>
                 <div className={"show-chipset-multi optionss"}>
                     <div id={"box-droper"} className={"options formcreatordroper"} onClick={e => handleDropDown(e)}>
-                        <i className={"bx bx-chevron-down"} id={"droper"}></i>
+                        <i className={"bx bx-chevron-down"} style={{color : formTheme.placeholderColor}} id={"droper"}></i>
                     </div>
                     <span id={"sorting"} onClick={e => handleDropDown(e)}>انتخاب کنید</span>
                     <div className={"optionBox formcreator"} id={"options"}>

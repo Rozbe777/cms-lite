@@ -2,7 +2,7 @@ import React, {useContext, useState, useEffect} from "react";
 import $ from 'jquery';
 import ReactDOM from "react-dom";
 import {MiniInputSetting} from "./Setting/MiniInputSetting";
-import {FormContextMini} from "../Helper/Context";
+import {FormContextMini, FormTheme} from "../Helper/Context";
 
 const InputMini = ({label, placeHolder, name = "name", required}) => {
 
@@ -11,6 +11,9 @@ const InputMini = ({label, placeHolder, name = "name", required}) => {
     const {initialFormDataMiniText, setInitialFormDataMiniText} = useContext(FormContextMini);
     const [counter, setCounter] = useState(parseInt(initialFormDataMiniText.maximum));
     const [counterUp, setCounterUp] = useState(0);
+
+    const {formTheme} = useContext(FormTheme);
+
 
     const min = 1;
     const max = 100;
@@ -48,27 +51,27 @@ const InputMini = ({label, placeHolder, name = "name", required}) => {
     }
 
 
-    console.log("maximum : ", initialFormDataMiniText.maximum)
     return (
         <fieldset className="form-group" style={{margin: 7}} onClick={e => HandleClick(e)}>
-            <label htmlFor={random + "_label"}>{tags}</label>
+            <label style={{color : formTheme.textColor}} htmlFor={random + "_label"}>{tags}</label>
             <input type="email" id={random + "_label"}
                    onChange={e => changeInput(e)}
                    name={name}
+                   style={{borderColor : formTheme.inputBorder , backgroundColor : formTheme.inputBackground , color : formTheme.placeholderColor}}
                    maxLength={initialFormDataMiniText.maximum}
                    className="form-control formcreator"
-                   required={initialFormDataMiniText.Mandatory == true ? true : false}/>
+                   required={initialFormDataMiniText.Mandatory == true ? true : false} />
 
             <div className={"row"} style={{padding: 0, margin: 0}}>
                 <div className={"col-8"} style={{padding: 0, margin: 0}}>
-                    <p>
-                        <small
-                            className="text-muted">{initialFormDataMiniText.description ? initialFormDataMiniText.description : 'توضیحات مختصر فیلد'}</small>
+                    <p style={{color : formTheme.textColor + " !important"}}>
+                        <small style={{color : formTheme.textColor}}
+                           >{initialFormDataMiniText.description ? initialFormDataMiniText.description : 'توضیحات مختصر فیلد'}</small>
                     </p>
                 </div>
-                <div className={"col-4"} style={{padding: 0, margin: 0}}>
+                <div className={"col-4"} style={{padding: 0, margin: 0 ,color : formTheme.textColor + " !important"}}>
                     <p style={{textAlign: 'left', fontSize: '11px'}}>
-                        <small className="text-muted">{initialFormDataMiniText.maximum ? counter < initialFormDataMiniText.maximum && counter > 0 ? "کاراکتر (" + counter + ")" : initialFormDataMiniText.maximum == counterUp ? "غیرمجاز" : "کاراکتر (" + initialFormDataMiniText.maximum + ")" : 'تعداد کارکتر'}</small>
+                        <small style={{color : formTheme.textColor}}>{initialFormDataMiniText.maximum ? counter < initialFormDataMiniText.maximum && counter > 0 ? "کاراکتر (" + counter + ")" : initialFormDataMiniText.maximum == counterUp ? "غیرمجاز" : "کاراکتر (" + initialFormDataMiniText.maximum + ")" : 'تعداد کارکتر'}</small>
                     </p>
                 </div>
             </div>
