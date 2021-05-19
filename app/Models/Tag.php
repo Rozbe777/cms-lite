@@ -35,6 +35,11 @@ class Tag extends Model
         return $this->belongsToMany(Category::class);
     }
 
+    public function viewCounts()
+    {
+        return $this->morphOne(ViewCount::class,'viewcountable');
+    }
+
 //    public function getRealUrlAttribute()
 //    {
 //        return tag_url($this->attributes['slug']);

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Page;
 
-use App\Classes\Responses\Pages\Responses;
+use App\Classes\Responses\Admin\Responses;
 use App\Http\Controllers\Admin\Page\Helper\PageSearchHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Page\CreatePageRequest;
@@ -26,7 +26,7 @@ class PageController extends Controller
     {
         $this->pageRepository = $pageRepository;
         $this->responses = $responses;
-//        $this->middleware('user_permission');
+        $this->middleware('user_permission');
     }
 
     /**
@@ -40,7 +40,7 @@ class PageController extends Controller
 
         return (is_array($page)) ?
             $this->responses->notSuccess(500, $page) :
-            $this->responses->success($page, "index");
+            $this->responses->success($page, "page.index");
     }
 
     /**
@@ -65,7 +65,7 @@ class PageController extends Controller
 
         return (is_array($page)) ?
             $this->responses->notSuccess(500, $page) :
-            $this->responses->success($page, "show");
+            $this->responses->success($page, "page.show");
     }
 
     /**
@@ -77,7 +77,9 @@ class PageController extends Controller
     public function show(Page $page)
     {
         try {
-            return $this->responses->success($page, "show");
+            $this->pageRepository->get($page);
+
+            return $this->responses->success($page, "page.show");
         } catch (\Exception $exception) {
             return $this->responses->notSuccess(500, $page);
         }
@@ -101,13 +103,13 @@ class PageController extends Controller
      * @param Page $page
      * @return JsonResponse
      */
-    public function update(EditPageRequest $request, Page $page)
+    public function update(EditPageRequest $request, Page $page): ?JsonResponse
     {
         $page = $this->pageRepository->update($request->all(), $page);
 
         return (is_array($page)) ?
             $this->responses->notSuccess(500, $page) :
-            $this->responses->success($page, "edit");
+            $this->responses->success($page, "page.edit");
     }
 
     /**
@@ -144,6 +146,6 @@ class PageController extends Controller
 
         return (!$page) ?
             redirect()->back()->with('error', __('message.page.search.notSuccess')) :
-            $this->responses->success($page, "index");
+            $this->responses->success($page, "page.index");
     }
 }

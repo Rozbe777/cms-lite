@@ -18,17 +18,18 @@ trait PermissionCreator
             ])->id;
             $is_menus = [];
             if (!empty($values['is_menu']))
-                $is_menus = explode(',', $values['is_menu']);
+                $is_menus =[$values['is_menu']];
 
-            foreach (explode(',', $values['access']) as $p => $perm) {
+
+            foreach ([$values['access']] as $p => $perm) {
                 $permissionValue = $mapPermission->get($perm);
                 $permissionPersianValue = $mapPermissionPersian->get($perm);
                 $is_menu = !in_array($perm, $is_menus) ? 0 : 1;
                 $permissions[] = $parentId;
                 $permissions[] = Permission::firstOrCreate([
                     'name' => $module . '.' . $permissionValue,
-                    'display_name' => ucfirst($permissionPersianValue) . ' ' . ucwords(str_replace('_', ' ', $values['display_name'])),
-                    'description' =>  ucwords(str_replace('_', ' ', $values['description'])),
+                    'display_name' => ($permissionPersianValue . ' ' . $values['display_name']),
+                    'description' =>  $values['description'],
                     'parent_id' => $parentId,
                     'is_menu' => $is_menu,
 
@@ -36,6 +37,7 @@ trait PermissionCreator
 
                 $this->command->info('Creating Permission to ' . $permissionValue . ' for ' . $module);
             }
+
             foreach ($values['children'] as $childrenModule => $childrenValues) {
                 $childParentId = Permission::firstOrCreate([
                     'icon' => empty($childrenValues['icon'])?'':$childrenValues['icon'],

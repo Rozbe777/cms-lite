@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Tag;
 
-use App\Classes\Responses\Tags\Responses;
+use App\Classes\Responses\Admin\Responses;
 use App\Http\Controllers\Admin\Tag\Helper\TagSearchHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Tag\CreateTagRequest;
@@ -24,6 +24,8 @@ class TagController extends Controller
     {
         $this->responses = $responses;
         $this->tagRepositories = $tagRepositories;
+        $this->middleware('user_permission');
+
     }
 
     /**
@@ -37,7 +39,7 @@ class TagController extends Controller
 
          return (is_array($tag)) ?
             $this->responses->notSuccess(500, $tag) :
-            $this->responses->success($tag, "index");
+            $this->responses->success($tag, "tag.index");
     }
 
     /**
@@ -62,7 +64,7 @@ class TagController extends Controller
 
         return (is_array($tag)) ?
             $this->responses->notSuccess(500, $tag) :
-            $this->responses->success($tag, "show");
+            $this->responses->success($tag, "tag.show");
     }
 
     /**
@@ -74,7 +76,9 @@ class TagController extends Controller
     public function show(Tag $tag)
     {
         try {
-            return $this->responses->success($tag, "show");
+            $this->tagRepositories->get($tag);
+
+            return $this->responses->success($tag, "tag.show");
         } catch (\Exception $exception) {
             return $this->responses->notSuccess(500, $tag);
         }
@@ -104,7 +108,7 @@ class TagController extends Controller
 
         return (is_array($tag)) ?
             $this->responses->notSuccess(500, $tag) :
-            $this->responses->success($tag, "edit");
+            $this->responses->success($tag, "tag.edit");
     }
 
     /**
@@ -137,6 +141,6 @@ class TagController extends Controller
 
         return (!$tag) ?
             redirect()->back()->with('error', __('message.content.search.notSuccess')) :
-            $this->responses->success($tag, "index");
+            $this->responses->success($tag, "tag.index");
     }
 }

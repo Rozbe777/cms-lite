@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 
+use App\Http\Requests\Admin\Services\RelationsService;
 use App\Models\Page;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,7 @@ class PageRepository implements Interfaces\RepositoryInterface
                 ->with('tags')
                 ->with('categories')
                 ->where('published_at', '<=', Carbon::now())
+                ->where('status','active')
                 ->paginate(12);
 
         } catch (\Exception $exception) {
@@ -26,9 +28,11 @@ class PageRepository implements Interfaces\RepositoryInterface
         }
     }
 
-    public function get($id)
+    public function get($page)
     {
-        // TODO: Implement get() method.
+        $instance = $page->viewCounts;
+        $instance->view_count ++;
+        $instance->save();
     }
 
     public function delete($page)
@@ -40,11 +44,41 @@ class PageRepository implements Interfaces\RepositoryInterface
     public function update(array $data, $page)
     {
         try {
-            $category_list_old = $data['category_list_old'];
-            $category_list_new = $data['category_list_new'];
-            $tag_list_old = $data['tag_list_old'];
-            $tag_list_new = $data['tag_list_new'];
-            unset($data['category_list_old'],$data['category_list_new'],$data['tag_list_old'],$data['tag_list_new']);
+            /** modify tag relations in database tables */
+            if (array_key_exists('tag_list_old', $data) && array_key_exists('tag_list_new', $data)) {
+                $tag_list_old = $data['tag_list_old'];
+                $tag_list_new = $data['tag_list_new'];
+                (new RelationsService())->tagService($page,$tag_list_old,$tag_list_new);
+                unset($data['tag_list_old'], $data['tag_list_new']);
+
+            } elseif (!array_key_exists('tag_list_old', $data)) {
+                $tag_list_new = $data['tag_list_new'];
+                (new RelationsService())->tagService($page,'',$tag_list_new);
+                unset($data['tag_list_new']);
+
+            } elseif (!array_key_exists('tag_list_new', $data)) {
+                $tag_list_old = $data['tag_list_old'];
+                (new RelationsService())->tagService($page,$tag_list_old,'');
+                unset($data['tag_list_old']);
+            }
+
+            /** modify category relations in database tables */
+            if (array_key_exists('category_list_old', $data) && array_key_exists('category_list_new', $data)) {
+                $category_list_old = $data['category_list_old'];
+                $category_list_new = $data['category_list_new'];
+                (new RelationsService())->categoryService($page,$category_list_old,$category_list_new);
+                unset($data['category_list_old'], $data['category_list_new']);
+
+            } elseif (!array_key_exists('category_list_old', $data)) {
+                $category_list_new = $data['category_list_new'];
+                (new RelationsService())->categoryService($page,'',$category_list_new);
+                unset($data['category_list_new']);
+
+            } elseif (!array_key_exists('category_list_new', $data)) {
+                $category_list_old = $data['category_list_old'];
+                (new RelationsService())->categoryService($page,$category_list_old,'');
+                unset($data['category_list_old']);
+            }
 
             return $page->update($data);
         } catch (\Exception $exception) {
@@ -60,7 +94,8 @@ class PageRepository implements Interfaces\RepositoryInterface
             unset($data["tag_list"], $data['category_list']);
 
             $index['user_id'] = Auth::id();
-            $page = Page::create($data);
+            $page = Page::create($data);;
+            $page->viewCounts()->create();
             $page->tags()->attach($tag_list);
             $page->tags()->attach($category_list);
             $page->update($index);

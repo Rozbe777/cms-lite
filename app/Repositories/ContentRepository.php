@@ -4,25 +4,34 @@
 namespace App\Repositories;
 
 
+use App\Http\Requests\Admin\Services\RelationsService;
 use App\Models\Content;
 use Carbon\Carbon;
+use Carbon\Laravel\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 
 class ContentRepository implements Interfaces\RepositoryInterface
 {
-
     public function all()
     {
         try {
-            return Content::with('user')->with('tags')->with('categories')->where('published_at', '<=', Carbon::now())->paginate(12);
+            return Content::with('user')
+                ->with('tags')
+                ->with('categories')
+                ->where('published_at', '<=', Carbon::now())
+                ->where('status',"active")
+                ->paginate(12);
+
         } catch (\Exception $exception) {
             return [$exception->getCode(), $exception->getMessage()];
         }
     }
 
-    public function get($id)
+    public function get($content)
     {
-        // TODO: Implement get() method.
+        $instance = $content->viewCounts;
+        $instance->view_count ++;
+        $instance->save();
     }
 
     public function delete($content)
@@ -34,9 +43,41 @@ class ContentRepository implements Interfaces\RepositoryInterface
     public function update(array $data, $content)
     {
         try {
-            $tag_list_old = $data['tag_list_old'];
-            $tag_list_new = $data['tag_list_new'];
-            unset($data['tag_list_old'],$data['tag_list_new']);
+            /** modify tag relations in database tables */
+            if (array_key_exists('tag_list_old', $data) && array_key_exists('tag_list_new', $data)) {
+                $tag_list_old = $data['tag_list_old'];
+                $tag_list_new = $data['tag_list_new'];
+                (new RelationsService())->tagService($content,$tag_list_old,$tag_list_new);
+                unset($data['tag_list_old'], $data['tag_list_new']);
+
+            } elseif (!array_key_exists('tag_list_old', $data)) {
+                $tag_list_new = $data['tag_list_new'];
+                (new RelationsService())->tagService($content,'',$tag_list_new);
+                unset($data['tag_list_new']);
+
+            } elseif (!array_key_exists('tag_list_new', $data)) {
+                $tag_list_old = $data['tag_list_old'];
+                (new RelationsService())->tagService($content,$tag_list_old,'');
+                unset($data['tag_list_old']);
+            }
+
+            /** modify category relations in database tables */
+            if (array_key_exists('category_list_old', $data) && array_key_exists('category_list_new', $data)) {
+                $category_list_old = $data['category_list_old'];
+                $category_list_new = $data['category_list_new'];
+                (new RelationsService())->categoryService($content,$category_list_old,$category_list_new);
+                unset($data['category_list_old'], $data['category_list_new']);
+
+            } elseif (!array_key_exists('category_list_old', $data)) {
+                $category_list_new = $data['category_list_new'];
+                (new RelationsService())->categoryService($content,'',$category_list_new);
+                unset($data['category_list_new']);
+
+            } elseif (!array_key_exists('category_list_new', $data)) {
+                $category_list_old = $data['category_list_old'];
+                (new RelationsService())->categoryService($content,$category_list_old,'');
+                unset($data['category_list_old']);
+            }
 
             return $content->update($data);
         } catch (\Exception $exception) {
@@ -52,6 +93,7 @@ class ContentRepository implements Interfaces\RepositoryInterface
 
             $index['user_id'] = Auth::id();
             $content = Content::create($data);
+            $content->viewCounts()->create();
             $content->tags()->attach($tag_list);
             $content->update($index);
             return $content;

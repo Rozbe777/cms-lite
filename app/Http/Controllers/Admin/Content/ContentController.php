@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Content;
 
-use App\Classes\Responses\Contents\Responses;
+use App\Classes\Responses\Admin\Responses;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Content\CreateContentRequest;
 use App\Http\Requests\Admin\Content\EditContentRequest;
@@ -26,7 +26,7 @@ class ContentController extends Controller
     {
         $this->contentRepository = $contentRepository;
         $this->responses = $responses;
-//        $this->middleware('user_permission');
+        $this->middleware('user_permission');
     }
 
     /**
@@ -40,7 +40,7 @@ class ContentController extends Controller
 
         return (is_array($contents)) ?
             $this->responses->notSuccess(500, $contents) :
-            $this->responses->success($contents, "index");
+            $this->responses->success($contents, "content.index");
     }
 
     /**
@@ -65,7 +65,7 @@ class ContentController extends Controller
 
         return (is_array($content)) ?
             $this->responses->notSuccess(500, $content) :
-            $this->responses->success($content, "show");
+            $this->responses->success($content, "content.show");
     }
 
     /**
@@ -76,8 +76,9 @@ class ContentController extends Controller
      */
     public function show(Content $content)
     {
+        $this->contentRepository->get($content);
         try {
-            return $this->responses->success($content, "show");
+            return $this->responses->success($content, "content.show");
         } catch (\Exception $exception) {
             return $this->responses->notSuccess(500, $content);
         }
@@ -107,7 +108,7 @@ class ContentController extends Controller
 
         return (is_array($content)) ?
             $this->responses->notSuccess(500, $content) :
-            $this->responses->success($content, "edit");
+            $this->responses->success($content, "content.edit");
     }
 
     /**
@@ -144,6 +145,6 @@ class ContentController extends Controller
 
         return (!$contents) ?
             redirect()->back()->with('error', __('message.content.search.notSuccess')) :
-            $this->responses->success($contents, "index");
+            $this->responses->success($contents, "content.index");
     }
 }
