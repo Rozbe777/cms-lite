@@ -8,64 +8,64 @@ import {InputTextNumberNum} from "./MiniInput/number/InputTextNumberNum";
 
 export const NumberSetting = () => {
 
-    const {initialFormDataFileSetting, setInitialFormDataFileSetting} = useContext(FormContextFile)
+    const {initialFormDataFile, setInitialFormDataFile} = useContext(FormContextFile)
 
     const [data, setData] = useState({})
 
     useEffect(() => {
-        setData(initialFormDataFileSetting)
+        setData(initialFormDataFile)
     }, [])
 
     const ChangeValueTitle = val => {
         let dataIn = {...data};
         dataIn.title = val.value;
         setData(dataIn)
-        setInitialFormDataFileSetting(dataIn)
+        setInitialFormDataFile(dataIn)
     }
     const ChangeValueDesc = val => {
         let dataIn = {...data};
         dataIn.description = val.value;
         setData(dataIn)
-        setInitialFormDataFileSetting(dataIn)
+        setInitialFormDataFile(dataIn)
     }
     const ChangeValueMin = val => {
         let dataIn = {...data};
         dataIn.min = val.value;
         setData(dataIn)
-        setInitialFormDataFileSetting(dataIn)
+        setInitialFormDataFile(dataIn)
     }
     const ChangeValueMax = val => {
         let dataIn = {...data};
         dataIn.max = val.value;
         setData(dataIn)
-        setInitialFormDataFileSetting(dataIn)
+        setInitialFormDataFile(dataIn)
     }
 
     const ChangeCheckBox = val => {
         let dataIn = {...data};
         dataIn.Mandatory = val;
         setData(dataIn)
-        setInitialFormDataFileSetting(dataIn)
+        setInitialFormDataFile(dataIn)
     }
     return (
-        <FormContextFile.Provider value={{initialFormDataFileSetting, setInitialFormDataFileSetting}}>
+        <FormContextFile.Provider value={{initialFormDataFile, setInitialFormDataFile}}>
             <div className={"row"} style={{padding: '0 15px'}}>
                 <p style={{padding : '0px 17px' , margin : 0 , color : 'grey' , fontWeight : 300 , fontSize : 13}}>نوع فیلد : عدد</p>
 
                 <div className={"col-12"}>
                     <InputTextNumber placeholder={"عنوان"} name={"title"} label={"عنوان"}
-                                    defaultValue={initialFormDataFileSetting.title ? initialFormDataFileSetting.title : ''}
+                                    defaultValue={initialFormDataFile.title ? initialFormDataFile.title : ''}
                                     isInvalid={"is-invalid"} value={val => ChangeValueTitle(val)}/>
                 </div>
                 <div className={"col-12"}>
                     <InputTextNumber
                         placeholder={"توضیح"} name={"description"}
-                        defaultValue={initialFormDataFileSetting.description ? initialFormDataFileSetting.description : ''}
+                        defaultValue={initialFormDataFile.description ? initialFormDataFile.description : ''}
                         label={"توضیح"} isInvalid={''} value={val => ChangeValueDesc(val)}/>
                 </div>
                 <div className={"col-12"}>
                     <CheckBoxNumber name={"Mandatory"} defaultState={false} valueActive={"غیر اجباری"}
-                                   defaultState={initialFormDataFileSetting.Mandatory == true ? true : false}
+                                   defaultState={initialFormDataFile.Mandatory == true ? true : false}
                                    valueDeActive={"اجباری"} status={types => ChangeCheckBox(types)}/>
                 </div>
 
@@ -74,7 +74,7 @@ export const NumberSetting = () => {
                         max={10000000000000000000}
                         min={0}
                         placeholder={"حداقل مقدار"} name={"min"}
-                        defaultValue={initialFormDataFileSetting.min ? initialFormDataFileSetting.min : ''}
+                        defaultValue={initialFormDataFile.min ? initialFormDataFile.min : ''}
                         label={"حداقل مقدار"} isInvalid={''} value={val => ChangeValueMin(val)}/>
                 </div>
 
@@ -83,7 +83,7 @@ export const NumberSetting = () => {
                         placeholder={"حداکثر مقدار"} name={"max"}
                         max={5}
                         min={1}
-                        defaultValue={initialFormDataFileSetting.max ? initialFormDataFileSetting.max : ''}
+                        defaultValue={initialFormDataFile.max ? initialFormDataFile.max : ''}
                         label={"حداکثر مقدار"} isInvalid={''} value={val => ChangeValueMax(val)}/>
                 </div>
 
