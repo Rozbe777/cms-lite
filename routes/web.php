@@ -118,7 +118,7 @@ Route::name('superAdmin.')->group(function () {
 //});
 Route::get('admin', function () {
     return redirect()->route('admin.dashboard.index');
-});
+})->name('admin.dashboard.index');
 Route::group(['middleware' => 'user_permission'], function () {
 
     Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'name' => 'admin.', 'middleware' => 'auth'], function () {

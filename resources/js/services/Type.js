@@ -15,4 +15,5 @@ export const REQUEST_HEADER_TOKEN = {
     'X-Custom-Header': 'foobar',
     // 'Content-Type': 'multipart/form-data',
     'Authentication' : ''
+
 }
