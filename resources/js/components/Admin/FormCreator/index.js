@@ -15,19 +15,20 @@ import FeedSetting from "./HOC/FormSetting/FeedSetting";
 
 const Index = () => {
     const [state, setState] = useState(InitialData);
+    const [toolsBox, setToolsBox] = useState();
     const [formTheme, setFormTheme] = useState({
         buttonBackground: '#e91e63',
         buttonColor: '#ffffff',
         bodyBackground: '#ffffff',
         inputBackground: '#f2f4f4',
         inputBorder: '#f0f0f0',
-        textColor : '#555555',
-        placeholderColor : '#000000',
-        topEditorColor : '#fafafa',
-        editorIcon : '#000000',
-        iconHoverColor : '#ffffff',
-        editorContentColor : '#000000',
-        editorContentBackground : '#ffffff',
+        textColor: '#555555',
+        placeholderColor: '#000000',
+        topEditorColor: '#fafafa',
+        editorIcon: '#000000',
+        iconHoverColor: '#ffffff',
+        editorContentColor: '#000000',
+        editorContentBackground: '#ffffff',
     })
 
     useEffect(() => {
@@ -66,16 +67,60 @@ const Index = () => {
                 $(".tab-content.settingll .tab-pane").eq(0).addClass("active");
             }
 
-            // $(this).html('');
-            // $(this).append('<i class="bx bx-minus"></i>');
+            var header = document.querySelector(".flexiable");
+            var upperBox = document.querySelector(".header-form-option");
+            var upperBoxWidth = upperBox.offsetWidth;
+            header.style.width = upperBoxWidth + "px";
         })
     }, [])
+
+
+    //
+    window.onscroll = function () {
+        var header = document.querySelector(".flexiable");
+        var sticky = header.offsetTop;
+        var upperBox = document.querySelector(".header-form-option");
+        var bredHeight = document.querySelector("#breadCrumb").offsetHeight;
+        var navHeight = document.querySelector(".navbar-wrapper").offsetHeight;
+        var upperBoxTop = upperBox.offsetTop;
+        var upperBoxWidth = upperBox.offsetWidth;
+        var upperBoxheight = upperBox.offsetHeight;
+        header.style.width = upperBoxWidth + "px";
+        let totalTop = upperBoxTop + upperBoxheight +navHeight+bredHeight;
+        console.log("offsetfffff : ", upperBoxTop + upperBoxheight +navHeight+bredHeight , navHeight , bredHeight);
+
+        // if (sticky > 50) {
+        //
+        //     if (window.pageYOffset >= sticky) {
+        //         header.classList.add("stickyss");
+        //     } else {
+        //         header.classList.remove("stickyss");
+        //     }
+        // }else{
+            if (window.pageYOffset >=totalTop) {
+                header.classList.add("stickyss");
+            } else {
+                header.classList.remove("stickyss");
+            }
+
+        // checkScroll(sticky)
+    }
+
+
+    // const checkScroll = (offset) => {
+    //     var header = document.querySelector(".flexiable");
+    //     console.log("offset : ", offset)
+    //     if (window.pageYOffset > offset) {
+    //         header.classList.add("stickyss");
+    //     } else {
+    //         header.classList.remove("stickyss");
+    //     }
+    // }
+
 
     const onDragStart = () => {
         document.body.style.color = "orange"
     }
-
-
 
 
     const onDragEnd = result => {
@@ -147,11 +192,12 @@ const Index = () => {
     }
 
 
-
     const Tools = state.columns['tools'];
     const HtmlCreate = state.columns['inspect'];
     const Tasks = Tools.taskIds.map(taskId => state.task[taskId]);
     const HtmlTask = HtmlCreate.taskIds.map(taskId => state.task[taskId]);
+
+
     return (
 
         <>
@@ -224,18 +270,15 @@ const Index = () => {
                                         <div className="tab-pane" id="news-md" role="tabpanel"
                                              aria-labelledby="news-tab-md">
 
-
                                             <FeedSetting/>
 
-
                                         </div>
-
 
                                     </div>
                                 </div>
 
 
-                                <div className={"row"} style={{padding: '0 0 5px 5px', margin: 0}}>
+                                <div className={"row"} style={{padding: '0 0 5px 5px', margin: 0 ,width : '100%'}}>
                                     <div className={"col-4"}>
                                         <button type={"button"} className={"btn btn-outline-primary mr-1 mb-1"}>
                                             <i className={"bx bxs-show"}></i>&nbsp;
@@ -307,28 +350,35 @@ const Index = () => {
 
                         </div>
                         <div className={"col-lg-8 col-md-6"} style={{padding: '0 5px'}}>
-                            <div className={"action-content"} style={{background: formTheme.bodyBackground , color : formTheme.textColor}}>
+                            <div className={"action-content"}
+                                 style={{background: formTheme.bodyBackground, color: formTheme.textColor}}>
                                 <div className={"box-image-desc"}>
-                            <span style={{borderColor : formTheme.inputBorder}}>
-                               <input type="file" name="myImage" accept="image/*"/>
+                            <span style={{borderColor: formTheme.inputBorder}}>
+                               <input type="file" name="myImage" className={"imageUpload"} accept="image/*"/>
                                <p>برای آپلود تصویر کلیک کنید</p>
                             </span>
                                 </div>
                                 <div className={"row"} style={{padding: '20px'}}>
                                     <div className={"col-12"}>
                                         <div className={"form-group"}>
-                                            <label htmlFor={"title"} style={{color : formTheme.textColor}}>عنوان *</label>
+                                            <label htmlFor={"title"} style={{color: formTheme.textColor}}>عنوان
+                                                *</label>
                                             <input type={"text"} className={"form-control"} id={"title"}
-                                                   style={{borderColor : formTheme.inputBorder , background : formTheme.inputBackground , color : formTheme.placeholderColor , paddingRight : '10px !important'}}
+                                                   style={{
+                                                       borderColor: formTheme.inputBorder,
+                                                       background: formTheme.inputBackground,
+                                                       color: formTheme.placeholderColor,
+                                                       paddingRight: '10px !important'
+                                                   }}
                                                    name={"title"}/>
                                         </div>
                                     </div>
                                     <div className={"col-12"}>
-                                        <label style={{color : formTheme.textColor}}>{'توضیحات فرم'}</label>
-                                        <MyEditor />
+                                        <label style={{color: formTheme.textColor}}>{'توضیحات فرم'}</label>
+                                        <MyEditor/>
                                     </div>
                                     <div className={"col-12"} style={{marginTop: '15px'}}>
-                                        <div className={"element-chose"} style={{borderColor : formTheme.borderColor}}>
+                                        <div className={"element-chose"} style={{borderColor: formTheme.borderColor}}>
                                             <FormDrop key={HtmlTask.id} column={HtmlCreate} tasks={HtmlTask}/>
                                             {HtmlTask.length > 0 ? (
                                                 <>
@@ -341,15 +391,21 @@ const Index = () => {
 
                                     <div className={"col-12"}>
                                         <div className={"form-group"}>
-                                            <label htmlFor={"title"} style={{color : formTheme.textColor}}>متن دکمه ثبت</label>
+                                            <label htmlFor={"title"} style={{color: formTheme.textColor}}>متن دکمه
+                                                ثبت</label>
                                             <input type={"text"} className={"form-control"} id={"title"} name={"title"}
-                                                   style={{borderColor : formTheme.inputBorder , background : formTheme.inputBackground , color : formTheme.placeholderColor , paddingRight : '10px !important'}}
+                                                   style={{
+                                                       borderColor: formTheme.inputBorder,
+                                                       background: formTheme.inputBackground,
+                                                       color: formTheme.placeholderColor,
+                                                       paddingRight: '10px !important'
+                                                   }}
                                                    defaultValue={"ثبت نام"}/>
                                         </div>
                                     </div>
 
                                     <div className={"col-12"}>
-                                        <label style={{color : formTheme.textColor}}>{'پیام موفقیت'}</label>
+                                        <label style={{color: formTheme.textColor}}>{'پیام موفقیت'}</label>
                                         <MyEditor label={"پیام موفقیت"}/>
                                     </div>
 

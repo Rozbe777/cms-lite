@@ -22,6 +22,7 @@ import {
     FormContextMultiSelected,
     FormContextTextArea,
     FormContextUrl,
+    FormContextFile,
     FormContextNumber, FormTheme, FormContextYesNo
 } from "../Helper/Context";
 import {MobileSetting} from "../components/Setting/MobileSetting";
@@ -67,6 +68,16 @@ const Item = (props) => {
         title: '',
         description: '',
         Mandatory: false,
+
+    });
+
+    // Image state
+    const [initialFormDataFile, setInitialFormDataFile] = useState({
+        title: '',
+        description: '',
+        Mandatory: false,
+        type : '',
+        fileSize : 0
 
     });
 
@@ -199,6 +210,18 @@ const Item = (props) => {
             initialFormDataYesNo,
             setInitialFormDataYesNo
         }}><YesNo /></FormContextYesNo.Provider>
+    }
+
+    const HandleFormFile = () => {
+        ReactDOM.render(<FormContextFile.Provider value={{
+            initialFormDataFile,
+            setInitialFormDataFile
+        }}><ImageUploadedSetting />
+        </FormContextFile.Provider>, setting_main_content);
+        return <FormContextFile.Provider value={{
+            initialFormDataFile,
+            setInitialFormDataFile
+        }}><ImageUploaded /></FormContextFile.Provider>
     }
 
     const HandleTask = (task) => {
