@@ -1,2 +1,2 @@
 <?php
-echo "show here $data";
+echo "show content here <br/> $data";

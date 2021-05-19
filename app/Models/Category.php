@@ -86,6 +86,11 @@ class Category extends Model
         return $this->belongsToMany(Tag::class, 'category_tag', 'category_id', 'tag_id');
     }
 
+    public function viewCounts()
+    {
+        return $this->morphOne(ViewCount::class,'viewcountable');
+    }
+
     public function scopeActive($query)
     {
         return $query->where("status", "active");
