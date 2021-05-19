@@ -61,19 +61,19 @@ class PermissionSeeder extends Seeder
                     ],
                 ]
             ],
-            'admin.contents' => [
+            'superAdmin.contents' => [
                 'display_name' => 'محتوا',
                 'description' => 'نمایش و ویرایش محتوا',
                 'access' => 'sh,i,c,s,e,u,des,search,multides',
                 'is_menu' => 'i,c',
                 'children' => [
-                    'admin.categories' => [
+                    'superAdmin.categories' => [
                         'display_name' => 'دسته بندی',
                         'description' => 'نمایش و ویرایش دسته بندی',
                         'access' => 'sh,i,c,s,e,u,des,search,multides',
                         'is_menu' => 'i,c',
                     ],
-                    'admin.tags' => [
+                    'superAdmin.tags' => [
                         'display_name' => 'برچسب',
                         'description' => 'نمایش و ویرایش برچسب',
                         'access' => 'i,sh,c,s,e,u,des,search,multides',
@@ -81,7 +81,7 @@ class PermissionSeeder extends Seeder
                     ],
                 ]
             ],
-            'admin.pages' => [
+            'superAdmin.pages' => [
                 'display_name' => 'محتوا',
                 'description' => 'نمایش و ویرایش محتوا',
                 'access' => 'i,c,s,e,u,des,sh,search,multides',

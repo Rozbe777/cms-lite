@@ -20,7 +20,6 @@ class LoginController extends Controller
     {
         $this->response = $response;
         $this->userRepository = $userRepository;
-        $this->middleware('guest')->except('logout');
     }
 
     public function show()
@@ -49,6 +48,9 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        return $this->response->success("logOut successfully");
+
+        return str_contains(\Route::current()->uri, 'api') ?
+             $this->response->success("logOut successfully"):
+             adminView("pages.auth.login");
     }
 }

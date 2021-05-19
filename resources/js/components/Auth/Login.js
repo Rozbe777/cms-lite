@@ -31,7 +31,7 @@ const LoginForm = ({token}) => {
         let password = $("input[name=password]").val();
 
         let user = {...userData};
-        user._token = token;
+        user._token = "Av43Xt3pFJxVhnUWMQOiG68cltWGOL579jc27RYK";
         user.mobile = mobile;
         user.password = password;
         ReactDOM.render(<Loading/>, elementLoading);
