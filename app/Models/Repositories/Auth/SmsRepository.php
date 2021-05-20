@@ -11,35 +11,20 @@ class SmsRepository
     /**
      * create token
      */
-    public function createToken($userId)
+    public function createToken($mobile)
     {
-        $sms = VerifyMobile::where('user_id',$userId)->first();
+        $sms = VerifyMobile::where('mobile',mobile($mobile))->first();
+
         if ($sms){
             $sms->token = rand(1000, 9999);
             $sms->save();
         }else{
             $sms = new VerifyMobile();
-            $sms->user_id = $userId;
+            $sms->mobile = mobile($mobile);
             $sms->token = rand(1000, 9999);
             $sms->save();
         }
 
         return $sms;
-    }
-
-    /**
-     * recreate and resent token
-     */
-    public function resendToken($userId)
-    {
-        $verifyMobileRow = VerifyMobile::where('user_id',$userId)->first();
-        $verifyMobileRow->token = rand(100000, 999999);
-        $verifyMobileRow->save();
-        return $verifyMobileRow->token;
-    }
-
-    public function deleteToken($userId)
-    {
-        return VerifyMobile::where('user_id',$userId)->delete();
     }
 }
