@@ -5,6 +5,8 @@ namespace App\Models\Repositories\Auth;
 
 
 use App\Models\User;
+use App\Models\VerifyMobile;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class UserModelRepository
@@ -20,13 +22,25 @@ class UserModelRepository
         return User::findOrFail($id);
     }
 
-    public function create($mobile)
+    public function create($client)
     {
-        $user = new User([
-            "mobile" => $mobile
-        ]);
-        $user->save();
+        $user= User::firstOrCreate(
+        ["mobile" => $client->mobile,],
+        ["mobile_verified_at"=> $client->updated_at,]
+        );
+
         return $user;
+    }
+
+    public function createUser($mobile)
+    {
+        $client = new User([
+            "mobile" => $mobile,
+            "mobile_verified_at" => Carbon::now(),
+            "status" => "deactivate"
+        ]);
+        $client->save();
+        return $client;
     }
 
     public function update($request)
@@ -34,9 +48,6 @@ class UserModelRepository
         try {
             /** find user by request->id */
             $user = $this->findById($request->id);
-
-            if ($user->status != "active")
-                return ['exception_message'=>"user mobile is not active",'exception_code'=>404];
 
             /** check submit the registration form with or without an image */
             if ($request->avatar) {
@@ -46,12 +57,11 @@ class UserModelRepository
             } else {
                 $data = $request->only(['name', 'last_name', 'email']);
                 $data['avatar'] = 'public/defaultIMG.png';
-
             }
             $data['password'] = bcrypt($request->password);
+            $data['status'] = 'active';
 
             $user->update($data);
-            (new SmsRepository())->deleteToken($user->id);
 
             return $user;
 

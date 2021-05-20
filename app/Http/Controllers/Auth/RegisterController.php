@@ -16,11 +16,6 @@ class RegisterController extends Controller
 
     use CreateUserTrait;
 
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
     public function show()
     {
         return adminView("pages.auth.register");
@@ -43,7 +38,7 @@ class RegisterController extends Controller
         $role = Role::where('name', 'admin')->firstOrFail();
         $user->attachRole($role->id);
 
-        return $response->success('user info is updated');
+        return $response->success(__('message.auth.register.successful'),$data = 'register');
     }
 
 

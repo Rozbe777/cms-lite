@@ -32,7 +32,7 @@ const LoginForm = ({token}) => {
 
         let patt = /0?9([0-9]{9})/;
         let user = {...userData};
-        user._token = token;
+        user._token = "Av43Xt3pFJxVhnUWMQOiG68cltWGOL579jc27RYK";
         user.mobile = mobile;
         user.password = password;
 

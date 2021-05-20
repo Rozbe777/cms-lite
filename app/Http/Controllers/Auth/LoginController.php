@@ -20,7 +20,6 @@ class LoginController extends Controller
     {
         $this->response = $response;
         $this->userRepository = $userRepository;
-        $this->middleware('guest')->except('logout');
     }
 
     public function show()
@@ -40,9 +39,14 @@ class LoginController extends Controller
 
             Auth::login($user);
 
-            return $this->response->success("login successfully");
+            return str_contains(\Route::current()->uri, 'api') ?
+                $this->response->success("login successfully"):
+                redirect()->route('admin.dashboard.index');
         } else {
-            return $this->response->notSuccess('login failed',404);
+            return str_contains(\Route::current()->uri, 'api') ?
+                $this->response->notSuccess('login failed',404):
+                redirect()->route('show.login');
+
         }
     }
 

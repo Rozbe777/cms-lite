@@ -66,6 +66,7 @@ class UserSeeder extends Seeder
                 $user->name = $value['name'];
                 $user->last_name = $value['last_name'];
                 $user->email = $value['email'];
+                $user->status = 'active';
                 $user->mobile = mobile($value['mobile']);
                 $user->email_verified_at = now();
                 $user->password = bcrypt(123456);
