@@ -17,7 +17,7 @@ class CreateVerifyMobilesTable extends Migration
             $table->id();
             $table->string('mobile')->unique();
             $table->string('token');
-            $table->enum('status', ['active', 'deactivate'])->default('deactivate');
+            $table->enum('status',['active','deactivate'])->default('deactivate');
             $table->timestamps();
         });
     }

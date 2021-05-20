@@ -76,7 +76,11 @@ Route::get('csrf', function () {
         });
     });
 
-Route::name('superAdmin.')->group(function () {
+Route::name('admin.')->group(function () {
+
+    Route::get('/',function (){
+       echo "admin.role";
+    })->name('role');
 
     //----------------------------Contents---------------------------
     Route::get('contents/search', [ContentController::class, 'search'])->name('contents.search');
@@ -118,7 +122,8 @@ Route::name('superAdmin.')->group(function () {
 //});
 //Route::get('admin', function () {
 //    return redirect()->route('admin.dashboard.index');
-//})->name('admin.dashboard.index');
+//});
+
 //Route::group(['middleware' => 'user_permission'], function () {
 //
 //    Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'name' => 'admin.', 'middleware' => 'auth'], function () {

@@ -43,20 +43,27 @@ class MobileRegisterController extends Controller
         session(['mobile' => mobile($request->mobile)]);
 
         /** check if mobile was registered */
-        $client = $this->userRepository->findByMobile(session('mobile'));
+        $user = $this->userRepository->findByMobile(session('mobile'));
+        $client = $this->mobileRepository->find(session('mobile'));
 
-        if (!$client) {
+        if ((!$user && !$client) || (!isset($user->password) && !$client)) {
             /** mobile was not registered */
-            $this->userRepository->createClient(session('mobile'));
+            $client = $this->mobileRepository->creatClient(session('mobile'));
 
             /** API panel SMS */
             dispatch(new SendSmsJob($request->mobile));
 
             return $this->responses->success(__('message.auth.register.resendToken.successful'));
 
-        } else {
+        } elseif ($user && isset($user->password)) {
+            /** if user has a password so the mobile number was registered completely
+             * {{ Do you Forgot Your Password?? }}
+             */
+            return $this->responses->notSuccess(__("message.auth.register.alreadyRegistered"), 201);
+
+        } elseif (($user && !isset($user->password)) || $client) {
             /** check for the last time that we sent a token then resend it after 2 min. */
-            $needToPass = 120 - (strtotime(Carbon::now()->toDateTimeString()) - strtotime($this->mobileRepository->find($user->id)->updated_at->toDateTimeString()));
+            $needToPass = 120 - (strtotime(Carbon::now()->toDateTimeString()) - strtotime($this->mobileRepository->find(session('mobile'))->updated_at->toDateTimeString()));
 
             if ($needToPass < 0) {
                 /** send the token again */
@@ -64,7 +71,7 @@ class MobileRegisterController extends Controller
 
                 return $this->responses->success(__('message.auth.register.resendToken.successful'));
             } else {
-                return $this->responses->notSuccess(__('message.auth.register.resendToken.successful') . $needToPass, 429, $needToPass);
+                return $this->responses->notSuccess(__('message.auth.register.resendToken.wait').$needToPass, 429, $needToPass);
             }
         }
     }
@@ -77,18 +84,14 @@ class MobileRegisterController extends Controller
     /** check the token */
     public function checkMobile(MobileRequest $request)
     {
-        $client = (new UserModelRepository())->findByMobile(session('mobile'));
+        $client = (new MobileRepository())->find(session('mobile'));
 
         /** check the mobile in trait */
         $response = $this->checkMobileTrait($client, $request->token);
 
-        if (!$response)
-            return $this->responses->notSuccess("token is not correct", 404);
-
-        $user = $this->userRepository->createUser();
-        VerifyMobile::destroy($client->id);
-        return $this->responses->success("mobile verification is done update user's info", ["id" => $user->id]);
-
+        return ($response) ?
+            $this->responses->success(__("message.auth.register.mobileVerified"), ["id" => $response->id]) :
+            $this->responses->notSuccess(__('message.auth.register.wrongToken'), 404);
     }
 
 }

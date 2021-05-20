@@ -45,7 +45,7 @@ class LoginController extends Controller
         } else {
             return str_contains(\Route::current()->uri, 'api') ?
                 $this->response->notSuccess('login failed',404):
-                redirect()->route('login');
+                redirect()->route('show.login');
 
         }
     }
