@@ -45,13 +45,19 @@ const Index = (props) => {
             ReactDOM.render(<Loading/>, elementLoading);
             Request.RegisterPhone(phones)
                 .then(response => {
-                    clearInterval(intervals);
-                    Timer(e, 120)
-                    ReactDOM.render('', elementLoading);
-                    $(".container-loader").fadeIn();
-                    setTimeout(() => {
-                        $(".verifyForm").addClass("active");
-                    }, 500)
+                    if( response.status == 201){
+                        ReactDOM.render('', elementLoading);
+                        ErrorToast("این شماره تلفن ثبت نام شده است . میتوانید بازگردانی پسورد بزنید")
+                    }else{
+                        clearInterval(intervals);
+                        Timer(e, 120)
+                        ReactDOM.render('', elementLoading);
+                        $(".container-loader").fadeIn();
+                        setTimeout(() => {
+                            $(".verifyForm").addClass("active");
+                        }, 500)
+                    }
+
                     // VerifyModal(e, 120)
                 }).catch((error) => {
                 // Error

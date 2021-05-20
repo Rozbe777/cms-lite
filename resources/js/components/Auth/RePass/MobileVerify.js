@@ -121,6 +121,8 @@ const MobileVerify = (props) => {
             token: code,
             _token: token
         }
+
+        console.log("+++++++"  , data);
         ReactDOM.render(<Loading/>, loadingElement);
         console.log("dataaa : " , data)
         Request.VerifyCodeCheck(data)

@@ -97,18 +97,21 @@ const VerifyPhone = ({time, token, phoneNumber , response : pushResponse}) => {
             _token: token
         }
 
+        console.log("/////" , data);
+
         ReactDOM.render(<Loading/>, loadingElement);
         Request.VerifyCodeCheck(data)
             .then(response => {
                 ReactDOM.render('', loadingElement);
+
                 if (response.data.data.http_code == 200){
                     success("تایید شماره تلفن موفقیت آمیز بود! کمی صبر کنید...")
                     setTimeout(()=>{
                         pushResponse(200)
                     },600)
                 }
-            }).catch(error => {
-            if (error.response.data.http_code == 404) {
+            } ).catch(error => {
+                if (error.response.data.http_code == 404) {
                 ReactDOM.render('', loadingElement);
                 ErrorToast("کد را به صورت صحیح وارد کنید!")
             }
