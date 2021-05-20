@@ -15,8 +15,9 @@ class CreateVerifyMobilesTable extends Migration
     {
         Schema::create('verify_mobiles', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id')->unique();
+            $table->string('mobile')->unique();
             $table->string('token');
+            $table->enum('status', ['active', 'deactivate'])->default('deactivate');
             $table->timestamps();
         });
     }

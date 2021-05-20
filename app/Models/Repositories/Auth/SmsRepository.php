@@ -11,15 +11,15 @@ class SmsRepository
     /**
      * create token
      */
-    public function createToken($userId)
+    public function createToken($mobile)
     {
-        $sms = VerifyMobile::where('user_id',$userId)->first();
+        $sms = VerifyMobile::where('mobile',$mobile)->first();
         if ($sms){
             $sms->token = rand(1000, 9999);
             $sms->save();
         }else{
             $sms = new VerifyMobile();
-            $sms->user_id = $userId;
+            $sms->mobile = $mobile;
             $sms->token = rand(1000, 9999);
             $sms->save();
         }

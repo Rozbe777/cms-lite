@@ -5,13 +5,15 @@ namespace App\Models\Repositories\Auth;
 
 
 use App\Models\User;
+use App\Models\VerifyMobile;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class UserModelRepository
 {
     public function findByMobile($mobile)
     {
-        $user = User::where('mobile', $mobile)->first();
+        $user = VerifyMobile::where('mobile', $mobile)->first();
         return $user;
     }
 
@@ -20,13 +22,24 @@ class UserModelRepository
         return User::findOrFail($id);
     }
 
-    public function create($mobile)
+    public function createClient($mobile)
     {
-        $user = new User([
+        $client = new VerifyMobile([
             "mobile" => $mobile
         ]);
-        $user->save();
-        return $user;
+        $client->save();
+        return $client;
+    }
+
+    public function createUser($mobile)
+    {
+        $client = new User([
+            "mobile" => $mobile,
+            "mobile_verified_at" => Carbon::now(),
+            "status" => "deactivate"
+        ]);
+        $client->save();
+        return $client;
     }
 
     public function update($request)

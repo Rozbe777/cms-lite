@@ -11,6 +11,7 @@ use App\Jobs\SendSmsJob;
 use App\Models\Repositories\Auth\MobileRepository;
 use App\Models\Repositories\Auth\SmsRepository;
 use App\Models\Repositories\Auth\UserModelRepository;
+use App\Models\VerifyMobile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laravel\Passport\Bridge\UserRepository;
@@ -42,22 +43,16 @@ class MobileRegisterController extends Controller
         session(['mobile' => mobile($request->mobile)]);
 
         /** check if mobile was registered */
-        $user = $this->userRepository->findByMobile(session('mobile'));
+        $client = $this->userRepository->findByMobile(session('mobile'));
 
-        if (!$user) {
+        if (!$client) {
             /** mobile was not registered */
-            $user = $this->userRepository->create(session('mobile'));
+            $this->userRepository->createClient(session('mobile'));
 
             /** API panel SMS */
-            dispatch(new SendSmsJob($request->mobile, $user->id));
+            dispatch(new SendSmsJob($request->mobile));
 
-            return $this->responses->success("verification code is sent to mobile number");
-
-        } elseif (isset($user->password)) {
-            /** if user has a password so the mobile number was registered completely
-             * {{ Do you Forgot Your Password?? }}
-             */
-            return $this->responses->notSuccess("the user is existed check if forgot your password", 404);
+            return $this->responses->success(__('message.auth.register.resendToken.successful'));
 
         } else {
             /** check for the last time that we sent a token then resend it after 2 min. */
@@ -65,11 +60,11 @@ class MobileRegisterController extends Controller
 
             if ($needToPass < 0) {
                 /** send the token again */
-                dispatch(new SendSmsJob($request->mobile, $user->id));
+                dispatch(new SendSmsJob($request->mobile));
 
-                return $this->responses->success("verification code is sent to mobile number");
+                return $this->responses->success(__('message.auth.register.resendToken.successful'));
             } else {
-                return $this->responses->notSuccess("you have to wait $needToPass sec before ask again", 404, $needToPass);
+                return $this->responses->notSuccess(__('message.auth.register.resendToken.successful') . $needToPass, 429, $needToPass);
             }
         }
     }
@@ -82,14 +77,18 @@ class MobileRegisterController extends Controller
     /** check the token */
     public function checkMobile(MobileRequest $request)
     {
-        $user = (new UserModelRepository())->findByMobile(session('mobile'));
+        $client = (new UserModelRepository())->findByMobile(session('mobile'));
 
         /** check the mobile in trait */
-        $response = $this->checkMobileTrait($user, $request->token);
+        $response = $this->checkMobileTrait($client, $request->token);
 
-        return ($response) ?
-            $this->responses->success("mobile verification is done update user's info", ["id" => $user->id]) :
-            $this->responses->notSuccess("token is not correct", 404);
+        if (!$response)
+            return $this->responses->notSuccess("token is not correct", 404);
+
+        $user = $this->userRepository->createUser();
+        VerifyMobile::destroy($client->id);
+        return $this->responses->success("mobile verification is done update user's info", ["id" => $user->id]);
+
     }
 
 }

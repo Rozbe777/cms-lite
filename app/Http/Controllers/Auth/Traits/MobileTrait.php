@@ -9,14 +9,13 @@ use App\Models\Repositories\Auth\UserModelRepository;
 
 trait MobileTrait
 {
-    public function checkMobileTrait($user, $reqToken)
+    public function checkMobileTrait($client, $reqToken)
     {
-        $token = (new MobileRepository())->find($user->id);
+        $token = (new MobileRepository())->find($client->id);
 
         if ($reqToken == ($token->token)) {
-            $user->status = "active";
-            $user->mobile_verified_at = $token->updated_at;
-            $user->save();
+            $client->status = "active";
+            $client->save();
             return true;
         } else {
             return false;
