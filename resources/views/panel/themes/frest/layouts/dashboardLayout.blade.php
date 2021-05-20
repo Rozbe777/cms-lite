@@ -4,7 +4,7 @@
 
 
 <!DOCTYPE html>
-<html class="loading" lang="fa" data-textdirection="rtl" dir="rtl">
+<html lang="fa" data-textdirection="rtl" dir="rtl">
 <!-- BEGIN: Head-->
 @include('panel.themes.frest.includes.head')
 

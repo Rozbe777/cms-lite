@@ -137,7 +137,7 @@ const MobileVerify = (props) => {
             }).catch(error => {
             if (error.response.data.http_code == 404) {
                 ReactDOM.render('', loadingElement);
-                ErrorToast("کد را به صورت صحیح وارد کنید!")
+                ErrorToast("کد را به صورت صحیح وارد کنید")
             }
         })
     }

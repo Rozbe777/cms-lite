@@ -74,14 +74,7 @@ const FinalDataRegister = ({token, id}) => {
                                 </div>
                             </div>
 
-                            <div className="form-group mb-50">
-                                <label className="text-bold-700" htmlFor="exampleInputEmail1">آدرس
-                                    ایمیل</label>
-                                <input type="email" autoComplete="off" className="form-control inputRegister text-left"
-                                       autocomplete="one-time-code"
-                                       name="email" onChange={e => onChangeInput(e)} id="exampleInputEmail1"
-                                       placeholder="آدرس ایمیل" dir="ltr"/>
-                            </div>
+
                             <div className="form-group mb-2">
                                 <label className="text-bold-700" htmlFor="exampleInputPassword1">رمز
                                     عبور</label>
