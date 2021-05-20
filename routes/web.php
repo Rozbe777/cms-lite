@@ -81,7 +81,7 @@ Route::name('admin.')->group(function () {
     Route::get('/',function (){
        echo "admin.role";
     })->name('role');
-
+Route::get('/dashboard',[DashboardController::class,'index'])->name('admin.dashboard.index');
     //----------------------------Contents---------------------------
     Route::get('contents/search', [ContentController::class, 'search'])->name('contents.search');
     Route::resource('contents', ContentController::class);
@@ -201,7 +201,6 @@ Route::name('admin.')->group(function () {
 //
 //
 //        });
-//
 //        Route::group(['as' => 'content.', 'prefix' => 'content', 'namespace' => 'Content', 'name' => 'content.'], function () {
 //
 //            Route::get('/', [ContentController::class, 'index'])->name('index');
