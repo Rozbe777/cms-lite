@@ -131,3 +131,27 @@ span#sub-menu-custom {
     padding: 0px !important;
     margin: 0px !important;
 }
+.loaderErrorBack{
+    width: 100% ;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    position: fixed;
+    top : 0;
+    right: 0;
+    z-index: 999999;
+}
+.cardError{
+    width: 100%;
+    height: 200px;
+    background: #fff;
+    border-radius: 5px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+    .iconError{
+        width: 100px;
+        height: 100px;
+        text-align: center;
+    }
+}

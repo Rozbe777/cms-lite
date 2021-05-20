@@ -27,12 +27,12 @@ const FinalDataRegister = ({token, id}) => {
         // let passConfirm = userDataNew.password_confirmation;
         // console.log(pass.toString() , "/" , passConfirm.toString() )
         if(pass !== passCon){
-            ErrorToast("پسورد ها با هم یکسان نیستند!")
+            ErrorToast("پسورد ها با هم یکسان نیستند")
         } else{
             let time_toast = 300;
             Request.StoreUserInfo(userDataNew)
                 .then(response => {
-                    SuccessToast("اطلاعات شما با موفقیت ثبت شد! کمی صبر کنید...")
+                    SuccessToast("اطلاعات شما با موفقیت ثبت شد. کمی صبر کنید...")
                     setTimeout(()=>{
                         window.location.pathname = "/login"
                     },600)

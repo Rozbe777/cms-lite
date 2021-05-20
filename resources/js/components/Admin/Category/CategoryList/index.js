@@ -163,6 +163,20 @@ export const CategoryList = () => {
     }
     return (
         <div>
+
+            <div className={"loaderErrorBack"}>
+                <div clssName={"container"}>
+                    <div className={"row justify-content-center"}>
+                        <div className={"col-lg-4 col-md-5 col-sm-10"} style={{top : '14vh'}}>
+                            <div className={"cardError"}>
+                                <div className={"iconError"}>
+                                    <i className={"bx bx-error-circle"}></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className="tab-content" style={{padding: 0}}>
                 <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
                     {console.log("category dataaaaaaaa ...... : ", categoryData)}

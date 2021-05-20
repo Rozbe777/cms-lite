@@ -169,7 +169,7 @@ const Index = (props) => {
                 ReactDOM.render('', loadingElement);
                 console.log("success : ", response)
                 if (response.data.http_code == 200) {
-                    SuccessToast("تایید شماره تلفن موفقیت آمیز بود! کمی صبر کنید...")
+                    SuccessToast("تایید شماره تلفن موفقیت آمیز بود. کمی صبر کنید...")
                     setTimeout(() => {
                         clearInterval(intervals);
                         ReactDOM.render(<FinalDataRegister token={token}
@@ -179,7 +179,7 @@ const Index = (props) => {
             }).catch(error => {
             if (error.response.data.http_code == 404) {
                 ReactDOM.render('', loadingElement);
-                ErrorToast("کد را به صورت صحیح وارد کنید!")
+                ErrorToast("کد را به صورت صحیح وارد کنید")
             }
         })
     }
