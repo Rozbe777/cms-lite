@@ -43,16 +43,6 @@ const Number = () => {
     let tags = initialFormDataNumber.Mandatory ? initialFormDataNumber.title ? initialFormDataNumber.title + "(*)" : 'عنوان (*)' : initialFormDataNumber.title ? initialFormDataNumber.title : 'عنوان';
 
 
-
-
-
-    const ShowTitrs = (value) => {
-        let titrl = " پاسخ باید بیشتر از " + min;
-        return (
-            <p style={{margin: 0, fontSize: 11, color: 'grey'}}>{titrl}</p>
-        )
-    }
-    {console.log("inininini : ", initialFormDataNumber)}
     let titr_min = " حداقل پاسخ " + initialFormDataNumber.min;
     let titr_max = "حداکثر پاسخ" + initialFormDataNumber.max;
     let titr_between =  "محدوده پاسخ بین ( " + initialFormDataNumber.min + " و " + initialFormDataNumber.max + " )";

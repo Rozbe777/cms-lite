@@ -18,17 +18,15 @@ const Index = (props) => {
     var pattern = /0?9([0-9]{9})/;
     let CounterTimer = 0;
     const [responseVerify, setResponseVerify] = useState(0);
-    const [intervals , setIntervalId] = useState();
+    const [intervals, setIntervalId] = useState();
+    const [isInvalid, setIsInvalid] = useState(false);
     const {token} = props;
     const [phone, setPhone] = useState();
     const [response, setResponse] = useState();
     let elementLoading = document.getElementById("loading-show")
 
     const [verifyCode, setVerifyCode] = useState({
-        code_1: '',
-        code_2: '',
-        code_3: '',
-        code_4: '',
+        verifyCode : ''
     });
 
     const HandlePhone = (e) => {
@@ -40,16 +38,7 @@ const Index = (props) => {
 
     const RegisterPhone = (e) => {
         e.preventDefault();
-        $("input[name=code_1]").val('');
-        $("input[name=code_2]").val('');
-        $("input[name=code_3]").val('');
-        $("input[name=code_4]").val('');
-        setVerifyCode({
-            code_1: '',
-            code_2: '',
-            code_3: '',
-            code_4: ''
-        })
+
         let phones = {...phone};
         if (pattern.test(phones.mobile)) {
             phones._token = token;
@@ -70,26 +59,24 @@ const Index = (props) => {
                 if (error.response) {
                     clearInterval(intervals);
                     ReactDOM.render('', elementLoading);
-                    if (error.response.data.data){
+                    if (error.response.data.data) {
                         Timer(e, error.response.data.data)
                         $(".container-loader").fadeIn();
                         setTimeout(() => {
                             $(".verifyForm").addClass("active");
                         }, 500)
-                    }else{
-                        ErrorToast("این شماره تلفن ثبت نام شده است ! میتوانید بازگردانی پسورد بزنید!")
+                    } else {
+                        ErrorToast("این شماره تلفن ثبت نام شده است . میتوانید بازگردانی پسورد بزنید")
                     }
 
-                    // VerifyModal(e, error.response.data.data);
                 } else if (error.request) {
 
-                    console.log(error.request);
                 } else {
                     console.log('Error', error.message);
                 }
             });
         } else {
-            ErrorToast("فرمت شماره تلفن صحیح نمیباشد!");
+            ErrorToast("فرمت شماره تلفن صحیح نمیباشد");
         }
     }
 
@@ -97,8 +84,6 @@ const Index = (props) => {
     const Timer = (e, timers) => {
 
         e.preventDefault()
-        console.log("ffff : " , timers);
-        let stringis = "";
         var min = Math.floor(timers / 60);
         var sec = Math.floor(timers - (min * 60));
 
@@ -109,10 +94,9 @@ const Index = (props) => {
         let elementTimer = document.getElementById("timersPop");
 
         var intervalsId = setInterval(function () {
-            console.log("min , sec : ", min, sec)
             if (min == 0 && sec == 0) {
                 clearInterval(intervals);
-                elementTimer.innerHTML =  "";
+                elementTimer.innerHTML = "";
                 elementTimer.innerHTML = "مجددا جهت دریافت کد اقدام فرمایید";
             } else {
                 if (sec == 0) {
@@ -174,12 +158,11 @@ const Index = (props) => {
 
     const checkCode = (e) => {
         e.preventDefault();
-        let code = parseInt(verifyCode.code_1 + verifyCode.code_2 + verifyCode.code_3 + verifyCode.code_4);
+        let code = parseInt(verifyCode.verifyCode);
         let data = {
             token: code,
             _token: token
         }
-
         ReactDOM.render(<Loading/>, loadingElement);
         Request.VerifyCodeCheck(data)
             .then(response => {
@@ -208,30 +191,41 @@ const Index = (props) => {
             !isNaN(parseFloat(str))
     }
 
+
     const verifyCodeGet = (e) => {
         e.preventDefault();
-        setVerifyCode({
-            ...verifyCode,
-            [e.target.name]: e.target.value
-        })
+        if (verifyCode.verifyCode.length < 4){
+            setVerifyCode({
+                [e.target.name]: e.target.value
+            })
+        }
+
     }
 
     const checkButton = () => {
-        if (verifyCode.code_1 !== '' && verifyCode.code_2 !== '' && verifyCode.code_3 !== '' && verifyCode.code_4 !== '') {
-            if (checkVerifyNumber(verifyCode.code_1) && checkVerifyNumber(verifyCode.code_2) && checkVerifyNumber(verifyCode.code_3) && checkVerifyNumber(verifyCode.code_4)) {
-                return (
-                    <button className={"btn btn-primary"} style={{fontSize: '11px'}} onClick={e => checkCode(e)}>بررسی
-                        کد</button>
-                )
+        let numberReg = /^\d+$/;
+        if(verifyCode){
+            if (numberReg.test(verifyCode.verifyCode)) {
+                if (verifyCode.verifyCode.length == 4) {
+                    return (
+                        <button className={"btn btn-primary"} style={{fontSize: '11px'}} onClick={e => checkCode(e)}>بررسی
+                            کد</button>
+                    )
+                } else {
+                    return '';
+                }
+            } else {
+                return '';
             }
-        } else {
-            return ''
+        }else{
+            ErrorToast("کد تایید کامل نیست")
         }
+
+
     }
 
     const closeModal = e => {
         e.preventDefault();
-        console.log("intervals", intervals);
         clearInterval(intervals);
 
         $(".verifyForm").removeClass("active");
@@ -274,7 +268,8 @@ const Index = (props) => {
                         </div>
                         <div>
                             <small className="mr-25">قبلا ثبت نام کرده اید؟</small>
-                            <a href={"/login"} style={{borderBottom: '1px dashed', cursor: 'pointer'}}><small>ورود به پنل</small></a>
+                            <a href={"/login"} style={{borderBottom: '1px dashed', cursor: 'pointer'}}><small>ورود به
+                                پنل</small></a>
                         </div>
                     </div>
                 </div>
@@ -299,58 +294,22 @@ const Index = (props) => {
 
                                 <p>کد تایید را وارد کنید</p>
 
-                                <div id="wrapper">
-                                    <input
-                                        type="text"
-                                        placeholder="--"
-                                        maxLength="1"
-                                        size="1"
-                                        step={"1"}
-                                        name="code_1"
-                                        onChange={(e) => verifyCodeGet(e)}
-                                        min="0"
-                                        max="9"
-                                        pattern="\d*"
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="--"
-                                        maxLength="1"
-                                        size="1"
-                                        onChange={(e) => verifyCodeGet(e)}
-                                        name="code_2"
-                                        min="0"
-                                        max="9"
-                                        pattern="[0-9]{1}"
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="--"
-                                        maxLength="1"
-                                        size="1"
-                                        onChange={(e) => verifyCodeGet(e)}
-                                        name="code_3"
-                                        min="0"
-                                        max="9"
-                                        pattern="[0-9]{1}"
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="--"
-                                        maxLength="1"
-                                        size="1"
-                                        name="code_4"
-                                        min="0"
-                                        max="9"
-                                        onChange={(e) => verifyCodeGet(e)}
-                                        pattern="[0-9]{1}"
-                                    />
+
+                                <div className={"col-12"} style={{display : 'flex' , alignItem : 'center' , justifyContent : 'center'}}>
+                                    <div className={"verify-code-check"}>
+                                        <input type={"text"}
+                                               className={"form-control " + isInvalid == true ? "is-invalid" : ""}
+                                               name={"verifyCode"}
+                                               pattern="([0-9]|[0-9]|[0-9]|[0-9])"
+                                               onChange={e => verifyCodeGet(e)}
+                                               maxlength ="4"
+                                               placeholder={"کد تایید"}/>
+                                    </div>
                                 </div>
+
 
                                 {checkButton()}
                                 <div id={"timersPop"}></div>
-
-                                {/*<div id='retryCode'></div>*/}
 
                                 <div id={"loading-shows"}>
 

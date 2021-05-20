@@ -110,3 +110,20 @@
     padding: 0px !important;
     margin: 0px !important;
 }
+.verify-code-check{
+    width: 100%;
+    height: 35px;
+    border-bottom: 1px solid #eee;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    input{
+        width: 100%;
+        height: 30px !important;
+        border: none;
+        text-align: center;
+        &::placeholder{
+            text-align : center
+        }
+    }
+}
