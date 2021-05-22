@@ -4,24 +4,6 @@
 
 @include('panel.themes.frest.includes.head')
 
-{{--<script>--}}
-{{--    document.onreadystatechange = function () {--}}
-{{--        var state = document.readyState;--}}
-{{--        if (state == 'interactive') {--}}
-{{--            document.querySelector('.content').style.visibility = "hidden";--}}
-
-{{--        } else if (state == "complete") {--}}
-{{--            document.querySelector('.content').style.visibility = "visible";--}}
-{{--            setTimeout(function () {--}}
-{{--                document.getElementById('interactive');--}}
-{{--                document.querySelector('.preloader').classList.add("active");--}}
-
-{{--            }, 2000);--}}
-{{--        }--}}
-{{--    }--}}
-
-{{--</script>--}}
-
 <!-- END: Head-->
 
 <!-- BEGIN: Body-->

@@ -10,9 +10,12 @@ import FinalDataRegister from "./FinalDataRegister";
 
 const Index = (props) => {
     useEffect(() => {
-        $("input[name=code_1]").focus();
+        $("input[name=verifyCode]").focus();
     }, [])
 
+    $(document).ready(function (){
+        $("input[name=verifyCode]").focus();
+    })
 
     let timerString = "";
     var pattern = /0?9([0-9]{9})/;
@@ -28,6 +31,25 @@ const Index = (props) => {
     const [verifyCode, setVerifyCode] = useState({
         verifyCode : ''
     });
+
+
+
+
+    $(function () {
+        $("input[name=verifyCode]").keydown(function () {
+            if (!$(this).val() || (parseInt($(this).val()) <= 9999 && parseInt($(this).val()) >= 1))
+                $(this).data("old", $(this).val());
+        });
+        $("input[name=verifyCode]").keyup(function () {
+            if (!$(this).val() || (parseInt($(this).val()) <= 9999 && parseInt($(this).val()) >= 1))
+                ;
+            else
+                $(this).val($(this).data("old"));
+        });
+    });
+
+
+
 
     const HandlePhone = (e) => {
         e.preventDefault();
@@ -47,7 +69,7 @@ const Index = (props) => {
                 .then(response => {
                     if( response.status == 201){
                         ReactDOM.render('', elementLoading);
-                        ErrorToast("این شماره تلفن ثبت نام شده است . میتوانید بازگردانی پسورد بزنید")
+                        ErrorToast("این شماره تلفن ثبت نام شده است ")
                     }else{
                         clearInterval(intervals);
                         Timer(e, 120)
@@ -169,11 +191,11 @@ const Index = (props) => {
             token: code,
             _token: token
         }
+
         ReactDOM.render(<Loading/>, loadingElement);
         Request.VerifyCodeCheck(data)
             .then(response => {
                 ReactDOM.render('', loadingElement);
-                console.log("success : ", response)
                 if (response.data.http_code == 200) {
                     SuccessToast("تایید شماره تلفن موفقیت آمیز بود. کمی صبر کنید...")
                     setTimeout(() => {
@@ -237,6 +259,7 @@ const Index = (props) => {
         $(".verifyForm").removeClass("active");
         setTimeout(() => {
             $(".container-loader").fadeOut();
+            // $("input[name=verifyCode]").val('');
         }, 500)
     }
 
@@ -303,13 +326,13 @@ const Index = (props) => {
 
                                 <div className={"col-12"} style={{display : 'flex' , alignItem : 'center' , justifyContent : 'center'}}>
                                     <div className={"verify-code-check"}>
-                                        <input type={"text"}
+                                        <input type={"number"}
                                                className={"form-control " + isInvalid == true ? "is-invalid" : ""}
                                                name={"verifyCode"}
-                                               pattern="([0-9]|[0-9]|[0-9]|[0-9])"
+                                               min="1000"
+                                               max="9999"
                                                onChange={e => verifyCodeGet(e)}
-                                               maxlength ="4"
-                                               placeholder={"کد تایید"}/>
+                                               placeholder={"کد تایید را وارد کنید"}/>
                                     </div>
                                 </div>
 

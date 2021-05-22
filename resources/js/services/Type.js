@@ -9,10 +9,14 @@ export const LOGIN_URL = "auth/login";
 export const VERSION = "";
 export const REQUEST_URL = `${BASE_URL}${VERSION}`;
 export const TIMEOUT = 60000;
+import $ from 'jquery'
+
+console.log("scrf : " , $('meta[name="csrf-token"]').attr('content'));
 
 export const REQUEST_HEADER_TOKEN = {
     'Access-Control-Allow-Origin': '*',
     'X-Custom-Header': 'foobar',
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
     // 'Content-Type': 'multipart/form-data',
     'Authentication' : ''
 

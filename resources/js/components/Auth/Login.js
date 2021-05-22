@@ -32,13 +32,14 @@ const LoginForm = ({token}) => {
 
         let patt = /0?9([0-9]{9})/;
         let user = {...userData};
-        user._token = "Av43Xt3pFJxVhnUWMQOiG68cltWGOL579jc27RYK";
+        user._token = token;
         user.mobile = mobile;
         user.password = password;
 
         if (mobile.length > 0 && password.length > 0){
             if (patt.test(mobile)){
                 ReactDOM.render(<Loading/>, elementLoading);
+                console.log("dataaaa : " , user);
                 Request.Login(user)
                     .then(response => {
                         ReactDOM.render('', elementLoading);

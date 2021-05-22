@@ -1,4 +1,3 @@
-
 import React, {useEffect, useState} from "react";
 import ReactDOM from 'react-dom';
 import $ from "jquery";
@@ -10,8 +9,8 @@ import Loading from "../Loading";
 
 const MobileVerify = (props) => {
     useEffect(() => {
-        $("input[name=code_1]").focus();
     }, [])
+
 
 
     var pattern = /0?9([0-9]{9})/;
@@ -24,7 +23,7 @@ const MobileVerify = (props) => {
     let elementLoading = document.getElementById("loading-show")
 
     const [verifyCode, setVerifyCode] = useState({
-        verifyCode : ''
+        verifyCode: ''
     });
 
     const HandlePhone = (e) => {
@@ -33,6 +32,19 @@ const MobileVerify = (props) => {
             mobile: e.target.value
         })
     }
+
+    $(function () {
+        $("input[name=verifyCode]").keydown(function () {
+            if (!$(this).val() || (parseInt($(this).val()) <= 9999 && parseInt($(this).val()) >= 1))
+                $(this).data("old", $(this).val());
+        });
+        $("input[name=verifyCode]").keyup(function () {
+            if (!$(this).val() || (parseInt($(this).val()) <= 9999 && parseInt($(this).val()) >= 1))
+                ;
+            else
+                $(this).val($(this).data("old"));
+        });
+    });
 
     const RegisterPhone = (e) => {
         e.preventDefault();
@@ -64,7 +76,7 @@ const MobileVerify = (props) => {
                             $(".verifyForm").addClass("active");
                         }, 500)
                     } else {
-                        ErrorToast("شماره تلفن شما قبت نام نیست")
+                        ErrorToast("شماره تلفن شما ثبت نام نیست")
                     }
 
                 } else if (error.request) {
@@ -122,13 +134,10 @@ const MobileVerify = (props) => {
             _token: token
         }
 
-        console.log("+++++++"  , data);
         ReactDOM.render(<Loading/>, loadingElement);
-        console.log("dataaa : " , data)
         Request.VerifyCodeCheck(data)
             .then(response => {
                 ReactDOM.render('', loadingElement);
-                console.log("success : ", response)
                 if (response.data.http_code == 200) {
                     SuccessToast("در حال انتقال به تغییر پسورد ")
                     setTimeout(() => {
@@ -145,12 +154,9 @@ const MobileVerify = (props) => {
     }
 
 
-
-
-
     const verifyCodeGet = (e) => {
         e.preventDefault();
-        if (verifyCode.verifyCode.length < 4){
+        if (verifyCode.verifyCode.length < 4) {
             setVerifyCode({
                 [e.target.name]: e.target.value
             })
@@ -160,11 +166,12 @@ const MobileVerify = (props) => {
 
     const checkButton = () => {
         let numberReg = /^\d+$/;
-        if(verifyCode){
+        if (verifyCode) {
             if (numberReg.test(verifyCode.verifyCode)) {
                 if (verifyCode.verifyCode.length == 4) {
                     return (
-                        <button className={"btn btn-primary"} style={{fontSize: '11px'}} onClick={e => checkCode(e)}>بررسی
+                        <button className={"btn btn-primary"} style={{fontSize: '11px'}}
+                                onClick={e => checkCode(e)}>بررسی
                             کد</button>
                     )
                 } else {
@@ -173,7 +180,7 @@ const MobileVerify = (props) => {
             } else {
                 return '';
             }
-        }else{
+        } else {
             ErrorToast("کد تایید کامل نیست")
         }
 
@@ -252,15 +259,17 @@ const MobileVerify = (props) => {
                                 <p>کد تایید را وارد کنید</p>
 
 
-                                <div className={"col-12"} style={{display : 'flex' , alignItem : 'center' , justifyContent : 'center'}}>
+                                <div className={"col-12"}
+                                     style={{display: 'flex', alignItem: 'center', justifyContent: 'center'}}>
                                     <div className={"verify-code-check"}>
-                                        <input type={"text"}
-                                               className={"form-control " + isInvalid == true ? "is-invalid" : ""}
-                                               name={"verifyCode"}
-                                               pattern="([0-9]|[0-9]|[0-9]|[0-9])"
-                                               onChange={e => verifyCodeGet(e)}
-                                               maxlength ="4"
-                                               placeholder={"کد تایید"}/>
+                                        <input
+                                            type={"number"}
+                                            id={"verify_codes"}
+                                            className={"form-control " + isInvalid == true ? "is-invalid" : ""}
+                                            name={"verifyCode"}
+                                            onChange={e => verifyCodeGet(e)}
+                                            placeholder={"کد تایید را تایپ کنید"}
+                                        />
                                     </div>
                                 </div>
 

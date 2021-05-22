@@ -118,33 +118,6 @@ const VerifyPhone = ({time, token, phoneNumber , response : pushResponse}) => {
         })
     }
 
-    //
-    // const sendRetryCode = (e) => {
-    //     e.preventDefault();
-    //     let phones = {...phoneNumber};
-    //     phones._token = token;
-    //     // ReactDOM.render(<Loading/>, loadingElement);
-    //
-    //     // Request.RegisterPhone(phones)
-    //     //     .then(response => {
-    //     //         CounterTimer = 120;
-    //     //         Timer();
-    //     //         // ReactDOM.render('', loadingElement);
-    //     //     }).catch((error) => {
-    //     //     // Error
-    //     //     if (error.response) {
-    //     //         // ReactDOM.render('', elementLoading);
-    //     //         CounterTimer = error.response.data.data;
-    //     //         Timer();
-    //     //     } else if (error.request) {
-    //     //         console.log(error.request);
-    //     //     } else {
-    //     //         console.log('Error', error.message);
-    //     //     }
-    //     // });
-    //
-    // }
-
 
     function checkVerifyNumber(str) {
         if (typeof str != "string") return false
