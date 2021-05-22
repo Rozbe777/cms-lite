@@ -43,6 +43,7 @@ class Install extends Command
         $this->info('DB migrate fresh');
         Artisan::call('db:seed');
         $this->info('Import custom seeds');
+        Artisan::call('key:generate');
         $this->info('Done!');
     }
 }
