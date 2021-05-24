@@ -14,8 +14,12 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
-
     use CreateUserTrait, ResponseTrait;
+
+    public function __construct()
+    {
+        $this->middleware('blockLogin');
+    }
 
     public function show()
     {

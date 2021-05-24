@@ -69,7 +69,7 @@ class UserSeeder extends Seeder
                 $user->status = 'active';
                 $user->mobile = mobile($value['mobile']);
                 $user->email_verified_at = now();
-                $user->password = bcrypt(123456);
+                $user->password = bcrypt($value['password']);
                 $user->mobile_verified_at = Carbon::now();
                 $user->save();
                 $user->roles()->attach($role->id);

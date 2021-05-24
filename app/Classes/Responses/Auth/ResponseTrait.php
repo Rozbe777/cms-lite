@@ -53,13 +53,17 @@ trait ResponseTrait
     public function error($status = 404)
     {
         if ($this->isAxios()) {
+            if (!is_array($this->message)) {
+                $this->message = [$this->message];
+            }
             return
                 response()->json([
-                    "message" => $this->message,
+                    "message" => $this->message[0],
+                    "data" => $this->data,
                     "errors" => [
-                        'data' => [$this->data],
+                        'data' => $this->message
                     ],
-                ],$status);
+                ], $status);
         } else {
             return adminView($this->view);
         }
