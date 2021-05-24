@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Classes\Responses\Contents;
+namespace App\Classes\Responses;
 
 
 class Responses
@@ -13,15 +13,15 @@ class Responses
                 'data' => $data
             ]);
         }else{
-            return adminView("pages.admin.content.$view",['data'=>$data]);
+            return adminView("pages.admin.category.$view",['data'=>$data]);
         }
     }
 
     public function notSuccess($statusCode,$data=[],$message=[])
     {
-            return response()->json([
-                'message' => __('message.errors.500'),
-                "data"=>$data
-            ],$statusCode);
+        return response()->json([
+            'message' => __('message.errors.500'),
+            "data"=>$data
+        ],$statusCode);
     }
 }

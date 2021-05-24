@@ -10,7 +10,7 @@ class MobileRepository
 {
     public function find($mobile)
     {
-        return VerifyMobile::where('mobile',$mobile)->first();
+        return VerifyMobile::firstWhere('mobile', $mobile);
     }
 
     public function creatClient($mobile)

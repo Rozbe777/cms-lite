@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('registration_source')->nullable()->default("web");
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('mobile_verified_at')->nullable();
-            $table->enum('status', ['active', 'deactivate'])->default('deactivate');
+            $table->enum('status', ['active', 'deactivate'])->default('active');
             $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
