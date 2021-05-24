@@ -4,17 +4,18 @@
 namespace App\Models\Repositories\Auth;
 
 
+use App\Models\Role;
 use App\Models\User;
 use App\Models\VerifyMobile;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserModelRepository
 {
     public function findByMobile($mobile)
     {
-        $user = User::where('mobile', $mobile)->first();
-        return $user;
+        return User::firstWhere('mobile', $mobile);
     }
 
     public function findByID($id)
@@ -24,11 +25,18 @@ class UserModelRepository
 
     public function create($client)
     {
-        $user= User::firstOrCreate(
-        ["mobile" => $client->mobile,],
-        ["mobile_verified_at"=> $client->updated_at,]
+        $user = User::firstOrCreate(
+            ["mobile" => $client->mobile,],
+            [
+                "mobile_verified_at" => Carbon::now(),
+                "status" => "active"
+            ]
         );
 
+        if ($user->wasRecentlyCreated) {
+            $role = Role::where('name', 'user')->first();
+            $user->attachRole($role);
+        }
         return $user;
     }
 
@@ -47,7 +55,7 @@ class UserModelRepository
     {
         try {
             /** find user by request->id */
-            $user = $this->findById($request->id);
+            $user = Auth::user();
 
             /** check submit the registration form with or without an image */
             if ($request->avatar) {
@@ -59,14 +67,13 @@ class UserModelRepository
                 $data['avatar'] = 'public/defaultIMG.png';
             }
             $data['password'] = bcrypt($request->password);
-            $data['status'] = 'active';
 
             $user->update($data);
 
             return $user;
 
-        } catch (\Exception $exception){
-            return ['exception_message'=>$exception->getMessage(),'exception_code'=>$exception->getCode()];
+        } catch (\Exception $exception) {
+            return ['exception_message' => $exception->getMessage(), 'exception_code' => $exception->getCode()];
         }
 
     }

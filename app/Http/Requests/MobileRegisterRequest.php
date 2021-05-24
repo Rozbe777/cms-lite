@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MobileRequest extends FormRequest
+class MobileRegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class MobileRequest extends FormRequest
     public function rules()
     {
         return [
-            'token'=> 'required',
-            'mobile' => 'required|string|min:10|max:11'
+            "mobile" => 'required|string|min:10|max:11'
         ];
     }
 }
