@@ -22,7 +22,7 @@
 
                                 <div class="col-md-6 d-md-block d-none text-center align-self-center p-3">
                                     <img class="img-fluid" src="{{adminTheme("images/pages/login.png")}}"
-                                         alt="branding logo" />
+                                         alt="branding logo"/>
                                 </div>
 
                             </div>
@@ -31,6 +31,8 @@
                 </section>
                 <!-- login page ends -->
             </div>
+
+
         </div>
     </div>
 

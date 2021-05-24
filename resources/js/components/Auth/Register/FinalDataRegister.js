@@ -25,8 +25,7 @@ const FinalDataRegister = ({token, id}) => {
         let pass = $("input[name=password]").val();
         let passCon = $("input[name=password_confirmation]").val();
         // let passConfirm = userDataNew.password_confirmation;
-        // console.log(pass.toString() , "/" , passConfirm.toString() )
-        console.log("vsdvsv : " , userDataNew);
+        console.log( "/" , userDataNew )
 
         if(pass !== passCon){
             ErrorToast("پسورد ها با هم یکسان نیستند")

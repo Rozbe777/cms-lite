@@ -1,7 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 
-export const CheckBoxEmail = ({defaultState, name, valueActive, valueDeActive, status: pushState}) => {
+export const CheckBoxEmail = ({defaultState,taskName, name, valueActive, valueDeActive, status: pushState}) => {
 
     const handleChange = e => {
         // console.log("checked : " , e.target)

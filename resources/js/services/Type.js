@@ -16,7 +16,7 @@ console.log("scrf : " , $('meta[name="csrf-token"]').attr('content'));
 export const REQUEST_HEADER_TOKEN = {
     'Access-Control-Allow-Origin': '*',
     'X-Custom-Header': 'foobar',
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+    'is_axios' : true,
     // 'Content-Type': 'multipart/form-data',
     'Authentication' : ''
 

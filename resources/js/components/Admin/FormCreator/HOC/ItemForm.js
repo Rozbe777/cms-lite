@@ -35,17 +35,14 @@ import {YesNoSetting} from "../components/Setting/YesNoSetting";
 
 const Item = (props) => {
 
+
     const [initialFormData, setInitialFormData] = useState({Options: [], Mandatory: false, title: ''});
     const [initialFormDataMultiSel, setInitialFormDataMultiSel] = useState({Options: [], Mandatory: false, title: ''});
 
+
     const {formTheme, setFormTheme} = useContext(FormTheme);
     // email state
-    const [initialFormDataEmail, setInitialFormDataEmail] = useState({
-        title: '',
-        description: '',
-        Mandatory: false,
-
-    });
+    const [initialFormDataEmail, setInitialFormDataEmail] = useState({});
 
     // textArea state
     const [initialFormDataTextarea, setInitialFormDataTextarea] = useState({
@@ -76,8 +73,8 @@ const Item = (props) => {
         title: '',
         description: '',
         Mandatory: false,
-        type : '',
-        fileSize : 0
+        type: '',
+        fileSize: 0
 
     });
 
@@ -110,6 +107,7 @@ const Item = (props) => {
 
     const setting_main_content = document.getElementById("setting_main_content");
 
+
     const HandleMini = () => {
         ReactDOM.render(<FormContextMini.Provider value={{
             initialFormDataMiniText,
@@ -123,15 +121,36 @@ const Item = (props) => {
             <InputMini/>
         </FormContextMini.Provider>
     }
-    const HandleEmail = () => {
+
+    console.log("....." , initialFormDataEmail)
+    const HandleEmail = (task) => {
+
+        // setInitialFormDataEmail({
+        //     ...initialFormDataEmail,
+        //     [task] : {
+        //         title: '',
+        //         description: '',
+        //         Mandatory: false,
+        //     }
+        // })
+
+        initialFormDataEmail[task] =  {
+                    title: '',
+                    description: '',
+                    Mandatory: false,
+                }
+
+
         ReactDOM.render(<FormContextEmail.Provider value={{
             initialFormDataEmail,
             setInitialFormDataEmail
-        }}><EmailSetting/></FormContextEmail.Provider>, setting_main_content);
+        }}><EmailSetting taskName={task}/></FormContextEmail.Provider>, setting_main_content);
+
+
         return <FormContextEmail.Provider value={{
             initialFormDataEmail,
             setInitialFormDataEmail
-        }}><Email/></FormContextEmail.Provider>
+        }}><Email taskName={task}/></FormContextEmail.Provider>
     }
     const HandleMobile = () => {
         ReactDOM.render(<FormContextMobile.Provider value={{
@@ -181,77 +200,77 @@ const Item = (props) => {
         ReactDOM.render(<FormContextTextArea.Provider value={{
             initialFormDataTextarea,
             setInitialFormDataTextarea
-        }}><TextAreaSetting />
+        }}><TextAreaSetting/>
         </FormContextTextArea.Provider>, setting_main_content);
         return <FormContextTextArea.Provider value={{
             initialFormDataTextarea,
             setInitialFormDataTextarea
-        }}><TextArea /></FormContextTextArea.Provider>
+        }}><TextArea/></FormContextTextArea.Provider>
     }
     const HandleUrl = () => {
         ReactDOM.render(<FormContextUrl.Provider value={{
-            initialFormDataUrl ,
+            initialFormDataUrl,
             setInitialFormDataUrl
-        }}><UrlSetting />
+        }}><UrlSetting/>
         </FormContextUrl.Provider>, setting_main_content);
         return <FormContextUrl.Provider value={{
-            initialFormDataUrl ,
+            initialFormDataUrl,
             setInitialFormDataUrl
-        }}><Url /></FormContextUrl.Provider>
+        }}><Url/></FormContextUrl.Provider>
     }
 
     const HandleYesNo = () => {
         ReactDOM.render(<FormContextYesNo.Provider value={{
             initialFormDataYesNo,
             setInitialFormDataYesNo
-        }}><YesNoSetting />
+        }}><YesNoSetting/>
         </FormContextYesNo.Provider>, setting_main_content);
         return <FormContextYesNo.Provider value={{
             initialFormDataYesNo,
             setInitialFormDataYesNo
-        }}><YesNo /></FormContextYesNo.Provider>
+        }}><YesNo/></FormContextYesNo.Provider>
     }
 
-    const HandleFormFile = () => {
-        ReactDOM.render(<FormContextFile.Provider value={{
-            initialFormDataFile,
-            setInitialFormDataFile
-        }}><ImageUploadedSetting />
-        </FormContextFile.Provider>, setting_main_content);
-        return <FormContextFile.Provider value={{
-            initialFormDataFile,
-            setInitialFormDataFile
-        }}><ImageUploaded /></FormContextFile.Provider>
-    }
+    // const HandleFormFile = () => {
+    //     ReactDOM.render(<FormContextFile.Provider value={{
+    //         initialFormDataFile,
+    //         setInitialFormDataFile
+    //     }}><ImageUploadedSetting/>
+    //     </FormContextFile.Provider>, setting_main_content);
+    //     return <FormContextFile.Provider value={{
+    //         initialFormDataFile,
+    //         setInitialFormDataFile
+    //     }}><ImageUploaded/></FormContextFile.Provider>
+    // }
 
     const HandleTask = (task) => {
-        switch (task.id) {
-            case 'input_1' :
+        switch (task.slice(0, 8)) {
+            case 'input_01' :
                 ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleMini();
-            case 'input_2' :
+            case 'input_02' :
                 ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
-                return HandleEmail();
-            case 'input_3' :
+                return HandleEmail(task);
+            case 'input_03' :
                 ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleOneSelected();
-            case 'input_4' :
+            case 'input_04' :
                 ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleMultiSelected();
-            case 'input_5':
+            case 'input_05':
                 ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleMobile();
-            case 'input_6' :
+            case 'input_06' :
                 ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleNumber();
-            case 'input_7' :
+            case 'input_07' :
                 ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleTextarea();
-            case 'input_9' :
+            case 'input_09' :
                 ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleUrl();
             case 'input_10' :
-                return <ImageUploaded />
+                return <ImageUploaded/>
             case 'input_12' :
                 ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleYesNo();
@@ -261,23 +280,22 @@ const Item = (props) => {
     }
 
     return (
-        <FormTheme.Provider value={{formTheme, setFormTheme}}>
-            <Draggable key={props.key} draggableId={props.task.id} index={props.index}>
-                {(provided, snapshot) => (
-                    <span
-                        className={"force"}
-                        id={props.task.size === "small" ? "element" : "elementBig"}
-                        ref={provided.innerRef}
-                        isDragging={snapshot.isDragging}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                    >
+        <Draggable key={props.index} draggableId={props.index} index={props.index}>
+            {(provided, snapshot) => (
+                <span
+                    className={"force"}
+                    // id={props.task.size === "small" ? "element" : "elementBig"}
+                    ref={provided.innerRef}
+                    isDragging={snapshot.isDragging}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                >
+
                     {HandleTask(props.task)}
                 </span>
-                )}
+            )}
 
-            </Draggable>
-        </FormTheme.Provider>
+        </Draggable>
 
     )
 }
