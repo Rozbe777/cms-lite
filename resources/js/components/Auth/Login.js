@@ -1,14 +1,12 @@
 import React, {Component, useEffect, useState} from "react";
 import ReactDOM from 'react-dom';
-import {csrf_token, error as ErrorToast, url, success , ErroHandle, info, warning, empty, redirect} from "../../helper";
+import {csrf_token, error as ErrorToast, url, success, ErroHandle, info, warning, empty, redirect} from "../../helper";
 import {Request} from './../../services/AuthService/Api'
 import MobileVerify from "./RePass/MobileVerify";
+import $ from 'jquery'
 import Loading from "./Loading";
 
 const LoginForm = ({token}) => {
-
-
-
 
 
     let elementLoading = document.getElementById("loading-show")
@@ -17,7 +15,9 @@ const LoginForm = ({token}) => {
 
     const RePassClick = (e) => {
         e.preventDefault();
-        ReactDOM.render(<Loading />, elementLoading);
+        console.log("click")
+        $("#loading-show").addClass("activeLoadingLogin");
+
         setTimeout(() => {
             ReactDOM.render(<MobileVerify token={token}/>, document.getElementById("login-form"))
         }, 400)
@@ -36,29 +36,28 @@ const LoginForm = ({token}) => {
         user.mobile = mobile;
         user.password = password;
 
-        if (mobile.length > 0 && password.length > 0){
-            if (patt.test(mobile)){
-                ReactDOM.render(<Loading/>, elementLoading);
-                console.log("dataaaa : " , user);
+        if (mobile.length > 0 && password.length > 0) {
+            if (patt.test(mobile)) {
+                $("#loading-show").addClass("activeLoadingLogin");
                 Request.Login(user)
                     .then(response => {
-                        ReactDOM.render('', elementLoading);
+                        $("#loading-show").removeClass("activeLoadingLogin");
                         success("در حال انتقال به داشبورد ...")
                         setTimeout(() => {
-                            // window.location.pathname = "/admin"
+                            window.location.pathname = "/dashboard"
                         }, 500)
                     }).catch(error => {
-                    ReactDOM.render('', elementLoading);
+                    $("#loading-show").removeClass("activeLoadingLogin");
                     if (error.response.data.errors) {
                         ErroHandle(error.response.data.errors)
                     } else {
                         ErrorToast("خطای غیر منتظره ای رخ داده است")
                     }
                 })
-            }else{
+            } else {
                 ErrorToast("شماره تلفن را به شکل صحیح وارد کنید");
             }
-        }else{
+        } else {
             ErrorToast("فیلد ها را پر کنید");
         }
 
@@ -117,7 +116,7 @@ const LoginForm = ({token}) => {
                                     <input type="checkbox" onChange={e => changeRemember(e)}
                                            className="form-check-input"
                                            name={"remember_me"}
-                                           id="exampleCheck1" />
+                                           id="exampleCheck1"/>
                                     <label className="checkboxsmall" htmlFor="exampleCheck1"><small>مرا
                                         به خاطر بسپار</small></label>
                                 </div>
@@ -142,11 +141,12 @@ const LoginForm = ({token}) => {
                         href={url('auth/register')}><small>ثبت نام کنید</small></a>
                     </div>
                 </div>
-            </div>
-
-            <div id={"loading-show"}>
 
             </div>
+            <div id={"loading-show"} style={{zIndex: 9999, visibility: 'hidden'}}>
+                <Loading/>
+            </div>
+
         </div>
     );
 
