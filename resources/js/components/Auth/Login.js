@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {csrf_token, error as ErrorToast, url, success, ErroHandle, info, warning, empty, redirect} from "../../helper";
 import {Request} from './../../services/AuthService/Api'
 import MobileVerify from "./RePass/MobileVerify";
+import $ from 'jquery'
 import Loading from "./Loading";
 
 const LoginForm = ({token}) => {
@@ -14,7 +15,10 @@ const LoginForm = ({token}) => {
 
     const RePassClick = (e) => {
         e.preventDefault();
-        ReactDOM.render(<Loading />, elementLoading);
+        console.log("click")
+        // ReactDOM.render(<Loading />, elementLoading);
+        $("#loading-show").addClass("activeLoadingLogin");
+
         setTimeout(() => {
             ReactDOM.render(<MobileVerify token={token}/>, document.getElementById("login-form"))
         }, 400)
@@ -35,16 +39,16 @@ const LoginForm = ({token}) => {
 
         if (mobile.length > 0 && password.length > 0) {
             if (patt.test(mobile)) {
-                ReactDOM.render(<Loading/>, elementLoading);
+                $("#loading-show").addClass("activeLoadingLogin");
                 Request.Login(user)
                     .then(response => {
-                        ReactDOM.render('', elementLoading);
+                        $("#loading-show").removeClass("activeLoadingLogin");
                         success("در حال انتقال به داشبورد ...")
                         setTimeout(() => {
                             window.location.pathname = "/dashboard"
                         }, 500)
                     }).catch(error => {
-                    ReactDOM.render('', elementLoading);
+                    $("#loading-show").removeClass("activeLoadingLogin");
                     if (error.response.data.errors) {
                         ErroHandle(error.response.data.errors)
                     } else {
@@ -138,11 +142,11 @@ const LoginForm = ({token}) => {
                         href={url('auth/register')}><small>ثبت نام کنید</small></a>
                     </div>
                 </div>
-                <div id={"loading-show"} style={{zIndex : 9999}}>
 
-                </div>
             </div>
-
+            <div id={"loading-show"} style={{zIndex: 9999, visibility: 'hidden'}}>
+                <Loading/>
+            </div>
 
         </div>
     );

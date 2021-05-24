@@ -2,6 +2,8 @@ import React, {useState, useEffect} from "react";
 import {error as ErrorToast, ErroHandle, success as SuccessToast} from './../../../helper';
 import {Request} from './../../../services/AuthService/Api'
 import './_shared/style.scss';
+import Loading from "../Loading";
+import $ from "jquery";
 
 const FinalDataRegister = ({token, id}) => {
     const [userData, setUserData] = useState({
@@ -54,13 +56,17 @@ const FinalDataRegister = ({token, id}) => {
                 ErrorToast("پسورد ها با هم یکسان نیستند")
             } else {
                 let time_toast = 300;
+
+                $("#loading-show").addClass("activeLoadingLogin");
                 Request.StoreUserInfo(userDataNew)
                     .then(response => {
+                        $("#loading-show").removeClass("activeLoadingLogin");
                         SuccessToast("اطلاعات شما با موفقیت ثبت شد. کمی صبر کنید...")
                         setTimeout(() => {
                             window.location.pathname = "/dashboard"
                         }, 600)
                     }).catch(error => {
+                    $("#loading-show").removeClass("activeLoadingLogin");
                     if (error.response.data.errors) {
                         ErroHandle(error.response.data.errors)
                     } else {
@@ -134,6 +140,9 @@ const FinalDataRegister = ({token, id}) => {
 
 
                 </div>
+            </div>
+            <div id={"loading-show"} style={{zIndex: 9999, visibility: 'hidden'}}>
+                <Loading/>
             </div>
         </div>
     )
