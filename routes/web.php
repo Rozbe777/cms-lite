@@ -77,7 +77,7 @@ Route::prefix('auth')->group(function () {
     });
 });
 
-Route::name('admin.')->middleware('login')->group(function () {
+Route::name('admin.')->middleware('auth')->group(function () {
 
     Route::get('/role',function (){
        echo "admin.role";
