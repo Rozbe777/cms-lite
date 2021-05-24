@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Classes\Responses\Auth\Responses;
+use App\Classes\Responses\Auth\ResponseTrait;
 use App\Http\Controllers\Auth\Traits\LoginUserTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    use ResponseTrait;
+
     protected $response;
     protected $userRepository;
 
@@ -36,17 +39,11 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials,$remember_me)) {
             $user = $this->userRepository->findByMobile($credentials['mobile']);
-
             Auth::login($user);
 
-            return str_contains(\Route::current()->uri, 'api') ?
-                $this->response->success("login successfully"):
-                redirect()->route('admin.dashboard.index');
+            return $this->view('admin.dashboard.index')->message(__("message.auth.login.successful"))->success();
         } else {
-            return str_contains(\Route::current()->uri, 'api') ?
-                $this->response->notSuccess('login failed',404):
-                redirect()->route('show.login');
-
+            return  $this->message(__("message.auth.login.failed"))->error(401);
         }
     }
 
