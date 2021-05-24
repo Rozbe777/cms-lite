@@ -137,6 +137,7 @@ span#sub-menu-custom {
     background: rgba(0,0,0,0.5);
     position: fixed;
     top : 0;
+    display: none;
     right: 0;
     z-index: 999999;
 }
@@ -154,4 +155,7 @@ span#sub-menu-custom {
         height: 100px;
         text-align: center;
     }
+}
+.fail-load{
+
 }
