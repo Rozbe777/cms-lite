@@ -180,3 +180,12 @@ span#sub-menu-custom {
 .activeLoadingLogin{
     visibility: visible !important;
 }
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link{
+    transition: unset !important;
+    transition: 0.3s all ease  !important;
+    webkit-transition: 0.3s all ease !important;
+    -moz-transition: 0.3s all ease !important;
+}
+.nav-custom a.active{
+    border-bottom: 3px solid #606CEC !important;
+}

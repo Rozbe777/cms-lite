@@ -9,6 +9,7 @@ import AddCategory from './../CategoryAdd';
 import PageAdd from './../../Page/PageAdd'
 import Loading from './../../_Micro/Loading'
 import $ from 'jquery';
+import {ErroHandle ,error as ErrorToast} from "../../../../helper";
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
 
@@ -18,6 +19,8 @@ export const CategoryList = () => {
     const [loading, setLoading] = useState(false);
     const [categoryData, setCategoryData] = useState({})
     const [pageData, setPageData] = useState({})
+
+
 
     const GetAllCategory = () => {
         setLoading(true)
@@ -29,14 +32,23 @@ export const CategoryList = () => {
             })
             .catch(err => {
                 if (err.response.data.errors){
-                    console.log("error" , err.response.data.errors)
+                    ErroHandle(err.response.data.errors);
                 }else{
-                    $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center'>خطا در ارتباط با دیتابیس</p><button class='btn btn'<div>");
-                    console.log("error loading")
+                    //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
+                    $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center ;margin : 10px 0 0 '>خطا در ارتباط با دیتابیس</p><p>مجددا تلاش کنید</p><div>");
+                    ErrorToast("خطا در ارتباط با دیتابیس")
                 }
 
             })
     }
+
+    // reload page after error in loading
+
+    function reloadpage(){
+        console.log("svdvsdv");
+        window.location.pathname = "/categories";
+    }
+
 
     const GetAllPages = () => {
         setLoading(true)
@@ -53,6 +65,10 @@ export const CategoryList = () => {
     useEffect(() => {
         GetAllCategory();
         GetAllPages();
+
+
+
+
         $(function () {
             $("#add-category-selected").click(() => {
                 $(".back-loader").fadeIn();

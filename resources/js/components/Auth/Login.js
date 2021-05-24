@@ -16,7 +16,6 @@ const LoginForm = ({token}) => {
     const RePassClick = (e) => {
         e.preventDefault();
         console.log("click")
-        // ReactDOM.render(<Loading />, elementLoading);
         $("#loading-show").addClass("activeLoadingLogin");
 
         setTimeout(() => {
