@@ -44,7 +44,7 @@ const PasswordSet = ({token}) => {
                         ReactDOM.render('', elementLoading);
                         success("پسورد با موفقیت تعویض شد! کمی صبر کنید ...");
                         setTimeout(() => {
-                            window.location.pathname = "/"
+                            window.location.pathname = "/dashboard"
                         }, 400)
                     }).catch(error => {
                     ReactDOM.render('', elementLoading);
@@ -56,11 +56,11 @@ const PasswordSet = ({token}) => {
 
                 })
             } else {
-                ErrorToast("پسورد ها با هم تطابق ندارند!");
+                ErrorToast("پسورد ها با هم تطابق ندارند");
             }
 
         } else {
-            ErrorToast("پسورد باید بیشتر از 4 رقم باشد!");
+            ErrorToast("پسورد باید بیشتر از 4 رقم باشد");
         }
 
 

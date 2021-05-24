@@ -44,7 +44,7 @@ const LoginForm = ({token}) => {
                         ReactDOM.render('', elementLoading);
                         success("در حال انتقال به داشبورد ...")
                         setTimeout(() => {
-                            // window.location.pathname = "/admin"
+                            window.location.pathname = "/dashboard"
                         }, 500)
                     }).catch(error => {
                     ReactDOM.render('', elementLoading);
@@ -144,7 +144,7 @@ const LoginForm = ({token}) => {
             </div>
 
             <div id={"loading-show"}>
-
+<Loading />
             </div>
         </div>
     );
