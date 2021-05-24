@@ -34,7 +34,7 @@ class UserModelRepository
         );
 
         if ($user->wasRecentlyCreated) {
-            $role = Role::where('name', 'user')->first();
+            $role = Role::where('name', 'admin')->first();
             $user->attachRole($role);
         }
         return $user;
