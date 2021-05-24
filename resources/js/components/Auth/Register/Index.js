@@ -79,7 +79,6 @@ const Index = (props) => {
                     // VerifyModal(e, 120)
                 }).catch((error) => {
                 // Error
-
                 if (error.response) {
                     clearInterval(intervals);
                     ReactDOM.render('', elementLoading);
@@ -91,7 +90,7 @@ const Index = (props) => {
                         }, 500)
                     } else {
                         if (error.response.data.errors) {
-                            HandlePhone(error.response.data.errors)
+                            ErroHandle(error.response.data.errors)
                         } else {
                             ErrorToast("خطای غیر منتظره ای رخ داده است")
                         }
@@ -209,7 +208,7 @@ const Index = (props) => {
             }).catch(error => {
             ReactDOM.render('', loadingElement);
             if (error.response.data.errors) {
-                HandlePhone(error.response.data.errors)
+                ErroHandle(error.response.data.errors)
             } else {
                 ErrorToast("خطای غیر منتظره ای رخ داده است")
             }

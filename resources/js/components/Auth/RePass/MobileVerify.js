@@ -75,7 +75,7 @@ const MobileVerify = (props) => {
                         }, 500)
                     } else {
                         if (error.response.data.errors) {
-                            HandlePhone(error.response.data.errors)
+                            ErroHandle(error.response.data.errors)
                         } else {
                             ErrorToast("خطای غیر منتظره ای رخ داده است")
                         }
@@ -151,7 +151,7 @@ const MobileVerify = (props) => {
             }).catch(error => {
             ReactDOM.render('', loadingElement);
             if (error.response.data.errors) {
-                HandlePhone(error.response.data.errors)
+                ErroHandle(error.response.data.errors)
             } else {
                 ErrorToast("خطای غیر منتظره ای رخ داده است")
             }

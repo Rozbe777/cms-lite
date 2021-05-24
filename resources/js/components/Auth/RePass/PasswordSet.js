@@ -49,7 +49,7 @@ const PasswordSet = ({token}) => {
                     }).catch(error => {
                     ReactDOM.render('', elementLoading);
                     if (error.response.data.errors) {
-                        HandlePhone(error.response.data.errors)
+                        ErroHandle(error.response.data.errors)
                     } else {
                         ErrorToast("خطای غیر منتظره ای رخ داده است")
                     }
