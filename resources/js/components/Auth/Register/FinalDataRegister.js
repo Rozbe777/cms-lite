@@ -26,6 +26,17 @@ const FinalDataRegister = ({token, id}) => {
         let passCon = $("input[name=password_confirmation]").val();
         // let passConfirm = userDataNew.password_confirmation;
 
+
+        if (userData.name === ""){
+            ErrorToast("فیلد نام خالی میباشد")
+            return;
+        }
+        if (userData.last_name === ""){
+            ErrorToast("فیلد نام خانوداگی خالی میباشد")
+            return;
+        }
+
+
         if(pass !== passCon){
             ErrorToast("پسورد ها با هم یکسان نیستند")
         } else{
@@ -34,7 +45,7 @@ const FinalDataRegister = ({token, id}) => {
                 .then(response => {
                     SuccessToast("اطلاعات شما با موفقیت ثبت شد. کمی صبر کنید...")
                     setTimeout(()=>{
-                        window.location.pathname = "/login"
+                        window.location.pathname = "/dashboard"
                     },600)
                 }).catch(error => {
                 if (error.response.data.errors) {

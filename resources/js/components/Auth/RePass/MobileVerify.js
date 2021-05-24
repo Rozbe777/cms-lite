@@ -135,7 +135,8 @@ const MobileVerify = (props) => {
         let code = parseInt(verifyCode.verifyCode);
         let data = {
             token: code,
-            _token: token
+            _token: token,
+            mobile : phone.mobile
         }
 
         ReactDOM.render(<Loading/>, loadingElement);

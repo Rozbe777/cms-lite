@@ -29,7 +29,7 @@ const Index = (props) => {
     let elementLoading = document.getElementById("loading-show")
 
     const [verifyCode, setVerifyCode] = useState({
-        verifyCode: ''
+        verifyCode : ''
     });
 
 
@@ -194,8 +194,6 @@ const Index = (props) => {
             mobile: phone.mobile
         }
 
-        console.log("token data : " , data)
-
         ReactDOM.render(<Loading/>, loadingElement);
         Request.VerifyCodeCheck(data)
             .then(response => {
@@ -228,33 +226,31 @@ const Index = (props) => {
 
     const verifyCodeGet = (e) => {
         e.preventDefault();
-        if (verifyCode.verifyCode.length < 4) {
+
+        if (verifyCode.verifyCode.length > 4) {
+
+        }else{
             setVerifyCode({
-                [e.target.name]: e.target.value
+                verifyCode : e.target.value
             })
         }
 
     }
 
     const checkButton = () => {
-        let numberReg = /^\d+$/;
-        if (verifyCode) {
-            if (numberReg.test(verifyCode.verifyCode)) {
-                if (verifyCode.verifyCode.length == 4) {
-                    return (
-                        <button className={"btn btn-primary"} style={{fontSize: '11px'}}
-                                onClick={e => checkCode(e)}>بررسی
-                            کد</button>
-                    )
-                } else {
-                    return '';
-                }
+
+        console.log("check button : " , verifyCode.verifyCode , verifyCode.verifyCode.length)
+        if (verifyCode.verifyCode){
+            if (verifyCode.verifyCode.length == 4) {
+                return (
+                    <button className={"btn btn-primary"} style={{fontSize: '11px'}}
+                            onClick={e => checkCode(e)}>بررسی
+                        کد</button>
+                )
             } else {
                 return '';
             }
-        } else {
-            ErrorToast("کد تایید کامل نیست")
-        }
+        }else{}
 
 
     }
@@ -262,9 +258,9 @@ const Index = (props) => {
     const closeModal = e => {
         e.preventDefault();
         clearInterval(intervals);
-
         $(".verifyForm").removeClass("active");
         setTimeout(() => {
+            $("input[name=verifyCode]").val('')
             $(".container-loader").fadeOut();
             // $("input[name=verifyCode]").val('');
         }, 500)

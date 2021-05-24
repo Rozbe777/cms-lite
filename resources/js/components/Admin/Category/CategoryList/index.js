@@ -31,7 +31,7 @@ export const CategoryList = () => {
                 if (err.response.data.errors){
                     console.log("error" , err.response.data.errors)
                 }else{
-                    $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center'>خطا در ارتباط با دیتابیس</p><div>");
+                    $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center'>خطا در ارتباط با دیتابیس</p><button class='btn btn'<div>");
                     console.log("error loading")
                 }
 
