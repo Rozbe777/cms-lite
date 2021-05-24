@@ -208,7 +208,11 @@ const Index = (props) => {
                 }
             }).catch(error => {
             ReactDOM.render('', loadingElement);
-            ErroHandle(error.response.data.errors)
+            if (error.response.data.errors) {
+                HandlePhone(error.response.data.errors)
+            } else {
+                ErrorToast("خطای غیر منتظره ای رخ داده است")
+            }
         })
     }
 

@@ -3,14 +3,13 @@ import ReactDOM from 'react-dom';
 import $ from "jquery";
 import './../Register/_shared/style.scss';
 import {Request} from "../../../services/AuthService/Api";
-import {error as ErrorToast, success as SuccessToast} from './../../../helper';
+import {error as ErrorToast,ErroHandle, success as SuccessToast} from './../../../helper';
 import PasswordSet from "./PasswordSet";
 import Loading from "../Loading";
 
 const MobileVerify = (props) => {
     useEffect(() => {
     }, [])
-
 
 
     var pattern = /0?9([0-9]{9})/;
@@ -65,7 +64,6 @@ const MobileVerify = (props) => {
                     // VerifyModal(e, 120)
                 }).catch((error) => {
                 // Error
-
                 if (error.response) {
                     clearInterval(intervals);
                     ReactDOM.render('', elementLoading);
@@ -76,13 +74,18 @@ const MobileVerify = (props) => {
                             $(".verifyForm").addClass("active");
                         }, 500)
                     } else {
-                        ErrorToast("شماره تلفن شما ثبت نام نیست")
+                        if (error.response.data.errors) {
+                            HandlePhone(error.response.data.errors)
+                        } else {
+                            ErrorToast("خطای غیر منتظره ای رخ داده است")
+                        }
+
                     }
 
                 } else if (error.request) {
 
                 } else {
-                    console.log('Error', error.message);
+
                 }
             });
         } else {
@@ -146,9 +149,11 @@ const MobileVerify = (props) => {
                     }, 600)
                 }
             }).catch(error => {
-            if (error.response.data.http_code == 404) {
-                ReactDOM.render('', loadingElement);
-                ErrorToast("کد را به صورت صحیح وارد کنید")
+            ReactDOM.render('', loadingElement);
+            if (error.response.data.errors) {
+                HandlePhone(error.response.data.errors)
+            } else {
+                ErrorToast("خطای غیر منتظره ای رخ داده است")
             }
         })
     }

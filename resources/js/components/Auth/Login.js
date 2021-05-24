@@ -1,6 +1,6 @@
 import React, {Component, useEffect, useState} from "react";
 import ReactDOM from 'react-dom';
-import {csrf_token, error as ErrorToast, url, success, info, warning, empty, redirect} from "../../helper";
+import {csrf_token, error as ErrorToast, url, success , ErroHandle, info, warning, empty, redirect} from "../../helper";
 import {Request} from './../../services/AuthService/Api'
 import MobileVerify from "./RePass/MobileVerify";
 import Loading from "./Loading";
@@ -47,12 +47,13 @@ const LoginForm = ({token}) => {
                         setTimeout(() => {
                             window.location.pathname = "/admin"
                         }, 500)
-                    }, error => {
-                        ReactDOM.render('', elementLoading);
-                        ErrorToast("اطلاعات ورود صحیح نمی باشد!");
                     }).catch(error => {
                     ReactDOM.render('', elementLoading);
-                    ErrorToast("اطلاعات ورود صحیح نمی باشد!");
+                    if (error.response.data.errors) {
+                        HandlePhone(error.response.data.errors)
+                    } else {
+                        ErrorToast("خطای غیر منتظره ای رخ داده است")
+                    }
                 })
             }else{
                 ErrorToast("شماره تلفن را به شکل صحیح وارد کنید");
