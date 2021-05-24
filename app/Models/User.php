@@ -16,10 +16,10 @@ use Shanmuga\LaravelEntrust\Traits\LaravelEntrustUserTrait;
  * @property string last_name
  * @property string email
  * @property string password
- * @property string phone
+ * @property string mobile
  * @property string status
  * @property string avatar
- * @property string phone_verified_at
+ * @property string mobile_verified_at
  * @property string registration_source
  * @property Carbon|null email_verified_at
  * @method static find(Integer $user_id)
@@ -85,7 +85,7 @@ class User extends Authenticatable
     public function getFullnameAttribute()
     {
         if (empty($this->attributes['name']) && empty($this->attributes['last_name'])) {
-            return $this->attributes['phone'];
+            return $this->attributes['mobile'];
         }
         return $this->attributes['name'] . ' ' . $this->attributes['last_name'];
     }

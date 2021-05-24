@@ -24,8 +24,8 @@ class MobileRequest extends FormRequest
     public function rules()
     {
         return [
-            'token'=> 'required_without:mobile',
-            'mobile' => 'required_without:token'
+            'token'=> 'required',
+            'mobile' => 'required|string|min:10|max:11'
         ];
     }
 }

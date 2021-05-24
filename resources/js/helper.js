@@ -73,3 +73,12 @@ export const info = (message) => {
     toastr.options = toastOptions;
     toastr.info(message);
 }
+
+export const ErroHandle = (err) => {
+    Object.values(err).map(errorItem => {
+        errorItem.map(errorMsg => {
+            error(errorMsg)
+        })
+    })
+
+}

@@ -4,7 +4,7 @@ import $ from "jquery";
 import './_shared/style.scss';
 import {Request} from "../../../services/AuthService/Api";
 import VerifyPhone from "./VerifyPhone";
-import {error as ErrorToast, success as SuccessToast} from './../../../helper';
+import {error as ErrorToast, success as SuccessToast, ErroHandle} from './../../../helper';
 import Loading from "../Loading";
 import FinalDataRegister from "./FinalDataRegister";
 
@@ -13,7 +13,7 @@ const Index = (props) => {
         $("input[name=verifyCode]").focus();
     }, [])
 
-    $(document).ready(function (){
+    $(document).ready(function () {
         $("input[name=verifyCode]").focus();
     })
 
@@ -29,10 +29,8 @@ const Index = (props) => {
     let elementLoading = document.getElementById("loading-show")
 
     const [verifyCode, setVerifyCode] = useState({
-        verifyCode : ''
+        verifyCode: ''
     });
-
-
 
 
     $(function () {
@@ -47,8 +45,6 @@ const Index = (props) => {
                 $(this).val($(this).data("old"));
         });
     });
-
-
 
 
     const HandlePhone = (e) => {
@@ -67,10 +63,10 @@ const Index = (props) => {
             ReactDOM.render(<Loading/>, elementLoading);
             Request.RegisterPhone(phones)
                 .then(response => {
-                    if( response.status == 201){
+                    if (response.status == 201) {
                         ReactDOM.render('', elementLoading);
                         ErrorToast("این شماره تلفن ثبت نام شده است ")
-                    }else{
+                    } else {
                         clearInterval(intervals);
                         Timer(e, 120)
                         ReactDOM.render('', elementLoading);
@@ -94,13 +90,18 @@ const Index = (props) => {
                             $(".verifyForm").addClass("active");
                         }, 500)
                     } else {
-                        ErrorToast("این شماره تلفن ثبت نام شده است . میتوانید بازگردانی پسورد بزنید")
+                        if (error.response.data.errors) {
+                            HandlePhone(error.response.data.errors)
+                        } else {
+                            ErrorToast("خطای غیر منتظره ای رخ داده است")
+                        }
+
                     }
 
                 } else if (error.request) {
 
                 } else {
-                    console.log('Error', error.message);
+
                 }
             });
         } else {
@@ -189,7 +190,8 @@ const Index = (props) => {
         let code = parseInt(verifyCode.verifyCode);
         let data = {
             token: code,
-            _token: token
+            _token: token,
+            mobile: phone.mobile
         }
 
         ReactDOM.render(<Loading/>, loadingElement);
@@ -205,10 +207,8 @@ const Index = (props) => {
                     }, 600)
                 }
             }).catch(error => {
-            if (error.response.data.http_code == 404) {
-                ReactDOM.render('', loadingElement);
-                ErrorToast("کد را به صورت صحیح وارد کنید")
-            }
+            ReactDOM.render('', loadingElement);
+            ErroHandle(error.response.data.errors)
         })
     }
 
@@ -222,7 +222,7 @@ const Index = (props) => {
 
     const verifyCodeGet = (e) => {
         e.preventDefault();
-        if (verifyCode.verifyCode.length < 4){
+        if (verifyCode.verifyCode.length < 4) {
             setVerifyCode({
                 [e.target.name]: e.target.value
             })
@@ -232,11 +232,12 @@ const Index = (props) => {
 
     const checkButton = () => {
         let numberReg = /^\d+$/;
-        if(verifyCode){
+        if (verifyCode) {
             if (numberReg.test(verifyCode.verifyCode)) {
                 if (verifyCode.verifyCode.length == 4) {
                     return (
-                        <button className={"btn btn-primary"} style={{fontSize: '11px'}} onClick={e => checkCode(e)}>بررسی
+                        <button className={"btn btn-primary"} style={{fontSize: '11px'}}
+                                onClick={e => checkCode(e)}>بررسی
                             کد</button>
                     )
                 } else {
@@ -245,7 +246,7 @@ const Index = (props) => {
             } else {
                 return '';
             }
-        }else{
+        } else {
             ErrorToast("کد تایید کامل نیست")
         }
 
@@ -324,7 +325,8 @@ const Index = (props) => {
                                 <p>کد تایید را وارد کنید</p>
 
 
-                                <div className={"col-12"} style={{display : 'flex' , alignItem : 'center' , justifyContent : 'center'}}>
+                                <div className={"col-12"}
+                                     style={{display: 'flex', alignItem: 'center', justifyContent: 'center'}}>
                                     <div className={"verify-code-check"}>
                                         <input type={"number"}
                                                className={"form-control " + isInvalid == true ? "is-invalid" : ""}
