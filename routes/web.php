@@ -77,12 +77,14 @@ Route::prefix('auth')->group(function () {
     });
 });
 
+
+
 Route::name('admin.')->middleware('auth')->group(function () {
 
     Route::get('/role',function (){
        echo "admin.role";
     })->name('role');
-Route::get('/dashboard',[DashboardController::class,'index'])->name('admin.dashboard.index');
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('admin.dashboard.index');
     //----------------------------Contents---------------------------
     Route::get('contents/search', [ContentController::class, 'search'])->name('contents.search');
     Route::resource('contents', ContentController::class);
