@@ -82,8 +82,9 @@ const Index = (props) => {
                 if (error.response) {
                     clearInterval(intervals);
                     ReactDOM.render('', elementLoading);
-                    if (error.response.data.data) {
-                        Timer(e, error.response.data.data)
+                    var pattern = /[0-9]/;
+                    if (pattern.test(error.response.data.errors.data[0])) {
+                        Timer(e, error.response.data.errors.data[0])
                         $(".container-loader").fadeIn();
                         setTimeout(() => {
                             $(".verifyForm").addClass("active");
@@ -94,8 +95,8 @@ const Index = (props) => {
                         } else {
                             ErrorToast("خطای غیر منتظره ای رخ داده است")
                         }
-
                     }
+
 
                 } else if (error.request) {
 
@@ -192,6 +193,8 @@ const Index = (props) => {
             _token: token,
             mobile: phone.mobile
         }
+
+        console.log("token data : " , data)
 
         ReactDOM.render(<Loading/>, loadingElement);
         Request.VerifyCodeCheck(data)

@@ -45,7 +45,7 @@ const LoginForm = ({token}) => {
                         ReactDOM.render('', elementLoading);
                         success("در حال انتقال به داشبورد ...")
                         setTimeout(() => {
-                            window.location.pathname = "/admin"
+                            // window.location.pathname = "/admin"
                         }, 500)
                     }).catch(error => {
                     ReactDOM.render('', elementLoading);

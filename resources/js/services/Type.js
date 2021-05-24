@@ -11,6 +11,7 @@ export const REQUEST_URL = `${BASE_URL}${VERSION}`;
 export const TIMEOUT = 60000;
 import $ from 'jquery'
 
+console.log("scrf : " , $('meta[name="csrf-token"]').attr('content'));
 
 export const REQUEST_HEADER_TOKEN = {
     'Access-Control-Allow-Origin': '*',
