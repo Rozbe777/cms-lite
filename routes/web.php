@@ -52,6 +52,7 @@ Route::get('/react/register', function () {
 Route::get('csrf', function () {
     echo csrf_token();
 });
+
 //-----------------------Mehrshad Start----------------------
 
 Route::get('/login', [LoginController::class, 'show'])->name('show.login');
@@ -76,7 +77,7 @@ Route::prefix('auth')->group(function () {
     });
 });
 
-Route::name('admin.')->group(function () {
+Route::name('admin.')->middleware('login')->group(function () {
 
     Route::get('/role',function (){
        echo "admin.role";

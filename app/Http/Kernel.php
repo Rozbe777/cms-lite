@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\BlockLoginMiddleware;
+use App\Http\Middleware\LoginMiddleware;
 use App\Http\Middleware\UserPermission;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -65,5 +67,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'user_permission' => UserPermission::class,
+        'login' => LoginMiddleware::class,
+        'blockLogin' => BlockLoginMiddleware::class,
     ];
 }
