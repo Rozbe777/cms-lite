@@ -6,7 +6,7 @@ use App\Models\Content;
 
 class ContentSearchHelper
 {
-    private $owner = null;
+    private $owner = 'content';
     private $comment_status = null;
     private $status = null;
     private $search = null;
@@ -31,26 +31,36 @@ class ContentSearchHelper
 
     public function searchContents()
     {
-        $content = Content::where('title', 'like', '%' . $this->search . '%')
-            ->orWhere('slug', 'like', '%' . $this->search . '%')
-            ->orWhere('content', 'like', '%' . $this->search . '%')->paginate(12);
 
-        $data = $content->filter(function ($item,$key){
-            if ($this->owner){
+
+        $contents = Content::where(function ($query) {
+            return $query->where('title', 'like', '%' . $this->search . '%')->orWhere('slug', 'like', '%' . $this->search . '%')
+                ->orWhere('content', 'like', '%' . $this->search . '%');
+        })->whereOwner($this->owner)
+            ->whereStatus($this->status)
+            ->paginate(12);
+
+
+        $data = $content->filter(function ($item, $key) {
+            if ($this->owner) {
                 return data_get($item, 'owner') == $this->owner;
-            }else{
+            } else {
                 return $item;
             }
-        })->filter(function ($item){
-            if ($this->comment_status){
+
+
+        })->filter(function ($item) {
+
+            if ($this->comment_status) {
                 return data_get($item, 'comment_status') == $this->comment_status;
-            }else{
+            } else {
                 return $item;
             }
-        })->filter(function ($item){
-            if ($this->status){
+
+        })->filter(function ($item) {
+            if ($this->status) {
                 return data_get($item, 'status') == $this->status;
-            }else{
+            } else {
                 return $item;
             }
         });

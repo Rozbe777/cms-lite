@@ -104,6 +104,11 @@ Route::name('admin.')->middleware('auth')->group(function () {
     Route::get('pages/search', [PageController::class, 'search'])->name('pages.search');
     Route::resource('pages', PageController::class);
     Route::delete('pages/multi/destroy', [PageController::class, 'multipleDestroy'])->name('pages.multipleDestroy');
+
+    //------------------------------User----------------------------
+    Route::get('users/search', [UserController::class, 'search'])->name('users.search');
+    Route::resource('users', UserController::class);
+    Route::delete('users/multi/destroy', [UserController::class, 'multipleDestroy'])->name('users.multipleDestroy');
 });
 
 //-----------------------Mehrshad End----------------------

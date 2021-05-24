@@ -2,136 +2,139 @@
 
 namespace App\Http\Controllers\Admin\User;
 
-use App\Exports\UserListExport;
+use App\Classes\Responses\Admin\Responses;
 use App\Http\Controllers\Admin\User\Helper\UserSearchHelper;
-use App\Http\Controllers\Admin\User\Traits\EditUserTrait;
-use App\Http\Controllers\Auth\Traits\CreateUserTrait;
-use App\Http\Requests\Admin\User\multipleDestroyRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\CreateUserRequest;
 use App\Http\Requests\Admin\User\EditUserRequest;
+use App\Http\Requests\Admin\User\multipleDestroyRequest;
 use App\Http\Requests\Admin\User\SearchUserRequest;
-use App\Jobs\ExportUsersExcelJob;
-use App\Models\Role;
 use App\Models\User;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Auth;
-use Maatwebsite\Excel\Facades\Excel;
-
+use App\Repositories\UserRepository;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
-    use CreateUserTrait;
-    use EditUserTrait;
 
+    protected $userRepository;
+    protected $responses;
+
+    public function __construct(UserRepository $userRepository, Responses $responses)
+    {
+        $this->userRepository = $userRepository;
+        $this->responses = $responses;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return View|JsonResponse
+     */
+    public function index()
+    {
+        $user = $this->userRepository->all();
+
+        return (is_array($user)) ?
+            $this->responses->notSuccess(500, $user) :
+            $this->responses->success($user, "content.index");
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return View
+     */
+    public function create(): View
+    {
+        return adminView("pages.admin.user.create");
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param CreateUserRequest $request
+     * @return Factory|JsonResponse|View
+     */
     public function store(CreateUserRequest $request)
     {
-        $user = $this->CreateUser(
-            [
-                'name' => $request->input('name'),
-                'last_name' => $request->input('last_name'),
-                'phone' => $request->input('phone'),
-                'email' => $request->input('email'),
-                'password' => $request->input('password'),
-                'registration_source' => $request->input('registration_source', 'web'),
-                'status' => $request->input('status'),
+        $user = $this->userRepository->create($request->all());
 
-
-            ]
-        );
-        $user->roles()->attach($request->input('role_id'));
-
-        return success([], 'کاربر جدید ایجاد شد.');
-
-
+        return $this->responses->success($user, "content.show");
     }
 
-    public function create()
+    /**
+     * Display the specified resource.
+     *
+     * @param User $user
+     * @return Factory|JsonResponse|View
+     */
+    public function show(User $user)
     {
-        $roles = Role::all();
-        return adminView("pages.admin.user.create")->with("roles", $roles);
+        return $this->responses->success($user, "user.show");
     }
 
-    public function edit($userId)
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param User $user
+     * @return View
+     */
+    public function edit(User $user): View
     {
-        $user = User::findOrFail($userId);
-        $roles = Role::all();
-        return adminView("pages.admin.user.edit")->with("user", $user)->with("roles", $roles);
+        return adminView("pages.admin.content.edit", compact('user'));
     }
 
-    public function destroy($id)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param EditUserRequest $request
+     * @param User $user
+     * @return JsonResponse|View
+     */
+    public function update(EditUserRequest $request, User $user)
     {
-        User::findOrFail($id)->delete();
-        return redirect(route("admin.user.index"))->with("info", "عملیات حذف کاربر موفقیت انجام شد");
+        $user = $this->userRepository->update($request->all(), $user);
+
+        return $this->responses->success($user, "user.edit");
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param User $user
+     * @return RedirectResponse
+     */
+    public function destroy(User $user)
+    {
+        $this->userRepository->delete($user);
+
+        return redirect()->back()->with('success', __('message.content.destroy.successful'));
+    }
+
+    /**
+     * @param multipleDestroyRequest $request
+     * @return JsonResponse|RedirectResponse
+     */
     public function multipleDestroy(multipleDestroyRequest $request)
     {
-        if (isset($request->userIds))
-            User::whereIn('id', $request->input('userIds'))->delete();
+        $content = $this->userRepository->multipleDestroy($request);
 
-        return redirect(route("admin.user.index"))->with('info', 'کاربران انتخاب شده حذف شدند');
-
-    }
-
-
-    public function update(EditUserRequest $request, $userId)
-    {
-        $user = $this->EditUser([
-            'name' => $request->name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => $request->password,
-            'status' => $request->status,
-            'user_id' => $userId
-
-        ]);
-        if (Auth::user()->roles()->first()->name == "admin") {
-            $user->roles()->sync($request->input('role'));
-        }
-
-        return redirect(route("admin.user.edit", $userId))->with("info", "عملیات ویرایش کاربر با موفقیت انجام شد");
-
-
+        return (is_array($content)) ?
+            $this->responses->notSuccess(500, $content) :
+            redirect()->back()->with('success', __('message.content.destroy.successful'));
     }
 
     public function search(SearchUserRequest $request)
     {
-        $searchHelper = new UserSearchHelper($request);
-        $users = $searchHelper->searchAndRoleUsers();
-        $users = $searchHelper->confirmedUsers($users);
-        $users = $searchHelper->statusUsers($users);
-        return adminView("pages.admin.user.index")->with('users', $users);
+        $user = (new UserSearchHelper($request))->searchUser();
 
+        return (!$user) ?
+            redirect()->back()->with('error', __('message.content.search.notSuccess')) :
+            $this->responses->success($user, "content.index");
     }
-
-    public function index()
-    {
-
-        return adminView("pages.admin.user.index");
-
-    }
-
-    public function userList()
-    {
-        $users = User::paginate(12);//TODO paginate can change
-        return $users;
-    }
-
-    public function export()
-    {
-        $users = User::all();
-        $fileName = "users.xlsx";
-
-
-        $file = new Filesystem;
-        $file->cleanDirectory(storage_path('framework/laravel-excel'));
-        $exel = Excel::download(new UserListExport($users), $fileName);
-//        $userList=new ExportUsersExcelJob($users);
-        return $exel;
-//        return redirect(route('admin.user.index'));
-    }
-
-
 }

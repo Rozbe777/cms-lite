@@ -15,54 +15,39 @@ class UserSearchHelper
 
     public function __construct($request)
     {
-
-        if (isset($request->confirmed))
-            $this->confirmed = $request->confirmed;
+        /** Initialization search parameters */
         if (isset($request->role))
             $this->role = $request->role;
         if (isset($request->status))
             $this->status = $request->status;
         if (isset($request->search))
             $this->search = $request->search;
-
     }
 
-    public function searchAndRoleUsers()
+    public function searchUser()
     {
-        if (!($this->role === null)) {
-            return Role::where('name', $this->role)->first()->users()->where('name', 'like', '%' . $this->search . '%')
-                ->orWhere('last_name', 'like', '%' . $this->search . '%')
-                ->orWhere('email', 'like', '%' . $this->search . '%')
-                ->orWhere('phone', 'like', '%' . $this->search . '%')->paginate(12);
-        }
-
-        return User::where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('last_name', 'like', '%' . $this->search . '%')
+        $user = User::where('last_name', 'like', '%' . $this->search . '%')
+            ->orWhere('name', 'like', '%' . $this->search . '%')
             ->orWhere('email', 'like', '%' . $this->search . '%')
-            ->orWhere('phone', 'like', '%' . $this->search . '%')->paginate(12);
+            ->orWhere('phone', 'like', '%' . $this->search . '%')
+            ->with()
+            ->paginate(config('view.pagination'));
 
-    }
+        $data = $user->filter(function ($item,$key){
+            if ($this->role){
+                return data_get($item, 'role') == $this->role;
+            }else{
+                return $item;
+            }
+        })->filter(function ($item){
+            if ($this->status){
+                return data_get($item, 'status') == $this->status;
+            }else{
+                return $item;
+            }
+        });
 
-    public function confirmedUsers($users)
-    {
-        if (!($this->confirmed === null)) {
-            if ($this->confirmed == 1)
-                $users = $users->whereNotNull('email_verified_at');
-
-            $users = $users->whereNull('email_verified_at');
-
-        }
-
-        return $users;
-
-    }
-
-    public function statusUsers($users)
-    {
-        if (!($this->status === null))
-            $users = $users->where('status', $this->status);
-
-        return $users;
+        return $data;
     }
 
 
