@@ -55,9 +55,10 @@ trait ResponseTrait
         if ($this->isAxios()) {
             return
                 response()->json([
-                    "http_code" => $status,
                     "message" => $this->message,
-                    "data" => $this->data
+                    "errors" => [
+                        'data' => [$this->data],
+                    ],
                 ],$status);
         } else {
             return adminView($this->view);
