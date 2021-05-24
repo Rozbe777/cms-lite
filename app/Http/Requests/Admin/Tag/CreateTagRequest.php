@@ -25,6 +25,7 @@ class CreateTagRequest extends BaseRequest
     {
         return [
             'name' => 'required|string|max:255|unique:tags,name',
+            'category_list'=>'nullable|array'
         ];
     }
 }

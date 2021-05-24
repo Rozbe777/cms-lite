@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Morilog\Jalali\Jalalian;
 
 /**
@@ -27,43 +28,34 @@ use Morilog\Jalali\Jalalian;
 
 class Content extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $fillable = [
-        "owner",
-        "title",
-        "slug",
-        "content",
-        "fields",
-        "status",
-        "user_id",
-        "layout_id",
-        "view_count",
-        "image",
-        "comment_status",
-        "weight",
-        "is_index",
-        "is_menu",
-        "metadata"
-    ];
+    protected $guarded=[];
 //    protected $appends = ['short_content', "real_url", "edit_url", "rate", "widget_delete_url", "text_content", 'category_name', 'jalali_created_at', 'active_comment', 'normal_fields'];
-
-
-
 
     public function categories()
     {
-        return $this->hasMany(Category::class);
+        return $this->belongsToMany(Category::class,'category_content', 'content_id', 'category_id');
     }
 
     public function tags()
     {
-        return $this->hasMany(Tag::class);
+        return $this->belongsToMany(Tag::class,'content_tag', 'content_id', 'tag_id');
     }
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function pages()
+    {
+        return $this->belongsTo(Page::class);
+    }
+
+    public function viewCounts()
+    {
+        return $this->morphOne(ViewCount::class,'viewcountable');
     }
 
     function scopeActive($query)

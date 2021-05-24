@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\Tag\TagController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\MobileRegisterController;
+use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,24 +49,75 @@ Route::get('/react/register', function () {
     return redirect(\route('auth.register'));
 });*/
 
+Route::get('csrf', function () {
+    echo csrf_token();
+});
 
-Route::get('/login', function () {
-    return redirect()->route('auth.login');
-});
-Route::get('/register', function () {
-    return redirect()->route('auth.register');
-});
-Route::group(['as' => 'auth.', 'prefix' => 'auth', 'namespace' => 'Auth', 'name' => 'auth.'], function () {
-    Route::get('/register', [RegisterController::class, 'register'])->name('register');
-    Route::get('/login', [LoginController::class, 'show'])->name('login');
-    Route::post('/login', [LoginController::class, 'login'])->name('login');
-    Route::post('/store', [RegisterController::class, 'store'])->name('store');
-    Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+//-----------------------Mehrshad Start----------------------
 
+Route::get('/login', [LoginController::class, 'show'])->name('show.login');
+Route::post('auth/login', [LoginController::class, 'login'])->name('auth.login');
+Route::get('logout', [LoginController::class, 'logout'])->name('auth.logout');
+
+Route::prefix('mobile')->group(function () {
+    Route::get('/register', [MobileRegisterController::class, 'show'])->name('show.mobile.form');
+    Route::post('/register', [MobileRegisterController::class, 'register'])->name('mobile.register');
+    Route::get('/token', [MobileRegisterController::class, 'verificationForm'])->name('show.verification');
+    Route::post('/token', [MobileRegisterController::class, 'checkMobile'])->name('check.verification');
 });
+
+Route::prefix('auth')->group(function () {
+    Route::get('/register', [RegisterController::class, 'show'])->name('show.register');
+    Route::post('/register', [RegisterController::class, 'store'])->name('auth.store');
+    Route::prefix('/password')->group(function () {
+        Route::get('/token', [PasswordController::class, 'show'])->name('show.password.token');
+        Route::post('/token', [PasswordController::class, 'passwordToken'])->name('auth.password.token');
+        Route::get('/recovery', [PasswordController::class, 'passwordRecoveryForm'])->name('auth.password.recovery');
+        Route::post('/recovery', [PasswordController::class, 'passwordRecovery'])->name('auth.password.recovery');
+    });
+});
+
+Route::name('admin.')->middleware('login')->group(function () {
+
+    Route::get('/role',function (){
+       echo "admin.role";
+    })->name('role');
+Route::get('/dashboard',[DashboardController::class,'index'])->name('admin.dashboard.index');
+    //----------------------------Contents---------------------------
+    Route::get('contents/search', [ContentController::class, 'search'])->name('contents.search');
+    Route::resource('contents', ContentController::class);
+    Route::delete('contents/multi/destroy', [ContentController::class, 'multipleDestroy'])->name('contents.multipleDestroy');
+
+    //---------------------------Categories--------------------------
+    Route::get('categories/search', [CategoryController::class, 'search'])->name('categories.search');
+    Route::resource('categories', CategoryController::class);
+    Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy'])->name('categories.multipleDestroy');
+
+    //------------------------------Tags-----------------------------
+    Route::get('tags/search', [TagController::class, 'search'])->name('tags.search');
+    Route::resource('tags', TagController::class);
+    Route::delete('tags/multi/destroy', [TagController::class, 'multipleDestroy'])->name('tags.multipleDestroy');
+
+    //------------------------------Pages----------------------------
+    Route::get('pages/search', [PageController::class, 'search'])->name('pages.search');
+    Route::resource('pages', PageController::class);
+    Route::delete('pages/multi/destroy', [PageController::class, 'multipleDestroy'])->name('pages.multipleDestroy');
+});
+
+//-----------------------Mehrshad End----------------------
+
+
 Route::get('admin', function () {
     return redirect()->route('admin.dashboard.index');
 });
+
+
+
+
+
+
+
+
 Route::group(['middleware' => 'user_permission'], function () {
 
     Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'name' => 'admin.', 'middleware' => 'auth'], function () {
@@ -142,7 +195,6 @@ Route::group(['middleware' => 'user_permission'], function () {
 
 
         });
-
         Route::group(['as' => 'content.', 'prefix' => 'content', 'namespace' => 'Content', 'name' => 'content.'], function () {
 
             Route::get('/', [ContentController::class, 'index'])->name('index');
@@ -169,8 +221,6 @@ Route::group(['middleware' => 'user_permission'], function () {
             Route::get('/{pageId}/destroy', [PageController::class, 'destroy'])->name('destroy');
             Route::get('/search', [PageController::class, 'search'])->name('search');
             Route::post('/destroys', [PageController::class, 'multipleDestroy'])->name('multipleDestroy');
-
-
         });
 
         Route::group(['as' => 'layout.', 'prefix' => 'layout', 'namespace' => 'Layout', 'name' => 'layout.'], function () {

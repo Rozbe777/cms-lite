@@ -1,0 +1,1 @@
+export const ONE_OPTION_DATA = "ONE_OPTION_DATA";

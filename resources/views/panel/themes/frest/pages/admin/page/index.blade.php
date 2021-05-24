@@ -2,7 +2,9 @@
 @php($title = "صفحه")
 @section("content")
 
-
+    <div class="container">
+        vsdv
+    </div>
 
 @endsection
 

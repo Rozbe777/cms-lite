@@ -24,8 +24,7 @@ class multipleDestroyRequest extends BaseRequest
     public function rules()
     {
         return [
-            'pageIds'=>'required'
-
+            'pageIds'=>'required|array'
         ];
     }
 }

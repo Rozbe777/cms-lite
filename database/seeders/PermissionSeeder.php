@@ -61,30 +61,30 @@ class PermissionSeeder extends Seeder
                     ],
                 ]
             ],
-            'admin.content' => [
+            'admin.contents' => [
                 'display_name' => 'محتوا',
                 'description' => 'نمایش و ویرایش محتوا',
-                'access' => 'i,c,s,e,u,des,search,multides,l',
+                'access' => 'sh,i,c,s,e,u,des,search,multides',
                 'is_menu' => 'i,c',
                 'children' => [
-                    'admin.category' => [
+                    'admin.categories' => [
                         'display_name' => 'دسته بندی',
                         'description' => 'نمایش و ویرایش دسته بندی',
-                        'access' => 'i,c,s,e,u,des,search,multides,l',
+                        'access' => 'sh,i,c,s,e,u,des,search,multides',
                         'is_menu' => 'i,c',
                     ],
-                    'admin.tag' => [
+                    'admin.tags' => [
                         'display_name' => 'برچسب',
                         'description' => 'نمایش و ویرایش برچسب',
-                        'access' => 'i,c,s,e,u,des,search,multides,l',
+                        'access' => 'i,sh,c,s,e,u,des,search,multides',
                         'is_menu' => 'i,c',
                     ],
                 ]
             ],
-            'admin.page' => [
+            'admin.pages' => [
                 'display_name' => 'محتوا',
                 'description' => 'نمایش و ویرایش محتوا',
-                'access' => 'i,c,s,e,u,des,search,multides,l',
+                'access' => 'i,c,s,e,u,des,sh,search,multides',
                 'is_menu' => 'i,c',
                 'children' => [
 

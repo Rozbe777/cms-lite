@@ -1,0 +1,124 @@
+@media screen and (max-width: 600px) {
+    #shop_product_search {
+        visibility: hidden;
+        clear: both;
+        display: none;
+    }
+
+    .bottom-tab-navigator{
+        display: block;
+    }
+    #breadCrumb{
+        display: none;
+    }
+    #headerContent{
+        display: none;
+    }
+    li.nav-item i{
+        display: block;
+        visibility: visible;
+    }
+    #theme-item{
+        width: 25% !important;
+    }
+
+    .header-form-option button{
+        font-size: 10px !important;
+    }
+
+    .force{
+        padding:0px;
+        width: 100% !important;
+        height: auto;
+    }
+
+    // TODO check shavad ke id new behesh ezafe beshe
+    //li.nav-item span{
+    //    //display: none;
+    //    //visibility: hidden;
+    //}
+    .float-btn{
+        display: block !important;
+        visibility: visible !important;
+    }
+    .content-header {
+        visibility: hidden;
+        clear: both;
+        display: none;
+    }
+    .optionBox{
+        top : unset !important;
+        bottom: 55px;
+        z-index: -1;
+
+    }
+    .optionBox#selectedFilter{
+        visibility: hidden;
+        &.active{
+            visibility: visible;
+        }
+    }
+    .optionBox#options{
+        visibility: hidden;
+        &.active{
+            visibility: visible;
+        }
+    }
+    #actionGroup.actived {
+        p {
+            text-align: center;
+            height: 55px;
+            line-height: 4.3;
+        }
+        padding: 0px !important;
+        height: 110px !important;
+    }
+    #action-btn {
+        padding: 0px !important;
+
+        .col-3 {
+            visibility: hidden;
+            clear: both;
+            display: none;
+        }
+    }
+    #mini-click-icons {
+        visibility: visible;
+        display: block;
+
+    }
+
+}
+
+@media screen and (max-width: 1024px) {
+    #shop_product_search {
+        height: 210px;
+    }
+
+    a.more-details{
+        visibility: visible !important;
+        display: block !important;
+    }
+
+    //.float-btn{
+    //    display: block !important;
+    //    visibility: visible !important;
+    //}
+
+    .users-list-filter{
+        height: 100%;
+    }
+    #actionGroup.actived {
+        p {
+            text-align: center;
+            height: 55px;
+            line-height: 4.3;
+        }
+        height: 130px !important;
+        padding: 0px 30px 0px 0px;
+    }
+}
+
+@media screen and (max-width: 1600px) {
+}
+

@@ -26,18 +26,17 @@ class CreateCategoryRequest extends BaseRequest
         return [
             'name' => 'required|string|max:255|unique:categories,name',
             'slug' => 'required|string|max:255|unique:categories,slug',
-
-          //  'image' => 'required|image',
-            'content' => '',
-            'fields' => '',
+            'image' => 'image|nullable',
+            'content' => 'string',
+            'fields' => 'string',
             //'parent_id' => 'exists:categories,id',
             //'layout_id' => '',//not using now FIXME after insert layout and module
             //'module_id' => '',
             'status' => 'required|string|in:active,deactivate',
-            'is_menu' => 'boolean',
+            'is_menu' => 'boolean|nullable',
+            'is_index' => 'integer|nullable',
             'tag_list' => 'array',
-            'tag_list.*' => 'string',
-            'metadata' => ''
+            'metadata' => 'string'
         ];
     }
 }

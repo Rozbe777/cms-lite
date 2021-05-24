@@ -19,14 +19,15 @@ class CreateCategoriesTable extends Migration
             $table->string('slug', 255);
             $table->string('image', 255)->nullable();
             $table->longText('content')->nullable();
-            $table->longText('metadata');
+            $table->longText('metadata')->nullable();
             $table->longText('fields')->nullable();
             $table->integer('parent_id')->default(0);
             $table->bigInteger('layout_id')->unsigned()->default(0);
             $table->bigInteger('module_id')->default(1);
-            $table->enum('status', ['active', 'deactivate'])->default('deactivate');
+            $table->enum('status', ['active', 'deactivate'])->default('active');
             $table->integer('is_menu')->default(0);
             $table->integer('is_index')->default(0);
+            $table->bigInteger('user_id')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

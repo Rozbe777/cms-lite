@@ -2,19 +2,28 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Classes\Responses\Auth\Responses;
+use App\Classes\Responses\Auth\ResponseTrait;
 use App\Http\Controllers\Auth\Traits\LoginUserTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Repositories\Auth\UserModelRepository;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    use LoginUserTrait;
+    use ResponseTrait;
 
+    protected $response;
+    protected $userRepository;
 
-    public function __construct()
+    public function __construct(Responses $response, UserModelRepository $userRepository)
     {
-        $this->middleware('guest');
+        $this->response = $response;
+        $this->userRepository = $userRepository;
+        $this->middleware('blockLogin')->except('logout');
     }
 
     public function show()
@@ -24,29 +33,27 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request)
     {
+        $remember_me = (!empty($request->remember_me)) ? true : false;
 
-        $fetch = request()->input('fetch', false);
-        if (!$this->userExistsWithUsername($request->username))
-            return $fetch ? response(error('نام کاربری یا رمز عبور اشتباه است'), 404) : redirect()->back()->with('msg', 'نام کاربری اشتباه است');
+        /** $credentials if user email exists */
+        $credentials = ['mobile'=>mobile($request->mobile), 'password'=>$request->password];
 
-        if ($this->loginUser($request->username, $request->password)) {
-            $user = Auth::user();
+        if (Auth::attempt($credentials,$remember_me)) {
+            $user = $this->userRepository->findByMobile($credentials['mobile']);
+            Auth::login($user);
+
+            return $this->view('pages.dashboard.index')->message(__("message.auth.login.successful"))->success();
         } else {
-            return $fetch ? response(error('نام کاربری یا رمز عبور اشتباه است'), 404) : redirect()->back()->with('msg', 'نام کاربری یا رمز عبور اشتباه است');
-        }
-
-
-        if ($user->status == 'active') {
-            // $token = $user->createToken('authToken')->accessToken;
-            return $fetch ? success([
-                'redirect_url' => config('user.login.redirectUrl'),
-                'user' => $user,
-            ], 'شما با موفقیت وارد شدید') : redirect(config('user.login.redirectUrl'))->with('user', $user);
-        } else {
-            Auth::logout();
-            return $fetch ? response(error('حساب شما غیرفعال شده است!'), 404) : redirect()->back()->with('msg', 'حساب شما غیرفعال شده است!');
+            return  $this->message(__("message.auth.login.failed"))->error(401);
         }
     }
 
+    public function logout()
+    {
+        Auth::logout();
 
+        return str_contains(\Route::current()->uri, 'api') ?
+             $this->response->success("logOut successfully"):
+             adminView("pages.auth.login");
+    }
 }

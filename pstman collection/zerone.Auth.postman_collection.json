@@ -1,0 +1,654 @@
+{
+	"info": {
+		"_postman_id": "8c0826b4-e7b0-4b14-8d80-0523569c01c4",
+		"name": "zerone",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get csrf",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "_token",
+							"value": "8xY0lLIvRD2tC5955CptRW0GMCl3lSYOgeRvBDIF",
+							"type": "text"
+						},
+						{
+							"key": "mobile",
+							"value": "09394700187",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "7",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "sdd",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "last_name",
+							"value": "sdd",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "email",
+							"value": "md1@gmail.com",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "token",
+							"value": "2145",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "password_confirmation",
+							"value": "12345",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "remember_me",
+							"value": "1",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/csrf",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"csrf"
+					]
+				},
+				"description": "fo rpost request we need csrf token"
+			},
+			"response": []
+		},
+		{
+			"name": "register mobile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "_token",
+							"value": "8xY0lLIvRD2tC5955CptRW0GMCl3lSYOgeRvBDIF",
+							"type": "text"
+						},
+						{
+							"key": "mobile",
+							"value": "09124702987",
+							"type": "text"
+						},
+						{
+							"key": "id",
+							"value": "7",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "sdd",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "last_name",
+							"value": "sdd",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "email",
+							"value": "md1@gmail.com",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "token",
+							"value": "8587",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "password_confirmation",
+							"value": "12345",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "remember_me",
+							"value": "1",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/mobile/register",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"mobile",
+						"register"
+					]
+				},
+				"description": "this is fot asking to enter the mobile number."
+			},
+			"response": []
+		},
+		{
+			"name": "store user info",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "_token",
+							"value": "8xY0lLIvRD2tC5955CptRW0GMCl3lSYOgeRvBDIF",
+							"type": "text"
+						},
+						{
+							"key": "mobile",
+							"value": "09124702987",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "7",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "sdd",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "last_name",
+							"value": "sdd",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "email",
+							"value": "md1@gmail.com",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "token",
+							"value": "9632",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "password_confirmation",
+							"value": "12345",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "remember_me",
+							"value": "1",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/auth/register",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"register"
+					]
+				},
+				"description": "this route is for asking user info\nid & name & last_name & password & password_confirmation Are Requierd,\nemail is not required.\n< id was sent in response data of url: mobile/token>"
+			},
+			"response": []
+		},
+		{
+			"name": "verify mobile with token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "_token",
+							"value": "8xY0lLIvRD2tC5955CptRW0GMCl3lSYOgeRvBDIF",
+							"type": "text"
+						},
+						{
+							"key": "mobile",
+							"value": "09124702987",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "7",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "sdd",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "last_name",
+							"value": "sdd",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "email",
+							"value": "md1@gmail.com",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "token",
+							"value": "9632",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "password_confirmation",
+							"value": "12345",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "remember_me",
+							"value": "1",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/mobile/token",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"mobile",
+						"token"
+					]
+				},
+				"description": "this route is for asking to enter the token that client has been recieved.\nthe ID is in response and required for < url: /auth/register >"
+			},
+			"response": []
+		},
+		{
+			"name": "password token sending",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "_token",
+							"value": "8xY0lLIvRD2tC5955CptRW0GMCl3lSYOgeRvBDIF",
+							"type": "text"
+						},
+						{
+							"key": "mobile",
+							"value": "09124702987",
+							"type": "text"
+						},
+						{
+							"key": "id",
+							"value": "7",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "sdd",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "last_name",
+							"value": "sdd",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "email",
+							"value": "md1@gmail.com",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "token",
+							"value": "9632",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "password_confirmation",
+							"value": "12345",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "remember_me",
+							"value": "1",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/auth/password/token",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"password",
+						"token"
+					]
+				},
+				"description": "this rout is for sending the token to verify users while asking for reset the password.\nmobile is required"
+			},
+			"response": []
+		},
+		{
+			"name": "password reset rout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "_token",
+							"value": "8xY0lLIvRD2tC5955CptRW0GMCl3lSYOgeRvBDIF",
+							"type": "text"
+						},
+						{
+							"key": "mobile",
+							"value": "09124702987",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "7",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "sdd",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "last_name",
+							"value": "sdd",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "email",
+							"value": "md1@gmail.com",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "token",
+							"value": "4851",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						},
+						{
+							"key": "password_confirmation",
+							"value": "1234",
+							"type": "text"
+						},
+						{
+							"key": "remember_me",
+							"value": "1",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/auth/password/recovery",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"password",
+						"recovery"
+					]
+				},
+				"description": "this route is fo asking to enter new password and the token to reset password.\ntoken and password and password_confirmation is required."
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "_token",
+							"value": "ZFuq5DftvGbJO32VSJ2vXCTuRYVBlCUYAMShwHnO",
+							"type": "text"
+						},
+						{
+							"key": "mobile",
+							"value": "09124702987",
+							"type": "text"
+						},
+						{
+							"key": "id",
+							"value": "7",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "sdd",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "last_name",
+							"value": "sdd",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "email",
+							"value": "md1@gmail.com",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "token",
+							"value": "4851",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						},
+						{
+							"key": "password_confirmation",
+							"value": "1234",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "remember_me",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/auth/login",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"login"
+					]
+				},
+				"description": "mobile and password is required\nremember_me is optional"
+			},
+			"response": []
+		}
+	]
+}

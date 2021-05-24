@@ -24,20 +24,19 @@ class EditCategoryRequest extends BaseRequest
     public function rules()
     {
         return [
-            'name' => 'string|max:255|unique:categories,name,'.$this->route('categoryId'),
-            'slug' => 'string|max:255|unique:categories,slug,'.$this->route('categoryId'),
-          //  'image' => 'string|image',
-
-            'content' => '',
-            'fields' => '',
+            'name' => 'string|max:255|unique:categories,name,',
+            'slug' => 'string|max:255|unique:categories,slug,',
+            'image' => 'string|image|nullable',
+            'content' => 'string',
+            'fields' => 'string',
             //'parent_id' => 'exists:categories,id',
-            'is_menu'=>'boolean',
+            'is_menu'=>'boolean|nullable',
 //            'layout_id' => '',//not using now FIXME after insert layout and module
 //            'module_id' => '',
             'status' => 'string|in:active,deactivate' ,
-            'tag_list'=>'array',
-            'tag_list.*'=>'string',
-            'metadata'=>''
+            'tag_list_old'=>'array',
+            'tag_list_new'=>'array',
+            'metadata'=>'string'
 
         ];
     }

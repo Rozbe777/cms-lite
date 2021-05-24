@@ -45,5 +45,8 @@ class Install extends Command
         $this->info('Import custom seeds');
         Artisan::call('key:generate');
         $this->info('Done!');
+        Artisan::call('key:generate');
+        $this->info('Set the application key');
+        $this->info('Done!');
     }
 }

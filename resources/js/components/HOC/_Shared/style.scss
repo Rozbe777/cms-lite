@@ -1,0 +1,312 @@
+@mixin transition {
+    transition: .3s all ease;
+    -moz-transition: .3s all ease;
+    -webkit-transition: .3s all ease;
+}
+
+.switch-container{
+    width: 100%;
+    position: relative;
+    height: 55px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 2px;
+    float: right;
+    #checked{
+        position: absolute;
+        left: 0;
+        top: 0px;
+        width: 100% !important;
+        height: 100% !important;
+        opacity: 0;
+    }
+    ul{
+        padding: 0px;
+        list-style: none;
+        margin: 0px;
+        height: 100%;
+        li{
+            text-align: center;
+            line-height: 3;
+            cursor: pointer;
+            width: 50%;
+            color: #000;
+            float: right;
+            height: 100%;
+            border-radius: 5px;
+            &.active{
+                color: #000;
+                cursor: pointer !important;
+                transition: 0.3s all ease;
+                &.act{
+                    cursor: pointer !important;
+                    color: #fff !important;
+                    background: #32a672 !important;
+                }
+            }
+            &.deactive{
+                color: #000;
+                cursor: pointer !important;
+                transition: 0.3s all ease;
+                &.act{
+                    color: #fff;
+                    background: #EC6060 !important;
+                    cursor: pointer !important;
+                }
+            }
+        }
+    }
+}
+
+#file{
+    width: 100%;
+    height: 55px;
+    position: relative;
+    overflow: hidden;
+    #select-files{
+        position: absolute;
+        bottom: -15px;
+        height: 55px;
+        width: 100%;
+    }
+}
+.ql-editor.ql-blank
+{
+    min-height: 250px !important;
+}
+.bottom-footer{
+    position: fixed;
+    bottom: 0px;
+    background: #ececec;
+    border-left: 1px solid #000;
+
+    span{
+        text-align: center !important;
+        line-height: 4.5;
+    }
+}
+
+.form-control#selectParent{
+    height: 55px !important;
+}
+input#title{
+    height: 55px !important;
+}
+
+.alert.alert-primary{
+    background: #e9f5fb !important;
+    color: #38A9E0 !important;
+
+}
+
+.content-pages{
+    position: fixed;
+    top: 71px;
+    width: 100%;
+    bottom: 67px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.switch-container{
+    ul#bigest{
+        li{
+            width: 33.3%;
+            float: right;
+            position: relative;
+            input{
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                right: 0px;
+                z-index: 9;
+                opacity: 0;
+            }
+        }
+    }
+}
+
+select > option{
+    height: 50px !important;
+    min-height: 50px !important;
+}
+
+.dropzone{
+    min-height : 200px !important;
+    width : 100% !important;
+}
+.container.dropzones{
+    padding: 0px !important;
+    margin: 0px !important;
+    max-width: 100% !important;
+}
+
+.main-selected{
+    width: 100%;
+    height: 50px;
+    border: 1px solid #dfe3e7;
+    border-radius: 5px;
+    position: relative;
+    #box-droper{
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        left: 0px !important;
+        top: 0px !important;
+        text-align: center;
+        line-height: 4;
+        cursor: pointer;
+        bottom: 0px !important;
+        i{
+        font-size: 25px;
+        transform: rotate(0);
+        transform-origin: center;
+        @include transition;
+        &.active{
+            transform: rotate(180deg);
+            transform-origin: center;
+            @include transition;
+        }
+    }
+    }
+
+    .optionBox{
+        width: 100%;
+        min-height: 50px;
+        max-height: 300px;
+        overflow-y: scroll;
+        position: absolute;
+        transform: translateY(30px);
+        opacity: 0;
+        z-index: -1;
+        right: 0px;
+        padding: 0px;
+        box-shadow: 0 3px 6px 2px rgb(0 0 0 / 15%);
+        background: #fff;
+        border-radius: 5px;
+        top: 55px;
+        @include transition;
+        &.active{
+            opacity: 1;
+            z-index: 9;
+            transform: translateY(0px);
+            @include transition;
+        }
+        ul{
+            width: 100%;
+            float: right;
+            height: auto;
+            padding : 10px;
+            margin: 0px;
+            list-style: none;
+            li{
+                width: 100%;
+                padding : 0px;
+                min-height: 30px;
+                position: relative;
+                float: right;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                label#labels{
+                    margin-right: 15px;
+                    float: right;
+                    margin-top: -6px;
+                    font-size: 14px;
+                    margin-bottom: 9px;
+                    line-height: 2.3;
+                }
+                input[type=radio], input[type=checkbox]{
+                    width: 20px !important;
+                    height: 20px !important;
+                    margin-right: 10px;
+                    float: right;
+                    opacity: 0;
+                    cursor: pointer;
+                }
+
+            }
+        }
+    }
+}
+
+.show-chipset-multi{
+    width: 93%;
+    height: 55px;
+    position: relative;
+    p{
+        padding: 0px 20px;
+        margin: 0px;
+        height: 50px;
+        line-height: 3.1;
+    }
+}
+.swiper-slide{
+    width: auto !important;
+}
+.swiper-scrollbar{
+    display: none !important;
+}
+
+.chip-closeable{
+    i {
+        position: absolute;
+        line-height: 1.3;
+        left: 4px !important;
+    }
+}
+
+.box-drop-down{
+    width: 50px;
+    height: 50px;
+}
+
+#chipset-close{
+    left: 4px !important;
+}
+
+.checkboxed{
+    right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 20px;
+    cursor: pointer;
+    height: 20px;
+    position: absolute;
+    &#child3{
+        right : 20px !important;
+    }
+    &#child2{
+        right : 15px !important;
+    }
+    @include transition;
+    &.active{
+        border: none;
+        background-color: #1976d2;
+        @include transition;
+    }
+}
+
+.checkboxeds{
+    right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 20px;
+    cursor: pointer;
+    height: 20px;
+    position: absolute;
+    &#child3{
+        right : 20px !important;
+    }
+    &#child2{
+        right : 15px !important;
+    }
+    @include transition;
+    &.active{
+        border: none;
+        background-color: #1976d2;
+        @include transition;
+    }
+}
+
+

@@ -25,6 +25,7 @@ class SearchTagRequest extends BaseRequest
     {
         return [
             "search" => "nullable|string",
+            "status" => "nullable|in:active,deactivate"
         ];
     }
 }
