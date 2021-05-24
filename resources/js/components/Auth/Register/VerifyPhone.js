@@ -4,7 +4,7 @@ import {VERIFY_MOBILE_URL} from "../../../services/Type";
 import {Request} from "../../../services/AuthService/Api";
 import ReactDOM from 'react-dom'
 import Loading from "../Loading";
-import {error as ErrorToast , success} from './../../../helper'
+import {error as ErrorToast , success ,ErroHandle} from './../../../helper'
 import FinalDataRegister from "./FinalDataRegister";
 
 const VerifyPhone = ({time, token, phoneNumber , response : pushResponse}) => {

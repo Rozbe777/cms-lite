@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {error as ErrorToast , success as SuccessToast} from './../../../helper';
+import {error as ErrorToast ,ErroHandle, success as SuccessToast} from './../../../helper';
 import {Request} from './../../../services/AuthService/Api'
 import './_shared/style.scss';
 
@@ -25,8 +25,6 @@ const FinalDataRegister = ({token, id}) => {
         let pass = $("input[name=password]").val();
         let passCon = $("input[name=password_confirmation]").val();
         // let passConfirm = userDataNew.password_confirmation;
-        // console.log(pass.toString() , "/" , passConfirm.toString() )
-        console.log("vsdvsv : " , userDataNew);
 
         if(pass !== passCon){
             ErrorToast("پسورد ها با هم یکسان نیستند")
@@ -39,13 +37,11 @@ const FinalDataRegister = ({token, id}) => {
                         window.location.pathname = "/login"
                     },600)
                 }).catch(error => {
-                    Object.keys(error.response.data.errors).map((name , i) => {
-                        setTimeout(()=>{
-                            ErrorToast(error.response.data.errors[name][0])
-                        },time_toast)
-                        time_toast = time_toast+500;
-
-                    })
+                if (error.response.data.errors) {
+                    ErroHandle(error.response.data.errors)
+                } else {
+                    ErrorToast("خطای غیر منتظره ای رخ داده است")
+                }
             })
         }
 

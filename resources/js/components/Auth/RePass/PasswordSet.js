@@ -1,6 +1,6 @@
 import React, {Component, useEffect, useState} from "react";
 import ReactDOM from 'react-dom';
-import {csrf_token, error as ErrorToast, url, success, info, warning, empty, redirect} from "../../../helper";
+import {csrf_token, error as ErrorToast,ErroHandle , url, success, info, warning, empty, redirect} from "../../../helper";
 import {Request} from './../../../services/AuthService/Api'
 import './../Register/_shared/style.scss'
 import Loading from "./../Loading";
@@ -47,19 +47,11 @@ const PasswordSet = ({token}) => {
                             window.location.pathname = "/"
                         }, 400)
                     }).catch(error => {
-
-                    if (error.response.data.http_code == 404) {
-                        ReactDOM.render('', elementLoading);
-                        ErrorToast("خطای ناخواسته ای رخ داده است! مجدد تلاش کنید!")
+                    ReactDOM.render('', elementLoading);
+                    if (error.response.data.errors) {
+                        ErroHandle(error.response.data.errors)
                     } else {
-                        ReactDOM.render('', elementLoading);
-                        Object.keys(error.response.data.errors).map((name, i) => {
-                            setTimeout(() => {
-                                ErrorToast(error.response.data.errors[name][0])
-                            }, time_toast)
-                            time_toast = time_toast + 500;
-
-                        })
+                        ErrorToast("خطای غیر منتظره ای رخ داده است")
                     }
 
                 })
@@ -89,7 +81,6 @@ const PasswordSet = ({token}) => {
             [e.target.name]: e.target.value
         })
     }
-
 
 
     return (
@@ -136,7 +127,8 @@ const PasswordSet = ({token}) => {
 
 
                     <div style={{marginTop: 15}}>
-                        <a href={"/login"} style={{borderBottom: '1px dashed', cursor: 'pointer'}}><small>بازگشت به ورود</small></a>
+                        <a href={"/login"} style={{borderBottom: '1px dashed', cursor: 'pointer'}}><small>بازگشت به
+                            ورود</small></a>
                     </div>
 
 

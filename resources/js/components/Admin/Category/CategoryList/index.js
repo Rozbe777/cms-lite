@@ -27,7 +27,15 @@ export const CategoryList = () => {
                 setLoading(false)
                 setCategoryData(res.data)
             })
-            .catch(err => console.log("errpr : ", err))
+            .catch(err => {
+                if (err.response.data.errors){
+                    console.log("error" , err.response.data.errors)
+                }else{
+                    $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center'>خطا در ارتباط با دیتابیس</p><div>");
+                    console.log("error loading")
+                }
+
+            })
     }
 
     const GetAllPages = () => {

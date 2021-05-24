@@ -54,27 +54,27 @@ Route::get('csrf', function () {
 });
 //-----------------------Mehrshad Start----------------------
 
-    Route::get('/login', [LoginController::class, 'show'])->name('show.login');
-    Route::post('auth/login', [LoginController::class, 'login'])->name('auth.login');
-    Route::get('logout', [LoginController::class, 'logout'])->name('auth.logout');
+Route::get('/login', [LoginController::class, 'show'])->name('show.login');
+Route::post('auth/login', [LoginController::class, 'login'])->name('auth.login');
+Route::get('logout', [LoginController::class, 'logout'])->name('auth.logout');
 
-    Route::prefix('mobile')->group(function () {
-        Route::get('/register', [MobileRegisterController::class, 'show'])->name('show.mobile.form');
-        Route::post('/register', [MobileRegisterController::class, 'register'])->name('mobile.register');
-        Route::get('/token', [MobileRegisterController::class, 'verificationForm'])->name('show.verification');
-        Route::post('/token', [MobileRegisterController::class, 'checkMobile'])->name('check.verification');
-    });
+Route::prefix('mobile')->group(function () {
+    Route::get('/register', [MobileRegisterController::class, 'show'])->name('show.mobile.form');
+    Route::post('/register', [MobileRegisterController::class, 'register'])->name('mobile.register');
+    Route::get('/token', [MobileRegisterController::class, 'verificationForm'])->name('show.verification');
+    Route::post('/token', [MobileRegisterController::class, 'checkMobile'])->name('check.verification');
+});
 
-    Route::prefix('auth')->group(function () {
-        Route::get('/register', [RegisterController::class, 'show'])->name('show.register');
-        Route::post('/register', [RegisterController::class, 'store'])->name('auth.store');
-        Route::prefix('/password')->group(function () {
-            Route::get('/token', [PasswordController::class, 'show'])->name('show.password.token');
-            Route::post('/token', [PasswordController::class, 'passwordToken'])->name('auth.password.token');
-            Route::get('/recovery', [PasswordController::class, 'passwordRecoveryForm'])->name('auth.password.recovery');
-            Route::post('/recovery', [PasswordController::class, 'passwordRecovery'])->name('auth.password.recovery');
-        });
+Route::prefix('auth')->group(function () {
+    Route::get('/register', [RegisterController::class, 'show'])->name('show.register');
+    Route::post('/register', [RegisterController::class, 'store'])->name('auth.store');
+    Route::prefix('/password')->group(function () {
+        Route::get('/token', [PasswordController::class, 'show'])->name('show.password.token');
+        Route::post('/token', [PasswordController::class, 'passwordToken'])->name('auth.password.token');
+        Route::get('/recovery', [PasswordController::class, 'passwordRecoveryForm'])->name('auth.password.recovery');
+        Route::post('/recovery', [PasswordController::class, 'passwordRecovery'])->name('auth.password.recovery');
     });
+});
 
 Route::name('admin.')->group(function () {
 

@@ -15,7 +15,6 @@ import FeedSetting from "./HOC/FormSetting/FeedSetting";
 
 const Index = () => {
     const [state, setState] = useState(InitialData);
-    const [toolsBox, setToolsBox] = useState();
     const [formTheme, setFormTheme] = useState({
         buttonBackground: '#e91e63',
         buttonColor: '#ffffff',
@@ -86,52 +85,56 @@ const Index = () => {
         var upperBoxWidth = upperBox.offsetWidth;
         var upperBoxheight = upperBox.offsetHeight;
         header.style.width = upperBoxWidth + "px";
-        let totalTop = upperBoxTop + upperBoxheight +navHeight+bredHeight;
-        console.log("offsetfffff : ", upperBoxTop + upperBoxheight +navHeight+bredHeight , navHeight , bredHeight);
-
-        // if (sticky > 50) {
-        //
-        //     if (window.pageYOffset >= sticky) {
-        //         header.classList.add("stickyss");
-        //     } else {
-        //         header.classList.remove("stickyss");
-        //     }
-        // }else{
-            if (window.pageYOffset >=totalTop) {
-                header.classList.add("stickyss");
-            } else {
-                header.classList.remove("stickyss");
-            }
-
-        // checkScroll(sticky)
+        let totalTop = upperBoxTop + upperBoxheight + navHeight + bredHeight;
+        if (window.pageYOffset >= totalTop) {
+            header.classList.add("stickyss");
+        } else {
+            header.classList.remove("stickyss");
+        }
     }
 
 
-    // const checkScroll = (offset) => {
-    //     var header = document.querySelector(".flexiable");
-    //     console.log("offset : ", offset)
-    //     if (window.pageYOffset > offset) {
-    //         header.classList.add("stickyss");
-    //     } else {
-    //         header.classList.remove("stickyss");
-    //     }
-    // }
-
-
     const onDragStart = () => {
-        document.body.style.color = "orange"
+        document.querySelector(".element-chose").style.background = "orange"
     }
 
 
     const onDragEnd = result => {
+
+        document.querySelector(".element-chose").style.background = "unset"
+
+        var min = 100;
+        var max = 300;
+        var random = Math.floor(Math.random() * (max - min) + min);
         const {destination, source, draggableId} = result;
+
+        // console.log("destination.droppableId : // ", destination.droppableId, "\n",
+        //     "source.droppableId : // ", source.droppableId, "\n",
+        //     "destination.index// ", destination.index, "\n",
+        //     "source.index : // ", source.index, "\n",
+        //     );
+
+
         if (!destination) {
             return;
         }
+
+
+        // console.log("desDrop : // ", destination.droppableId, "\n",
+        //     "sourse : // ", source.droppableId, "\n",
+        //     "destianation index : // ", destination.index, "\n",
+        //     "source.index : // ", source.index, "\n");
+
+
         if (destination.droppableId === "tools" && source.droppableId === "inspect") {
 
         } else {
-            if (destination.droppableId === source.droppableId && destination.index === source.index) {
+            //  && destination.index === source.index
+            if (destination.droppableId === source.droppableId) {
+                $(".nav-tabs li a").addClass("active");
+                $(".tab-pane").addClass("active");
+                $(".tab-pane.field").removeClass("active");
+                $(".nav-tabs li a.field").removeClass("active");
                 return;
             }
 
@@ -140,14 +143,13 @@ const Index = () => {
             $(".tab-pane.field").addClass("active");
             $(".nav-tabs li a.field").addClass("active");
 
-            const start = state.columns[source.droppableId];
-            const finish = state.columns[destination.droppableId];
+
+            const start = state.columns[source.droppableId];   // tools all data
+            const finish = state.columns[destination.droppableId]; // inspect all Data
+            console.log(">>>>state : " , finish)
 
             if (start === finish) {
                 const newTaskId = Array.from(start.taskIds);
-                newTaskId.splice(source.index, 1);
-                newTaskId.splice(destination.index, 0, draggableId);
-
                 const newColumn = {
                     ...start,
                     taskIds: newTaskId
@@ -160,6 +162,7 @@ const Index = () => {
                         [newColumn.id]: newColumn
                     }
                 }
+                console.log("equal")
                 setState(newState);
                 return;
             }
@@ -171,31 +174,56 @@ const Index = () => {
                 taskIds: startTaskIds
             };
 
-            const finishTaskIds = Array.from(finish.taskIds);
+
+            // console.log(">>>>>>" , newStart , "\n" , ">>>>>" , startTaskIds)
+            // const finishTaskIds = Array.from(finish.taskIds);
+            const finishTaskIds = finish.taskIds;
+
+            console.log( "/ " , finishTaskIds)
+            console.log( ">>>>>>> " , finish)
             finishTaskIds.splice(destination.index, 0, draggableId);
+
+            console.log(">>>>>>>>>> ///// " , finishTaskIds[0])
+
+            finishTaskIds[0] = finishTaskIds[0] + "_" + random
+            console.log("newfffff /////af " , finishTaskIds)
+
+            console.log("newfffff ///// " , finish.taskIds)
+
             const newFinish = {
                 ...finish,
                 taskIds: finishTaskIds
             };
+            console.log("newff " , newFinish.taskIds)
             const newState = {
                 ...state,
                 columns: {
                     ...state.columns,
-                    [newStart.id]: newStart,
+                    [newStart.id]: InitialData.columns.tools,
                     [newFinish.id]: newFinish
                 }
             }
+
+            // console.log("newffdd " , newState)
+
 
             setState(newState);
             return;
         }
     }
 
+    console.log("state : ", state)
+
 
     const Tools = state.columns['tools'];
     const HtmlCreate = state.columns['inspect'];
+    console.log("html create : " , HtmlCreate)
     const Tasks = Tools.taskIds.map(taskId => state.task[taskId]);
-    const HtmlTask = HtmlCreate.taskIds.map(taskId => state.task[taskId]);
+    const HtmlTasks = HtmlCreate.taskIds.map(taskId => console.log(",,,,,, : " , taskId));
+    const HtmlTask = HtmlCreate.taskIds.map(taskId => taskId);
+
+    console.log("html task : " , HtmlTasks)
+
 
 
     return (
@@ -278,7 +306,7 @@ const Index = () => {
                                 </div>
 
 
-                                <div className={"row"} style={{padding: '0 0 5px 5px', margin: 0 ,width : '100%'}}>
+                                <div className={"row"} style={{padding: '0 0 5px 5px', margin: 0, width: '100%'}}>
                                     <div className={"col-4"}>
                                         <button type={"button"} className={"btn btn-outline-primary mr-1 mb-1"}>
                                             <i className={"bx bxs-show"}></i>&nbsp;
