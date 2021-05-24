@@ -24,7 +24,9 @@ const Index = (props) => {
     const [intervals, setIntervalId] = useState();
     const [isInvalid, setIsInvalid] = useState(false);
     const {token} = props;
-    const [phone, setPhone] = useState();
+    const [phone, setPhone] = useState({
+        mobile : ''
+    });
     const [response, setResponse] = useState();
     let elementLoading = document.getElementById("loading-show")
 
@@ -58,54 +60,58 @@ const Index = (props) => {
         e.preventDefault();
 
         let phones = {...phone};
-        if (pattern.test(phones.mobile)) {
-            phones._token = token;
-            ReactDOM.render(<Loading/>, elementLoading);
-            Request.RegisterPhone(phones)
-                .then(response => {
-                    if (response.status == 201) {
-                        ReactDOM.render('', elementLoading);
-                        ErrorToast("این شماره تلفن ثبت نام شده است ")
-                    } else {
-                        clearInterval(intervals);
-                        Timer(e, 120)
-                        ReactDOM.render('', elementLoading);
-                        $(".container-loader").fadeIn();
-                        setTimeout(() => {
-                            $(".verifyForm").addClass("active");
-                        }, 500)
-                    }
-
-                    // VerifyModal(e, 120)
-                }).catch((error) => {
-                // Error
-                if (error.response) {
-                    clearInterval(intervals);
-                    ReactDOM.render('', elementLoading);
-                    var pattern = /[0-9]/;
-                    if (pattern.test(error.response.data.errors.data[0])) {
-                        Timer(e, error.response.data.errors.data[0])
-                        $(".container-loader").fadeIn();
-                        setTimeout(() => {
-                            $(".verifyForm").addClass("active");
-                        }, 500)
-                    } else {
-                        if (error.response.data.errors) {
-                            ErroHandle(error.response.data.errors)
+        if (!phone.mobile || phone.mobile === ""){
+            ErrorToast("فیلد شماره تلفن خالی میباشد");
+        }else{
+            if (pattern.test(phones.mobile)) {
+                phones._token = token;
+                ReactDOM.render(<Loading/>, elementLoading);
+                Request.RegisterPhone(phones)
+                    .then(response => {
+                        if (response.status == 201) {
+                            ReactDOM.render('', elementLoading);
+                            ErrorToast("این شماره تلفن ثبت نام شده است ")
                         } else {
-                            ErrorToast("خطای غیر منتظره ای رخ داده است")
+                            clearInterval(intervals);
+                            Timer(e, 120)
+                            ReactDOM.render('', elementLoading);
+                            $(".container-loader").fadeIn();
+                            setTimeout(() => {
+                                $(".verifyForm").addClass("active");
+                            }, 500)
                         }
+
+                        // VerifyModal(e, 120)
+                    }).catch((error) => {
+                    // Error
+                    if (error.response) {
+                        clearInterval(intervals);
+                        ReactDOM.render('', elementLoading);
+                        var pattern = /[0-9]/;
+                        if (pattern.test(error.response.data.errors.data[0])) {
+                            Timer(e, error.response.data.errors.data[0])
+                            $(".container-loader").fadeIn();
+                            setTimeout(() => {
+                                $(".verifyForm").addClass("active");
+                            }, 500)
+                        } else {
+                            if (error.response.data.errors) {
+                                ErroHandle(error.response.data.errors)
+                            } else {
+                                ErrorToast("خطای غیر منتظره ای رخ داده است")
+                            }
+                        }
+
+
+                    } else if (error.request) {
+
+                    } else {
+
                     }
-
-
-                } else if (error.request) {
-
-                } else {
-
-                }
-            });
-        } else {
-            ErrorToast("فرمت شماره تلفن صحیح نمیباشد");
+                });
+            } else {
+                ErrorToast("فرمت شماره تلفن صحیح نمیباشد");
+            }
         }
     }
 

@@ -39,7 +39,6 @@ const LoginForm = ({token}) => {
         if (mobile.length > 0 && password.length > 0){
             if (patt.test(mobile)){
                 ReactDOM.render(<Loading/>, elementLoading);
-                console.log("dataaaa : " , user);
                 Request.Login(user)
                     .then(response => {
                         ReactDOM.render('', elementLoading);
