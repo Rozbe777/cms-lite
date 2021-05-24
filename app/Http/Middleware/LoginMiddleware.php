@@ -2,27 +2,25 @@
 
 namespace App\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class RedirectIfAuthenticated
+class LoginMiddleware
 {
     /**
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure $next
-     * @param string|null ...$guards
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, ...$guards)
+    public function handle(Request $request, Closure $next)
     {
+        if (!Auth::user()) {
+            return redirect()->route('show.login');
+        }
 
-        if (\auth()->user()->can($request->route()->getName()))
             return $next($request);
-        else
-            return abort(403,'perm');
-    }
+        }
 }
