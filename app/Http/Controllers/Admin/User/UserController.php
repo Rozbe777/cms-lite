@@ -41,7 +41,7 @@ class UserController extends Controller
 
         return (is_array($user)) ?
             $this->view("pages.admin.user.index")->message(__('message.content.search.notSuccess'))->error(500) :
-            $this->view("pages.admin.user.index")->data($user)->message(__('message.success.200'))->success($user);
+            $this->view("pages.admin.user.index")->data($user)->message(__('message.success.200'))->success();
     }
 
     /**
