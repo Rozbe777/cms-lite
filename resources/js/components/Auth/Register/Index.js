@@ -89,7 +89,8 @@ const Index = (props) => {
                         ReactDOM.render('', elementLoading);
                         var pattern = /[0-9]/;
                         if (pattern.test(error.response.data.errors.data[0])) {
-                            Timer(e, error.response.data.errors.data[0])
+                            // console.log("data : " , error.response.data)
+                            Timer(e, parseInt(error.response.data.data))
                             $(".container-loader").fadeIn();
                             setTimeout(() => {
                                 $(".verifyForm").addClass("active");
