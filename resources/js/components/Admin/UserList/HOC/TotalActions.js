@@ -3,7 +3,7 @@ import './styleAction.scss'
 import {CHECK_BOX_CONTENT} from './../Helper/Context'
 import $ from "jquery";
 
-export const TotalActions = ({data, allData}) => {
+export const TotalActions = ({data, allData , deleteUsers :pushDeleteUser }) => {
 
     useEffect(() => {
 
@@ -73,7 +73,7 @@ export const TotalActions = ({data, allData}) => {
                                     </button>
                                 </div>
                                 <div className={"col-lg-2 col-md-3"} style={{marginBottom: 5, marginTop: 5}}>
-                                    <button style={{width: '100%'}} className={"btn btn-danger"}>حذف</button>
+                                    <button style={{width: '100%'}} className={"btn btn-danger"} onClick={e => pushDeleteUser(e)}>حذف</button>
                                 </div>
                             </div>
                         </div>
