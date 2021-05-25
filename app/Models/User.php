@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
@@ -29,7 +30,7 @@ use Shanmuga\LaravelEntrust\Traits\LaravelEntrustUserTrait;
 class User extends Authenticatable
 {
 
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
     use LaravelEntrustUserTrait;
 
     /**
@@ -102,7 +103,6 @@ class User extends Authenticatable
 
     public function getUserRoleAttribute()
     {
-
         return $this->roles()->first()->name;
     }
 
@@ -110,7 +110,7 @@ class User extends Authenticatable
     {
         $role = $this->roles()->first();
         if (empty($role))
-            return "بدون دسترسی";
+            return __('message.errors.403');
         return $role->name;
     }
 

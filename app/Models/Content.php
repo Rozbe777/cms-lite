@@ -31,7 +31,7 @@ class Content extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded=[];
-//    protected $appends = ['short_content', "real_url", "edit_url", "rate", "widget_delete_url", "text_content", 'category_name', 'jalali_created_at', 'active_comment', 'normal_fields'];
+    protected $appends = ['jalali_created_at'];
 
     public function categories()
     {
@@ -48,10 +48,6 @@ class Content extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function pages()
-    {
-        return $this->belongsTo(Page::class);
-    }
 
     public function viewCounts()
     {
@@ -79,6 +75,7 @@ class Content extends Model
             default:
                 return Jalalian::forge($this->attributes['created_at'])->format(setting("date_time"));
         }
+
 
     }
 
