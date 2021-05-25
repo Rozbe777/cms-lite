@@ -32,7 +32,7 @@ const FinalDataRegister = ({token, id}) => {
         // let passConfirm = userDataNew.password_confirmation;
 
 
-        if (userData.name === "" || userData.last_name === "" || pass === "" || passCon=== "") {
+        if (userData.name === "" || userData.last_name === "" || pass === "" || passCon === "") {
             if (userData.name === "") {
                 ErrorToast("فیلد نام خالی میباشد")
             }
@@ -41,14 +41,13 @@ const FinalDataRegister = ({token, id}) => {
                 ErrorToast("فیلد نام خانوداگی خالی میباشد")
             }
 
-            if (pass === ""){
+            if (pass === "") {
                 ErrorToast("فیلد پسورد خالی میباشد")
             }
 
-            if (passCon === ""){
+            if (passCon === "") {
                 ErrorToast("فیلد تکرار پسورد خالی میباشد")
             }
-
 
 
         } else {
@@ -82,8 +81,14 @@ const FinalDataRegister = ({token, id}) => {
         <div className="col-12 px-0">
             <div className="card disable-rounded-right mb-0 p-2 h-100 d-flex justify-content-center"
                  id={"card-contents"}>
-                <p>شماره تلفن همراه شما با موفقیت تایید شد لطفا برای تکمیل حساب کاربری خود فرم زیر را پر کنید.
-                </p>
+                <div className="alert border-success alert-dismissible mb-2" role="alert" >
+                    <div className="d-flex align-items-center">
+                                        <span>
+شماره تلفن همراه شما با موفقیت تایید شد لطفا برای تکمیل حساب کاربری خود فرم زیر را پر کنید.
+
+                </span>
+                    </div>
+                </div>
                 <div className="card-content">
                     <form onSubmit={e => verifyForm(e)} autoComplete="off">
 

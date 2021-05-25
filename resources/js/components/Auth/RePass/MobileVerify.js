@@ -17,7 +17,9 @@ const MobileVerify = (props) => {
     const [intervals, setIntervalId] = useState();
     const [isInvalid, setIsInvalid] = useState(false);
     const {token} = props;
-    const [phone, setPhone] = useState();
+    const [phone, setPhone] = useState({
+        mobile : ''
+    });
     const [response, setResponse] = useState();
     let elementLoading = document.getElementById("loading-show")
 
@@ -271,22 +273,36 @@ const MobileVerify = (props) => {
                                 <p>کد تایید را وارد کنید</p>
 
 
-                                <div className={"col-12"}
-                                     style={{display: 'flex', alignItem: 'center', justifyContent: 'center'}}>
-                                    <div className={"verify-code-check"}>
-                                        <input
-                                            type={"number"}
-                                            id={"verify_codes"}
-                                            className={"form-control " + isInvalid == true ? "is-invalid" : ""}
-                                            name={"verifyCode"}
-                                            onChange={e => verifyCodeGet(e)}
-                                            placeholder={"کد تایید را تایپ کنید"}
-                                        />
+                                <div className="alert border-success alert-dismissible mb-2" role="alert" id={"customAlert"}>
+                                    <div className="d-flex align-items-center">
+                                        <span>
+کد تایید به شماره تلفن همراه {phone.mobile ? phone.mobile : ''} ارسال شد.
+                </span>
                                     </div>
                                 </div>
 
 
-                                {checkButton()}
+                                <div className={"col-12"}
+                                     style={{display: 'flex', alignItem: 'center', justifyContent: 'center'}}>
+                                    <div className={"verify-code-check"}>
+                                        <input type={"number"}
+                                               className={"form-control " + isInvalid == true ? "is-invalid" : ""}
+                                               name={"verifyCode"}
+                                               min="1000"
+                                               max="9999"
+                                               maxLength={15}
+                                               autoComplete={"none"}
+                                               onChange={e => verifyCodeGet(e)}
+                                               placeholder={"کد تایید را وارد کنید"}/>
+                                    </div>
+                                </div>
+
+
+                                <button className={"btn btn-primary"} id={"verifyCodessss"} style={{fontSize: '11px'}}
+                                        onClick={e => checkCode(e)}>بررسی
+                                    کد</button>
+
+
                                 <div id={"timersPop"}></div>
 
                                 <div id={"loading-shows"}>

@@ -14,6 +14,8 @@ trait MobileTrait
 {
     public function checkMobileTrait($client, $reqToken, $passReset = [])
     {
+
+
         if ($reqToken == ($client->token)) {
             $user = (new UserModelRepository())->create($client); /** if verified create a new user */
             Auth::login($user);

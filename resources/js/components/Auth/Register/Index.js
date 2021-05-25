@@ -16,7 +16,7 @@ const Index = (props) => {
 
 
     let timerString = "";
-    var pattern = /0?9([0-9]{9})/;
+    var pattern = /^0?9([0-9]{9})$/;
     let CounterTimer = 0;
     const [responseVerify, setResponseVerify] = useState(0);
     const [intervals, setIntervalId] = useState();
@@ -57,10 +57,12 @@ const Index = (props) => {
     const RegisterPhone = (e) => {
         e.preventDefault();
 
+
         let phones = {...phone};
         if (!phone.mobile || phone.mobile === ""){
             ErrorToast("فیلد شماره تلفن خالی میباشد");
         }else{
+            console.log("dataaaaa : " , pattern.test(phones.mobile))
             if (pattern.test(phones.mobile)) {
                 phones._token = token;
                 ReactDOM.render(<Loading/>, elementLoading);
@@ -160,6 +162,7 @@ const Index = (props) => {
             mobile: phone.mobile
         }
 
+        // console.log("da " , data)
         ReactDOM.render(<Loading/>, loadingElement);
         Request.VerifyCodeCheck(data)
             .then(response => {
@@ -203,22 +206,7 @@ const Index = (props) => {
 
     }
 
-    const checkButton = () => {
 
-        if (verifyCode.verifyCode){
-            if (verifyCode.verifyCode.length == 4) {
-                return (
-                    <button className={"btn btn-primary"} id={"verifyCodessss"} style={{fontSize: '11px'}}
-                            onClick={e => checkCode(e)}>بررسی
-                        کد</button>
-                )
-            } else {
-                return '';
-            }
-        }else{}
-
-
-    }
 
     const closeModal = e => {
         e.preventDefault();
@@ -254,9 +242,10 @@ const Index = (props) => {
                             <label className="text-bold-700" htmlFor="username">
                                 شماره تلفن خود را وارد کنید
                             </label>
-                            <input type="text" className="form-control text-left"
+                            <input type="number" className="form-control text-left"
                                    id="username"
-                                   autoComplete="one-time-code"
+                                   max={"11"}
+                                   autoComplete="off"
                                    onChange={e => HandlePhone(e)}
                                    name="mobile"
                                    placeholder="شماره تلفن" dir="ltr"/>
@@ -296,6 +285,15 @@ const Index = (props) => {
                                 <p>کد تایید را وارد کنید</p>
 
 
+                                <div className="alert border-success alert-dismissible mb-2" role="alert" id={"customAlert"}>
+                                    <div className="d-flex align-items-center">
+                                        <span>
+کد تایید به شماره تلفن همراه {phone.mobile ? phone.mobile : ''} ارسال شد.
+                </span>
+                                    </div>
+                                </div>
+
+
                                 <div className={"col-12"}
                                      style={{display: 'flex', alignItem: 'center', justifyContent: 'center'}}>
                                     <div className={"verify-code-check"}>
@@ -304,13 +302,20 @@ const Index = (props) => {
                                                name={"verifyCode"}
                                                min="1000"
                                                max="9999"
+                                               maxLength={15}
+                                               autoComplete={"none"}
                                                onChange={e => verifyCodeGet(e)}
                                                placeholder={"کد تایید را وارد کنید"}/>
                                     </div>
                                 </div>
 
 
-                                {checkButton()}
+                                <button className={"btn btn-primary"} id={"verifyCodessss"} style={{fontSize: '11px'}}
+                                        onClick={e => checkCode(e)}>بررسی
+                                    کد</button>
+
+
+
                                 <div id={"timersPop"}></div>
 
                                 <div id={"loading-shows"}>
