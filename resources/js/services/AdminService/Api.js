@@ -1,14 +1,15 @@
 import {request} from "../Request";
 
 export const Request = {
-    GetAllUserApi : (page) =>  request.get("/admin/user/list?page="+page),
-    GroupDelUser : (userIds) =>  request.post("/admin/user/destroys" , userIds),
-    GetAllCategory : () =>  request.get("/admin/category/list?page=1"),
-    GetAllPages : () =>  request.get("/admin/page/list"),
-    AddNewCategory : (data) =>  request.post("/admin/category/" , data),
-    AddNewPage : (data) =>  request.post("/admin/page/" , data),
-    DeleteCategoryOne : (data) =>  request.get("/admin/category/"+data+"/destroy/"),
-    DeletePageOne : (data) =>  request.get("/admin/page/"+data+"/destroy/"),
-    UpdateDataCategory :  (data , id) =>  request.put("/admin/category/"+id+"/update" , data),
-    UpdateDataPage :  (data , id) =>  request.put("/admin/page/"+id+"/update" , data),
+    // GetAllUserApi : (page) =>  request.get("/users/list?page="+page),
+    GetAllUserApi : (page) =>  request.get("/users"),
+    GroupDelUser : (userIds) =>  request.post("/user/destroys" , userIds),
+    GetAllCategory : () =>  request.get("/category/list?page=1"),
+    GetAllPages : () =>  request.get("/page/list"),
+    AddNewCategory : (data) =>  request.post("/category/" , data),
+    AddNewPage : (data) =>  request.post("/page/" , data),
+    DeleteCategoryOne : (data) =>  request.get("/category/"+data+"/destroy/"),
+    DeletePageOne : (data) =>  request.get("/page/"+data+"/destroy/"),
+    UpdateDataCategory :  (data , id) =>  request.put("/category/"+id+"/update" , data),
+    UpdateDataPage :  (data , id) =>  request.put("/page/"+id+"/update" , data),
 }

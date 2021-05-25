@@ -65,11 +65,13 @@ const UserList = memo((props) => {
         setLoading(true);
         Request.GetAllUserApi(page)
             .then(res => {
+
+                console.log("csdcsdc :" , res)
                 setLoading(false)
-                setUserData(res.data);
-                setPerPage(res.data.per_page);
-                setTotal(res.data.total);
-                setAllUser(res.data.data);
+                setUserData(res.data.data);
+                setPerPage(res.data.data.per_page);
+                setTotal(res.data.data.total);
+                setAllUser(res.data.data.data);
             }).catch(err => {
             return err
         })
@@ -200,8 +202,6 @@ const UserList = memo((props) => {
 
 
     return (
-
-
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
             <>
                 <div className={"row col-12"} id={"headerContent"}>
