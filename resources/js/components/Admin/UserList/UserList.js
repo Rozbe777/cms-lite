@@ -61,12 +61,11 @@ const UserList = memo((props) => {
 
 
     // let token = $('meta[name=author]').attr('content');
-    let GetAllUser = (page) => {
+    let GetAllUser = (datass) => {
         setLoading(true);
-        Request.GetAllUserApi(page)
+        Request.GetAllUserApi(datass)
             .then(res => {
-
-                console.log("csdcsdc :" , res)
+                console.log("csdcsdc :", res)
                 setLoading(false)
                 setUserData(res.data.data);
                 setPerPage(res.data.data.per_page);
@@ -114,7 +113,7 @@ const UserList = memo((props) => {
         } else {
             $("#edit-boxes").fadeOut(0);
         }
-        GetAllUser(1);
+        GetAllUser("page=1");
 
     }, [])
 
@@ -145,7 +144,7 @@ const UserList = memo((props) => {
     const indexOfFirstUser = indexOfLastUser - perPage;
     const currentUsers = allUser.slice(indexOfFirstUser, indexOfLastUser);
     const paginate = (pageNumber) => {
-        GetAllUser(pageNumber);
+        GetAllUser("page=" + pageNumber);
         $("li.page-item").removeClass("active");
         if (pageNumber == Math.ceil(total / perPage)) {
             $("li.page-item.next").css("opacity", 0.4);
@@ -187,7 +186,7 @@ const UserList = memo((props) => {
                             confirmButtonClass: 'btn btn-success',
                             confirmButtonText: 'باشه',
                         })
-                        GetAllUser(1);
+                        GetAllUser("page=1");
                     }).catch(error => console.log("error", error))
             }
         });
@@ -209,7 +208,31 @@ const UserList = memo((props) => {
                     <BreadCrumbs data={breadData}/>
                 </div>
 
-                <SearchComponent/>
+                {/*{console.log("total ", total ? total : '')}*/}
+                <SearchComponent total={total} searchRes={item => {
+                    let stringSearch = '';
+
+                    if (item.search) {
+                        stringSearch = stringSearch.length > 0 ? stringSearch + "&search=" + item.search : "search=" + item.search;
+                    }
+
+                    if (item.role_id) {
+                        stringSearch = stringSearch.length > 0 ? stringSearch + "&role_id=" + item.role_id : "role_id=" + item.role_id;
+                    }
+
+                    if (item.status) {
+                        stringSearch = stringSearch.length > 0 ? stringSearch + "&status=" + item.status : "status=" + item.status;
+                    }
+
+                    if (item.pageSize) {
+                        stringSearch = stringSearch.length > 0 ? stringSearch + "&pageSize=" + item.pageSize : "pageSize=" + item.pageSize;
+                    }
+
+
+                    GetAllUser(stringSearch)
+
+                    console.log("dataaaa : ", stringSearch)
+                }}/>
                 <form id="myForm">
                     <div className="heading-layout1">
                         <div className="item-title" style={{display: "none"}}>
