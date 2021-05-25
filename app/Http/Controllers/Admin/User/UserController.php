@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\User;
 
 use App\Classes\Responses\Admin\Responses;
+use App\Classes\Responses\Admin\ResponsesTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\CreateUserRequest;
 use App\Http\Requests\Admin\User\EditUserRequest;
@@ -18,6 +19,7 @@ use Illuminate\Http\RedirectResponse;
 
 class UserController extends Controller
 {
+    use ResponsesTrait;
 
     protected $userRepository;
     protected $responses;
@@ -38,8 +40,8 @@ class UserController extends Controller
         $user = $this->userRepository->all();
 
         return (is_array($user)) ?
-            $this->responses->notSuccess(500, $user) :
-            $this->responses->success($user, "content.index");
+            $this->view("pages.admin.user.index")->message(__('message.content.search.notSuccess'))->error(500) :
+            $this->view("pages.admin.user.index")->data($user)->message(__('message.success.200'))->success($user);
     }
 
     /**
@@ -62,7 +64,7 @@ class UserController extends Controller
     {
         $user = $this->userRepository->create($request->all());
 
-        return $this->responses->success($user, "content.show");
+        return $this->message(__('message.success.200'))->data($user)->view('pages.admin.user.show')->success();
     }
 
     /**
@@ -73,7 +75,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return $this->responses->success($user, "user.show");
+        return $this->message(__('message.success.200'))->data($user)->view('pages.admin.user.show')->success();
     }
 
     /**
@@ -84,7 +86,7 @@ class UserController extends Controller
      */
     public function edit(User $user): View
     {
-        return adminView("pages.admin.content.edit", compact('user'));
+        return adminView("pages.admin.user.edit", compact('user'));
     }
 
     /**
@@ -98,7 +100,7 @@ class UserController extends Controller
     {
         $user = $this->userRepository->update($request->all(), $user);
 
-        return $this->responses->success($user, "user.edit");
+        return $this->message(__('message.success.200'))->data($user)->view('pages.admin.user.edit')->success();
     }
 
     /**
@@ -120,19 +122,17 @@ class UserController extends Controller
      */
     public function multipleDestroy(multipleDestroyRequest $request)
     {
-        $content = $this->userRepository->multipleDestroy($request);
+        $this->userRepository->multipleDestroy($request);
 
-        return (is_array($content)) ?
-            $this->responses->notSuccess(500, $content) :
-            redirect()->back()->with('success', __('message.content.destroy.successful'));
+        redirect()->back()->with('success', __('message.content.destroy.successful'));
     }
 
     public function search(SearchUserRequest $request)
     {
-        $user = $this->userRepository->all($request->role , $request->status, $request->search, $request->pageSize);
+        $user = $this->userRepository->all($request->role, $request->status, $request->search, $request->pageSize);
 
         return (!$user) ?
             redirect()->back()->with('error', __('message.content.search.notSuccess')) :
-            $this->responses->success($user, "content.index");
+            $this->data($user)->message(__('message.success.200'))->view("pages.admin.user.index")->success();
     }
 }

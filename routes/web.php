@@ -77,14 +77,13 @@ Route::prefix('auth')->group(function () {
     });
 });
 
-
-
-Route::name('admin.')->middleware('auth')->group(function () {
+//Route::middleware('auth')->group(function () {
 
     Route::get('/role',function (){
        echo "admin.role";
     })->name('role');
-    Route::get('/dashboard',[DashboardController::class,'index'])->name('admin.dashboard.index');
+
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard.index');
     //----------------------------Contents---------------------------
     Route::get('contents/search', [ContentController::class, 'search'])->name('contents.search');
     Route::resource('contents', ContentController::class);
@@ -109,13 +108,16 @@ Route::name('admin.')->middleware('auth')->group(function () {
     Route::get('users/search', [UserController::class, 'search'])->name('users.search');
     Route::resource('users', UserController::class);
     Route::delete('users/multi/destroy', [UserController::class, 'multipleDestroy'])->name('users.multipleDestroy');
-});
+//});
 
 //-----------------------Mehrshad End----------------------
 
 
+
+
+
 Route::get('admin', function () {
-    return redirect()->route('admin.dashboard.index');
+    return redirect()->route('dashboard.index');
 });
 
 
@@ -127,12 +129,7 @@ Route::get('admin', function () {
 
 Route::group(['middleware' => 'user_permission'], function () {
 
-    Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'name' => 'admin.', 'middleware' => 'auth'], function () {
-
-
-        Route::group(['as' => 'dashboard.', 'prefix' => 'dashboard', 'namespace' => 'Dashboard', 'name' => 'dashboard.'], function () {
-            Route::get('/', [DashboardController::class, 'index'])->name('index');
-        });
+    Route::group(['middleware' => 'auth'], function () {
 
         Route::group(['as' => 'profile.', 'prefix' => 'profile', 'namespace' => 'Profile', 'name' => 'profile.'], function () {
             Route::get('/', [ProfileController::class, 'index'])->name('index');
