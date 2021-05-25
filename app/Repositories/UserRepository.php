@@ -23,9 +23,12 @@ class UserRepository implements Interfaces\RepositoryInterface
             $query->where('name', 'like', '%' . $search . '%')
                 ->orWhere('last_name', 'like', '%' . $search . '%')
                 ->orWhere('mobile', 'like', '%' . $search . '%');
+        })->when($role != null, function ($query) use ($role) {
+            $query->whereHas('roles', function ($query) use ($role) {
+                $query->where("role_id", $role);
+            });
         })->where('status', $status)
             ->paginate($pageSize);
-
     }
 
     public function get($id)
