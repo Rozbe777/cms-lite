@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,7 @@ class BlockLoginMiddleware
     public function handle(Request $request, Closure $next)
     {
         if ((Auth::user() != null) && (in_array($request->route()->getName(), ["show.login", "show.register"]))) {
-            return redirect()->back();
+            return redirect()->route('admin.dashboard.index');
         }
             return $next($request);
         }

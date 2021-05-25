@@ -79,7 +79,7 @@ class PasswordController extends Controller
         if (!$user) {
             return $this->message(__("message.auth.password.userNotExist"))->error();
         } else {
-            $user->password = bcrypt($request->password);
+            $user->password = bcrypt(trim($request->password));
             $user->save();
             return $this->view('pages.dashboard.index')->message(__('message.auth.password.successful'))->data($user)->success();
         }

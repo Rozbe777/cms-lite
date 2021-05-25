@@ -77,12 +77,14 @@ Route::prefix('auth')->group(function () {
     });
 });
 
-Route::name('admin.')->middleware('login')->group(function () {
+
+
+Route::name('admin.')->middleware('auth')->group(function () {
 
     Route::get('/role',function (){
        echo "admin.role";
     })->name('role');
-Route::get('/dashboard',[DashboardController::class,'index'])->name('admin.dashboard.index');
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('admin.dashboard.index');
     //----------------------------Contents---------------------------
     Route::get('contents/search', [ContentController::class, 'search'])->name('contents.search');
     Route::resource('contents', ContentController::class);
@@ -102,6 +104,11 @@ Route::get('/dashboard',[DashboardController::class,'index'])->name('admin.dashb
     Route::get('pages/search', [PageController::class, 'search'])->name('pages.search');
     Route::resource('pages', PageController::class);
     Route::delete('pages/multi/destroy', [PageController::class, 'multipleDestroy'])->name('pages.multipleDestroy');
+
+    //------------------------------User----------------------------
+    Route::get('users/search', [UserController::class, 'search'])->name('users.search');
+    Route::resource('users', UserController::class);
+    Route::delete('users/multi/destroy', [UserController::class, 'multipleDestroy'])->name('users.multipleDestroy');
 });
 
 //-----------------------Mehrshad End----------------------
