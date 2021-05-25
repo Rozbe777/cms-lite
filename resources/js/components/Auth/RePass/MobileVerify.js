@@ -141,31 +141,16 @@ const MobileVerify = (props) => {
             mobile : phone.mobile
         }
 
+        console.log("ffff : " , data)
+
         ReactDOM.render(<Loading/>, loadingElement);
-        Request.VerifyCodeCheck(data)
-            .then(response => {
-                ReactDOM.render('', loadingElement);
-                if (response.data.http_code == 200) {
-                    SuccessToast("در حال انتقال به تغییر پسورد ")
-                    setTimeout(() => {
-                        clearInterval(intervals);
-                        ReactDOM.render(<PasswordSet token={token}/>, document.getElementById("login-form"));
-                    }, 600)
-                }
-            }).catch(error => {
-            ReactDOM.render('', loadingElement);
-            if (error.response.data.errors) {
-                ErroHandle(error.response.data.errors)
-            } else {
-                ErrorToast("خطای غیر منتظره ای رخ داده است")
-            }
-        })
+
     }
 
 
     const verifyCodeGet = (e) => {
         e.preventDefault();
-        if (verifyCode.verifyCode.length < 4) {
+        if (verifyCode.verifyCode.length <= 4) {
             setVerifyCode({
                 [e.target.name]: e.target.value
             })
