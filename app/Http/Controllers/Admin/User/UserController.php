@@ -120,7 +120,7 @@ class UserController extends Controller
 
     /**
      * @param multipleDestroyRequest $request
-     * @return JsonResponse|RedirectResponse
+     * @return Factory|View|JsonResponse
      */
     public function multipleDestroy(multipleDestroyRequest $request)
     {
