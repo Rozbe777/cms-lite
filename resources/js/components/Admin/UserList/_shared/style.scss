@@ -200,7 +200,7 @@
 
 #totalAction {
     .col-10 {
-        padding: 0px !important;
+        padding: 0px 20px !important;
     }
 }
 
@@ -416,4 +416,17 @@ a {
 
 #headerContent #totalAction.activeAction{
     padding: 10px 15px !important;
+}
+#search_input{
+    height: 50px !important;
+    &::placeholder{
+        text-align: right !important;
+    }
+}
+
+.main-options-sel #content ul li{
+    height: 25px !important;
+}
+.search-input-float input{
+    height: 40px !important;
 }

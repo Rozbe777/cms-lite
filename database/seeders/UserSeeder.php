@@ -26,6 +26,25 @@ class UserSeeder extends Seeder
                 ['name' => "مدیر", 'last_name' => "سیستم", "password" => 'password', "mobile" => '09120000000'],
             ],
             'user' => [
+<<<<<<< HEAD
+                ['name' => "firstUser",'last_name' => "last name", "email" => "user1@gmail.com", "password" => '123456', "mobile" => '09110102000'],
+                ['name' => "firstUser",'last_name' => "last name", "email" => "user2@gmail.com", "password" => '123456', "mobile" => '09110202000'],
+                ['name' => "firstUser",'last_name' => "last name", "email" => "user3@gmail.com", "password" => '123456', "mobile" => '09110402000'],
+                ['name' => "firstUser",'last_name' => "last name", "email" => "user4@gmail.com", "password" => '123456', "mobile" => '09110702000'],
+                ['name' => "firstUser",'last_name' => "last name", "email" => "user5@gmail.com", "password" => '123456', "mobile" => '09111202000'],
+                ['name' => "firstUser",'last_name' => "last name", "email" => "user6@gmail.com", "password" => '123456', "mobile" => '09111402000'],
+                ['name' => "firstUser",'last_name' => "last name", "email" => "user7@gmail.com", "password" => '123456', "mobile" => '09113202000'],
+                ['name' => "firstUser",'last_name' => "last name", "email" => "user8@gmail.com", "password" => '123456', "mobile" => '09114102000'],
+                ['name' => "firstUser",'last_name' => "last name", "email" => "user9@gmail.com", "password" => '123456', "mobile" => '09112302000'],
+                ['name' => "firstUser",'last_name' => "last name", "email" => "user10@gmail.com", "password" => '123456', "mobile" => '09151002000'],
+                ['name' => "firstUser",'last_name' => "last name", "email" => "user11@gmail.com", "password" => '123456', "mobile" => '09118002000'],
+                ['name' => "firstUser",'last_name' => "last name", "email" => "user12@gmail.com", "password" => '123456', "mobile" => '09110812000'],
+                ['name' => "firstUser",'last_name' => "last name", "email" => "user13@gmail.com", "password" => '123456', "mobile" => '09110091000'],
+                ['name' => "firstUser",'last_name' => "last name", "email" => "user14@gmail.com", "password" => '123456', "mobile" => '09110002000'],
+                ['name' => "firstUser",'last_name' => "last name", "email" => "user15@gmail.com", "password" => '123456', "mobile" => '09110031000'],
+                ['name' => "firstUser",'last_name' => "last name", "email" => "user16@gmail.com", "password" => '123456', "mobile" => '09110061000'],
+                ['name' => "firstUser",'last_name' => "last name", "email" => "user17@gmail.com", "password" => '123456', "mobile" => '09110005000'],
+=======
                 ['name' => "firstUser",'last_name' => "last name", "password" => '123456', "mobile" => '09110002000'],
                 ['name' => "firstUser",'last_name' => "last name", "password" => '123456', "mobile" => '09110002001'],
                 ['name' => "firstUser",'last_name' => "last name", "password" => '123456', "mobile" => '09110002002'],
@@ -46,6 +65,7 @@ class UserSeeder extends Seeder
                 ['name' => "firstUser",'last_name' => "last name", "password" => '123456', "mobile" => '09110002090'],
                 ['name' => "firstUser",'last_name' => "last name", "password" => '123456', "mobile" => '09110002100'],
                 ['name' => "firstUser",'last_name' => "last name", "password" => '123456', "mobile" => '09110002200'],
+>>>>>>> bb72a129c33784ab3a93e05fa53fce46856f3d70
             ],
         ];
         $role_map_persian=[

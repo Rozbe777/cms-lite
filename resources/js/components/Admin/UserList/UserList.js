@@ -12,17 +12,27 @@ import {BreadCrumbs} from './HOC/BreadCrumbs'
 import {CHECK_BOX_CONTENT} from "./Helper/Context";
 import BottomNavigationBar from './HOC/BottomNavigationBar'
 import './../Shop/ProductManager/_Shared/Responsive.scss'
+import {ErroHandle, error as ErrorToast} from "../../../helper";
 
 const UserList = memo((props) => {
     const {token} = props;
+    const [name, setName] = useState();
+    const [searchload , setSearch] = useState(false)
     const [allUser, setAllUser] = useState([]);
     const [userSelected, setUserSelected] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const [perPage, setPerPage] = useState(3);
     const [userData, setUserData] = useState({});
     const [total, setTotal] = useState();
+    const [finalAllIds] = useState({userIds: []});
     const [checkBox, setCheckBox] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [stringSearchs, setStringSearch] = useState({
+        params: {
+            page: 1
+        }
+
+    });
     const [userId, setUserId] = useState({userIds: []});
     const [breadData] = useState({
         title: 'لیست کاربران',
@@ -61,12 +71,16 @@ const UserList = memo((props) => {
 
 
     // let token = $('meta[name=author]').attr('content');
-    let GetAllUser = (page) => {
+    let GetAllUser = (datass) => {
         setLoading(true);
-        Request.GetAllUserApi(page)
+        Request.GetAllUserApi(datass)
             .then(res => {
-
-                console.log("csdcsdc :" , res)
+                console.log("ffffff : " , searchload)
+                if(searchload === true){
+                    $("ul.pagination li").removeClass("active");
+                    $("ul.pagination li#1").addClass("active");
+                    setSearch(false)
+                }
                 setLoading(false)
                 setUserData(res.data.data);
                 setPerPage(res.data.data.per_page);
@@ -114,7 +128,9 @@ const UserList = memo((props) => {
         } else {
             $("#edit-boxes").fadeOut(0);
         }
-        GetAllUser(1);
+
+        // let pages = stringSearchs ? "page=1&" + stringSearchs : "page=1";
+        GetAllUser(stringSearchs);
 
     }, [])
 
@@ -145,7 +161,16 @@ const UserList = memo((props) => {
     const indexOfFirstUser = indexOfLastUser - perPage;
     const currentUsers = allUser.slice(indexOfFirstUser, indexOfLastUser);
     const paginate = (pageNumber) => {
-        GetAllUser(pageNumber);
+        // let pagess = stringSearchs ? "page=" + pageNumber + "&" + stringSearchs : "page=" + pageNumber;
+
+        stringSearchs.params.page = pageNumber;
+        setStringSearch({
+            params: {
+                page: pageNumber
+            }
+        });
+
+        GetAllUser(stringSearchs);
         $("li.page-item").removeClass("active");
         if (pageNumber == Math.ceil(total / perPage)) {
             $("li.page-item.next").css("opacity", 0.4);
@@ -162,10 +187,14 @@ const UserList = memo((props) => {
 
 
     const handleDeleteGroup = (event) => {
-        event.preventDefault();
 
-        let thisis = $(".sweet-alert-multi-delete-confirm");
-        const url = thisis.attr('href');
+
+        finalAllIds.userIds = checkBox;
+
+        finalAllIds._token =  $('meta[name="csrf-token"]').attr('content');
+
+        console.log(">>>>>>>>>>>>>>>>>" ,finalAllIds )
+        event.preventDefault();
         swal({
             title: 'حذف کاربر',
             text: "آیا مطمئنید؟",
@@ -178,7 +207,7 @@ const UserList = memo((props) => {
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-                Request.GroupDelUser(userId)
+                Request.GroupDelUser(finalAllIds)
                     .then(res => {
                         Swal.fire({
                             type: "success",
@@ -187,8 +216,14 @@ const UserList = memo((props) => {
                             confirmButtonClass: 'btn btn-success',
                             confirmButtonText: 'باشه',
                         })
-                        GetAllUser(1);
-                    }).catch(error => console.log("error", error))
+                        GetAllUser(stringSearchs);
+                    }).catch(error => {
+                    if (error.response.data.errors) {
+                        ErroHandle(error.response.data.errors)
+                    } else {
+                        ErrorToast("خطای غیر منتظره ای رخ داده است")
+                    }
+                })
             }
         });
     }
@@ -204,12 +239,39 @@ const UserList = memo((props) => {
     return (
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
             <>
+
                 <div className={"row col-12"} id={"headerContent"}>
-                    <TotalActions allData={userData} data={checkBox}/>
+                    <TotalActions deleteUsers={e => handleDeleteGroup(e)} allData={userData} data={checkBox}/>
                     <BreadCrumbs data={breadData}/>
                 </div>
 
-                <SearchComponent/>
+                {/*{console.log("total ", total ? total : '')}*/}
+                <SearchComponent total={total} searchRes={items => {
+
+
+
+                    Object.keys(items).forEach((key , value) => {
+                        setSearch(true)
+                        if (key === "pageSize" ){
+                            if (!items[key]){
+                                stringSearchs.params.page = 1;
+                                stringSearchs.params[key] = 15;
+                            }else{
+                                stringSearchs.params.page = 1;
+                                stringSearchs.params[key] = items[key];
+                            }
+
+
+                        }else{
+                            stringSearchs.params.page = 1;
+                            stringSearchs.params[key] = items[key];
+                        }
+
+                    })
+
+                    stringSearchs.params.page = 1;
+                    GetAllUser(stringSearchs)
+                }}/>
                 <form id="myForm">
                     <div className="heading-layout1">
                         <div className="item-title" style={{display: "none"}}>
@@ -227,15 +289,15 @@ const UserList = memo((props) => {
 
                     <div className="users-list-table container-fluid">
                         <div className={"row userListRow"}>
-                            {userData.data ? userData.data.map(items => (
+                            {userData.data ? userData.data.length > 0 ? userData.data.map(items => (
 
                                 <Item props={items}/>
 
-                            )) : <Loading/>}
+                            )): <p style={{width : '100%' , textAlign : 'center' , fontSize : '21px'}}>کاربری یافت نشد!</p> : <Loading/>}
                         </div>
 
                         <div className="col-md-12">
-                            {userData ? (
+                            {userData.data ? userData.data.length ? (
                                 <Pagination
                                     firstPageUrl={userData.first_page_url}
                                     lastPageUrl={userData.last_page_url}
@@ -245,7 +307,7 @@ const UserList = memo((props) => {
                                     total={total}
                                     paginate={paginate}
                                 />
-                            ) : 'wait'}
+                            ) : '' : ''}
 
                         </div>
 

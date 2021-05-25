@@ -2,24 +2,15 @@ import React, {useEffect, useState} from "react";
 import {MultiOption} from "./../../Shop/ProductManager/HOC/MultiOption";
 import $ from 'jquery';
 
-const SearchComponent = ({category: pushCategory}) => {
+const SearchComponent = ({total , searchRes: pushSearchRes}) => {
 
     const [size, setSize] = useState(0);
     const [sizeCategory, setSizeCategory] = useState(0);
+    const [search , setSearch] = useState({});
     useEffect(() => {
 
-    })
+    },[])
 
-    const handleSelected = (select) => {
-        console.log("ssss ", select)
-        setSize(select.length)
-    }
-
-    const handleCategory = (item) => {
-        console.log("++++", item)
-        pushCategory(item);
-        setSizeCategory(item.length)
-    }
 
     const handleFade = (e) => {
         $(".filter-content-fix").removeClass("active")
@@ -33,10 +24,7 @@ const SearchComponent = ({category: pushCategory}) => {
     }
 
 
-    // jquery code in responsive
-    const HandleResponsiveAdd = (e) => {
-        e.preventDefault();
-    }
+
 
     const handleFadeSearch = (e) => {
         e.preventDefault();
@@ -47,6 +35,16 @@ const SearchComponent = ({category: pushCategory}) => {
     }
 
 
+    const handleInputSearch = e => {
+        e.preventDefault();
+        let searchOld = {...search};
+        searchOld.search = e.target.value;
+        setSearch(searchOld)
+        pushSearchRes(searchOld)
+    }
+
+
+
     return (
         <>
             <div id={"shop_product_search"} style={{marginBottom: 20}}>
@@ -55,31 +53,52 @@ const SearchComponent = ({category: pushCategory}) => {
 
                         <div className="row col-12" id={"header-card-custom"}>
 
-                            <div className="col-12 col-sm-6 col-lg-3">
+                            <div className="col-12 col-sm-12 col-lg-3">
                                 <label htmlFor="users-list-verified">جستجو</label>
                                 <input type="text" className="form-control"
                                        id={"search_input"}
+                                       onChange={e => handleInputSearch(e)}
                                        placeholder="جستجو با ایمیل و تلفن ..." name="search"/>
 
                             </div>
-                            <div className="col-12 col-sm-6 col-lg-3">
-                                <label
-                                    htmlFor="users-list-verified">تایید شده</label>
-                                <MultiOption name={"acceeptable"} data={["تایید نشده", "تایید شده"]}
-                                             selected={item => console.log("checkeddddd : ", item)}/>
-                            </div>
+
 
                             <div className="col-12 col-sm-6 col-lg-3">
                                 <label htmlFor="users-list-status">نقش</label>
-                                <MultiOption name={"roles"} data={["کاربر", "مدیر"]}
-                                             selected={item => console.log("checkeddddd : ", item)}/>
+                                <MultiOption name={"role"} data={["کاربر", "مدیر"]}
+                                             selected={item => {
+                                                 let oldSearch = {...search};
+                                                 oldSearch.role_id = item == "مدیر" ? 1  : item=="کاربر" ? 2 : '';
+                                                 setSearch(oldSearch)
+                                                 pushSearchRes(oldSearch)
+                                             }}
+                                />
                             </div>
 
                             <div className="col-12 col-sm-6 col-lg-3">
                                 <label
                                     htmlFor="users-list-role">وضعیت</label>
                                 <MultiOption name={"status"} data={["غیرفعال", "فعال"]}
-                                             selected={item => console.log("checkeddddd : ", item)}/>
+                                             selected={item => {
+                                                 let oldSearch = {...search};
+                                                 oldSearch.status = item == "فعال" ? "active"  : item=="غیرفعال" ? "deactivate" : '';
+                                                 setSearch(oldSearch)
+                                                 pushSearchRes(oldSearch)
+                                             }}
+                                />
+                            </div>
+                            <div className="col-12 col-sm-6 col-lg-3">
+                                <label
+                                    htmlFor="users-list-role">تعداد نمایش</label>
+                                <MultiOption name={"status"} data={["10", "15" , "20", "نمایش همه"]}
+                                             selected={item => {
+                                                 let oldSearch = {...search};
+                                                 oldSearch.pageSize = item == "نمایش همه" ? total  : parseInt(item);
+                                                 setSearch(oldSearch)
+                                                 pushSearchRes(oldSearch)
+                                             }}
+
+                                />
                             </div>
 
                             {/*<div className="col-6 col-sm-6 col-lg-2" style={{marginBlockStart: 'auto'}}>*/}
