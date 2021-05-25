@@ -12,7 +12,7 @@ const MobileVerify = (props) => {
     }, [])
 
 
-    var pattern = /0?9([0-9]{9})/;
+    var pattern = /^0?9([0-9]{9})$/;
     let CounterTimer = 0;
     const [intervals, setIntervalId] = useState();
     const [isInvalid, setIsInvalid] = useState(false);
@@ -231,7 +231,7 @@ const MobileVerify = (props) => {
                             <label className="text-bold-700" htmlFor="username">
                                 شماره تلفن خود را وارد کنید
                             </label>
-                            <input type="text" className="form-control text-left"
+                            <input type="number" className="form-control text-left"
                                    id="username"
                                    autocomplete="one-time-code"
                                    onChange={e => HandlePhone(e)}
