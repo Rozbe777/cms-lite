@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin\User;
 
 use App\Classes\Responses\Admin\Responses;
-use App\Http\Controllers\Admin\User\Helper\UserSearchHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\CreateUserRequest;
 use App\Http\Requests\Admin\User\EditUserRequest;
@@ -15,8 +14,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+
 
 class UserController extends Controller
 {
@@ -131,7 +129,7 @@ class UserController extends Controller
 
     public function search(SearchUserRequest $request)
     {
-        $user = (new UserSearchHelper($request))->searchUser();
+        $user = $this->userRepository->all($request->role , $request->status, $request->search, $request->pageSize);
 
         return (!$user) ?
             redirect()->back()->with('error', __('message.content.search.notSuccess')) :

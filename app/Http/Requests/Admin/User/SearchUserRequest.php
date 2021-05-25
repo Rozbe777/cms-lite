@@ -27,6 +27,7 @@ class SearchUserRequest extends BaseRequest
             "role" => "nullable|string|exists:roles,name",
             "status" => "nullable|string|in:active,deactivate",
             "search" => "nullable|string",
+            "pageSize" => "nullable|integer"
         ];
     }
 }

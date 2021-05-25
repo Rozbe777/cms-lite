@@ -26,7 +26,7 @@ class ContentController extends Controller
     {
         $this->contentRepository = $contentRepository;
         $this->responses = $responses;
-        $this->middleware('user_permission');
+//        $this->middleware('user_permission');
     }
 
     /**
@@ -141,7 +141,7 @@ class ContentController extends Controller
 
     public function search(SearchContentRequest $request)
     {
-        $contents = (new ContentSearchHelper($request))->searchContents();
+        $contents = $this->contentRepository->all($request->status, $request->search, $request->owner, $request->pageSize);
 
         return (!$contents) ?
             redirect()->back()->with('error', __('message.content.search.notSuccess')) :

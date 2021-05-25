@@ -94,7 +94,7 @@ class MobileRegisterController extends Controller
             return $this->message(__('message.auth.register.wrongMobile'))->error();
 
         /** check the mobile in trait */
-        $response = $this->checkMobileTrait($client, $request->token);
+        $response = $this->checkMobileTrait($client, trim($request->token));
 
         return ($response) ?
             ($response->wasRecentlyCreated) ?

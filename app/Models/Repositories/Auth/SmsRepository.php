@@ -13,7 +13,7 @@ class SmsRepository
      */
     public function createToken($mobile)
     {
-        $sms = VerifyMobile::where('mobile',mobile($mobile))->first();
+        $sms = VerifyMobile::orderBy('id','desc')->where('mobile',mobile($mobile))->first();
 
         if ($sms){
             $sms->token = rand(1000, 9999);

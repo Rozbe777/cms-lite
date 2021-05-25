@@ -11,18 +11,23 @@ use Illuminate\Support\Facades\Auth;
 class UserRepository implements Interfaces\RepositoryInterface
 {
 
-    public function all()
+    public function all($role = [], $status = 'active', $search = [], $pageSize = [])
     {
-        try {
-            return User::with('contents')
-                ->with('tags')
-                ->with('categories')
-                ->where('status', "active")
-                ->paginate(config('view.pagination'));
-        } catch (\Exception $exception) {
-            return [$exception->getCode(), $exception->getMessage()];
+        if (empty($pageSize)) {
+            $pageSize = config('view.pagination');
         }
-
+        return User::where(function ($query) use ($search) {
+            return $query->when($search != null, function ($query) use ($search) {
+                return $query->where('last_name', 'like', '%' . $search . '%')
+                    ->orWhere('name', 'like', '%' . $search . '%')
+                    ->orWhere('phone', 'like', '%' . $search . '%');
+            });
+        })
+            ->where('status', "active")
+            ->whereHas('roles', function ($query) use ($role) {
+                return $query->where('name', $role);
+            })
+            ->paginate(config('view.pagination'));
     }
 
     public function get($id)
@@ -43,12 +48,12 @@ class UserRepository implements Interfaces\RepositoryInterface
 
     public function create(array $data)
     {
-            return User::create($data);
+        return User::create($data);
     }
 
     public function multipleDestroy($data)
     {
-            User::whereIn('id', $data['users'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);
-            return true;
+        User::whereIn('id', $data['users'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);
+        return true;
     }
 }
