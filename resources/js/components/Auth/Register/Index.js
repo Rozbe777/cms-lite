@@ -163,6 +163,8 @@ const Index = (props) => {
         }
 
         // console.log("da " , data)
+
+
         ReactDOM.render(<Loading/>, loadingElement);
         Request.VerifyCodeCheck(data)
             .then(response => {
@@ -196,13 +198,10 @@ const Index = (props) => {
     const verifyCodeGet = (e) => {
         e.preventDefault();
 
-        if (verifyCode.verifyCode.length > 4) {
-
-        }else{
             setVerifyCode({
                 verifyCode : e.target.value
             })
-        }
+
 
     }
 
@@ -302,7 +301,6 @@ const Index = (props) => {
                                                name={"verifyCode"}
                                                min="1000"
                                                max="9999"
-                                               maxLength={15}
                                                autoComplete={"none"}
                                                onChange={e => verifyCodeGet(e)}
                                                placeholder={"کد تایید را وارد کنید"}/>

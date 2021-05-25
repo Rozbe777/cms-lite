@@ -105,14 +105,15 @@ const FinalDataRegister = ({token, id}) => {
                                 <div className="form-group col-md-6 mb-50">
                                     <label htmlFor="inputfirstname4">نام</label>
                                     <input type="text" autoComplete="off" className="form-control inputRegister"
-                                           id="inputfirstname4"
+                                           id="inputfirstname4 finalInputs"
+
                                            autoComplete="one-time-code"
                                            name="name" onChange={e => onChangeInput(e)} placeholder="نام"/>
                                 </div>
                                 <div className="form-group col-md-6 mb-50">
                                     <label htmlFor="inputlastname4">نام خانوادگی</label>
                                     <input type="text" autoComplete="off" className="form-control inputRegister"
-                                           id="inputlastname4"
+                                           id="inputlastname4 finalInputs"
                                            autoComplete="one-time-code"
                                            name="last_name" onChange={e => onChangeInput(e)}
                                            placeholder="نام خانوادگی"/>
@@ -128,7 +129,7 @@ const FinalDataRegister = ({token, id}) => {
                                        name="password"
                                        autoComplete="one-time-code"
                                        onChange={e => onChangeInput(e)}
-                                       id="password" placeholder="رمز عبور"
+                                       id="password finalInputs" placeholder="رمز عبور"
                                        dir="ltr"/>
                             </div>
                             <div className="form-group mb-2">
@@ -138,7 +139,8 @@ const FinalDataRegister = ({token, id}) => {
                                        className="form-control inputRegister text-left"
                                        autoComplete="one-time-code"
                                        onChange={e => onChangeInput(e)}
-                                       name="password_confirmation" id="password-confirm"
+
+                                       name="password_confirmation" id="password-confirm finalInputs"
                                        placeholder=" تایید رمز عبور" dir="ltr"/>
                             </div>
 
