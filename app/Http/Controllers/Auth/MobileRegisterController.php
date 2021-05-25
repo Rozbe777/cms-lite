@@ -88,6 +88,7 @@ class MobileRegisterController extends Controller
     /** check the token */
     public function checkMobile(MobileRequest $request)
     {
+
         $client = (new MobileRepository())->find(mobile($request->mobile));
 
         if ($client == null)

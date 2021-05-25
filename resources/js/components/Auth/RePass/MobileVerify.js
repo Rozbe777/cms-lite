@@ -12,12 +12,14 @@ const MobileVerify = (props) => {
     }, [])
 
 
-    var pattern = /0?9([0-9]{9})/;
+    var pattern = /^0?9([0-9]{9})$/;
     let CounterTimer = 0;
     const [intervals, setIntervalId] = useState();
     const [isInvalid, setIsInvalid] = useState(false);
     const {token} = props;
-    const [phone, setPhone] = useState();
+    const [phone, setPhone] = useState({
+        mobile : ''
+    });
     const [response, setResponse] = useState();
     let elementLoading = document.getElementById("loading-show")
 
@@ -177,7 +179,7 @@ const MobileVerify = (props) => {
             if (numberReg.test(verifyCode.verifyCode)) {
                 if (verifyCode.verifyCode.length == 4) {
                     return (
-                        <button className={"btn btn-primary"} style={{fontSize: '11px'}}
+                        <button className={"btn btn-primary glow w-100 position-relative"} id={"verifyCodessss"} style={{fontSize: '11px'}}
                                 onClick={e => checkCode(e)}>بررسی
                             کد</button>
                     )
@@ -217,6 +219,10 @@ const MobileVerify = (props) => {
                     </div>
                 </div>
 
+                <p style={{paddingRight : '25px' , fontSize:13}}>
+                    در صورتی که رمز عبور پنل کاربری خود را فراموش کرده اید کافیست با وارد کردن شماره تلفن همراه و تایید آن توسط کد پیامک ارسال شده به تلفن همراه خود وارد پنل تغییر رمز عبور شوید.
+                </p>
+
 
                 <div className="card-content">
                     <div className="card-body">
@@ -225,7 +231,7 @@ const MobileVerify = (props) => {
                             <label className="text-bold-700" htmlFor="username">
                                 شماره تلفن خود را وارد کنید
                             </label>
-                            <input type="text" className="form-control text-left"
+                            <input type="number" className="form-control text-left"
                                    id="username"
                                    autocomplete="one-time-code"
                                    onChange={e => HandlePhone(e)}
@@ -236,7 +242,7 @@ const MobileVerify = (props) => {
                             <button type="submit"
                                     onClick={e => RegisterPhone(e)}
                                     style={{marginTop: 15}}
-                                    className="btn btn-primary glow w-50 position-relative">{CounterTimer > 0 ? "دریافت مجدد کد تایید" : "دریافت کد تایید"}</button>
+                                    className="btn btn-primary glow w-100 position-relative">{CounterTimer > 0 ? "دریافت مجدد کد تایید" : "دریافت کد تایید"}</button>
                         </div>
                         <div>
                             <a href={"/login"} style={{borderBottom: '1px dashed', cursor: 'pointer'}}><small>بازگشت به
@@ -263,25 +269,40 @@ const MobileVerify = (props) => {
                                 <i className={"bx bx-x"}></i>
                             </span>
 
+
                                 <p>کد تایید را وارد کنید</p>
+
+
+                                <div className="alert border-success alert-dismissible mb-2" role="alert" id={"customAlert"}>
+                                    <div className="d-flex align-items-center">
+                                        <span>
+کد تایید به شماره تلفن همراه {phone.mobile ? phone.mobile : ''} ارسال شد.
+                </span>
+                                    </div>
+                                </div>
 
 
                                 <div className={"col-12"}
                                      style={{display: 'flex', alignItem: 'center', justifyContent: 'center'}}>
                                     <div className={"verify-code-check"}>
-                                        <input
-                                            type={"number"}
-                                            id={"verify_codes"}
-                                            className={"form-control " + isInvalid == true ? "is-invalid" : ""}
-                                            name={"verifyCode"}
-                                            onChange={e => verifyCodeGet(e)}
-                                            placeholder={"کد تایید را تایپ کنید"}
-                                        />
+                                        <input type={"number"}
+                                               className={"form-control " + isInvalid == true ? "is-invalid" : ""}
+                                               name={"verifyCode"}
+                                               min="1000"
+                                               max="9999"
+                                               maxLength={15}
+                                               autoComplete={"none"}
+                                               onChange={e => verifyCodeGet(e)}
+                                               placeholder={"کد تایید را وارد کنید"}/>
                                     </div>
                                 </div>
 
 
-                                {checkButton()}
+                                <button className={"btn btn-primary"} id={"verifyCodessss"} style={{fontSize: '11px'}}
+                                        onClick={e => checkCode(e)}>بررسی
+                                    کد</button>
+
+
                                 <div id={"timersPop"}></div>
 
                                 <div id={"loading-shows"}>

@@ -82,7 +82,7 @@ const LoginForm = ({token}) => {
 
             <div className="card-header pb-1">
                 <div className="card-title">
-                    <h4 className="text-center mb-2">خوش آمدید</h4>
+                    <h4 className="text-center mb-2">ورود به حساب کاربری</h4>
                 </div>
             </div>
 
@@ -95,7 +95,7 @@ const LoginForm = ({token}) => {
                         <div className="form-group mb-50">
                             <label className="text-bold-700" htmlFor="username">شماره تلفن همراه</label>
                             <input
-                                autocomplete="off"
+                                autoComplete="off"
                                 type="text" className="form-control text-left"
                                 id="mobile"
                                 name="mobile"
@@ -106,7 +106,7 @@ const LoginForm = ({token}) => {
                                 عبور</label>
                             <input type="password" className="form-control text-left"
                                    name="password" id="password"
-                                   autocomplete="off"
+                                   autoComplete="off"
                                    placeholder="رمز عبور" dir="ltr"/>
                         </div>
                         <div
