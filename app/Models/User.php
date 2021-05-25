@@ -37,12 +37,12 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $guarded=[];
+    protected $guarded = [];
 
     /**
      * @var array|string[]
      */
-    protected $appends = ['fullname', 'persianStatus','userRole'];
+    protected $appends = ['fullname', 'persianStatus', 'userRole', 'userRoleName'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -62,28 +62,29 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     /**
      * @var mixed|string
      */
 
     public function categories()
     {
-        return $this->hasMany(Category::class, 'user_id','id');
+        return $this->hasMany(Category::class, 'user_id', 'id');
     }
 
     public function tags()
     {
-        return $this->hasMany(Tag::class, 'user_id','id');
+        return $this->hasMany(Tag::class, 'user_id', 'id');
     }
 
     public function pages()
     {
-        return $this->hasMany(Page::class, 'user_id','id');
+        return $this->hasMany(Page::class, 'user_id', 'id');
     }
 
     public function getFullnameAttribute()
     {
-        if (empty($this->attributes['name']) && empty($this->attributes['last_name'])) {
+        if (empty($this->attributes['name'])) {
             return $this->attributes['mobile'];
         }
         return $this->attributes['name'] . ' ' . $this->attributes['last_name'];
@@ -101,9 +102,17 @@ class User extends Authenticatable
 
     public function getUserRoleAttribute()
     {
+
         return $this->roles()->first()->name;
     }
 
+    public function getUserRoleNameAttribute()
+    {
+        $role = $this->roles()->first();
+        if (empty($role))
+            return "بدون دسترسی";
+        return $role->name;
+    }
 
 
 }

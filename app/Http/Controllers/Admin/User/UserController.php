@@ -15,6 +15,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use function GuzzleHttp\Promise\all;
 
@@ -88,7 +89,7 @@ class UserController extends Controller
      */
     public function edit(User $user): View
     {
-        return adminView("pages.admin.user.edit", compact('user'));
+        return adminView("pages.admin.user.edit")->with(['data'=>$user]);
     }
 
     /**
@@ -101,21 +102,20 @@ class UserController extends Controller
     public function update(EditUserRequest $request, User $user)
     {
         $user = $this->userRepository->update($request->all(), $user);
-
-        return $this->message(__('message.success.200'))->data($user)->view('pages.admin.user.edit')->success();
+        return $this->message(__('message.user.200'))->view('pages.admin.user.edit')->data($user)->success();
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param User $user
-     * @return RedirectResponse
+     * @return Factory|View|JsonResponse|RedirectResponse
      */
     public function destroy(User $user)
     {
         $this->userRepository->delete($user);
 
-        return redirect()->back()->with('success', __('message.content.destroy.successful'));
+        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.user.index')->success();
     }
 
     /**
@@ -124,8 +124,11 @@ class UserController extends Controller
      */
     public function multipleDestroy(multipleDestroyRequest $request)
     {
-        $this->userRepository->multipleDestroy($request);
+        if (in_array(Auth::id() ,$request->all()['userIds']) || in_array( 1, $request->all()['userIds']))
+            return $this->message(__('message.roles.destroy.cantDeleteSuperAdmin'))->view('pages.admin.user.index')->error();
 
-        redirect()->back()->with('success', __('message.content.destroy.successful'));
+        $this->userRepository->multipleDestroy($request->all());
+
+        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.user.index')->success();
     }
 }

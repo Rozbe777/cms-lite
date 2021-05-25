@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 
+use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -38,23 +39,36 @@ class UserRepository implements Interfaces\RepositoryInterface
 
     public function delete($user)
     {
-        $user->update(['status' => 'deactivate']);
         return $user->delete();
     }
 
     public function update(array $data, $user)
     {
-        return $user->update($data);
+        if (array_key_exists('role_id',$data)){
+            $role = Role::findOrFail($data['role_id']);
+            $user->detachRoles();
+            $user->attachRole($role);
+            unset($data['role_id']);
+        }
+        $user->update($data);
+        return $user;
     }
 
     public function create(array $data)
     {
-        return User::create($data);
+        if (array_key_exists('role_id',$data)){
+            $role = Role::findOrFail($data['role_id']);
+            unset($data['role_id']);
+        }
+        $user = User::create($data);
+        $user->attachRole($role);
+        $user->save();
+        return $user;
     }
 
     public function multipleDestroy($data)
     {
-        User::whereIn('id', $data['users'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);
+        User::whereIn('id', $data['userIds'])->delete();
         return true;
     }
 }
