@@ -24,7 +24,7 @@ const UserList = memo((props) => {
     const [perPage, setPerPage] = useState(3);
     const [userData, setUserData] = useState({});
     const [total, setTotal] = useState();
-    const [finalAllIds] = useState({contentIds: []});
+    const [finalAllIds] = useState({userIds: []});
     const [checkBox, setCheckBox] = useState([]);
     const [loading, setLoading] = useState(false);
     const [stringSearchs, setStringSearch] = useState({
@@ -189,9 +189,11 @@ const UserList = memo((props) => {
     const handleDeleteGroup = (event) => {
 
 
-        finalAllIds.contentIds = checkBox;
+        finalAllIds.userIds = checkBox;
 
+        finalAllIds._token =  $('meta[name="csrf-token"]').attr('content');
 
+        console.log(">>>>>>>>>>>>>>>>>" ,finalAllIds )
         event.preventDefault();
         swal({
             title: 'حذف کاربر',
