@@ -258,7 +258,7 @@ const UserList = memo((props) => {
                         </div>
 
                         <div className="col-md-12">
-                            {userData ? (
+                            {userData.data ? (
                                 <Pagination
                                     firstPageUrl={userData.first_page_url}
                                     lastPageUrl={userData.last_page_url}
@@ -268,7 +268,7 @@ const UserList = memo((props) => {
                                     total={total}
                                     paginate={paginate}
                                 />
-                            ) : 'wait'}
+                            ) : <Loading/>}
 
                         </div>
 
