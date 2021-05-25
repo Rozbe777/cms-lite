@@ -177,7 +177,7 @@ const MobileVerify = (props) => {
             if (numberReg.test(verifyCode.verifyCode)) {
                 if (verifyCode.verifyCode.length == 4) {
                     return (
-                        <button className={"btn btn-primary"} style={{fontSize: '11px'}}
+                        <button className={"btn btn-primary glow w-100 position-relative"} id={"verifyCodessss"} style={{fontSize: '11px'}}
                                 onClick={e => checkCode(e)}>بررسی
                             کد</button>
                     )
@@ -217,6 +217,10 @@ const MobileVerify = (props) => {
                     </div>
                 </div>
 
+                <p style={{paddingRight : '25px' , fontSize:13}}>
+                    در صورتی که رمز عبور پنل کاربری خود را فراموش کرده اید کافیست با وارد کردن شماره تلفن همراه و تایید آن توسط کد پیامک ارسال شده به تلفن همراه خود وارد پنل تغییر رمز عبور شوید.
+                </p>
+
 
                 <div className="card-content">
                     <div className="card-body">
@@ -236,7 +240,7 @@ const MobileVerify = (props) => {
                             <button type="submit"
                                     onClick={e => RegisterPhone(e)}
                                     style={{marginTop: 15}}
-                                    className="btn btn-primary glow w-50 position-relative">{CounterTimer > 0 ? "دریافت مجدد کد تایید" : "دریافت کد تایید"}</button>
+                                    className="btn btn-primary glow w-100 position-relative">{CounterTimer > 0 ? "دریافت مجدد کد تایید" : "دریافت کد تایید"}</button>
                         </div>
                         <div>
                             <a href={"/login"} style={{borderBottom: '1px dashed', cursor: 'pointer'}}><small>بازگشت به
@@ -262,6 +266,7 @@ const MobileVerify = (props) => {
                             <span id={"close-icon"} onClick={e => closeModal(e)}>
                                 <i className={"bx bx-x"}></i>
                             </span>
+
 
                                 <p>کد تایید را وارد کنید</p>
 

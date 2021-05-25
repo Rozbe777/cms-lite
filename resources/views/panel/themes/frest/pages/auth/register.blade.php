@@ -38,10 +38,6 @@
 @section('pageScripts')
 
 
-    <script>
-        document.getElementById('verify_codes').focus();
-    </script>
-
 
     <script src="{{asset("/js/app.js")}}"></script>
 

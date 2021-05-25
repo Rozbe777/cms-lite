@@ -10,12 +10,10 @@ import FinalDataRegister from "./FinalDataRegister";
 
 const Index = (props) => {
     useEffect(() => {
-        $("input[name=verifyCode]").focus();
+        // $("input[name=verifyCode]").focus();
     }, [])
 
-    $(document).ready(function () {
-        $("input[name=verifyCode]").focus();
-    })
+
 
     let timerString = "";
     var pattern = /0?9([0-9]{9})/;
@@ -151,45 +149,6 @@ const Index = (props) => {
 
     let loadingElement = document.getElementById("loading-shows");
 
-    var body = $("#wrapper");
-
-    // check kardan daryaft number dar inputhai verify code , paresh be input badi
-    function goToNextInput(e) {
-        var key = e.which,
-            t = $(e.target),
-            sib = t.next("input");
-        if (key != 9 && (key < 48 || key > 57)) {
-            e.preventDefault();
-            return false;
-        }
-        if (key === 9) {
-            return true;
-        }
-        if (!sib || !sib.length) {
-            sib = body.find("input").eq(0);
-        }
-        sib.select().focus();
-    }
-
-    // check kardan vard shodan number baray raftan be input badi
-    function onKeyDown(e) {
-        var key = e.which;
-        if (key === 9 || (key >= 48 && key <= 57)) {
-            return true;
-        }
-        e.preventDefault();
-        return false;
-    }
-
-    // check kardan focus in input
-    function onFocus(e) {
-        $(e.target).select();
-    }
-
-    // transaction hai input
-    body.on("keyup", "input", goToNextInput);
-    body.on("keydown", "input", onKeyDown);
-    body.on("click", "input", onFocus);
 
 
     const checkCode = (e) => {
@@ -246,11 +205,10 @@ const Index = (props) => {
 
     const checkButton = () => {
 
-        console.log("check button : " , verifyCode.verifyCode , verifyCode.verifyCode.length)
         if (verifyCode.verifyCode){
             if (verifyCode.verifyCode.length == 4) {
                 return (
-                    <button className={"btn btn-primary"} style={{fontSize: '11px'}}
+                    <button className={"btn btn-primary"} id={"verifyCodessss"} style={{fontSize: '11px'}}
                             onClick={e => checkCode(e)}>بررسی
                         کد</button>
                 )
@@ -278,13 +236,17 @@ const Index = (props) => {
         <>
             <div style={{position: 'relative'}}
                  className="card disable-rounded-right mb-0 p-2 h-100 d-flex justify-content-center">
+
+
+
                 <div className="card-header pb-1">
                     <div className="card-title">
-                        <h4 className="text-center mb-2">خوش آمدید</h4>
+                        <h4 className="text-center mb-2">ثبت نام</h4>
                     </div>
                 </div>
 
-
+<p style={{paddingRight : '25px' , fontSize:13}}>برای ثبت نام در وب سایت کافیست شماره تلفن خود را وارد کنید و کد تایید ارسال شده به شماره تلفن همراه خود را در محله تایید کد وارد نمایید
+</p>
                 <div className="card-content">
                     <div className="card-body">
 
@@ -294,7 +256,7 @@ const Index = (props) => {
                             </label>
                             <input type="text" className="form-control text-left"
                                    id="username"
-                                   autocomplete="one-time-code"
+                                   autoComplete="one-time-code"
                                    onChange={e => HandlePhone(e)}
                                    name="mobile"
                                    placeholder="شماره تلفن" dir="ltr"/>
@@ -303,7 +265,7 @@ const Index = (props) => {
                             <button type="submit"
                                     onClick={e => RegisterPhone(e)}
                                     style={{marginTop: 15}}
-                                    className="btn btn-primary glow w-50 position-relative">{CounterTimer > 0 ? "دریافت مجدد کد تایید" : "دریافت کد تایید"}</button>
+                                    className="btn btn-primary glow w-100 position-relative">{CounterTimer > 0 ? "دریافت مجدد کد تایید" : "دریافت کد تایید"}</button>
                         </div>
                         <div>
                             <small className="mr-25">قبلا ثبت نام کرده اید؟</small>
