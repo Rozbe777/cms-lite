@@ -26,7 +26,7 @@ class PermissionSeeder extends Seeder
                     'weight' => 1,
                     'icon' => 'flaticon-multiple-users-silhouette',
                     'is_menu' => 1,
-                    "name" => "admin.dashboard.index",
+                    "name" => "dashboard.index",
                     "display_name" => "پیشخوان",
                     "children" => []
                 ],
@@ -34,12 +34,12 @@ class PermissionSeeder extends Seeder
                     'weight' => 10,
                     'icon' => 'flaticon-multiple-users-silhouette',
                     'is_menu' => 1,
-                    "name" => "admin.user.index",
+                    "name" => "user.index",
                     "display_name" => "کاربران",
                     "children" => [
                         [
                             'is_menu' => 1,
-                            "name" => "admin.user.create",
+                            "name" => "user.create",
                             "display_name" => "افزودن کاربر"
                         ],
                     ]

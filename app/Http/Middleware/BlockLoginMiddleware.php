@@ -19,7 +19,7 @@ class BlockLoginMiddleware
     public function handle(Request $request, Closure $next)
     {
         if ((Auth::user() != null) && (in_array($request->route()->getName(), ["show.login", "show.register"]))) {
-            return redirect()->route('admin.dashboard.index');
+            return redirect()->route('dashboard.index');
         }
             return $next($request);
         }
