@@ -24,7 +24,6 @@ use Shanmuga\LaravelEntrust\Traits\LaravelEntrustUserTrait;
  * @property Carbon|null email_verified_at
  * @method static find(Integer $user_id)
  * @method static findOrFail($id)
- * @method static where(string $string, $userIds)
  * @method static paginate(int $int)
  */
 class User extends Authenticatable

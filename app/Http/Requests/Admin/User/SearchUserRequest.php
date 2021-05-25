@@ -24,11 +24,10 @@ class SearchUserRequest extends BaseRequest
     public function rules()
     {
         return [
-            "confirmed" => "nullable|boolean",
             "role" => "nullable|string|exists:roles,name",
             "status" => "nullable|string|in:active,deactivate",
             "search" => "nullable|string",
-
+            "pageSize" => "nullable|integer"
         ];
     }
 }

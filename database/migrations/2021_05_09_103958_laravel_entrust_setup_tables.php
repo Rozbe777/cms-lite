@@ -26,6 +26,7 @@ class LaravelEntrustSetupTables extends Migration
         Schema::create('permissions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->unique();
+            $table->tinyInteger('weight')->nullable();
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
             $table->integer('is_menu')->default(0);
