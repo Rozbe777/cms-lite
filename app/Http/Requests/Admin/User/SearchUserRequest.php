@@ -24,7 +24,7 @@ class SearchUserRequest extends BaseRequest
     public function rules()
     {
         return [
-            "role" => "nullable|string|exists:roles,name",
+            "role_id" => "nullable|integer|exists:roles,id",
             "status" => "nullable|string|in:active,deactivate",
             "search" => "nullable|string",
             "pageSize" => "nullable|integer"

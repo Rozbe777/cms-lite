@@ -11,23 +11,21 @@ use Illuminate\Support\Facades\Auth;
 class UserRepository implements Interfaces\RepositoryInterface
 {
 
-    public function all($role = [], $status = 'active', $search = [], $pageSize = [])
+    public function all($role = null, $status = null, $search = null, $pageSize = null)
     {
-        if (empty($pageSize)) {
+        if (empty($pageSize))
             $pageSize = config('view.pagination');
-        }
-        return User::where(function ($query) use ($search) {
-            return $query->when($search != null, function ($query) use ($search) {
-                return $query->where('last_name', 'like', '%' . $search . '%')
-                    ->orWhere('name', 'like', '%' . $search . '%')
-                    ->orWhere('phone', 'like', '%' . $search . '%');
-            });
-        })
-            ->where('status', "active")
-            ->whereHas('roles', function ($query) use ($role) {
-                return $query->where('name', $role);
-            })
-            ->paginate(config('view.pagination'));
+
+        if (empty($status))
+            $status = 'active';
+
+        return User::when($search != null, function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%')
+                ->orWhere('mobile', 'like', '%' . $search . '%');
+        })->where('status', $status)
+            ->paginate($pageSize);
+
     }
 
     public function get($id)

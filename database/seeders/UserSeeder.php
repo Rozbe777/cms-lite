@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
 
         $user_roles=[
             'admin' => [
-                ['name' => "مدیر", 'last_name' => "سیستم", "email" => "cms@zerone.team", "password" => 'password', "mobile" => '09120000000'],
+                ['name' => "مدیر", 'last_name' => "سیستم", "password" => 'password', "mobile" => '09120000000'],
             ],
             'user' => [
                 ['name' => "firstUser",'last_name' => "last name", "password" => '123456', "mobile" => '09110002000'],
@@ -66,7 +66,6 @@ class UserSeeder extends Seeder
                 $user = new User();
                 $user->name = $value['name'];
                 $user->last_name = $value['last_name'];
-                $user->email = $value['email'];
                 $user->status = 'active';
                 $user->mobile = mobile($value['mobile']);
                 $user->email_verified_at = now();

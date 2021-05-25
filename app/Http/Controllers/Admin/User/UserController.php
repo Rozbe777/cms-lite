@@ -15,6 +15,8 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Request;
+use function GuzzleHttp\Promise\all;
 
 
 class UserController extends Controller
@@ -33,15 +35,15 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return View|JsonResponse
+     * @return Factory|View|JsonResponse|RedirectResponse
      */
-    public function index()
+    public function index(SearchUserRequest $request)
     {
-        $user = $this->userRepository->all();
+        $user = $this->userRepository->all($request->role_id, $request->status, $request->search, $request->pageSize, $request->page);
 
-        return (is_array($user)) ?
-            $this->view("pages.admin.user.index")->message(__('message.content.search.notSuccess'))->error(500) :
-            $this->view("pages.admin.user.index")->data($user)->message(__('message.success.200'))->success();
+        return (!$user) ?
+            redirect()->back()->with('error', __('message.content.search.notSuccess')) :
+            $this->data($user)->message(__('message.success.200'))->view("pages.admin.user.index")->success();
     }
 
     /**
@@ -125,14 +127,5 @@ class UserController extends Controller
         $this->userRepository->multipleDestroy($request);
 
         redirect()->back()->with('success', __('message.content.destroy.successful'));
-    }
-
-    public function search(SearchUserRequest $request)
-    {
-        $user = $this->userRepository->all($request->role, $request->status, $request->search, $request->pageSize);
-
-        return (!$user) ?
-            redirect()->back()->with('error', __('message.content.search.notSuccess')) :
-            $this->data($user)->message(__('message.success.200'))->view("pages.admin.user.index")->success();
     }
 }
