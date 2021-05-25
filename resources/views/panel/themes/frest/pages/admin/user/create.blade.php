@@ -18,8 +18,8 @@
                         <div class="tab-pane active fade show" id="account" aria-labelledby="account-tab"
                              role="tabpanel">
                             <div id="create-user-form"
-                                 data-roles={{$roles}}
-                                     data-action="{{route('admin.user.store')}}"
+                                 data-roles={{\Illuminate\Support\Facades\Auth::user()->roles()->first()->name}}
+                                     data-action="{{route('user.store')}}"
                                  data-token="{{csrf_token()}}"></div>
                         </div>
 

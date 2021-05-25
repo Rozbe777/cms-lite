@@ -33,17 +33,17 @@
                             <div class="tab-content">
                                 <div class="tab-pane active fade show" id="account" aria-labelledby="account-tab"
                                      role="tabpanel">
-                                    <div id="profile-form" data-user="{{$user}}"
+                                    <div id="profile-form" data-user="{{$data}}"
                                          data-is_admin="1"
-                                         data-roles="{{$roles}}"
-                                         data-role_id="{{$user->roles()->first()->id}}"
-                                         data-action="{{route('admin.profile.index')}}"
+                                         data-roles="{{$data->roles()->first()->name}}"
+                                         data-role_id="{{$data->roles()->first()->id}}"
+                                         data-action="{{route('profile.index')}}"
                                          data-token="{{csrf_token()}}"></div>
                                 </div>
                                 <div class="tab-pane fade show" id="password" aria-labelledby="password-tab"
                                      role="tabpanel">
                                     <!-- change password form start -->
-                                    <div id="password-form" data-action="{{route('admin.profile.password')}}"
+                                    <div id="password-form" data-action="{{route('profile.password')}}"
                                          data-token="{{csrf_token()}}"></div>
                                     <!-- change password form ends -->
                                 </div>
