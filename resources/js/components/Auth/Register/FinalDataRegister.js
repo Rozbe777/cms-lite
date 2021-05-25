@@ -81,19 +81,27 @@ const FinalDataRegister = ({token, id}) => {
         <div className="col-12 px-0">
             <div className="card disable-rounded-right mb-0 p-2 h-100 d-flex justify-content-center"
                  id={"card-contents"}>
-                <div className="alert border-success alert-dismissible mb-2" role="alert" >
-                    <div className="d-flex align-items-center">
-                                        <span>
-شماره تلفن همراه شما با موفقیت تایید شد لطفا برای تکمیل حساب کاربری خود فرم زیر را پر کنید.
 
-                </span>
-                    </div>
-                </div>
                 <div className="card-content">
+
                     <form onSubmit={e => verifyForm(e)} autoComplete="off">
 
                         <div className="card-body">
                             <div className="form-row">
+
+
+                                <h4 style={{textAlign : 'center' , marginTop : '19px' , width : '100%'}}>
+                                    تکمیل اطلاعات حساب کاربری
+                                </h4>
+                                <div className="alert border-success alert-dismissible mb-2" role="alert" id={"customAlertFinalData"}>
+                                    <div className="d-flex align-items-center">
+                                        <span>
+شماره تلفن همراه شما با موفقیت تایید شد لطفا برای تکمیل حساب کاربری خود فرم زیر را پر کنید.
+
+                </span>
+                                    </div>
+                                </div>
+
                                 <div className="form-group col-md-6 mb-50">
                                     <label htmlFor="inputfirstname4">نام</label>
                                     <input type="text" autoComplete="off" className="form-control inputRegister"
