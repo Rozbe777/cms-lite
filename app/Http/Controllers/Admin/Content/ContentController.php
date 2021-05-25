@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Content;
 
 use App\Classes\Responses\Admin\Responses;
+use App\Classes\Responses\Admin\ResponsesTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Content\CreateContentRequest;
 use App\Http\Requests\Admin\Content\EditContentRequest;
@@ -18,6 +19,7 @@ use Illuminate\Http\RedirectResponse;
 
 class ContentController extends Controller
 {
+    use ResponsesTrait;
 
     protected $contentRepository;
     protected $responses;
@@ -32,15 +34,15 @@ class ContentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return View|JsonResponse
+     * @return View|JsonResponse|RedirectResponse
      */
-    public function index()
+    public function index(SearchContentRequest $request)
     {
-        $contents = $this->contentRepository->all();
+        $contents = $this->contentRepository->all($request->status, $request->search, $request->owner, $request->pageSize);
 
-        return (is_array($contents)) ?
-            $this->responses->notSuccess(500, $contents) :
-            $this->responses->success($contents, "content.index");
+        return (!$contents) ?
+            redirect()->back()->with('error', __('message.content.search.notSuccess')) :
+            $this->data($contents)->message(__('message.success.200'))->view("pages.admin.content.index")->success();
     }
 
     /**
@@ -63,9 +65,7 @@ class ContentController extends Controller
     {
         $content = $this->contentRepository->create($request->all());
 
-        return (is_array($content)) ?
-            $this->responses->notSuccess(500, $content) :
-            $this->responses->success($content, "content.show");
+        return $this->message(__('message.success.200'))->data($content)->view('pages.admin.content.show')->success();
     }
 
     /**
@@ -77,11 +77,8 @@ class ContentController extends Controller
     public function show(Content $content)
     {
         $this->contentRepository->get($content);
-        try {
-            return $this->responses->success($content, "content.show");
-        } catch (\Exception $exception) {
-            return $this->responses->notSuccess(500, $content);
-        }
+
+        return $this->message(__('message.success.200'))->data($content)->view('pages.admin.content.show')->success();
     }
 
     /**

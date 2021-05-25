@@ -27,6 +27,7 @@ class SearchContentRequest extends BaseRequest
             "search" => "nullable|string",
             "owner" => "nullable|in:page,content",
             "status" => "nullable|in:active,pending,deactivate",
+            "pageSize" => "nullable|integer"
         ];
     }
 }

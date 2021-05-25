@@ -40,7 +40,7 @@ class UserController extends Controller
      */
     public function index(SearchUserRequest $request)
     {
-        $user = $this->userRepository->all($request->role_id, $request->status, $request->search, $request->pageSize, $request->page);
+        $user = $this->userRepository->all($request->role_id, $request->status, $request->search, $request->pageSize);
 
         return (!$user) ?
             redirect()->back()->with('error', __('message.content.search.notSuccess')) :

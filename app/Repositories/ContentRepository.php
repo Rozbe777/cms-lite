@@ -7,21 +7,25 @@ namespace App\Repositories;
 use App\Http\Requests\Admin\Services\RelationsService;
 use App\Models\Content;
 use Carbon\Carbon;
-use Carbon\Laravel\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 
 class ContentRepository implements Interfaces\RepositoryInterface
 {
-    public function all($status = 'active', $search = [], $owner = "content", $pageSize = null)
+    public function all($status = 'active', $search = null, $owner = null, $pageSize = null)
     {
-        if (empty($pageSize)) {
+        if (empty($pageSize))
             $pageSize = config('view.pagination');
-        }
-        return Content::where(function ($query) use ($search) {
-            return $query->when($search != null, function ($query) use ($search) {
-                return $query->where('title', 'like', '%' . $search . '%')->orWhere('slug', 'like', '%' . $search . '%')
-                    ->orWhere('content', 'like', '%' . $search . '%');
-            });
+
+        if (empty($status))
+            $status = 'active';
+
+        if (empty($owner))
+            $owner = 'content';
+
+        return Content::when($search != null, function ($query) use ($search) {
+            $query->where('title', 'like', '%' . $search . '%')
+                ->orWhere('slug', 'like', '%' . $search . '%')
+                ->orWhere('content', 'like', '%' . $search . '%');
         })->whereOwner($owner)
             ->whereStatus($status)
             ->where('published_at', '<=', Carbon::now())
@@ -91,19 +95,19 @@ class ContentRepository implements Interfaces\RepositoryInterface
 
     public function create(array $data)
     {
-        try {
             $tag_list = $data['tag_list'];
             unset($data["tag_list"]);
+
+        $category_list = $data['category_list'];
+        unset($data["category_list"]);
 
             $index['user_id'] = Auth::id();
             $content = Content::create($data);
             $content->viewCounts()->create();
             $content->tags()->attach($tag_list);
+            $content->categories()->attach($category_list);
             $content->update($index);
             return $content;
-        } catch (\Exception $exception) {
-            return [$exception->getCode(), $exception->getMessage()];
-        }
     }
 
     public function multipleDestroy($data)
