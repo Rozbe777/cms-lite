@@ -1,7 +1,8 @@
 import {request} from "../Request";
 
 export const Request = {
-    GetAllUserApi : (page) =>  request.get("/users/"),
+    // GetAllUserApi : (page) =>  request.get("/users/list?page="+page),
+    GetAllUserApi : (page) =>  request.get("/users"),
     GroupDelUser : (userIds) =>  request.post("/user/destroys" , userIds),
     GetAllCategory : () =>  request.get("/category/list?page=1"),
     GetAllPages : () =>  request.get("/page/list"),

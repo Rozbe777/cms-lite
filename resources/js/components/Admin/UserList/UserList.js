@@ -65,6 +65,8 @@ const UserList = memo((props) => {
         setLoading(true);
         Request.GetAllUserApi(page)
             .then(res => {
+
+                console.log("csdcsdc :" , res)
                 setLoading(false)
                 setUserData(res.data);
                 setPerPage(res.data.per_page);
