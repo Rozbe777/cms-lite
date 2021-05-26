@@ -1,11 +1,10 @@
 import React , {useContext,useEffect,useState} from 'react'
 import {CHECK_BOX_CONTENT} from "./../Helper/Context";
 
-const BottomNavigationBar = (props) => {
+const BottomNavigationBar = ({userData , deleteAll : pushDelete}) => {
 
 
     const {checkBox , setCheckBox} = useContext(CHECK_BOX_CONTENT)
-    let {userData} = props;
 
     useEffect(()=>{
 
@@ -38,6 +37,11 @@ const BottomNavigationBar = (props) => {
         $("span.counter-seleced").removeClass("active")
     }
 
+
+    const handleDel = e => {
+        e.preventDefault();
+        pushDelete(e)
+    }
     return (
         <div className={"bottom-tab-navigator"}>
 
@@ -55,11 +59,11 @@ const BottomNavigationBar = (props) => {
                     <span><i className={"bx bx-x"}></i></span>
                     لغو
                 </li>
-                <li >
-                    <span><i className={"bx bx-printer"}></i></span>
-                    پرینت
-                </li>
-                <li>
+                {/*<li >*/}
+                {/*    <span><i className={"bx bx-printer"}></i></span>*/}
+                {/*    پرینت*/}
+                {/*</li>*/}
+                <li onClick={e => handleDel(e)}>
                     <span><i className={"bx bx-trash-alt"}></i></span>
                     حذف
                 </li>

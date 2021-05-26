@@ -40,42 +40,42 @@ const UserList = memo((props) => {
     });
     let userIdArr = [];
 
-
-    $('.sweet-alert-delete-confirm').on('click', function (event) {
-        event.preventDefault();
-        const url = $(this).attr('href');
-        swal({
-            title: 'حذف کاربر',
-            text: "آیا مطمئنید؟",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'تایید',
-            confirmButtonClass: 'btn btn-primary',
-            cancelButtonClass: 'btn btn-danger ml-1',
-            cancelButtonText: 'انصراف',
-            buttonsStyling: false,
-        }).then(function (result) {
-            if (result.value) {
-                Swal.fire({
-                    type: "success",
-                    title: 'حذف شد!',
-                    text: 'کاربر مورد نظر حذف شد',
-                    confirmButtonClass: 'btn btn-success',
-                    confirmButtonText: 'باشه',
-                });
-
-                // window.location.href = url;
-            }
-        });
-    });
+    //
+    // $('.sweet-alert-delete-confirm').on('click', function (event) {
+    //     event.preventDefault();
+    //     const url = $(this).attr('href');
+    //     swal({
+    //         title: 'حذف کاربر',
+    //         text: "آیا مطمئنید؟",
+    //         type: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonText: 'تایید',
+    //         confirmButtonClass: 'btn btn-primary',
+    //         cancelButtonClass: 'btn btn-danger ml-1',
+    //         cancelButtonText: 'انصراف',
+    //         buttonsStyling: false,
+    //     }).then(function (result) {
+    //         if (result.value) {
+    //             Swal.fire({
+    //                 type: "success",
+    //                 title: 'حذف شد!',
+    //                 text: 'کاربر مورد نظر حذف شد',
+    //                 confirmButtonClass: 'btn btn-success',
+    //                 confirmButtonText: 'باشه',
+    //             });
+    //
+    //             // window.location.href = url;
+    //         }
+    //     });
+    // });
 
 
     // let token = $('meta[name=author]').attr('content');
     let GetAllUser = (datass) => {
         setLoading(true);
+
         Request.GetAllUserApi(datass)
             .then(res => {
-                console.log("ffffff : " , searchload)
                 if(searchload === true){
                     $("ul.pagination li").removeClass("active");
                     $("ul.pagination li#1").addClass("active");
@@ -193,7 +193,6 @@ const UserList = memo((props) => {
 
         finalAllIds._token =  $('meta[name="csrf-token"]').attr('content');
 
-        console.log(">>>>>>>>>>>>>>>>>" ,finalAllIds )
         event.preventDefault();
         swal({
             title: 'حذف کاربر',
@@ -209,6 +208,7 @@ const UserList = memo((props) => {
             if (result.value) {
                 Request.GroupDelUser(finalAllIds)
                     .then(res => {
+                        setCheckBox([])
                         Swal.fire({
                             type: "success",
                             title: 'حذف شد!',
@@ -216,6 +216,9 @@ const UserList = memo((props) => {
                             confirmButtonClass: 'btn btn-success',
                             confirmButtonText: 'باشه',
                         })
+
+                        stringSearchs.params.page = 1;
+
                         GetAllUser(stringSearchs);
                     }).catch(error => {
                     if (error.response.data.errors) {
@@ -272,7 +275,7 @@ const UserList = memo((props) => {
                     stringSearchs.params.page = 1;
                     GetAllUser(stringSearchs)
                 }}/>
-                <form id="myForm">
+                <form id="myForm" style={{marginTop : 15}}>
                     <div className="heading-layout1">
                         <div className="item-title" style={{display: "none"}}>
                             <h3>لیست کاربران</h3>
@@ -314,7 +317,7 @@ const UserList = memo((props) => {
                     </div>
                 </form>
 
-                <BottomNavigationBar userData={userData}/>
+                <BottomNavigationBar userData={userData} deleteAll={e => handleDeleteGroup(e)}/>
             </>
         </CHECK_BOX_CONTENT.Provider>
     )

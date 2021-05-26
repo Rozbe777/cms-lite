@@ -2,8 +2,8 @@ import {request} from "../Request";
 
 export const Request = {
     GetAllUserApi : (page) =>  request.get("/users" ,page),
-    // GetAllUserApi : (page) =>  request.get("/users"),
-    GroupDelUser : (userIds) =>  request.delete("/users/multi/destroy" , userIds),
+    GroupDelUser : (userIds) =>  request.delete("/users/multi/destroy" , {params : userIds}),
+    CreateUserNew : (data) =>  request.post("/users" , data),
     GetAllCategory : () =>  request.get("/category/list?page=1"),
     GetAllPages : () =>  request.get("/page/list"),
     AddNewCategory : (data) =>  request.post("/category/" , data),
