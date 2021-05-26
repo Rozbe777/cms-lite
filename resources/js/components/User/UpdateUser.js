@@ -9,18 +9,17 @@ const UpdateUser = (props) => {
 
     // let {name, last_name, email, phone, role_id, password, roles} = state;
 
-    const {token , roles , is_admin , user } = props;
-    // console.log("dataaaaaaa : " , JSON.parse(user));
+    const {token, roles, is_admin, user} = props;
     let userData = JSON.parse(user);
     const [state, setState] = useState({
-        id : userData.id,
+        id: userData.id,
         name: userData.name,
         last_name: userData.last_name,
         email: userData.email,
         mobile: userData.mobile,
         password: userData.password,
-        role_id: userData.role_id,
-        status : userData.status
+        role_id: userData.userRole === "user" ? 2 : 1,
+        status: userData.status
     })
 
     const imagePicker = () => {
@@ -39,15 +38,12 @@ const UpdateUser = (props) => {
 
 
         var pattern = /^0?9{1}([0-9]{9})$/;
-        let {id ,name, last_name, email, mobile, password, role_id} = state;
+        let {id, name, last_name, email, mobile, password, role_id} = state;
         if (empty(name)) {
             return error('وارد کردن نام الزامی است.')
         }
         if (empty(last_name)) {
             return error('وارد کردن نام‌خانوادگی الزامی است.')
-        }
-        if (empty(email)) {
-            return error('وارد کردن ایمیل الزامی است.')
         }
 
         if (empty(mobile)) {
@@ -62,19 +58,18 @@ const UpdateUser = (props) => {
         // delete 0 from first mobile number
         let mobiles = Array.from(mobile);
         let FirstNumber = mobiles[0]
-        if (FirstNumber === 0 || FirstNumber === "0")
-        {
+        if (FirstNumber === 0 || FirstNumber === "0") {
             mobiles.shift();
             let newMobile = mobiles.join('');
             state.mobile = newMobile;
             $("#loading-show").addClass("activeLoadingLogin");
-            Request.UpdateUserDetail(state , id)
+            Request.UpdateUserDetail(state, id)
                 .then(res => {
                     $("#loading-show").removeClass("activeLoadingLogin");
                     success("اطلاعات ویرایش شد");
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         // window.location.reload();
-                    } , 400)
+                    }, 400)
                 }).catch(error => {
                 $("#loading-show").removeClass("activeLoadingLogin");
                 if (error.response.data.errors) {
@@ -83,15 +78,15 @@ const UpdateUser = (props) => {
                     ErrorToast("خطای غیر منتظره ای رخ داده است")
                 }
             })
-        }else{
+        } else {
             $("#loading-show").addClass("activeLoadingLogin");
-            Request.UpdateUserDetail(state , id)
+            Request.UpdateUserDetail(state, id)
                 .then(res => {
                     $("#loading-show").removeClass("activeLoadingLogin");
                     success("اطلاعات ویرایش شد");
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         // window.location.reload();
-                    } , 400)
+                    }, 400)
                 }).catch(error => {
                 $("#loading-show").removeClass("activeLoadingLogin");
                 if (error.response.data.errors) {
@@ -169,7 +164,7 @@ const UpdateUser = (props) => {
                                        value={state.email ? state.email : ''}
                                        onChange={(e) => {
                                            HandleInput(e)
-                                       }} required
+                                       }}
                                        dir="ltr"/>
                             </div>
                         </div>
@@ -197,9 +192,14 @@ const UpdateUser = (props) => {
                                                 onChange={(e) => {
                                                     HandleInput(e)
                                                 }}>
-                                            {JSON.parse(roles).map((role) => {
-                                                return (<option value={role.id}>{role.display_name}</option>)
-                                            })}
+                                            {JSON.parse(roles).map((role) => (
+                                                    state.role_id === role.id ? (
+                                                        <option value={role.id} selected>{role.display_name}</option>
+                                                    ) : (
+                                                        <option value={role.id} >{role.display_name}</option>
+                                                    )
+                                                )
+                                            )}
                                         </select>
                                     </div>
                                 </div>
@@ -212,8 +212,18 @@ const UpdateUser = (props) => {
                                                 onChange={(e) => {
                                                     HandleInput(e)
                                                 }}>
-                                            <option value={"active"}>فعال</option>
-                                            <option value={"deactivate"}>غیرفعال</option>
+                                            {state.status === "active" ? (
+                                                <>
+                                                    <option selected value={"active"}>فعال</option>
+                                                    <option  value={"deactivate"}>غیرفعال</option>
+                                                </>
+
+                                            ) : (
+                                                <>
+                                                    <option  value={"active"}>فعال</option>
+                                                    <option selected  value={"deactivate"}>غیرفعال</option>
+                                                </>
+                                            )}
                                         </select>
                                     </div>
                                 </div>
@@ -223,9 +233,11 @@ const UpdateUser = (props) => {
 
                     </div>
 
-                    <div className="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1" style={{padding :0}}>
+                    <div className="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1"
+                         style={{padding: 0}}>
                         <button type="submit"
-                                className="btn  btn-primary glow mb-1 mb-sm-0 ">بروزرسانی</button>
+                                className="btn  btn-primary glow mb-1 mb-sm-0 ">بروزرسانی
+                        </button>
                     </div>
                 </div>
             </form>
