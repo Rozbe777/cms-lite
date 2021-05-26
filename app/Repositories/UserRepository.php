@@ -68,6 +68,6 @@ class UserRepository implements Interfaces\RepositoryInterface
 
     public function multipleDestroy($data)
     {
-        return User::whereIn('id', $data['userIds'])->delete();
+        return User::whereIn('id', $data['userIds'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);
     }
 }

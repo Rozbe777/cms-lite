@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ContentRepository implements Interfaces\RepositoryInterface
 {
-    public function all($status = 'active', $search = null, $owner = null, $pageSize = null)
+    public function all($status = null, $search = null, $owner = null, $pageSize = null)
     {
         if (empty($pageSize))
             $pageSize = config('view.pagination');
@@ -112,11 +112,7 @@ class ContentRepository implements Interfaces\RepositoryInterface
 
     public function multipleDestroy($data)
     {
-        try {
-            Content::whereIn('id', $data['contentIds'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);
-            return true;
-        } catch (\Exception $exception) {
-            return [$exception->getCode(), $exception->getMessage()];
-        }
+        return Content::whereIn('id', $data['contentIds'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);
+
     }
 }

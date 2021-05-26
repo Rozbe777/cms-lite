@@ -41,7 +41,7 @@ class ContentController extends Controller
         $contents = $this->contentRepository->all($request->status, $request->search, $request->owner, $request->pageSize);
 
         return (!$contents) ?
-            redirect()->back()->with('error', __('message.content.search.notSuccess')) :
+            $this->message( __('message.content.search.notSuccess'))->view("pages.admin.content.index")->error():
             $this->data($contents)->message(__('message.success.200'))->view("pages.admin.content.index")->success();
     }
 
@@ -103,9 +103,7 @@ class ContentController extends Controller
     {
         $content = $this->contentRepository->update($request->all(), $content);
 
-        return (is_array($content)) ?
-            $this->responses->notSuccess(500, $content) :
-            $this->responses->success($content, "content.edit");
+        return $this->message(__('message.success.200'))->view('pages.admin.content.edit')->data($content)->success();
     }
 
     /**
@@ -116,11 +114,9 @@ class ContentController extends Controller
      */
     public function destroy(Content $content)
     {
-        $content = $this->contentRepository->delete($content);
+        $this->contentRepository->delete($content);
 
-        return (is_array($content)) ?
-            $this->responses->notSuccess(500, $content) :
-            redirect()->back()->with('success', __('message.content.destroy.successful'));
+        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.content.index')->success();
     }
 
     /**
@@ -129,19 +125,8 @@ class ContentController extends Controller
      */
     public function multipleDestroy(multipleDestroyRequest $request)
     {
-        $content = $this->contentRepository->multipleDestroy($request);
+        $this->contentRepository->multipleDestroy($request->all());
 
-        return (is_array($content)) ?
-            $this->responses->notSuccess(500, $content) :
-            redirect()->back()->with('success', __('message.content.destroy.successful'));
-    }
-
-    public function search(SearchContentRequest $request)
-    {
-        $contents = $this->contentRepository->all($request->status, $request->search, $request->owner, $request->pageSize);
-
-        return (!$contents) ?
-            redirect()->back()->with('error', __('message.content.search.notSuccess')) :
-            $this->responses->success($contents, "content.index");
+        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.content.index')->success();
     }
 }
