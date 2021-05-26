@@ -22,9 +22,30 @@ class CategoryRepository implements RepositoryInterface
         if (empty($status))
             $status = 'active';
 
-        return Category::with('contents')
-            ->where('status', $status)
-            ->paginate($pageSize);
+//        $categories = Category::with('contents')
+//            ->where('status', $status)
+//            ->paginate($pageSize);
+//
+        $categories = $this->list($status);dd($categories);
+    }
+
+    function getChildrenCategories($categoryId)
+    {
+        $categories = Category::whereParentId($categoryId)->get();
+        foreach ($categories as $category) {
+            $category->children = $this->getChildrenCategories($category->id);
+        }
+        return $categories;
+    }
+
+    public function list($status)
+    {
+        $categories = Category::whereParentId(0)
+        ->with('contents')->get();
+        foreach ($categories as $category) {
+            $category->childern = $this->getChildrenCategories($category->id);
+        }
+        return $categories;
     }
 
     public function get($category)
