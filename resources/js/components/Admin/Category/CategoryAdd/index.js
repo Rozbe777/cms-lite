@@ -6,16 +6,17 @@ import './../../_Shared/Style.scss'
 import {Request} from './../../../../services/AdminService/Api'
 import {SelectOptions} from './../../../HOC/SelectOptions'
 import MyEditor from "../../_Micro/MyEditor/MyEditor";
-import {error} from './../../../../helper'
+import {ErroHandle, error as ErrorToast, error} from './../../../../helper'
 import {ChipsetHandler} from './../../../HOC/ChipsetHandler';
 import './../../_Micro/TreeShow/_Shared/style.scss';
+import $ from "jquery";
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
-const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushResult}) => {
+const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult}) => {
     const [comments, setComments] = useState();
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
-    const [contentNew, setContentNew] = useState({});
+    const [contentNew, setContentNew] = useState();
     const [statusNew, setStatusNew] = useState();
     const [menuShow, setMenuShow] = useState();
     const [chipset, setChipset] = useState([]);
@@ -27,7 +28,7 @@ const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushRes
         robots: false,
     });
 
-    console.log("dataaa************** : " , dataUpdate);
+    console.log("dataaa************** : ", dataUpdate);
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : '';
@@ -45,7 +46,7 @@ const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushRes
 
     // const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
     const CreateAddCategory = (data) => {
-        console.log("adding dataaaaaa : " , data)
+        console.log("adding dataaaaaa : ", data)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -62,29 +63,26 @@ const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushRes
                     .then(res => {
                         let resError = res.data.message ? res.data.message : '';
                         console.log("status error : ", res.data.size)
-                        if (res.status == 200 && resError == '') {
-                            pushResult(res);
-                            localStorage.removeItem("is_menu");
-                            localStorage.removeItem("status");
-                            localStorage.removeItem("selected");
-                            Swal.fire({
-                                type: "success",
-                                title: 'با موفقیت اضافه شد !',
-                                confirmButtonClass: 'btn btn-success',
-                                confirmButtonText: 'باشه',
-                            })
-                        } else if (res.status == 200 && resError !== '') {
-                            error(resError)
-                        } else {
-                            Swal.fire({
-                                type: "error",
-                                title: 'خطایی غیر منتظره ای رخ داده است !',
-                                cancelButtonClass: 'btn btn-primary',
-                                cancelButtonText: 'تلاش مجدد',
-                            })
-                        }
+                        pushResult(res);
+                        localStorage.removeItem("is_menu");
+                        localStorage.removeItem("status");
+                        localStorage.removeItem("selected");
+                        Swal.fire({
+                            type: "success",
+                            title: 'با موفقیت اضافه شد !',
+                            confirmButtonClass: 'btn btn-success',
+                            confirmButtonText: 'باشه',
+                        })
 
-                    }).catch(error => console.log("error", error))
+                    }).catch(err => {
+                    if (err.response.data.errors) {
+                        ErroHandle(err.response.data.errors);
+                    } else {
+                        //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
+                        ErrorToast("خطای غیر منتظره ای رخ داده است")
+                    }
+
+                })
             }
         });
     }
@@ -92,7 +90,7 @@ const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushRes
         let formNews = {...formData};
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
         setFormData(formNews);
-        console.log("data................." , formNews);
+        console.log("data.................", formNews);
         let metaDataNew = {...metaData};
         metaDataNew = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
         setMetaData(metaDataNew)
@@ -120,12 +118,12 @@ const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushRes
     const handleInput = (e) => {
         setEdit(true);
         if (e.target.name == "name") {
-            if(slugManage){
+            if (slugManage) {
                 let formDataOld = {...formData};
                 formDataOld.name = e.target.value;
                 formDataOld.slug = e.target.value;
                 setFormData(formDataOld);
-            }else{
+            } else {
                 let formDataOld = {...formData};
                 formDataOld.name = e.target.value;
                 setFormData(formDataOld);
@@ -174,7 +172,7 @@ const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushRes
         let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formNew.parent_id;
         formNew.status = status;
         formNew.parent_id = parseInt(parent_id);
-        formNew.image  = file;
+        formNew.image = file;
         formNew.is_menu = is_menu ? 1 : 0;
         if (slugManage == false) {
             formNew.slug = formNew.name;
@@ -189,7 +187,7 @@ const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushRes
         formNew.metadata = JSON.stringify(metaData);
         if (formData.name && formData.name !== '') {
             $("input[name=name]").removeClass("is-invalid");
-            console.log("form dataaaaaaaa : ", formNew)
+            // console.log("form dataaaaaaaa : ", formNew)
             formNew.parent_id = formNew.parent_id ? formNew.parent_id : 0;
             CreateAddCategory(formNew);
         } else {
@@ -207,7 +205,7 @@ const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushRes
     }
     const HandlerBigSwitcher = (states) => {
         setEdit(true)
-        localStorage.setItem("robots" , states)
+        localStorage.setItem("robots", states)
     }
 
     const HandleSlug = (e) => {
@@ -224,7 +222,7 @@ const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushRes
         setSlugManage(status)
     }
 
-    const HandleUpdateForm=(data , id)=> {
+    const HandleUpdateForm = (data, id) => {
         console.log("data update : ", data)
         swal({
             title: 'ویرایش دسته بندی',
@@ -291,7 +289,7 @@ const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushRes
         formOldData.content = contentNew;
         let names = $("input.titleCat").val();
         let slugs = $("input.slugest").val();
-        console.log("data category in : " , names);
+        console.log("data category in : ", names);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
@@ -404,13 +402,13 @@ const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushRes
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>دسته بندی پدر</label>
-                                    {console.log("cat //////////////" , dataAll)}
+                                    {console.log("cat //////////////", dataAll)}
                                     {categoryData ? (
                                         <SelectOptions parents={idParent ? idParent : dataUpdateParse.parent_id}
-                                                       dataAllCat = {dataAll}
+                                                       dataAllCat={dataAll}
                                                        selection={check => HandleSelectOption(check)}
                                                        loading={loading}/>
-                                    ): (
+                                    ) : (
                                         <p>wait ...</p>
                                     )}
 
@@ -461,7 +459,7 @@ const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushRes
                             <div className={"col-12"}>
                                 <MyEditor editorData={data => {
                                     setEdit(true)
-                                    setContentNew(data)
+                                    setContentNew(JSON.stringify(data))
                                 }}
                                           id={"my-editor"}
                                           type={"perfect"}
@@ -489,14 +487,14 @@ const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushRes
                             </div>
 
                             <div className={"col-lg-9 col-md-8 col-sm-12"}>
-                                <fieldset className="form-group">
+                                <fieldset className="form-group" style={{marginTop: '8px'}}>
                                     <label htmlFor={"title"}>آدرس صفحه دسته بندی</label>
-                                    {console.log("form data new change : " , formData)}
-                                    {console.log("slug manages : " , slugManage)}
-                                    {console.log("update data" , dataUpdateParse)}
+                                    {console.log("form data new change : ", formData)}
+                                    {console.log("slug manages : ", slugManage)}
+                                    {console.log("update data", dataUpdateParse)}
                                     {slugManage ? (
                                         <input type={"text"}
-                                               defaultValue={types=="dup" ? $(".titleCat").val() : formData.slug}
+                                               defaultValue={types == "dup" ? $(".titleCat").val() : formData.slug}
                                                disabled id={"title"} className={"form-control slugest"}/>
                                     ) : (
                                         <input type={"text"}
@@ -555,9 +553,9 @@ const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushRes
                                                              onClick={e => RemoveChipset(item)}>
                                                             <i className="bx bx-x"></i>
                                                         </div>
-                                                        </div>
                                                     </div>
-                                                ))}
+                                                </div>
+                                            ))}
 
 
                                         </div>
@@ -571,10 +569,10 @@ const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushRes
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس داخلی برای انتقال (301 Redirect)</label>
-                                        <input type={"text"}
-                                               defaultValue={MetaDataUpdate ? MetaDataUpdate.redirect : ''}
-                                               onChange={e => HandleMetaData(e)} name={"redirect"}
-                                               id={"title"} className={"form-control"}/>
+                                    <input type={"text"}
+                                           defaultValue={MetaDataUpdate ? MetaDataUpdate.redirect : ''}
+                                           onChange={e => HandleMetaData(e)} name={"redirect"}
+                                           id={"title"} className={"form-control"}/>
 
                                 </fieldset>
                             </div>
@@ -582,11 +580,11 @@ const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushRes
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس Canonical</label>
-                                        <input
-                                            defaultValue={MetaDataUpdate ? MetaDataUpdate.canonical : ''}
-                                            onChange={e => HandleMetaData(e)}
-                                            name={"canonical"} type={"text"}
-                                            id={"title"} className={"form-control"}/>
+                                    <input
+                                        defaultValue={MetaDataUpdate ? MetaDataUpdate.canonical : ''}
+                                        onChange={e => HandleMetaData(e)}
+                                        name={"canonical"} type={"text"}
+                                        id={"title"} className={"form-control"}/>
                                 </fieldset>
                             </div>
 
@@ -627,23 +625,38 @@ const AddCategory = ({display ,dataAll,dataUpdate  ,  idParent, result : pushRes
                             : (
                                 <div
                                     id={"disable-div"}
-                                     className={"col-6"}
-                                     style={{textAlign: 'center', cursor: 'pointer', background : "#5a8dee" , color : '#fff'}}>
-                                    <span style={{color : '#fff !important'}}>ویرایش</span>
+                                    className={"col-6"}
+                                    style={{
+                                        textAlign: 'center',
+                                        cursor: 'pointer',
+                                        background: "#5a8dee",
+                                        color: '#fff'
+                                    }}>
+                                    <span style={{color: '#fff !important'}}>ویرایش</span>
                                 </div>
                             )
                             : (
                                 <div onClick={(e) => HandleDuplicate(e)}
                                      className={"col-6"}
-                                     style={{textAlign: 'center', cursor: 'pointer', background : "#5a8dee" , color : '#fff'}}>
-                                    <span style={{color : '#fff !important'}}>ذخیره کپی</span>
+                                     style={{
+                                         textAlign: 'center',
+                                         cursor: 'pointer',
+                                         background: "#5a8dee",
+                                         color: '#fff'
+                                     }}>
+                                    <span style={{color: '#fff !important'}}>ذخیره کپی</span>
                                 </div>
                             ) :
 
                             (
                                 <div onClick={(e) => HandleForm(e)} className={"col-6"}
-                                     style={{textAlign: 'center', cursor: 'pointer' , background : "#5a8dee" ,color : '#fff'}}>
-                                    <span style={{color : '#fff !important'}}>ذخیره</span>
+                                     style={{
+                                         textAlign: 'center',
+                                         cursor: 'pointer',
+                                         background: "#5a8dee",
+                                         color: '#fff'
+                                     }}>
+                                    <span style={{color: '#fff !important'}}>ذخیره</span>
                                 </div>
                             )}
 

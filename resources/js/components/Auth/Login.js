@@ -15,9 +15,7 @@ const LoginForm = ({token}) => {
 
     const RePassClick = (e) => {
         e.preventDefault();
-        console.log("click")
         $("#loading-show").addClass("activeLoadingLogin");
-
         setTimeout(() => {
             ReactDOM.render(<MobileVerify token={token}/>, document.getElementById("login-form"))
         }, 400)
