@@ -22,11 +22,7 @@ class CategoryRepository implements RepositoryInterface
         if (empty($status))
             $status = 'active';
 
-//        $categories = Category::with('contents')
-//            ->where('status', $status)
-//            ->paginate($pageSize);
-//
-        $categories = $this->list($status);dd($categories);
+        return $this->list();
     }
 
     function getChildrenCategories($categoryId)
@@ -38,7 +34,7 @@ class CategoryRepository implements RepositoryInterface
         return $categories;
     }
 
-    public function list($status)
+    public function list()
     {
         $categories = Category::whereParentId(0)
         ->with('contents')->get();
