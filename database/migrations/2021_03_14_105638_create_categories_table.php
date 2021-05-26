@@ -24,6 +24,7 @@ class CreateCategoriesTable extends Migration
             $table->bigInteger('layout_id')->unsigned()->default(0);
             $table->bigInteger('module_id')->default(1);
             $table->enum('status', ['active', 'deactivate'])->default('active');
+            $table->enum('owner', ['content', 'product'])->default('content');
             $table->integer('is_menu')->default(0);
             $table->integer('is_index')->default(0);
             $table->bigInteger('user_id')->default(0);

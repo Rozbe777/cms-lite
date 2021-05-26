@@ -104,7 +104,7 @@ class UserController extends Controller
     {
         $data = [
             'user' => $this->userRepository->update($request->all(), $user),
-            'role' => Role::all(),
+            'roles' => Role::all(),
         ];
 
         return $this->message(__('message.success.200'))->view('pages.admin.user.edit')->data($data)->success();

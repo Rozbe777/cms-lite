@@ -44,6 +44,7 @@ class UserRepository implements Interfaces\RepositoryInterface
 
     public function update(array $data, $user)
     {
+        $data['password'] = bcrypt($data['password']);
         if (array_key_exists('role_id',$data)){
             $role = Role::findOrFail($data['role_id']);
             $user->detachRoles();
@@ -56,6 +57,7 @@ class UserRepository implements Interfaces\RepositoryInterface
 
     public function create(array $data)
     {
+        $data['password'] = bcrypt($data['password']);
         if (array_key_exists('role_id',$data)){
             $role = Role::findOrFail($data['role_id']);
             unset($data['role_id']);

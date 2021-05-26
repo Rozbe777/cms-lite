@@ -4,7 +4,7 @@
 namespace App\Repositories;
 
 
-use App\Http\Requests\Admin\Services\RelationsService;
+use App\Http\Controllers\Admin\Category\Traits\CategoryTrait;
 use App\Models\Category;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Carbon\Carbon;
@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoryRepository implements RepositoryInterface
 {
+    use CategoryTrait;
 
     public function all($status = null, $search = null, $pageSize = null)
     {
@@ -35,7 +36,9 @@ class CategoryRepository implements RepositoryInterface
 
     public function delete($category)
     {
+        $this->parentHandler($category);
         $category->update(['status' => 'deactivate']);
+
         return $category->delete();
     }
 
@@ -58,12 +61,19 @@ class CategoryRepository implements RepositoryInterface
 //                (new RelationsService())->tagService($category, $tag_list_old, '');
 //                unset($data['tag_list_old']);
 //            }
-            return $category->update($data);
+        return $category->update($data);
     }
 
     public function create(array $data)
     {
+        $slug = $data['slug'];
+        unset($data['slug']);
         $index['user_id'] = Auth::id();
+        $index['slug'] = $this->slugHandler($slug);
+
+        if ($data['image'])
+            $index['image'] = $this->imageHandler($data['image']);
+
         $category = Category::create($data);
         $category->viewCounts()->create();
         $category->update($index);
@@ -72,6 +82,7 @@ class CategoryRepository implements RepositoryInterface
 
     public function multipleDestroy($data)
     {
+        $this->parentHandler($data);
         return Category::whereIn('id', $data['categoryIds'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);
 
     }
