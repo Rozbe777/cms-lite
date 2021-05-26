@@ -13,22 +13,23 @@ use Illuminate\Support\Facades\Auth;
 class TagRepositories implements RepositoryInterface
 {
 
-    public function all()
+    public function all($status = null, $search = null, $pageSize = null)
     {
-        try {
-            return Tag::with('contents')
-                ->with('categories')
-                ->where('status','deactivate')
-                ->paginate(12);
-        } catch (\Exception $exception) {
-            return [$exception->getCode(), $exception->getMessage()];
-        }
+        if (empty($pageSize))
+            $pageSize = config('view.pagination');
+
+        if (empty($status))
+            $status = 'active';
+
+        return Tag::with('contents')
+            ->where('status', $status)
+            ->paginate($pageSize);
     }
 
     public function get($tag)
     {
         $instance = $tag->viewCounts;
-        $instance->view_count ++;
+        $instance->view_count++;
         $instance->save();
     }
 
@@ -40,55 +41,43 @@ class TagRepositories implements RepositoryInterface
 
     public function update(array $data, $tag)
     {
-        try {
-            /** modify category relations in database tables */
-            if (array_key_exists('category_list_old', $data) && array_key_exists('category_list_new', $data)) {
-                $category_list_old = $data['category_list_old'];
-                $category_list_new = $data['category_list_new'];
-                (new RelationsService())->categoryService($tag,$category_list_old,$category_list_new);
-                unset($data['category_list_old'], $data['category_list_new']);
+//            /** modify category relations in database tables */
+//            if (array_key_exists('category_list_old', $data) && array_key_exists('category_list_new', $data)) {
+//                $category_list_old = $data['category_list_old'];
+//                $category_list_new = $data['category_list_new'];
+//                (new RelationsService())->categoryService($tag,$category_list_old,$category_list_new);
+//                unset($data['category_list_old'], $data['category_list_new']);
+//
+//            } elseif (!array_key_exists('category_list_old', $data)) {
+//                $category_list_new = $data['category_list_new'];
+//                (new RelationsService())->categoryService($tag,'',$category_list_new);
+//                unset($data['category_list_new']);
+//
+//            } elseif (!array_key_exists('category_list_new', $data)) {
+//                $category_list_old = $data['category_list_old'];
+//                (new RelationsService())->categoryService($tag,$category_list_old,'');
+//                unset($data['category_list_old']);
+//            }
 
-            } elseif (!array_key_exists('category_list_old', $data)) {
-                $category_list_new = $data['category_list_new'];
-                (new RelationsService())->categoryService($tag,'',$category_list_new);
-                unset($data['category_list_new']);
-
-            } elseif (!array_key_exists('category_list_new', $data)) {
-                $category_list_old = $data['category_list_old'];
-                (new RelationsService())->categoryService($tag,$category_list_old,'');
-                unset($data['category_list_old']);
-            }
-
-            return $tag->update($data);
-        } catch (\Exception $exception) {
-            return [$exception->getCode(), $exception->getMessage()];
-        }
+        return $tag->update($data);
     }
 
     public function create(array $data)
     {
-        try {
-            $category_list = $data['category_list'];
-            unset($data['category_list']);
+//            $category_list = $data['category_list'];
+//            unset($data['category_list']);
 
-            $index['user_id'] = Auth::id();
-            $tag = Tag::create($data);
-            $tag->viewCounts()->create();
-            $tag->categories()->attach($category_list);
-            $tag->update($index);
-            return $tag;
-        } catch (\Exception $exception) {
-            return [$exception->getCode(), $exception->getMessage()];
-        }
+        $index['user_id'] = Auth::id();
+        $tag = Tag::create($data);
+        $tag->viewCounts()->create();
+//            $tag->categories()->attach($category_list);
+        $tag->update($index);
+        return $tag;
     }
 
     public function multipleDestroy($data)
     {
-        try {
-            Tag::whereIn('id', $data['tagIds'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);
-            return true;
-        } catch (\Exception $exception) {
-            return [$exception->getCode(), $exception->getMessage()];
-        }
+        return Tag::whereIn('id', $data['tagIds'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);
+
     }
 }

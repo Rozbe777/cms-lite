@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Tag;
 
 use App\Classes\Responses\Admin\Responses;
+use App\Classes\Responses\Admin\ResponsesTrait;
 use App\Http\Controllers\Admin\Tag\Helper\TagSearchHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Tag\CreateTagRequest;
@@ -17,6 +18,8 @@ use Illuminate\Http\JsonResponse;
 
 class TagController extends Controller
 {
+    use ResponsesTrait;
+
     protected $responses;
     protected $tagRepositories;
 
@@ -24,7 +27,7 @@ class TagController extends Controller
     {
         $this->responses = $responses;
         $this->tagRepositories = $tagRepositories;
-        $this->middleware('user_permission');
+//        $this->middleware('user_permission');
 
     }
 
@@ -33,13 +36,13 @@ class TagController extends Controller
      *
      * @return JsonResponse|View
      */
-    public function index()
+    public function index(SearchTagRequest $request)
     {
-        $tag = $this->tagRepositories->all();
+        $tag = $this->tagRepositories->all($request->status, $request->search, $request->pageSize);
 
-         return (is_array($tag)) ?
-            $this->responses->notSuccess(500, $tag) :
-            $this->responses->success($tag, "tag.index");
+        return (!$tag) ?
+            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.tag.index")->error() :
+            $this->data($tag)->message(__('message.success.200'))->view("pages.admin.tag.index")->success();
     }
 
     /**
@@ -62,9 +65,7 @@ class TagController extends Controller
     {
         $tag = $this->tagRepositories->create($request->all());
 
-        return (is_array($tag)) ?
-            $this->responses->notSuccess(500, $tag) :
-            $this->responses->success($tag, "tag.show");
+        return $this->message(__('message.success.200'))->data($tag)->view('pages.admin.tag.show')->success();
     }
 
     /**
@@ -75,13 +76,9 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        try {
-            $this->tagRepositories->get($tag);
+        $this->tagRepositories->get($tag);
 
-            return $this->responses->success($tag, "tag.show");
-        } catch (\Exception $exception) {
-            return $this->responses->notSuccess(500, $tag);
-        }
+        return $this->message(__('message.success.200'))->data($tag)->view('pages.admin.tag.show')->success();
     }
 
     /**
@@ -106,9 +103,7 @@ class TagController extends Controller
     {
         $tag = $this->tagRepositories->update($request->all(), $tag);
 
-        return (is_array($tag)) ?
-            $this->responses->notSuccess(500, $tag) :
-            $this->responses->success($tag, "tag.edit");
+        return $this->message(__('message.success.200'))->view('pages.admin.tag.edit')->data($tag)->success();
     }
 
     /**
@@ -119,28 +114,15 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        $tag = $this->tagRepositories->delete($tag);
+        $this->tagRepositories->delete($tag);
 
-        return (is_array($tag)) ?
-            $this->responses->notSuccess(500, $tag) :
-            redirect()->back()->with('success', __('message.content.destroy.successful'));
+        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.tag.index')->success();
     }
 
     public function multipleDestroy(multipleDestroyRequest $request)
     {
-        $tag = $this->tagRepositories->multipleDestroy($request);
+        $this->tagRepositories->multipleDestroy($request);
 
-        return (is_array($tag)) ?
-            $this->responses->notSuccess(500, $tag) :
-            redirect()->back()->with('success', __('message.content.destroy.successful'));
-    }
-
-    public function search(SearchTagRequest $request)
-    {
-        $tag = (new TagSearchHelper($request))->searchTags();
-
-        return (!$tag) ?
-            redirect()->back()->with('error', __('message.content.search.notSuccess')) :
-            $this->responses->success($tag, "tag.index");
+        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.tag.index')->success();
     }
 }

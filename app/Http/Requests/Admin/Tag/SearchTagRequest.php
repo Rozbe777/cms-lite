@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Admin\Tag;
 
-use App\Http\Requests\BaseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class SearchTagRequest extends BaseRequest
+class SearchTagRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,8 @@ class SearchTagRequest extends BaseRequest
     {
         return [
             "search" => "nullable|string",
-            "status" => "nullable|in:active,deactivate"
+            "status" => "nullable|in:active,deactivate",
+            "pageSize" =>"nullable|integer",
         ];
     }
 }
