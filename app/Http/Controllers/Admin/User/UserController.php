@@ -102,7 +102,7 @@ class UserController extends Controller
     public function update(EditUserRequest $request, User $user)
     {
         $user = $this->userRepository->update($request->all(), $user);
-        return $this->message(__('message.user.200'))->view('pages.admin.user.edit')->data($user)->success();
+        return $this->message(__('message.success.200'))->view('pages.admin.user.edit')->data($user)->success();
     }
 
     /**
