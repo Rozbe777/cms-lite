@@ -11,7 +11,6 @@ use App\Http\Requests\Admin\Content\multipleDestroyRequest;
 use App\Http\Requests\Admin\Content\SearchContentRequest;
 use App\Models\Content;
 use App\Repositories\ContentRepository;
-use App\Http\Controllers\Admin\Content\Helper\ContentSearchHelper;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;

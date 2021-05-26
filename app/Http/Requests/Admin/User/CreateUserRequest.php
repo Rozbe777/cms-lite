@@ -32,7 +32,7 @@ class CreateUserRequest extends FormRequest
             'password' => 'required|string|min:4',
             'role_id' => 'required|exists:roles,id',
             'status' => 'nullable|in:active,deactivate',
-            'image' => 'nullable|image'
+            'image' => 'nullable|image',
         ];
     }
 }
