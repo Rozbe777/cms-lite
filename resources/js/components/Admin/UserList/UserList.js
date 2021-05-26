@@ -40,47 +40,15 @@ const UserList = memo((props) => {
     });
     let userIdArr = [];
 
-    //
-    // $('.sweet-alert-delete-confirm').on('click', function (event) {
-    //     event.preventDefault();
-    //     const url = $(this).attr('href');
-    //     swal({
-    //         title: 'حذف کاربر',
-    //         text: "آیا مطمئنید؟",
-    //         type: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonText: 'تایید',
-    //         confirmButtonClass: 'btn btn-primary',
-    //         cancelButtonClass: 'btn btn-danger ml-1',
-    //         cancelButtonText: 'انصراف',
-    //         buttonsStyling: false,
-    //     }).then(function (result) {
-    //         if (result.value) {
-    //             Swal.fire({
-    //                 type: "success",
-    //                 title: 'حذف شد!',
-    //                 text: 'کاربر مورد نظر حذف شد',
-    //                 confirmButtonClass: 'btn btn-success',
-    //                 confirmButtonText: 'باشه',
-    //             });
-    //
-    //             // window.location.href = url;
-    //         }
-    //     });
-    // });
-
-
-    // let token = $('meta[name=author]').attr('content');
     let GetAllUser = (datass) => {
         setLoading(true);
-
         Request.GetAllUserApi(datass)
             .then(res => {
-                if(searchload === true){
-                    $("ul.pagination li").removeClass("active");
-                    $("ul.pagination li#1").addClass("active");
-                    setSearch(false)
-                }
+                // if(searchload === true){
+                //     $("ul.pagination li").removeClass("active");
+                //     $("ul.pagination li#1").addClass("active");
+                //     setSearch(false)
+                // }
                 setLoading(false)
                 setUserData(res.data.data);
                 setPerPage(res.data.data.per_page);
@@ -230,6 +198,9 @@ const UserList = memo((props) => {
             }
         });
     }
+
+
+
     if (checkBox.length > 0) {
         $("#totalAction").addClass("activeAction");
         $("#breadCrumb").removeClass("activeCrumb");
@@ -250,9 +221,6 @@ const UserList = memo((props) => {
 
                 {/*{console.log("total ", total ? total : '')}*/}
                 <SearchComponent total={total} searchRes={items => {
-
-
-
                     Object.keys(items).forEach((key , value) => {
                         setSearch(true)
                         if (key === "pageSize" ){
