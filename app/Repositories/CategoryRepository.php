@@ -4,8 +4,7 @@
 namespace App\Repositories;
 
 
-use App\Http\Controllers\Admin\Category\Traits\CreateCategoryTrait;
-use App\Http\Requests\Admin\Services\RelationsService;
+use App\Http\Controllers\Admin\Category\Traits\CategoryTrait;
 use App\Models\Category;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Carbon\Carbon;
@@ -13,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoryRepository implements RepositoryInterface
 {
-    use CreateCategoryTrait;
+    use CategoryTrait;
 
     public function all($status = null, $search = null, $pageSize = null)
     {
@@ -37,7 +36,9 @@ class CategoryRepository implements RepositoryInterface
 
     public function delete($category)
     {
+        $this->parentHandler($category);
         $category->update(['status' => 'deactivate']);
+
         return $category->delete();
     }
 
@@ -81,6 +82,7 @@ class CategoryRepository implements RepositoryInterface
 
     public function multipleDestroy($data)
     {
+        $this->parentHandler($data);
         return Category::whereIn('id', $data['categoryIds'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);
 
     }
