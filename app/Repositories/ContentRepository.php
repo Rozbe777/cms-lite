@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ContentRepository implements Interfaces\RepositoryInterface
 {
-    public function all($status = 'active', $search = null, $owner = null, $pageSize = null)
+    public function all($status = null, $search = null, $owner = null, $pageSize = null)
     {
         if (empty($pageSize))
             $pageSize = config('view.pagination');

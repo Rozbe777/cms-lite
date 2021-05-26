@@ -81,10 +81,10 @@ class Category extends Model
         return $this->belongsToMany(Page::class);
     }
 
-    public function tags()
-    {
-        return $this->belongsToMany(Tag::class, 'category_tag', 'category_id', 'tag_id');
-    }
+//    public function tags()
+//    {
+//        return $this->belongsToMany(Tag::class, 'category_tag', 'category_id', 'tag_id');
+//    }
 
     public function viewCounts()
     {

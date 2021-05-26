@@ -9,6 +9,7 @@ use App\Http\Requests\Admin\User\CreateUserRequest;
 use App\Http\Requests\Admin\User\EditUserRequest;
 use App\Http\Requests\Admin\User\multipleDestroyRequest;
 use App\Http\Requests\Admin\User\SearchUserRequest;
+use App\Models\Role;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Contracts\View\Factory;
@@ -43,7 +44,7 @@ class UserController extends Controller
         $user = $this->userRepository->all($request->role_id, $request->status, $request->search, $request->pageSize);
 
         return (!$user) ?
-            redirect()->back()->with('error', __('message.content.search.notSuccess')) :
+            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.user.index")->error() :
             $this->data($user)->message(__('message.success.200'))->view("pages.admin.user.index")->success();
     }
 
@@ -54,7 +55,7 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        return adminView("pages.admin.user.create");
+        return adminView("pages.admin.user.create")->with(['roles' => Role::all()]);
     }
 
     /**
@@ -89,7 +90,7 @@ class UserController extends Controller
      */
     public function edit(User $user): View
     {
-        return adminView("pages.admin.user.edit")->with(['data'=>$user]);
+        return adminView("pages.admin.user.edit")->with(['data' => $user, 'roles' => Role::all()]);
     }
 
     /**
@@ -101,8 +102,12 @@ class UserController extends Controller
      */
     public function update(EditUserRequest $request, User $user)
     {
-        $user = $this->userRepository->update($request->all(), $user);
-        return $this->message(__('message.success.200'))->view('pages.admin.user.edit')->data($user)->success();
+        $data = [
+            'user' => $this->userRepository->update($request->all(), $user),
+            'role' => Role::all(),
+        ];
+
+        return $this->message(__('message.success.200'))->view('pages.admin.user.edit')->data($data)->success();
     }
 
     /**
@@ -124,7 +129,7 @@ class UserController extends Controller
      */
     public function multipleDestroy(multipleDestroyRequest $request)
     {
-        if (in_array(Auth::id() ,$request->all()['userIds']) || in_array( 1, $request->all()['userIds']))
+        if (in_array(Auth::id(), $request->all()['userIds']) || in_array(1, $request->all()['userIds']))
             return $this->message(__('message.roles.destroy.cantDeleteSuperAdmin'))->view('pages.admin.user.index')->error();
 
         $this->userRepository->multipleDestroy($request->all());

@@ -41,7 +41,7 @@ class ContentController extends Controller
         $contents = $this->contentRepository->all($request->status, $request->search, $request->owner, $request->pageSize);
 
         return (!$contents) ?
-            redirect()->back()->with('error', __('message.content.search.notSuccess')) :
+            $this->message( __('message.content.search.notSuccess'))->view("pages.admin.content.index")->error():
             $this->data($contents)->message(__('message.success.200'))->view("pages.admin.content.index")->success();
     }
 

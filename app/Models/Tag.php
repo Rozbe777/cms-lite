@@ -30,10 +30,10 @@ class Tag extends Model
         return $this->belongsToMany(Page::class);
     }
 
-    public function categories()
-    {
-        return $this->belongsToMany(Category::class);
-    }
+//    public function categories()
+//    {
+//        return $this->belongsToMany(Category::class);
+//    }
 
     public function viewCounts()
     {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Category;
 
 
 use App\Classes\Responses\Admin\Responses;
+use App\Classes\Responses\Admin\ResponsesTrait;
 use App\Http\Controllers\Admin\Category\Helper\CategorySearchHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Category\CreateCategoryRequest;
@@ -19,6 +20,8 @@ use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {
+    use ResponsesTrait;
+
     protected $responses;
     protected $categoryRepository;
 
@@ -26,22 +29,22 @@ class CategoryController extends Controller
     {
         $this->responses = $responses;
         $this->categoryRepository = $categoryRepository;
-        $this->middleware('user_permission');
+//        $this->middleware('user_permission');
 
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return JsonResponse|Response
+     * @return JsonResponse|RedirectResponse|Response|void
      */
-    public function index()
+    public function index(SearchCategoryRequest $request)
     {
-        $category = $this->categoryRepository->all();
+        $categories = $this->categoryRepository->all($request->status, $request->search, $request->pageSize);
 
-        return (is_array($category)) ?
-            $this->responses->notSuccess(500, $category) :
-            $this->responses->success($category, "category.index");
+        return (!$categories) ?
+            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.category.index")->error() :
+            $this->data($categories)->message(__('message.success.200'))->view("pages.admin.category.index")->success();
     }
 
     /**
@@ -64,9 +67,7 @@ class CategoryController extends Controller
     {
         $category = $this->categoryRepository->create($request->all());
 
-        return (is_array($category)) ?
-            $this->responses->notSuccess(500, $category) :
-            $this->responses->success($category, "category.show");
+        return $this->message(__('message.success.200'))->data($category)->view('pages.admin.category.show')->success();
     }
 
     /**
@@ -77,13 +78,9 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        try {
-            $this->categoryRepository->get($category);
+        $this->categoryRepository->get($category);
 
-            return $this->responses->success($category, "category.show");
-        } catch (\Exception $exception) {
-            return $this->responses->notSuccess(500, $category);
-        }
+        return $this->message(__('message.success.200'))->data($category)->view('pages.admin.category.show')->success();
     }
 
     /**
@@ -108,9 +105,7 @@ class CategoryController extends Controller
     {
         $category = $this->categoryRepository->update($request->all(), $category);
 
-        return (is_array($category)) ?
-            $this->responses->notSuccess(500, $category) :
-            $this->responses->success($category, "category.edit");
+        return $this->message(__('message.success.200'))->view('pages.admin.category.edit')->data($category)->success();
     }
 
     /**
@@ -121,28 +116,15 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category = $this->categoryRepository->delete($category);
+        $this->categoryRepository->delete($category);
 
-        return (is_array($category)) ?
-            $this->responses->notSuccess(500, $category) :
-            redirect()->back()->with('success', __('message.content.destroy.successful'));
+        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.category.index')->success();
     }
 
     public function multipleDestroy(multipleDestroyRequest $request)
     {
-        $category = $this->categoryRepository->multipleDestroy($request);
+        $this->categoryRepository->multipleDestroy($request);
 
-        return (is_array($category)) ?
-            $this->responses->notSuccess(500, $category) :
-            redirect()->back()->with('success', __('message.content.destroy.successful'));
-    }
-
-    public function search(SearchCategoryRequest $request)
-    {
-        $category = (new CategorySearchHelper($request))->searchCategories();
-
-        return (!$category) ?
-            redirect()->back()->with('error', __('message.content.search.notSuccess')) :
-            $this->responses->success($category, "category.index");
+        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.category.index')->success();
     }
 }
