@@ -86,27 +86,22 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard.index');
 
     //------------------------------User----------------------------
-    Route::get('users/search', [UserController::class, 'search'])->name('users.search');
     Route::resource('users', UserController::class);
     Route::delete('users/multi/destroy', [UserController::class, 'multipleDestroy'])->name('users.multipleDestroy');
 
     //----------------------------Contents---------------------------
-    Route::get('contents/search', [ContentController::class, 'search'])->name('contents.search');
     Route::resource('contents', ContentController::class);
     Route::delete('contents/multi/destroy', [ContentController::class, 'multipleDestroy'])->name('contents.multipleDestroy');
 
     //---------------------------Categories--------------------------
-    Route::get('categories/search', [CategoryController::class, 'search'])->name('categories.search');
     Route::resource('categories', CategoryController::class);
     Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy'])->name('categories.multipleDestroy');
 
     //------------------------------Tags-----------------------------
-    Route::get('tags/search', [TagController::class, 'search'])->name('tags.search');
     Route::resource('tags', TagController::class);
     Route::delete('tags/multi/destroy', [TagController::class, 'multipleDestroy'])->name('tags.multipleDestroy');
 
     //------------------------------Pages----------------------------
-    Route::get('pages/search', [PageController::class, 'search'])->name('pages.search');
     Route::resource('pages', PageController::class);
     Route::delete('pages/multi/destroy', [PageController::class, 'multipleDestroy'])->name('pages.multipleDestroy');
 });
