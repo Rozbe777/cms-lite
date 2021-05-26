@@ -1,20 +1,23 @@
 import React, {useState} from "react";
 import {convertDigit, empty, ErroHandle, error as ErrorToast, error, success, url, warning} from "../../helper";
 import {Request} from "../../services/AdminService/Api";
+import Loading from "../Auth/Loading";
 import ReactDOM from "react-dom";
+import $ from "jquery";
 
 const CreateUser = (props) => {
 
     // let {name, last_name, email, phone, role_id, password, roles} = state;
 
-    const {token} = props;
+    const {token , roles} = props;
     const [state, setState] = useState({
         name: '',
         last_name: '',
         email: '',
         mobile: '',
         password: '',
-        role_id: ''
+        role_id: '1',
+        status : 'active'
     })
 
     const imagePicker = () => {
@@ -30,6 +33,7 @@ const CreateUser = (props) => {
     }
 
     const submitForm = () => {
+
 
         var pattern = /^0?9{1}([0-9]{9})$/;
         let {name, last_name, email, mobile, password, role_id} = state;
@@ -57,17 +61,21 @@ const CreateUser = (props) => {
         // delete 0 from first mobile number
         let mobiles = Array.from(mobile);
         let FirstNumber = mobiles[0]
-        console.log(FirstNumber);
         if (FirstNumber === 0 || FirstNumber === "0")
         {
             mobiles.shift();
             let newMobile = mobiles.join('');
             state.mobile = newMobile;
+            $("#loading-show").addClass("activeLoadingLogin");
             Request.CreateUserNew(state)
                 .then(res => {
+                    $("#loading-show").removeClass("activeLoadingLogin");
                     success("کاربر جدید با موفقیت اضافه شد");
-
+                    setTimeout(()=>{
+                        window.location.reload();
+                    } , 400)
                 }).catch(error => {
+                $("#loading-show").removeClass("activeLoadingLogin");
                 if (error.response.data.errors) {
                     ErroHandle(error.response.data.errors)
                 } else {
@@ -75,11 +83,16 @@ const CreateUser = (props) => {
                 }
             })
         }else{
+            $("#loading-show").addClass("activeLoadingLogin");
             Request.CreateUserNew(state)
                 .then(res => {
+                    $("#loading-show").removeClass("activeLoadingLogin");
                     success("کاربر جدید با موفقیت اضافه شد");
-
+                    setTimeout(()=>{
+                        window.location.reload();
+                    } , 400)
                 }).catch(error => {
+                $("#loading-show").removeClass("activeLoadingLogin");
                 if (error.response.data.errors) {
                     ErroHandle(error.response.data.errors)
                 } else {
@@ -87,23 +100,6 @@ const CreateUser = (props) => {
                 }
             })
         }
-
-
-
-
-
-
-        // Request.CreateUserNew(state)
-        //     .then(res => {
-        //         success("کاربر جدید با موفقیت اضافه شد");
-        //
-        //     }).catch(error => {
-        //     if (error.response.data.errors) {
-        //         ErroHandle(error.response.data.errors)
-        //     } else {
-        //         ErrorToast("خطای غیر منتظره ای رخ داده است")
-        //     }
-        // })
 
 
     }
@@ -211,9 +207,9 @@ const CreateUser = (props) => {
                                         onChange={(e) => {
                                             HandleInput(e)
                                         }}>
-                                    {/*{roles.map((role) => {*/}
-                                    {/*    return (<option value={role.id}>{role.display_name}</option>)*/}
-                                    {/*})}*/}
+                                    {JSON.parse(roles).map((role) => {
+                                        return (<option value={role.id}>{role.display_name}</option>)
+                                    })}
                                 </select>
                             </div>
                         </div>
@@ -227,6 +223,10 @@ const CreateUser = (props) => {
                 </div>
             </form>
 
+
+            <div id={"loading-show"} style={{zIndex: 9999, visibility: 'hidden'}}>
+                <Loading/>
+            </div>
         </div>
     );
 
@@ -239,26 +239,4 @@ if (element) {
     const props = Object.assign({}, element.dataset);
     ReactDOM.render(<CreateUser {...props}/>, element);
 }
-
-
-// import React, {Component} from "react";
-// import {convertDigit, empty, error, success, url, warning} from "../../helper";
-// import Webservice, {POST_METHOD, PUT_METHOD} from "../../classes/webservice";
-// import ReactDOM from "react-dom";
-//
-// export const CreateUser = () => {
-//     return (
-//         <div>
-//             <h1>vsdvsdvdsv</h1>
-//         </div>
-//     )
-// }
-//
-//
-// let element = document.getElementById("create-user-form-by-admin")
-// ReactDOM.render(
-//     <CreateUser /> , element
-// )
-
-
 

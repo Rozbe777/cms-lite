@@ -2,6 +2,7 @@
 @php($title = "کاربران")
 
 @section("content")
+
     <div class="content-wrapper">
         <div class="content-header row">
             <div class="item-title">
@@ -31,19 +32,20 @@
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active fade show" id="account" aria-labelledby="account-tab"
+                                <div class="tab-pane active" id="account" aria-labelledby="account-tab"
                                      role="tabpanel">
-                                    <div id="profile-form" data-user="{{$data}}"
-                                         data-is_admin="1"
-                                         data-roles="{{$data->roles()->first()->name}}"
+                                    <div id="update-user-form-by-admin" data-user="{{$data}}"
+                                         @if(\Illuminate\Support\Facades\Auth::user()->roles()->first()->name == "admin")
+                                            data-is_admin="1"
+                                         @endif
+                                         data-roles="{{$roles}}"
                                          data-role_id="{{$data->roles()->first()->id}}"
-                                         data-action="{{route('profile.index')}}"
                                          data-token="{{csrf_token()}}"></div>
                                 </div>
-                                <div class="tab-pane fade show" id="password" aria-labelledby="password-tab"
+                                <div class="tab-pane" id="password" aria-labelledby="password-tab"
                                      role="tabpanel">
                                     <!-- change password form start -->
-                                    <div id="password-form" data-action="{{route('profile.password')}}"
+                                    <div id="update-user-password-by-admin"
                                          data-token="{{csrf_token()}}"></div>
                                     <!-- change password form ends -->
                                 </div>
