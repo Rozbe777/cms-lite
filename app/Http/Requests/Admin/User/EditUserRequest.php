@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Admin\User;
 
-use App\Http\Requests\BaseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
 
 /**
@@ -16,7 +16,7 @@ use Illuminate\Support\Carbon;
  * @property string role
  * @property Carbon|null email_verified_at
  */
-class EditUserRequest extends BaseRequest
+class EditUserRequest extends FormRequest
 {
     /**
      * @var mixed
