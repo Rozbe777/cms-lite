@@ -1,50 +1,36 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import "swiper/swiper-bundle.css";
 import '../HOC/_Shared/style.scss';
-
-
+import {FormContextMultiSelected, FormTheme} from "../Helper/Context";
+import ReactDOM from "react-dom";
+import $ from "jquery";
+import {MultiSelectedSetting} from "./Setting/MultiSelectedSetting";
 export const MultiSelected = ({selected: pushSelected}) => {
-
     const [check, setCheck] = useState([])
-    const [data, setData] = useState([
-        {
-            id: 1,
-            name: 'دسته بندی اول'
-        }, {
-            id: 2,
-            name: 'دسته بندی دوم'
-        }, , {
-            id: 3,
-            name: 'دسته بندی سوم'
-        },
-    ])
-    const [paginateThumbs, setPaginateThumbs] = useState();
-    const [load, setLoad] = useState(false);
-    let selectCheckBox = new Set();
+    const {initialFormDataMultiSel, setInitialFormDataMultiSel} = useContext(FormContextMultiSelected)
+    const {formTheme} = useContext(FormTheme);
     useEffect(() => {
     }, [])
-
-
     const HandleChange = (e, id) => {
-
         let checkBoxCustom = $("span.checkboxeds." + id);
         let checked = [...check]
-        if (e.target.checked) {
+        console.log("e.target : " , e.target.checked , " / customs : " , checkBoxCustom , " id : " , id , " checked : " , checked)
+        let checkTarget = e.target.checked;
+        console.log(checkTarget);
+
+        if (checkTarget) {
             checkBoxCustom.addClass("active")
             checked.push({
                 id: e.target.name,
                 name: e.target.value
             })
             setCheck(checked)
-            pushSelected(checked)
-            // console.log("1111111 : " , check)
         } else {
+            console.log("un checked");
             checkBoxCustom.removeClass("active")
             const results = check.filter(obj => parseInt(obj.id) !== id);
-            // var result = check.filter(obj => console.log("object name : " , parseInt(obj.id) , " / name : " , id));
             setCheck(results)
-            pushSelected(results)
         }
 
     }
@@ -54,7 +40,6 @@ export const MultiSelected = ({selected: pushSelected}) => {
         e.preventDefault();
         $(".optionBox#selected").toggleClass("active")
         $(".selecteddd i#droper").toggleClass("active");
-        // console.log("click daaaaaa , " , e.currentTarget.getAttribute('data-appmode'))
     }
 
     const RemoveChipset = (id) => {
@@ -62,12 +47,27 @@ export const MultiSelected = ({selected: pushSelected}) => {
         $("input[name=" + id + "]").prop("checked", false);
         var result = check.filter(obj => obj.id !== id);
         setCheck(result)
-        pushSelected(result)
     }
+
+    const HandleClick = e => {
+        e.preventDefault();
+        ReactDOM.render(<FormContextMultiSelected.Provider value={{
+            initialFormDataMultiSel,
+            setInitialFormDataMultiSel
+        }}><MultiSelectedSetting/></FormContextMultiSelected.Provider>, setting_main_content);
+        $(".nav-tabs li a").removeClass("active");
+        $(".tab-pane").removeClass("active");
+        $(".tab-pane.field").addClass("active");
+        $(".nav-tabs li a.field").addClass("active");
+
+    }
+    let tags = initialFormDataMultiSel.Mandatory ? initialFormDataMultiSel.title ? initialFormDataMultiSel.title +  "(*)" : 'عنوان (*)' :  initialFormDataMultiSel.title ?  initialFormDataMultiSel.title : 'عنوان';
+
+
     return (
-        <>
-            <p id={"form-creator-p"}>چند انتخابیییییی</p>
-            <div className={"main-selected"} style={{color : '#475F7B'}}>
+        <div onClick={e => HandleClick(e)}>
+            <p id={"form-creator-p"} style={{color : formTheme.textColor}}>{tags}</p>
+            <div className={"main-selected"} style={{borderColor : formTheme.inputBorder , backgroundColor : formTheme.inputBackground , color : formTheme.placeholderColor}}>
 
             <div className={"show-chipset-multi"}>
                 {check.length > 0 ? (
@@ -75,8 +75,6 @@ export const MultiSelected = ({selected: pushSelected}) => {
                         slidesPerView={1}
                         pagination={{clickable: true}}
                         scrollbar={{draggable: true}}
-                        // onSlideChange={(e) => CheckWidth(e)}
-                        // onSwiper={(swiper) => console.log(swiper)}
                     >
                         {check ? check.map(item => (
                                 <SwiperSlide key={item.id} virtualIndex={item.id}>
@@ -100,30 +98,31 @@ export const MultiSelected = ({selected: pushSelected}) => {
 
             </div>
             <div id={"box-droper"} className={"selecteddd formcreatordroper"} onClick={e => handleDropDown(e)}>
-                <i className={"bx bx-chevron-down"} id={"droper"}></i>
+                <i className={"bx bx-chevron-down"} id={"droper"} style={{color : formTheme.placeholderColor}}></i>
             </div>
 
             <div className={"optionBox formcreator"} id={"selected"}>
                 <ul>
-                    {data ? data.length > 0 ? data.map(item => (
+                    {initialFormDataMultiSel.Options ? initialFormDataMultiSel.Options.length > 0 ? initialFormDataMultiSel.Options.map((index , key) =>
+                        (
                         <li>
                             <fieldset>
-                                <span className={"checkboxeds " + item.id} style={{color: '#fff'}}>
+                                <span className={"checkboxeds " + key} style={{color: '#fff'}}>
                                     <i className={"bx bx-check"}></i>
                                 </span>
                                 <input type="checkbox"
-                                       onChange={e => HandleChange(e, item.id)}
-                                       name={item.id}
+                                       onChange={e => HandleChange(e, key)}
+                                       name={key}
                                        style={{background: 'green !important'}}
-                                       value={item.name} id="checkbox1"/>
-                                <span id={"labels"} htmlFor="checkbox1">{item.name}</span>
+                                       value={index} id="checkbox1"/>
+                                <span id={"labels"} htmlFor="checkbox1">{index}</span>
                             </fieldset>
 
 
                         </li>
 
                     )) : (<p>انتخاب کنید</p>) : (
-                        <p>fff</p>
+                        <p>wait</p>
                     )}
 
 
@@ -131,10 +130,8 @@ export const MultiSelected = ({selected: pushSelected}) => {
             </div>
 
         </div>
-            <p>
-                <small className="text-muted">لورم ایپسوم متن ساختگی برای چند انتخابی است ...</small>
-            </p>
-        </>
+
+        </div>
 
     )
 }

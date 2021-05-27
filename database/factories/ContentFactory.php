@@ -27,7 +27,8 @@ class ContentFactory extends Factory
             "title"=>$this->faker->title,
             "slug"=>$this->faker->slug,
             "content"=>$this->faker->text,
-            "user_id"=>$this->faker->randomDigit,
+            "user_id"=>rand(1,18),
+            "page_id"=>rand(1,10),
             'published_at'=>Carbon::now()
         ];
     }

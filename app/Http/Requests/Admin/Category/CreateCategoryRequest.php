@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Admin\Category;
 
-use App\Http\Requests\BaseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCategoryRequest extends BaseRequest
+class CreateCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,19 +25,18 @@ class CreateCategoryRequest extends BaseRequest
     {
         return [
             'name' => 'required|string|max:255|unique:categories,name',
-            'slug' => 'required|string|max:255|unique:categories,slug',
-
-          //  'image' => 'required|image',
-            'content' => '',
-            'fields' => '',
-            //'parent_id' => 'exists:categories,id',
+            'slug' => 'required|string|max:255',
+            'image' => 'image|nullable',
+            'content' => 'string',
+            'fields' => 'string',
+            'parent_id' => 'exists:categories,id',
             //'layout_id' => '',//not using now FIXME after insert layout and module
             //'module_id' => '',
             'status' => 'required|string|in:active,deactivate',
-            'is_menu' => 'boolean',
-            'tag_list' => 'array',
-            'tag_list.*' => 'string',
-            'metadata' => ''
+            'is_menu' => 'boolean|nullable',
+            'is_index' => 'integer|nullable',
+            'tag_list' => 'nullable|array',
+            'metadata' => 'nullable|string'
         ];
     }
 }

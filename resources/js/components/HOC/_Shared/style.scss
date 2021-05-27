@@ -60,15 +60,18 @@
 
 #file{
     width: 100%;
-    height: 55px;
+    height: 50px;
     position: relative;
     overflow: hidden;
     #select-files{
         position: absolute;
         bottom: -15px;
-        height: 55px;
+        height: 50px;
         width: 100%;
     }
+}
+.form-group{
+    margin-top: 1px;
 }
 .ql-editor.ql-blank
 {
@@ -87,10 +90,11 @@
 }
 
 .form-control#selectParent{
-    height: 55px !important;
+    height: 50px !important;
+    margin-top: -2px;
 }
 input#title{
-    height: 55px !important;
+    height: 50px !important;
 }
 
 .alert.alert-primary{
@@ -109,6 +113,8 @@ input#title{
 }
 
 .switch-container{
+    height: 50px;
+    margin-top: 2px;
     ul#bigest{
         li{
             width: 33.3%;

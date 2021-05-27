@@ -2,10 +2,41 @@
 
 namespace App\Http\Requests\Admin\Page;
 
+use Illuminate\Foundation\Http\FormRequest;
+use phpDocumentor\Reflection\Types\Nullable;
 
-use App\Http\Requests\Admin\Content\CreateContentRequest;
-
-class CreatePageRequest extends CreateContentRequest
+class CreatePageRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
 
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:contents,slug',
+            'content' => 'string|nullable',
+            'status' => 'in:active,pending,deactivate|nullable',
+            'metadata'=>'string|nullable',
+            'user_id' => 'integer|exists:users,id',
+//            'layout_id' => 'integer|exists:layouts,id',//FIXME after insert layouts table
+            'image' => 'image|nullable',
+            'comment_status' => 'in:active,deactivate|nullable',
+            'is_index'=>'boolean|nullable',
+            'is_menu'=>'boolean|nullable',
+            'tag_list'=>'array'
+        ];
+    }
 }

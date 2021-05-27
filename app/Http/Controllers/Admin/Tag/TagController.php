@@ -2,93 +2,127 @@
 
 namespace App\Http\Controllers\Admin\Tag;
 
-use App\Http\Controllers\Admin\Tag\Traits\CreateTagTrait;
-use App\Http\Controllers\Admin\Tag\Traits\EditTagTrait;
+use App\Classes\Responses\Admin\Responses;
+use App\Classes\Responses\Admin\ResponsesTrait;
+use App\Http\Controllers\Admin\Tag\Helper\TagSearchHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Tag\CreateTagRequest;
 use App\Http\Requests\Admin\Tag\EditTagRequest;
 use App\Http\Requests\Admin\Tag\multipleDestroyRequest;
 use App\Http\Requests\Admin\Tag\SearchTagRequest;
 use App\Models\Tag;
-use Illuminate\Http\Request;
+use App\Repositories\TagRepositories;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 
 class TagController extends Controller
 {
-    use CreateTagTrait,EditTagTrait;
-    public function index()
+    use ResponsesTrait;
+
+    protected $responses;
+    protected $tagRepositories;
+
+    public function __construct(Responses $responses, TagRepositories $tagRepositories)
     {
-        return adminView("pages.admin.tag.index");
+        $this->responses = $responses;
+        $this->tagRepositories = $tagRepositories;
+//        $this->middleware('user_permission');
 
     }
 
-    public function list()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return JsonResponse|View
+     */
+    public function index(SearchTagRequest $request)
     {
-        $tags=Tag::paginate(12);
+        $tag = $this->tagRepositories->all($request->status, $request->search, $request->pageSize);
 
-        return $tags;
-
+        return (!$tag) ?
+            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.tag.index")->error() :
+            $this->data($tag)->message(__('message.success.200'))->view("pages.admin.tag.index")->success();
     }
 
-    public function store(CreateTagRequest $request){
-        $tag=$this->createTag(
-            [
-                'name'=>$request->input('name'),
-            ]
-        );
-
-        return redirect(route("admin.tag.index"))->with("info", "ثبت برچسب با موفقیت انجام شد");
-
-
-
-    }
-
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Factory|View
+     */
     public function create()
     {
         return adminView("pages.admin.tag.create");
     }
 
-    public function edit($tagId)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param CreateTagRequest $request
+     * @return View|JsonResponse
+     */
+    public function store(CreateTagRequest $request)
     {
-        $tag=Tag::findOrFail($tagId);
-        return adminView("pages.admin.tag.edit")->with("tag",$tag);
+        $tag = $this->tagRepositories->create($request->all());
+
+        return $this->message(__('message.success.200'))->data($tag)->view('pages.admin.tag.show')->success();
     }
 
-    public function destroy($id)
+    /**
+     * Display the specified resource.
+     *
+     * @param Tag $tag
+     * @return View|JsonResponse
+     */
+    public function show(Tag $tag)
     {
-        Tag::findOrFail($id)->delete();
-        return redirect(route("admin.tag.index"))->with("info", "عملیات حذف برچسب موفقیت انجام شد");
+        $this->tagRepositories->get($tag);
+
+        return $this->message(__('message.success.200'))->data($tag)->view('pages.admin.tag.show')->success();
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param Tag $tag
+     * @return View
+     */
+    public function edit(Tag $tag)
+    {
+        return adminView("pages.admin.tag.edit", compact('tag'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param EditTagRequest $request
+     * @param Tag $tag
+     * @return JsonResponse|View
+     */
+    public function update(EditTagRequest $request, Tag $tag)
+    {
+        $tag = $this->tagRepositories->update($request->all(), $tag);
+
+        return $this->message(__('message.success.200'))->view('pages.admin.tag.edit')->data($tag)->success();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Tag $tag
+     * @return JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Tag $tag)
+    {
+        $this->tagRepositories->delete($tag);
+
+        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.tag.index')->success();
     }
 
     public function multipleDestroy(multipleDestroyRequest $request)
     {
-        if (isset($request->tagIds))
-            Tag::whereIn('id',$request->input('tagIds'))->delete();
+        $this->tagRepositories->multipleDestroy($request);
 
-        return redirect(route("admin.tag.index"))->with('info','برچسب های انتخاب شده حذف شدند');
-
-    }
-
-
-
-    public function update(EditTagRequest $request,$tagId)
-    {
-        $tag=$this->EditTag([
-            'name'=>$request->input('name'),
-            'tag_id'=>$tagId,
-
-
-        ]);
-
-        return redirect(route("admin.tag.edit",$tagId))->with("info", "عملیات ویرایش برچسب با موفقیت انجام شد");
-
-
-    }
-
-    public function search(SearchTagRequest $request){
-        $searchHelper=new \TagSearchHelper($request);
-        $tags=$searchHelper->searchTags();
-
-        return adminView("pages.admin.tag.index")->with('tags',$tags);
-
+        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.tag.index')->success();
     }
 }

@@ -24,7 +24,6 @@ class PasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'token' => 'required',
             'password' => 'required|string|min:4|confirmed',
         ];
     }

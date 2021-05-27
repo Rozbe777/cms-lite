@@ -6,31 +6,22 @@ namespace App\Classes\Responses\Auth;
 
 class Responses
 {
-    public function success($message, $data = [])
+    public function success($data,$view)
     {
-        return ($data != null) ?
-            response()->json([
-                "http_code" => 200,
-                "message" => $message,
-                "data" =>$data
-            ], 200) :
-            response()->json([
-                "http_code" => 200,
-                "message" => $message,
-            ], 200);
+        if (str_contains(\Route::current()->uri,'api')){
+            return response()->json([
+                'data' => $data
+            ]);
+        }else{
+            return adminView("pages.admin.category.$view",['data'=>$data]);
+        }
     }
 
-    public function notSuccess($message, $status, $data = [])
+    public function notSuccess($statusCode,$data=[],$message=[])
     {
-        return ($data != null) ?
-            response()->json([
-                "http_code" => $status,
-                "message" => $message,
-                "data" => $data
-            ], $status) :
-            response()->json([
-                "http_code" => $status,
-                "message" => $message,
-            ], $status);
+        return response()->json([
+            'message' => __('message.errors.500'),
+            "data"=>$data
+        ],$statusCode);
     }
 }

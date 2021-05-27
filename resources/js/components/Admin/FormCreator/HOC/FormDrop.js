@@ -5,9 +5,8 @@ import {FormContext} from "../Helper/Context";
 
 const FormDrop = (props) => {
 
-    const {initialFormData, setInitialFormData} = useContext(FormContext);
+    // console.log("proppppss : " , props)
     return (
-        <FormContext.Provider value={{initialFormData, setInitialFormData}}>
             <div className={"container"}
                  style={{display: 'flex', alignItem: 'center', justifyContent: 'center', width: '100%', padding: 0}}>
                 <Droppable droppableId={props.column.id}>
@@ -17,14 +16,13 @@ const FormDrop = (props) => {
                              ref={provider.innerRef}
                              {...provider.droppableProps}
                         >
-                            {props.tasks.map((task, index) => <Item index={index} key={task.id} task={task}/>)}
+                            {props.tasks.map((task, index) => <Item index={index} key={index} task={task}/>)}
 
                             {provider.placeholder}
                         </div>
                     )}
                 </Droppable>
             </div>
-        </FormContext.Provider>
     )
 }
 export default FormDrop;

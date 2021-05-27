@@ -45,7 +45,7 @@ if ( ![].filter ) {
 }
 
 
-// Index of array support
+// MobileVerify of array support
 if ( ![].indexOf ) {
     Array.prototype.indexOf = function( searchElement ) {
         if ( this == null ) throw new TypeError()

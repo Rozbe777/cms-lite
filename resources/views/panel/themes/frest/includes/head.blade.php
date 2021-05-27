@@ -8,9 +8,16 @@
     <meta name="theme-color" content="#5A8DEE">
 <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="{{adminTheme("vendors/css/vendors.min.css")}}">
+    <link rel="stylesheet" type="text/css" href="{{adminTheme("vendors/css/pickers/pickadate/pickadate.css")}}">
+    <link rel="stylesheet" type="text/css" href="{{adminTheme("vendors/css/pickers/daterange/daterangepicker.css")}}">
+    <link rel="stylesheet" type="text/css" href="{{adminTheme("vendors/css/pickers/datepicker-jalali/bootstrap-datepicker.min.css")}}">
     <link rel="stylesheet" type="text/css" href="{{adminTheme("vendors/css/tables/datatable/datatables.min.css")}}">
+
     <link rel="stylesheet" type="text/css" href="{{adminTheme("vendors/css/extensions/toastr.css")}}">
     <link rel="stylesheet" type="text/css" href="{{adminTheme("vendors/css/file-uploaders/dropzone.min.css")}}">
+
+
+
     <link rel="stylesheet" type="text/css" href="{{adminTheme("vendors/css/forms/select/select2.min.css")}}">
     <!-- END: Vendor CSS-->
 
@@ -21,12 +28,8 @@
     <link rel="stylesheet" type="text/css" href="{{adminTheme("css/components.css")}}">
     <link rel="stylesheet" type="text/css" href="{{adminTheme("css/themes/dark-layout.css")}}">
     <link rel="stylesheet" type="text/css" href="{{adminTheme("css/themes/semi-dark-layout.css")}}">
-    <link rel="stylesheet" type="text/css" href="{{adminTheme("css/plugins/file-uploaders/dropzone.css")}}">
     <!-- END: Theme CSS-->
     <!-- Editor   -->
-    <link rel="stylesheet" type="text/css" href="{{asset("/panel/themes/frest/css/plugins/Editor/katex.min.css")}}">
-    <link rel="stylesheet" type="text/css" href="{{asset("/panel/themes/frest/css/plugins/Editor/quill.bubble")}}">
-    <link rel="stylesheet" type="text/css" href="{{asset("/panel/themes/frest/css/plugins/Editor/quill.snow")}}">
 
 
     <!-- BEGIN: Page CSS-->

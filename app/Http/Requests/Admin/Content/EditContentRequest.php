@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Admin\Content;
 
-use App\Http\Requests\BaseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class EditContentRequest extends BaseRequest
+class EditContentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,19 +25,19 @@ class EditContentRequest extends BaseRequest
     {
         return [
             'title' => 'string|max:255',
-            'slug' => 'string|max:255|unique:contents,slug,'.$this->route('contentId'),
-            'content' => '',
+            'owner' => 'in:page,content',
+            'slug' => 'string|max:255|unique:contents,slug',
+            'content' => 'string|nullable',
             'status' => 'in:active,pending,deactivate',
-            'user_id' => 'integer|exists:users,id',
-            'layout_id' => 'integer|exists:layouts,id',//FIXME after insert layouts table
-            'image' => 'image',
+            'user_id' => 'integer|exists:users,id|nullable',
+//            'layout_id' => 'integer|exists:layouts,id',//FIXME after insert layouts table
+            'image' => 'image|nullable',
             'comment_status' => 'in:active,deactivate',
-            'is_index'=>'boolean',
-            'is_menu'=>'boolean',
-            'tag_list'=>'array',
-            'tag_list.*'=>'string',
-            'metadata'=>''
-
+            'is_index'=>'boolean|nullable',
+            'is_menu'=>'boolean|nullable',
+            'metadata'=>'string|nullable',
+            'tag_list_old'=>'array',
+            'tag_list_new'=>'array',
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
@@ -16,21 +17,20 @@ use Shanmuga\LaravelEntrust\Traits\LaravelEntrustUserTrait;
  * @property string last_name
  * @property string email
  * @property string password
- * @property string phone
+ * @property string mobile
  * @property string status
  * @property string avatar
- * @property string phone_verified_at
+ * @property string mobile_verified_at
  * @property string registration_source
  * @property Carbon|null email_verified_at
  * @method static find(Integer $user_id)
  * @method static findOrFail($id)
- * @method static where(string $string, $userIds)
  * @method static paginate(int $int)
  */
 class User extends Authenticatable
 {
 
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
     use LaravelEntrustUserTrait;
 
     /**
@@ -38,12 +38,12 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $guarded=[];
+    protected $guarded = [];
 
     /**
      * @var array|string[]
      */
-    protected $appends = ['fullname', 'persianStatus','userRole'];
+    protected $appends = ['fullname', 'persianStatus', 'userRole', 'userRoleName'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -63,14 +63,30 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     /**
      * @var mixed|string
      */
 
+    public function categories()
+    {
+        return $this->hasMany(Category::class, 'user_id', 'id');
+    }
+
+    public function tags()
+    {
+        return $this->hasMany(Tag::class, 'user_id', 'id');
+    }
+
+    public function pages()
+    {
+        return $this->hasMany(Page::class, 'user_id', 'id');
+    }
+
     public function getFullnameAttribute()
     {
-        if (empty($this->attributes['name']) && empty($this->attributes['last_name'])) {
-            return $this->attributes['phone'];
+        if (empty($this->attributes['name'])) {
+            return $this->attributes['mobile'];
         }
         return $this->attributes['name'] . ' ' . $this->attributes['last_name'];
     }
@@ -90,6 +106,13 @@ class User extends Authenticatable
         return $this->roles()->first()->name;
     }
 
+    public function getUserRoleNameAttribute()
+    {
+        $role = $this->roles()->first();
+        if (empty($role))
+            return __('message.errors.403');
+        return $role->name;
+    }
 
 
 }

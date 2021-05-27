@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Traits\SelfReferenceTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property string name
@@ -22,9 +24,9 @@ class Category extends Model
 {
 
 
-    use HasFactory;
+    use HasFactory, SoftDeletes, SelfReferenceTrait;
 
-    protected $guarded=[];
+    protected $guarded = [];
     protected $appends = [
         "content_count",
 //        "real_url",
@@ -65,10 +67,29 @@ class Category extends Model
         return $this->hasMany(Category::class, 'parent_id', 'id');
     }
 
+    public function users()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function contents()
     {
         return $this->belongsToMany(Content::class);
+    }
+
+    public function pages()
+    {
+        return $this->belongsToMany(Page::class);
+    }
+
+//    public function tags()
+//    {
+//        return $this->belongsToMany(Tag::class, 'category_tag', 'category_id', 'tag_id');
+//    }
+
+    public function viewCounts()
+    {
+        return $this->morphOne(ViewCount::class,'viewcountable');
     }
 
     public function scopeActive($query)

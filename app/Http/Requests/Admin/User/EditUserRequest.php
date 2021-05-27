@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Admin\User;
 
-use App\Http\Requests\BaseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
 
 /**
@@ -16,7 +16,7 @@ use Illuminate\Support\Carbon;
  * @property string role
  * @property Carbon|null email_verified_at
  */
-class EditUserRequest extends BaseRequest
+class EditUserRequest extends FormRequest
 {
     /**
      * @var mixed
@@ -44,7 +44,7 @@ class EditUserRequest extends BaseRequest
             'last_name' => 'nullable|string|max:255',
             'email' => 'nullable|string|email|max:255unique:users,email,'.$this->route('userId'),
             'phone' => ['nullable','unique:users,phone,'.$this->route('userId') , 'mobile'],
-            'password' => 'nullable|string|min:4',
+            'password' => 'nullable|string|min:4|confirmed',
             'status' => 'nullable|in:active,deactivate',
             'role' => 'nullable|exists:roles,id',
 

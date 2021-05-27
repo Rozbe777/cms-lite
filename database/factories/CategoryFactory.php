@@ -22,8 +22,9 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name'=>$this->faker->randomElement(['men','women','kids','elderly','teacher','engineer','doctor','student']),
+            'name'=>$this->faker->word,
             'slug'=>$this->faker->slug,
+            'user_id'=>rand(1,18)
         ];
     }
 }

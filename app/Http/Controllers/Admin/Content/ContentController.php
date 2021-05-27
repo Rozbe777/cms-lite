@@ -2,40 +2,52 @@
 
 namespace App\Http\Controllers\Admin\Content;
 
+use App\Classes\Responses\Admin\Responses;
+use App\Classes\Responses\Admin\ResponsesTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Content\CreateContentRequest;
 use App\Http\Requests\Admin\Content\EditContentRequest;
 use App\Http\Requests\Admin\Content\multipleDestroyRequest;
+use App\Http\Requests\Admin\Content\SearchContentRequest;
 use App\Models\Content;
 use App\Repositories\ContentRepository;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 
 class ContentController extends Controller
 {
+    use ResponsesTrait;
 
     protected $contentRepository;
+    protected $responses;
 
-    public function __construct(ContentRepository $contentRepository)
+    public function __construct(ContentRepository $contentRepository, Responses $responses)
     {
         $this->contentRepository = $contentRepository;
+        $this->responses = $responses;
+//        $this->middleware('user_permission');
     }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return View|JsonResponse|RedirectResponse
      */
-    public function index()
+    public function index(SearchContentRequest $request)
     {
-        return response()->json([
-            'data' => $this->contentRepository->all()
-        ]);
+        $contents = $this->contentRepository->all($request->status, $request->search, $request->owner, $request->pageSize);
+
+        return (!$contents) ?
+            $this->message( __('message.content.search.notSuccess'))->view("pages.admin.content.index")->error():
+            $this->data($contents)->message(__('message.success.200'))->view("pages.admin.content.index")->success();
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return Factory|View|\Illuminate\Http\Response
      */
     public function create()
     {
@@ -45,69 +57,75 @@ class ContentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return JsonResponse
      */
     public function store(CreateContentRequest $request)
     {
-        $content = Content::create($request->all());
-        dd($content);
+        $content = $this->contentRepository->create($request->all());
+
+        return $this->message(__('message.success.200'))->data($content)->view('pages.admin.content.show')->success();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Content  $content
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @param \App\Models\Content $content
+     * @return JsonResponse
      */
     public function show(Content $content)
     {
-        return adminView("pages.admin.content.create",compact('content'));
+        $this->contentRepository->get($content);
+
+        return $this->message(__('message.success.200'))->data($content)->view('pages.admin.content.show')->success();
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Content  $content
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @param \App\Models\Content $content
+     * @return Factory|View|\Illuminate\Http\Response
      */
     public function edit(Content $content)
     {
-        return adminView("pages.admin.content.edit",compact('content'));
+        return adminView("pages.admin.content.edit", compact('content'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Content  $content
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Content $content
+     * @return JsonResponse
      */
     public function update(EditContentRequest $request, Content $content)
     {
-        $content->update($request->all());
+        $content = $this->contentRepository->update($request->all(), $content);
 
-        if (str_contains($request->route()->uri,'api/')){
-            dd(1);
-        }else{
-            dd(2);
-        }
+        return $this->message(__('message.success.200'))->view('pages.admin.content.edit')->data($content)->success();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Content  $content
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Content $content
+     * @return JsonResponse|RedirectResponse
      */
     public function destroy(Content $content)
     {
-        $content->delete();
-        $content->update(['status'=>'deactivate']);
+        $this->contentRepository->delete($content);
+
+        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.content.index')->success();
     }
 
+    /**
+     * @param multipleDestroyRequest $request
+     * @return JsonResponse|RedirectResponse
+     */
     public function multipleDestroy(multipleDestroyRequest $request)
     {
-        dd($request->contentIds);
+        $this->contentRepository->multipleDestroy($request->all());
+
+        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.content.index')->success();
     }
 }

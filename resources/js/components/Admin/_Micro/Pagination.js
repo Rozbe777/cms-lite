@@ -1,14 +1,18 @@
 import React from "react";
 
-export const Pagination = ({
-                               firstPageUrl
-                               , lastPageUrl
-                               , currentPage
-                               , perPage
-                               , users
-                               , total
-                               , paginate
-                           }) => {
+export const Pagination = (props) => {
+
+    console.log("data :  " , props)
+
+    const {
+        firstPageUrl
+        , lastPageUrl
+        , currentPage
+        , perPage
+        , users
+        , total
+        , paginate
+    } = props;
 
     const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(total / perPage); i++) {

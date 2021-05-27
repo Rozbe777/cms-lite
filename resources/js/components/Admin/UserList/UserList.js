@@ -3,66 +3,60 @@ import ReactDOM from 'react-dom';
 import './../_Shared/Style.scss';
 import {Request} from "./../../../services/AdminService/Api";
 import {Pagination} from './../_Micro/Pagination';
-import {UserColumns} from './../_Micro/TableColumnsList'
-import {DeleteGroupt} from './../_Shared/java';
+import {Item} from './HOC/Item'
 import $ from 'jquery';
+import {TotalActions} from './HOC/TotalActions'
+import Loading from './../_Micro/Loading'
+import SearchComponent from "./Search";
+import {BreadCrumbs} from './HOC/BreadCrumbs'
+import {CHECK_BOX_CONTENT} from "./Helper/Context";
+import BottomNavigationBar from './HOC/BottomNavigationBar'
+import './../Shop/ProductManager/_Shared/Responsive.scss'
+import {ErroHandle, error as ErrorToast} from "../../../helper";
 
 const UserList = memo((props) => {
     const {token} = props;
+    const [name, setName] = useState();
+    const [searchload , setSearch] = useState(false)
     const [allUser, setAllUser] = useState([]);
-    const [allUserSlice, setAllUserSlice] = useState();
+    const [userSelected, setUserSelected] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const [perPage, setPerPage] = useState(3);
     const [userData, setUserData] = useState({});
     const [total, setTotal] = useState();
+    const [finalAllIds] = useState({userIds: []});
+    const [checkBox, setCheckBox] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [stringSearchs, setStringSearch] = useState({
+        params: {
+            page: 1
+        }
+
+    });
     const [userId, setUserId] = useState({userIds: []});
+    const [breadData] = useState({
+        title: 'لیست کاربران',
+        desc: 'نمایش لیست کاربران و مدیریت آنها'
+    });
     let userIdArr = [];
 
-    $('.sweet-alert-delete-confirm').on('click', function (event) {
-        event.preventDefault();
-        const url = $(this).attr('href');
-        swal({
-            title: 'حذف کاربر',
-            text: "آیا مطمئنید؟",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'تایید',
-            confirmButtonClass: 'btn btn-primary',
-            cancelButtonClass: 'btn btn-danger ml-1',
-            cancelButtonText: 'انصراف',
-            buttonsStyling: false,
-        }).then(function (result) {
-            if (result.value) {
-                Swal.fire({
-                    type: "success",
-                    title: 'حذف شد!',
-                    text: 'کاربر مورد نظر حذف شد',
-                    confirmButtonClass: 'btn btn-success',
-                    confirmButtonText: 'باشه',
-                });
-
-                // window.location.href = url;
-            }
-        });
-    });
-
-
-
-
-    // let token = $('meta[name=author]').attr('content');
-    let GetAllUser = (page) => {
+    let GetAllUser = (datass) => {
         setLoading(true);
-        Request.GetAllUserApi(page)
+        Request.GetAllUserApi(datass)
             .then(res => {
+                // if(searchload === true){
+                //     $("ul.pagination li").removeClass("active");
+                //     $("ul.pagination li#1").addClass("active");
+                //     setSearch(false)
+                // }
                 setLoading(false)
-                setUserData(res.data);
-                setPerPage(res.data.per_page);
-                setTotal(res.data.total);
-                setAllUser(res.data.data);
+                setUserData(res.data.data);
+                setPerPage(res.data.data.per_page);
+                setTotal(res.data.data.total);
+                setAllUser(res.data.data.data);
             }).catch(err => {
             return err
-            })
+        })
     }
 
 
@@ -102,7 +96,9 @@ const UserList = memo((props) => {
         } else {
             $("#edit-boxes").fadeOut(0);
         }
-        GetAllUser(1);
+
+        // let pages = stringSearchs ? "page=1&" + stringSearchs : "page=1";
+        GetAllUser(stringSearchs);
 
     }, [])
 
@@ -133,7 +129,16 @@ const UserList = memo((props) => {
     const indexOfFirstUser = indexOfLastUser - perPage;
     const currentUsers = allUser.slice(indexOfFirstUser, indexOfLastUser);
     const paginate = (pageNumber) => {
-        GetAllUser(pageNumber);
+        // let pagess = stringSearchs ? "page=" + pageNumber + "&" + stringSearchs : "page=" + pageNumber;
+
+        stringSearchs.params.page = pageNumber;
+        setStringSearch({
+            params: {
+                page: pageNumber
+            }
+        });
+
+        GetAllUser(stringSearchs);
         $("li.page-item").removeClass("active");
         if (pageNumber == Math.ceil(total / perPage)) {
             $("li.page-item.next").css("opacity", 0.4);
@@ -150,10 +155,13 @@ const UserList = memo((props) => {
 
 
     const handleDeleteGroup = (event) => {
-        event.preventDefault();
 
-        let thisis = $(".sweet-alert-multi-delete-confirm");
-        const url = thisis.attr('href');
+
+        finalAllIds.userIds = checkBox;
+
+        finalAllIds._token =  $('meta[name="csrf-token"]').attr('content');
+
+        event.preventDefault();
         swal({
             title: 'حذف کاربر',
             text: "آیا مطمئنید؟",
@@ -166,8 +174,9 @@ const UserList = memo((props) => {
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-                Request.GroupDelUser(userId)
+                Request.GroupDelUser(finalAllIds)
                     .then(res => {
+                        setCheckBox([])
                         Swal.fire({
                             type: "success",
                             title: 'حذف شد!',
@@ -175,151 +184,110 @@ const UserList = memo((props) => {
                             confirmButtonClass: 'btn btn-success',
                             confirmButtonText: 'باشه',
                         })
-                        GetAllUser(1);
-                    }).catch(error => console.log("error", error))
+
+                        stringSearchs.params.page = 1;
+
+                        GetAllUser(stringSearchs);
+                    }).catch(error => {
+                    if (error.response.data.errors) {
+                        ErroHandle(error.response.data.errors)
+                    } else {
+                        ErrorToast("خطای غیر منتظره ای رخ داده است")
+                    }
+                })
             }
         });
     }
 
+
+
+    if (checkBox.length > 0) {
+        $("#totalAction").addClass("activeAction");
+        $("#breadCrumb").removeClass("activeCrumb");
+    } else {
+        $("#totalAction").removeClass("activeAction");
+        $("#breadCrumb").addClass("activeCrumb");
+    }
+
+
     return (
-        <form id="myForm">
-            <div className="heading-layout1">
-                <div className="item-title" style={{display: "none"}}>
-                    <h3>لیست کاربران</h3>
+        <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
+            <>
+
+                <div className={"row col-12"} id={"headerContent"}>
+                    <TotalActions deleteUsers={e => handleDeleteGroup(e)} allData={userData} data={checkBox}/>
+                    <BreadCrumbs data={breadData}/>
                 </div>
-                <div className="dropdown" style={{display: "none"}}>
-                    <a className="dropdown-toggle" role="button"
-                       data-toggle="dropdown" aria-expanded="false">مدیریت</a>
-                    <div className="dropdown-menu dropdown-menu-right">
-                        <a className="dropdown-item sweet-alert-multi-delete-confirm">
-                            <i className="bx bx-trash mr-1"></i> حذف</a>
-                    </div>
-                </div>
-            </div>
 
-            <div className="users-list-table">
-                <form>
-                    <div className="users-list-filter px-1">
-                        <div className="row border rounded py-2 mb-2" id={"header-card-custom"}>
-                            <div className="col-12 col-sm-6 col-lg-3">
-                                <label htmlFor="users-list-verified">جستجو</label>
-                                <input type="text" className="form-control"
-                                       placeholder="جستجو با ایمیل و تلفن ..." name="search"/>
+                {/*{console.log("total ", total ? total : '')}*/}
+                <SearchComponent total={total} searchRes={items => {
+                    Object.keys(items).forEach((key , value) => {
+                        setSearch(true)
+                        if (key === "pageSize" ){
+                            if (!items[key]){
+                                stringSearchs.params.page = 1;
+                                stringSearchs.params[key] = 15;
+                            }else{
+                                stringSearchs.params.page = 1;
+                                stringSearchs.params[key] = items[key];
+                            }
 
-                            </div>
 
-                            <div className="col-12 col-sm-6 col-lg-2">
-                                <label htmlFor="users-list-verified">تایید شده</label>
-                                <fieldset className="form-group">
-                                    <select className="form-control" id="users-list-verified" name="confirmed">
-                                        <option>همه</option>
-                                        <option value="1">بله</option>
-                                        <option value="0">خیر</option>
-                                    </select>
-                                </fieldset>
-                            </div>
-                            <div className="col-12 col-sm-6 col-lg-2">
-                                <label htmlFor="users-list-role">نقش</label>
-                                <fieldset className="form-group">
-                                    <select className="form-control" id="users-list-role" name="role">
-                                        <option>همه</option>
-                                        <option>مدیر</option>
-                                        <option>کاربر</option>
-                                    </select>
-                                </fieldset>
-                            </div>
-                            <div className="col-12 col-sm-6 col-lg-2">
-                                <label htmlFor="users-list-status">وضعیت</label>
-                                <fieldset className="form-group">
-                                    <select className="form-control" id="users-list-status" name="status">
-                                        <option>همه</option>
-                                        <option value="active">فعال</option>
-                                        <option value="deactivate">غیر فعال</option>
-                                    </select>
-                                </fieldset>
-                            </div>
-                            <div className="col-6 col-sm-3 col-lg-1 " style={{marginBlockStart: 'auto'}}>
-                                <button type="submit" className="btn btn-primary mr-1 mb-1">جستجو</button>
-                            </div>
-                            <div className="col-6 col-sm-3 col-lg-1 " style={{marginBlockStart: 'auto'}}>
-                                <a className="btn btn-icon rounded-circle btn-warning mr-1 mb-1 tui-full-calendar-dayname-leftmargin"
-                                   href={props.exportlink}
-                                   style={{marginRight: '20px'}} title="خروجی اکسل">
-                                    <i className="bx bx-archive"></i></a>
+                        }else{
+                            stringSearchs.params.page = 1;
+                            stringSearchs.params[key] = items[key];
+                        }
+
+                    })
+
+                    stringSearchs.params.page = 1;
+                    GetAllUser(stringSearchs)
+                }}/>
+                <form id="myForm" style={{marginTop : 15}}>
+                    <div className="heading-layout1">
+                        <div className="item-title" style={{display: "none"}}>
+                            <h3>لیست کاربران</h3>
+                        </div>
+                        <div className="dropdown" style={{display: "none"}}>
+                            <a className="dropdown-toggle" role="button"
+                               data-toggle="dropdown" aria-expanded="false">مدیریت</a>
+                            <div className="dropdown-menu dropdown-menu-right">
+                                <a className="dropdown-item sweet-alert-multi-delete-confirm">
+                                    <i className="bx bx-trash mr-1"></i> حذف</a>
                             </div>
                         </div>
+                    </div>
+
+                    <div className="users-list-table container-fluid">
+                        <div className={"row userListRow"}>
+                            {userData.data ? userData.data.length > 0 ? userData.data.map(items => (
+
+                                <Item props={items}/>
+
+                            )): <p style={{width : '100%' , textAlign : 'center' , fontSize : '21px'}}>کاربری یافت نشد!</p> : <Loading/>}
+                        </div>
+
+                        <div className="col-md-12">
+                            {userData.data ? userData.data.length ? (
+                                <Pagination
+                                    firstPageUrl={userData.first_page_url}
+                                    lastPageUrl={userData.last_page_url}
+                                    currentPage={userData.cuerrent_page}
+                                    perPage={perPage}
+                                    users={allUser}
+                                    total={total}
+                                    paginate={paginate}
+                                />
+                            ) : '' : ''}
+
+                        </div>
+
                     </div>
                 </form>
-                <div className="card">
-                    <div className="card-content">
-                        <div className="card-body" style={{padding: '0px'}}>
-                            <div className="table-responsive">
-                                <table id="users-list-datatable" className="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            <div className={"form-check"}>
 
-                                                <div id={"edit-boxes"}>
-                                                    <a className="dropdown-item" onClick={e => handleDeleteGroup(e)}
-                                                       style={{cursor: 'pointer'}}>
-                                                        <i style={{float: 'right'}}
-                                                           className="bx bx-trash mr-1"></i> حذف گروهی</a>
-                                                </div>
-
-                                                <input type="checkbox"
-                                                       id={"checkAll"}
-                                                       onClick={() => allUser ? addAll(allUser) : ''}
-                                                       className="form-check-input "/>
-                                                <label className="form-check-label"></label>
-                                            </div>
-
-                                        </th>
-                                        <th>ID</th>
-                                        <th>کاربر</th>
-                                        <th>ایمیل</th>
-                                        <th>شماره موبایل</th>
-                                        <th>نقش</th>
-                                        <th>وضعیت</th>
-                                        <th>عملیات</th>
-
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <UserColumns oldUserId={userId.userIds} loading={loading}
-                                                 data={currentUsers}
-                                                 userid={item => {
-                                                     selectHandler(item)
-                                                 }}
-                                                 pushPopFade={stat => stat ? $("#edit-boxes").fadeIn(0) : $("#edit-boxes").fadeOut(0)}
-
-                                    />
-
-                                    </tbody>
-                                </table>
-                                <div className="col-md-12">
-                                    {userData ? (
-                                        <Pagination
-                                            firstPageUrl={userData.first_page_url}
-                                            lastPageUrl={userData.last_page_url}
-                                            currentPage={userData.cuerrent_page}
-                                            perPage={perPage}
-                                            users={allUser}
-                                            total = {total}
-                                            paginate={paginate}
-                                        />
-                                    ) : 'wait'}
-
-                                </div>
-                                <div className="d-flex justify-content-center">
-                                    {/*{!! $users->links('vendor.pagination.custom') !!}*/}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
+                <BottomNavigationBar userData={userData} deleteAll={e => handleDeleteGroup(e)}/>
+            </>
+        </CHECK_BOX_CONTENT.Provider>
     )
 })
 

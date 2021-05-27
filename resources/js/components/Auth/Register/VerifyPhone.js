@@ -4,13 +4,12 @@ import {VERIFY_MOBILE_URL} from "../../../services/Type";
 import {Request} from "../../../services/AuthService/Api";
 import ReactDOM from 'react-dom'
 import Loading from "../Loading";
-import {error as ErrorToast , success} from './../../../helper'
+import {error as ErrorToast , success ,ErroHandle} from './../../../helper'
 import FinalDataRegister from "./FinalDataRegister";
 
 const VerifyPhone = ({time, token, phoneNumber , response : pushResponse}) => {
 
     let timers = 0;
-    console.log("timer" , timers);
     const [verifyCode, setVerifyCode] = useState({
         code_1: '',
         code_2: '',
@@ -23,8 +22,6 @@ const VerifyPhone = ({time, token, phoneNumber , response : pushResponse}) => {
         Timer();
 
     }, [])
-
-
 
     const Timer = () => {
         timers = time;
@@ -100,50 +97,26 @@ const VerifyPhone = ({time, token, phoneNumber , response : pushResponse}) => {
             _token: token
         }
 
+        console.log("/////" , data);
+
         ReactDOM.render(<Loading/>, loadingElement);
         Request.VerifyCodeCheck(data)
             .then(response => {
                 ReactDOM.render('', loadingElement);
+
                 if (response.data.data.http_code == 200){
                     success("تایید شماره تلفن موفقیت آمیز بود! کمی صبر کنید...")
                     setTimeout(()=>{
                         pushResponse(200)
                     },600)
                 }
-            }).catch(error => {
-            if (error.response.data.http_code == 404) {
+            } ).catch(error => {
+                if (error.response.data.http_code == 404) {
                 ReactDOM.render('', loadingElement);
                 ErrorToast("کد را به صورت صحیح وارد کنید!")
             }
         })
     }
-
-    //
-    // const sendRetryCode = (e) => {
-    //     e.preventDefault();
-    //     let phones = {...phoneNumber};
-    //     phones._token = token;
-    //     // ReactDOM.render(<Loading/>, loadingElement);
-    //
-    //     // Request.RegisterPhone(phones)
-    //     //     .then(response => {
-    //     //         CounterTimer = 120;
-    //     //         Timer();
-    //     //         // ReactDOM.render('', loadingElement);
-    //     //     }).catch((error) => {
-    //     //     // Error
-    //     //     if (error.response) {
-    //     //         // ReactDOM.render('', elementLoading);
-    //     //         CounterTimer = error.response.data.data;
-    //     //         Timer();
-    //     //     } else if (error.request) {
-    //     //         console.log(error.request);
-    //     //     } else {
-    //     //         console.log('Error', error.message);
-    //     //     }
-    //     // });
-    //
-    // }
 
 
     function checkVerifyNumber(str) {

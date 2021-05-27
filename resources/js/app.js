@@ -13,12 +13,16 @@
  */
 
 require('./components/Auth/Login');
+require('./components/Auth/Loading');
+require('./components/Auth/RePass/MobileVerify');
 require('./components/Auth/Register/Index');
 require('./components/Profile/Profile');
 require('./components/Profile/ChangePassword');
 require('./components/Setting/General');
 require('./components/Setting/JsAndCss');
 require('./components/User/CreateUser');
+require('./components/User/PasswordSet');
+require('./components/User/UpdateUser');
 require("./components/Admin/UserList/UserList");
 require("./components/Admin/Category/CategoryList");
 require("./components/Admin/Category/CategoryAdd");
@@ -27,3 +31,4 @@ require("./components/Admin/Shop/ProductManager");
 require("./components/Admin/Shop/ProductAdd");
 require("./components/Admin/Shop/Search");
 require("./components/Admin/FormCreator");
+

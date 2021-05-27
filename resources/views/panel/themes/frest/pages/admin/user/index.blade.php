@@ -7,34 +7,15 @@
         </script>
     @endif
 
-    <div class="content-wrapper">
-        <div class="content-header row">
-            <div class="content-header-left col-12 mb-2 mt-1">
-                <div class="row breadcrumbs-top" style="position: relative">
+    <div class="content-wrapper" style="padding : 0px !important;margin: 0px !important;border-top : 1px solid #eee">
 
-                    <div class="col-12">
-                        <h5 class="content-header-title float-left pr-1">لیست کاربران</h5>
-                        <div class="breadcrumb-wrapper">
-                            <ol class="breadcrumb p-0 mb-0">
-                                <li class="breadcrumb-item"><a href="index.html"><i class="bx bx-home-alt"></i></a>
-                                </li>
-                                <li class="breadcrumb-item"><a href="#">اجزاء</a>
-                                </li>
-                                <li class="breadcrumb-item active">لیست کاربران</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="content-body">
+        <div class="content-body" style="padding-top:0px">
             <section class="users-list-wrapper">
 
 
                 <div id="show-user-list-by-admin"
-                    data-destroylink="{{route('admin.user.multipleDestroy')}}"
-                     data-searchlink="{{route('admin.user.search')}}"
-                     data-exportlink="{{route('admin.user.export')}}"
+                    data-destroylink="{{route('users.multipleDestroy')}}"
+                     data-searchlink="{{route('users.search')}}"
                      data-token="{{csrf_token()}}"
                 >
 

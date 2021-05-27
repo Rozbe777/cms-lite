@@ -1,8 +1,8 @@
 <!-- BEGIN: Header-->
 <div class="header-navbar-shadow"></div>
-<nav class="header-navbar main-header-navbar navbar-expand-lg navbar navbar-with-menu fixed-top ">
+<nav class="header-navbar main-header-navbar navbar-expand-lg navbar navbar-with-menu">
     <div class="navbar-wrapper">
-        <div class="navbar-container content">
+        <div class="navbar-container content" style="background: #fff !important;">
             <div class="navbar-collapse" id="navbar-mobile">
                 <div class="mr-auto float-left bookmark-wrapper d-flex align-items-center">
                     <ul class="nav navbar-nav">
@@ -213,13 +213,15 @@
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link"
                                                                    href="#" data-toggle="dropdown">
                             <div class="user-nav d-sm-flex d-none"><span
-                                    class="user-name">{{empty(auth()->user())?'fullname':auth()->user()->fullname}}</span><span
-                                    class="user-status text-muted">{{empty(auth()->user())?'role':auth()->user()->roles()->first()->display_name}}</span>
+                                    class="user-name">{{auth()->user()->fullname}}/span></span>
+                                <span
+                                    class="user-status text-muted">{{auth()->user()->userRoleName}}</span>
+
                             </div>
                             <span><img class="round" src="{{asset("images/avatar.jpg")}}"
                                        alt="avatar" height="40" width="40"></span></a>
                         <div class="dropdown-menu pb-0"><a class="dropdown-item"
-                                                           href="{{route('admin.profile.index')}}"><i
+                                                           href="{{route('profile.index')}}"><i
                                     class="bx bx-user mr-50"></i> حساب کاربری</a>
                             <div class="dropdown-divider mb-0"></div>
                             <a class="dropdown-item" href="{{route('auth.logout')}}"><i

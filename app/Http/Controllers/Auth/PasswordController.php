@@ -3,24 +3,28 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Classes\Responses\Auth\Responses;
+use App\Classes\Responses\Auth\ResponseTrait;
 use App\Http\Controllers\Auth\Traits\MobileTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\PasswordRequest;
+use App\Http\Requests\MobileRegisterRequest;
 use App\Http\Requests\MobileRequest;
 use App\Jobs\SendSmsJob;
+use App\Models\Repositories\Auth\MobileRepository;
 use App\Models\Repositories\Auth\UserModelRepository;
-use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class PasswordController extends Controller
 {
-    use MobileTrait;
+    use MobileTrait, ResponseTrait;
 
-    protected $response;
     protected $userRepository;
+    protected $responses;
 
-    public function __construct(Responses $response, UserModelRepository $userRepository)
+    public function __construct(Responses $responses, UserModelRepository $userRepository)
     {
-        $this->response = $response;
+        $this->responses = $responses;
         $this->userRepository = $userRepository;
     }
 
@@ -30,16 +34,37 @@ class PasswordController extends Controller
     }
 
     /** verify user's mobile when ask for reset password */
-    public function passwordToken(MobileRequest $request)
+    public function passwordToken(MobileRegisterRequest $request)
     {
-        session(['mobile' => mobile($request->mobile)]);
+        $mobile = mobile($request->mobile);
+        $mobileRepository = new MobileRepository();
 
-        $user = $this->userRepository->findByMobile(session('mobile'));
+        $user = $this->userRepository->findByMobile($mobile);
 
-        /** API panel SMS */
-        dispatch(new SendSmsJob($request->mobile,$user->id));
+        if (!$user)
+            return $this->message(__('message.auth.password.userNotExist'))->error(401);
 
-        return $this->response->success("verification code is sent to mobile number");
+        $client = $mobileRepository->find($mobile);
+
+        if (!$client) {
+            $client = $mobileRepository->creatClient($mobile);
+
+            /** API panel SMS */
+            dispatch(new SendSmsJob($request->mobile));
+
+            return $this->message(__('message.auth.register.resendToken.successful'))->success();
+        }
+
+        /** check for the last time that we sent a token then resend it after 2 min. */
+        $needToPass = config('kavenegar.waitTimer') - (strtotime(Carbon::now()->toDateTimeString()) - strtotime((new MobileRepository())->find($mobile)->updated_at->toDateTimeString()));
+        if ($needToPass < 0) {
+            /** send the token again */
+            dispatch(new SendSmsJob($request->mobile));
+
+            return $this->message(__('message.auth.register.resendToken.successful'))->success();
+        } else {
+            return $this->data($needToPass)->message(__('message.auth.register.resendToken.wait') . $needToPass)->error(429);
+        }
     }
 
     public function passwordRecoveryForm()
@@ -49,17 +74,14 @@ class PasswordController extends Controller
 
     public function passwordRecovery(PasswordRequest $request)
     {
-        $user = (new UserModelRepository())->findByMobile(session('mobile'));
+        $user = Auth::user();
 
-        /** check the mobile in trait */
-        $response = $this->checkMobileTrait($user, $request->token);
-
-        if (!$response){
-            return $this->response->notSuccess("the token is not correct",404);
-        }else{
-            $user->password = bcrypt($request->password);
+        if (!$user) {
+            return $this->message(__("message.auth.password.userNotExist"))->error();
+        } else {
+            $user->password = bcrypt(trim($request->password));
             $user->save();
-            return $this->response->success("the password is changed");
+            return $this->view('pages.dashboard.index')->message(__('message.auth.password.successful'))->data($user)->success();
         }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Admin\Content;
 
-use App\Http\Requests\BaseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class CreateContentRequest extends BaseRequest
+class CreateContentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,22 +25,18 @@ class CreateContentRequest extends BaseRequest
     {
         return [
             'title' => 'required|string|max:255',
+            'owner' => 'in:page,content',
             'slug' => 'required|string|max:255|unique:contents,slug',
-            'content' => '',
-            'fields' => '',
+            'content' => 'string|nullable',
             'status' => 'in:active,pending,deactivate',
+            'metadata'=>'string|nullable',
             'user_id' => 'integer|exists:users,id',
 //            'layout_id' => 'integer|exists:layouts,id',//FIXME after insert layouts table
-            'image' => 'image',
+            'image' => 'image|nullable',
             'comment_status' => 'in:active,deactivate',
-            'weight' => 'integer',
-            'is_index'=>'boolean',
-            'is_menu'=>'boolean',
-            'tag_list'=>'array',
-            'tag_list.*'=>'string',
-            'metadata'=>''
-
-
+            'is_index'=>'boolean|nullable',
+            'is_menu'=>'boolean|nullable',
+            'tag_list'=>'array'
         ];
     }
 }

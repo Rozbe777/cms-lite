@@ -6,18 +6,21 @@ namespace App\Http\Controllers\Auth\Traits;
 
 use App\Models\Repositories\Auth\MobileRepository;
 use App\Models\Repositories\Auth\UserModelRepository;
+use App\Models\VerifyMobile;
+use Illuminate\Support\Facades\Auth;
+use Matrix\Exception;
 
 trait MobileTrait
 {
-    public function checkMobileTrait($user, $reqToken)
+    public function checkMobileTrait($client, $reqToken, $passReset = [])
     {
-        $token = (new MobileRepository())->find($user->id);
+        if ($reqToken == $client->token) {
 
-        if ($reqToken == ($token->token)) {
-            $user->status = "active";
-            $user->mobile_verified_at = $token->updated_at;
-            $user->save();
-            return true;
+            $user = (new UserModelRepository())->create($client); /** if verified create a new user */
+            Auth::login($user);
+
+            VerifyMobile::destroy($client->id);
+            return $user;
         } else {
             return false;
         }

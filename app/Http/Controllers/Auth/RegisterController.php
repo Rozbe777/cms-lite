@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Classes\Responses\Auth\Responses;
+use App\Classes\Responses\Auth\ResponseTrait;
 use App\Http\Controllers\Auth\Traits\CreateUserTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\CreateUserRequest;
@@ -13,8 +14,12 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
+    use CreateUserTrait, ResponseTrait;
 
-    use CreateUserTrait;
+    public function __construct()
+    {
+        $this->middleware('blockLogin');
+    }
 
     public function show()
     {
@@ -28,16 +33,10 @@ class RegisterController extends Controller
 
         $response = new Responses();
 
-        if (is_array($user)){ /** when throw an exception */
-            return $response->notSuccess($user['exception_message'],404);
-        }
+        if (is_array($user)) /** when throw an exception */
+            return $this->message(__('message.auth.register.error'))->error();
 
-        Auth::login($user);
-
-        $role = Role::where('name','admin')->firstOrFail();
-        $user->attachRole($role->id);
-
-        return $response->success('user info is updated');
+        return $this->view('pages.dashboard.index')->message(__('message.auth.register.successful'))->data($response)->success();
     }
 
 

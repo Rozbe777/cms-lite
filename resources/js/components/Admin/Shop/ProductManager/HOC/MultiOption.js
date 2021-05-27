@@ -1,39 +1,71 @@
-import React from 'react';
+import React, {useEffect , useState} from 'react';
+import $ from 'jquery'
 import "swiper/swiper-bundle.css";
-// import './_Shared/style.scss'
 
-export const MultiOption = () => {
+export const MultiOption = ({name , data , selected : pushSelected}) => {
 
-    const handleDropDown = (e) => {
+    const [selectedO , setSelectedO] = useState({
+        item : ''
+    });
+    useEffect(() => {
+        var interValOption;
+        $(".main-options-sel").mouseover(function () {
+            var thisis = $(this);
+            clearInterval(interValOption)
+            interValOption = setInterval(() => {
+                $(".main-options-sel .option-icon i").removeClass("active")
+                $(".main-options-sel #content").removeClass("active")
+                thisis.find(".option-icon i").addClass("active")
+                thisis.find("#content").addClass("active")
+            }, 300)
+        })
+        $(".main-options-sel").mouseout(function () {
+            var thisis = $(this);
+            clearInterval(interValOption)
+            interValOption = setInterval(() => {
+                $(".main-options-sel .option-icon i").removeClass("active")
+                $(".main-options-sel #content").removeClass("active")
+                thisis.find(".option-icon i").removeClass("active")
+                thisis.find("#content").removeClass("active")
+            }, 300)
+        })
+    }, [])
+
+    const selectedOpt = (e , name) => {
         e.preventDefault();
-        // $(".show-chipset-multi i#droper").removeClass("active");
-        // $(".optionBox").removeClass("active");
-        $(".optionBox#options").toggleClass("active");
-        $(".options i#droper").toggleClass("active");
-        // console.log("click daaaaaa , " , e.currentTarget.getAttribute('data-appmode'))
+        setSelectedO({
+            item : name
+        })
+        pushSelected(name)
     }
-
+    const delSel = (e , name) => {
+        e.preventDefault();
+        setSelectedO({
+            item : ''
+        })
+        pushSelected('')
+    }
     return (
-        <div className={"main-selected"} style={{background: '#fff'}}>
-            <div className={"show-chipset-multi optionss"} >
 
-                <div id={"box-droper"} className={"options"} onClick={e => handleDropDown(e)}>
-                    <i className={"bx bx-chevron-down"} id={"droper"}></i>
+        <ul className={"main-options-sel"}>
+            <li id={"header-options"}>
+                <div className={"option-icon"}>
+                    <i className={"bx bx-chevron-down"}></i>
                 </div>
+                <span id={"selected"}>
+                    {selectedO.item !== "" ? (
+                        <a onClick={e =>delSel(e)}><i className='bx bx-x'></i><span>{selectedO.item}</span></a>
+                        ) : 'انتخاب کنید'}
+                </span>
+            </li>
+            <li id={"content"}>
+                <ul>
+                    {data.map(item => (
+                        <li onClick={e => selectedOpt(e , item)}>{item}</li>
+                    ))}
 
-                <span id={"sorting"} onClick={e => handleDropDown(e)}>انتخاب کنید</span>
-
-                <div className={"optionBox"} id={"options"}>
-                    <ul id={"options"} onClick={e => handleDropDown(e)}>
-                        <li>بر اساس تاریخ انتشار</li>
-                        <li>بر اساس بیشترین قیمت</li>
-                        <li>بر اساس موجود بودن</li>
-                        <li>بر اساس ناموجود بودن</li>
-                        <li>بر اساس با تخفیف</li>
-                        <li>بر اساس بدون تخفیف</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+                </ul>
+            </li>
+        </ul>
     )
 }

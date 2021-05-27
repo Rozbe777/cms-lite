@@ -4,32 +4,48 @@ import $ from "jquery";
 import './_shared/style.scss';
 import {Request} from "../../../services/AuthService/Api";
 import VerifyPhone from "./VerifyPhone";
-import {error as ErrorToast, success as SuccessToast} from './../../../helper';
+import {error as ErrorToast, success as SuccessToast, ErroHandle} from './../../../helper';
 import Loading from "../Loading";
 import FinalDataRegister from "./FinalDataRegister";
 
 const Index = (props) => {
     useEffect(() => {
-        $("input[name=code_1]").focus();
+        // $("input[name=verifyCode]").focus();
     }, [])
 
 
+
     let timerString = "";
-    var pattern = /^09([0-9]{2})-?[0-9]{3}-?[0-9]{4}$/;
+    var pattern = /^0?9([0-9]{9})$/;
     let CounterTimer = 0;
     const [responseVerify, setResponseVerify] = useState(0);
-    const [intervals , setIntervalId] = useState();
+    const [intervals, setIntervalId] = useState();
+    const [isInvalid, setIsInvalid] = useState(false);
     const {token} = props;
-    const [phone, setPhone] = useState();
+    const [phone, setPhone] = useState({
+        mobile : ''
+    });
     const [response, setResponse] = useState();
     let elementLoading = document.getElementById("loading-show")
 
     const [verifyCode, setVerifyCode] = useState({
-        code_1: '',
-        code_2: '',
-        code_3: '',
-        code_4: '',
+        verifyCode : ''
     });
+
+
+    $(function () {
+        $("input[name=verifyCode]").keydown(function () {
+            if (!$(this).val() || (parseInt($(this).val()) <= 9999 && parseInt($(this).val()) >= 1))
+                $(this).data("old", $(this).val());
+        });
+        $("input[name=verifyCode]").keyup(function () {
+            if (!$(this).val() || (parseInt($(this).val()) <= 9999 && parseInt($(this).val()) >= 1))
+                ;
+            else
+                $(this).val($(this).data("old"));
+        });
+    });
+
 
     const HandlePhone = (e) => {
         e.preventDefault();
@@ -40,51 +56,63 @@ const Index = (props) => {
 
     const RegisterPhone = (e) => {
         e.preventDefault();
-        $("input[name=code_1]").val('');
-        $("input[name=code_2]").val('');
-        $("input[name=code_3]").val('');
-        $("input[name=code_4]").val('');
-        setVerifyCode({
-            code_1: '',
-            code_2: '',
-            code_3: '',
-            code_4: ''
-        })
+
+
         let phones = {...phone};
-        if (pattern.test(phones.mobile)) {
-            phones._token = token;
-            ReactDOM.render(<Loading/>, elementLoading);
-            Request.RegisterPhone(phones)
-                .then(response => {
-                    clearInterval(intervals);
-                    Timer(e, 120)
-                    ReactDOM.render('', elementLoading);
-                    $(".container-loader").fadeIn();
-                    setTimeout(() => {
-                        $(".verifyForm").addClass("active");
-                    }, 500)
-                    // VerifyModal(e, 120)
-                }).catch((error) => {
-                // Error
+        if (!phone.mobile || phone.mobile === ""){
+            ErrorToast("فیلد شماره تلفن خالی میباشد");
+        }else{
+            console.log("dataaaaa : " , pattern.test(phones.mobile))
+            if (pattern.test(phones.mobile)) {
+                phones._token = token;
+                ReactDOM.render(<Loading/>, elementLoading);
+                Request.RegisterPhone(phones)
+                    .then(response => {
+                        if (response.status == 201) {
+                            ReactDOM.render('', elementLoading);
+                            ErrorToast("این شماره تلفن ثبت نام شده است ")
+                        } else {
+                            clearInterval(intervals);
+                            Timer(e, 120)
+                            ReactDOM.render('', elementLoading);
+                            $(".container-loader").fadeIn();
+                            setTimeout(() => {
+                                $(".verifyForm").addClass("active");
+                            }, 500)
+                        }
 
-                if (error.response) {
-                    clearInterval(intervals);
-                    ReactDOM.render('', elementLoading);
-                    Timer(e, error.response.data.data)
-                    $(".container-loader").fadeIn();
-                    setTimeout(() => {
-                        $(".verifyForm").addClass("active");
-                    }, 500)
-                    // VerifyModal(e, error.response.data.data);
-                } else if (error.request) {
+                        // VerifyModal(e, 120)
+                    }).catch((error) => {
+                    // Error
+                    if (error.response) {
+                        clearInterval(intervals);
+                        ReactDOM.render('', elementLoading);
+                        var pattern = /[0-9]/;
+                        if (pattern.test(error.response.data.errors.data[0])) {
+                            // console.log("data : " , error.response.data)
+                            Timer(e, parseInt(error.response.data.data))
+                            $(".container-loader").fadeIn();
+                            setTimeout(() => {
+                                $(".verifyForm").addClass("active");
+                            }, 500)
+                        } else {
+                            if (error.response.data.errors) {
+                                ErroHandle(error.response.data.errors)
+                            } else {
+                                ErrorToast("خطای غیر منتظره ای رخ داده است")
+                            }
+                        }
 
-                    console.log(error.request);
-                } else {
-                    console.log('Error', error.message);
-                }
-            });
-        } else {
-            ErrorToast("فرمت شماره تلفن صحیح نمیباشد!");
+
+                    } else if (error.request) {
+
+                    } else {
+
+                    }
+                });
+            } else {
+                ErrorToast("فرمت شماره تلفن صحیح نمیباشد");
+            }
         }
     }
 
@@ -92,8 +120,6 @@ const Index = (props) => {
     const Timer = (e, timers) => {
 
         e.preventDefault()
-        console.log("ffff : " , timers);
-        let stringis = "";
         var min = Math.floor(timers / 60);
         var sec = Math.floor(timers - (min * 60));
 
@@ -104,10 +130,9 @@ const Index = (props) => {
         let elementTimer = document.getElementById("timersPop");
 
         var intervalsId = setInterval(function () {
-            console.log("min , sec : ", min, sec)
             if (min == 0 && sec == 0) {
                 clearInterval(intervals);
-                elementTimer.innerHTML =  "";
+                elementTimer.innerHTML = "";
                 elementTimer.innerHTML = "مجددا جهت دریافت کد اقدام فرمایید";
             } else {
                 if (sec == 0) {
@@ -126,62 +151,26 @@ const Index = (props) => {
 
     let loadingElement = document.getElementById("loading-shows");
 
-    var body = $("#wrapper");
-
-    // check kardan daryaft number dar inputhai verify code , paresh be input badi
-    function goToNextInput(e) {
-        var key = e.which,
-            t = $(e.target),
-            sib = t.next("input");
-        if (key != 9 && (key < 48 || key > 57)) {
-            e.preventDefault();
-            return false;
-        }
-        if (key === 9) {
-            return true;
-        }
-        if (!sib || !sib.length) {
-            sib = body.find("input").eq(0);
-        }
-        sib.select().focus();
-    }
-
-    // check kardan vard shodan number baray raftan be input badi
-    function onKeyDown(e) {
-        var key = e.which;
-        if (key === 9 || (key >= 48 && key <= 57)) {
-            return true;
-        }
-        e.preventDefault();
-        return false;
-    }
-
-    // check kardan focus in input
-    function onFocus(e) {
-        $(e.target).select();
-    }
-
-    // transaction hai input
-    body.on("keyup", "input", goToNextInput);
-    body.on("keydown", "input", onKeyDown);
-    body.on("click", "input", onFocus);
 
 
     const checkCode = (e) => {
         e.preventDefault();
-        let code = parseInt(verifyCode.code_1 + verifyCode.code_2 + verifyCode.code_3 + verifyCode.code_4);
+        let code = parseInt(verifyCode.verifyCode);
         let data = {
             token: code,
-            _token: token
+            _token: token,
+            mobile: phone.mobile
         }
+
+        // console.log("da " , data)
+
 
         ReactDOM.render(<Loading/>, loadingElement);
         Request.VerifyCodeCheck(data)
             .then(response => {
                 ReactDOM.render('', loadingElement);
-                console.log("success : ", response)
                 if (response.data.http_code == 200) {
-                    SuccessToast("تایید شماره تلفن موفقیت آمیز بود! کمی صبر کنید...")
+                    SuccessToast("تایید شماره تلفن موفقیت آمیز بود. کمی صبر کنید...")
                     setTimeout(() => {
                         clearInterval(intervals);
                         ReactDOM.render(<FinalDataRegister token={token}
@@ -189,9 +178,11 @@ const Index = (props) => {
                     }, 600)
                 }
             }).catch(error => {
-            if (error.response.data.http_code == 404) {
-                ReactDOM.render('', loadingElement);
-                ErrorToast("کد را به صورت صحیح وارد کنید!")
+            ReactDOM.render('', loadingElement);
+            if (error.response.data.errors) {
+                ErroHandle(error.response.data.errors)
+            } else {
+                ErrorToast("خطای غیر منتظره ای رخ داده است")
             }
         })
     }
@@ -203,36 +194,27 @@ const Index = (props) => {
             !isNaN(parseFloat(str))
     }
 
+
     const verifyCodeGet = (e) => {
         e.preventDefault();
-        setVerifyCode({
-            ...verifyCode,
-            [e.target.name]: e.target.value
-        })
+
+            setVerifyCode({
+                verifyCode : e.target.value
+            })
+
+
     }
 
-    const checkButton = () => {
-        if (verifyCode.code_1 !== '' && verifyCode.code_2 !== '' && verifyCode.code_3 !== '' && verifyCode.code_4 !== '') {
-            if (checkVerifyNumber(verifyCode.code_1) && checkVerifyNumber(verifyCode.code_2) && checkVerifyNumber(verifyCode.code_3) && checkVerifyNumber(verifyCode.code_4)) {
-                return (
-                    <button className={"btn btn-primary"} style={{fontSize: '11px'}} onClick={e => checkCode(e)}>بررسی
-                        کد</button>
-                )
-            }
 
-        } else {
-            return ''
-        }
-    }
 
     const closeModal = e => {
         e.preventDefault();
-        console.log("intervals", intervals);
         clearInterval(intervals);
-
         $(".verifyForm").removeClass("active");
         setTimeout(() => {
+            $("input[name=verifyCode]").val('')
             $(".container-loader").fadeOut();
+            // $("input[name=verifyCode]").val('');
         }, 500)
     }
 
@@ -241,13 +223,17 @@ const Index = (props) => {
         <>
             <div style={{position: 'relative'}}
                  className="card disable-rounded-right mb-0 p-2 h-100 d-flex justify-content-center">
+
+
+
                 <div className="card-header pb-1">
                     <div className="card-title">
-                        <h4 className="text-center mb-2">خوش آمدید</h4>
+                        <h4 className="text-center mb-2">ثبت نام</h4>
                     </div>
                 </div>
 
-
+<p style={{paddingRight : '25px' , fontSize:13}}>برای ثبت نام در وب سایت کافیست شماره تلفن خود را وارد کنید و کد تایید ارسال شده به شماره تلفن همراه خود را در محله تایید کد وارد نمایید
+</p>
                 <div className="card-content">
                     <div className="card-body">
 
@@ -255,8 +241,10 @@ const Index = (props) => {
                             <label className="text-bold-700" htmlFor="username">
                                 شماره تلفن خود را وارد کنید
                             </label>
-                            <input type="text" className="form-control text-left"
+                            <input type="number" className="form-control text-left"
                                    id="username"
+                                   max={"11"}
+                                   autoComplete="off"
                                    onChange={e => HandlePhone(e)}
                                    name="mobile"
                                    placeholder="شماره تلفن" dir="ltr"/>
@@ -265,11 +253,12 @@ const Index = (props) => {
                             <button type="submit"
                                     onClick={e => RegisterPhone(e)}
                                     style={{marginTop: 15}}
-                                    className="btn btn-primary glow w-50 position-relative">{CounterTimer > 0 ? "دریافت مجدد کد تایید" : "دریافت کد تایید"}</button>
+                                    className="btn btn-primary glow w-100 position-relative">{CounterTimer > 0 ? "دریافت مجدد کد تایید" : "دریافت کد تایید"}</button>
                         </div>
                         <div>
                             <small className="mr-25">قبلا ثبت نام کرده اید؟</small>
-                            <a href={"/login"} style={{borderBottom: '1px dashed', cursor: 'pointer'}}><small>ورود به پنل</small></a>
+                            <a href={"/login"} style={{borderBottom: '1px dashed', cursor: 'pointer'}}><small>ورود به
+                                پنل</small></a>
                         </div>
                     </div>
                 </div>
@@ -294,58 +283,38 @@ const Index = (props) => {
 
                                 <p>کد تایید را وارد کنید</p>
 
-                                <div id="wrapper">
-                                    <input
-                                        type="text"
-                                        placeholder="--"
-                                        maxLength="1"
-                                        size="1"
-                                        step={"1"}
-                                        name="code_1"
-                                        onChange={(e) => verifyCodeGet(e)}
-                                        min="0"
-                                        max="9"
-                                        pattern="\d*"
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="--"
-                                        maxLength="1"
-                                        size="1"
-                                        onChange={(e) => verifyCodeGet(e)}
-                                        name="code_2"
-                                        min="0"
-                                        max="9"
-                                        pattern="[0-9]{1}"
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="--"
-                                        maxLength="1"
-                                        size="1"
-                                        onChange={(e) => verifyCodeGet(e)}
-                                        name="code_3"
-                                        min="0"
-                                        max="9"
-                                        pattern="[0-9]{1}"
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="--"
-                                        maxLength="1"
-                                        size="1"
-                                        name="code_4"
-                                        min="0"
-                                        max="9"
-                                        onChange={(e) => verifyCodeGet(e)}
-                                        pattern="[0-9]{1}"
-                                    />
+
+                                <div className="alert border-success alert-dismissible mb-2" role="alert" id={"customAlert"}>
+                                    <div className="d-flex align-items-center">
+                                        <span>
+کد تایید به شماره تلفن همراه {phone.mobile ? phone.mobile : ''} ارسال شد.
+                </span>
+                                    </div>
                                 </div>
 
-                                {checkButton()}
-                                <div id={"timersPop"}></div>
 
-                                {/*<div id='retryCode'></div>*/}
+                                <div className={"col-12"}
+                                     style={{display: 'flex', alignItem: 'center', justifyContent: 'center'}}>
+                                    <div className={"verify-code-check"}>
+                                        <input type={"number"}
+                                               className={"form-control " + isInvalid == true ? "is-invalid" : ""}
+                                               name={"verifyCode"}
+                                               min="1000"
+                                               max="9999"
+                                               autoComplete={"none"}
+                                               onChange={e => verifyCodeGet(e)}
+                                               placeholder={"کد تایید را وارد کنید"}/>
+                                    </div>
+                                </div>
+
+
+                                <button className={"btn btn-primary"} id={"verifyCodessss"} style={{fontSize: '11px'}}
+                                        onClick={e => checkCode(e)}>بررسی
+                                    کد</button>
+
+
+
+                                <div id={"timersPop"}></div>
 
                                 <div id={"loading-shows"}>
 

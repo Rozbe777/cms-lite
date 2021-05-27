@@ -122,7 +122,7 @@ export const TreeShowCategory = ({
         <div>
             <ul className={"content-li"}>
                 {console.log("all dataaaaaa : " , data )}
-                {data ? Object.keys(data).map((keyName, i) => {
+                {data ? data.map(item => {
                         return (
                             <li id={"li-back-item"}>
 
@@ -130,9 +130,9 @@ export const TreeShowCategory = ({
                                 <div className={"branch-top"}>
                                 </div>
 
-                                <Item key={data[keyName].name} name={data[keyName].name}
-                                      allData={JSON.stringify(data[keyName])}
-                                      id={data[keyName].id} status={data[keyName].status}
+                                <Item key={item.name} name={item.name}
+                                      allData={item}
+                                      id={item.id} status={item.status}
                                       callBack={item => handlePush(item)}
                                       duplicate={item => HndleDuplicate(item)}
                                       delClick={item => HandleDelClick(item)}
@@ -142,7 +142,7 @@ export const TreeShowCategory = ({
                                       dataAlls = {data}
                                       responseUpdate = {item => setResponseData(item)}
                                 />
-                                {data[keyName].childern.length > 0 ? data[keyName].childern.map((itemClildOne, i) => {
+                                {item.children.length > 0 ? item.children.map((itemClildOne, i) => {
                                         return (
                                             <ul style={{padding: '0 50px 0 0', listStyle: 'inherit'}}>
                                                 {console.log("indexed : ", i)}

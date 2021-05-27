@@ -4936,3 +4936,61 @@ input::placeholder{
 /*    background: #c1cad3 !important;*/
 /*    border-radius: 100% !important;*/
 /*}*/
+.cont{
+    width: 100%;
+    height: 800px;
+    background: #f00;
+}
+
+.shadow-bottom{
+    background:unset !important;
+}
+.navbar-header.expanded{
+    background: #fff !important;
+    border-bottom: 1px solid #eee;
+}
+.navigation.navigation-main{
+    background: #fff !important;
+}
+.main-menu ul{
+    background: #fff !important;
+}
+.navbar-header{
+    background: #fff !important;
+}
+.main-menu .main-menu-content{
+    background: #fff !important;
+}
+.main-menu{
+    background: #fff !important;
+}
+#headerContent{
+    padding: 5px 20px !important;
+    min-height: 70px !important;
+}
+
+.search-input input{
+    padding: 0px !important;
+}
+.cotsticky{
+    width: 100% ; height : 400px;background: #000;
+}
+.stickynone{
+    width: 100px;height: 140px;background: yellow;position: sticky !important;top : 0;bottom: 0
+}
+
+
+.preloader{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    display: block;
+    right: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 99999;
+}
+
+.preloader.active{
+    display: none;
+}

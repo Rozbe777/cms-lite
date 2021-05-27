@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Admin\Content;
 
-use App\Http\Requests\BaseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class SearchContentRequest extends BaseRequest
+class SearchContentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,8 +27,7 @@ class SearchContentRequest extends BaseRequest
             "search" => "nullable|string",
             "owner" => "nullable|in:page,content",
             "status" => "nullable|in:active,pending,deactivate",
-            "comment_status" => "nullable|in:active,deactivate",
-
+            "pageSize" => "nullable|integer"
         ];
     }
 }

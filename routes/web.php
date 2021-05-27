@@ -52,9 +52,12 @@ Route::get('/react/register', function () {
 Route::get('csrf', function () {
     echo csrf_token();
 });
+
 //-----------------------Mehrshad Start----------------------
+
 Route::get('/login', [LoginController::class, 'show'])->name('show.login');
 Route::post('auth/login', [LoginController::class, 'login'])->name('auth.login');
+Route::get('logout', [LoginController::class, 'logout'])->name('auth.logout');
 
 Route::prefix('mobile')->group(function () {
     Route::get('/register', [MobileRegisterController::class, 'show'])->name('show.mobile.form');
@@ -73,39 +76,56 @@ Route::prefix('auth')->group(function () {
         Route::post('/recovery', [PasswordController::class, 'passwordRecovery'])->name('auth.password.recovery');
     });
 });
-Route::resource('contents',ContentController::class);
-Route::post('contents/multi/destroy',[ContentController::class,'multipleDestroy']);
 
-//Route::get('content/edit', [ContentController::class, 'edit'])->name('content.edit');
-//Route::post('content/update/{id}', [ContentController::class, 'update'])->name('content.update');
+Route::middleware('auth')->group(function () {
+
+    Route::get('/role',function (){
+       echo "admin.role";
+    })->name('role');
+
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard.index');
+
+    //------------------------------User----------------------------
+    Route::resource('users', UserController::class);
+    Route::delete('users/multi/destroy', [UserController::class, 'multipleDestroy'])->name('users.multipleDestroy');
+
+    //----------------------------Contents---------------------------
+    Route::resource('contents', ContentController::class);
+    Route::delete('contents/multi/destroy', [ContentController::class, 'multipleDestroy'])->name('contents.multipleDestroy');
+
+    //---------------------------Categories--------------------------
+    Route::resource('categories', CategoryController::class);
+    Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy'])->name('categories.multipleDestroy');
+
+    //------------------------------Tags-----------------------------
+    Route::resource('tags', TagController::class);
+    Route::delete('tags/multi/destroy', [TagController::class, 'multipleDestroy'])->name('tags.multipleDestroy');
+
+    //------------------------------Pages----------------------------
+    Route::resource('pages', PageController::class);
+    Route::delete('pages/multi/destroy', [PageController::class, 'multipleDestroy'])->name('pages.multipleDestroy');
+});
+
 //-----------------------Mehrshad End----------------------
 
 
-//Route::get('/login', function () {
-//    return redirect()->route('auth.login');
-//});
-//Route::get('/register', function () {
-//    return redirect()->route('auth.register');
-//});
-//Route::group(['as' => 'auth.', 'prefix' => 'auth', 'namespace' => 'Auth', 'name' => 'auth.'], function () {
-//    Route::get('/register', [RegisterController::class, 'register'])->name('register');
-//    Route::get('/login', [LoginController::class, 'show'])->name('login');
-//    Route::post('/login', [LoginController::class, 'login'])->name('login');
-//    Route::post('/store', [RegisterController::class, 'store'])->name('store');
-//    Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
-//
-//});
+
+
+
 Route::get('admin', function () {
-    return redirect()->route('admin.dashboard.index');
+    return redirect()->route('dashboard.index');
 });
+
+
+
+
+
+
+
+
 Route::group(['middleware' => 'user_permission'], function () {
 
-    Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'name' => 'admin.', 'middleware' => 'auth'], function () {
-
-
-        Route::group(['as' => 'dashboard.', 'prefix' => 'dashboard', 'namespace' => 'Dashboard', 'name' => 'dashboard.'], function () {
-            Route::get('/', [DashboardController::class, 'index'])->name('index');
-        });
+    Route::group(['middleware' => 'auth'], function () {
 
         Route::group(['as' => 'profile.', 'prefix' => 'profile', 'namespace' => 'Profile', 'name' => 'profile.'], function () {
             Route::get('/', [ProfileController::class, 'index'])->name('index');
@@ -175,7 +195,6 @@ Route::group(['middleware' => 'user_permission'], function () {
 
 
         });
-
         Route::group(['as' => 'content.', 'prefix' => 'content', 'namespace' => 'Content', 'name' => 'content.'], function () {
 
             Route::get('/', [ContentController::class, 'index'])->name('index');

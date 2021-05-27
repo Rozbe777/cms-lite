@@ -3,9 +3,9 @@
 namespace App\Http\Requests\Admin\User;
 
 
-use App\Http\Requests\BaseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUserRequest extends BaseRequest
+class CreateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,12 +27,12 @@ class CreateUserRequest extends BaseRequest
         return [
             'name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'phone' => ['required','unique:users' , 'mobile'],
-            'password' => 'required|string|min:4',
+            'email' => 'nullable|string|email|max:255|unique:users',
+            'mobile' => ['required', 'unique:users', 'mobile'],
+            'password' => 'required|string|min:4|confirmed',
             'role_id' => 'required|exists:roles,id',
             'status' => 'nullable|in:active,deactivate',
-
+            'image' => 'nullable|image',
         ];
     }
 }

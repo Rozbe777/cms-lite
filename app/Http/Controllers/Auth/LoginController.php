@@ -3,15 +3,19 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Classes\Responses\Auth\Responses;
+use App\Classes\Responses\Auth\ResponseTrait;
 use App\Http\Controllers\Auth\Traits\LoginUserTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Repositories\Auth\UserModelRepository;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    use ResponseTrait;
+
     protected $response;
     protected $userRepository;
 
@@ -19,7 +23,7 @@ class LoginController extends Controller
     {
         $this->response = $response;
         $this->userRepository = $userRepository;
-//        $this->middleware('guest');
+        $this->middleware('blockLogin')->except('logout');
     }
 
     public function show()
@@ -36,18 +40,20 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials,$remember_me)) {
             $user = $this->userRepository->findByMobile($credentials['mobile']);
-
             Auth::login($user);
 
-            return $this->response->success("login successfully");
+            return $this->view('pages.dashboard.index')->message(__("message.auth.login.successful"))->success();
         } else {
-            return $this->response->notSuccess('login failed',404);
+            return  $this->message(__("message.auth.login.failed"))->error(401);
         }
     }
 
     public function logout()
     {
         Auth::logout();
-        return $this->response->success("loginOut successfully");
+
+        return str_contains(\Route::current()->uri, 'api') ?
+             $this->response->success("logOut successfully"):
+             adminView("pages.auth.login");
     }
 }

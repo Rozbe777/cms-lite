@@ -22,7 +22,8 @@ class TagFactory extends Factory
     public function definition()
     {
         return [
-            'name'=>$this->faker->randomElement(['news','history', 'story','book','science','math','lifeStyle']),
+            'name'=>$this->faker->word,
+            'user_id' => rand(1,18),
         ];
     }
 }

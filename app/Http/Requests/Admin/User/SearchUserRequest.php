@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Admin\User;
 
-use App\Http\Requests\BaseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class SearchUserRequest extends BaseRequest
+class SearchUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,10 @@ class SearchUserRequest extends BaseRequest
     public function rules()
     {
         return [
-            "confirmed" => "nullable|boolean",
-            "role" => "nullable|string|exists:roles,name",
+            "role_id" => "nullable|integer|exists:roles,id",
             "status" => "nullable|string|in:active,deactivate",
             "search" => "nullable|string",
-
+            "pageSize" => "nullable|integer"
         ];
     }
 }

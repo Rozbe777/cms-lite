@@ -2,147 +2,130 @@
 
 namespace App\Http\Controllers\Admin\Category;
 
-use App\Http\Controllers\Admin\Category\Traits\CreateCategoryTrait;
-use App\Http\Controllers\Admin\Category\Traits\EditCategoryTrait;
+
+use App\Classes\Responses\Admin\Responses;
+use App\Classes\Responses\Admin\ResponsesTrait;
+use App\Http\Controllers\Admin\Category\Helper\CategorySearchHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Category\CreateCategoryRequest;
 use App\Http\Requests\Admin\Category\EditCategoryRequest;
 use App\Http\Requests\Admin\Category\multipleDestroyRequest;
 use App\Http\Requests\Admin\Category\SearchCategoryRequest;
 use App\Models\Category;
-use App\Models\CategoryTag;
-use App\Models\Tag;
-use Illuminate\Http\Request;
+use App\Repositories\CategoryRepository;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Symfony\Component\Console\Input\Input;
 
 class CategoryController extends Controller
 {
-    use EditCategoryTrait, CreateCategoryTrait;
+    use ResponsesTrait;
 
-    public function index()
+    protected $responses;
+    protected $categoryRepository;
+
+    public function __construct(Responses $responses, CategoryRepository $categoryRepository)
     {
-        return adminView("pages.admin.category.index");
-    }
-
-    function getChildrenCategories($categoryId)
-    {
-        $categories = Category::whereParentId($categoryId)->get();
-        foreach ($categories as $category) {
-            $category->children = $this->getChildrenCategories($category->id);
-        }
-        return $categories;
-    }
-
-    public function list()
-    {
-        $categories = Category::whereParentId(0)->get();
-        foreach ($categories as $category) {
-            $category->childern = $this->getChildrenCategories($category->id);
-        }
-        return $categories;
-    }
-
-    public function store(CreateCategoryRequest $request)
-    {
-
-        $category = $this->createCategory(
-            [
-                'name' => $request->input('name'),
-                'slug' => $request->input('slug'),
-                'image' => $request->image,
-                'content' => $request->input('content'),
-                'fields' => $request->input('fields'),
-                'parent_id' => $request->input('parent_id'),
-                'metadata' => $request->input('metadata'),
-                'layout_id' => $request->input('layout_id'),
-                'module_id' => $request->input('module_id'),
-                'status' => $request->input('status'),
-                'is_menu' => $request->input('is_menu'),
-
-            ]
-        );
-
-
-        if ($request->input('tag_list'))
-            foreach ($request->input('tag_list') as $tagName) {
-                $tag = Tag::firstOrCreate([
-                    'name' => $tagName
-                ]);
-                CategoryTag::firstOrCreate([
-                    'tag_id' => $tag->id,
-                    'category_id' => $category->id,
-                ]);
-            }
-
-
-        return redirect(route("admin.category.index"))->with("info", "ثبت دسته بندی با موفقیت انجام شد");
-
+        $this->responses = $responses;
+        $this->categoryRepository = $categoryRepository;
+//        $this->middleware('user_permission');
 
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return JsonResponse|RedirectResponse|Response|void
+     */
+    public function index(SearchCategoryRequest $request)
+    {
+        $categories = $this->categoryRepository->all($request->status, $request->search, $request->pageSize);
+
+        return (!$categories) ?
+            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.category.index")->error() :
+            $this->data($categories)->message(__('message.success.200'))->view("pages.admin.category.index")->success();
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return View
+     */
     public function create()
     {
         return adminView("pages.admin.category.create");
     }
 
-    public function edit($categoryId)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return View|JsonResponse|Response
+     */
+    public function store(CreateCategoryRequest $request)
     {
-        $category = Category::findOrFail($categoryId);
-        return adminView("pages.admin.category.edit")->with("category", $category);
+        $category = $this->categoryRepository->create($request->all());
+
+        return $this->message(__('message.success.200'))->data($category)->view('pages.admin.category.show')->success();
     }
 
-    public function destroy($id)
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return View|JsonResponse
+     */
+    public function show(Category $category)
     {
-        Category::findOrFail($id)->delete();
-        return redirect(route("admin.category.index"))->with("info", "عملیات حذف دسته بندی موفقیت انجام شد");
+        $this->categoryRepository->get($category);
+
+        return $this->message(__('message.success.200'))->data($category)->view('pages.admin.category.show')->success();
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param Category $category
+     * @return View
+     */
+    public function edit(Category $category)
+    {
+        return adminView("pages.admin.category.edit", compact('category'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return JsonResponse|Response
+     */
+    public function update(EditCategoryRequest $request, Category $category)
+    {
+        $category = $this->categoryRepository->update($request->all(), $category);
+
+        return $this->message(__('message.success.200'))->view('pages.admin.category.edit')->data($category)->success();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Category $category
+     * @return JsonResponse|RedirectResponse
+     */
+    public function destroy(Category $category)
+    {
+        $this->categoryRepository->delete($category);
+
+        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.category.index')->success();
     }
 
     public function multipleDestroy(multipleDestroyRequest $request)
     {
-        if (isset($request->categoryIds))
-            Category::whereIn('id', $request->input('categoryIds'))->delete();
+        $this->categoryRepository->multipleDestroy($request);
 
-        return redirect(route("admin.category.index"))->with('info', 'دسته بندی های انتخاب شده حذف شدند');
-
+        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.category.index')->success();
     }
-
-    public function update(EditCategoryRequest $request, $categoryId)
-    {
-        $category = $this->EditCategory([
-            'name' => $request->input('name'),
-            'slug' => $request->input('slug'),
-            'image' => $request->image,
-            'content' => $request->input('content'),
-            'fields' => $request->input('fields'),
-            'parent_id' => $request->input('parent_id'),
-            'layout_id' => $request->input('layout_id'),
-            'module_id' => $request->input('module_id'),
-            'status' => $request->input('status'),
-            'category_id' => $categoryId,
-            'is_menu' => $request->input('is_menu'),
-        ]);
-
-        if ($request->input('tag_list'))
-            foreach ($request->input('tag_list') as $tagName) {
-                $tag = Tag::firstOrCreate([
-                    'name' => $tagName
-                ]);
-                CategoryTag::firstOrCreate([
-                    'tag_id' => $tag->id,
-                    'category_id' => $categoryId,
-                ]);
-            }
-        return success();
-
-    }
-
-    public function search(SearchCategoryRequest $request)
-    {
-        $searchHelper = new \CategorySearchHelper($request);
-        $categories = $searchHelper->searchCategories();
-        $categories = $searchHelper->statusCategory($categories);
-
-        return adminView("pages.admin.category.index")->with('categories', $categories);
-
-    }
-
 }

@@ -54,9 +54,9 @@ export const error = (message) => {
     toastr.options = toastOptions;
     toastr.error(message);
 }
-export const fail = (message=null) => {
+export const fail = (message = null) => {
     toastr.options = toastOptions;
-    if(empty(message)){
+    if (empty(message)) {
         message = 'مشکلی در ارتباط با سرور رخ داده است!'
     }
     toastr.error(message);
@@ -72,4 +72,17 @@ export const warning = (message) => {
 export const info = (message) => {
     toastr.options = toastOptions;
     toastr.info(message);
+}
+
+export const ErroHandle = (err) => {
+    Object.values(err).map(errorItem => {
+        errorItem.map(errorMsg => {
+            if (errorMsg === "") {
+
+            } else {
+                error(errorMsg)
+            }
+        })
+    })
+
 }

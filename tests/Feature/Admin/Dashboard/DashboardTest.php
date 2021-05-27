@@ -13,7 +13,7 @@ class DashboardTest extends TestCase
     {
         $user=Role::where('name','user')->first()->users()->first();
         $response = $this->actingAs($user,'web')
-        ->get(route('admin.dashboard.index'));
+        ->get(route('dashboard.index'));
 
         $response->assertStatus(200);
         $response->assertSee("داشبورد");
@@ -24,7 +24,7 @@ class DashboardTest extends TestCase
     {
         $admin=Role::where('name','admin')->first()->users()->first();
         $response = $this->actingAs($admin,'web')
-            ->get(route('admin.dashboard.index'));
+            ->get(route('dashboard.index'));
 
         $response->assertStatus(200);
         $response->assertSee("داشبورد");

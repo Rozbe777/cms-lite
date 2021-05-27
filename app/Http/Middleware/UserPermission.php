@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserPermission
 {
@@ -17,9 +18,16 @@ class UserPermission
     public function handle(Request $request, Closure $next)
     {
         if (auth()->guest())
-            return route('auth.login');
+            return redirect()->route('show.login');
 
-        if (!auth()->user()->can(request()->route()->getName())) {
+        $routeName = request()->route()->getName();
+     if (str_contains($routeName,"store")) {
+         $routeName = str_replace('store','create',$routeName);
+     }elseif (str_contains($routeName,"update")){
+         $routeName = str_replace('update','edit',$routeName);
+     }
+
+        if (!auth()->user()->can($routeName)) {
             return $request->ajax() ? response(["message" => "شما دسترسی به این بخش را ندارید"],403) : abort(403);
         }
 
