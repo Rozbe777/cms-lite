@@ -22,6 +22,7 @@ export const MultiSelected = () => {
         setLoad(true)
         Request.GetAllCategory()
             .then(res => {
+                console.log("ddddddddddd : " , res)
                 setLoad(false)
                 setData(res)
             })

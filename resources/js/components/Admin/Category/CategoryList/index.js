@@ -10,7 +10,7 @@ import {CHECK_BOX_CONTENT} from "../../UserList/Helper/Context";
 import PageAdd from './../../Page/PageAdd'
 import Loading from './../../_Micro/Loading'
 import $ from 'jquery';
-import {ErroHandle ,error as ErrorToast} from "../../../../helper";
+import {ErroHandle, error as ErrorToast} from "../../../../helper";
 import {TotalActions} from "../../UserList/HOC/TotalActions";
 import {BreadCrumbs} from "../../UserList/HOC/BreadCrumbs";
 import BottomNavigationBar from "../../UserList/HOC/BottomNavigationBar";
@@ -22,28 +22,29 @@ export const CategoryList = () => {
     const [dispaly, setDisplay] = useState(false)
     const [dispalyAdd, setDisplayAdd] = useState({dispaly: false})
     const [loading, setLoading] = useState(false);
-    const [categoryData, setCategoryData] = useState([])
+    const [categoryData, setCategoryData] = useState()
     const [pageData, setPageData] = useState({})
+    const [length, setLength] = useState(0)
     const [breadData] = useState({
         title: 'لیست کاربران',
         desc: 'نمایش لیست کاربران و مدیریت آنها'
     });
 
 
-
     const GetAllCategory = () => {
         setLoading(true)
         Request.GetAllCategory()
             .then(res => {
-                console.log("csdsdf : " , res)
                 localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
                 setLoading(false)
-                setCategoryData(res.data.data.data)
+                setCategoryData(res.data.data)
+                console.log("dataaaaaaaaaaa : " , res.data.data)
+                setLength(res.data.data.length)
             })
             .catch(err => {
-                if (err.response.data.errors){
+                if (err.response.data.errors) {
                     ErroHandle(err.response.data.errors);
-                }else{
+                } else {
                     //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
                     $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center ;margin : 10px 0 0 '>خطا در ارتباط با دیتابیس</p><p>مجددا تلاش کنید</p><div>");
                     ErrorToast("خطای غیر منتظره ای رخ داده است")
@@ -54,7 +55,7 @@ export const CategoryList = () => {
 
     // reload page after error in loading
 
-    function reloadpage(){
+    function reloadpage() {
         console.log("svdvsdv");
         window.location.pathname = "/categories";
     }
@@ -62,13 +63,13 @@ export const CategoryList = () => {
 
     const GetAllPages = () => {
         setLoading(true)
-        Request.GetAllPages()
-            .then(res => {
-                localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
-                setLoading(false)
-                setPageData(res.data)
-            })
-            .catch(err => console.log("errpr : ", err))
+        // Request.GetAllPages()
+        //     .then(res => {
+        //         localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
+        //         setLoading(false)
+        //         setPageData(res.data)
+        //     })
+        //     .catch(err => console.log("errpr : ", err))
     }
 
 
@@ -77,10 +78,8 @@ export const CategoryList = () => {
         GetAllPages();
 
 
-
-
         $(function () {
-            $("#add-category-selected").click(() => {
+            $("#show-loader-selected").click(() => {
                 $(".back-loader").fadeIn();
             })
             $(".back-loader").click(() => {
@@ -95,7 +94,7 @@ export const CategoryList = () => {
     }
 
     const handleAddCategory = () => {
-        console.log("category data : " , categoryData);
+        console.log("category data : ", categoryData);
         if (!loading) {
             ReactDom.render(<AddCategory display={true}
                                          dataAll={JSON.stringify(categoryData)}
@@ -126,7 +125,7 @@ export const CategoryList = () => {
     const HandleDuplicate = (status) => {
         if (status == 200) {
             GetAllCategory();
-            GetAllPages();
+            // GetAllPages();
         } else {
             console.log("you have an error");
         }
@@ -154,7 +153,9 @@ export const CategoryList = () => {
     }
     const HandleBackLoader = (data) => {
         // console.log("+++++++" , JSON.parse(JSON.parse(data).allData).parent_id)
-        let id_parents = JSON.parse(JSON.parse(data).allData).parent_id;
+        // console.log("dupppffffffp : " ,data )
+
+        let id_parents = JSON.parse(data).allData.parent_id;
         // console.log("loading loader : " , id_parents)
         ReactDom.render(<AddCategory display={true} dataUpdate={data}
                                      dataAll={JSON.stringify(categoryData)}
@@ -210,7 +211,7 @@ export const CategoryList = () => {
 
         finalAllIds.userIds = checkBox;
 
-        finalAllIds._token =  $('meta[name="csrf-token"]').attr('content');
+        finalAllIds._token = $('meta[name="csrf-token"]').attr('content');
 
         event.preventDefault();
         swal({
@@ -250,125 +251,129 @@ export const CategoryList = () => {
         });
     }
 
-    console.log("dataaaa : " , categoryData)
+    console.log("dataaaa : ", categoryData)
 
     return (
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
-        <div>
+            <div>
 
 
-
-            <div className={"row col-12"} id={"headerContent"}>
-                <TotalActions deleteUsers={e => handleDeleteGroup(e)} allData={categoryData} data={checkBox}/>
-                <BreadCrumbs data={breadData}/>
-            </div>
-
-
-            <ul className="nav nav-tabs tab-layout" role="tablist"
-                style={{borderRadius: '0px',boxShadow: '0px 6px 6px 3px rgba(0,0,0,0.1) !important' , borderTop : '1px solid #eee'}}>
-                <li className="nav-item col-6 nav-custom">
-                    <a className="nav-link active" id="home-tab" data-toggle="tab" href="#home" aria-controls="home"
-                       role="tab" aria-selected="true">
-                        <i className="bx bxs-categories align-middle" id={"tab-list-icon"}
-                           style={{marginTop: '4px', fontSSize: '35px !important'}}></i>
-                        <span className="align-middle">دسته بندی</span>
-                    </a>
-                </li>
-                <li className="nav-item col-6 nav-custom">
-                    <a className="nav-link" id="profile-tab" data-toggle="tab" href="#profile" aria-controls="profile"
-                       role="tab" aria-selected="false">
-                        <i className="bx bxs-layer align-middle"
-                           id={"tab-list-icon"}
-                           style={{marginTop: '4px', fontSize: '35px !important'}}></i>
-                        <span className="align-middle">صفحات داخلی</span>
-                    </a>
-                </li>
-
-            </ul>
+                <div className={"row col-12"} id={"headerContent"}>
+                    <TotalActions text={" مورد انتخاب شده است "} deleteUsers={e => handleDeleteGroup(e)} allData={categoryData} data={checkBox}/>
+                    <BreadCrumbs data={breadData}/>
+                </div>
 
 
-            <div className={"loaderErrorBack"}>
-                <div clssName={"container"}>
-                    <div className={"row justify-content-center"}>
-                        <div className={"col-lg-4 col-md-5 col-sm-10"} style={{top : '14vh'}}>
-                            <div className={"cardError"}>
-                                <div className={"iconError"}>
-                                    <i className={"bx bx-error-circle"}></i>
+                <ul className="nav nav-tabs tab-layout" role="tablist"
+                    style={{
+                        borderRadius: '0px',
+                        boxShadow: '0px 6px 6px 3px rgba(0,0,0,0.1) !important',
+                        borderTop: '1px solid #eee'
+                    }}>
+                    <li className="nav-item col-6 nav-custom">
+                        <a className="nav-link active" id="home-tab" data-toggle="tab" href="#home" aria-controls="home"
+                           role="tab" aria-selected="true">
+                            <i className="bx bxs-categories align-middle" id={"tab-list-icon"}
+                               style={{marginTop: '4px', fontSSize: '35px !important'}}></i>
+                            <span className="align-middle">دسته بندی</span>
+                        </a>
+                    </li>
+                    <li className="nav-item col-6 nav-custom">
+                        <a className="nav-link" id="profile-tab" data-toggle="tab" href="#profile"
+                           aria-controls="profile"
+                           role="tab" aria-selected="false">
+                            <i className="bx bxs-layer align-middle"
+                               id={"tab-list-icon"}
+                               style={{marginTop: '4px', fontSize: '35px !important'}}></i>
+                            <span className="align-middle">صفحات داخلی</span>
+                        </a>
+                    </li>
+
+                </ul>
+
+
+                <div className={"loaderErrorBack"}>
+                    <div clssName={"container"}>
+                        <div className={"row justify-content-center"}>
+                            <div className={"col-lg-4 col-md-5 col-sm-10"} style={{top: '14vh'}}>
+                                <div className={"cardError"}>
+                                    <div className={"iconError"}>
+                                        <i className={"bx bx-error-circle"}></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="tab-content" style={{padding: 0}}>
-                <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
-                    {console.log("category dataaaaaaaa ...... : ", categoryData.length , "  ///  loading : " , loading)}
-                    {loading == false ? categoryData.length > 0 ? (
-                        <TreeShowCategory handleCata={itemCat => console.log("cat back ,", itemCat)}
-                                          duplicate={item => HandleDuplicate(item)}
-                                          itemClicks={clicks => handleClickItem(clicks)}
-                                          callBack={item => HandleDelete(item)}
-                                          delClick={item => HandleDelete(item)}
-                                          updateData={item => HandleBackLoader(item)}
-                                          data={categoryData}
-                                          loading={loading}/>
-                    )  : (
-                        <div>
-                            <p style={{textAlign: 'center', marginTop: 20}}>
-                                لیست دسته بندی برای نمایش وجود ندارد!
-                            </p>
-                            <div id={"maines"}>
-                                <button id="add-category"
-                                        onClick={() => handleAddCategory()}
-                                        style={{width: 180}}
-                                        className="btn btn-primary glow mr-1 mb-1"
-                                        type="button">
-                                    <span className="align-middle ml-25">افزودن دسته بندی</span>
-                                </button>
+
+
+                <div className="tab-content" style={{padding: 0}}>
+                    {console.log("loadinf : " , loading , " // " ,categoryData)}
+                    <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
+                        {!loading ? categoryData ? categoryData.length > 0 ? (
+                            <TreeShowCategory handleCata={itemCat => console.log("cat back ,", itemCat)}
+                                              duplicate={item => HandleDuplicate(item)}
+                                              itemClicks={clicks => handleClickItem(clicks)}
+                                              callBack={item => HandleDelete(item)}
+                                              delClick={item => HandleDelete(item)}
+                                              updateData={item => HandleBackLoader(item)}
+                                              data={categoryData}
+                                              loading={loading}/>
+                        ) : (
+                            <div>
+                                <p style={{textAlign: 'center', marginTop: 20}}>
+                                    لیست دسته بندی برای نمایش وجود ندارد!
+                                </p>
+                                <div id={"maines"}>
+                                    <button id="add-category"
+                                            onClick={() => handleAddCategory()}
+                                            style={{width: 180}}
+                                            className="btn btn-primary glow mr-1 mb-1"
+                                            type="button">
+                                        <span className="align-middle ml-25">افزودن دسته بندی</span>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    ) : <Loading/>}
+                        ) : <Loading /> : <Loading/>}
+                    </div>
+
+
+                    {/*<div className="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">*/}
+                    {/*    {pageData.data && pageData.data.length > 0 && loading == false ? (*/}
+                    {/*        <TreeShowPage handleCata={itemCat => console.log("cat back ,", itemCat)}*/}
+                    {/*                      duplicate={item => HandleDuplicatePage(item)}*/}
+                    {/*                      itemClicks={clicks => handleClickItemPage(clicks)}*/}
+                    {/*                      callBack={item => HandleDeletePage(item)}*/}
+                    {/*                      delClick={item => HandleDeletePage(item)}*/}
+                    {/*                      updateData={item => HandleBackLoaderPage(item)}*/}
+                    {/*                      data={pageData}*/}
+                    {/*                      loading={loading}/>*/}
+                    {/*    ) : loading == false ? (*/}
+                    {/*        <div>*/}
+                    {/*            <p style={{textAlign: 'center', marginTop: 20}}>*/}
+                    {/*                صفحه ای برای نمایش وجود ندارد!*/}
+                    {/*            </p>*/}
+                    {/*            <div id={"maines"}>*/}
+                    {/*                <button id="add-category"*/}
+                    {/*                        onClick={() => handleAddPage()}*/}
+                    {/*                        style={{width: 180}}*/}
+                    {/*                        className="btn btn-primary glow mr-1 mb-1"*/}
+                    {/*                        type="button">*/}
+                    {/*                    <span className="align-middle ml-25">افزودن صفحه </span>*/}
+                    {/*                </button>*/}
+                    {/*            </div>*/}
+                    {/*        </div>*/}
+                    {/*    ) : <Loading/>}*/}
+                    {/*</div>*/}
+
+
                 </div>
 
 
-
-                {/*<div className="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">*/}
-                {/*    {pageData.data && pageData.data.length > 0 && loading == false ? (*/}
-                {/*        <TreeShowPage handleCata={itemCat => console.log("cat back ,", itemCat)}*/}
-                {/*                      duplicate={item => HandleDuplicatePage(item)}*/}
-                {/*                      itemClicks={clicks => handleClickItemPage(clicks)}*/}
-                {/*                      callBack={item => HandleDeletePage(item)}*/}
-                {/*                      delClick={item => HandleDeletePage(item)}*/}
-                {/*                      updateData={item => HandleBackLoaderPage(item)}*/}
-                {/*                      data={pageData}*/}
-                {/*                      loading={loading}/>*/}
-                {/*    ) : loading == false ? (*/}
-                {/*        <div>*/}
-                {/*            <p style={{textAlign: 'center', marginTop: 20}}>*/}
-                {/*                صفحه ای برای نمایش وجود ندارد!*/}
-                {/*            </p>*/}
-                {/*            <div id={"maines"}>*/}
-                {/*                <button id="add-category"*/}
-                {/*                        onClick={() => handleAddPage()}*/}
-                {/*                        style={{width: 180}}*/}
-                {/*                        className="btn btn-primary glow mr-1 mb-1"*/}
-                {/*                        type="button">*/}
-                {/*                    <span className="align-middle ml-25">افزودن صفحه </span>*/}
-                {/*                </button>*/}
-                {/*            </div>*/}
-                {/*        </div>*/}
-                {/*    ) : <Loading/>}*/}
-                {/*</div>*/}
-
-
-
-
-
+                <BackLoader states={item => (HandleAddContentSelect(item))}/>
+                <div id={"add-datas"}></div>
+                <BottomNavigationBar userData={categoryData} deleteAll={e => handleDeleteGroup(e)}/>
             </div>
-            <BackLoader states={item => (HandleAddContentSelect(item))}/>
-            <div id={"add-datas"}></div>
-            <BottomNavigationBar userData={categoryData} deleteAll={e => handleDeleteGroup(e)}/>
-        </div>
         </CHECK_BOX_CONTENT.Provider>
     )
 }

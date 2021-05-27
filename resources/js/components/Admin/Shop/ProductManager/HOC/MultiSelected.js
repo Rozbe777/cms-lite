@@ -24,7 +24,8 @@ export const MultiSelected = ({selected : pushSelected}) => {
         Request.GetAllCategory()
             .then(res => {
                 setLoad(false)
-                setData(res)
+                console.log("result" , res.data.data.data)
+                setData(res.data.data.data)
             })
     }
 
@@ -68,6 +69,8 @@ export const MultiSelected = ({selected : pushSelected}) => {
         setCheck(result)
         pushSelected(result)
     }
+
+    console.log("dataa....a : " , data)
     return (
         <div className={"main-selected"} >
             <div className={"show-chipset-multi"}>

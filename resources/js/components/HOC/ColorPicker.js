@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {SketchPicker} from 'react-color';
+import ReactDOM from 'react-dom'
 
 const ColorPicker = ({dataOut : pushDataOut}) => {
     const [state, setState] = useState({
