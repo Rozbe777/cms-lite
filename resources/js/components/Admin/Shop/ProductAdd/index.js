@@ -594,7 +594,7 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                         <div className={"row"} style={{padding: '20px'}}>
                             <div className="col-md-6">
                                 <label>دسته بندی</label>
-                                <MultiSelected/>
+                                <MultiSelected />
                             </div>
                             <div className={"col-md-6"}>
                                 <label>برچسپ ها</label>
@@ -662,7 +662,7 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                                                 </th>
                                             </tr>
 
-                                            <a id={"add-future"} className={"mr-1 mb-1"} onClick={e => HandleFeture(e)}>
+                                            <a id={"add-future"} style={{zIndex : 9999}} className={"mr-1 mb-1"} onClick={e => HandleFeture(e)}>
                                                 <i className={"bx bx-plus"}></i>&nbsp;&nbsp;ویژگی
                                                 جدید &nbsp;&nbsp;
                                             </a>

@@ -3,13 +3,15 @@ import './styleAction.scss'
 import {CHECK_BOX_CONTENT} from './../Helper/Context'
 import $ from "jquery";
 
-export const TotalActions = ({data, allData , deleteUsers :pushDeleteUser }) => {
+export const TotalActions = ({text , data, allData , deleteUsers :pushDeleteUser }) => {
 
     useEffect(() => {
 
     }, [])
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT);
 
+
+    console.log("checkbox : " , checkBox)
     const [checkFixed, setCheckFixed] = useState(false);
 
     const checkAll = e => {
@@ -59,7 +61,12 @@ export const TotalActions = ({data, allData , deleteUsers :pushDeleteUser }) => 
                             <div className={"row"}>
                                 <div className={"col-lg-6 col-md-3"}
                                      style={{textAlign : 'center',marginBottom: 5, marginTop: 5, lineHeight: '3.1' ,fontSize : '13px'}}>
-                                    {data.length} کاربر انتخاب شده است
+                                    {text ? (
+                                        data.length + text
+                                    ) : (
+                                        data.length+ " کاربر انتخاب شده است "
+                                    ) }
+
                                 </div>
                                 <div className={"col-lg-2 col-md-3"} style={{marginBottom: 5, marginTop: 5}}>
                                     <button style={{width: '100%'}} className={"btn btn-primary"}

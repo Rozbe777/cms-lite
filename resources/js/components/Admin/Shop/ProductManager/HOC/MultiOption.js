@@ -60,9 +60,9 @@ export const MultiOption = ({name , data , selected : pushSelected}) => {
             </li>
             <li id={"content"}>
                 <ul>
-                    {data.map(item => (
+                    {data ? data.map(item => (
                         <li onClick={e => selectedOpt(e , item)}>{item}</li>
-                    ))}
+                    )) :(<li disabled>موردی یافت نشد</li>)}
 
                 </ul>
             </li>

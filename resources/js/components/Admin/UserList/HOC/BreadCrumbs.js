@@ -17,6 +17,8 @@ export const BreadCrumbs = ({data , floatBtn , titleBtn , icon}) => {
                         <span id={"icon"}>
                         <a>{data.desc}</a>
                     </span>
+
+                        <button id={"show-loader-selected"} style={{float : 'left'}} type={"button"} className={"btn btn-primary shadow mr-1 mb-1"}><i className={"bx bx-plus"}></i>&nbsp; افزودن  &nbsp;</button>
                     </div>
                 </div>
             </div>

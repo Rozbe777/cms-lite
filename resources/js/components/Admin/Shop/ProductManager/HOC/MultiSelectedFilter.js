@@ -5,39 +5,10 @@ import "swiper/swiper-bundle.css";
 import './_shared/style.scss';
 
 
-export const MultiSelectedFilter = ({selected: pushSelected}) => {
+export const MultiSelectedFilter = ({dataRes , selected: pushSelected}) => {
 
     const [checkFilter, setCheckFilter] = useState([])
-    const [data] = useState([
-        {
-            id : "Available",
-            value : 'موجود'
-        },{
-            id : "NotAvailable",
-            value : 'ناموجود'
-        },{
-            id : "Active",
-            value : 'فعال'
-        },{
-            id : "NotActive",
-            value : 'غیرفعال'
-        },{
-            id : "Discount",
-            value : 'با تخفیف'
-        },{
-            id : "NotDiscount",
-            value : 'بدون تخفیف'
-        },{
-            id : "Physical",
-            value : 'فیزیکی'
-        },{
-            id : "Digital",
-            value : 'دیجیتال'
-        },{
-            id : "Services",
-            value : 'خدمات'
-        }
-    ])
+    const [data] = useState(dataRes)
 
     const HandleChange = (e, id) => {
         let checkBoxCustom = $("span.checkboxeds." + id);
@@ -85,9 +56,9 @@ export const MultiSelectedFilter = ({selected: pushSelected}) => {
                         pagination={{clickable: true}}
                         scrollbar={{draggable: true}}
                     >
-                        {checkFilter ? checkFilter.map(item => (
-                                <SwiperSlide key={item.id} virtualIndex={item.id}>
-                                    <div className={"chip mr-1"} style={{background: '#1976d2', color: '#fff'}}>
+                        {checkFilter ? checkFilter.map((item , key) => (
+                                <SwiperSlide key={key} virtualIndex={item.id}>
+                                    <div key={key} className={"chip mr-1"} style={{background: '#1976d2', color: '#fff'}}>
                                         <div className={"chip-body"}>
                                         <span className={"chip-text"}
                                               style={{color: '#fff', marginTop: '-4px'}}>{item.value}</span>

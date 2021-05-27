@@ -26,7 +26,8 @@ class CategoryRepository implements RepositoryInterface
 //            ->where('status', $status)
 //            ->paginate($pageSize);
 //
-        $categories = $this->list($status);dd($categories);
+        $categories = $this->list($status);
+        return $categories;
     }
 
     function getChildrenCategories($categoryId)
@@ -92,7 +93,7 @@ class CategoryRepository implements RepositoryInterface
         $index['user_id'] = Auth::id();
         $index['slug'] = $this->slugHandler($slug);
 
-        if ($data['image'])
+        if (!empty($data['image']))
             $index['image'] = $this->imageHandler($data['image']);
 
         $category = Category::create($data);
