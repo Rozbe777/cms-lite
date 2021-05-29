@@ -202,6 +202,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
         formNew.content = contentNew;
 
 
+        metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
         formNew.metadata = JSON.stringify(metaData);
         if (formData.name && formData.name !== '') {
             $("input[name=name]").removeClass("is-invalid");
