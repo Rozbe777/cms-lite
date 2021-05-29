@@ -26,7 +26,7 @@ class CreateContentRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'owner' => 'in:page,content',
-            'slug' => 'required|string|max:255|unique:contents,slug',
+            'slug' => 'required|string|max:255',
             'content' => 'string|nullable',
             'status' => 'in:active,pending,deactivate',
             'metadata'=>'json|nullable',

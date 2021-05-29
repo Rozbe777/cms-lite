@@ -52,6 +52,8 @@ class ContentRepository implements Interfaces\RepositoryInterface
 
     public function update(array $data, $content)
     {
+        $data['slug'] = $this->slugHandler($data['slug']);
+
         if (!empty($data['image']))
             $data['image'] = $this->imageHandler($data['image']);
 
@@ -62,12 +64,12 @@ class ContentRepository implements Interfaces\RepositoryInterface
             (new RelationsService())->tagService($content, $tag_list_old, $tag_list_new);
             unset($data['tag_list_old'], $data['tag_list_new']);
 
-        } elseif (!array_key_exists('tag_list_old', $data)) {
+        } elseif (!array_key_exists('tag_list_old', $data) && array_key_exists('tag_list_new', $data)) {
             $tag_list_new = $data['tag_list_new'];
             (new RelationsService())->tagService($content, '', $tag_list_new);
             unset($data['tag_list_new']);
 
-        } elseif (!array_key_exists('tag_list_new', $data)) {
+        } elseif (!array_key_exists('tag_list_new', $data) && array_key_exists('tag_list_old', $data)) {
             $tag_list_old = $data['tag_list_old'];
             (new RelationsService())->tagService($content, $tag_list_old, '');
             unset($data['tag_list_old']);
@@ -80,12 +82,12 @@ class ContentRepository implements Interfaces\RepositoryInterface
             (new RelationsService())->categoryService($content, $category_list_old, $category_list_new);
             unset($data['category_list_old'], $data['category_list_new']);
 
-        } elseif (!array_key_exists('category_list_old', $data)) {
+        } elseif (!array_key_exists('category_list_old', $data) && array_key_exists('category_list_new', $data)) {
             $category_list_new = $data['category_list_new'];
             (new RelationsService())->categoryService($content, '', $category_list_new);
             unset($data['category_list_new']);
 
-        } elseif (!array_key_exists('category_list_new', $data)) {
+        } elseif (!array_key_exists('category_list_new', $data) && array_key_exists('category_list_old', $data)) {
             $category_list_old = $data['category_list_old'];
             (new RelationsService())->categoryService($content, $category_list_old, '');
             unset($data['category_list_old']);
@@ -95,6 +97,7 @@ class ContentRepository implements Interfaces\RepositoryInterface
 
     public function create(array $data)
     {
+        $data['slug'] = $this->slugHandler($data['slug']);
         $data['metadata'] = !empty($data['metadata']) ? json_encode($data['metadata']) : null;
 
         $tag_list = $data['tag_list'] ?? null;
@@ -103,19 +106,17 @@ class ContentRepository implements Interfaces\RepositoryInterface
         $category_list = $data['category_list'] ?? null;
         unset($data["category_list"]);
 
-        $index['user_id'] = Auth::id();
+        $data['user_id'] = Auth::id();
         if (!empty($data['image']))
-            $index['image'] = $this->imageHandler($data['image']);
+            $data['image'] = $this->imageHandler($data['image']);
 
         $content = Content::create($data);
+
         $content->viewCounts()->create();
-        if (!isset($data['owner']) || $data['owner'] != 'page') {
-            $content->tags()->attach($tag_list);
-            $content->categories()->attach($category_list);
-            return $content->update($index);
-        }
-        unset($data['category_list_old'], $data['tag_list_old']);
-        return $content->update($index);
+
+        $content->tags()->attach($tag_list);
+        $content->categories()->attach($category_list);
+        return $content;
     }
 
     public function multipleDestroy($data)

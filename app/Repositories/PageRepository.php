@@ -50,6 +50,8 @@ class PageRepository implements Interfaces\RepositoryInterface
 
     public function update(array $data, $page)
     {
+        $data['slug'] = $this->slugHandler($data['slug']);
+
         if (!empty($data['image']))
             $data['image'] = $this->imageHandler($data['image']);
 
@@ -60,10 +62,11 @@ class PageRepository implements Interfaces\RepositoryInterface
     {
         $data['metadata'] = !empty($data['metadata']) ? json_encode($data['metadata']) : null;
 
-        $index['user_id'] = Auth::id();
-        $page = Page::create($data);;
+        $data['user_id'] = Auth::id();
+        $data['slug'] = $this->slugHandler($data['slug']);
+
+        $page = Page::create($data);
         $page->viewCounts()->create();
-        $page->update($index);
         return $page;
     }
 

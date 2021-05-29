@@ -24,9 +24,9 @@ class EditContentRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'string|max:255',
+            'title' => "string|max:255",
             'owner' => 'in:page,content',
-            'slug' => 'string|max:255|unique:contents,slug',
+            'slug' => 'string|max:255',
             'content' => 'string|nullable',
             'status' => 'in:active,pending,deactivate',
             'user_id' => 'integer|exists:users,id|nullable',

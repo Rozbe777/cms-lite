@@ -36,6 +36,8 @@ class CategoryRepository implements RepositoryInterface
 
     public function update(array $data, $category)
     {
+        $data['slug'] = $this->slugHandler($data['slug']);
+
         if (! empty($data['image']))
             $data['image'] = $this->imageHandler($data['image']);
 
@@ -44,17 +46,16 @@ class CategoryRepository implements RepositoryInterface
 
     public function create(array $data)
     {
-        $slug = $data['slug'];
+        $data['slug'] = $this->slugHandler($data['slug']);
+
         unset($data['slug']);
-        $index['user_id'] = Auth::id();
-        $index['slug'] = $this->slugHandler($slug);
+        $data['user_id'] = Auth::id();
 
         if (!empty($data['image']))
-            $index['image'] = $this->imageHandler($data['image']);
+            $data['image'] = $this->imageHandler($data['image']);
 
         $category = Category::create($data);
         $category->viewCounts()->create();
-        $category->update($index);
         return $category;
     }
 

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin\Category;
 
 use App\Classes\Responses\Admin\Responses;
 use App\Classes\Responses\Admin\ResponsesTrait;
-use App\Http\Controllers\Admin\Category\Helper\CategorySearchHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Category\CreateCategoryRequest;
 use App\Http\Requests\Admin\Category\EditCategoryRequest;

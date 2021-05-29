@@ -26,7 +26,7 @@ class CreatePageRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:contents,slug',
+            'slug' => 'required|string|max:255',
             'content' => 'string|nullable',
             'status' => 'in:active,pending,deactivate|nullable',
             'metadata'=>'string|nullable',

@@ -15,6 +15,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 
 class ContentController extends Controller
 {
@@ -95,8 +96,8 @@ class ContentController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Content $content
-     * @return JsonResponse
+     * @param int $id
+     * @return JsonResponse|Response
      */
     public function update(EditContentRequest $request, Content $content)
     {
