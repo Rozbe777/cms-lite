@@ -64,8 +64,6 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
             if (result.value) {
                 Request.AddNewCategory(data)
                     .then(res => {
-                        let resError = res.data.message ? res.data.message : '';
-                        console.log("status error : ", res.data.size)
                         pushResult(res);
                         localStorage.removeItem("is_menu");
                         localStorage.removeItem("status");
@@ -172,10 +170,15 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
         setEdit(true)
         let metaDatas = {...metaData};
         let chipsets = [...chipset];
-        chipsets.push(item);
-        setChipset(chipsets);
-        metaDatas.tags = chipsets;
-        setMetaData(metaDatas);
+        if (item === ""){
+
+        }else{
+            chipsets.push(item);
+            setChipset(chipsets);
+            metaDatas.tags = chipsets;
+            setMetaData(metaDatas);
+        }
+
     }
     const HandleForm = (e) => {
         let formNew = {...formData};
@@ -609,7 +612,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
                             <div className={"col-12"}>
                                 <label>تنظیمات Robots</label>
 
-                                {/*{console.log("robots : " , MetaDataUpdate)}*/}
+                                {console.log("robotssssssssssss : " , MetaDataUpdate)}
                                 <BigSwitcher status={states => HandlerBigSwitcher(states)} name={"Robots"}
                                              defaultStatus={MetaDataUpdate ? MetaDataUpdate.robots : false}
                                              valueOne={"غیرفعال"} valueTow={"noindex,follow"}
