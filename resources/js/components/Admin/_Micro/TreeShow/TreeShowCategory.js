@@ -19,7 +19,55 @@ export const TreeShowCategory = ({
                                  }) => {
     const [responseData, setResponseData] = useState({});
     const [idDelete, setIdDelete] = useState();
+
+
     useEffect(() => {
+        data.map(item => {
+            var filterChild1 = checkBox.indexOf(item.id);
+            if (filterChild1 !== -1){
+                $("input[name=checkbox_"+item.id).prop("checked" , true)
+            }else{
+                $("input[name=checkbox_"+item.id).prop("checked" , false)
+            }
+
+            if(item.childern){
+                item.childern.map(itemChild2 => {
+                    var filterChild1 = checkBox.indexOf(itemChild2.id);
+                    if (filterChild1 !== -1){
+                        $("input[name=checkbox_"+itemChild2.id).prop("checked" , true)
+                    }else{
+                        $("input[name=checkbox_"+itemChild2.id).prop("checked" , false)
+                    }
+
+
+                    itemChild2.children.map(itemChild22 => {
+                        var filterChild22 = checkBox.indexOf(itemChild22.id);
+                        if (filterChild22 !== -1){
+                            $("input[name=checkbox_"+itemChild22.id).prop("checked" , true)
+                        }else{
+                            $("input[name=checkbox_"+itemChild22.id).prop("checked" , false)
+                        }
+                    })
+
+                })
+            }
+
+
+            if(item.children){
+                item.children.map(itemChild3 => {
+                    var filterChild3 = checkBox.indexOf(itemChild3.id);
+                    if (filterChild3 !== -1){
+                        $("input[name=checkbox_"+itemChild3.id).prop("checked" , true)
+                    }else{
+                        $("input[name=checkbox_"+itemChild3.id).prop("checked" , false)
+                    }
+                })
+            }
+        })
+        console.log("kkkkkkkkkkkkk" , data)
+        checkBox.map(idCheck => {
+            $("input[name=checkbox_" + idCheck).prop("checked", true)
+        })
     })
 
 
@@ -91,6 +139,8 @@ export const TreeShowCategory = ({
                                 confirmButtonText: 'باشه',
                             })
 
+
+
                         }).catch(error => {
                         if (error.response.data.errors) {
                             ErroHandle(error.response.data.errors)
@@ -119,11 +169,6 @@ export const TreeShowCategory = ({
         pushUpdateData(editOrDup);
     }
 
-    const HandleCheckBox = id => {
-        data.map(item => {
-            console.log("id ", item.id)
-        })
-    }
 
 
     return (

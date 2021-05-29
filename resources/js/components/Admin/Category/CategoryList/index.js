@@ -114,12 +114,10 @@ export const CategoryList = () => {
     }
 
     const HandleDelete = (status) => {
-        if (status == 200) {
             GetAllCategory();
             GetAllPages();
-        } else {
-            console.log("you have an error");
-        }
+
+        setCheckBox([])
     }
 
     const HandleDuplicate = (status) => {

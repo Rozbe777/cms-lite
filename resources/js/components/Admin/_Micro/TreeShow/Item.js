@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import './_Shared/style.scss';
 import {Request} from './../../../../services/AdminService/Api';
 import {CHECK_BOX_CONTENT} from "../../UserList/Helper/Context";
@@ -27,6 +27,8 @@ export const Item = ({
         let data
         pushItemClisk(id);
     }
+
+
 
 
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
@@ -95,8 +97,6 @@ export const Item = ({
     }
 
     const HandlePushCheck = (idGet) => {
-        // pushCheckSel(idGet)
-        console.log("id : ", idGet)
         let checkBoxx = [...checkBox]
         var filterRes = checkBoxx.indexOf(idGet);
         if (filterRes !== -1) {
@@ -113,8 +113,8 @@ export const Item = ({
                         setCheckBox(checkBoxx);
                     }
 
-                    if (itemChil.children){
-                        allData.children.map(itemChilss => {
+                    if (itemChil.children) {
+                        itemChil.children.map(itemChilss => {
                             var filterChilds = checkBoxx.indexOf(itemChilss.id);
                             if (filterChilds !== -1) {
                                 checkBoxx.splice(filterChilds, 1);
@@ -126,6 +126,20 @@ export const Item = ({
                         })
                     }
 
+
+                })
+            } else if (allData.children) {
+                console.log("11111 : ", allData)
+                allData.children.map(itemChil => {
+                    var filterChild = checkBoxx.indexOf(itemChil.id);
+                    if (filterChild !== -1) {
+                        checkBoxx.splice(filterChild, 1);
+                        setCheckBox(checkBoxx);
+                    } else {
+                        checkBoxx.push(idGet);
+                        setCheckBox(checkBoxx);
+                    }
+
                 })
             }
 
@@ -133,35 +147,47 @@ export const Item = ({
         } else {
             checkBoxx.push(idGet);
             setCheckBox(checkBoxx);
-
-
             if (allData.childern) {
                 allData.childern.map(itemChil => {
-                    checkBoxx.push(itemChil.id);
-                    setCheckBox(checkBoxx);
-                    if (itemChil.children){
-                        itemChil.children.map(itemIdCh => {
-                            checkBoxx.push(itemIdCh.id);
-                            setCheckBox(checkBoxx);
-                        })
+                    var filterChil1 = checkBoxx.indexOf(itemChil.id);
+                    if (filterChil1 === -1) {
+                        checkBoxx.push(itemChil.id);
+                        setCheckBox(checkBoxx);
+                        if (itemChil.children) {
+                            itemChil.children.map(itemIdCh => {
+                                var filterChild2 = checkBoxx.indexOf(itemIdCh.id);
+                                if (filterChild2 === -1) {
+                                    checkBoxx.push(itemIdCh.id);
+                                    setCheckBox(checkBoxx);
+                                }
+                            })
+                        }
                     }
-
                 })
+            } else if (allData.children) {
+                allData.children.map(itemChil => {
+                    var filterChil1 = checkBoxx.indexOf(itemChil.id);
+                    if (filterChil1 !== -1) {
+                    }else{
+                        checkBoxx.push(itemChil.id);
+                        setCheckBox(checkBoxx);
+                    }
+                })
+
             }
-
-
         }
 
     }
 
-    console.log("checkbox :::: ", checkBox);
+console.log(",,,,,,,," , checkBox)
     return (
         <div id={"li-div"}>
             <div className={"row"} style={{padding: '0 20px', position: 'relative'}}>
                 <div className={"col-md-6 col-sm-8"} style={{padding: 13}}>
                     <fieldset style={{float: "right"}}>
                         <div className="checkbox">
-                            <input type="checkbox" onChange={e => HandlePushCheck(id)} className="checkbox-input"
+                            <input type="checkbox" name={"checkbox_" + id} onChange={e => HandlePushCheck(id)}
+                                   className="checkbox-input"
                                    id={id}/>
                             <label htmlFor={id}></label>
                         </div>

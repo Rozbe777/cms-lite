@@ -16,6 +16,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     const [comments, setComments] = useState();
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
+    const [ids, setIds] = useState();
     const [contentNew, setContentNew] = useState();
     const [statusNew, setStatusNew] = useState();
     const [menuShow, setMenuShow] = useState();
@@ -39,6 +40,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     const [formData, setFormData] = useState({});
     let default_value = {
         is_menu: 1,
+        is_index : 1,
         status: "active",
         content: '',
         parent_id: idParent,
@@ -90,6 +92,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     useEffect(() => {
         let formNews = {...formData};
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
+        setIds(formNews.id)
         setFormData({
             name : formNews.name,
             slug : formNews.slug,
@@ -184,7 +187,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
         formNew.status = status;
         formNew.parent_id = parseInt(parent_id);
         formNew.image = file;
-        formNew.is_menu = is_menu ? 1 : 0;
+        formNew.is_menu = parseInt(is_menu);
         if (slugManage == false) {
             formNew.slug = formNew.name;
         } else {
@@ -236,6 +239,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     }
 
     const HandleUpdateForm = (data, id) => {
+        console.log("id : " , data)
         swal({
             title: 'ویرایش دسته بندی',
             text: "آیا مطمئنید؟",
@@ -294,7 +298,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
         formOldData.metadata = JSON.stringify(metaDatas);
         formOldData.is_menu = parseInt(is_menu);
         formOldData.parent_id = parseInt(parent_ids);
-        HandleUpdateForm(formOldData, formOldData.id);
+        HandleUpdateForm(formOldData, ids);
     }
 
     const HandleDuplicate = () => {
@@ -345,9 +349,11 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     }
     const handleSwitchStatus = (status) => {
         setEdit(true)
+        console.log("ssssss :"  , status)
         localStorage.setItem("status", status ? "active" : "deactivate");
     }
     const handleSwitchMenu = (status) => {
+        console.log("ffffffff" , status)
         setEdit(true)
         localStorage.setItem("is_menu", status ? 1 : 0);
     }

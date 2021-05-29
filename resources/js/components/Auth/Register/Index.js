@@ -241,7 +241,7 @@ const Index = (props) => {
                             <label className="text-bold-700" htmlFor="username">
                                 شماره تلفن خود را وارد کنید
                             </label>
-                            <input type="number" className="form-control text-left"
+                            <input type="tel" className="form-control text-left"
                                    id="username"
                                    max={"11"}
                                    autoComplete="off"
