@@ -4,13 +4,14 @@
 namespace App\Repositories;
 
 
+use App\Http\Controllers\Admin\User\Traits\UserTrait;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 
 class UserRepository implements Interfaces\RepositoryInterface
 {
+    use UserTrait;
 
     public function all($role = null, $status = null, $search = null, $pageSize = null)
     {
@@ -25,8 +26,8 @@ class UserRepository implements Interfaces\RepositoryInterface
             $query->whereHas('roles', function ($query) use ($role) {
                 $query->where("role_id", $role);
             });
-        })->when($status != null , function ($query) use ($status){
-            $query->where('status',$status);
+        })->when($status != null, function ($query) use ($status) {
+            $query->where('status', $status);
         })
             ->paginate($pageSize);
     }
@@ -43,15 +44,20 @@ class UserRepository implements Interfaces\RepositoryInterface
 
     public function update(array $data, $user)
     {
-        if (! empty($data['password']))
-        $data['password'] = bcrypt($data['password']);
+        if (!empty($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+            unset($data['password_confirmation']);
+        }
 
-        if (array_key_exists('role_id',$data)){
+        if (array_key_exists('role_id', $data)) {
             $role = Role::findOrFail($data['role_id']);
             $user->detachRoles();
             $user->attachRole($role);
             unset($data['role_id']);
         }
+        if (!empty($data['avatar']))
+            $data['avatar'] = $this->imageHandler($data['avatar']);
+
         $user->update($data);
         return $user;
     }
@@ -59,10 +65,13 @@ class UserRepository implements Interfaces\RepositoryInterface
     public function create(array $data)
     {
         $data['password'] = bcrypt($data['password']);
-        if (array_key_exists('role_id',$data)){
+        if (array_key_exists('role_id', $data)) {
             $role = Role::findOrFail($data['role_id']);
-            unset($data['role_id']);
+            unset($data['role_id'], $data['password_confirmation']);
         }
+        if (!empty($data['avatar']))
+            $data['avatar'] = $this->imageHandler($data['avatar']);
+
         $user = User::create($data);
         $user->attachRole($role);
         $user->save();
