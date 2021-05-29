@@ -39,9 +39,11 @@ class ContentController extends Controller
     {
         $contents = $this->contentRepository->all($request->status, $request->search, $request->owner, $request->pageSize);
 
+        $view = $request->owner == "page"? "page": "content";
+
         return (!$contents) ?
-            $this->message( __('message.content.search.notSuccess'))->view("pages.admin.content.index")->error():
-            $this->data($contents)->message(__('message.success.200'))->view("pages.admin.content.index")->success();
+            $this->message( __('message.content.search.notSuccess'))->view("pages.admin.$view.index")->error():
+            $this->data($contents)->message(__('message.success.200'))->view("pages.admin.$view.index")->success();
     }
 
     /**
@@ -64,7 +66,9 @@ class ContentController extends Controller
     {
         $content = $this->contentRepository->create($request->all());
 
-        return $this->message(__('message.success.200'))->data($content)->view('pages.admin.content.show')->success();
+        $view = $request->owner == "page"? "page": "content";
+
+        return $this->message(__('message.success.200'))->data($content)->view("pages.admin.$view.show")->success();
     }
 
     /**
@@ -77,7 +81,9 @@ class ContentController extends Controller
     {
         $this->contentRepository->get($content);
 
-        return $this->message(__('message.success.200'))->data($content)->view('pages.admin.content.show')->success();
+        $view = $content->owner == "page"? "page": "content";
+
+        return $this->message(__('message.success.200'))->data($content)->view("pages.admin.$view.show")->success();
     }
 
     /**
@@ -88,7 +94,9 @@ class ContentController extends Controller
      */
     public function edit(Content $content)
     {
-        return adminView("pages.admin.content.edit", compact('content'));
+        $view = $content->owner == "page"? "page": "content";
+
+        return adminView("pages.admin.$view.edit", compact('content'));
     }
 
     /**
@@ -102,7 +110,9 @@ class ContentController extends Controller
     {
         $content = $this->contentRepository->update($request->all(), $content);
 
-        return $this->message(__('message.success.200'))->view('pages.admin.content.edit')->data($content)->success();
+        $view = $content->owner == "page"? "page": "content";
+
+        return $this->message(__('message.success.200'))->view("pages.admin.$view.edit")->data($content)->success();
     }
 
     /**
@@ -113,9 +123,11 @@ class ContentController extends Controller
      */
     public function destroy(Content $content)
     {
+        $view = $content->owner == "page"? "page": "content";
+
         $this->contentRepository->delete($content);
 
-        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.content.index')->success();
+        return $this->message(__('message.content.destroy.successful'))->view("pages.admin.$view.index")->success();
     }
 
     /**

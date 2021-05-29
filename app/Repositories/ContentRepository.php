@@ -27,8 +27,8 @@ class ContentRepository implements Interfaces\RepositoryInterface
                 ->orWhere('slug', 'like', '%' . $search . '%')
                 ->orWhere('content', 'like', '%' . $search . '%');
         })->whereOwner($owner)
-            ->when($status =! null , function ($query) use ($status) {
-                $query->where('status' , $status);
+            ->when($status = !null, function ($query) use ($status) {
+                $query->where('status', $status);
             })
             ->where('published_at', '<=', Carbon::now())
             ->with('user')
@@ -52,10 +52,10 @@ class ContentRepository implements Interfaces\RepositoryInterface
 
     public function update(array $data, $content)
     {
-        if (! empty($data['image']))
+        if (!empty($data['image']))
             $data['image'] = $this->imageHandler($data['image']);
 
-        try {
+        if (!isset($data['owner']) || $data['owner'] != 'page') {
             /** modify tag relations in database tables */
             if (array_key_exists('tag_list_old', $data) && array_key_exists('tag_list_new', $data)) {
                 $tag_list_old = $data['tag_list_old'];
@@ -91,34 +91,39 @@ class ContentRepository implements Interfaces\RepositoryInterface
                 (new RelationsService())->categoryService($content, $category_list_old, '');
                 unset($data['category_list_old']);
             }
-
             return $content->update($data);
-        } catch (\Exception $exception) {
-            return [$exception->getCode(), $exception->getMessage()];
         }
+        unset($data['category_list_old'], $data['tag_list_old']);
+        return $content->update($data);
     }
 
     public function create(array $data)
     {
-            $tag_list = $data['tag_list'];
-            unset($data["tag_list"]);
+        $data['metadata'] = !empty($data['metadata'])?json_encode($data['metadata']):null;
 
-        $category_list = $data['category_list'];
+        $tag_list = $data['tag_list'] ?? null;
+        unset($data["tag_list"]);
+
+        $category_list = $data['category_list'] ?? null;
         unset($data["category_list"]);
 
-            $index['user_id'] = Auth::id();
+        $index['user_id'] = Auth::id();
         if (!empty($data['image']))
             $index['image'] = $this->imageHandler($data['image']);
 
-            $content = Content::create($data);
-            $content->viewCounts()->create();
+        $content = Content::create($data);
+        $content->viewCounts()->create();
+        if (!isset($data['owner']) || $data['owner'] != 'page') {
             $content->tags()->attach($tag_list);
             $content->categories()->attach($category_list);
-            $content->update($index);
-            return $content;
+            return $content->update($index);
+        }
+        unset($data['category_list_old'], $data['tag_list_old']);
+        return $content->update($index);
     }
 
-    public function multipleDestroy($data)
+    public
+    function multipleDestroy($data)
     {
         return Content::whereIn('id', $data['contentIds'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);
 

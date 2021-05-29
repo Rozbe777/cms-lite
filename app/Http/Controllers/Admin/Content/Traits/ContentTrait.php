@@ -4,10 +4,6 @@
 namespace App\Http\Controllers\Admin\Content\Traits;
 
 
-
-use App\Helpers\FileManager\FileManager;
-use App\Models\Content;
-
 trait ContentTrait
 {
     public function imageHandler($image)

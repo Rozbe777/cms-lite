@@ -29,7 +29,7 @@ class CreateContentRequest extends FormRequest
             'slug' => 'required|string|max:255|unique:contents,slug',
             'content' => 'string|nullable',
             'status' => 'in:active,pending,deactivate',
-            'metadata'=>'string|nullable',
+            'metadata'=>'json|nullable',
             'user_id' => 'integer|exists:users,id',
 //            'layout_id' => 'integer|exists:layouts,id',//FIXME after insert layouts table
             'image' => 'image|nullable',
