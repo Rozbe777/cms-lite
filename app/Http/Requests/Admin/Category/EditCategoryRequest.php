@@ -24,8 +24,8 @@ class EditCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|max:255|unique:categories,name,',
-            'slug' => 'string|max:255|unique:categories,slug,',
+            'name' => "string|max:255|unique:categories,name,{$this->category->id}",
+            'slug' => "string|max:255|unique:categories,slug,{$this->category->id}",
             'image' => 'string|image|nullable',
             'content' => 'string',
             'fields' => 'string',
