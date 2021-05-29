@@ -44,7 +44,9 @@ class UserRepository implements Interfaces\RepositoryInterface
 
     public function update(array $data, $user)
     {
+        if (! empty($data['password']))
         $data['password'] = bcrypt($data['password']);
+
         if (array_key_exists('role_id',$data)){
             $role = Role::findOrFail($data['role_id']);
             $user->detachRoles();

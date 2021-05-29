@@ -174,6 +174,9 @@ return [
         ],
         'destroy' =>  [
             'successful'    =>  'دسته مدنظر با موفقیت حذف شد.',
+        ],
+        'error' => [
+            'parent_id'     =>  'parent_id وارد شده صحیح نمیباشد.'
         ]
     ],
     'tags' =>  [
