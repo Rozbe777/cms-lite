@@ -29,7 +29,7 @@ class CreateCategoryRequest extends FormRequest
             'image' => 'image|nullable',
             'content' => 'string',
             'fields' => 'string',
-            'parent_id' => 'exists:categories,id|nullable',
+            'parent_id' => "nullable|numeric",
             //'layout_id' => '',//not using now FIXME after insert layout and module
             //'module_id' => '',
             'status' => 'required|string|in:active,deactivate',

@@ -20,7 +20,7 @@ class CreateCategoriesTable extends Migration
             $table->string('image', 255)->nullable();
             $table->longText('content')->nullable();
             $table->longText('metadata')->nullable();
-            $table->integer('parent_id')->default(0);
+            $table->unsignedInteger('parent_id')->nullable()->default(0);
             $table->bigInteger('layout_id')->unsigned()->default(0);
             $table->bigInteger('module_id')->default(1);
             $table->enum('status', ['active', 'deactivate'])->default('active');
