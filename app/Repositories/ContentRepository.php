@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 
+use App\Http\Controllers\Admin\Content\Traits\ContentTrait;
 use App\Http\Requests\Admin\Services\RelationsService;
 use App\Models\Content;
 use Carbon\Carbon;
@@ -11,13 +12,12 @@ use Illuminate\Support\Facades\Auth;
 
 class ContentRepository implements Interfaces\RepositoryInterface
 {
+    use ContentTrait;
+
     public function all($status = null, $search = null, $owner = null, $pageSize = null)
     {
         if (empty($pageSize))
             $pageSize = config('view.pagination');
-
-        if (empty($status))
-            $status = 'active';
 
         if (empty($owner))
             $owner = 'content';
@@ -27,7 +27,9 @@ class ContentRepository implements Interfaces\RepositoryInterface
                 ->orWhere('slug', 'like', '%' . $search . '%')
                 ->orWhere('content', 'like', '%' . $search . '%');
         })->whereOwner($owner)
-            ->whereStatus($status)
+            ->when($status =! null , function ($query) use ($status) {
+                $query->where('status' , $status);
+            })
             ->where('published_at', '<=', Carbon::now())
             ->with('user')
             ->with('tags')
@@ -50,6 +52,9 @@ class ContentRepository implements Interfaces\RepositoryInterface
 
     public function update(array $data, $content)
     {
+        if (! empty($data['image']))
+            $data['image'] = $this->imageHandler($data['image']);
+
         try {
             /** modify tag relations in database tables */
             if (array_key_exists('tag_list_old', $data) && array_key_exists('tag_list_new', $data)) {
@@ -102,6 +107,9 @@ class ContentRepository implements Interfaces\RepositoryInterface
         unset($data["category_list"]);
 
             $index['user_id'] = Auth::id();
+        if (!empty($data['image']))
+            $index['image'] = $this->imageHandler($data['image']);
+
             $content = Content::create($data);
             $content->viewCounts()->create();
             $content->tags()->attach($tag_list);

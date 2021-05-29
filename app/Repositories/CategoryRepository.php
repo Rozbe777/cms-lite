@@ -16,39 +16,7 @@ class CategoryRepository implements RepositoryInterface
 
     public function all($status = null, $search = null, $pageSize = null)
     {
-        if (empty($pageSize))
-            $pageSize = config('view.pagination');
-
-        if (empty($status))
-            $status = 'active';
-
-        return $this->list();
-
-//        $categories = Category::with('contents')
-//            ->where('status', $status)
-//            ->paginate($pageSize);
-//
-//        $categories = $this->list($status);
-//        return $categories;
-    }
-
-    function getChildrenCategories($categoryId)
-    {
-        $categories = Category::whereParentId($categoryId)->get();
-        foreach ($categories as $category) {
-            $category->children = $this->getChildrenCategories($category->id);
-        }
-        return $categories;
-    }
-
-    public function list()
-    {
-        $categories = Category::whereParentId(0)
-        ->with('contents')->get();
-        foreach ($categories as $category) {
-            $category->childern = $this->getChildrenCategories($category->id);
-        }
-        return $categories;
+        return $this->listHandler($status);
     }
 
     public function get($category)
@@ -68,23 +36,9 @@ class CategoryRepository implements RepositoryInterface
 
     public function update(array $data, $category)
     {
-//            /** modify tag relations in database tables */
-//            if (array_key_exists('tag_list_old', $data) && array_key_exists('tag_list_new', $data)) {
-//                $tag_list_old = $data['tag_list_old'];
-//                $tag_list_new = $data['tag_list_new'];
-//                (new RelationsService())->tagService($category, $tag_list_old, $tag_list_new);
-//                unset($data['tag_list_old'], $data['tag_list_new']);
-//
-//            } elseif (!array_key_exists('tag_list_old', $data)) {
-//                $tag_list_new = $data['tag_list_new'];
-//                (new RelationsService())->tagService($category, '', $tag_list_new);
-//                unset($data['tag_list_new']);
-//
-//            } elseif (!array_key_exists('tag_list_new', $data)) {
-//                $tag_list_old = $data['tag_list_old'];
-//                (new RelationsService())->tagService($category, $tag_list_old, '');
-//                unset($data['tag_list_old']);
-//            }
+        if (! empty($data['image']))
+            $data['image'] = $this->imageHandler($data['image']);
+
         return $category->update($data);
     }
 
