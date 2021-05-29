@@ -17,8 +17,8 @@ class UserRepository implements Interfaces\RepositoryInterface
         if (empty($pageSize))
             $pageSize = config('view.pagination');
 
-        if (empty($status))
-            $status = 'active';
+//        if (empty($status))
+//            $status = 'active';
 
         return User::when($search != null, function ($query) use ($search) {
             $query->where('name', 'like', '%' . $search . '%')
@@ -28,7 +28,9 @@ class UserRepository implements Interfaces\RepositoryInterface
             $query->whereHas('roles', function ($query) use ($role) {
                 $query->where("role_id", $role);
             });
-        })->where('status', $status)
+        })->when($status != null , function ($query) use ($status){
+            $query->where('status',$status);
+        })
             ->paginate($pageSize);
     }
 
