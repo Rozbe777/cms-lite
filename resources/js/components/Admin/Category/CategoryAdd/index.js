@@ -16,6 +16,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     const [comments, setComments] = useState();
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
+    const [ids, setIds] = useState();
     const [contentNew, setContentNew] = useState();
     const [statusNew, setStatusNew] = useState();
     const [menuShow, setMenuShow] = useState();
@@ -27,10 +28,11 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     const [metaData, setMetaData] = useState({
         robots: false,
     });
+    console.log("dataaa**sss*** : ", dataUpdate);
 
-    console.log("dataaa************** : ", dataUpdate);
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
-    const dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
+
+    const dataUpdateParse = dataGet ? dataGet.allData : '';
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : '';
     const types = dataGet ? dataGet.type : '';
 
@@ -38,6 +40,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     const [formData, setFormData] = useState({});
     let default_value = {
         is_menu: 1,
+        is_index : 1,
         status: "active",
         content: '',
         parent_id: idParent,
@@ -89,7 +92,18 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     useEffect(() => {
         let formNews = {...formData};
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
-        setFormData(formNews);
+        setIds(formNews.id)
+        setFormData({
+            name : formNews.name,
+            slug : formNews.slug,
+            image : formNews.image,
+            content : formNews.content,
+            metadata : formNews.metadata,
+            is_index : formNews.is_index,
+            is_menu : formNews.is_menu,
+            parent_id : formNews.parent_id,
+            status : formNews.status,
+        });
         console.log("data.................", formNews);
         let metaDataNew = {...metaData};
         metaDataNew = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
@@ -173,7 +187,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
         formNew.status = status;
         formNew.parent_id = parseInt(parent_id);
         formNew.image = file;
-        formNew.is_menu = is_menu ? 1 : 0;
+        formNew.is_menu = parseInt(is_menu);
         if (slugManage == false) {
             formNew.slug = formNew.name;
         } else {
@@ -184,11 +198,13 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
         }
         formNew.content = contentNew;
 
+
         formNew.metadata = JSON.stringify(metaData);
         if (formData.name && formData.name !== '') {
             $("input[name=name]").removeClass("is-invalid");
             // console.log("form dataaaaaaaa : ", formNew)
             formNew.parent_id = formNew.parent_id ? formNew.parent_id : 0;
+            console.log("image : ", formNew)
             CreateAddCategory(formNew);
         } else {
             $("input[name=name]").addClass("is-invalid");
@@ -223,7 +239,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     }
 
     const HandleUpdateForm = (data, id) => {
-        console.log("data update : ", data)
+        console.log("id : " , data)
         swal({
             title: 'ویرایش دسته بندی',
             text: "آیا مطمئنید؟",
@@ -240,53 +256,54 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
                     .then(res => {
                         let resError = res.data.message ? res.data.message : '';
                         console.log("status error : ", res.data.size)
-                        if (res.status == 200 && resError == '') {
-                            pushResult(res);
-                            localStorage.removeItem("is_menu");
-                            localStorage.removeItem("status");
-                            localStorage.removeItem("selected");
-                            localStorage.removeItem("robots");
+                        pushResult(res);
+                        localStorage.removeItem("is_menu");
+                        localStorage.removeItem("status");
+                        localStorage.removeItem("selected");
+                        localStorage.removeItem("robots");
 
-                            Swal.fire({
-                                type: "success",
-                                title: 'با موفقیت ویرایش شد !',
-                                confirmButtonClass: 'btn btn-success',
-                                confirmButtonText: 'باشه',
-                            })
-                        } else if (res.status == 200 && resError !== '') {
-                            error(resError)
+                        Swal.fire({
+                            type: "success",
+                            title: 'با موفقیت ویرایش شد !',
+                            confirmButtonClass: 'btn btn-success',
+                            confirmButtonText: 'باشه',
+                        })
+                    }).catch(err => {
+                        if (err.response.data.errors) {
+                            ErroHandle(err.response.data.errors);
                         } else {
-                            Swal.fire({
-                                type: "error",
-                                title: 'خطایی غیر منتظره ای رخ داده است !',
-                                cancelButtonClass: 'btn btn-primary',
-                                cancelButtonText: 'تلاش مجدد',
-                            })
+                            //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
+                            ErrorToast("خطای غیر منتظره ای رخ داده است")
                         }
-                    }).catch(error => console.log("error", error))
+                    }
+                )
             }
         });
     }
 
     const HandleEdit = () => {
         let formOldData = {...formData};
-        formOldData.content = contentNew;
+        formOldData.content = JSON.stringify(contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
+        delete formOldData.children;
+        delete formOldData.childern;
+        delete formOldData.content_count;
+        delete formOldData.contents;
         formOldData.status = status;
         formOldData.metadata = JSON.stringify(metaDatas);
         formOldData.is_menu = parseInt(is_menu);
         formOldData.parent_id = parseInt(parent_ids);
-        HandleUpdateForm(formOldData, formOldData.id);
+        HandleUpdateForm(formOldData, ids);
     }
 
     const HandleDuplicate = () => {
         let formOldData = {...formData};
-        formOldData.content = contentNew;
+        formOldData.content = JSON.stringify(contentNew);
         let names = $("input.titleCat").val();
         let slugs = $("input.slugest").val();
         console.log("data category in : ", names);
@@ -332,9 +349,11 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     }
     const handleSwitchStatus = (status) => {
         setEdit(true)
+        console.log("ssssss :"  , status)
         localStorage.setItem("status", status ? "active" : "deactivate");
     }
     const handleSwitchMenu = (status) => {
+        console.log("ffffffff" , status)
         setEdit(true)
         localStorage.setItem("is_menu", status ? 1 : 0);
     }
@@ -402,7 +421,6 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>دسته بندی پدر</label>
-                                    {console.log("cat //////////////", dataAll)}
                                     {categoryData ? (
                                         <SelectOptions parents={idParent ? idParent : dataUpdateParse.parent_id}
                                                        dataAllCat={dataAll}

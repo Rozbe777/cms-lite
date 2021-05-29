@@ -47,7 +47,7 @@ const Index = () => {
     const GetAllContentsAction = () => {
         setLoading(true);
         Request.GetAllContents().then(res => {
-            console.log("res" , res)
+            // console.log("res" , res.data.data.data)
             setContentNew(res.data.data.data)
             setContentData(res.data.data);
             setPerPage(res.data.data.per_page);
@@ -75,12 +75,6 @@ const Index = () => {
         } else {
             element.removeClass("actived")
         }
-    })
-
-
-    // jquery code
-    $("#add-product-selected").click(function () {
-        ReactDOM.render(<ProductAdd/>, document.getElementById("add-product"));
     })
 
     const HandleMakeName = () => {
@@ -210,6 +204,11 @@ const Index = () => {
     }
 
 
+    const HandlePopUpAddProduct = e => {
+        e.preventDefault();
+        ReactDOM.render(<ProductAdd/>, document.getElementById("add-product"));
+    }
+
 
     const paginate = (pageNumber) => {
         // let pagess = stringSearchs ? "page=" + pageNumber + "&" + stringSearchs : "page=" + pageNumber;
@@ -260,7 +259,14 @@ const Index = () => {
                             <Item data={item} checkStateOfOut={checked} sizeOf={DataInitial.Products.length}
                                   selected={response => HandleChecked(response)}/>
                         )
-                    }): 'not found' : (<Loading />)}
+                    }): (
+                        <div id={"add-product-btn-box"}>
+                            <p>محصولی ثبت نشده است!</p>
+                            <button type={"button"} className={"btn btn-primary shadow mr-1 mb-1"} onClick={e => HandlePopUpAddProduct(e)}>
+                                افزودن محصول
+                            </button>
+                        </div>
+                    ) : (<Loading />)}
 
 
                     <div className="col-md-12">
@@ -281,7 +287,8 @@ const Index = () => {
                 </div>
 
             </div>
-            <div id={"add-product"}></div>
+            <div id={"add-product"}>
+            </div>
 
 
 

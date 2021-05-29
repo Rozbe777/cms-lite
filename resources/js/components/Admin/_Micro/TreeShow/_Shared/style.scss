@@ -43,7 +43,8 @@ span#sub-menu-custom {
 
 #item-tree-show {
     float: right;
-    margin-top: 5px;
+    margin-top: 2px;
+    margin-right: 10px;
     width: 80%;
     height: 25px;
     overflow: hidden;
@@ -196,4 +197,12 @@ span#sub-menu-custom {
 .form-control#selectParent {
     margin-top: -1px !important;
     height: 50px !important;
+}
+#close-select{
+    display: none !important;
+    visibility: hidden;
+}
+
+#headerContent #totalAction.activeAction{
+    z-index: 999;
 }

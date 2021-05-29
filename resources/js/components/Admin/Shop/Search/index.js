@@ -69,12 +69,48 @@ const SearchComponent = ({category : pushCategory}) => {
                         <div className="col-12 col-sm-6 col-lg-3">
                             <label
                                 htmlFor="users-list-verified">{size > 0 ? "( " + size + " ) فیلتر اعمال شده " : 'فیلتر'}</label>
-                            <MultiSelectedFilter selected={sel => handleSelected(sel)}/>
+                            <MultiSelectedFilter dataRes={[
+                                {
+                                    id : "Available",
+                                    value : 'موجود'
+                                },{
+                                    id : "NotAvailable",
+                                    value : 'ناموجود'
+                                },{
+                                    id : "Active",
+                                    value : 'فعال'
+                                },{
+                                    id : "NotActive",
+                                    value : 'غیرفعال'
+                                },{
+                                    id : "Discount",
+                                    value : 'با تخفیف'
+                                },{
+                                    id : "NotDiscount",
+                                    value : 'بدون تخفیف'
+                                },{
+                                    id : "Physical",
+                                    value : 'فیزیکی'
+                                },{
+                                    id : "Digital",
+                                    value : 'دیجیتال'
+                                },{
+                                    id : "Services",
+                                    value : 'خدمات'
+                                }
+                            ]} selected={sel => handleSelected(sel)}/>
                         </div>
 
                         <div className="col-12 col-sm-6 col-lg-3">
                             <label htmlFor="users-list-status">مرتب سازی</label>
-                            <MultiOption/>
+                            <MultiOption data={[
+                                "بر اساس تاریخ انتشار",
+                                "بر اساس بیشترین قیمت",
+                                "بر اساس موجود بودن",
+                                "بر اساس ناموجود بودن",
+                                "محصولات با تخفیف",
+                                "محصولات بدون تخفیف",
+                            ]}/>
                         </div>
 
                         <div className="col-12 col-sm-6 col-lg-3">
