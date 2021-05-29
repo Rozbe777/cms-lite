@@ -1,9 +1,38 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Item} from './Item';
 import Loading from './../../_Micro/Loading'
 import $ from 'jquery';
+import {CHECK_BOX_CONTENT} from "../../UserList/Helper/Context";
 
-export const TreeShowPage = ({data, loading, callBack: pushCallBack, itemClicks: pushItemCliks , duplicate : pushDuplicate ,delClick : pushDelClick , updateData : pushUpdateData}) => {
+export const TreeShowPage = ({
+                                 data,
+                                 loading,
+                                 callBack: pushCallBack,
+                                 itemClicks: pushItemCliks,
+                                 duplicate: pushDuplicate,
+                                 delClick: pushDelClick,
+                                 updateData: pushUpdateData
+                             }) => {
+
+    console.log(">>>>>>>>>>>>>>>", data.data.data)
+
+    const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
+
+    useEffect(()=>{
+
+    }, [])
+
+
+    data.data.data.map(item => {
+        var filter = checkBox.indexOf(item.id);
+        if (filter !== -1) {
+            $("input[name=checkbox_content_" + item.id).prop("checked", true)
+        } else {
+            $("input[name=checkbox_content_" + item.id).prop("checked", false)
+        }
+    });
+
+
     $(function () {
         $("span#sub-menu-custom").click(function () {
             $(".back-blur").fadeIn(100);
@@ -19,7 +48,7 @@ export const TreeShowPage = ({data, loading, callBack: pushCallBack, itemClicks:
         })
     })
 
-    let dataWithOutPaginate = data.data;
+    let dataWithOutPaginate = data.data.data;
     const handlePush = (item) => {
         pushCallBack(item);
     }
@@ -37,36 +66,38 @@ export const TreeShowPage = ({data, loading, callBack: pushCallBack, itemClicks:
         pushUpdateData(data);
     }
     if (loading) {
-        return <Loading />
+        return <Loading/>
     }
 
     return (
-        <ul className={"content-li"}>
-            {dataWithOutPaginate ? dataWithOutPaginate.map((keyName) => {
-                console.log(keyName.name , "\n")
-                return (
-                    <li style={{position: 'relative'}}>
-                        <div className={"branch-top"}>
-                        </div>
-                        <Item key={keyName.id} name={keyName.title}
-                              allData={keyName}
-                              id={keyName.id}
-                              status={keyName.status}
-                              callBack={item => handlePush(item)}
-                              duplicate={item => HndleDuplicate(item)}
-                              delClick={item => HandleDelClick(item)}
-                              dataForEdit={item => HandleDataForUpdate(item)}
-                              itemClick={itemId => HandleClick(itemId)}
-                        />
+        <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
+            <ul className={"content-li"}>
+                {dataWithOutPaginate ? dataWithOutPaginate.map((keyName) => {
+                        console.log(keyName.name, "\n")
+                        return (
+                            <li style={{position: 'relative'}}>
+                                <div className={"branch-top"}>
+                                </div>
+                                <Item key={keyName.id} name={keyName.title}
+                                      allData={keyName}
+                                      id={keyName.id}
+                                      status={keyName.status}
+                                      callBack={item => handlePush(item)}
+                                      duplicate={item => HndleDuplicate(item)}
+                                      delClick={item => HandleDelClick(item)}
+                                      dataForEdit={item => HandleDataForUpdate(item)}
+                                      itemClick={itemId => HandleClick(itemId)}
+                                />
 
-                    </li>
+                            </li>
 
-                    )
-                }
-            ) : (
-               <Loading />
-            )}
-        </ul>
+                        )
+                    }
+                ) : (
+                    <Loading/>
+                )}
+            </ul>
+        </CHECK_BOX_CONTENT.Provider>
     )
 
 }

@@ -96,7 +96,7 @@ export const Item = ({
 
     const HandlePushCheck = (e , idGet) => {
         console.log(",,,,, id", idGet)
-        let checkBoxx = [...checkBox]
+        let checkBoxx = [...checkBox];
         let checkState = e.target.checked;
         console.log("checked : " , checkState);
         var filterRes = checkBoxx.indexOf(idGet);
@@ -200,7 +200,6 @@ export const Item = ({
 
     }
 
-    console.log(",,,,,,,,", checkBox)
     return (
         <div id={"li-div"}>
             <div className={"row"} style={{padding: '0 20px', position: 'relative'}}>

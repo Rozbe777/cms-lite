@@ -64,7 +64,6 @@ export const TreeShowCategory = ({
                 })
             }
         })
-        console.log("kkkkkkkkkkkkk" , data)
         checkBox.map(idCheck => {
             $("input[name=checkbox_" + idCheck).prop("checked", true)
         })
@@ -72,7 +71,6 @@ export const TreeShowCategory = ({
 
 
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
-    console.log("data shoooooowwww ....  : ", data);
 
     $(function () {
         $("span#sub-menu-custom").click(function () {

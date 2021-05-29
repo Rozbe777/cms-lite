@@ -130,6 +130,7 @@ export const PageList = () => {
                                  result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
 
+
     if (checkBox.length > 0) {
         $("#totalAction").addClass("activeAction");
         $("#breadCrumb").removeClass("activeCrumb");
@@ -184,6 +185,14 @@ export const PageList = () => {
         });
     }
 
+
+    if (checkBox.length > 0) {
+        $("#totalAction").addClass("activeAction");
+        $("#breadCrumb").removeClass("activeCrumb");
+    } else {
+        $("#totalAction").removeClass("activeAction");
+        $("#breadCrumb").addClass("activeCrumb");
+    }
 
     return (
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
@@ -248,7 +257,7 @@ export const PageList = () => {
         </CHECK_BOX_CONTENT.Provider>
     )
 }
-let elements = document.getElementById("content-manager");
+let elements = document.getElementById("content-managers");
 if (elements) {
     const props = Object.assign({}, elements.dataset)
     ReactDom.render(<PageList {...props} />, elements);

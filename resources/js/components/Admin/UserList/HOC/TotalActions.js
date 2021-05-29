@@ -12,6 +12,7 @@ export const TotalActions = ({text , data, allData , deleteUsers :pushDeleteUser
 
     const [checkFixed, setCheckFixed] = useState(false);
 
+    console.log("************* : " , allData)
     const checkAll = e => {
         e.preventDefault();
         let dataAlls = [...checkBox];
@@ -20,7 +21,6 @@ export const TotalActions = ({text , data, allData , deleteUsers :pushDeleteUser
             if (index == -1) {
                 dataAlls.push(item.id);
             }
-
         })
         setCheckBox(dataAlls);
     }
@@ -31,7 +31,7 @@ export const TotalActions = ({text , data, allData , deleteUsers :pushDeleteUser
         setCheckBox(dataAlls);
     }
 
-    var sidebarWidth = $('.main-menu').parent().width() - $('.main-menu').width();
+    // var sidebarWidth = $('.main-menu').parent().width() - $('.main-menu').width();
     // $(document).scroll(function () {
     //     sidebarWidth = $('.main-menu').parent().width() - $('.main-menu').width();
     //     var sr = $(document).scrollTop();
@@ -47,6 +47,7 @@ export const TotalActions = ({text , data, allData , deleteUsers :pushDeleteUser
     //     }
     // })
 
+    console.log("******** >>>" , checkBox)
 
     return (
             <div id={"totalAction"}>

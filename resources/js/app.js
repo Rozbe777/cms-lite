@@ -28,6 +28,8 @@ require("./components/Admin/Category/CategoryList");
 require("./components/Admin/Category/CategoryAdd");
 require("./components/Admin/Page/PageAdd");
 require("./components/Admin/Page/PageList");
+require("./components/Admin/Content/ContentAdd");
+require("./components/Admin/Content/ContentList");
 require("./components/Admin/Dasboard");
 require("./components/Admin/Shop/ProductManager");
 require("./components/Admin/Shop/ProductAdd");
