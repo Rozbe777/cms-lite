@@ -21,10 +21,6 @@ class EditPageRequest extends EditContentRequest
             'is_index'=>'boolean|nullable',
             'is_menu'=>'boolean|nullable',
             'metadata'=>'string|nullable',
-            'tag_list_old'=>'array',
-            'tag_list_new'=>'array',
-            'category_list_old'=>'array',
-            'category_list_new'=>'array',
         ];
     }
 }

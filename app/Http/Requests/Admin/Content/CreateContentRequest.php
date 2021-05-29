@@ -34,9 +34,9 @@ class CreateContentRequest extends FormRequest
 //            'layout_id' => 'integer|exists:layouts,id',//FIXME after insert layouts table
             'image' => 'image|nullable',
             'comment_status' => 'in:active,deactivate',
-            'is_index'=>'boolean|nullable',
             'is_menu'=>'boolean|nullable',
-            'tag_list'=>'array'
+            'tag_list'=>'array',
+            'category_list' => 'array'
         ];
     }
 }
