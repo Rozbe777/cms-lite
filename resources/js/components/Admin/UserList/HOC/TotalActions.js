@@ -10,8 +10,6 @@ export const TotalActions = ({text , data, allData , deleteUsers :pushDeleteUser
     }, [])
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT);
 
-
-    console.log("checkbox : " , checkBox)
     const [checkFixed, setCheckFixed] = useState(false);
 
     const checkAll = e => {
@@ -34,20 +32,20 @@ export const TotalActions = ({text , data, allData , deleteUsers :pushDeleteUser
     }
 
     var sidebarWidth = $('.main-menu').parent().width() - $('.main-menu').width();
-    $(document).scroll(function () {
-        sidebarWidth = $('.main-menu').parent().width() - $('.main-menu').width();
-        var sr = $(document).scrollTop();
-        if (sr > 0) {
-            $(".header-navbar").fadeOut(0)
-            $("#totalAction").addClass("fixed")
-            // $("#totalAction").width(sidebarWidth)
-            setCheckFixed(true)
-        } else {
-            $("#totalAction").removeClass("fixed")
-            $(".header-navbar").fadeIn(0)
-            setCheckFixed(false)
-        }
-    })
+    // $(document).scroll(function () {
+    //     sidebarWidth = $('.main-menu').parent().width() - $('.main-menu').width();
+    //     var sr = $(document).scrollTop();
+    //     if (sr > 0) {
+    //         $(".header-navbar").fadeOut(0)
+    //         $("#totalAction").addClass("fixed")
+    //         // $("#totalAction").width(sidebarWidth)
+    //         setCheckFixed(true)
+    //     } else {
+    //         $("#totalAction").removeClass("fixed")
+    //         $(".header-navbar").fadeIn(0)
+    //         setCheckFixed(false)
+    //     }
+    // })
 
 
     return (

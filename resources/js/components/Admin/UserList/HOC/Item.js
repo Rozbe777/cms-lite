@@ -25,7 +25,7 @@ export const Item = (props) => {
 
     const [data, setData] = useState({})
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT);
-    let {id, fullname, email, persianStatus, userRole, mobile} = props.props;
+    let {id, name , last_name, email, persianStatus, userRole, mobile} = props.props;
 
     const checkBoxCheck = (e) => {
         let dataCheck = [...checkBox];
@@ -48,7 +48,7 @@ export const Item = (props) => {
             '<a class="checkDeActivate">غیرفعال</a>';
 
         let roles = userRole == "admin" ? "مدیر" : "کاربر";
-        document.querySelector("li#fullname").innerHTML = "&nbsp;" + fullname + "&nbsp;";
+        document.querySelector("li#fullname").innerHTML = "&nbsp;" + name + " " + last_name + "&nbsp;";
         document.querySelector("li#mobile").innerHTML = "&nbsp;" + mobile + "&nbsp;";
         document.querySelector("li#email").innerHTML = "&nbsp;" + email + "&nbsp;";
         document.querySelector("li#status").innerHTML = "&nbsp;" + statuss + "&nbsp;";
@@ -85,7 +85,7 @@ export const Item = (props) => {
                         </div>
                     </fieldset>
                     <span>
-                <a className={"role"}>{fullname}</a>
+                <a className={"role"}>{name + " " +last_name}</a>
             </span>
 
                     <span className={"d-none d-lg-block"}>

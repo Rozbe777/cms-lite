@@ -49,6 +49,8 @@ const UserList = memo((props) => {
                 //     $("ul.pagination li#1").addClass("active");
                 //     setSearch(false)
                 // }
+
+                console.log(".........." , )
                 setLoading(false)
                 setUserData(res.data.data);
                 setPerPage(res.data.data.per_page);
