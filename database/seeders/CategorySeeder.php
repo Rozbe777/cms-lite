@@ -15,7 +15,7 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        Category::factory()->times(3)->create();
+        Category::factory()->times(10)->create();
 
         foreach (range(1,10) as $index){
             DB::table('category_content')->insert([

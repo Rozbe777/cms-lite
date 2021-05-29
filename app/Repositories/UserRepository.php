@@ -17,9 +17,6 @@ class UserRepository implements Interfaces\RepositoryInterface
         if (empty($pageSize))
             $pageSize = config('view.pagination');
 
-//        if (empty($status))
-//            $status = 'active';
-
         return User::when($search != null, function ($query) use ($search) {
             $query->where('name', 'like', '%' . $search . '%')
                 ->orWhere('last_name', 'like', '%' . $search . '%')
