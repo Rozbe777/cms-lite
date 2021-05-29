@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 
+use App\Http\Controllers\Admin\Page\Traits\PageTrait;
 use App\Http\Requests\Admin\Services\RelationsService;
 use App\Models\Page;
 use Carbon\Carbon;
@@ -11,27 +12,33 @@ use Illuminate\Support\Facades\Auth;
 
 class PageRepository implements Interfaces\RepositoryInterface
 {
+    use PageTrait;
 
-    public function all()
+    public function all($status = null, $search = null, $owner = null, $pageSize = null)
     {
-        try {
-            return Page::with('user')
-                ->with('contents')
-                ->with('tags')
-                ->with('categories')
-                ->where('published_at', '<=', Carbon::now())
-                ->where('status','active')
-                ->paginate(12);
+        if (empty($pageSize))
+            $pageSize = config('view.pagination');
 
-        } catch (\Exception $exception) {
-            return [$exception->getCode(), $exception->getMessage()];
-        }
+        if (empty($owner))
+            $owner = 'page';
+
+        return Page::when($search != null, function ($query) use ($search) {
+            $query->where('title', 'like', '%' . $search . '%')
+                ->orWhere('slug', 'like', '%' . $search . '%')
+                ->orWhere('content', 'like', '%' . $search . '%');
+        })->whereOwner($owner)
+            ->when($status = !null, function ($query) use ($status) {
+                $query->where('status', $status);
+            })
+            ->where('published_at', '<=', Carbon::now())
+            ->with('user')
+            ->paginate($pageSize);
     }
 
     public function get($page)
     {
         $instance = $page->viewCounts;
-        $instance->view_count ++;
+        $instance->view_count++;
         $instance->save();
     }
 
@@ -43,75 +50,26 @@ class PageRepository implements Interfaces\RepositoryInterface
 
     public function update(array $data, $page)
     {
-        try {
-            /** modify tag relations in database tables */
-            if (array_key_exists('tag_list_old', $data) && array_key_exists('tag_list_new', $data)) {
-                $tag_list_old = $data['tag_list_old'];
-                $tag_list_new = $data['tag_list_new'];
-                (new RelationsService())->tagService($page,$tag_list_old,$tag_list_new);
-                unset($data['tag_list_old'], $data['tag_list_new']);
+        if (!empty($data['image']))
+            $data['image'] = $this->imageHandler($data['image']);
 
-            } elseif (!array_key_exists('tag_list_old', $data)) {
-                $tag_list_new = $data['tag_list_new'];
-                (new RelationsService())->tagService($page,'',$tag_list_new);
-                unset($data['tag_list_new']);
-
-            } elseif (!array_key_exists('tag_list_new', $data)) {
-                $tag_list_old = $data['tag_list_old'];
-                (new RelationsService())->tagService($page,$tag_list_old,'');
-                unset($data['tag_list_old']);
-            }
-
-            /** modify category relations in database tables */
-            if (array_key_exists('category_list_old', $data) && array_key_exists('category_list_new', $data)) {
-                $category_list_old = $data['category_list_old'];
-                $category_list_new = $data['category_list_new'];
-                (new RelationsService())->categoryService($page,$category_list_old,$category_list_new);
-                unset($data['category_list_old'], $data['category_list_new']);
-
-            } elseif (!array_key_exists('category_list_old', $data)) {
-                $category_list_new = $data['category_list_new'];
-                (new RelationsService())->categoryService($page,'',$category_list_new);
-                unset($data['category_list_new']);
-
-            } elseif (!array_key_exists('category_list_new', $data)) {
-                $category_list_old = $data['category_list_old'];
-                (new RelationsService())->categoryService($page,$category_list_old,'');
-                unset($data['category_list_old']);
-            }
-
-            return $page->update($data);
-        } catch (\Exception $exception) {
-            return [$exception->getCode(), $exception->getMessage()];
-        }
+        return $page->update($data);
     }
 
     public function create(array $data)
     {
-        try {
-            $tag_list = $data['tag_list'];
-            $category_list = $data['category_list'];
-            unset($data["tag_list"], $data['category_list']);
+        $data['metadata'] = !empty($data['metadata']) ? json_encode($data['metadata']) : null;
 
-            $index['user_id'] = Auth::id();
-            $page = Page::create($data);;
-            $page->viewCounts()->create();
-            $page->tags()->attach($tag_list);
-            $page->tags()->attach($category_list);
-            $page->update($index);
-            return $page;
-        } catch (\Exception $exception) {
-            return [$exception->getCode(), $exception->getMessage()];
-        }
+        $index['user_id'] = Auth::id();
+        $page = Page::create($data);;
+        $page->viewCounts()->create();
+        $page->update($index);
+        return $page;
     }
 
     public function multipleDestroy($data)
     {
-        try {
             Page::whereIn('id', $data['pageIds'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);
             return true;
-        } catch (\Exception $exception) {
-            return [$exception->getCode(), $exception->getMessage()];
-        }
     }
 }

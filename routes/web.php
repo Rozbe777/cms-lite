@@ -92,7 +92,6 @@ Route::middleware('auth')->group(function () {
     //----------------------------Contents---------------------------
     Route::resource('contents', ContentController::class);
     Route::delete('contents/multi/destroy', [ContentController::class, 'multipleDestroy'])->name('contents.multipleDestroy');
-    Route::get('pages/create',[PageController::class,'create'])->name('pages.create');
 
     //---------------------------Categories--------------------------
     Route::resource('categories', CategoryController::class);
@@ -101,6 +100,10 @@ Route::middleware('auth')->group(function () {
     //------------------------------Tags-----------------------------
     Route::resource('tags', TagController::class);
     Route::delete('tags/multi/destroy', [TagController::class, 'multipleDestroy'])->name('tags.multipleDestroy');
+
+    //------------------------------Pages----------------------------
+    Route::resource('pages', PageController::class);
+    Route::delete('pages/multi/destroy', [PageController::class, 'multipleDestroy'])->name('pages.multipleDestroy');
 });
 
 //-----------------------Mehrshad End----------------------
@@ -112,6 +115,11 @@ Route::middleware('auth')->group(function () {
 Route::get('admin', function () {
     return redirect()->route('dashboard.index');
 });
+
+
+
+
+
 
 
 

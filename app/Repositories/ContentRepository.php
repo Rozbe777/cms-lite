@@ -55,51 +55,47 @@ class ContentRepository implements Interfaces\RepositoryInterface
         if (!empty($data['image']))
             $data['image'] = $this->imageHandler($data['image']);
 
-        if (!isset($data['owner']) || $data['owner'] != 'page') {
-            /** modify tag relations in database tables */
-            if (array_key_exists('tag_list_old', $data) && array_key_exists('tag_list_new', $data)) {
-                $tag_list_old = $data['tag_list_old'];
-                $tag_list_new = $data['tag_list_new'];
-                (new RelationsService())->tagService($content, $tag_list_old, $tag_list_new);
-                unset($data['tag_list_old'], $data['tag_list_new']);
+        /** modify tag relations in database tables */
+        if (array_key_exists('tag_list_old', $data) && array_key_exists('tag_list_new', $data)) {
+            $tag_list_old = $data['tag_list_old'];
+            $tag_list_new = $data['tag_list_new'];
+            (new RelationsService())->tagService($content, $tag_list_old, $tag_list_new);
+            unset($data['tag_list_old'], $data['tag_list_new']);
 
-            } elseif (!array_key_exists('tag_list_old', $data)) {
-                $tag_list_new = $data['tag_list_new'];
-                (new RelationsService())->tagService($content, '', $tag_list_new);
-                unset($data['tag_list_new']);
+        } elseif (!array_key_exists('tag_list_old', $data)) {
+            $tag_list_new = $data['tag_list_new'];
+            (new RelationsService())->tagService($content, '', $tag_list_new);
+            unset($data['tag_list_new']);
 
-            } elseif (!array_key_exists('tag_list_new', $data)) {
-                $tag_list_old = $data['tag_list_old'];
-                (new RelationsService())->tagService($content, $tag_list_old, '');
-                unset($data['tag_list_old']);
-            }
-
-            /** modify category relations in database tables */
-            if (array_key_exists('category_list_old', $data) && array_key_exists('category_list_new', $data)) {
-                $category_list_old = $data['category_list_old'];
-                $category_list_new = $data['category_list_new'];
-                (new RelationsService())->categoryService($content, $category_list_old, $category_list_new);
-                unset($data['category_list_old'], $data['category_list_new']);
-
-            } elseif (!array_key_exists('category_list_old', $data)) {
-                $category_list_new = $data['category_list_new'];
-                (new RelationsService())->categoryService($content, '', $category_list_new);
-                unset($data['category_list_new']);
-
-            } elseif (!array_key_exists('category_list_new', $data)) {
-                $category_list_old = $data['category_list_old'];
-                (new RelationsService())->categoryService($content, $category_list_old, '');
-                unset($data['category_list_old']);
-            }
-            return $content->update($data);
+        } elseif (!array_key_exists('tag_list_new', $data)) {
+            $tag_list_old = $data['tag_list_old'];
+            (new RelationsService())->tagService($content, $tag_list_old, '');
+            unset($data['tag_list_old']);
         }
-        unset($data['category_list_old'], $data['tag_list_old']);
+
+        /** modify category relations in database tables */
+        if (array_key_exists('category_list_old', $data) && array_key_exists('category_list_new', $data)) {
+            $category_list_old = $data['category_list_old'];
+            $category_list_new = $data['category_list_new'];
+            (new RelationsService())->categoryService($content, $category_list_old, $category_list_new);
+            unset($data['category_list_old'], $data['category_list_new']);
+
+        } elseif (!array_key_exists('category_list_old', $data)) {
+            $category_list_new = $data['category_list_new'];
+            (new RelationsService())->categoryService($content, '', $category_list_new);
+            unset($data['category_list_new']);
+
+        } elseif (!array_key_exists('category_list_new', $data)) {
+            $category_list_old = $data['category_list_old'];
+            (new RelationsService())->categoryService($content, $category_list_old, '');
+            unset($data['category_list_old']);
+        }
         return $content->update($data);
     }
 
     public function create(array $data)
     {
-        $data['metadata'] = !empty($data['metadata'])?json_encode($data['metadata']):null;
+        $data['metadata'] = !empty($data['metadata']) ? json_encode($data['metadata']) : null;
 
         $tag_list = $data['tag_list'] ?? null;
         unset($data["tag_list"]);
@@ -122,8 +118,7 @@ class ContentRepository implements Interfaces\RepositoryInterface
         return $content->update($index);
     }
 
-    public
-    function multipleDestroy($data)
+    public function multipleDestroy($data)
     {
         return Content::whereIn('id', $data['contentIds'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);
 

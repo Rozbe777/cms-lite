@@ -36,7 +36,6 @@ class CreatePageRequest extends FormRequest
             'comment_status' => 'in:active,deactivate|nullable',
             'is_index'=>'boolean|nullable',
             'is_menu'=>'boolean|nullable',
-            'tag_list'=>'array'
         ];
     }
 }
