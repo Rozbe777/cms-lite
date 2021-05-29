@@ -15,7 +15,7 @@
 
                 <div id="show-user-list-by-admin"
                     data-destroylink="{{route('users.multipleDestroy')}}"
-                     data-searchlink="{{route('users.search')}}"
+                     data-searchlink="{{route('users.index')}}"
                      data-token="{{csrf_token()}}"
                 >
 
