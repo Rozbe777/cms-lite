@@ -66,6 +66,8 @@ class CategoryController extends Controller
      */
     public function store(CreateCategoryRequest $request)
     {
+//       $x = Category::select('parent_id')->get();
+//       if ($x->contains()$request->parent_id)
         $category = $this->categoryRepository->create($request->all());
 
         return $this->message(__('message.success.200'))->data($category)->view('pages.admin.category.show')->success();
