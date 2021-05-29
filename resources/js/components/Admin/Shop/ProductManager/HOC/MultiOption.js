@@ -13,9 +13,11 @@ export const MultiOption = ({name , data , selected : pushSelected}) => {
             var thisis = $(this);
             clearInterval(interValOption)
             interValOption = setInterval(() => {
-                $(".main-options-sel .option-icon i").removeClass("active")
+                // $(".main-options-sel .option-icon i").removeClass("active")
                 $(".main-options-sel #content").removeClass("active")
-                thisis.find(".option-icon i").addClass("active")
+                // thisis.find(".option-icon i").addClass("active")
+                thisis.find(".option-icon").html('');
+                thisis.find(".option-icon").append('<i class="bx bx-chevron-up"></i>');
                 thisis.find("#content").addClass("active")
             }, 300)
         })
@@ -23,9 +25,10 @@ export const MultiOption = ({name , data , selected : pushSelected}) => {
             var thisis = $(this);
             clearInterval(interValOption)
             interValOption = setInterval(() => {
-                $(".main-options-sel .option-icon i").removeClass("active")
+                // $(".main-options-sel .option-icon i").removeClass("active")
                 $(".main-options-sel #content").removeClass("active")
-                thisis.find(".option-icon i").removeClass("active")
+                thisis.find(".option-icon").html('');
+                thisis.find(".option-icon").append('<i class="bx bx-chevron-down"></i>');
                 thisis.find("#content").removeClass("active")
             }, 300)
         })

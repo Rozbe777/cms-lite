@@ -24,6 +24,7 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
     }
 
 
+    console.log("aaaa : " , search)
 
 
     const handleFadeSearch = (e) => {
@@ -44,6 +45,13 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
     }
 
 
+    const responsiveSeach = (e) => {
+        let searchOlds = {...search};
+
+        searchOlds[e.target.name] = e.target.value;
+        setSearch(searchOlds)
+        pushSearchRes(searchOlds)
+    }
 
     return (
         <>
@@ -119,12 +127,12 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
 
                     <div className="col-12">
                         <label
-                            htmlFor="users-list-verified">تایید شده</label>
+                            htmlFor="users-list-verified">وضعیت</label>
                         <fieldset className={"form-group"}>
-                            <select className={"form-control"} id={"confirm"}>
+                            <select onChange={e => responsiveSeach(e)} name={"status"} className={"form-control"} id={"confirm"}>
                                 <option selected>انتخاب کنید</option>
-                                <option>تایید شده</option>
-                                <option>تایید نشده</option>
+                                <option value={"active"}>فعال</option>
+                                <option value={"deactivate"}>غیرفعال</option>
                             </select>
 
                         </fieldset>
@@ -133,10 +141,10 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
                     <div className="col-12">
                         <label htmlFor="users-list-status">نقش</label>
                         <fieldset className={"form-group"}>
-                            <select className={"form-control"} id={"confirm"}>
+                            <select onChange={e => responsiveSeach(e)} name={"role_id"} className={"form-control"} id={"confirm"}>
                                 <option selected>انتخاب کنید</option>
-                                <option>مدیر</option>
-                                <option>کاربر</option>
+                                <option value={"1"}>مدیر</option>
+                                <option value={"2"}>کاربر</option>
                             </select>
 
                         </fieldset>
@@ -144,12 +152,14 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
 
                     <div className="col-12">
                         <label
-                            htmlFor="users-list-role">وضعیت</label>
+                            htmlFor="users-list-role">تعداد نمایش</label>
                         <fieldset className={"form-group"}>
-                            <select className={"form-control"} id={"confirm"}>
+                            <select onChange={e => responsiveSeach(e)} name={"pageSize"} className={"form-control"} id={"confirm"}>
                                 <option selected>انتخاب کنید</option>
-                                <option>فعال</option>
-                                <option>غیرفعال</option>
+                                <option value={"10"}>10</option>
+                                <option value={"15"}>15</option>
+                                <option value={"20"}>20</option>
+                                <option value={total}>نمایش همه</option>
                             </select>
 
                         </fieldset>
@@ -174,7 +184,7 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
                         <i className={"bx bx-search-alt"} id={"search-float-icons"}
                            onClick={e => handleFadeSearchInput(e)}></i>
                         <div className={"search-input-float"}>
-                            <input type={"text"} placeholder={"نام محصول را وارد کنید"}/>
+                            <input type={"text"} placeholder={"نام محصول را وارد کنید"} onChange={e => handleInputSearch(e)}/>
                         </div>
 
                     </li>

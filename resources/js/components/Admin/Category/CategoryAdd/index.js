@@ -40,7 +40,6 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     const [formData, setFormData] = useState({});
     let default_value = {
         is_menu: 1,
-        is_index : 1,
         status: "active",
         content: '',
         parent_id: idParent,
@@ -64,8 +63,6 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
             if (result.value) {
                 Request.AddNewCategory(data)
                     .then(res => {
-                        let resError = res.data.message ? res.data.message : '';
-                        console.log("status error : ", res.data.size)
                         pushResult(res);
                         localStorage.removeItem("is_menu");
                         localStorage.removeItem("status");
@@ -99,7 +96,6 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
             image : formNews.image,
             content : formNews.content,
             metadata : formNews.metadata,
-            is_index : formNews.is_index,
             is_menu : formNews.is_menu,
             parent_id : formNews.parent_id,
             status : formNews.status,
@@ -172,10 +168,15 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
         setEdit(true)
         let metaDatas = {...metaData};
         let chipsets = [...chipset];
-        chipsets.push(item);
-        setChipset(chipsets);
-        metaDatas.tags = chipsets;
-        setMetaData(metaDatas);
+        if (item === ""){
+
+        }else{
+            chipsets.push(item);
+            setChipset(chipsets);
+            metaDatas.tags = chipsets;
+            setMetaData(metaDatas);
+        }
+
     }
     const HandleForm = (e) => {
         let formNew = {...formData};
@@ -199,6 +200,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
         formNew.content = contentNew;
 
 
+        metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
         formNew.metadata = JSON.stringify(metaData);
         if (formData.name && formData.name !== '') {
             $("input[name=name]").removeClass("is-invalid");
@@ -609,7 +611,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
                             <div className={"col-12"}>
                                 <label>تنظیمات Robots</label>
 
-                                {/*{console.log("robots : " , MetaDataUpdate)}*/}
+                                {console.log("robotssssssssssss : " , MetaDataUpdate)}
                                 <BigSwitcher status={states => HandlerBigSwitcher(states)} name={"Robots"}
                                              defaultStatus={MetaDataUpdate ? MetaDataUpdate.robots : false}
                                              valueOne={"غیرفعال"} valueTow={"noindex,follow"}

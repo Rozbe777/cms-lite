@@ -10,10 +10,9 @@ export const TotalActions = ({text , data, allData , deleteUsers :pushDeleteUser
     }, [])
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT);
 
-
-    console.log("checkbox : " , checkBox)
     const [checkFixed, setCheckFixed] = useState(false);
 
+    console.log("************* : " , allData)
     const checkAll = e => {
         e.preventDefault();
         let dataAlls = [...checkBox];
@@ -22,7 +21,6 @@ export const TotalActions = ({text , data, allData , deleteUsers :pushDeleteUser
             if (index == -1) {
                 dataAlls.push(item.id);
             }
-
         })
         setCheckBox(dataAlls);
     }
@@ -33,22 +31,23 @@ export const TotalActions = ({text , data, allData , deleteUsers :pushDeleteUser
         setCheckBox(dataAlls);
     }
 
-    var sidebarWidth = $('.main-menu').parent().width() - $('.main-menu').width();
-    $(document).scroll(function () {
-        sidebarWidth = $('.main-menu').parent().width() - $('.main-menu').width();
-        var sr = $(document).scrollTop();
-        if (sr > 0) {
-            $(".header-navbar").fadeOut(0)
-            $("#totalAction").addClass("fixed")
-            // $("#totalAction").width(sidebarWidth)
-            setCheckFixed(true)
-        } else {
-            $("#totalAction").removeClass("fixed")
-            $(".header-navbar").fadeIn(0)
-            setCheckFixed(false)
-        }
-    })
+    // var sidebarWidth = $('.main-menu').parent().width() - $('.main-menu').width();
+    // $(document).scroll(function () {
+    //     sidebarWidth = $('.main-menu').parent().width() - $('.main-menu').width();
+    //     var sr = $(document).scrollTop();
+    //     if (sr > 0) {
+    //         $(".header-navbar").fadeOut(0)
+    //         $("#totalAction").addClass("fixed")
+    //         // $("#totalAction").width(sidebarWidth)
+    //         setCheckFixed(true)
+    //     } else {
+    //         $("#totalAction").removeClass("fixed")
+    //         $(".header-navbar").fadeIn(0)
+    //         setCheckFixed(false)
+    //     }
+    // })
 
+    console.log("******** >>>" , checkBox)
 
     return (
             <div id={"totalAction"}>

@@ -1,7 +1,7 @@
 import React from "react";
 import './styleAction.scss'
 
-export const BreadCrumbs = ({data , floatBtn , titleBtn , icon}) => {
+export const BreadCrumbs = ({data , floatBtn , titleBtn , icon , clicked : pushClick}) => {
     return (
         <div id={"breadCrumb"} style={{width: '100%'}}>
             <div className={"container-fluid"}>
@@ -18,7 +18,9 @@ export const BreadCrumbs = ({data , floatBtn , titleBtn , icon}) => {
                         <a>{data.desc}</a>
                     </span>
 
-                        <button id={"show-loader-selected"} style={{float : 'left'}} type={"button"} className={"btn btn-primary shadow mr-1 mb-1"}><i className={"bx bx-plus"}></i>&nbsp; افزودن  &nbsp;</button>
+                        {titleBtn ? (
+                            <button id={"show-loader-selected"} style={{float : 'left'}} onClick={e => pushClick(e)} type={"button"} className={"btn btn-primary shadow mr-1 mb-1"}><i className={"bx "+icon}></i>&nbsp; {titleBtn}  &nbsp;</button>
+                        ) : ''}
                     </div>
                 </div>
             </div>

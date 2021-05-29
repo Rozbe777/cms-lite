@@ -25,7 +25,7 @@ export const Item = (props) => {
 
     const [data, setData] = useState({})
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT);
-    let {id, fullname, email, persianStatus, userRole, mobile} = props.props;
+    let {id, name , last_name, email, persianStatus, userRole, mobile} = props.props;
 
     const checkBoxCheck = (e) => {
         let dataCheck = [...checkBox];
@@ -48,9 +48,9 @@ export const Item = (props) => {
             '<a class="checkDeActivate">غیرفعال</a>';
 
         let roles = userRole == "admin" ? "مدیر" : "کاربر";
-        document.querySelector("li#fullname").innerHTML = "&nbsp;" + fullname + "&nbsp;";
+        document.querySelector("li#fullname").innerHTML = "&nbsp;" + name + " " + last_name + "&nbsp;";
         document.querySelector("li#mobile").innerHTML = "&nbsp;" + mobile + "&nbsp;";
-        document.querySelector("li#email").innerHTML = "&nbsp;" + email + "&nbsp;";
+        document.querySelector("li#email").innerHTML = "&nbsp;" + email ? email : "ثبت نشده" + "&nbsp;";
         document.querySelector("li#status").innerHTML = "&nbsp;" + statuss + "&nbsp;";
         document.querySelector("li#role").innerHTML = "&nbsp;" + roles + "&nbsp;";
 
@@ -85,7 +85,7 @@ export const Item = (props) => {
                         </div>
                     </fieldset>
                     <span>
-                <a className={"role"}>{fullname}</a>
+                <a className={"role"}>{name + " " +last_name}</a>
             </span>
 
                     <span className={"d-none d-lg-block"}>
@@ -105,10 +105,14 @@ export const Item = (props) => {
                     <a className={"moreOptions"}>
                         <i id={"moreicon"} className={"bx bx-dots-vertical-rounded"}></i>
                         <ul>
-                            <li>
-                                <i className={"bx bxs-pencil"}></i>
-                                ویرایش
-                            </li>
+
+                            <a style={{color : '#727E8C'}} href={"users/"+id+"/edit"}>
+                                <li>
+                                    <i className={"bx bxs-pencil"}></i>
+                                    ویرایش
+                                </li>
+                            </a>
+
                         </ul>
                     </a>
                     <a className={"more-details"} onClick={e => openMoreDet(e)}>

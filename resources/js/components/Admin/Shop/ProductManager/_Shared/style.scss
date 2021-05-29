@@ -92,9 +92,12 @@ input#title {
 .customizer-toggle {
     display: none !important;
 }
-.main-selected .optionBox{
-    height: auto !important;
-    max-height: 180px !important;
+.main-selected {
+    background: #fff;
+    .optionBox {
+        height: auto !important;
+        max-height: 180px !important;
+    }
 }
 .main-selected .optionBox.active {
     z-index: 9999 !important;
@@ -217,7 +220,7 @@ input#title {
         &.active {
             opacity: 1;
             transform: translateY(0px);
-            z-index: 99;
+            z-index: 9999;
             transition: 0.3s all ease;
             -webkit-transition: 0.3s all ease;
             -moz-transition: 0.3s all ease;
@@ -451,4 +454,12 @@ li.nav-item i {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+#shop_product_manager{
+    height: auto !important;
+}
+
+#product-item{
+    padding: 8px !important;
 }

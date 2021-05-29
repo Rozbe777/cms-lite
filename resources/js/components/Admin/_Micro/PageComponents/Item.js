@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import './_Shared/style.scss';
 import {Request} from './../../../../services/AdminService/Api';
+import {CHECK_BOX_CONTENT} from "../../UserList/Helper/Context";
 
 export const Item = ({allData , key , id ,name ,status , duplicate : pushDuplicate , itemClick : pushItemClisk , delClick : pushDelClick , dataForEdit  : pushDataForEdit}) => {
 
@@ -9,6 +10,8 @@ export const Item = ({allData , key , id ,name ,status , duplicate : pushDuplica
         e.preventDefault();
         pushItemClisk(id);
     }
+
+    const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
 
     // handle delete single item by category id
     const HandleDel = (e , idDel) => {
@@ -59,17 +62,33 @@ export const Item = ({allData , key , id ,name ,status , duplicate : pushDuplica
     }
 
 
+    const HandlePushCheck = (e , idGet) => {
+        let checkBoxx = [...checkBox];
+        let checkState = e.target.checked;
+        var filterRes = checkBoxx.indexOf(idGet);
+        if (filterRes !== -1 && checkState === false) {
+            checkBoxx.splice(filterRes, 1);
+            setCheckBox(checkBoxx);
+        }else{
+            checkBoxx.push(idGet);
+            setCheckBox(checkBoxx)
+        }
+
+    }
+
     return (
         <div id={"li-div"}>
             <div className={"row"} style={{padding: '0 20px' , position : 'relative'}}>
                 <div className={"col-md-6 col-sm-8"} style={{padding: 13}}>
-                    <div className={"form-check"}>
-                        <input type="checkbox"
-                               id={"checkAll"}
-                               className="form-check-input check-category"/>
-                        <label className="form-check-label"></label>
-                        <span>{name}</span>
-                    </div>
+                    <fieldset style={{float: "right"}}>
+                        <div className="checkbox">
+                            <input type="checkbox" name={"checkbox_content_" + id} onChange={e => HandlePushCheck(e , id)}
+                                   className="checkbox-input"
+                                   id={id}/>
+                            <label htmlFor={id}></label>
+                        </div>
+                    </fieldset>
+                    <span id={"item-tree-show"}>{name}</span>
                 </div>
 
 
