@@ -249,7 +249,6 @@ export const CategoryList = () => {
         });
     }
 
-    console.log("dataaaa : ", categoryData)
 
     return (
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>

@@ -29,8 +29,6 @@ export const Item = ({
     }
 
 
-
-
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
 
     console.log("checcccccc : ", allData)
@@ -96,33 +94,44 @@ export const Item = ({
         });
     }
 
-    const HandlePushCheck = (idGet) => {
+    const HandlePushCheck = (e , idGet) => {
+        console.log(",,,,, id", idGet)
         let checkBoxx = [...checkBox]
+        let checkState = e.target.checked;
+        console.log("checked : " , checkState);
         var filterRes = checkBoxx.indexOf(idGet);
-        if (filterRes !== -1) {
+        console.log(",,,,", filterRes)
+        if (filterRes !== -1 && checkState === false) {
             checkBoxx.splice(filterRes, 1);
             setCheckBox(checkBoxx);
+            console.log("parant0 :", checkBoxx)
             if (allData.childern) {
                 allData.childern.map(itemChil => {
                     var filterChild = checkBoxx.indexOf(itemChil.id);
+                    console.log(",,,,found" , filterChild)
                     if (filterChild !== -1) {
                         checkBoxx.splice(filterChild, 1);
                         setCheckBox(checkBoxx);
                     } else {
-                        checkBoxx.push(idGet);
+                        checkBoxx.push(itemChil.id);
                         setCheckBox(checkBoxx);
                     }
 
+                    console.log("parant1 :", checkBoxx)
                     if (itemChil.children) {
                         itemChil.children.map(itemChilss => {
                             var filterChilds = checkBoxx.indexOf(itemChilss.id);
+                            console.log(",,,,founddddd" , filterChilds)
+
                             if (filterChilds !== -1) {
                                 checkBoxx.splice(filterChilds, 1);
                                 setCheckBox(checkBoxx);
                             } else {
-                                checkBoxx.push(idGet);
+                                checkBoxx.push(itemChilss.id);
                                 setCheckBox(checkBoxx);
                             }
+
+                            console.log("parant2 :", checkBoxx)
                         })
                     }
 
@@ -130,21 +139,32 @@ export const Item = ({
                 })
             } else if (allData.children) {
                 console.log("11111 : ", allData)
-                allData.children.map(itemChil => {
-                    var filterChild = checkBoxx.indexOf(itemChil.id);
+                allData.children.map(itemChilss => {
+                    console.log("parant miniiiii")
+                    var filterChild = checkBoxx.indexOf(itemChilss.id);
                     if (filterChild !== -1) {
                         checkBoxx.splice(filterChild, 1);
                         setCheckBox(checkBoxx);
                     } else {
-                        checkBoxx.push(idGet);
+                        checkBoxx.push(itemChilss.id);
                         setCheckBox(checkBoxx);
                     }
 
                 })
+            } else {
+                var filterChild = checkBoxx.indexOf(idGet);
+                console.log("parant gettt" , filterChild)
+                if (filterChild !== -1){
+                    checkBoxx.splice(filterChild, 1);
+                    setCheckBox(checkBoxx);
+                }
+
+
             }
 
 
-        } else {
+        } else if (filterRes === -1) {
+            console.log("added")
             checkBoxx.push(idGet);
             setCheckBox(checkBoxx);
             if (allData.childern) {
@@ -168,25 +188,26 @@ export const Item = ({
                 allData.children.map(itemChil => {
                     var filterChil1 = checkBoxx.indexOf(itemChil.id);
                     if (filterChil1 !== -1) {
-                    }else{
+                    } else {
                         checkBoxx.push(itemChil.id);
                         setCheckBox(checkBoxx);
                     }
                 })
-
             }
+        } else {
+
         }
 
     }
 
-console.log(",,,,,,,," , checkBox)
+    console.log(",,,,,,,,", checkBox)
     return (
         <div id={"li-div"}>
             <div className={"row"} style={{padding: '0 20px', position: 'relative'}}>
                 <div className={"col-md-6 col-sm-8"} style={{padding: 13}}>
                     <fieldset style={{float: "right"}}>
                         <div className="checkbox">
-                            <input type="checkbox" name={"checkbox_" + id} onChange={e => HandlePushCheck(id)}
+                            <input type="checkbox" name={"checkbox_" + id} onChange={e => HandlePushCheck(e , id)}
                                    className="checkbox-input"
                                    id={id}/>
                             <label htmlFor={id}></label>

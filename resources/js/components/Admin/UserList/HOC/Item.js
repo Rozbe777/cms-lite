@@ -50,7 +50,7 @@ export const Item = (props) => {
         let roles = userRole == "admin" ? "مدیر" : "کاربر";
         document.querySelector("li#fullname").innerHTML = "&nbsp;" + name + " " + last_name + "&nbsp;";
         document.querySelector("li#mobile").innerHTML = "&nbsp;" + mobile + "&nbsp;";
-        document.querySelector("li#email").innerHTML = "&nbsp;" + email + "&nbsp;";
+        document.querySelector("li#email").innerHTML = "&nbsp;" + email ? email : "ثبت نشده" + "&nbsp;";
         document.querySelector("li#status").innerHTML = "&nbsp;" + statuss + "&nbsp;";
         document.querySelector("li#role").innerHTML = "&nbsp;" + roles + "&nbsp;";
 
