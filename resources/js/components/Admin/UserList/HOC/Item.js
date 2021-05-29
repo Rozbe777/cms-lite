@@ -105,10 +105,14 @@ export const Item = (props) => {
                     <a className={"moreOptions"}>
                         <i id={"moreicon"} className={"bx bx-dots-vertical-rounded"}></i>
                         <ul>
-                            <li>
-                                <i className={"bx bxs-pencil"}></i>
-                                ویرایش
-                            </li>
+
+                            <a style={{color : '#727E8C'}} href={"users/"+id+"/edit"}>
+                                <li>
+                                    <i className={"bx bxs-pencil"}></i>
+                                    ویرایش
+                                </li>
+                            </a>
+
                         </ul>
                     </a>
                     <a className={"more-details"} onClick={e => openMoreDet(e)}>

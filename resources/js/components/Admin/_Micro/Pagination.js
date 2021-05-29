@@ -45,6 +45,11 @@ export const Pagination = (props) => {
 
     }
 
+    $("ul.pagination li").click(function (){
+        $("ul.pagination li").removeClass("active");
+        $(this).addClass("active");
+    })
+
     return (
         <nav aria-label="Page navigation">
             <ul className="pagination pagination-borderless justify-content-center mt-2">

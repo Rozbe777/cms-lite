@@ -17,7 +17,7 @@ import {ErroHandle, error as ErrorToast} from "../../../helper";
 const UserList = memo((props) => {
     const {token} = props;
     const [name, setName] = useState();
-    const [searchload , setSearch] = useState(false)
+    const [searchload, setSearch] = useState(false)
     const [allUser, setAllUser] = useState([]);
     const [userSelected, setUserSelected] = useState();
     const [currentPage, setCurrentPage] = useState(1);
@@ -131,6 +131,7 @@ const UserList = memo((props) => {
     const paginate = (pageNumber) => {
         // let pagess = stringSearchs ? "page=" + pageNumber + "&" + stringSearchs : "page=" + pageNumber;
 
+        console.log("itemssss : " , pageNumber)
         stringSearchs.params.page = pageNumber;
         setStringSearch({
             params: {
@@ -139,7 +140,7 @@ const UserList = memo((props) => {
         });
 
         GetAllUser(stringSearchs);
-        $("li.page-item").removeClass("active");
+        $("ul.pagination li").removeClass("active");
         if (pageNumber == Math.ceil(total / perPage)) {
             $("li.page-item.next").css("opacity", 0.4);
             $("li.page-item.previous").css("opacity", 1);
@@ -150,7 +151,7 @@ const UserList = memo((props) => {
             $("li.page-item.next").css("opacity", 2);
             $("li.page-item.previous").css("opacity", 2);
         }
-        $("li#" + pageNumber).addClass("active");
+        $("ul.pagination li#" + pageNumber).addClass("active");
     };
 
 
@@ -159,7 +160,7 @@ const UserList = memo((props) => {
 
         finalAllIds.userIds = checkBox;
 
-        finalAllIds._token =  $('meta[name="csrf-token"]').attr('content');
+        finalAllIds._token = $('meta[name="csrf-token"]').attr('content');
 
         event.preventDefault();
         swal({
@@ -200,7 +201,6 @@ const UserList = memo((props) => {
     }
 
 
-
     if (checkBox.length > 0) {
         $("#totalAction").addClass("activeAction");
         $("#breadCrumb").removeClass("activeCrumb");
@@ -221,19 +221,19 @@ const UserList = memo((props) => {
 
                 {/*{console.log("total ", total ? total : '')}*/}
                 <SearchComponent total={total} searchRes={items => {
-                    Object.keys(items).forEach((key , value) => {
+                    Object.keys(items).forEach((key, value) => {
                         setSearch(true)
-                        if (key === "pageSize" ){
-                            if (!items[key]){
+                        if (key === "pageSize") {
+                            if (!items[key]) {
                                 stringSearchs.params.page = 1;
                                 stringSearchs.params[key] = 15;
-                            }else{
+                            } else {
                                 stringSearchs.params.page = 1;
                                 stringSearchs.params[key] = items[key];
                             }
 
 
-                        }else{
+                        } else {
                             stringSearchs.params.page = 1;
                             stringSearchs.params[key] = items[key];
                         }
@@ -243,7 +243,7 @@ const UserList = memo((props) => {
                     stringSearchs.params.page = 1;
                     GetAllUser(stringSearchs)
                 }}/>
-                <form id="myForm" style={{marginTop : 15}}>
+                <form id="myForm" style={{marginTop: 15}}>
                     <div className="heading-layout1">
                         <div className="item-title" style={{display: "none"}}>
                             <h3>لیست کاربران</h3>
@@ -262,9 +262,11 @@ const UserList = memo((props) => {
                         <div className={"row userListRow"}>
                             {userData.data ? userData.data.length > 0 ? userData.data.map(items => (
 
-                                <Item props={items}/>
+                                    <Item props={items}/>
 
-                            )): <p style={{width : '100%' , textAlign : 'center' , fontSize : '21px'}}>کاربری یافت نشد!</p> : <Loading/>}
+                                )) :
+                                <p style={{width: '100%', textAlign: 'center', fontSize: '21px'}}>کاربری یافت نشد!</p> :
+                                <Loading/>}
                         </div>
 
                         <div className="col-md-12">

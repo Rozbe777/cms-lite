@@ -17,7 +17,7 @@ const UpdateUser = (props) => {
         last_name: userData.last_name,
         email: userData.email,
         mobile: userData.mobile,
-        password: userData.password,
+        // password: userData.password,
         role_id: userData.userRole === "user" ? 2 : 1,
         status: userData.status
     })
