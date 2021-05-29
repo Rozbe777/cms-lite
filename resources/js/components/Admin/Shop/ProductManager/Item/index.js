@@ -35,7 +35,7 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected}) => {
 
 
     return (
-        <div className={"col-lg-3 col-md-4 col-sm-12"}>
+        <div className={"col-lg-3 col-md-4 col-sm-12"} id={"product-item"} style={{padding : '8px !important'}}>
             <div className={"item-product"} id={data.id}>
                 <div className={"header-box-pro"}>
                     <fieldset>
@@ -47,7 +47,7 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected}) => {
                 </div>
 
 
-                {data.image ? (
+                {data.image !== "" && data.image !== "0" ? (
                     <div className={"image-src"}>
                         <img className={"default"} src={data.image} alt=""/>
                     </div>

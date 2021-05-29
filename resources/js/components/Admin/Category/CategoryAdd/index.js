@@ -40,7 +40,6 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     const [formData, setFormData] = useState({});
     let default_value = {
         is_menu: 1,
-        is_index : 1,
         status: "active",
         content: '',
         parent_id: idParent,
@@ -97,7 +96,6 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
             image : formNews.image,
             content : formNews.content,
             metadata : formNews.metadata,
-            is_index : formNews.is_index,
             is_menu : formNews.is_menu,
             parent_id : formNews.parent_id,
             status : formNews.status,

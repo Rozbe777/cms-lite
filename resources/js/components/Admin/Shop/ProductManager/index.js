@@ -20,8 +20,8 @@ const Index = () => {
     const [checkBox, setCheckBox] = useState([]);
     const [chipset, setChipset] = useState([]);
     const [stateOf, setStateOf] = useState();
-    const [loading , setLoading] = useState(false);
-    const [contentData , setContentData] = useState();
+    const [loading, setLoading] = useState(false);
+    const [contentData, setContentData] = useState();
     const [contentNew, setContentNew] = useState([]);
     const [perPage, setPerPage] = useState();
     const [total, setTotal] = useState();
@@ -41,7 +41,7 @@ const Index = () => {
 
     useEffect(() => {
         GetAllContentsAction()
-    } , [])
+    }, [])
 
 
     const GetAllContentsAction = () => {
@@ -56,9 +56,9 @@ const Index = () => {
             setLoading(false)
 
         }).catch(err => {
-            if (err.response.data.errors){
+            if (err.response.data.errors) {
                 ErroHandle(err.response.data.errors);
-            }else{
+            } else {
                 //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
                 // $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center ;margin : 10px 0 0 '>خطا در ارتباط با دیتابیس</p><p>مجددا تلاش کنید</p><div>");
                 ErrorToast("خطای غیر منتظره ای رخ داده است")
@@ -68,7 +68,7 @@ const Index = () => {
 
 
 // for show component action or search element by animate
-    $(function (){
+    $(function () {
         var element = $("#actionGroup");
         if (checked.length > 0) {
             element.addClass("actived")
@@ -90,13 +90,12 @@ const Index = () => {
     }
 
 
-
     const handleDeleteGroup = (event) => {
 
 
         finalAllIds.userIds = checkBox;
 
-        finalAllIds._token =  $('meta[name="csrf-token"]').attr('content');
+        finalAllIds._token = $('meta[name="csrf-token"]').attr('content');
 
         event.preventDefault();
         swal({
@@ -135,7 +134,6 @@ const Index = () => {
             }
         });
     }
-
 
 
     if (checkBox.length > 0) {
@@ -191,8 +189,9 @@ const Index = () => {
     }
 
 
-
-    window.onscroll = function() {scrollFunction()};
+    window.onscroll = function () {
+        scrollFunction()
+    };
 
     function scrollFunction() {
         if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
@@ -203,6 +202,7 @@ const Index = () => {
         }
     }
 
+    $("")
 
     const HandlePopUpAddProduct = e => {
         e.preventDefault();
@@ -236,7 +236,6 @@ const Index = () => {
     };
 
 
-
     return (
         <>
             {/*<div id={"actionGroup"} className={"actived"}>*/}
@@ -246,27 +245,29 @@ const Index = () => {
 
             <div className={"row col-12"} id={"headerContent"}>
                 <TotalActions deleteUsers={e => handleDeleteGroup(e)} allData={contentNew} data={checkBox}/>
-                <BreadCrumbs data={breadData}/>
+                <BreadCrumbs titleBtn={"افزودن"} clicked={e => HandlePopUpAddProduct(e)} icon={"bx-plus"}
+                             data={breadData}/>
             </div>
 
 
             <SearchComponent category={itemCat => HandleSearchCategory(itemCat)}/>
 
             <div className={"container"} style={{marginTop: '20px'}}>
-                <div className={"row"} style={{padding : 10}}>
-                    {loading === false ? contentNew.length > 0 ?  contentNew.map(item => {
+                <div className={"row"} style={{padding: 10}}>
+                    {loading === false ? contentNew.length > 0 ? contentNew.map(item => {
                         return (
                             <Item data={item} checkStateOfOut={checked} sizeOf={DataInitial.Products.length}
                                   selected={response => HandleChecked(response)}/>
                         )
-                    }): (
+                    }) : (
                         <div id={"add-product-btn-box"}>
                             <p>محصولی ثبت نشده است!</p>
-                            <button type={"button"} className={"btn btn-primary shadow mr-1 mb-1"} onClick={e => HandlePopUpAddProduct(e)}>
+                            <button type={"button"} className={"btn btn-primary shadow mr-1 mb-1"}
+                                    onClick={e => HandlePopUpAddProduct(e)}>
                                 افزودن محصول
                             </button>
                         </div>
-                    ) : (<Loading />)}
+                    ) : (<Loading/>)}
 
 
                     <div className="col-md-12">
@@ -289,7 +290,6 @@ const Index = () => {
             </div>
             <div id={"add-product"}>
             </div>
-
 
 
         </>

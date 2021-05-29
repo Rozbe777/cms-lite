@@ -6,30 +6,45 @@ import {MultiSelectedFilter} from "../ProductManager/HOC/MultiSelectedFilter";
 import $ from 'jquery';
 import ReactDOM from "react-dom";
 import ProductAdd from "../ProductAdd";
-const SearchComponent = ({category : pushCategory}) => {
+import {Request} from "../../../../services/AdminService/Api";
 
-    const [size , setSize] = useState(0);
-    const [sizeCategory , setSizeCategory] = useState(0);
+const SearchComponent = ({category: pushCategory}) => {
+
+    const [size, setSize] = useState(0);
+    const [load, setLoad] = useState(false)
+    const [categories, setCategories] = useState([]);
+    const [sizeCategory, setSizeCategory] = useState(0);
     useEffect(() => {
+        GetAllCategory();
+    }, [])
 
-    })
+
+    const GetAllCategory = () => {
+        setLoad(true)
+        Request.GetAllCategory()
+            .then(res => {
+                setLoad(false)
+                setCategories(res.data.data)
+            })
+    }
+
 
     const handleSelected = (select) => {
-        console.log("ssss " , select)
+        console.log("ssss ", select)
         setSize(select.length)
     }
 
     const handleCategory = (item) => {
-        console.log("++++" , item)
+        console.log("++++", item)
         pushCategory(item);
         setSizeCategory(item.length)
     }
 
     const handleFade = (e) => {
         $(".filter-content-fix").removeClass("active")
-        setTimeout(()=>{
+        setTimeout(() => {
             $(".filter-search").removeClass("active");
-        },100);
+        }, 100);
     }
 
     const handleFadeSearchInput = (e) => {
@@ -46,9 +61,9 @@ const SearchComponent = ({category : pushCategory}) => {
     const handleFadeSearch = (e) => {
         e.preventDefault();
         $(".filter-search").addClass("active");
-        setTimeout(()=>{
+        setTimeout(() => {
             $(".filter-content-fix").addClass("active")
-        },100);
+        }, 100);
     }
 
 
@@ -69,34 +84,35 @@ const SearchComponent = ({category : pushCategory}) => {
                         <div className="col-12 col-sm-6 col-lg-3">
                             <label
                                 htmlFor="users-list-verified">{size > 0 ? "( " + size + " ) فیلتر اعمال شده " : 'فیلتر'}</label>
-                            <MultiSelectedFilter dataRes={[
+
+                            <MultiSelected data={[
                                 {
-                                    id : "Available",
-                                    value : 'موجود'
-                                },{
-                                    id : "NotAvailable",
-                                    value : 'ناموجود'
-                                },{
-                                    id : "Active",
-                                    value : 'فعال'
-                                },{
-                                    id : "NotActive",
-                                    value : 'غیرفعال'
-                                },{
-                                    id : "Discount",
-                                    value : 'با تخفیف'
-                                },{
-                                    id : "NotDiscount",
-                                    value : 'بدون تخفیف'
-                                },{
-                                    id : "Physical",
-                                    value : 'فیزیکی'
-                                },{
-                                    id : "Digital",
-                                    value : 'دیجیتال'
-                                },{
-                                    id : "Services",
-                                    value : 'خدمات'
+                                    id: "Available",
+                                    name: 'موجود'
+                                }, {
+                                    id: "NotAvailable",
+                                    name: 'ناموجود'
+                                }, {
+                                    id: "Active",
+                                    name: 'فعال'
+                                }, {
+                                    id: "NotActive",
+                                    name: 'غیرفعال'
+                                }, {
+                                    id: "Discount",
+                                    name: 'با تخفیف'
+                                }, {
+                                    id: "NotDiscount",
+                                    name: 'بدون تخفیف'
+                                }, {
+                                    id: "Physical",
+                                    name: 'فیزیکی'
+                                }, {
+                                    id: "Digital",
+                                    name: 'دیجیتال'
+                                }, {
+                                    id: "Services",
+                                    name: 'خدمات'
                                 }
                             ]} selected={sel => handleSelected(sel)}/>
                         </div>
@@ -116,7 +132,7 @@ const SearchComponent = ({category : pushCategory}) => {
                         <div className="col-12 col-sm-6 col-lg-3">
                             <label
                                 htmlFor="users-list-role">{sizeCategory > 0 ? "( " + sizeCategory + " ) دسته بندی انتخاب شده " : 'دسته بندی'}</label>
-                            <MultiSelected selected={itemsSel => handleCategory(itemsSel)}/>
+                            <MultiSelected data={categories} selected={itemsSel => handleCategory(itemsSel)}/>
                         </div>
 
                         {/*<div className="col-6 col-sm-6 col-lg-2" style={{marginBlockStart: 'auto'}}>*/}
@@ -136,7 +152,36 @@ const SearchComponent = ({category : pushCategory}) => {
                     <div className="col-12 col-sm-6 col-lg-3">
                         <label
                             htmlFor="users-list-verified">{size > 0 ? "( " + size + " ) فیلتر اعمال شده " : 'فیلتر'}</label>
-                        <MultiSelectedFilter selected={sel => handleSelected(sel)}/>
+                        <MultiSelected data={[
+                            {
+                                id: "Available",
+                                name: 'موجود'
+                            }, {
+                                id: "NotAvailable",
+                                name: 'ناموجود'
+                            }, {
+                                id: "Active",
+                                name: 'فعال'
+                            }, {
+                                id: "NotActive",
+                                name: 'غیرفعال'
+                            }, {
+                                id: "Discount",
+                                name: 'با تخفیف'
+                            }, {
+                                id: "NotDiscount",
+                                name: 'بدون تخفیف'
+                            }, {
+                                id: "Physical",
+                                name: 'فیزیکی'
+                            }, {
+                                id: "Digital",
+                                name: 'دیجیتال'
+                            }, {
+                                id: "Services",
+                                name: 'خدمات'
+                            }
+                        ]} selected={sel => handleSelected(sel)}/>
                     </div>
 
                     <div className="col-12 col-sm-6 col-lg-3">
@@ -147,7 +192,9 @@ const SearchComponent = ({category : pushCategory}) => {
                     <div className="col-12 col-sm-6 col-lg-3">
                         <label
                             htmlFor="users-list-role">{sizeCategory > 0 ? "( " + sizeCategory + " ) دسته بندی انتخاب شده " : 'دسته بندی'}</label>
-                        <MultiSelected selected={itemsSel => handleCategory(itemsSel)}/>
+                        {console.log("result", categories)}
+                        <MultiSelected data={load ? [] : categories ? categories : []}
+                                       selected={itemsSel => handleCategory(itemsSel)}/>
                     </div>
 
                     {/*<div className="col-6 col-sm-6 col-lg-2" style={{marginBlockStart: 'auto'}}>*/}
@@ -159,10 +206,6 @@ const SearchComponent = ({category : pushCategory}) => {
             </div>
 
 
-
-
-
-
             <div className={"float-btn"}>
                 <ul>
                     <li onClick={e => HandleResponsiveAdd(e)} style={{background: '#0d47a1'}}>
@@ -172,9 +215,10 @@ const SearchComponent = ({category : pushCategory}) => {
                         <i className={"bx bx-filter-alt"}></i>
                     </li>
                     <li style={{background: '#e65100'}}>
-                        <i className={"bx bx-search-alt"} id={"search-float-icons"} onClick={e => handleFadeSearchInput(e)} ></i>
+                        <i className={"bx bx-search-alt"} id={"search-float-icons"}
+                           onClick={e => handleFadeSearchInput(e)}></i>
                         <div className={"search-input-float"}>
-                            <input type={"text"} placeholder={"نام محصول را وارد کنید"} />
+                            <input type={"text"} placeholder={"نام محصول را وارد کنید"}/>
                         </div>
 
                     </li>
