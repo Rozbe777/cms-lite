@@ -5,7 +5,7 @@ import {BigSwitcher} from './../../../HOC/BigSwitcher';
 import './../../_Shared/Style.scss'
 import {Request} from './../../../../services/AdminService/Api'
 import MyEditor from "../../_Micro/MyEditor/MyEditor";
-import {error} from './../../../../helper'
+import {ErroHandle, error as ErrorToast, error} from './../../../../helper'
 import {ChipsetHandler} from './../../../HOC/ChipsetHandler'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 
@@ -13,10 +13,9 @@ const LOCAL_CAT = "localcat-zerone-cmslite";
 const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
 
 
-
-
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? dataGet.allData : '';
+    const MetaDataUpdate = dataUpdateParse ?  JSON.parse(dataUpdateParse.metadata) : {robots : false};
 
     // console.log("*************", dataGet);
 
@@ -27,6 +26,8 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
     const [contentNew, setContentNew] = useState({});
     const [statusNew, setStatusNew] = useState();
     const [menuShow, setMenuShow] = useState();
+    // const [MetaDataUpdate , setMetaDataUpdate] = useState({});
+    const [ids , setIds] = useState(0)
     const [chipset, setChipset] = useState([]);
     let tags = [];
     const [edit, setEdit] = useState(false);
@@ -66,40 +67,55 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
             if (result.value) {
                 Request.AddNewContent(data)
                     .then(res => {
-                        let resError = res.data.message ? res.data.message : '';
-                        console.log("status error : ", res.data.size)
-                        if (res.status == 200 && resError == '') {
-                            pushResult(res);
-                            localStorage.removeItem("is_menu");
-                            localStorage.removeItem("status");
-                            localStorage.removeItem("selected");
-                            Swal.fire({
-                                type: "success",
-                                title: 'با موفقیت اضافه شد !',
-                                confirmButtonClass: 'btn btn-success',
-                                confirmButtonText: 'باشه',
-                            })
-                        } else if (res.status == 200 && resError !== '') {
-                            error(resError)
-                        } else {
-                            Swal.fire({
-                                type: "error",
-                                title: 'خطایی غیر منتظره ای رخ داده است !',
-                                cancelButtonClass: 'btn btn-primary',
-                                cancelButtonText: 'تلاش مجدد',
-                            })
-                        }
+                        pushResult(res);
+                        localStorage.removeItem("is_menu");
+                        localStorage.removeItem("status");
+                        localStorage.removeItem("selected");
+                        localStorage.removeItem("comment_status");
+                        localStorage.removeItem("robots");
+                        Swal.fire({
+                            type: "success",
+                            title: 'با موفقیت اضافه شد !',
+                            confirmButtonClass: 'btn btn-success',
+                            confirmButtonText: 'باشه',
+                        })
 
-                    }).catch(error => console.log("error", error))
+                    }).catch(err => {
+                    if (err.response.data.errors) {
+                        ErroHandle(err.response.data.errors);
+                    } else {
+                        //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
+                        ErrorToast("خطای غیر منتظره ای رخ داده است")
+                    }
+                })
             }
         });
     }
 
     useEffect(() => {
+
+
         let formNews = {...formData};
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
-        setFormData(formNews);
+
+        setMetaData(MetaDataUpdate)
+
+        setIds(formNews.id);
+        setFormData({
+            content : formNews.content,
+            is_index : formNews.is_index,
+            is_menu : formNews.is_menu,
+            metadata : formNews.metadata,
+            slug : formNews.slug,
+            title : formNews.title
+        });
+
+
+        MetaDataUpdate.tags ? setChipset(MetaDataUpdate.tags) : '';
     }, [])
+
+
+
 
     const handleClose = () => {
         ReactDOM.render('', document.getElementById("add-datas"));
@@ -147,13 +163,17 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
     }
 
     const handleAddChip = (item) => {
+        setEdit(true)
         let metaDatas = {...metaData};
         let chipsets = [...chipset];
-        chipsets.push(item);
-        setChipset(chipsets);
-        metaDatas.tags = chipsets;
-        setMetaData(metaDatas);
-        console.log("meta dataaaaaa : ", metaDatas)
+        if (item === ""){
+
+        }else{
+            chipsets.push(item);
+            setChipset(chipsets);
+            metaDatas.tags = chipsets;
+            setMetaData(metaDatas);
+        }
     }
 
 
@@ -164,10 +184,11 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
         let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formNew.comment_status;
+        let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         formNew.status = status;
         formNew.comment_status = comment_status;
         formNew.image = file;
-        formNew.is_menu = is_menu ? 1 : 0;
+        formNew.is_menu = is_menu;
         if (slugManage == false) {
             formNew.slug = formNew.title;
         } else {
@@ -176,14 +197,12 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         if (formData.slug == "") {
             formNew.slug = formNew.title
         }
-        formNew.content = contentNew;
-
-        formNew.metadata = JSON.stringify(metaData);
+        formNew.content = JSON.stringify(contentNew);
+        let MetaDaa = {...metaData};
+        MetaDaa.robots = robots;
+        formNew.metadata = JSON.stringify(MetaDaa);
         if (formData.title && formData.title !== '') {
             $("input[name=title]").removeClass("is-invalid");
-            // console.log("data added new : " , formNew)
-            console.log("form dataaaaaaaa : ", formNew)
-
             CreateAddContent(formNew);
         } else {
             $("input[name=title]").addClass("is-invalid");
@@ -201,8 +220,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
     }
     const HandlerBigSwitcher = (states) => {
         setEdit(true)
-        let metaD = {...metaData};
-        metaD.robots = states;
+        localStorage.setItem("robots", states)
     }
 
     const HandleSlug = (e) => {
@@ -236,32 +254,28 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
             if (result.value) {
                 Request.UpdateDataContent(data, id)
                     .then(res => {
-                        let resError = res.data.message ? res.data.message : '';
-                        console.log("status error : ", res.data.size)
-                        if (res.status == 200 && resError == '') {
-                            pushResult(res);
-                            localStorage.removeItem("is_menu");
-                            localStorage.removeItem("status");
-                            localStorage.removeItem("selected");
-                            localStorage.removeItem("comment_status");
-                            Swal.fire({
-                                type: "success",
-                                title: 'با موفقیت ویرایش شد !',
-                                confirmButtonClass: 'btn btn-success',
-                                confirmButtonText: 'باشه',
-                            })
-                        } else if (res.status == 200 && resError !== '') {
-                            error(resError)
-                        } else {
-                            Swal.fire({
-                                type: "error",
-                                title: 'خطایی غیر منتظره ای رخ داده است !',
-                                cancelButtonClass: 'btn btn-primary',
-                                cancelButtonText: 'تلاش مجدد',
-                            })
-                        }
+                        pushResult(res);
+                        localStorage.removeItem("is_menu");
+                        localStorage.removeItem("status");
+                        localStorage.removeItem("selected");
+                        localStorage.removeItem("comment_status");
+                        localStorage.removeItem("robots");
+                        Swal.fire({
+                            type: "success",
+                            title: 'با موفقیت ویرایش شد !',
+                            confirmButtonClass: 'btn btn-success',
+                            confirmButtonText: 'باشه',
+                        })
 
-                    }).catch(error => console.log("error", error))
+                    }).catch(err => {
+
+                    if (err.response.data.errors) {
+                        ErroHandle(err.response.data.errors);
+                    } else {
+                        //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
+                        ErrorToast("خطای غیر منتظره ای رخ داده است")
+                    }
+                })
             }
         });
 
@@ -270,27 +284,38 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
 
     const HandleEdit = () => {
         let formOldData = {...formData};
-        formOldData.content = contentNew;
+        formOldData.content = JSON.stringify(contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
-
+        let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
+        let metaDatas = {...metaData};
+        metaDatas.robots = robots;
+        formOldData.metadata = JSON.stringify(metaDatas);
         formOldData.status = status;
         formOldData.comment_status = comment_status;
-        console.log("is _menuuuuu : ", is_menu)
         formOldData.is_menu = parseInt(is_menu);
 
-        HandleUpdateForm(formOldData, formOldData.id);
+        HandleUpdateForm(formOldData, ids);
     }
 
     const HandleDuplicate = () => {
         let formOldData = {...formData};
-        formOldData.content = contentNew;
+        let title = $("input[name=title]").val();
+        let slug = $("input.slugest").val();
+        formOldData.content = JSON.stringify(contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
         // console.log("selected : duplicate  : " , localStorage.getItem("selected"));
+        let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
+        let metaDatas = {...metaData};
+        metaDatas.robots = robots;
+        formOldData.metadata = JSON.stringify(metaDatas);
+        console.log("dataaaaa : " , metaDatas)
         formOldData.status = status;
+        formOldData.title  = title;
+        formOldData.slug  = slug;
         formOldData.comment_status = comment_status;
         formOldData.is_menu = parseInt(is_menu);
         // console.log("data duplicate : " , formOldData);
@@ -458,7 +483,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                                           id={"my-editor"}
                                           type={"perfect"}
                                           defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
-                                          />
+                                />
                             </div>
                         </div>
 
@@ -501,10 +526,13 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                                 </div>
                             </div>
 
+                            {console.log("//////////////////" ,MetaDataUpdate)}
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان صفحه ( حداکثر 60 حرف )</label>
-                                    <input type={"text"} onChange={e => HandleMetaData(e)} name={"title"} id={"title"}
+                                    <input type={"text"}
+                                           defaultValue={MetaDataUpdate ? MetaDataUpdate.title : ''}
+                                           onChange={e => HandleMetaData(e)} name={"title"} id={"title"}
                                            className={"form-control"}/>
 
 
@@ -515,6 +543,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>توضیح صفحه ( حداکثر 155 حرف )</label>
                                     <textarea type={"text"} onChange={e => HandleMetaData(e)} name={"content"}
+                                              defaultValue={MetaDataUpdate ? MetaDataUpdate.content : ''}
                                               id={"title"} className={"form-control"}/>
 
 
@@ -533,6 +562,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                                                 <ChipsetHandler callback={item => handleAddChip(item)}/>
                                             </div>
 
+                                            {console.log("vvvvvv : " , chipset)}
                                             {chipset.map(item => (
                                                 <div className="chip mr-1">
                                                     <div className="chip-body">
@@ -558,6 +588,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس داخلی برای انتقال (301 Redirect)</label>
                                     <input type={"text"} onChange={e => HandleMetaData(e)} name={"redirect"}
+                                           defaultValue={MetaDataUpdate ? MetaDataUpdate.redirect : ''}
                                            id={"title"} className={"form-control"}/>
 
                                 </fieldset>
@@ -567,6 +598,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس Canonical</label>
                                     <input onChange={e => HandleMetaData(e)} name={"canonical"} type={"text"}
+                                           defaultValue={MetaDataUpdate ? MetaDataUpdate.canonical : ''}
                                            id={"title"} className={"form-control"}/>
                                 </fieldset>
                             </div>
@@ -575,6 +607,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                                 <label>تنظیمات Robots</label>
                                 <BigSwitcher status={states => HandlerBigSwitcher(states)} name={"Robots"}
                                              valueOne={"غیرفعال"} valueTow={"noindex,follow"}
+                                             defaultStatus={MetaDataUpdate ? MetaDataUpdate.robots : false}
                                              default={''}
                                              valueThree={"noindex,unfolow"}/>
                             </div>

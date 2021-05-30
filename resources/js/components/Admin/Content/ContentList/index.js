@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import ReactDom from 'react-dom';
 import {BackLoader} from './../../_Micro/BackLoader'
-import {TreeShowPage} from './../../_Micro/PageComponents/TreeShowPage';
+import {TreeShowPage} from './../../_Micro/ContentComponents/TreeShowPage';
 import {Request} from './../../../../services/AdminService/Api'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import {CHECK_BOX_CONTENT} from "../../UserList/Helper/Context";

@@ -9,9 +9,12 @@ export const Request = {
     GetAllPages : () =>  request.get("/contents?owner=page"),
     AddNewCategory : (data) =>  request.post("/categories" ,  data),
     AddNewPage : (data) =>  request.post("/pages" , data),
+    AddNewContent : (data) =>  request.post("/contents" , data),
     DeleteCategoryOne : (data) =>  request.delete("/categories/"+data),
-    DeletePageOne : (data) =>  request.get("/pages/"+data),
+    DeletePageOne : (data) =>  request.delete("/pages/"+data),
+    DeleteContentOne : (data) =>  request.delete("/contents/"+data),
     UpdateDataCategory :  (data , id) =>  request.put("/categories/"+id+"" , data),
     UpdateDataPage :  (data , id) =>  request.put("/pages/"+id+"" , data),
+    UpdateDataContent :  (data , id) =>  request.put("/contents/"+id+"" , data),
     GetAllContents :  () =>  request.get("/contents?status&pageSize&owner&search"),
 }
