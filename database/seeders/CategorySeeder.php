@@ -15,6 +15,11 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
+        Category::create([
+            'name'=>'no Name',
+            'slug'=> 'no Slug',
+            'user_id'=>1
+        ]);
         Category::factory()->times(10)->create();
 
         foreach (range(1,10) as $index){

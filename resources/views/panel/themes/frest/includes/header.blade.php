@@ -221,7 +221,8 @@
                             <span><img class="round" src="{{asset("images/avatar.jpg")}}"
                                        alt="avatar" height="40" width="40"></span></a>
                         <div class="dropdown-menu pb-0"><a class="dropdown-item"
-                                                           href="{{route('profile.index')}}"><i
+                                                           href="#"><i{{--{{route('profile.index')}}--}}
+
                                     class="bx bx-user mr-50"></i> حساب کاربری</a>
                             <div class="dropdown-divider mb-0"></div>
                             <a class="dropdown-item" href="{{route('auth.logout')}}"><i

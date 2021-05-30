@@ -19,7 +19,6 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-
         $permissions =
             [
                 [
@@ -99,9 +98,43 @@ class PermissionSeeder extends Seeder
 //                    ]
 //                ],
         ];
+//
+        //---------
+//        $permissions_map=[
+//            's' => 'store',
+//            'i' => 'index',
+//            'c' => 'create',
+//            'u' => 'update',
+//            'e' => 'edit',
+//            'd' => 'delete',
+//            'des' => 'destroy',
+//            'multides' => 'multipleDestroy',
+//            'r' => 'read',
+//            'sh' => 'show',
+//            'export' => 'export',
+//            'search' => 'search',
+//            'userList'=>'userList'
+//        ];
+//
+//        $permissions_map_persian=[
+//            's' => 'ایجاد',
+//            'i' => 'لیست',
+//            'c' => 'صفحه ایجاد',
+//            'u' => 'به روز رسانی',
+//            'e' => 'صفحه به روز رسانی',
+//            'd' => 'صفحه حذف',
+//            'des' => 'حذف',
+//            'multides' => ' حذف گروهی',
+//            'r' => 'خواندن',
+//            'sh' => 'نمایش',
+//            'export' => 'خروجی',
+//            'search' => 'جستجو',
+//        ];
+//        $mapPermission=collect($permissions_map);
+//        $mapPermissionPersian=collect($permissions_map_persian);
 
+//        $this->permissionCreator($permissions,$mapPermission,$mapPermissionPersian);
 
-        $this->permissionCreator($permissions);
 
     }
 

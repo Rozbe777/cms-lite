@@ -23,7 +23,7 @@ class Permission extends EntrustPermission
 
     function scopeIsMenu($query)
     {
-        return $query->whereParentId(0);
+        return $query->whereIsMenu(1);
     }
 
     function scopeParentId($query, $parentId)
