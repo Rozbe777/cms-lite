@@ -68,44 +68,29 @@ class ContentRepository implements Interfaces\RepositoryInterface
     {
         $data['slug'] = $this->slugHandler($data['slug']);
 
+        $tag_list = $data['tag_list'] ?? null;
+        unset($data["tag_list"]);
+
+        $category_list = $data['category_list'] ?? null;
+        unset($data["category_list"]);
+
         if (!empty($data['image']))
             $data['image'] = $this->imageHandler($data['image']);
 
         /** modify tag relations in database tables */
-        if (array_key_exists('tag_list_old', $data) && array_key_exists('tag_list_new', $data)) {
-            $tag_list_old = $data['tag_list_old'];
-            $tag_list_new = $data['tag_list_new'];
-            (new RelationsService())->tagService($content, $tag_list_old, $tag_list_new);
-            unset($data['tag_list_old'], $data['tag_list_new']);
-
-        } elseif (!array_key_exists('tag_list_old', $data) && array_key_exists('tag_list_new', $data)) {
-            $tag_list_new = $data['tag_list_new'];
-            (new RelationsService())->tagService($content, '', $tag_list_new);
-            unset($data['tag_list_new']);
-
-        } elseif (!array_key_exists('tag_list_new', $data) && array_key_exists('tag_list_old', $data)) {
-            $tag_list_old = $data['tag_list_old'];
-            (new RelationsService())->tagService($content, $tag_list_old, '');
-            unset($data['tag_list_old']);
+        foreach ($tag_list as $tag) {
+            $tag = Tag::firstOrCreate(
+                ['name' => $tag],
+                ['user_id' => Auth::id()]
+            );
+            $content->tags()->attach($tag);
         }
-
         /** modify category relations in database tables */
-        if (array_key_exists('category_list_old', $data) && array_key_exists('category_list_new', $data)) {
-            $category_list_old = $data['category_list_old'];
-            $category_list_new = $data['category_list_new'];
-            (new RelationsService())->categoryService($content, $category_list_old, $category_list_new);
-            unset($data['category_list_old'], $data['category_list_new']);
-
-        } elseif (!array_key_exists('category_list_old', $data) && array_key_exists('category_list_new', $data)) {
-            $category_list_new = $data['category_list_new'];
-            (new RelationsService())->categoryService($content, '', $category_list_new);
-            unset($data['category_list_new']);
-
-        } elseif (!array_key_exists('category_list_new', $data) && array_key_exists('category_list_old', $data)) {
-            $category_list_old = $data['category_list_old'];
-            (new RelationsService())->categoryService($content, $category_list_old, '');
-            unset($data['category_list_old']);
+        foreach ($category_list as $category){
+            $category = Category::findOrFail((int)$category);
+            $content->categories()->attach($category);
         }
+
         return $content->update($data);
     }
 

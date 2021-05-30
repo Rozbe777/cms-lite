@@ -213,7 +213,7 @@
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link"
                                                                    href="#" data-toggle="dropdown">
                             <div class="user-nav d-sm-flex d-none"><span
-                                    class="user-name">{{auth()->user()->fullname}}/span></span>
+                                    class="user-name">{{auth()->user()->fullname}}</span></span>
                                 <span
                                     class="user-status text-muted">{{auth()->user()->userRoleName}}</span>
 

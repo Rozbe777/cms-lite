@@ -50,14 +50,9 @@ class PermissionSeeder extends Seeder
                     'weight' => 15,
                     'icon' => 'flaticon-multiple-users-silhouette',
                     'is_menu' => 1,
-//                    "name" => "users.index",
+                    "name" => "users.index",
                     "display_name" => "کاربران",
                     "children" => [
-                        [
-                            'is_menu' => 1,
-                            "name" => "user.create",
-                            "display_name" => "کاربران"
-                        ],
                         [
                             'is_menu' => 1,
                             "name" => "users.create",
@@ -65,44 +60,45 @@ class PermissionSeeder extends Seeder
                         ],
                         [
                             'is_menu' => 1,
-                            "name" => "users.create",
+                            "name" => "roles.create",
                             "display_name" => "دسترسی"
                         ],
                     ],
-                    [
-                        'weight' => 20,
-                        'icon' => 'flaticon-multiple-users-silhouette',
-                        'is_menu' => 1,
-                        "name" => "dashboard.index",
-                        "display_name" => "تنظیمات",
-                        "children" => []
-                    ],
-                    [
-                        'weight' => 1000,
-                        'icon' => 'flaticon-multiple-users-silhouette',
-                        'is_menu' => 1,
-                        "name" => "dashboard.index",
-                        "display_name" => "حساب کاربری",
-                        "children" => [
-                            [
-                                'is_menu' => 1,
-                                "name" => "user.create",
-                                "display_name" => "اطلاعات"
-                            ],
-                            [
-                                'is_menu' => 1,
-                                "name" => "user.create",
-                                "display_name" => "ویرایش رمزعبور"
-                            ],
-                            [
-                                'is_menu' => 1,
-                                "name" => "user.create",
-                                "display_name" => "ویرایش تصویر پروفایل"
-                            ],
-                        ]
-                    ]
                 ],
-            ];
+                [
+                    'weight' => 20,
+                    'icon' => 'flaticon-multiple-users-silhouette',
+                    'is_menu' => 1,
+                    "name" => "settings.index",
+                    "display_name" => "تنظیمات",
+                    "children" => []
+                ],
+//                    [
+//                        'weight' => 1000,
+//                        'icon' => 'flaticon-multiple-users-silhouette',
+//                        'is_menu' => 1,
+//                        "name" => "dashboard.index",
+//                        "display_name" => "حساب کاربری",
+//                        "children" => [
+//                            [
+//                                'is_menu' => 1,
+//                                "name" => "user.create",
+//                                "display_name" => "اطلاعات"
+//                            ],
+//                            [
+//                                'is_menu' => 1,
+//                                "name" => "user.create",
+//                                "display_name" => "ویرایش رمزعبور"
+//                            ],
+//                            [
+//                                'is_menu' => 1,
+//                                "name" => "user.create",
+//                                "display_name" => "ویرایش تصویر پروفایل"
+//                            ],
+//                        ]
+//                    ]
+//                ],
+        ];
 
 
         $this->permissionCreator($permissions);
