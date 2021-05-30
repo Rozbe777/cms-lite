@@ -50,7 +50,6 @@ class ContentRepository implements Interfaces\RepositoryInterface
         $instance = $content->viewCounts;
         $instance->view_count++;
         $instance->save();
-        return $instance;
     }
 
     public function delete($content)
