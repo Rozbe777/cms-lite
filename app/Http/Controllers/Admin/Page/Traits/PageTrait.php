@@ -27,4 +27,9 @@ trait PageTrait
             return $slug;
         }
     }
+
+    public function indexHandler()
+    {
+        Page::where('is_index',1)->update(['is_index' => 0]);
+    }
 }

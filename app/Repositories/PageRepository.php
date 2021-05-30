@@ -51,6 +51,9 @@ class PageRepository implements Interfaces\RepositoryInterface
     {
         $data['slug'] = $this->slugHandler($data['slug']);
 
+        if ($data['is_index'] == 1)
+            $this->indexHandler();
+
         if (!empty($data['image']))
             $data['image'] = $this->imageHandler($data['image']);
 
@@ -60,6 +63,9 @@ class PageRepository implements Interfaces\RepositoryInterface
     public function create(array $data)
     {
 //        $data['metadata'] = !empty($data['metadata']) ? json_encode($data['metadata']) : null;
+
+        if ($data['is_index'] == 1)
+            $this->indexHandler();
 
         $data['user_id'] = Auth::id();
         $data['owner'] = 'page';
