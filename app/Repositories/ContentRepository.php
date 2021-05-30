@@ -68,10 +68,10 @@ class ContentRepository implements Interfaces\RepositoryInterface
     {
         $data['slug'] = $this->slugHandler($data['slug']);
 
-        $tag_list = $data['tag_list'] ?? null;
+        $tag_list = $data['tag_list'] ?? [];
         unset($data["tag_list"]);
 
-        $category_list = $data['category_list'] ?? null;
+        $category_list = $data['category_list'] ?? [];
         unset($data["category_list"]);
 
         if (!empty($data['image']))
