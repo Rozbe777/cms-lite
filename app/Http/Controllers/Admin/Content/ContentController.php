@@ -90,6 +90,7 @@ class ContentController extends Controller
      */
     public function edit(Content $content)
     {
+        $content->load('tags')->load('categories')->load('viewCounts');
         return adminView("pages.admin.content.edit", compact('content'));
     }
 
