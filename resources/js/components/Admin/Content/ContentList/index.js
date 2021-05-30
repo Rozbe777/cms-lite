@@ -279,56 +279,64 @@ export const ContentList = () => {
                 </div>
 
 
-                <div className="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">
-                    {loading === false && contentData.data ? contentData.data.data.length > 0 ? (
-                        <TreeShowPage handleCata={itemCat => console.log("cat back ,", itemCat)}
-                                      duplicate={item => HandleDuplicate(item)}
-                                      itemClicks={clicks => handleClickItemContent(clicks)}
-                                      callBack={item => HandleDeleteContent(item)}
-                                      delClick={item => HandleDeleteContent(item)}
-                                      updateData={item => HandleBackLoaderContent(item)}
-                                      data={contentData}
-                                      loading={loading}/>
-                    ) : (
-                        <div>
-                            <p style={{textAlign: 'center', marginTop: 20}}>
-                                صفحه ای برای نمایش وجود ندارد!
-                            </p>
-                            <div id={"maines"}>
-                                <button id="add-page"
-                                        onClick={() => handleAddContent()}
-                                        style={{width: 180}}
-                                        className="btn btn-primary glow mr-1 mb-1"
-                                        type="button">
-                                    <span className="align-middle ml-25">افزودن محتوا </span>
-                                </button>
+                <div className={"container"}>
+                    <div className={"row"}>
+
+
+                        {console.log("content : ", contentData)}
+
+                        {loading === false && contentData.data ? contentData.data.length > 0 ? (
+                            <TreeShowPage handleCata={itemCat => console.log("cat back ,", itemCat)}
+                                          duplicate={item => HandleDuplicate(item)}
+                                          itemClicks={clicks => handleClickItemContent(clicks)}
+                                          callBack={item => HandleDeleteContent(item)}
+                                          delClick={item => HandleDeleteContent(item)}
+                                          updateData={item => HandleBackLoaderContent(item)}
+                                          data={contentData}
+                                          loading={loading}/>
+                        ) : (
+                            <div>
+                                <p style={{textAlign: 'center', marginTop: 20}}>
+                                    صفحه ای برای نمایش وجود ندارد!
+                                </p>
+                                <div id={"maines"}>
+                                    <button id="add-page"
+                                            onClick={() => handleAddContent()}
+                                            style={{width: 180}}
+                                            className="btn btn-primary glow mr-1 mb-1"
+                                            type="button">
+                                        <span className="align-middle ml-25">افزودن محتوا </span>
+                                    </button>
+                                </div>
                             </div>
+                        ) : <Loading/>}
+
+
+                        <div className="col-md-12">
+                            {contentData.data ? contentData.data.length ? (
+                                <Pagination
+                                    firstPageUrl={contentData.first_page_url}
+                                    lastPageUrl={contentData.last_page_url}
+                                    currentPage={contentData.cuerrent_page}
+                                    perPage={perPage}
+                                    users={contentAll}
+                                    total={total}
+                                    paginate={paginate}
+                                />
+                            ) : '' : ''}
+
                         </div>
-                    ) : <Loading/>}
 
-
+                    </div>
                 </div>
-
 
                 <BackLoader states={item => (HandleAddContentSelect(item))}/>
                 <div id={"add-datas"}></div>
-                {console.log("paginatesss : ", contentData.data)}
-                <div className="col-md-12">
-                    {contentData.data ? contentData.data.length ? (
-                        <Pagination
-                            firstPageUrl={contentData.first_page_url}
-                            lastPageUrl={contentData.last_page_url}
-                            currentPage={contentData.cuerrent_page}
-                            perPage={perPage}
-                            users={contentAll}
-                            total={total}
-                            paginate={paginate}
-                        />
-                    ) : '' : ''}
 
-                </div>
                 <BottomNavigationBar userData={categoryData} deleteAll={e => handleDeleteGroup(e)}/>
             </div>
+
+
         </CHECK_BOX_CONTENT.Provider>
     )
 }

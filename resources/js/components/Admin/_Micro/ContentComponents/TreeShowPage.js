@@ -14,7 +14,7 @@ export const TreeShowPage = ({
                                  updateData: pushUpdateData
                              }) => {
 
-    console.log(">>>>>>>>>>>>>>>", data.data.data)
+    console.log(">>>>>>>>>>>>>>>", data.data)
 
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
 
@@ -23,7 +23,7 @@ export const TreeShowPage = ({
     }, [])
 
 
-    data.data.data.map(item => {
+    data.data.map(item => {
         var filter = checkBox.indexOf(item.id);
         if (filter !== -1) {
             $("input[name=checkbox_content_" + item.id).prop("checked", true)
@@ -48,7 +48,7 @@ export const TreeShowPage = ({
         })
     })
 
-    let dataWithOutPaginate = data.data.data;
+    let dataWithOutPaginate = data.data;
     const handlePush = (item) => {
         pushCallBack(item);
     }
@@ -73,7 +73,6 @@ export const TreeShowPage = ({
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
             <ul className={"content-li"}>
                 {dataWithOutPaginate ? dataWithOutPaginate.map((keyName) => {
-                        console.log(keyName.name, "\n")
                         return (
                             <li style={{position: 'relative'}}>
                                 <div className={"branch-top"}>

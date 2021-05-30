@@ -8,7 +8,6 @@ import {ErroHandle, error as ErrorToast} from "../../../../helper";
 const SearchComponent = ({total, searchRes: pushSearchRes}) => {
 
 
-    console.log("......>>>>" , defaultCatData)
     const [size, setSize] = useState(0);
     const [sizeCategory, setSizeCategory] = useState(0);
     const [loading, setLoading] = useState(false);
