@@ -31,7 +31,23 @@ class PermissionSeeder extends Seeder
                     "children" => []
                 ],
                 [
+                    'weight' => 5,
+                    'icon' => 'flaticon-multiple-users-silhouette',
+                    'is_menu' => 1,
+                    "name" => "contents.index",
+                    "display_name" => "محتوا",
+                    "children" => []
+                ],
+                [
                     'weight' => 10,
+                    'icon' => 'flaticon-multiple-users-silhouette',
+                    'is_menu' => 1,
+                    "name" => "pages.index",
+                    "display_name" => "صفحات",
+                    "children" => []
+                ],
+                [
+                    'weight' => 15,
                     'icon' => 'flaticon-multiple-users-silhouette',
                     'is_menu' => 1,
                     "name" => "user.index",
@@ -40,8 +56,50 @@ class PermissionSeeder extends Seeder
                         [
                             'is_menu' => 1,
                             "name" => "user.create",
+                            "display_name" => "کاربران"
+                        ],
+                        [
+                            'is_menu' => 1,
+                            "name" => "user.create",
                             "display_name" => "افزودن کاربر"
                         ],
+                        [
+                            'is_menu' => 1,
+                            "name" => "user.create",
+                            "display_name" => "دسترسی"
+                        ],
+                    ],
+                    [
+                        'weight' => 20,
+                        'icon' => 'flaticon-multiple-users-silhouette',
+                        'is_menu' => 1,
+                        "name" => "dashboard.index",
+                        "display_name" => "تنظیمات",
+                        "children" => []
+                    ],
+                    [
+                        'weight' => 1000,
+                        'icon' => 'flaticon-multiple-users-silhouette',
+                        'is_menu' => 1,
+                        "name" => "dashboard.index",
+                        "display_name" => "حساب کاربری",
+                        "children" => [
+                            [
+                                'is_menu' => 1,
+                                "name" => "user.create",
+                                "display_name" => "اطلاعات"
+                            ],
+                            [
+                                'is_menu' => 1,
+                                "name" => "user.create",
+                                "display_name" => "ویرایش رمزعبور"
+                            ],
+                            [
+                                'is_menu' => 1,
+                                "name" => "user.create",
+                                "display_name" => "ویرایش تصویر پروفایل"
+                            ],
+                        ]
                     ]
                 ],
             ];
