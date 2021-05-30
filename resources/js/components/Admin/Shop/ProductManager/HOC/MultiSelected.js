@@ -7,7 +7,7 @@ import './_shared/style.scss';
 import $ from "jquery";
 
 
-export const MultiSelected = ({data, selected: pushSelected}) => {
+export const MultiSelected = ({data, selected: pushSelected , check : pushIdCheck}) => {
 
     const [check, setCheck] = useState([])
     // const [data, setData] = useState()
@@ -23,7 +23,7 @@ export const MultiSelected = ({data, selected: pushSelected}) => {
                 thisis.find(".optionBox").addClass("active")
                 thisis.find("#box-droper").html('');
                 thisis.find("#box-droper").append('<i class="bx bx-chevron-up"></i>');
-            }, 300)
+            }, 10)
         })
         $(".main-selected").mouseout(function () {
             clearInterval(interValOptions)
@@ -32,7 +32,7 @@ export const MultiSelected = ({data, selected: pushSelected}) => {
                 thisis.find(".optionBox").removeClass("active")
                 thisis.find("#box-droper").html('');
                 thisis.find("#box-droper").append('<i class="bx bx-chevron-down"></i>');
-            }, 300)
+            }, 10)
         })
     }, [])
     const HandleChange = (e, id) => {
@@ -125,7 +125,7 @@ export const MultiSelected = ({data, selected: pushSelected}) => {
 
             <div className={"optionBox"} id={"selected"}>
                 <ul>
-                    {data ? data.map(item => (
+                    {data.length > 0 ? data.map(item => (
                         <li>
                             <fieldset>
                                 <span className={"checkboxeds " + item.id} style={{color: '#fff'}}>
@@ -190,7 +190,7 @@ export const MultiSelected = ({data, selected: pushSelected}) => {
                         </li>
 
                     )) : (
-                        <Loading/>
+                        "موردی برای انتخاب وجود ندارد"
                     )}
 
 

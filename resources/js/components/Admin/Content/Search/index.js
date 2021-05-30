@@ -5,14 +5,59 @@ import $ from 'jquery';
 import {Request} from "../../../../services/AdminService/Api";
 import {ErroHandle, error as ErrorToast} from "../../../../helper";
 
-const SearchComponent = ({total , searchRes: pushSearchRes}) => {
+const SearchComponent = ({total, searchRes: pushSearchRes}) => {
 
     const [size, setSize] = useState(0);
     const [sizeCategory, setSizeCategory] = useState(0);
-    const [search , setSearch] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [categoryData, setCategoryData] = useState()
+    const [tagData, setTagData] = useState()
+    const [search, setSearch] = useState({});
     useEffect(() => {
+        GetAllCategory();
+        GetAllTag();
 
-    },[])
+    }, [])
+
+    let idss = [];
+
+    const GetAllCategory = () => {
+        setLoading(true)
+        Request.GetAllCategory()
+            .then(res => {
+                setLoading(false)
+                setCategoryData(res.data.data)
+            })
+            .catch(err => {
+                if (err.response.data.errors) {
+                    ErroHandle(err.response.data.errors);
+                } else {
+                    //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
+                    $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center ;margin : 10px 0 0 '>خطا در ارتباط با دیتابیس</p><p>مجددا تلاش کنید</p><div>");
+                    ErrorToast("خطای غیر منتظره ای رخ داده است")
+                }
+
+            })
+    }
+
+    const GetAllTag = () => {
+        setLoading(true)
+        Request.GetAllTags()
+            .then(res => {
+                setLoading(false)
+                setTagData(res.data.data.data)
+            })
+            .catch(err => {
+                if (err.response.data.errors) {
+                    ErroHandle(err.response.data.errors);
+                } else {
+                    //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
+                    $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center ;margin : 10px 0 0 '>خطا در ارتباط با دیتابیس</p><p>مجددا تلاش کنید</p><div>");
+                    ErrorToast("خطای غیر منتظره ای رخ داده است")
+                }
+
+            })
+    }
 
 
     const handleFade = (e) => {
@@ -27,7 +72,7 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
     }
 
 
-    console.log("aaaa : " , search)
+    console.log("aaaa : ", search)
 
 
     const handleFadeSearch = (e) => {
@@ -69,46 +114,65 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
                                 <input type="text" className="form-control"
                                        id={"search_input"}
                                        onChange={e => handleInputSearch(e)}
-                                       placeholder="جستجو با ایمیل و تلفن ..." name="search"/>
+                                       placeholder="جستجو با نام ..." name="search"/>
 
                             </div>
 
 
+                            {/*<div className="col-12 col-sm-6 col-lg-3">*/}
+                            {/*    <label htmlFor="users-list-status">نقش</label>*/}
+                            {/*    <MultiOption name={"role"} data={["کاربر", "مدیر"]}*/}
+                            {/*                 selected={item => {*/}
+                            {/*                     let oldSearch = {...search};*/}
+                            {/*                     oldSearch.role_id = item == "مدیر" ? 1  : item=="کاربر" ? 2 : '';*/}
+                            {/*                     setSearch(oldSearch)*/}
+                            {/*                     pushSearchRes(oldSearch)*/}
+                            {/*                 }}*/}
+                            {/*    />*/}
+                            {/*</div>*/}
+
                             <div className="col-12 col-sm-6 col-lg-3">
-                                <label htmlFor="users-list-status">نقش</label>
-                                <MultiOption name={"role"} data={["کاربر", "مدیر"]}
-                                             selected={item => {
-                                                 let oldSearch = {...search};
-                                                 oldSearch.role_id = item == "مدیر" ? 1  : item=="کاربر" ? 2 : '';
-                                                 setSearch(oldSearch)
-                                                 pushSearchRes(oldSearch)
-                                             }}
+                                <label
+                                    htmlFor="users-list-role">دسته بندی</label>
+                                <MultiSelected name={"categories"} data={categoryData ? categoryData : []}
+                                               selected={item => {
+                                                   item.map(ii => {
+                                                       idss.push(ii);
+                                                   })
+                                                   let oldSearch = {...search};
+                                                   oldSearch.categories = idss ;
+                                                   setSearch(oldSearch)
+                                                   pushSearchRes(oldSearch)
+                                               }}
+
                                 />
                             </div>
 
                             <div className="col-12 col-sm-6 col-lg-3">
                                 <label
                                     htmlFor="users-list-role">وضعیت</label>
-                                <MultiOption name={"status"} data={["غیرفعال", "فعال"]}
+                                <MultiOption name={"status"} data={["منتشر شده", "منتشر نشده"]}
                                              selected={item => {
                                                  let oldSearch = {...search};
-                                                 oldSearch.status = item == "فعال" ? "active"  : item=="غیرفعال" ? "deactivate" : '';
+                                                 oldSearch.status = item == "منتشر شده" ? "active" : item == "منتشر نشده" ? "deactivate" : '';
                                                  setSearch(oldSearch)
                                                  pushSearchRes(oldSearch)
                                              }}
                                 />
                             </div>
+
+
                             <div className="col-12 col-sm-6 col-lg-3">
                                 <label
-                                    htmlFor="users-list-role">تعداد نمایش</label>
-                                <MultiSelected name={"categories"} data={["10", "15" , "20", "نمایش همه"]}
-                                             selected={item => {
-                                                 console.log("sssssss : " , item)
-                                                 let oldSearch = {...search};
-                                                 // oldSearch.pageSize = ;
-                                                 setSearch(oldSearch)
-                                                 pushSearchRes(oldSearch)
-                                             }}
+                                    htmlFor="users-list-role">برچسپ</label>
+                                <MultiSelected name={"categories"} data={tagData ? tagData : []}
+                                               selected={item => {
+                                                   console.log("sssssss : ", item)
+                                                   let oldSearch = {...search};
+                                                   // oldSearch.pageSize = ;
+                                                   setSearch(oldSearch)
+                                                   pushSearchRes(oldSearch)
+                                               }}
 
                                 />
                             </div>
@@ -133,7 +197,8 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
                         <label
                             htmlFor="users-list-verified">وضعیت</label>
                         <fieldset className={"form-group"}>
-                            <select onChange={e => responsiveSeach(e)} name={"status"} className={"form-control"} id={"confirm"}>
+                            <select onChange={e => responsiveSeach(e)} name={"status"} className={"form-control"}
+                                    id={"confirm"}>
                                 <option selected>انتخاب کنید</option>
                                 <option value={"active"}>فعال</option>
                                 <option value={"deactivate"}>غیرفعال</option>
@@ -142,23 +207,24 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
                         </fieldset>
                     </div>
 
-                    <div className="col-12">
-                        <label htmlFor="users-list-status">نقش</label>
-                        <fieldset className={"form-group"}>
-                            <select onChange={e => responsiveSeach(e)} name={"role_id"} className={"form-control"} id={"confirm"}>
-                                <option selected>انتخاب کنید</option>
-                                <option value={"1"}>مدیر</option>
-                                <option value={"2"}>کاربر</option>
-                            </select>
+                    {/*<div className="col-12">*/}
+                    {/*    <label htmlFor="users-list-status">نقش</label>*/}
+                    {/*    <fieldset className={"form-group"}>*/}
+                    {/*        <select onChange={e => responsiveSeach(e)} name={"role_id"} className={"form-control"} id={"confirm"}>*/}
+                    {/*            <option selected>انتخاب کنید</option>*/}
+                    {/*            <option value={"1"}>مدیر</option>*/}
+                    {/*            <option value={"2"}>کاربر</option>*/}
+                    {/*        </select>*/}
 
-                        </fieldset>
-                    </div>
+                    {/*    </fieldset>*/}
+                    {/*</div>*/}
 
                     <div className="col-12">
                         <label
                             htmlFor="users-list-role">تعداد نمایش</label>
                         <fieldset className={"form-group"}>
-                            <select onChange={e => responsiveSeach(e)} name={"pageSize"} className={"form-control"} id={"confirm"}>
+                            <select onChange={e => responsiveSeach(e)} name={"pageSize"} className={"form-control"}
+                                    id={"confirm"}>
                                 <option selected>انتخاب کنید</option>
                                 <option value={"10"}>10</option>
                                 <option value={"15"}>15</option>
@@ -188,7 +254,8 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
                         <i className={"bx bx-search-alt"} id={"search-float-icons"}
                            onClick={e => handleFadeSearchInput(e)}></i>
                         <div className={"search-input-float"}>
-                            <input type={"text"} placeholder={"نام محصول را وارد کنید"} onChange={e => handleInputSearch(e)}/>
+                            <input type={"text"} placeholder={"نام محصول را وارد کنید"}
+                                   onChange={e => handleInputSearch(e)}/>
                         </div>
 
                     </li>

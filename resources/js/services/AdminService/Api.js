@@ -7,6 +7,7 @@ export const Request = {
     CreateUserNew : (data) =>  request.post("/users" , data),
     UpdateUserDetail : (data , id) =>  request.put("/users/"+id , data),
     GetAllCategory : () =>  request.get("/categories?page=1"),
+    GetAllTags : () =>  request.get("/tags"),
     GetAllPages : () =>  request.get("/contents?owner=page"),
     AddNewCategory : (data) =>  request.post("/categories" ,  data),
     AddNewPage : (data) =>  request.post("/pages" , data),

@@ -23,6 +23,8 @@ export const ContentList = () => {
     const [categoryData, setCategoryData] = useState()
     const [contentData, setContentData] = useState({})
     const [contentAll, setContentAll] = useState({})
+    const [searchload, setSearch] = useState(false)
+
     const [perPage, setPerPage] = useState(0);
     const [total, setTotal] = useState();
 
@@ -32,34 +34,17 @@ export const ContentList = () => {
         title: 'لیست صفحات',
         desc: 'نمایش لیست صفحات و مدیریت آنها'
     });
+    const [stringSearchs, setStringSearch] = useState({
+        params: {
+            page: 1
+        }
+
+    });
 
 
-
-
-    const GetAllCategory = () => {
+    const GetAllContents = (stringSearchs) => {
         setLoading(true)
-        Request.GetAllCategory()
-            .then(res => {
-                localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
-                setLoading(false)
-                setCategoryData(res.data.data)
-            })
-            .catch(err => {
-                if (err.response.data.errors) {
-                    ErroHandle(err.response.data.errors);
-                } else {
-                    //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
-                    $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center ;margin : 10px 0 0 '>خطا در ارتباط با دیتابیس</p><p>مجددا تلاش کنید</p><div>");
-                    ErrorToast("خطای غیر منتظره ای رخ داده است")
-                }
-
-            })
-    }
-
-
-    const GetAllContents = () => {
-        setLoading(true)
-        Request.GetAllContents()
+        Request.GetAllContents(stringSearchs)
             .then(res => {
                 localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
                 setLoading(false)
@@ -83,7 +68,6 @@ export const ContentList = () => {
 
     useEffect(() => {
         GetAllContents();
-        GetAllCategory();
         $(function () {
             $("#show-loader-selected").click(() => {
                 handleAddContent();
@@ -93,7 +77,7 @@ export const ContentList = () => {
 
     const handleAddContent = () => {
         ReactDom.render(<ContentAdd display={true} dataUpdate={''} idParent={0}
-                                 result={item => handleBackContent(item)}/>, document.getElementById("add-datas"))
+                                    result={item => handleBackContent(item)}/>, document.getElementById("add-datas"))
     }
 
 
@@ -119,7 +103,6 @@ export const ContentList = () => {
             console.log("you have an error");
         }
     }
-
 
 
     const handleBack = (item) => {
@@ -150,8 +133,8 @@ export const ContentList = () => {
     }
     const handleClickItemContent = (clickId) => {
         ReactDom.render(<ContentAdd display={true} idParent={clickId}
-                                 dataUpdate={''}
-                                 result={item => handleBack(item)}/>, document.getElementById("add-datas"))
+                                    dataUpdate={''}
+                                    result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
     const HandleDeleteContent = (status) => {
         if (status == 200) {
@@ -162,7 +145,7 @@ export const ContentList = () => {
     }
     const HandleBackLoaderContent = (data) => {
         ReactDom.render(<ContentAdd display={true} dataUpdate={data} idParent={0}
-                                 result={item => handleBack(item)}/>, document.getElementById("add-datas"))
+                                    result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
 
     if (checkBox.length > 0) {
@@ -176,7 +159,7 @@ export const ContentList = () => {
 
     const handleDeleteGroup = (event) => {
 
-let finalAllIds = {};
+        let finalAllIds = {};
         finalAllIds.contentIds = checkBox;
 
         finalAllIds._token = $('meta[name="csrf-token"]').attr('content');
@@ -220,7 +203,6 @@ let finalAllIds = {};
     }
 
 
-
     const paginate = (pageNumber) => {
         // let pagess = stringSearchs ? "page=" + pageNumber + "&" + stringSearchs : "page=" + pageNumber;
 
@@ -247,11 +229,7 @@ let finalAllIds = {};
     };
 
 
-
-
-
-
-    console.log("checkkkkk ," , checkBox)
+    console.log("checkkkkk ,", checkBox)
 
     return (
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
@@ -263,7 +241,6 @@ let finalAllIds = {};
                 </div>
 
 
-                {console.log("cacccc : " , categoryData)}
                 <SearchComponent total={total} searchRes={items => {
                     Object.keys(items).forEach((key, value) => {
                         setSearch(true)
@@ -285,7 +262,8 @@ let finalAllIds = {};
                     })
 
                     stringSearchs.params.page = 1;
-                    GetAllUser(stringSearchs)
+                    console.log("sssssssssssssssssssss : " , stringSearchs)
+                    GetAllContents(stringSearchs)
                 }}/>
 
                 <div className={"loaderErrorBack"}>
@@ -304,7 +282,7 @@ let finalAllIds = {};
 
 
                 <div className="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">
-                    {loading === false  && contentData.data ?  contentData.data.data.length > 0  ? (
+                    {loading === false && contentData.data ? contentData.data.data.length > 0 ? (
                         <TreeShowPage handleCata={itemCat => console.log("cat back ,", itemCat)}
                                       duplicate={item => HandleDuplicate(item)}
                                       itemClicks={clicks => handleClickItemContent(clicks)}
@@ -313,7 +291,7 @@ let finalAllIds = {};
                                       updateData={item => HandleBackLoaderContent(item)}
                                       data={contentData}
                                       loading={loading}/>
-                    ) :  (
+                    ) : (
                         <div>
                             <p style={{textAlign: 'center', marginTop: 20}}>
                                 صفحه ای برای نمایش وجود ندارد!
@@ -334,10 +312,9 @@ let finalAllIds = {};
                 </div>
 
 
-
                 <BackLoader states={item => (HandleAddContentSelect(item))}/>
                 <div id={"add-datas"}></div>
-                {console.log("paginatesss : " , contentData.data)}
+                {console.log("paginatesss : ", contentData.data)}
                 <div className="col-md-12">
                     {contentData.data ? contentData.data.length ? (
                         <Pagination

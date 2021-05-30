@@ -35,6 +35,7 @@ export const CategoryList = () => {
         setLoading(true)
         Request.GetAllCategory()
             .then(res => {
+
                 localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
                 setLoading(false)
                 setCategoryData(res.data.data)
