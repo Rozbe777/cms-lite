@@ -49,7 +49,6 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
 
     // const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
     const CreateAddCategory = (data) => {
-        console.log("adding dataaaaaa : ", data)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",

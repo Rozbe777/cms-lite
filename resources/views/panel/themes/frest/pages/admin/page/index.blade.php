@@ -12,5 +12,5 @@
 @endsection
 
 @section('pageScripts')
-
+    <script src="/js/app.js"></script>
 @endsection

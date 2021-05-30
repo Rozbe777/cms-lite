@@ -12,6 +12,7 @@ import {ErroHandle, error as ErrorToast} from "../../../../helper";
 import {TotalActions} from "../../UserList/HOC/TotalActions";
 import {BreadCrumbs} from "../../UserList/HOC/BreadCrumbs";
 import BottomNavigationBar from "../../UserList/HOC/BottomNavigationBar";
+import {Pagination} from "../../_Micro/Pagination";
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
 
@@ -20,11 +21,19 @@ export const PageList = () => {
     const [loading, setLoading] = useState(false);
     const [categoryData, setCategoryData] = useState()
     const [pageData, setPageData] = useState({})
+    const [pageAll, setPageAll] = useState({})
+
+    const [perPage, setPerPage] = useState(0);
+    const [total, setTotal] = useState();
+
+
     const [length, setLength] = useState(0)
     const [breadData] = useState({
-        title: 'لیست صفحات',
-        desc: 'نمایش لیست صفحات و مدیریت آنها'
+        title: 'لیست صفحه',
+        desc: 'نمایش لیست صفحه و مدیریت آنها'
     });
+
+
 
     const GetAllPages = () => {
         setLoading(true)
@@ -33,6 +42,9 @@ export const PageList = () => {
                 localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
                 setLoading(false)
                 setPageData(res.data)
+                setPerPage(res.data.data.per_page);
+                setPageAll(res.data.data.data)
+                setTotal(res.data.data.total);
             })
             .catch(err => {
                 if (err.response.data.errors) {
@@ -58,7 +70,7 @@ export const PageList = () => {
 
     const handleAddPage = () => {
         ReactDom.render(<PageAdd display={true} dataUpdate={''} idParent={0}
-                                 result={item => handleBackPage(item)}/>, document.getElementById("add-datas"))
+                                    result={item => handleBackPage(item)}/>, document.getElementById("add-datas"))
     }
 
 
@@ -86,7 +98,6 @@ export const PageList = () => {
     }
 
 
-
     const handleBack = (item) => {
         if (item.status == 200) {
             GetAllPages();
@@ -101,11 +112,11 @@ export const PageList = () => {
     }
 
 
-    const HandleAddContentSelect = (data) => {
+    const HandleAddPageSelect = (data) => {
         handleAddPage();
     }
 
-    // page handlersssss
+    // Page handlersssss
     const HandleDuplicatePage = (status) => {
         if (status == 200) {
             GetAllPages();
@@ -115,8 +126,8 @@ export const PageList = () => {
     }
     const handleClickItemPage = (clickId) => {
         ReactDom.render(<PageAdd display={true} idParent={clickId}
-                                 dataUpdate={''}
-                                 result={item => handleBack(item)}/>, document.getElementById("add-datas"))
+                                    dataUpdate={''}
+                                    result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
     const HandleDeletePage = (status) => {
         if (status == 200) {
@@ -127,9 +138,8 @@ export const PageList = () => {
     }
     const HandleBackLoaderPage = (data) => {
         ReactDom.render(<PageAdd display={true} dataUpdate={data} idParent={0}
-                                 result={item => handleBack(item)}/>, document.getElementById("add-datas"))
+                                    result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
-
 
     if (checkBox.length > 0) {
         $("#totalAction").addClass("activeAction");
@@ -142,14 +152,14 @@ export const PageList = () => {
 
     const handleDeleteGroup = (event) => {
 
+        let finalAllIds = {};
+        finalAllIds.PageIds = checkBox;
 
-        finalAllIds.userIds = checkBox;
-
-        finalAllIds._token = $('meta[name="csrf-token"]').attr('content');
+        finalAllIds._token = $('meta[name="csrf-token"]').attr('Page');
 
         event.preventDefault();
         swal({
-            title: 'حذف کاربر',
+            title: 'حذف صفحه',
             text: "آیا مطمئنید؟",
             type: 'warning',
             showCancelButton: true,
@@ -160,20 +170,19 @@ export const PageList = () => {
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-                Request.GroupDelUser(finalAllIds)
+                Request.GroupDelPage(finalAllIds)
                     .then(res => {
                         setCheckBox([])
                         Swal.fire({
                             type: "success",
                             title: 'حذف شد!',
-                            text: 'کاربر مورد نظر حذف شد',
+                            text: 'صفحه مورد نظر حذف شد',
                             confirmButtonClass: 'btn btn-success',
                             confirmButtonText: 'باشه',
                         })
 
-                        stringSearchs.params.page = 1;
 
-                        GetAllUser(stringSearchs);
+                        GetAllPages();
                     }).catch(error => {
                     if (error.response.data.errors) {
                         ErroHandle(error.response.data.errors)
@@ -186,25 +195,36 @@ export const PageList = () => {
     }
 
 
-    if (checkBox.length > 0) {
-        $("#totalAction").addClass("activeAction");
-        $("#breadCrumb").removeClass("activeCrumb");
-    } else {
-        $("#totalAction").removeClass("activeAction");
-        $("#breadCrumb").addClass("activeCrumb");
-    }
+    const paginate = (pageNumber) => {
+        // let pagess = stringSearchs ? "page=" + pageNumber + "&" + stringSearchs : "page=" + pageNumber;
+
+
+        GetAllPages();
+        $("li.page-item").removeClass("active");
+        if (pageNumber == Math.ceil(total / perPage)) {
+            $("li.page-item.next").css("opacity", 0.4);
+            $("li.page-item.previous").css("opacity", 1);
+        } else if (pageNumber == 1) {
+            $("li.page-item.next").css("opacity", 1);
+            $("li.page-item.previous").css("opacity", 0.4);
+        } else {
+            $("li.page-item.next").css("opacity", 2);
+            $("li.page-item.previous").css("opacity", 2);
+        }
+        $("li#" + pageNumber).addClass("active");
+    };
+
+
+    console.log("checkkkkk ,", checkBox)
 
     return (
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
             <div>
-
-
                 <div className={"row col-12"} id={"headerContent"}>
                     <TotalActions text={" مورد انتخاب شده است "} deleteUsers={e => handleDeleteGroup(e)}
-                                  allData={categoryData} data={checkBox}/>
+                                  allData={pageData.data ? pageData.data : []} data={checkBox}/>
                     <BreadCrumbs titleBtn={"افزودن"} icon={"bx bx-plus"} data={breadData}/>
                 </div>
-
 
                 <div className={"loaderErrorBack"}>
                     <div clssName={"container"}>
@@ -222,16 +242,16 @@ export const PageList = () => {
 
 
                 <div className="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">
-                    {pageData.data && pageData.data.length > 0 && loading == false ? (
+                    {loading === false && pageData.data ? pageData.data.data.length > 0 ? (
                         <TreeShowPage handleCata={itemCat => console.log("cat back ,", itemCat)}
-                                      duplicate={item => HandleDuplicatePage(item)}
+                                      duplicate={item => HandleDuplicate(item)}
                                       itemClicks={clicks => handleClickItemPage(clicks)}
                                       callBack={item => HandleDeletePage(item)}
                                       delClick={item => HandleDeletePage(item)}
                                       updateData={item => HandleBackLoaderPage(item)}
                                       data={pageData}
                                       loading={loading}/>
-                    ) : loading == false ? (
+                    ) : (
                         <div>
                             <p style={{textAlign: 'center', marginTop: 20}}>
                                 صفحه ای برای نمایش وجود ندارد!
@@ -247,17 +267,34 @@ export const PageList = () => {
                             </div>
                         </div>
                     ) : <Loading/>}
+
+
                 </div>
 
 
-                <BackLoader states={item => (HandleAddContentSelect(item))}/>
+                <BackLoader states={item => (HandleAddPageSelect(item))}/>
                 <div id={"add-datas"}></div>
+                {console.log("paginatesss : ", pageData.data)}
+                <div className="col-md-12">
+                    {pageData.data ? pageData.data.length ? (
+                        <Pagination
+                            firstPageUrl={pageData.first_page_url}
+                            lastPageUrl={pageData.last_page_url}
+                            currentPage={pageData.cuerrent_page}
+                            perPage={perPage}
+                            users={pageAll}
+                            total={total}
+                            paginate={paginate}
+                        />
+                    ) : '' : ''}
+
+                </div>
                 <BottomNavigationBar userData={categoryData} deleteAll={e => handleDeleteGroup(e)}/>
             </div>
         </CHECK_BOX_CONTENT.Provider>
     )
 }
-let elements = document.getElementById("content-managers");
+let elements = document.getElementById("page_box");
 if (elements) {
     const props = Object.assign({}, elements.dataset)
     ReactDom.render(<PageList {...props} />, elements);

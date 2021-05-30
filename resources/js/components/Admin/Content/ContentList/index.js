@@ -31,8 +31,8 @@ export const ContentList = () => {
 
     const [length, setLength] = useState(0)
     const [breadData] = useState({
-        title: 'لیست صفحات',
-        desc: 'نمایش لیست صفحات و مدیریت آنها'
+        title: 'لیست محتوا',
+        desc: 'نمایش لیست محتوا و مدیریت آنها'
     });
     const [stringSearchs, setStringSearch] = useState({
         params: {
@@ -166,7 +166,7 @@ export const ContentList = () => {
 
         event.preventDefault();
         swal({
-            title: 'حذف کاربر',
+            title: 'حذف محتوا',
             text: "آیا مطمئنید؟",
             type: 'warning',
             showCancelButton: true,
@@ -183,7 +183,7 @@ export const ContentList = () => {
                         Swal.fire({
                             type: "success",
                             title: 'حذف شد!',
-                            text: 'کاربر مورد نظر حذف شد',
+                            text: 'محتوا مورد نظر حذف شد',
                             confirmButtonClass: 'btn btn-success',
                             confirmButtonText: 'باشه',
                         })
@@ -260,9 +260,7 @@ export const ContentList = () => {
                         }
 
                     })
-
                     stringSearchs.params.page = 1;
-                    console.log("sssssssssssssssssssss : " , stringSearchs)
                     GetAllContents(stringSearchs)
                 }}/>
 

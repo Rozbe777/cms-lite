@@ -7,11 +7,12 @@ import './_shared/style.scss';
 import $ from "jquery";
 
 
-export const MultiSelected = ({data, selected: pushSelected , check : pushIdCheck}) => {
+export const MultiSelected = ({defaultsel , data, selected: pushSelected , check : pushIdCheck}) => {
 
     const [check, setCheck] = useState([])
     // const [data, setData] = useState()
     const [paginateThumbs, setPaginateThumbs] = useState();
+    console.log("zzzzzzzzzzzzzzzzz" , def)
     const [load, setLoad] = useState(false);
     let selectCheckBox = new Set();
     useEffect(() => {

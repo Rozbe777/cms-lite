@@ -16,7 +16,7 @@ export const ChipsetHandler = ({label , callback : pushCallBack}) => {
                    onKeyPress={e => HandleChipset(e)}
                    name={"tags"} id={"title"}
                    placeholder={"تایپ کن و Enter بزن "}
-                   className={"chips_input form-control"}/>
+                   className={"chips_input form-control connnn"}/>
         </fieldset>
     )
 }

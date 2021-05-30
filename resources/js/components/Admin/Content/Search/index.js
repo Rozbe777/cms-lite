@@ -7,6 +7,8 @@ import {ErroHandle, error as ErrorToast} from "../../../../helper";
 
 const SearchComponent = ({total, searchRes: pushSearchRes}) => {
 
+
+    console.log("......>>>>" , defaultCatData)
     const [size, setSize] = useState(0);
     const [sizeCategory, setSizeCategory] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -140,7 +142,7 @@ const SearchComponent = ({total, searchRes: pushSearchRes}) => {
                                                        idss.push(ii);
                                                    })
                                                    let oldSearch = {...search};
-                                                   oldSearch.categories = idss ;
+                                                   oldSearch.categories = idss;
                                                    setSearch(oldSearch)
                                                    pushSearchRes(oldSearch)
                                                }}

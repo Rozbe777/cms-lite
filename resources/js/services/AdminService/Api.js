@@ -3,6 +3,7 @@ import {request} from "../Request";
 export const Request = {
     GetAllUserApi : (page) =>  request.get("/users" ,page),
     GroupDelUser : (userIds) =>  request.delete("/users/multi/destroy" , {params : userIds}),
+    GroupDelCategory : (categoryId) =>  request.delete("/categories/multi/destroy" , {params : categoryId}),
     GroupDelContent : (contentIds) =>  request.delete("/contents/multi/destroy" , {params : contentIds}),
     CreateUserNew : (data) =>  request.post("/users" , data),
     UpdateUserDetail : (data , id) =>  request.put("/users/"+id , data),
