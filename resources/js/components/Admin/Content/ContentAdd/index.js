@@ -23,6 +23,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
 
 
     const [comments, setComments] = useState();
+    const [clear , setClear] = useState(false)
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
     const [contentNew, setContentNew] = useState({});
@@ -58,6 +59,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         setLoading(true)
         Request.GetAllCategory()
             .then(res => {
+                setClear(true)
                 setLoading(false)
                 setCategoryData(res.data.data)
             })
@@ -91,6 +93,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                 Request.AddNewContent(data)
                     .then(res => {
                         pushResult(res);
+                        setClear(true)
                         localStorage.removeItem("is_menu");
                         localStorage.removeItem("status");
                         localStorage.removeItem("selected");
@@ -104,6 +107,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                         })
 
                     }).catch(err => {
+
                     if (err.response.data.errors) {
                         ErroHandle(err.response.data.errors);
                     } else {
@@ -116,8 +120,6 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
     }
 
     useEffect(() => {
-
-
         GetAllCategory();
         let formNews = {...formData};
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
@@ -141,6 +143,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
 
 
     const handleClose = () => {
+        setClear(true)
         ReactDOM.render('', document.getElementById("add-datas"));
         setFormData({
             is_menu: 1,
@@ -266,7 +269,6 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
     }
 
     const HandleUpdateForm = (data, id) => {
-        console.log("iiii", data)
         swal({
             title: 'ویرایش صفحه',
             text: "آیا مطمئنید؟",
@@ -281,6 +283,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
             if (result.value) {
                 Request.UpdateDataContent(data, id)
                     .then(res => {
+                        setClear(true)
                         pushResult(res);
                         localStorage.removeItem("is_menu");
                         localStorage.removeItem("status");
@@ -311,7 +314,6 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
 
     const HandleEdit = () => {
         let formOldData = {...formData};
-        console.log("iiiii edit", formOldData)
 
         formOldData.content = JSON.stringify(contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
@@ -511,6 +513,8 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                                 <label
                                     htmlFor="users-list-role">دسته بندی</label>
                                 <MultiSelected name={"categories"} data={categoryData ? categoryData : []}
+                                               clear={clear}
+                                               clearNew={cl => setClear(cl)}
                                                selected={item => {
                                                    item.map(ii => {
                                                        let idsel = idSelCat.indexOf(parseInt(ii.id))

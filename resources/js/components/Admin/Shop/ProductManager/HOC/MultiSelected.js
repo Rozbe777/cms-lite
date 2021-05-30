@@ -7,9 +7,12 @@ import './_shared/style.scss';
 import $ from "jquery";
 
 
-export const MultiSelected = ({defaultsel , data, selected: pushSelected , check : pushIdCheck}) => {
+export const MultiSelected = ({clear , clearNew : pushClear ,defaultsel , data, selected: pushSelected , check : pushIdCheck}) => {
+
 
     const [check, setCheck] = useState([])
+
+
     // const [data, setData] = useState()
     const [paginateThumbs, setPaginateThumbs] = useState();
     console.log("zzzzzzzzzzzzzzzzz" , defaultsel)
@@ -17,6 +20,10 @@ export const MultiSelected = ({defaultsel , data, selected: pushSelected , check
     let selectCheckBox = new Set();
     useEffect(() => {
         var interValOptions;
+        if(clear){
+            setCheck([]);
+            pushClear(false);
+        }
         $(".main-selected").mouseover(function () {
             clearInterval(interValOptions)
             var thisis = $(this);
