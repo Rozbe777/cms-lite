@@ -76,7 +76,8 @@ class ContentController extends Controller
      */
     public function show(Content $content)
     {
-        $content = $this->contentRepository->get($content->load('tags')->load('categories'));
+        $this->contentRepository->get($content);
+        $content = $content->load('tags')->load('categories');
 
         return $this->message(__('message.success.200'))->data($content)->view('pages.admin.content.show')->success();
     }

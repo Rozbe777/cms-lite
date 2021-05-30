@@ -50,7 +50,7 @@ class PermissionSeeder extends Seeder
                     'weight' => 15,
                     'icon' => 'flaticon-multiple-users-silhouette',
                     'is_menu' => 1,
-                    "name" => "user.index",
+//                    "name" => "users.index",
                     "display_name" => "کاربران",
                     "children" => [
                         [
@@ -60,7 +60,7 @@ class PermissionSeeder extends Seeder
                         ],
                         [
                             'is_menu' => 1,
-                            "name" => "user.create",
+                            "name" => "users.create",
                             "display_name" => "افزودن کاربر"
                         ],
                         [
