@@ -36,6 +36,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : '';
     const types = dataGet ? dataGet.type : '';
 
+
     const [slugManage, setSlugManage] = useState(true);
     const [formData, setFormData] = useState({});
     let default_value = {
@@ -611,7 +612,6 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
                             <div className={"col-12"}>
                                 <label>تنظیمات Robots</label>
 
-                                {console.log("robotssssssssssss : " , MetaDataUpdate)}
                                 <BigSwitcher status={states => HandlerBigSwitcher(states)} name={"Robots"}
                                              defaultStatus={MetaDataUpdate ? MetaDataUpdate.robots : false}
                                              valueOne={"غیرفعال"} valueTow={"noindex,follow"}
