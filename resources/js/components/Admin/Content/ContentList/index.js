@@ -12,6 +12,8 @@ import {ErroHandle, error as ErrorToast} from "../../../../helper";
 import {TotalActions} from "../../UserList/HOC/TotalActions";
 import {BreadCrumbs} from "../../UserList/HOC/BreadCrumbs";
 import BottomNavigationBar from "../../UserList/HOC/BottomNavigationBar";
+import {Pagination} from "../../_Micro/Pagination";
+import SearchComponent from "./../Search";
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
 
@@ -20,11 +22,40 @@ export const ContentList = () => {
     const [loading, setLoading] = useState(false);
     const [categoryData, setCategoryData] = useState()
     const [contentData, setContentData] = useState({})
+    const [contentAll, setContentAll] = useState({})
+    const [perPage, setPerPage] = useState(0);
+    const [total, setTotal] = useState();
+
+
     const [length, setLength] = useState(0)
     const [breadData] = useState({
         title: 'لیست صفحات',
         desc: 'نمایش لیست صفحات و مدیریت آنها'
     });
+
+
+
+
+    const GetAllCategory = () => {
+        setLoading(true)
+        Request.GetAllCategory()
+            .then(res => {
+                localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
+                setLoading(false)
+                setCategoryData(res.data.data)
+            })
+            .catch(err => {
+                if (err.response.data.errors) {
+                    ErroHandle(err.response.data.errors);
+                } else {
+                    //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
+                    $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center ;margin : 10px 0 0 '>خطا در ارتباط با دیتابیس</p><p>مجددا تلاش کنید</p><div>");
+                    ErrorToast("خطای غیر منتظره ای رخ داده است")
+                }
+
+            })
+    }
+
 
     const GetAllContents = () => {
         setLoading(true)
@@ -33,6 +64,9 @@ export const ContentList = () => {
                 localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
                 setLoading(false)
                 setContentData(res.data)
+                setPerPage(res.data.data.per_page);
+                setContentAll(res.data.data.data)
+                setTotal(res.data.data.total);
             })
             .catch(err => {
                 if (err.response.data.errors) {
@@ -49,6 +83,7 @@ export const ContentList = () => {
 
     useEffect(() => {
         GetAllContents();
+        GetAllCategory();
         $(function () {
             $("#show-loader-selected").click(() => {
                 handleAddContent();
@@ -141,8 +176,8 @@ export const ContentList = () => {
 
     const handleDeleteGroup = (event) => {
 
-
-        finalAllIds.userIds = checkBox;
+let finalAllIds = {};
+        finalAllIds.contentIds = checkBox;
 
         finalAllIds._token = $('meta[name="csrf-token"]').attr('content');
 
@@ -159,7 +194,7 @@ export const ContentList = () => {
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-                Request.GroupDelUser(finalAllIds)
+                Request.GroupDelContent(finalAllIds)
                     .then(res => {
                         setCheckBox([])
                         Swal.fire({
@@ -172,7 +207,7 @@ export const ContentList = () => {
 
                         stringSearchs.params.Content = 1;
 
-                        GetAllUser(stringSearchs);
+                        GetAllContents(stringSearchs);
                     }).catch(error => {
                     if (error.response.data.errors) {
                         ErroHandle(error.response.data.errors)
@@ -184,6 +219,38 @@ export const ContentList = () => {
         });
     }
 
+
+
+    const paginate = (pageNumber) => {
+        // let pagess = stringSearchs ? "page=" + pageNumber + "&" + stringSearchs : "page=" + pageNumber;
+
+        stringSearchs.params.page = pageNumber;
+        setStringSearch({
+            params: {
+                page: pageNumber
+            }
+        });
+
+        GetAllContents(stringSearchs);
+        $("li.page-item").removeClass("active");
+        if (pageNumber == Math.ceil(total / perPage)) {
+            $("li.page-item.next").css("opacity", 0.4);
+            $("li.page-item.previous").css("opacity", 1);
+        } else if (pageNumber == 1) {
+            $("li.page-item.next").css("opacity", 1);
+            $("li.page-item.previous").css("opacity", 0.4);
+        } else {
+            $("li.page-item.next").css("opacity", 2);
+            $("li.page-item.previous").css("opacity", 2);
+        }
+        $("li#" + pageNumber).addClass("active");
+    };
+
+
+
+
+
+
     console.log("checkkkkk ," , checkBox)
 
     return (
@@ -191,9 +258,36 @@ export const ContentList = () => {
             <div>
                 <div className={"row col-12"} id={"headerContent"}>
                     <TotalActions text={" مورد انتخاب شده است "} deleteUsers={e => handleDeleteGroup(e)}
-                                  allData={contentData ? contentData.data : []} data={checkBox}/>
+                                  allData={contentData.data ? contentData.data : []} data={checkBox}/>
                     <BreadCrumbs titleBtn={"افزودن"} icon={"bx bx-plus"} data={breadData}/>
                 </div>
+
+
+                {console.log("cacccc : " , categoryData)}
+                <SearchComponent total={total} searchRes={items => {
+                    Object.keys(items).forEach((key, value) => {
+                        setSearch(true)
+                        if (key === "pageSize") {
+                            if (!items[key]) {
+                                stringSearchs.params.page = 1;
+                                stringSearchs.params[key] = 15;
+                            } else {
+                                stringSearchs.params.page = 1;
+                                stringSearchs.params[key] = items[key];
+                            }
+
+
+                        } else {
+                            stringSearchs.params.page = 1;
+                            stringSearchs.params[key] = items[key];
+                        }
+
+                    })
+
+                    stringSearchs.params.page = 1;
+                    GetAllUser(stringSearchs)
+                }}/>
+
                 <div className={"loaderErrorBack"}>
                     <div clssName={"container"}>
                         <div className={"row justify-content-center"}>
@@ -235,11 +329,29 @@ export const ContentList = () => {
                             </div>
                         </div>
                     ) : <Loading/>}
+
+
                 </div>
+
 
 
                 <BackLoader states={item => (HandleAddContentSelect(item))}/>
                 <div id={"add-datas"}></div>
+                {console.log("paginatesss : " , contentData.data)}
+                <div className="col-md-12">
+                    {contentData.data ? contentData.data.length ? (
+                        <Pagination
+                            firstPageUrl={contentData.first_page_url}
+                            lastPageUrl={contentData.last_page_url}
+                            currentPage={contentData.cuerrent_page}
+                            perPage={perPage}
+                            users={contentAll}
+                            total={total}
+                            paginate={paginate}
+                        />
+                    ) : '' : ''}
+
+                </div>
                 <BottomNavigationBar userData={categoryData} deleteAll={e => handleDeleteGroup(e)}/>
             </div>
         </CHECK_BOX_CONTENT.Provider>
