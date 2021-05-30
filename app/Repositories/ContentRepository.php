@@ -14,27 +14,35 @@ class ContentRepository implements Interfaces\RepositoryInterface
 {
     use ContentTrait;
 
-    public function all($status = null, $search = null, $owner = null, $pageSize = null)
+    public function all($status = null, $search = null, $tags = null, $categories = null)
     {
-        if (empty($pageSize))
-            $pageSize = config('view.pagination');
+        $owner = 'content';
+        if (!empty($tags))
+            $tags = array_map('intval', $tags);
 
-        if (empty($owner))
-            $owner = 'content';
+        if (!empty($categories))
+            $categories = array_map('intval', $categories);
 
-        return Content::when($search != null, function ($query) use ($search) {
+        return Content::when(!empty($search), function ($query) use ($search) {
             $query->where('title', 'like', '%' . $search . '%')
                 ->orWhere('slug', 'like', '%' . $search . '%')
                 ->orWhere('content', 'like', '%' . $search . '%');
         })->whereOwner($owner)
-            ->when($status = !null, function ($query) use ($status) {
+            ->when(!empty($status), function ($query) use ($status) {
                 $query->where('status', $status);
             })
-            ->where('published_at', '<=', Carbon::now())
             ->with('user')
-            ->with('tags')
-            ->with('categories')
-            ->paginate($pageSize);
+            ->when(!empty($tags), function ($query) use ($tags) {
+                $query->with(['tags' => function ($query) use ($tags) {
+                    $query->whereIn('tags.id', $tags);
+                }])->has('tags');
+            })
+            ->when(!empty($categories), function ($query) use ($categories) {
+                $query->with(['categories' => function ($query) use ($categories) {
+                    $query->whereIn('categories.id', $categories);
+                }])->has('categories');
+            })
+            ->get();
     }
 
     public function get($content)
