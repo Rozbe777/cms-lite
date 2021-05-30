@@ -24,6 +24,8 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     let tags = [];
     const [edit, setEdit] = useState(false);
     const [file, setFile] = useState();
+    const [changeCheck, setChangeCheck] = useState(false)
+
     const StatusSwitch = useRef(null);
     const [metaData, setMetaData] = useState({
         robots: false,
@@ -126,6 +128,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     }
 
     const handleInput = (e) => {
+        setChangeCheck(true)
         setEdit(true);
         if (e.target.name == "name") {
             if (slugManage) {
@@ -143,8 +146,6 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
             formDataOld.slug = e.target.value;
             setFormData(formDataOld);
         }
-
-
     }
 
 
@@ -178,6 +179,9 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
         }
 
     }
+
+    let titleWrite = $("input[name=name]").val();
+
     const HandleForm = (e) => {
         let formNew = {...formData};
         let formFile = new FormData();
@@ -293,6 +297,10 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
         delete formOldData.children;
+        let name = titleWrite;
+        let slug = slugManage ? titleWrite : $("input.slugest").val();
+        formOldData.name = name;
+        formOldData.slug = slug;
         delete formOldData.childern;
         delete formOldData.content_count;
         delete formOldData.contents;
@@ -306,8 +314,10 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     const HandleDuplicate = () => {
         let formOldData = {...formData};
         formOldData.content = JSON.stringify(contentNew);
-        let names = $("input.titleCat").val();
-        let slugs = $("input.slugest").val();
+        let name = titleWrite;
+        let slug = slugManage ? titleWrite : $("input.slugest").val();
+        formOldData.name = name;
+        formOldData.slug = slug;
         console.log("data category in : ", names);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
@@ -316,8 +326,6 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
         formOldData.status = status;
-        formOldData.name = names;
-        formOldData.slug = slugs;
         formOldData.metadata = JSON.stringify(metaDatas);
         formOldData.is_menu = parseInt(is_menu);
         formOldData.parent_id = parseInt(parent_id);
@@ -509,13 +517,14 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
                             <div className={"col-lg-9 col-md-8 col-sm-12"}>
                                 <fieldset className="form-group" style={{marginTop: '8px'}}>
                                     <label htmlFor={"title"}>آدرس صفحه دسته بندی</label>
-                                    {console.log("form data new change : ", formData)}
-                                    {console.log("slug manages : ", slugManage)}
-                                    {console.log("update data", dataUpdateParse)}
-                                    {slugManage ? (
-                                        <input type={"text"}
-                                               defaultValue={types == "dup" ? $(".titleCat").val() : formData.slug}
-                                               disabled id={"title"} className={"form-control slugest"}/>
+                                    {slugManage ? changeCheck ? (
+                                        <div className={"fucks"}>
+                                            {titleWrite}
+                                        </div>
+                                    ) : (
+                                        <div className={"fucks"}>
+                                            {formData.slug}
+                                        </div>
                                     ) : (
                                         <input type={"text"}
                                                defaultValue={formData.slug}

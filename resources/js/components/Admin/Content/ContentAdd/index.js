@@ -18,6 +18,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
     const [categories, setCategorise] = useState([]);
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? dataGet.allData : '';
+    const [changeCheck,setChangeCheck] = useState(false)
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
 
 
@@ -40,6 +41,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         robots: false,
     });
 
+    let titleWrite = $("input[name=titleContent]").val();
 
     const type = dataGet ? dataGet.type : '';
 
@@ -124,9 +126,9 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
 
         dataUpdateParse ? dataUpdateParse.tags.map(item => {
-                chipset.push(item.name);
-                setChipset(chipset);
-            }) : '';
+            chipset.push(item.name);
+            setChipset(chipset);
+        }) : '';
 
         setMetaData(MetaDataUpdate)
 
@@ -166,17 +168,27 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
     }
 
     const handleInput = (e) => {
-        setEdit(true);
 
-        let formDataOld = {...formData};
-        if (e.target.name == "title") {
-            formDataOld.title = e.target.value;
-            formDataOld.slug = e.target.value;
-            setFormData(formDataOld);
+
+        setChangeCheck(true)
+        setEdit(true);
+        if (e.target.name == "name") {
+            if (slugManage) {
+                let formDataOld = {...formData};
+                formDataOld.title = e.target.value;
+                formDataOld.slug = e.target.value;
+                setFormData(formDataOld);
+            } else {
+                let formDataOld = {...formData};
+                formDataOld.title = e.target.value;
+                setFormData(formDataOld);
+            }
         } else {
+            let formDataOld = {...formData};
             formDataOld.slug = e.target.value;
             setFormData(formDataOld);
         }
+
 
     }
 
@@ -230,10 +242,10 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         formNew.category_list = idSelCat;
         formNew.tag_list = chipset;
         if (formData.title && formData.title !== '') {
-            $("input[name=title]").removeClass("is-invalid");
+            $("input[name=titleContent]").removeClass("is-invalid");
             CreateAddContent(formNew);
         } else {
-            $("input[name=title]").addClass("is-invalid");
+            $("input[name=titleContent]").addClass("is-invalid");
             error("لطفا فیلد عنوان صفحه را پر کنید !")
         }
 
@@ -265,6 +277,12 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         setEdit(true)
         setSlugManage(status)
     }
+
+    // if (slugManage){
+    //     let title = $("input[name=title]").val();
+    //     $("input.slugest").val(title);
+    //     formData
+    // }
 
     const HandleUpdateForm = (data, id) => {
         swal({
@@ -312,7 +330,10 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
 
     const HandleEdit = () => {
         let formOldData = {...formData};
-
+        let title = titleWrite;
+        let slug = slugManage ? titleWrite : $("input.slugest").val();
+        formOldData.title = title;
+        formOldData.slug = slug;
         formOldData.content = JSON.stringify(contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
@@ -320,6 +341,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
+        formOldData.title = titleWrite;
         formOldData.metadata = JSON.stringify(metaDatas);
         formOldData.status = status;
         formOldData.comment_status = comment_status;
@@ -333,8 +355,9 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
 
     const HandleDuplicate = () => {
         let formOldData = {...formData};
-        let title = $("input[name=title]").val();
-        let slug = $("input.slugest").val();
+        let title = titleWrite;
+        let slug = slugManage ? titleWrite : $("input.slugest").val();
+
         formOldData.content = JSON.stringify(contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
@@ -414,6 +437,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
     }
 
     let HandleMakeName = () => {
+
         if (dataUpdateParse) {
             if (type == "dup") {
                 return MakeNewName(dataUpdateParse.title);
@@ -448,11 +472,11 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                     <div className={"content-pages"}>
 
                         <div className={"row"} style={{padding: '20px'}}>
-                            <div className={"col-lg-6 col-md-12 col-sm-12"}>
+                            <div className={"col-lg-6 col-md-12 col-sm-12"} style={{paddingTop: 5}}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان محتوا</label>
                                     <input type={"text"} defaultValue={HandleMakeName()} onChange={e => handleInput(e)}
-                                           name={"title"} id={"title"}
+                                           name={"titleContent"} id={"title"}
                                            className={"form-control"}/>
                                 </fieldset>
                             </div>
@@ -595,16 +619,20 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                                 </fieldset>
                             </div>
 
-                            <div className={"col-lg-9 col-md-8 col-sm-12"}>
+                            <div className={"col-lg-9 col-md-8 col-sm-12"} style={{paddingTop: 8}}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس صفحه محتوا</label>
-                                    {slugManage ? (
-                                        <input type={"text"}
-                                               defaultValue={HandleDefaultValuSlug()}
-                                               disabled id={"title"} className={"form-control slugest"}/>
+                                    {slugManage ? changeCheck ? (
+                                        <div className={"fucks"}>
+                                            {titleWrite}
+                                        </div>
+                                    ) : (
+                                        <div className={"fucks"}>
+                                            {formData.slug}
+                                        </div>
                                     ) : (
                                         <input type={"text"}
-                                               defaultValue={dataUpdateParse.slug ? dataUpdateParse.slug : formData.title}
+                                               defaultValue={formData.slug}
                                                onChange={e => handleInput(e)} name={"slug"} id={"title"}
                                                className={"form-control slugest"}/>
                                     )}

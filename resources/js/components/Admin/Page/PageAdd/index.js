@@ -508,7 +508,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                                 </fieldset>
                             </div>
 
-                            <div className={"col-lg-9 col-md-8 col-sm-12"}>
+                            <div className={"col-lg-9 col-md-8 col-sm-12"} style={{paddingTop : 7}}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس صفحه محتوا</label>
                                     {slugManage ? (
