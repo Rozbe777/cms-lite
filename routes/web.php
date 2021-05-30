@@ -110,6 +110,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('pages/multi/destroy', [PageController::class, 'multipleDestroy'])->name('pages.multipleDestroy');
 });
 
+
+Route::get('aa',[RoleController::class,'create']);
 //-----------------------Mehrshad End----------------------
 
 

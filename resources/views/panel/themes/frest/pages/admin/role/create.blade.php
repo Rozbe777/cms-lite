@@ -19,7 +19,7 @@
                                     <h6>{{$title}}</h6>
 
                                 </div>
-                                <form action="{{route("admin.role.store")}}" method="post">
+                                <form {{--action="{{route("role.store")}}"--}} method="post">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6">

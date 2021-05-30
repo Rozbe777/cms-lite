@@ -27,6 +27,7 @@
                     <li class=" nav-item"><a href="{{route($menu->name)}}"><i class="bx {{$menu->icon}}"></i><span
                                 class="menu-title"
                             >{{$menu->display_name}}</span></a>
+@dump($menu->children)
                         {{--            <ul class="menu-content">
                                         @foreach($childrenMenus as $subMenu)
                                             @php($subChildrenMenus=$subMenu->childrenMenu)

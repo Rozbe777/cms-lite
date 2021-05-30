@@ -24,7 +24,7 @@ class RoleController extends Controller
 
     public function create()
     {
-        $permissions = Permission::parents()->get();
+        $permissions = Permission::isParent()->get();
         foreach ($permissions as $p) {
             $children = Permission::parentId($p->id)->get();
             $p->children = $children;

@@ -41,7 +41,7 @@ class ContentController extends Controller
         $contents = $this->contentRepository->all($request->status, $request->search, $request->tags, $request->categories);
 
         return (!$contents) ?
-            $this->message( __('message.content.search.notSuccess'))->view("pages.admin.content.index")->error():
+            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.content.index")->error() :
             $this->data($contents)->message(__('message.success.200'))->view("pages.admin.content.index")->success();
     }
 
@@ -103,7 +103,8 @@ class ContentController extends Controller
      */
     public function update(EditContentRequest $request, Content $content)
     {
-        $content = $this->contentRepository->update($request->all(), $content);
+        $this->contentRepository->update($request->all(), $content);
+        $content->load('tags')->load('categories')->load('viewCounts');
 
         return $this->message(__('message.success.200'))->view('pages.admin.content.edit')->data($content)->success();
     }
