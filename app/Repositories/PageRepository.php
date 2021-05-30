@@ -60,7 +60,7 @@ class PageRepository implements Interfaces\RepositoryInterface
 
     public function create(array $data)
     {
-        $data['metadata'] = !empty($data['metadata']) ? json_encode($data['metadata']) : null;
+//        $data['metadata'] = !empty($data['metadata']) ? json_encode($data['metadata']) : null;
 
         $data['user_id'] = Auth::id();
         $data['slug'] = $this->slugHandler($data['slug']);

@@ -48,7 +48,6 @@ class CategoryRepository implements RepositoryInterface
     {
         $data['slug'] = $this->slugHandler($data['slug']);
 
-        unset($data['slug']);
         $data['user_id'] = Auth::id();
 
         if (!empty($data['image']))

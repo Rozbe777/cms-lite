@@ -98,7 +98,7 @@ class ContentRepository implements Interfaces\RepositoryInterface
     public function create(array $data)
     {
         $data['slug'] = $this->slugHandler($data['slug']);
-        $data['metadata'] = !empty($data['metadata']) ? json_encode($data['metadata']) : null;
+//        $data['metadata'] = !empty($data['metadata']) ? json_encode($data['metadata']) : null;
 
         $tag_list = $data['tag_list'] ?? null;
         unset($data["tag_list"]);
