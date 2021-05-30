@@ -12,7 +12,7 @@ export const MultiSelected = ({defaultsel , data, selected: pushSelected , check
     const [check, setCheck] = useState([])
     // const [data, setData] = useState()
     const [paginateThumbs, setPaginateThumbs] = useState();
-    console.log("zzzzzzzzzzzzzzzzz" , def)
+    console.log("zzzzzzzzzzzzzzzzz" , defaultsel)
     const [load, setLoad] = useState(false);
     let selectCheckBox = new Set();
     useEffect(() => {
