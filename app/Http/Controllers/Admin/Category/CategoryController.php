@@ -65,8 +65,8 @@ class CategoryController extends Controller
      */
     public function store(CreateCategoryRequest $request)
     {
-       $parent_id = Category::select('parent_id')->get();
-       if (! $parent_id->has($request->parent_id) && $request->parent_id != 0){
+       $parent_id = Category::pluck('id');
+       if (!in_array($request->parent_id,$parent_id->toArray()) && $request->parent_id != 0){
            return  $this->message(__('message.categories.error.parent_id'))->error();
        }
         $category = $this->categoryRepository->create($request->all());
