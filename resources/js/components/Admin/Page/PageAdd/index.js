@@ -10,7 +10,7 @@ import {ChipsetHandler} from './../../../HOC/ChipsetHandler'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
-const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
+const PageAdd = ({display, dataUpdate, result: pushResult}) => {
 
 
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
@@ -51,7 +51,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
     };
 
     const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
-    const CreateAddContent = (data) => {
+    const CreateAddPage = (data) => {
         console.log("+++++++++++++++++++++ : ", data);
         swal({
             title: 'افزودن محتوا جدید',
@@ -65,7 +65,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-                Request.AddNewContent(data)
+                Request.AddNewPage(data)
                     .then(res => {
                         pushResult(res);
                         localStorage.removeItem("is_menu");
@@ -84,7 +84,6 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                     if (err.response.data.errors) {
                         ErroHandle(err.response.data.errors);
                     } else {
-                        //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
                         ErrorToast("خطای غیر منتظره ای رخ داده است")
                     }
                 })
@@ -165,7 +164,6 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
     const handleAddChip = (item) => {
         setEdit(true)
         let metaDatas = {...metaData};
-        console.log("iiiiii : " , metaDatas)
         let chipsets = [...chipset];
         if (item === ""){
 
@@ -207,7 +205,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         formNew.metadata = JSON.stringify(MetaDaa);
         if (formData.title && formData.title !== '') {
             $("input[name=title]").removeClass("is-invalid");
-            CreateAddContent(formNew);
+            CreateAddPage(formNew);
         } else {
             $("input[name=title]").addClass("is-invalid");
             error("لطفا فیلد عنوان صفحه را پر کنید !")
@@ -256,7 +254,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-                Request.UpdateDataContent(data, id)
+                Request.UpdateDataPage(data, id)
                     .then(res => {
                         pushResult(res);
                         localStorage.removeItem("is_menu");
@@ -326,7 +324,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         formOldData.comment_status = comment_status;
         formOldData.is_menu = parseInt(is_menu);
         // console.log("data duplicate : " , formOldData);
-        CreateAddContent(formOldData);
+        CreateAddPage(formOldData);
     }
 
 
@@ -693,4 +691,4 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
 
 
 }
-export default ContentAdd;
+export default PageAdd;

@@ -15,15 +15,14 @@ const LOCAL_CAT = "localcat-zerone-cmslite";
 const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
 
 
+    const [categories, setCategorise] = useState([]);
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? dataGet.allData : '';
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
 
-    console.log("*************", dataUpdateParse);
-
 
     const [comments, setComments] = useState();
-    const [clear , setClear] = useState(false)
+    const [clear, setClear] = useState(false)
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
     const [contentNew, setContentNew] = useState({});
@@ -124,6 +123,11 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         let formNews = {...formData};
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
 
+        dataUpdateParse ? dataUpdateParse.tags.map(item => {
+                chipset.push(item.name);
+                setChipset(chipset);
+            }) : '';
+
         setMetaData(MetaDataUpdate)
 
         setIds(formNews.id);
@@ -189,19 +193,13 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
 
     const handleAddChip = (item) => {
         setEdit(true)
-        let metaDatas = {...metaData};
-        console.log("iiiiii : ", metaDatas)
         let chipsets = [...chipset];
         if (item === "") {
 
         } else {
             chipsets.push(item);
             setChipset(chipsets);
-            setMetaData(metaDatas);
         }
-
-        console.log("iiiiii : ", metaDatas)
-
     }
 
 
@@ -326,6 +324,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         formOldData.status = status;
         formOldData.comment_status = comment_status;
         formOldData.is_menu = parseInt(is_menu);
+        formOldData.category_list = idSelCat;
 
         console.log("iiiii edit", formOldData)
         HandleUpdateForm(formOldData, ids);
@@ -514,8 +513,10 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                                     htmlFor="users-list-role">دسته بندی</label>
                                 <MultiSelected name={"categories"} data={categoryData ? categoryData : []}
                                                clear={clear}
+                                               defSelected={dataUpdateParse.categories ? dataUpdateParse.categories : []}
                                                clearNew={cl => setClear(cl)}
                                                selected={item => {
+                                                   setEdit(true)
                                                    item.map(ii => {
                                                        let idsel = idSelCat.indexOf(parseInt(ii.id))
                                                        if (idsel !== -1) {
@@ -541,7 +542,8 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                                         <div className={"row"}>
 
                                             <div className={"col-sm-12 col-md-5 col-lg-5"}>
-                                                <ChipsetHandler callback={item => handleAddChip(item)}/>
+                                                <ChipsetHandler
+                                                    callback={item => handleAddChip(item)}/>
                                             </div>
 
                                             {chipset.map(item => (
@@ -615,7 +617,6 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                                 </div>
                             </div>
 
-                            {console.log("//////////////////", MetaDataUpdate)}
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان صفحه ( حداکثر 60 حرف )</label>

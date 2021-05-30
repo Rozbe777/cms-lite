@@ -7,19 +7,30 @@ import './_shared/style.scss';
 import $ from "jquery";
 
 
-export const MultiSelected = ({clear , clearNew : pushClear ,defaultsel , data, selected: pushSelected , check : pushIdCheck}) => {
+export const MultiSelected = ({defSelected , clear , clearNew : pushClear  , data, selected: pushSelected , check : pushIdCheck}) => {
 
 
     const [check, setCheck] = useState([])
 
 
+
     // const [data, setData] = useState()
     const [paginateThumbs, setPaginateThumbs] = useState();
-    console.log("zzzzzzzzzzzzzzzzz" , defaultsel)
     const [load, setLoad] = useState(false);
     let selectCheckBox = new Set();
     useEffect(() => {
 
+
+        let checkkks = [...check];
+        if (defSelected){
+            defSelected.map(item => {
+                checkkks.push({
+                    id : item.id,
+                    name : item.name
+                })
+                setCheck(checkkks)
+            })
+        }
 
 
 
@@ -104,6 +115,13 @@ export const MultiSelected = ({clear , clearNew : pushClear ,defaultsel , data, 
         pushSelected(result)
     }
 
+
+    $(function (){
+        check.map(item => {
+            $("input[name="+item.id+"]").prop("checked" , true);
+            $("span.checkboxeds."+item.id).addClass("active");
+        })
+    })
 
 
     return (

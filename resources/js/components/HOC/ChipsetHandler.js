@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 export const ChipsetHandler = ({label , callback : pushCallBack}) => {
 
@@ -9,6 +9,8 @@ export const ChipsetHandler = ({label , callback : pushCallBack}) => {
             chips_input.val('');
         }
     }
+
+
     return (
         <fieldset className="form-group" id={"form-group-chipset"}>
             <input type={"text"}
