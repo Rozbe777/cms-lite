@@ -18,7 +18,7 @@ export const TreeShowCategory = ({
                                      updateData: pushUpdateData,
                                  }) => {
     const [responseData, setResponseData] = useState({});
-    const [idDelete, setIdDelete] = useState();
+    const [idDelete, setIdDelete] = useState([]);
 
 
     useEffect(() => {
@@ -75,8 +75,10 @@ export const TreeShowCategory = ({
     $(function () {
         $("span#sub-menu-custom").click(function () {
             $(".back-blur").fadeIn(100);
+            let idDel = [...idDelete];
             let ids = $(this).attr("attr-ids");
-            setIdDelete(ids)
+            idDel.push(ids)
+            setIdDelete(idDel)
             setTimeout(() => {
                 $("#bottom-chip").addClass("active");
             }, 200)

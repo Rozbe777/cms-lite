@@ -8,26 +8,29 @@ import MyEditor from "../../_Micro/MyEditor/MyEditor";
 import {ErroHandle, error as ErrorToast, error} from './../../../../helper'
 import {ChipsetHandler} from './../../../HOC/ChipsetHandler'
 import './../../_Micro/TreeShow/_Shared/style.scss';
+import {MultiSelected} from "../../Shop/ProductManager/HOC/MultiSelected";
+import $ from "jquery";
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
 const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
 
 
+    const [categories, setCategorise] = useState([]);
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? dataGet.allData : '';
-    const MetaDataUpdate = dataUpdateParse ?  JSON.parse(dataUpdateParse.metadata) : {robots : false};
-
-    // console.log("*************", dataGet);
+    const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
 
 
     const [comments, setComments] = useState();
+    const [clear, setClear] = useState(false)
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
     const [contentNew, setContentNew] = useState({});
     const [statusNew, setStatusNew] = useState();
     const [menuShow, setMenuShow] = useState();
+    const [idSelCat, setIdSelCat] = useState([])
     // const [MetaDataUpdate , setMetaDataUpdate] = useState({});
-    const [ids , setIds] = useState(0)
+    const [ids, setIds] = useState(0)
     const [chipset, setChipset] = useState([]);
     let tags = [];
     const [edit, setEdit] = useState(false);
@@ -50,9 +53,30 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         slug: ''
     };
 
-    const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
+
+    const GetAllCategory = () => {
+        setLoading(true)
+        Request.GetAllCategory()
+            .then(res => {
+                setClear(true)
+                setLoading(false)
+                setCategoryData(res.data.data)
+            })
+            .catch(err => {
+                if (err.response.data.errors) {
+                    ErroHandle(err.response.data.errors);
+                } else {
+                    //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
+                    $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center ;margin : 10px 0 0 '>خطا در ارتباط با دیتابیس</p><p>مجددا تلاش کنید</p><div>");
+                    ErrorToast("خطای غیر منتظره ای رخ داده است")
+                }
+
+            })
+    }
+
+
     const CreateAddContent = (data) => {
-        console.log("+++++++++++++++++++++ : ", data);
+        console.log("................", data)
         swal({
             title: 'افزودن محتوا جدید',
             text: "آیا مطمئنید؟",
@@ -68,6 +92,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                 Request.AddNewContent(data)
                     .then(res => {
                         pushResult(res);
+                        setClear(true)
                         localStorage.removeItem("is_menu");
                         localStorage.removeItem("status");
                         localStorage.removeItem("selected");
@@ -81,6 +106,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                         })
 
                     }).catch(err => {
+
                     if (err.response.data.errors) {
                         ErroHandle(err.response.data.errors);
                     } else {
@@ -93,31 +119,35 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
     }
 
     useEffect(() => {
-
-
+        GetAllCategory();
         let formNews = {...formData};
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
+
+        dataUpdateParse ? dataUpdateParse.tags.map(item => {
+                chipset.push(item.name);
+                setChipset(chipset);
+            }) : '';
 
         setMetaData(MetaDataUpdate)
 
         setIds(formNews.id);
         setFormData({
-            content : formNews.content,
-            is_index : formNews.is_index,
-            is_menu : formNews.is_menu,
-            metadata : formNews.metadata,
-            slug : formNews.slug,
-            title : formNews.title
+            content: formNews.content,
+            is_index: formNews.is_index,
+            is_menu: formNews.is_menu,
+            metadata: formNews.metadata,
+            slug: formNews.slug,
+            title: formNews.title,
+            tag_list: formNews.tag_list,
+            category_list: formNews.category_list
         });
 
 
-        MetaDataUpdate.tags ? setChipset(MetaDataUpdate.tags) : '';
     }, [])
 
 
-
-
     const handleClose = () => {
+        setClear(true)
         ReactDOM.render('', document.getElementById("add-datas"));
         setFormData({
             is_menu: 1,
@@ -157,22 +187,18 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         if (index !== -1) {
             chipsetArr.splice(index, 1);
             setChipset(chipsetArr);
-            metaData.tags = chipsetArr;
             setMetaData(metaData)
         }
     }
 
     const handleAddChip = (item) => {
         setEdit(true)
-        let metaDatas = {...metaData};
         let chipsets = [...chipset];
-        if (item === ""){
+        if (item === "") {
 
-        }else{
+        } else {
             chipsets.push(item);
             setChipset(chipsets);
-            metaDatas.tags = chipsets;
-            setMetaData(metaDatas);
         }
     }
 
@@ -201,6 +227,8 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         let MetaDaa = {...metaData};
         MetaDaa.robots = robots;
         formNew.metadata = JSON.stringify(MetaDaa);
+        formNew.category_list = idSelCat;
+        formNew.tag_list = chipset;
         if (formData.title && formData.title !== '') {
             $("input[name=title]").removeClass("is-invalid");
             CreateAddContent(formNew);
@@ -239,7 +267,6 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
     }
 
     const HandleUpdateForm = (data, id) => {
-        console.log("data update : ", data)
         swal({
             title: 'ویرایش صفحه',
             text: "آیا مطمئنید؟",
@@ -254,6 +281,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
             if (result.value) {
                 Request.UpdateDataContent(data, id)
                     .then(res => {
+                        setClear(true)
                         pushResult(res);
                         localStorage.removeItem("is_menu");
                         localStorage.removeItem("status");
@@ -284,6 +312,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
 
     const HandleEdit = () => {
         let formOldData = {...formData};
+
         formOldData.content = JSON.stringify(contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
@@ -295,7 +324,10 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         formOldData.status = status;
         formOldData.comment_status = comment_status;
         formOldData.is_menu = parseInt(is_menu);
+        formOldData.category_list = idSelCat;
+        formOldData.tag_list = chipset;
 
+        console.log("iiiii edit", formOldData)
         HandleUpdateForm(formOldData, ids);
     }
 
@@ -312,10 +344,12 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
         formOldData.metadata = JSON.stringify(metaDatas);
-        console.log("dataaaaa : " , metaDatas)
+        console.log("dataaaaa : ", metaDatas)
         formOldData.status = status;
-        formOldData.title  = title;
-        formOldData.slug  = slug;
+        formOldData.category_list = idSelCat;
+        formOldData.tag_list = chipset;
+        formOldData.title = title;
+        formOldData.slug = slug;
         formOldData.comment_status = comment_status;
         formOldData.is_menu = parseInt(is_menu);
         // console.log("data duplicate : " , formOldData);
@@ -414,7 +448,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                     <div className={"content-pages"}>
 
                         <div className={"row"} style={{padding: '20px'}}>
-                            <div className={"col-lg-4 col-md-12 col-sm-12"}>
+                            <div className={"col-lg-6 col-md-12 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان محتوا</label>
                                     <input type={"text"} defaultValue={HandleMakeName()} onChange={e => handleInput(e)}
@@ -442,16 +476,16 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                                         valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
                                 </fieldset>
                             </div>
-                            <div className={"col-lg-2 col-md-3 col-sm-12"}>
-                                <fieldset className="form-group">
-                                    <label id={"selectParent"}>نظرسنجی</label>
-                                    <Switcher
-                                        defaultState={dataUpdateParse ? dataUpdateParse.comment_status == "active" ? true : false : true}
-                                        status={(state) => handleSwitchComment(state)} name={"comment_status"}
-                                        valueActive={"فعال"}
-                                        valueDeActive={"غیرفعال"}/>
-                                </fieldset>
-                            </div>
+                            {/*<div className={"col-lg-2 col-md-3 col-sm-12"}>*/}
+                            {/*    <fieldset className="form-group">*/}
+                            {/*        <label id={"selectParent"}>نظرسنجی</label>*/}
+                            {/*        <Switcher*/}
+                            {/*            defaultState={dataUpdateParse ? dataUpdateParse.comment_status == "active" ? true : false : true}*/}
+                            {/*            status={(state) => handleSwitchComment(state)} name={"comment_status"}*/}
+                            {/*            valueActive={"فعال"}*/}
+                            {/*            valueDeActive={"غیرفعال"}/>*/}
+                            {/*    </fieldset>*/}
+                            {/*</div>*/}
                             <div className={"col-lg-2 col-md-3 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>افزودن فایل</label>
@@ -473,6 +507,64 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
 
                                     </div>
                                 </fieldset>
+                            </div>
+
+                            <div className={"col-lg-6 col-md-12 col-sm-12"}>
+                                <label
+                                    htmlFor="users-list-role">دسته بندی</label>
+                                <MultiSelected name={"categories"} data={categoryData ? categoryData : []}
+                                               clear={clear}
+                                               defSelected={dataUpdateParse.categories ? dataUpdateParse.categories : []}
+                                               clearNew={cl => setClear(cl)}
+                                               selected={item => {
+                                                   setEdit(true)
+                                                   item.map(ii => {
+                                                       let idsel = idSelCat.indexOf(parseInt(ii.id))
+                                                       if (idsel !== -1) {
+
+                                                       } else {
+                                                           idSelCat.push(parseInt(ii.id));
+                                                           setIdSelCat(idSelCat);
+                                                       }
+
+                                                   })
+                                               }}
+
+                                               defaultsel={dataUpdateParse ? dataUpdateParse.categories : []}
+                                />
+                            </div>
+
+                            <div className={"col-lg-6 col-md-12 col-sm-12"} style={{padding: '0px 30px'}}>
+                                <label htmlFor={"title"}>کلمات کلیدی صفحه ( تایپ کنید و Enter بزنید تا اضافه شود.
+                                    )</label>
+                                <div className={"row"}>
+
+                                    <div className={"col-12"} id={"chip-box"} style={{minHeight: 50}}>
+                                        <div className={"row"}>
+
+                                            <div className={"col-sm-12 col-md-5 col-lg-5"}>
+                                                <ChipsetHandler
+                                                    callback={item => handleAddChip(item)}/>
+                                            </div>
+
+                                            {chipset.map(item => (
+                                                <div className="chip mr-1">
+                                                    <div className="chip-body">
+                                                        <span className="chip-text">{item}</span>
+                                                        <div className="chip-closeable"
+                                                             onClick={e => RemoveChipset(item)}>
+                                                            <i className="bx bx-x"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
                             </div>
 
                             <div className={"col-12"}>
@@ -526,7 +618,6 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                                 </div>
                             </div>
 
-                            {console.log("//////////////////" ,MetaDataUpdate)}
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان صفحه ( حداکثر 60 حرف )</label>
@@ -550,39 +641,6 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                                 </fieldset>
                             </div>
 
-                            <div className={"col-12"}>
-                                <label htmlFor={"title"}>کلمات کلیدی صفحه ( تایپ کنید و Enter بزنید تا اضافه شود.
-                                    )</label>
-                                <div className={"row"} style={{padding: '15px'}}>
-
-                                    <div className={"col-12"} id={"chip-box"}>
-                                        <div className={"row"}>
-
-                                            <div className={"col-sm-12 col-md-3 col-lg-2"}>
-                                                <ChipsetHandler callback={item => handleAddChip(item)}/>
-                                            </div>
-
-                                            {console.log("vvvvvv : " , chipset)}
-                                            {chipset.map(item => (
-                                                <div className="chip mr-1">
-                                                    <div className="chip-body">
-                                                        <span className="chip-text">{item}</span>
-                                                        <div className="chip-closeable"
-                                                             onClick={e => RemoveChipset(item)}>
-                                                            <i className="bx bx-x"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-
-
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
-                            </div>
 
                             <div className={"col-12"}>
                                 <fieldset className="form-group">

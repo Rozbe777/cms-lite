@@ -2,12 +2,10 @@ import React, {useEffect, useState} from 'react'
 import ReactDom from 'react-dom';
 import {BackLoader} from './../../_Micro/BackLoader'
 import {TreeShowCategory} from './../../_Micro/TreeShow/TreeShowCategory';
-import {TreeShowPage} from './../../_Micro/PageComponents/TreeShowPage';
 import {Request} from './../../../../services/AdminService/Api'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import AddCategory from './../CategoryAdd';
 import {CHECK_BOX_CONTENT} from "../../UserList/Helper/Context";
-import PageAdd from './../../Page/PageAdd'
 import Loading from './../../_Micro/Loading'
 import $ from 'jquery';
 import {ErroHandle, error as ErrorToast} from "../../../../helper";
@@ -23,23 +21,28 @@ export const CategoryList = () => {
     const [dispalyAdd, setDisplayAdd] = useState({dispaly: false})
     const [loading, setLoading] = useState(false);
     const [categoryData, setCategoryData] = useState()
+    const [categoryDataTotal, setCategoryDataTotal] = useState()
     const [pageData, setPageData] = useState({})
     const [length, setLength] = useState(0)
     const [breadData] = useState({
-        title: 'لیست کاربران',
-        desc: 'نمایش لیست کاربران و مدیریت آنها'
+        title: 'لیست دسته بندی ها',
+        desc: 'نمایش لیست دسته بندی ها و مدیریت آنها'
     });
+
+
+    let finalAllIds = {};
 
 
     const GetAllCategory = () => {
         setLoading(true)
         Request.GetAllCategory()
             .then(res => {
+
                 localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
                 setLoading(false)
                 setCategoryData(res.data.data)
-                console.log("dataaaaaaaaaaa : " , res.data.data)
-                setLength(res.data.data.length)
+                setLength(res.data.data.length);
+                setCategoryDataTotal(res.data)
             })
             .catch(err => {
                 if (err.response.data.errors) {
@@ -61,72 +64,43 @@ export const CategoryList = () => {
     }
 
 
-    const GetAllPages = () => {
-        setLoading(true)
-        // Request.GetAllPages()
-        //     .then(res => {
-        //         localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
-        //         setLoading(false)
-        //         setPageData(res.data)
-        //     })
-        //     .catch(err => console.log("errpr : ", err))
-    }
-
 
     useEffect(() => {
         GetAllCategory();
-        GetAllPages();
 
-
-        $(function () {
-            $("#show-loader-selected").click(() => {
-                $(".back-loader").fadeIn();
-            })
-            $(".back-loader").click(() => {
-                $(".back-loader").fadeOut();
-            })
-        })
     }, [])
 
-    const handleAddPage = () => {
-        ReactDom.render(<PageAdd display={true} dataUpdate={''} idParent={0}
-                                 result={item => handleBackPage(item)}/>, document.getElementById("add-datas"))
-    }
 
-    const handleAddCategory = () => {
+    const handleAddCategory = (e) => {
+        e.preventDefault()
         console.log("category data : ", categoryData);
         if (!loading) {
             ReactDom.render(<AddCategory display={true}
                                          dataAll={JSON.stringify(categoryData)}
-                                         result={item => handleBackPage(item)}/>, document.getElementById("add-datas"))
+                                         result={item => handleBackPage(item)} />, document.getElementById("add-datas"))
         } else {
         }
     }
 
     const HandleAdd = (item) => {
+            GetAllCategory();
+
+    }
+
+    const handleBackPage = (item) => {
         if (item.status == 200) {
             GetAllCategory();
-            GetAllPages();
-            ReactDom.render('', document.getElementById("add-datas"))
-        } else {
-            console.log("error in add : ", item)
+            ReactDom.render('', document.getElementById('add-datas'))
         }
     }
 
     const HandleDelete = (status) => {
             GetAllCategory();
-            GetAllPages();
-
         setCheckBox([])
     }
 
     const HandleDuplicate = (status) => {
-        if (status == 200) {
             GetAllCategory();
-            // GetAllPages();
-        } else {
-            console.log("you have an error");
-        }
     }
 
     const handleClickItem = (clickId) => {
@@ -138,23 +112,16 @@ export const CategoryList = () => {
     const handleBack = (item) => {
         if (item.status == 200) {
             GetAllCategory();
-            GetAllPages();
             ReactDom.render('', document.getElementById('add-datas'))
         }
     }
-    const handleBackPage = (item) => {
-        if (item.status == 200) {
-            GetAllPages();
-            GetAllCategory();
-            ReactDom.render('', document.getElementById('add-datas'))
-        }
-    }
+
+
     const HandleBackLoader = (data) => {
         // console.log("+++++++" , JSON.parse(JSON.parse(data).allData).parent_id)
         // console.log("dupppffffffp : " ,data )
 
         let id_parents = JSON.parse(data).allData.parent_id;
-        // console.log("loading loader : " , id_parents)
         ReactDom.render(<AddCategory display={true} dataUpdate={data}
                                      dataAll={JSON.stringify(categoryData)}
                                      idParent={id_parents}
@@ -162,37 +129,8 @@ export const CategoryList = () => {
     }
 
     const HandleAddContentSelect = (data) => {
-        let datas = JSON.parse(data);
-        if (datas.type == "category") {
             handleAddCategory();
-        } else {
-            handleAddPage();
-        }
-    }
 
-    // page handlersssss
-    const HandleDuplicatePage = (status) => {
-        if (status == 200) {
-            GetAllPages();
-        } else {
-            console.log("you have an error");
-        }
-    }
-    const handleClickItemPage = (clickId) => {
-        ReactDom.render(<PageAdd display={true} idParent={clickId}
-                                 dataUpdate={''}
-                                 result={item => handleBack(item)}/>, document.getElementById("add-datas"))
-    }
-    const HandleDeletePage = (status) => {
-        if (status == 200) {
-            GetAllPages();
-        } else {
-            console.log("you have an error");
-        }
-    }
-    const HandleBackLoaderPage = (data) => {
-        ReactDom.render(<PageAdd display={true} dataUpdate={data} idParent={0}
-                                 result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
 
     if (checkBox.length > 0) {
@@ -207,13 +145,14 @@ export const CategoryList = () => {
     const handleDeleteGroup = (event) => {
 
 
-        finalAllIds.userIds = checkBox;
+        finalAllIds.categoryIds = checkBox;
 
         finalAllIds._token = $('meta[name="csrf-token"]').attr('content');
 
+        console.log("dataaaaaa : " , finalAllIds)
         event.preventDefault();
         swal({
-            title: 'حذف کاربر',
+            title: 'حذف دسته بندی',
             text: "آیا مطمئنید؟",
             type: 'warning',
             showCancelButton: true,
@@ -224,20 +163,19 @@ export const CategoryList = () => {
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-                Request.GroupDelUser(finalAllIds)
+                Request.GroupDelCategory(finalAllIds)
                     .then(res => {
                         setCheckBox([])
                         Swal.fire({
                             type: "success",
                             title: 'حذف شد!',
-                            text: 'کاربر مورد نظر حذف شد',
+                            text: 'دسته بندی مورد نظر حذف شد',
                             confirmButtonClass: 'btn btn-success',
                             confirmButtonText: 'باشه',
                         })
 
-                        stringSearchs.params.page = 1;
 
-                        GetAllUser(stringSearchs);
+                        GetAllCategory();
                     }).catch(error => {
                     if (error.response.data.errors) {
                         ErroHandle(error.response.data.errors)
@@ -256,37 +194,12 @@ export const CategoryList = () => {
 
 
                 <div className={"row col-12"} id={"headerContent"}>
-                    <TotalActions text={" مورد انتخاب شده است "} deleteUsers={e => handleDeleteGroup(e)} allData={categoryData} data={checkBox}/>
-                    <BreadCrumbs data={breadData}/>
+                    <TotalActions text={" مورد انتخاب شده است "} deleteUsers={e => handleDeleteGroup(e)} allData={categoryDataTotal} data={checkBox}/>
+                    <BreadCrumbs data={breadData}  titleBtn={"افزودن"} icon={"bx bx-plus"} clicked={e => handleAddCategory(e) } />
                 </div>
 
 
-                <ul className="nav nav-tabs tab-layout" role="tablist"
-                    style={{
-                        borderRadius: '0px',
-                        boxShadow: '0px 6px 6px 3px rgba(0,0,0,0.1) !important',
-                        borderTop: '1px solid #eee'
-                    }}>
-                    <li className="nav-item col-6 nav-custom">
-                        <a className="nav-link active" id="home-tab" data-toggle="tab" href="#home" aria-controls="home"
-                           role="tab" aria-selected="true">
-                            <i className="bx bxs-categories align-middle" id={"tab-list-icon"}
-                               style={{marginTop: '4px', fontSSize: '35px !important'}}></i>
-                            <span className="align-middle">دسته بندی</span>
-                        </a>
-                    </li>
-                    <li className="nav-item col-6 nav-custom">
-                        <a className="nav-link" id="profile-tab" data-toggle="tab" href="#profile"
-                           aria-controls="profile"
-                           role="tab" aria-selected="false">
-                            <i className="bx bxs-layer align-middle"
-                               id={"tab-list-icon"}
-                               style={{marginTop: '4px', fontSize: '35px !important'}}></i>
-                            <span className="align-middle">صفحات داخلی</span>
-                        </a>
-                    </li>
 
-                </ul>
 
 
                 <div className={"loaderErrorBack"}>
@@ -305,7 +218,6 @@ export const CategoryList = () => {
 
 
                 <div className="tab-content" style={{padding: 0}}>
-                    {console.log("loadinf : " , loading , " // " ,categoryData)}
                     <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
                         {!loading ? categoryData ? categoryData.length > 0 ? (
                             <TreeShowCategory handleCata={itemCat => console.log("cat back ,", itemCat)}
@@ -323,7 +235,7 @@ export const CategoryList = () => {
                                 </p>
                                 <div id={"maines"}>
                                     <button id="add-category"
-                                            onClick={() => handleAddCategory()}
+                                            onClick={(e) => handleAddCategory(e)}
                                             style={{width: 180}}
                                             className="btn btn-primary glow mr-1 mb-1"
                                             type="button">

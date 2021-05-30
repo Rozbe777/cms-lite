@@ -5,18 +5,17 @@ import {BigSwitcher} from './../../../HOC/BigSwitcher';
 import './../../_Shared/Style.scss'
 import {Request} from './../../../../services/AdminService/Api'
 import MyEditor from "../../_Micro/MyEditor/MyEditor";
-import {error} from './../../../../helper'
+import {ErroHandle, error as ErrorToast, error} from './../../../../helper'
 import {ChipsetHandler} from './../../../HOC/ChipsetHandler'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
-const AddPage = ({display, dataUpdate, result: pushResult}) => {
-
-
+const PageAdd = ({display, dataUpdate, result: pushResult}) => {
 
 
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? dataGet.allData : '';
+    const MetaDataUpdate = dataUpdateParse ?  JSON.parse(dataUpdateParse.metadata) : {robots : false};
 
     // console.log("*************", dataGet);
 
@@ -27,6 +26,8 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
     const [contentNew, setContentNew] = useState({});
     const [statusNew, setStatusNew] = useState();
     const [menuShow, setMenuShow] = useState();
+    // const [MetaDataUpdate , setMetaDataUpdate] = useState({});
+    const [ids , setIds] = useState(0)
     const [chipset, setChipset] = useState([]);
     let tags = [];
     const [edit, setEdit] = useState(false);
@@ -44,6 +45,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
 
     let default_value = {
         is_menu: 1,
+        is_index : 1,
         status: "active",
         content: '',
         slug: ''
@@ -51,9 +53,8 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
 
     const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
     const CreateAddPage = (data) => {
-        console.log("+++++++++++++++++++++ : ", data);
         swal({
-            title: 'افزودن دسته بندی جدید',
+            title: 'افزودن محتوا جدید',
             text: "آیا مطمئنید؟",
             type: 'warning',
             showCancelButton: true,
@@ -66,40 +67,54 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
             if (result.value) {
                 Request.AddNewPage(data)
                     .then(res => {
-                        let resError = res.data.message ? res.data.message : '';
-                        console.log("status error : ", res.data.size)
-                        if (res.status == 200 && resError == '') {
-                            pushResult(res);
-                            localStorage.removeItem("is_menu");
-                            localStorage.removeItem("status");
-                            localStorage.removeItem("selected");
-                            Swal.fire({
-                                type: "success",
-                                title: 'با موفقیت اضافه شد !',
-                                confirmButtonClass: 'btn btn-success',
-                                confirmButtonText: 'باشه',
-                            })
-                        } else if (res.status == 200 && resError !== '') {
-                            error(resError)
-                        } else {
-                            Swal.fire({
-                                type: "error",
-                                title: 'خطایی غیر منتظره ای رخ داده است !',
-                                cancelButtonClass: 'btn btn-primary',
-                                cancelButtonText: 'تلاش مجدد',
-                            })
-                        }
+                        pushResult(res);
+                        localStorage.removeItem("is_menu");
+                        localStorage.removeItem("status");
+                        localStorage.removeItem("selected");
+                        localStorage.removeItem("is_index");
+                        localStorage.removeItem("robots");
+                        Swal.fire({
+                            type: "success",
+                            title: 'با موفقیت اضافه شد !',
+                            confirmButtonClass: 'btn btn-success',
+                            confirmButtonText: 'باشه',
+                        })
 
-                    }).catch(error => console.log("error", error))
+                    }).catch(err => {
+                    if (err.response.data.errors) {
+                        ErroHandle(err.response.data.errors);
+                    } else {
+                        ErrorToast("خطای غیر منتظره ای رخ داده است")
+                    }
+                })
             }
         });
     }
 
     useEffect(() => {
+
+
         let formNews = {...formData};
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
-        setFormData(formNews);
+
+        setMetaData(MetaDataUpdate)
+
+        setIds(formNews.id);
+        setFormData({
+            content : formNews.content,
+            is_index : formNews.is_index,
+            is_menu : formNews.is_menu,
+            metadata : formNews.metadata,
+            slug : formNews.slug,
+            title : formNews.title
+        });
+
+
+        MetaDataUpdate.tags ? setChipset(MetaDataUpdate.tags) : '';
     }, [])
+
+
+
 
     const handleClose = () => {
         ReactDOM.render('', document.getElementById("add-datas"));
@@ -147,13 +162,20 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
     }
 
     const handleAddChip = (item) => {
+        setEdit(true)
         let metaDatas = {...metaData};
         let chipsets = [...chipset];
-        chipsets.push(item);
-        setChipset(chipsets);
-        metaDatas.tags = chipsets;
-        setMetaData(metaDatas);
-        console.log("meta dataaaaaa : ", metaDatas)
+        if (item === ""){
+
+        }else{
+            chipsets.push(item);
+            setChipset(chipsets);
+            metaDatas.tags = chipsets;
+            setMetaData(metaDatas);
+        }
+
+        console.log("iiiiii : " , metaDatas)
+
     }
 
 
@@ -163,11 +185,12 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
         formFile.append("file", file);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
-        let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formNew.comment_status;
+        let is_index = localStorage.getItem("is_index") ? localStorage.getItem("is_index") : formNew.is_index;
+        let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         formNew.status = status;
-        formNew.comment_status = comment_status;
+        formNew.is_index = parseInt(is_index);
         formNew.image = file;
-        formNew.is_menu = is_menu ? 1 : 0;
+        formNew.is_menu = parseInt(is_menu);
         if (slugManage == false) {
             formNew.slug = formNew.title;
         } else {
@@ -176,14 +199,12 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
         if (formData.slug == "") {
             formNew.slug = formNew.title
         }
-        formNew.content = contentNew;
-
-        formNew.metadata = JSON.stringify(metaData);
+        formNew.content = JSON.stringify(contentNew);
+        let MetaDaa = {...metaData};
+        MetaDaa.robots = robots;
+        formNew.metadata = JSON.stringify(MetaDaa);
         if (formData.title && formData.title !== '') {
             $("input[name=title]").removeClass("is-invalid");
-            // console.log("data added new : " , formNew)
-            console.log("form dataaaaaaaa : ", formNew)
-
             CreateAddPage(formNew);
         } else {
             $("input[name=title]").addClass("is-invalid");
@@ -201,8 +222,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
     }
     const HandlerBigSwitcher = (states) => {
         setEdit(true)
-        let metaD = {...metaData};
-        metaD.robots = states;
+        localStorage.setItem("robots", states)
     }
 
     const HandleSlug = (e) => {
@@ -221,7 +241,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
     }
 
     const HandleUpdateForm = (data, id) => {
-        console.log("data update : ", data)
+        console.log("iiii", data)
         swal({
             title: 'ویرایش صفحه',
             text: "آیا مطمئنید؟",
@@ -236,32 +256,28 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
             if (result.value) {
                 Request.UpdateDataPage(data, id)
                     .then(res => {
-                        let resError = res.data.message ? res.data.message : '';
-                        console.log("status error : ", res.data.size)
-                        if (res.status == 200 && resError == '') {
-                            pushResult(res);
-                            localStorage.removeItem("is_menu");
-                            localStorage.removeItem("status");
-                            localStorage.removeItem("selected");
-                            localStorage.removeItem("comment_status");
-                            Swal.fire({
-                                type: "success",
-                                title: 'با موفقیت ویرایش شد !',
-                                confirmButtonClass: 'btn btn-success',
-                                confirmButtonText: 'باشه',
-                            })
-                        } else if (res.status == 200 && resError !== '') {
-                            error(resError)
-                        } else {
-                            Swal.fire({
-                                type: "error",
-                                title: 'خطایی غیر منتظره ای رخ داده است !',
-                                cancelButtonClass: 'btn btn-primary',
-                                cancelButtonText: 'تلاش مجدد',
-                            })
-                        }
+                        pushResult(res);
+                        localStorage.removeItem("is_menu");
+                        localStorage.removeItem("status");
+                        localStorage.removeItem("selected");
+                        localStorage.removeItem("is_index");
+                        localStorage.removeItem("robots");
+                        Swal.fire({
+                            type: "success",
+                            title: 'با موفقیت ویرایش شد !',
+                            confirmButtonClass: 'btn btn-success',
+                            confirmButtonText: 'باشه',
+                        })
 
-                    }).catch(error => console.log("error", error))
+                    }).catch(err => {
+
+                    if (err.response.data.errors) {
+                        ErroHandle(err.response.data.errors);
+                    } else {
+                        //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
+                        ErrorToast("خطای غیر منتظره ای رخ داده است")
+                    }
+                })
             }
         });
 
@@ -270,28 +286,42 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
 
     const HandleEdit = () => {
         let formOldData = {...formData};
-        formOldData.content = contentNew;
+        console.log("iiiii edit" , formOldData)
+
+        formOldData.content = JSON.stringify(contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-        let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
-
+        let is_index = localStorage.getItem("is_index") ? localStorage.getItem("is_index") : formData.is_index;
+        let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
+        let metaDatas = {...metaData};
+        metaDatas.robots = robots;
+        formOldData.metadata = JSON.stringify(metaDatas);
         formOldData.status = status;
-        formOldData.comment_status = comment_status;
-        console.log("is _menuuuuu : ", is_menu)
+        formOldData.is_index = parseInt(is_index);
         formOldData.is_menu = parseInt(is_menu);
 
-        HandleUpdateForm(formOldData, formOldData.id);
+        console.log("iiiii edit" , formOldData)
+        HandleUpdateForm(formOldData, ids);
     }
 
     const HandleDuplicate = () => {
         let formOldData = {...formData};
-        formOldData.content = contentNew;
+        let title = $("input[name=title]").val();
+        let slug = $("input.slugest").val();
+        formOldData.content = JSON.stringify(contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-        let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
+        let is_index = localStorage.getItem("is_index") ? localStorage.getItem("is_index") : formData.is_index;
         // console.log("selected : duplicate  : " , localStorage.getItem("selected"));
+        let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
+        let metaDatas = {...metaData};
+        metaDatas.robots = robots;
+        formOldData.metadata = JSON.stringify(metaDatas);
+        console.log("dataaaaa : " , metaDatas)
         formOldData.status = status;
-        formOldData.comment_status = comment_status;
+        formOldData.title  = title;
+        formOldData.slug  = slug;
+        formOldData.is_index = parseInt(is_index);
         formOldData.is_menu = parseInt(is_menu);
         // console.log("data duplicate : " , formOldData);
         CreateAddPage(formOldData);
@@ -333,7 +363,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
     }
     const handleSwitchComment = (status) => {
         setEdit(true)
-        localStorage.setItem("comment_status", status ? "active" : "deactivate");
+        localStorage.setItem("is_index", status ? 1 : 0);
     }
     const HandleSelectOption = (check) => {
         setEdit(true)
@@ -374,7 +404,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                 <li className="nEav-item col-6 nav-custom">
                     <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
                        role="tab" aria-selected="true">
-                        <span className="align-middle">دسته بندی</span>
+                        <span className="align-middle">اطلاعات صفحه</span>
                     </a>
                 </li>
                 <li className="nav-item col-6 nav-custom ">
@@ -391,7 +421,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                         <div className={"row"} style={{padding: '20px'}}>
                             <div className={"col-lg-4 col-md-12 col-sm-12"}>
                                 <fieldset className="form-group">
-                                    <label htmlFor={"title"}>عنوان صفحه</label>
+                                    <label htmlFor={"title"}>عنوان محتوا</label>
                                     <input type={"text"} defaultValue={HandleMakeName()} onChange={e => handleInput(e)}
                                            name={"title"} id={"title"}
                                            className={"form-control"}/>
@@ -419,12 +449,12 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                             </div>
                             <div className={"col-lg-2 col-md-3 col-sm-12"}>
                                 <fieldset className="form-group">
-                                    <label id={"selectParent"}>نظرسنجی</label>
+                                    <label id={"selectParent"}>صفحه اصلی</label>
                                     <Switcher
-                                        defaultState={dataUpdateParse ? dataUpdateParse.comment_status == "active" ? true : false : true}
-                                        status={(state) => handleSwitchComment(state)} name={"comment_status"}
-                                        valueActive={"فعال"}
-                                        valueDeActive={"غیرفعال"}/>
+                                        defaultState={dataUpdateParse ? dataUpdateParse.is_index == 1 ? true : false : true}
+                                        status={(state) => handleSwitchComment(state)} name={"is_index"}
+                                        valueActive={"بله"}
+                                        valueDeActive={"خیر"}/>
                                 </fieldset>
                             </div>
                             <div className={"col-lg-2 col-md-3 col-sm-12"}>
@@ -458,7 +488,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                                           id={"my-editor"}
                                           type={"perfect"}
                                           defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
-                                          />
+                                />
                             </div>
                         </div>
 
@@ -480,7 +510,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
 
                             <div className={"col-lg-9 col-md-8 col-sm-12"}>
                                 <fieldset className="form-group">
-                                    <label htmlFor={"title"}>آدرس صفحه دسته بندی</label>
+                                    <label htmlFor={"title"}>آدرس صفحه محتوا</label>
                                     {slugManage ? (
                                         <input type={"text"}
                                                defaultValue={HandleDefaultValuSlug()}
@@ -501,10 +531,13 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                                 </div>
                             </div>
 
+                            {console.log("//////////////////" ,MetaDataUpdate)}
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان صفحه ( حداکثر 60 حرف )</label>
-                                    <input type={"text"} onChange={e => HandleMetaData(e)} name={"title"} id={"title"}
+                                    <input type={"text"}
+                                           defaultValue={MetaDataUpdate ? MetaDataUpdate.title : ''}
+                                           onChange={e => HandleMetaData(e)} name={"title"} id={"title"}
                                            className={"form-control"}/>
 
 
@@ -515,6 +548,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>توضیح صفحه ( حداکثر 155 حرف )</label>
                                     <textarea type={"text"} onChange={e => HandleMetaData(e)} name={"content"}
+                                              defaultValue={MetaDataUpdate ? MetaDataUpdate.content : ''}
                                               id={"title"} className={"form-control"}/>
 
 
@@ -526,7 +560,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                                     )</label>
                                 <div className={"row"} style={{padding: '15px'}}>
 
-                                    <div className={"col-12"} id={"chip-box"}>
+                                    <div className={"col-12"} id={"chip-box"} style={{minHeight : 50}}>
                                         <div className={"row"}>
 
                                             <div className={"col-sm-12 col-md-3 col-lg-2"}>
@@ -558,6 +592,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس داخلی برای انتقال (301 Redirect)</label>
                                     <input type={"text"} onChange={e => HandleMetaData(e)} name={"redirect"}
+                                           defaultValue={MetaDataUpdate ? MetaDataUpdate.redirect : ''}
                                            id={"title"} className={"form-control"}/>
 
                                 </fieldset>
@@ -567,6 +602,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس Canonical</label>
                                     <input onChange={e => HandleMetaData(e)} name={"canonical"} type={"text"}
+                                           defaultValue={MetaDataUpdate ? MetaDataUpdate.canonical : ''}
                                            id={"title"} className={"form-control"}/>
                                 </fieldset>
                             </div>
@@ -575,6 +611,7 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
                                 <label>تنظیمات Robots</label>
                                 <BigSwitcher status={states => HandlerBigSwitcher(states)} name={"Robots"}
                                              valueOne={"غیرفعال"} valueTow={"noindex,follow"}
+                                             defaultStatus={MetaDataUpdate ? MetaDataUpdate.robots : false}
                                              default={''}
                                              valueThree={"noindex,unfolow"}/>
                             </div>
@@ -654,4 +691,4 @@ const AddPage = ({display, dataUpdate, result: pushResult}) => {
 
 
 }
-export default AddPage;
+export default PageAdd;

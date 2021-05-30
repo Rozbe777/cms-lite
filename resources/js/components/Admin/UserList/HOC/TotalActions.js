@@ -5,6 +5,7 @@ import $ from "jquery";
 
 export const TotalActions = ({text , data, allData , deleteUsers :pushDeleteUser }) => {
 
+    console.log(">>>>>>>>//////" , allData);
     useEffect(() => {
 
     }, [])
@@ -12,11 +13,27 @@ export const TotalActions = ({text , data, allData , deleteUsers :pushDeleteUser
 
     const [checkFixed, setCheckFixed] = useState(false);
 
-    console.log("************* : " , allData)
     const checkAll = e => {
         e.preventDefault();
         let dataAlls = [...checkBox];
         allData.data.map(item => {
+            if(item.childern){
+                item.childern.map(itemChild1 => {
+                    var indexc1 = dataAlls.indexOf(itemChild1.id);
+                    if (indexc1 == -1) {
+                        dataAlls.push(itemChild1.id);
+                    }
+
+                    if (itemChild1.children){
+                        itemChild1.children.map(itemChild2 => {
+                            var indexc2 = dataAlls.indexOf(itemChild2.id);
+                            if (indexc2 == -1) {
+                                dataAlls.push(itemChild2.id);
+                            }
+                        })
+                    }
+                })
+            }
             var index = dataAlls.indexOf(item.id);
             if (index == -1) {
                 dataAlls.push(item.id);

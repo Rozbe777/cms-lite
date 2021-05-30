@@ -16,17 +16,21 @@
     margin-left: -20px !important;
     margin-top: 2px !important;
 }
-.page-item{
+
+.page-item {
     cursor: pointer !important;
 }
-input::placeholder{
+
+input::placeholder {
     font-size: 13px !important;
 }
-#spinner-loading{
+
+#spinner-loading {
     padding: 10px;
     margin-right: 20px;
 }
-#edit-boxes{
+
+#edit-boxes {
     width: 200px;
     position: absolute;
     right: 30px;
@@ -37,7 +41,8 @@ input::placeholder{
     padding: 5px;
     box-shadow: 8px 0px 20px 5px rgb(0 0 0 / 10%);
     border-radius: 5px;
-    &::after{
+
+    &::after {
         position: absolute;
         content: '';
         clip-path: polygon(100% 0, 0 0, 0 100%);
@@ -49,24 +54,27 @@ input::placeholder{
     }
 }
 
-.nav-custom{
+.nav-custom {
     padding: 0px !important;
     margin: 0px !important;
     height: 60px;
     font-size: 15px;
     line-height: 2.1;
-    a{
+
+    a {
         display: flex;
         height: 60px;
         background: none !important;
         color: #64788F !important;
         justify-content: center;
         border-radius: 0px !important;
-        &.active{
+
+        &.active {
             border-bottom: 2px solid #606CEC !important;
             color: #606CEC !important;
         }
-        i{
+
+        i {
             font-size: 25px !important;
             margin-left: 10px !important;
         }
@@ -74,25 +82,27 @@ input::placeholder{
 
 }
 
-ul.tab-layout{
+ul.tab-layout {
     padding-top: 10px;
     background: rgb(255, 255, 255) none repeat scroll 0% 0%;
     border-radius: 5px;
     overflow: hidden;
-    box-shadow: 0px 0 8px 0px rgba(0,0,0,0.1);
+    box-shadow: 0px 0 8px 0px rgba(0, 0, 0, 0.1);
 }
 
-ul.content-li{
+ul.content-li {
     list-style: none;
+    width: 100%;
     padding: 0px 15px;
-    li{
+
+    li {
         float: right;
         width: 100%;
         z-index: 9;
         position: relative;
         cursor: pointer;
 
-        #li-div{
+        #li-div {
             background: #fff;
             height: 55px;
             z-index: 9;
@@ -100,33 +110,40 @@ ul.content-li{
             border-radius: 5px;
             transition: 0.3s all ease;
             position: relative;
-            &:hover{
+
+            &:hover {
                 transform: scale(1.01);
-                box-shadow: 0 0 6px 2px rgba(0,0,0,0.1);
+                box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
             }
-            .form-check{
+
+            .form-check {
                 margin-top: -3px;
-                .badge{
+
+                .badge {
                     float: left;
                     margin-top: 7px;
                     font-size: 13px;
                 }
-                span{
+
+                span {
                     font-size: 15px;
                     margin-right: 15px;
                 }
-                i{
+
+                i {
                     float: left;
                     font-size: 23px;
                     margin-top: 7px;
                     margin-right: 25px;
                     transition: 0.3s ease;
-                    &:hover{
+
+                    &:hover {
                         color: #606CEC;
                     }
                 }
             }
-            .check-category{
+
+            .check-category {
                 margin-left: 5px;
                 float: right !important;
                 margin-top: 10px;
@@ -135,7 +152,7 @@ ul.content-li{
     }
 }
 
-.back-loader{
+.back-loader {
     width: 100%;
     height: 100%;
     position: fixed;
@@ -143,8 +160,9 @@ ul.content-li{
     display: none;
     right: 0px;
     z-index: 999999;
-    background: rgba(255,255,255,0.95);
-    #close-select{
+    background: rgba(255, 255, 255, 0.95);
+
+    #close-select {
         width: 45px;
         height: 45px;
         background: #ccc;
@@ -159,24 +177,27 @@ ul.content-li{
         cursor: pointer;
 
     }
-    .box-selected{
+
+    .box-selected {
         width: 340px;
         position: absolute;
         height: 190px;
         overflow: hidden;
         border-radius: 10px;
         left: 0px;
-        box-shadow: 0 0 14px 2px rgba(0,0,0,0.1);
+        box-shadow: 0 0 14px 2px rgba(0, 0, 0, 0.1);
         right: 0px;
         bottom: 0px;
         top: 0px;
         margin: auto;
         border: 1px solid #BBC3CE;
         background: #fff;
-        ul{
+
+        ul {
             padding: 0px;
             list-style: none;
-            li#first{
+
+            li#first {
                 height: 50px;
                 width: 100%;
                 color: #000;
@@ -184,36 +205,43 @@ ul.content-li{
                 line-height: 2.9;
                 border-bottom: 1px solid #BBC3CE;
             }
-            li#last{
+
+            li#last {
                 width: 100%;
                 cursor: pointer;
                 height: 70px;
                 border-bottom: 1px solid #BBC3CE;
                 transition: 0.1s all ease;
-                &:hover{
+
+                &:hover {
                     border-right: 2px solid darkgreen;
                     background: #f3f3f3;
                 }
-                #icon{
+
+                #icon {
                     float: right;
                     width: 70px;
                     text-align: center;
                     line-height: 4.6 !important;
                     height: 70px;
-                    i{
+
+                    i {
                         font-size: 35px !important;
                     }
                 }
-                #desc{
+
+                #desc {
                     float: right;
                     width: 260px !important;
-                    p#first{
+
+                    p#first {
                         font-size: 18px;
                         color: #000;
                         margin-top: 5px;
                         margin-bottom: 0 !important;
                     }
-                    p#last{
+
+                    p#last {
                         padding: 0px;
                         font-size: 13px;
                         margin-top: -10px;
@@ -229,7 +257,7 @@ ul.content-li{
     }
 }
 
-.branch{
+.branch {
     width: 25px;
     height: 45px;
     position: absolute;
@@ -237,27 +265,8 @@ ul.content-li{
     top: -12px;
     border-right: 1px solid #6b7c93;
     border-bottom: 1px solid #6b7c93;
-    .box{
-        width: 16px;
-        height: 16px;
-        border-radius: 100%;
-        right: -8px;
-        bottom: -8px;
-        position: absolute;
-        background: #6b7c93;
-        border: 2px solid #f2f4f4;
-    }
-}
-.branch-more
-{
-    width: 25px;
-    height: 100%;
-    position: absolute;
-    right: -25px;
-    top: -32px;
-    border-right: 1px solid #6b7c93;
-    border-bottom: 1px solid #6b7c93;
-    .box{
+
+    .box {
         width: 16px;
         height: 16px;
         border-radius: 100%;
@@ -269,7 +278,28 @@ ul.content-li{
     }
 }
 
-.branch-top{
+.branch-more {
+    width: 25px;
+    height: 100%;
+    position: absolute;
+    right: -25px;
+    top: -32px;
+    border-right: 1px solid #6b7c93;
+    border-bottom: 1px solid #6b7c93;
+
+    .box {
+        width: 16px;
+        height: 16px;
+        border-radius: 100%;
+        right: -8px;
+        bottom: -8px;
+        position: absolute;
+        background: #6b7c93;
+        border: 2px solid #f2f4f4;
+    }
+}
+
+.branch-top {
     position: absolute;
     border-bottom: 1px solid #6b7c93;
     top: 0px;
@@ -279,7 +309,8 @@ ul.content-li{
     border-right: 1px solid #6b7c93;
 
 }
-#category_add_pop_base{
+
+#category_add_pop_base {
     width: 100%;
     height: 100%;
     position: fixed;
@@ -290,8 +321,7 @@ ul.content-li{
     background: #fff;
 }
 
-#maines
-{
+#maines {
     display: flex;
     justify-content: center;
     flex-direction: inherit;
@@ -315,6 +345,7 @@ button#clear {
 
     thead {
         position: relative;
+
         #add-future {
             background: rgb(90, 141, 238);
             color: #fff;
@@ -332,7 +363,7 @@ button#clear {
 
             &:hover {
                 color: #fff;
-                background: rgb(90, 141, 238 , 0.8);
+                background: rgb(90, 141, 238, 0.8);
                 @include transition;
             }
 
@@ -390,30 +421,35 @@ button#clear {
     text-align: center;
     border: none;
 }
-#color-col{
-    width:200px !important;
-    min-width:200px !important;
+
+#color-col {
+    width: 200px !important;
+    min-width: 200px !important;
 }
 
-#btn-color-picker{
+#btn-color-picker {
     background: rgb(255, 255, 255);
     width: 100%;
     float: right;
     border-top: 1px solid #ccc;
-    .row{
+
+    .row {
         margin: 0px;
-        padding : 0px;
-        .col-6:first-child{
+        padding: 0px;
+
+        .col-6:first-child {
             border-left: 1px solid #ccc;
         }
-        .col-6{
+
+        .col-6 {
             text-align: center;
             font-size: 13px;
             padding: 25px 5px;
             background: #f3f3f3;
             cursor: pointer;
             @include transition;
-            &:hover{
+
+            &:hover {
                 background: rgb(246, 246, 246);
                 @include transition;
             }
@@ -421,7 +457,7 @@ button#clear {
     }
 }
 
-#color-selected{
+#color-selected {
     float: left;
     width: 20px;
     margin-top: 7px;
@@ -429,17 +465,20 @@ button#clear {
     border-radius: 5px;
     background: green;
 }
-.sketch-picker{
+
+.sketch-picker {
     width: 100% !important;
     padding: 0px !important;
     box-sizing: none !important;
     background: none !important;
     border-radius: none !important;
     box-shadow: none !important;
-    .flexbox-fix{
-        padding : 10px !important;
+
+    .flexbox-fix {
+        padding: 10px !important;
     }
 }
+
 #back-loadered {
     width: 100%;
     height: 100%;
@@ -473,8 +512,9 @@ button#clear {
 
 
 td#actions-item {
-   width: 190px;
+    width: 190px;
     min-width: 220px;
+
     span {
         position: relative;
         float: right;
@@ -487,19 +527,27 @@ td#actions-item {
         width: 120px;
         margin-left: 10px;
         cursor: not-allowed;
+
         i {
             float: right;
             color: #a5a5a5 !important;
         }
     }
+
     i {
         color: #000;
     }
 
 }
 
-#chip-box{
-    input[name=tags]{
+#chip-box {
+    input[name=tags] {
         margin: 0px !important;
+    }
+}
+
+#form-group-chipset {
+    input.connnn {
+        height: 40px !important;
     }
 }

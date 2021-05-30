@@ -7,15 +7,41 @@ import './_shared/style.scss';
 import $ from "jquery";
 
 
-export const MultiSelected = ({data, selected: pushSelected}) => {
+export const MultiSelected = ({defSelected , clear , clearNew : pushClear  , data, selected: pushSelected , check : pushIdCheck}) => {
+
 
     const [check, setCheck] = useState([])
+
+
+
     // const [data, setData] = useState()
     const [paginateThumbs, setPaginateThumbs] = useState();
     const [load, setLoad] = useState(false);
     let selectCheckBox = new Set();
     useEffect(() => {
+
+
+        let checkkks = [...check];
+        if (defSelected){
+            defSelected.map(item => {
+                checkkks.push({
+                    id : item.id,
+                    name : item.name
+                })
+                setCheck(checkkks)
+            })
+        }
+
+
+
+
         var interValOptions;
+        let checkdddd = [...check];
+        if(clear){
+            checkdddd = [];
+            setCheck(checkdddd);
+            pushClear(false);
+        }
         $(".main-selected").mouseover(function () {
             clearInterval(interValOptions)
             var thisis = $(this);
@@ -23,7 +49,7 @@ export const MultiSelected = ({data, selected: pushSelected}) => {
                 thisis.find(".optionBox").addClass("active")
                 thisis.find("#box-droper").html('');
                 thisis.find("#box-droper").append('<i class="bx bx-chevron-up"></i>');
-            }, 300)
+            }, 10)
         })
         $(".main-selected").mouseout(function () {
             clearInterval(interValOptions)
@@ -32,7 +58,7 @@ export const MultiSelected = ({data, selected: pushSelected}) => {
                 thisis.find(".optionBox").removeClass("active")
                 thisis.find("#box-droper").html('');
                 thisis.find("#box-droper").append('<i class="bx bx-chevron-down"></i>');
-            }, 300)
+            }, 10)
         })
     }, [])
     const HandleChange = (e, id) => {
@@ -78,6 +104,9 @@ export const MultiSelected = ({data, selected: pushSelected}) => {
         // console.log("click daaaaaa , " , e.currentTarget.getAttribute('data-appmode'))
     }
 
+
+
+
     const RemoveChipset = (id) => {
         $("span.checkboxeds." + id).removeClass("active");
         $("input[name=" + id + "]").prop("checked", false);
@@ -86,7 +115,15 @@ export const MultiSelected = ({data, selected: pushSelected}) => {
         pushSelected(result)
     }
 
-    console.log("dataa....a : ", data)
+
+    $(function (){
+        check.map(item => {
+            $("input[name="+item.id+"]").prop("checked" , true);
+            $("span.checkboxeds."+item.id).addClass("active");
+        })
+    })
+
+
     return (
         <div className={"main-selected"}>
             <div className={"show-chipset-multi"}>
@@ -125,7 +162,7 @@ export const MultiSelected = ({data, selected: pushSelected}) => {
 
             <div className={"optionBox"} id={"selected"}>
                 <ul>
-                    {data ? data.map(item => (
+                    {data.length > 0 ? data.map(item => (
                         <li>
                             <fieldset>
                                 <span className={"checkboxeds " + item.id} style={{color: '#fff'}}>
@@ -190,7 +227,7 @@ export const MultiSelected = ({data, selected: pushSelected}) => {
                         </li>
 
                     )) : (
-                        <Loading/>
+                        "موردی برای انتخاب وجود ندارد"
                     )}
 
 
