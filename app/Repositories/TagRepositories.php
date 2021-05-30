@@ -66,13 +66,19 @@ class TagRepositories implements RepositoryInterface
     {
 //            $category_list = $data['category_list'];
 //            unset($data['category_list']);
+        $i =0;
 
-        $index['user_id'] = Auth::id();
-        $tag = Tag::create($data);
-        $tag->viewCounts()->create();
+        foreach ($data['name'] as $name) {
+            $tag = new Tag();
+            $tag->name = $name;
+            $tag->user_id = Auth::id();
+            $tag->save();
+            $tag->viewCounts()->create();
+            $tags[$i] = $tag;
+            $i++;
+        }
 //            $tag->categories()->attach($category_list);
-        $tag->update($index);
-        return $tag;
+        return $tags;
     }
 
     public function multipleDestroy($data)

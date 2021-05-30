@@ -24,7 +24,7 @@ class CreateTagRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255|unique:tags,name',
+            'name' => 'required|array|max:255',
 //            'category_list'=>'nullable|array'
         ];
     }

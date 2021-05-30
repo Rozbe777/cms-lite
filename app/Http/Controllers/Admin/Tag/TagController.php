@@ -63,9 +63,9 @@ class TagController extends Controller
      */
     public function store(CreateTagRequest $request)
     {
-        $tag = $this->tagRepositories->create($request->all());
+        $tags = $this->tagRepositories->create($request->all());
 
-        return $this->message(__('message.success.200'))->data($tag)->view('pages.admin.tag.show')->success();
+        return $this->message(__('message.success.200'))->data($tags)->view('pages.admin.tag.show')->success();
     }
 
     /**
