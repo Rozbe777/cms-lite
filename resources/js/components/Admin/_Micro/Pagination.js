@@ -2,7 +2,7 @@ import React from "react";
 
 export const Pagination = (props) => {
 
-    console.log("data :  " , props)
+    console.log("_paginate :  " , props)
 
     const {
         firstPageUrl
@@ -14,6 +14,7 @@ export const Pagination = (props) => {
         , paginate
     } = props;
 
+    console.log("/////" , Math.ceil(total / perPage))
     const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(total / perPage); i++) {
         pageNumbers.push(i)

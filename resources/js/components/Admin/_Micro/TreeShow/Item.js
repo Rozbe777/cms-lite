@@ -94,51 +94,65 @@ export const Item = ({
         });
     }
 
-    const HandlePushCheck = (e , idGet) => {
+    const HandlePushCheck = (e, idGet) => {
         console.log(",,,,, id", idGet)
         let checkBoxx = [...checkBox];
         let checkState = e.target.checked;
-        console.log("checked : " , checkState);
         var filterRes = checkBoxx.indexOf(idGet);
-        console.log(",,,,", filterRes)
-        if (filterRes !== -1 && checkState === false) {
+
+        if (filterRes !== -1) {
             checkBoxx.splice(filterRes, 1);
             setCheckBox(checkBoxx);
-            console.log("parant0 :", checkBoxx)
             if (allData.childern) {
-                allData.childern.map(itemChil => {
-                    var filterChild = checkBoxx.indexOf(itemChil.id);
-                    console.log(",,,,found" , filterChild)
-                    if (filterChild !== -1) {
-                        checkBoxx.splice(filterChild, 1);
-                        setCheckBox(checkBoxx);
-                    } else {
-                        checkBoxx.push(itemChil.id);
-                        setCheckBox(checkBoxx);
-                    }
+                if (checkState) {
+                    allData.childern.map(itemChil => {
+                        var filterChild = checkBoxx.indexOf(itemChil.id);
+                        if (filterChild !== -1) {
+                            checkBoxx.splice(filterChild, 1);
+                            setCheckBox(checkBoxx);
+                        } else {
+                            checkBoxx.push(itemChil.id);
+                            setCheckBox(checkBoxx);
+                        }
 
-                    console.log("parant1 :", checkBoxx)
-                    if (itemChil.children) {
-                        itemChil.children.map(itemChilss => {
-                            var filterChilds = checkBoxx.indexOf(itemChilss.id);
-                            console.log(",,,,founddddd" , filterChilds)
-
-                            if (filterChilds !== -1) {
-                                checkBoxx.splice(filterChilds, 1);
-                                setCheckBox(checkBoxx);
-                            } else {
-                                checkBoxx.push(itemChilss.id);
-                                setCheckBox(checkBoxx);
-                            }
-
-                            console.log("parant2 :", checkBoxx)
-                        })
-                    }
+                        if (itemChil.children && checkState) {
+                            itemChil.children.map(itemChilss => {
+                                var filterChilds = checkBoxx.indexOf(itemChilss.id);
+                                if (filterChilds !== -1) {
+                                    checkBoxx.splice(filterChilds, 1);
+                                    setCheckBox(checkBoxx);
+                                } else {
+                                    checkBoxx.push(itemChilss.id);
+                                    setCheckBox(checkBoxx);
+                                }
+                            })
+                        }
 
 
-                })
+                    })
+                } else {
+                    allData.childern.map(itemChil => {
+                        var filterChild = checkBoxx.indexOf(itemChil.id);
+                        if (filterChild !== -1) {
+                            checkBoxx.splice(filterChild, 1);
+                            setCheckBox(checkBoxx);
+                        }
+
+                        if (itemChil.children) {
+                            itemChil.children.map(itemChilss => {
+                                var filterChilds = checkBoxx.indexOf(itemChilss.id);
+                                if (filterChilds !== -1) {
+                                    checkBoxx.splice(filterChilds, 1);
+                                    setCheckBox(checkBoxx);
+                                }
+                            })
+                        }
+
+
+                    })
+                }
+
             } else if (allData.children) {
-                console.log("11111 : ", allData)
                 allData.children.map(itemChilss => {
                     console.log("parant miniiiii")
                     var filterChild = checkBoxx.indexOf(itemChilss.id);
@@ -153,8 +167,8 @@ export const Item = ({
                 })
             } else {
                 var filterChild = checkBoxx.indexOf(idGet);
-                console.log("parant gettt" , filterChild)
-                if (filterChild !== -1){
+                console.log("parant gettt", filterChild)
+                if (filterChild !== -1) {
                     checkBoxx.splice(filterChild, 1);
                     setCheckBox(checkBoxx);
                 }
@@ -206,7 +220,7 @@ export const Item = ({
                 <div className={"col-md-6 col-sm-8"} style={{padding: 13}}>
                     <fieldset style={{float: "right"}}>
                         <div className="checkbox">
-                            <input type="checkbox" name={"checkbox_" + id} onChange={e => HandlePushCheck(e , id)}
+                            <input type="checkbox" name={"checkbox_" + id} onChange={e => HandlePushCheck(e, id)}
                                    className="checkbox-input"
                                    id={id}/>
                             <label htmlFor={id}></label>

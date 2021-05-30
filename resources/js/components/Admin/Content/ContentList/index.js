@@ -46,11 +46,12 @@ export const ContentList = () => {
         setLoading(true)
         Request.GetAllContents(stringSearchs)
             .then(res => {
+                console.log("resultttttt : " , res)
                 localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
                 setLoading(false)
                 setContentData(res.data)
                 setPerPage(res.data.data.per_page);
-                setContentAll(res.data.data.data)
+                setContentAll(res.data.data)
                 setTotal(res.data.data.total);
             })
             .catch(err => {
@@ -205,7 +206,6 @@ export const ContentList = () => {
 
     const paginate = (pageNumber) => {
         // let pagess = stringSearchs ? "page=" + pageNumber + "&" + stringSearchs : "page=" + pageNumber;
-
         stringSearchs.params.page = pageNumber;
         setStringSearch({
             params: {
@@ -317,6 +317,7 @@ export const ContentList = () => {
 
 
                         <div className="col-md-12">
+                            {console.log("_____" , contentData)}
                             {contentData.data ? contentData.data.length ? (
                                 <Pagination
                                     firstPageUrl={contentData.first_page_url}
