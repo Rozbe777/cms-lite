@@ -71,7 +71,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                         localStorage.removeItem("is_menu");
                         localStorage.removeItem("status");
                         localStorage.removeItem("selected");
-                        localStorage.removeItem("comment_status");
+                        localStorage.removeItem("is_index");
                         localStorage.removeItem("robots");
                         Swal.fire({
                             type: "success",
@@ -185,12 +185,12 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         formFile.append("file", file);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
-        let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formNew.comment_status;
+        let is_index = localStorage.getItem("is_index") ? localStorage.getItem("is_index") : formNew.is_index;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         formNew.status = status;
-        formNew.comment_status = comment_status;
+        formNew.is_index = parseInt(is_index);
         formNew.image = file;
-        formNew.is_menu = is_menu;
+        formNew.is_menu = parseInt(is_menu);
         if (slugManage == false) {
             formNew.slug = formNew.title;
         } else {
@@ -260,7 +260,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                         localStorage.removeItem("is_menu");
                         localStorage.removeItem("status");
                         localStorage.removeItem("selected");
-                        localStorage.removeItem("comment_status");
+                        localStorage.removeItem("is_index");
                         localStorage.removeItem("robots");
                         Swal.fire({
                             type: "success",
@@ -291,13 +291,13 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         formOldData.content = JSON.stringify(contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-        let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
+        let is_index = localStorage.getItem("is_index") ? localStorage.getItem("is_index") : formData.is_index;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
         formOldData.metadata = JSON.stringify(metaDatas);
         formOldData.status = status;
-        formOldData.comment_status = comment_status;
+        formOldData.is_index = parseInt(is_index);
         formOldData.is_menu = parseInt(is_menu);
 
         console.log("iiiii edit" , formOldData)
@@ -311,7 +311,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         formOldData.content = JSON.stringify(contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-        let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
+        let is_index = localStorage.getItem("is_index") ? localStorage.getItem("is_index") : formData.is_index;
         // console.log("selected : duplicate  : " , localStorage.getItem("selected"));
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
@@ -321,7 +321,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         formOldData.status = status;
         formOldData.title  = title;
         formOldData.slug  = slug;
-        formOldData.comment_status = comment_status;
+        formOldData.is_index = parseInt(is_index);
         formOldData.is_menu = parseInt(is_menu);
         // console.log("data duplicate : " , formOldData);
         CreateAddPage(formOldData);
@@ -363,7 +363,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
     }
     const handleSwitchComment = (status) => {
         setEdit(true)
-        localStorage.setItem("comment_status", status ? "active" : "deactivate");
+        localStorage.setItem("is_index", status ? 1 : 0);
     }
     const HandleSelectOption = (check) => {
         setEdit(true)
@@ -449,12 +449,12 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                             </div>
                             <div className={"col-lg-2 col-md-3 col-sm-12"}>
                                 <fieldset className="form-group">
-                                    <label id={"selectParent"}>نظرسنجی</label>
+                                    <label id={"selectParent"}>صفحه اصلی</label>
                                     <Switcher
-                                        defaultState={dataUpdateParse ? dataUpdateParse.comment_status == "active" ? true : false : true}
-                                        status={(state) => handleSwitchComment(state)} name={"comment_status"}
-                                        valueActive={"فعال"}
-                                        valueDeActive={"غیرفعال"}/>
+                                        defaultState={dataUpdateParse ? dataUpdateParse.is_index == 1 ? true : false : true}
+                                        status={(state) => handleSwitchComment(state)} name={"is_index"}
+                                        valueActive={"بله"}
+                                        valueDeActive={"خیر"}/>
                                 </fieldset>
                             </div>
                             <div className={"col-lg-2 col-md-3 col-sm-12"}>
