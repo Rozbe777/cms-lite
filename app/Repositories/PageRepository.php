@@ -22,12 +22,12 @@ class PageRepository implements Interfaces\RepositoryInterface
         if (empty($owner))
             $owner = 'page';
 
-        return Page::when($search != null, function ($query) use ($search) {
+        return Page::when(!empty($search), function ($query) use ($search) {
             $query->where('title', 'like', '%' . $search . '%')
                 ->orWhere('slug', 'like', '%' . $search . '%')
                 ->orWhere('content', 'like', '%' . $search . '%');
         })->whereOwner($owner)
-            ->when($status = !null, function ($query) use ($status) {
+            ->when(!empty($status), function ($query) use ($status) {
                 $query->where('status', $status);
             })
             ->where('published_at', '<=', Carbon::now())
