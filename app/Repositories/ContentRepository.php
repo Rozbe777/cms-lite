@@ -6,7 +6,9 @@ namespace App\Repositories;
 
 use App\Http\Controllers\Admin\Content\Traits\ContentTrait;
 use App\Http\Requests\Admin\Services\RelationsService;
+use App\Models\Category;
 use App\Models\Content;
+use App\Models\Tag;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,14 +38,14 @@ class ContentRepository implements Interfaces\RepositoryInterface
                 $query->with(['tags' => function ($query) use ($tags) {
                     $query->whereIn('tags.id', $tags);
                 }])->has('tags');
-            })->when(empty($tags) , function ($query) {
+            })->when(empty($tags), function ($query) {
                 $query->with('tags');
             })
             ->when(!empty($categories), function ($query) use ($categories) {
                 $query->with(['categories' => function ($query) use ($categories) {
                     $query->whereIn('categories.id', $categories);
                 }])->has('categories');
-            })->when(empty($categories) , function ($query) {
+            })->when(empty($categories), function ($query) {
                 $query->with('categories');
             })
             ->get();
@@ -125,9 +127,18 @@ class ContentRepository implements Interfaces\RepositoryInterface
         $content = Content::create($data);
 
         $content->viewCounts()->create();
+        foreach ($tag_list as $tag) {
+                $tag = Tag::firstOrCreate(
+                    ['name' => $tag],
+                    ['user_id' => Auth::id()]
+                );
+            $content->tags()->attach($tag);
+}
+        foreach ($category_list as $category){
+            $category = Category::findOrFail((int)$category);
+            $content->categories()->attach($category);
+        }
 
-        $content->tags()->attach($tag_list);
-        $content->categories()->attach($category_list);
         return $content;
     }
 
