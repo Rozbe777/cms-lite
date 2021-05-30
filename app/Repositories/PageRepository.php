@@ -19,7 +19,6 @@ class PageRepository implements Interfaces\RepositoryInterface
         if (empty($pageSize))
             $pageSize = config('view.pagination');
 
-        if (empty($owner))
             $owner = 'page';
 
         return Page::when(!empty($search), function ($query) use ($search) {
@@ -63,6 +62,7 @@ class PageRepository implements Interfaces\RepositoryInterface
 //        $data['metadata'] = !empty($data['metadata']) ? json_encode($data['metadata']) : null;
 
         $data['user_id'] = Auth::id();
+        $data['owner'] = 'page';
         $data['slug'] = $this->slugHandler($data['slug']);
 
         $page = Page::create($data);
