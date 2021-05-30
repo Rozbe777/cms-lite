@@ -39,7 +39,7 @@ class ContentController extends Controller
     public function index(SearchContentRequest $request)
     {
         $contents = $this->contentRepository->all($request->status, $request->search, $request->tags, $request->categories);
-dd($contents);
+
         return (!$contents) ?
             $this->message( __('message.content.search.notSuccess'))->view("pages.admin.content.index")->error():
             $this->data($contents)->message(__('message.success.200'))->view("pages.admin.content.index")->success();
