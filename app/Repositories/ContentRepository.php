@@ -36,11 +36,15 @@ class ContentRepository implements Interfaces\RepositoryInterface
                 $query->with(['tags' => function ($query) use ($tags) {
                     $query->whereIn('tags.id', $tags);
                 }])->has('tags');
+            })->when(empty($tags) , function ($query) {
+                $query->with('tags');
             })
             ->when(!empty($categories), function ($query) use ($categories) {
                 $query->with(['categories' => function ($query) use ($categories) {
                     $query->whereIn('categories.id', $categories);
                 }])->has('categories');
+            })->when(empty($categories) , function ($query) {
+                $query->with('categories');
             })
             ->get();
     }
