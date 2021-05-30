@@ -235,8 +235,9 @@ export const ContentList = () => {
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
             <div>
                 <div className={"row col-12"} id={"headerContent"}>
+                    {console.log("...................////" , contentData)}
                     <TotalActions text={" مورد انتخاب شده است "} deleteUsers={e => handleDeleteGroup(e)}
-                                  allData={contentData.data ? contentData.data : []} data={checkBox}/>
+                                  allData={contentData.data ? contentData : []} data={checkBox}/>
                     <BreadCrumbs titleBtn={"افزودن"} icon={"bx bx-plus"} data={breadData}/>
                 </div>
 
@@ -295,19 +296,22 @@ export const ContentList = () => {
                                           data={contentData}
                                           loading={loading}/>
                         ) : (
-                            <div>
+                            <div style={{width : '100%'}}>
                                 <p style={{textAlign: 'center', marginTop: 20}}>
-                                    صفحه ای برای نمایش وجود ندارد!
+                                    محتوایی ای برای نمایش وجود ندارد!
                                 </p>
-                                <div id={"maines"}>
-                                    <button id="add-page"
-                                            onClick={() => handleAddContent()}
-                                            style={{width: 180}}
-                                            className="btn btn-primary glow mr-1 mb-1"
-                                            type="button">
-                                        <span className="align-middle ml-25">افزودن محتوا </span>
-                                    </button>
-                                </div>
+                                {stringSearchs ? '' : (
+                                    <div id={"maines"}>
+                                        <button id="add-page"
+                                                onClick={() => handleAddContent()}
+                                                style={{width: 180}}
+                                                className="btn btn-primary glow mr-1 mb-1"
+                                                type="button">
+                                            <span className="align-middle ml-25">افزودن محتوا </span>
+                                        </button>
+                                    </div>
+                                )}
+
                             </div>
                         ) : <Loading/>}
 

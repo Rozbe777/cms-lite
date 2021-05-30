@@ -19,9 +19,16 @@ export const MultiSelected = ({clear , clearNew : pushClear ,defaultsel , data, 
     const [load, setLoad] = useState(false);
     let selectCheckBox = new Set();
     useEffect(() => {
+
+
+
+
+
         var interValOptions;
+        let checkdddd = [...check];
         if(clear){
-            setCheck([]);
+            checkdddd = [];
+            setCheck(checkdddd);
             pushClear(false);
         }
         $(".main-selected").mouseover(function () {
@@ -86,6 +93,9 @@ export const MultiSelected = ({clear , clearNew : pushClear ,defaultsel , data, 
         // console.log("click daaaaaa , " , e.currentTarget.getAttribute('data-appmode'))
     }
 
+
+
+
     const RemoveChipset = (id) => {
         $("span.checkboxeds." + id).removeClass("active");
         $("input[name=" + id + "]").prop("checked", false);
@@ -94,7 +104,8 @@ export const MultiSelected = ({clear , clearNew : pushClear ,defaultsel , data, 
         pushSelected(result)
     }
 
-    console.log("dataa....a : ", data)
+
+
     return (
         <div className={"main-selected"}>
             <div className={"show-chipset-multi"}>

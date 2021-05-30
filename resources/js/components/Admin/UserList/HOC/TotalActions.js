@@ -5,7 +5,7 @@ import $ from "jquery";
 
 export const TotalActions = ({text , data, allData , deleteUsers :pushDeleteUser }) => {
 
-    console.log(">>>>>>>>" , allData);
+    console.log(">>>>>>>>//////" , allData);
     useEffect(() => {
 
     }, [])

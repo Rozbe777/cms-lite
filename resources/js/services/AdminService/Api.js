@@ -19,5 +19,5 @@ export const Request = {
     UpdateDataCategory :  (data , id) =>  request.put("/categories/"+id+"" , data),
     UpdateDataPage :  (data , id) =>  request.put("/pages/"+id+"" , data),
     UpdateDataContent :  (data , id) =>  request.put("/contents/"+id+"" , data),
-    GetAllContents :  (search) =>  request.get("/contents" , {params : search}),
+    GetAllContents :  (search) =>  request.get("/contents" ,  search),
 }
