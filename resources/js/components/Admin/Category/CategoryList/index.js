@@ -235,7 +235,7 @@ export const CategoryList = () => {
                                 </p>
                                 <div id={"maines"}>
                                     <button id="add-category"
-                                            onClick={() => handleAddCategory()}
+                                            onClick={(e) => handleAddCategory(e)}
                                             style={{width: 180}}
                                             className="btn btn-primary glow mr-1 mb-1"
                                             type="button">

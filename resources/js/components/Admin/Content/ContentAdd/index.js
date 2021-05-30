@@ -325,6 +325,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         formOldData.comment_status = comment_status;
         formOldData.is_menu = parseInt(is_menu);
         formOldData.category_list = idSelCat;
+        formOldData.tag_list = chipset;
 
         console.log("iiiii edit", formOldData)
         HandleUpdateForm(formOldData, ids);

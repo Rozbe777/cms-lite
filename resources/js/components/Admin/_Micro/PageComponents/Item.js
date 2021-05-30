@@ -81,7 +81,7 @@ export const Item = ({allData , key , id ,name ,status , duplicate : pushDuplica
             <div className={"row"} style={{padding: '0 20px' , position : 'relative'}}>
                 <div className={"col-md-6 col-sm-8"} style={{padding: 13}}>
                     <fieldset style={{float: "right"}}>
-                        <div className="checkbox">
+                        <div className="checkbox" attr-ids={id}>
                             <input type="checkbox" name={"checkbox_content_" + id} onChange={e => HandlePushCheck(e , id)}
                                    className="checkbox-input"
                                    id={id}/>

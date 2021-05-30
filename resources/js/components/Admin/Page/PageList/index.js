@@ -16,7 +16,8 @@ import {Pagination} from "../../_Micro/Pagination";
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
 
-export const PageList = () => {
+export const PageList = (props) => {
+    const {token} = props;
     const [checkBox, setCheckBox] = useState([]);
     const [loading, setLoading] = useState(false);
     const [categoryData, setCategoryData] = useState()
@@ -153,7 +154,7 @@ export const PageList = () => {
     const handleDeleteGroup = (event) => {
 
         let finalAllIds = {};
-        finalAllIds.PageIds = checkBox;
+        finalAllIds.pageIds = checkBox;
 
         finalAllIds._token = $('meta[name="csrf-token"]').attr('Page');
 
@@ -249,6 +250,7 @@ export const PageList = () => {
                                       callBack={item => HandleDeletePage(item)}
                                       delClick={item => HandleDeletePage(item)}
                                       updateData={item => HandleBackLoaderPage(item)}
+                                      token={token}
                                       data={pageData}
                                       loading={loading}/>
                     ) : (
@@ -272,7 +274,7 @@ export const PageList = () => {
                 </div>
 
 
-                <BackLoader states={item => (HandleAddPageSelect(item))}/>
+                <BackLoader states={item => (HandleAddPageSelect(item))} />
                 <div id={"add-datas"}></div>
                 {console.log("paginatesss : ", pageData.data)}
                 <div className="col-md-12">
@@ -289,7 +291,8 @@ export const PageList = () => {
                     ) : '' : ''}
 
                 </div>
-                <BottomNavigationBar userData={categoryData} deleteAll={e => handleDeleteGroup(e)}/>
+                {console.log("///////page" , pageData)}
+                <BottomNavigationBar userData={pageData ? pageData.data : []} deleteAll={e => handleDeleteGroup(e)}/>
             </div>
         </CHECK_BOX_CONTENT.Provider>
     )

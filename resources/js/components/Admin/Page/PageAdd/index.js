@@ -45,6 +45,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
 
     let default_value = {
         is_menu: 1,
+        is_index : 1,
         status: "active",
         content: '',
         slug: ''
@@ -52,7 +53,6 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
 
     const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
     const CreateAddPage = (data) => {
-        console.log("+++++++++++++++++++++ : ", data);
         swal({
             title: 'افزودن محتوا جدید',
             text: "آیا مطمئنید؟",
@@ -404,7 +404,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                 <li className="nEav-item col-6 nav-custom">
                     <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
                        role="tab" aria-selected="true">
-                        <span className="align-middle">محتوا</span>
+                        <span className="align-middle">اطلاعات صفحه</span>
                     </a>
                 </li>
                 <li className="nav-item col-6 nav-custom ">
@@ -560,7 +560,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                                     )</label>
                                 <div className={"row"} style={{padding: '15px'}}>
 
-                                    <div className={"col-12"} id={"chip-box"}>
+                                    <div className={"col-12"} id={"chip-box"} style={{minHeight : 50}}>
                                         <div className={"row"}>
 
                                             <div className={"col-sm-12 col-md-3 col-lg-2"}>
