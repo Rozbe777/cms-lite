@@ -44,7 +44,7 @@ class LoginController extends Controller
 
             return $this->view('pages.dashboard.index')->message(__("message.auth.login.successful"))->success();
         } else {
-            return  $this->message(__("message.auth.login.failed"))->error(401);
+            return  $this->message(__("message.auth.login.failed"))->view("pages.auth.login")->error(401);
         }
     }
 
