@@ -13,6 +13,7 @@ import {TotalActions} from "../../UserList/HOC/TotalActions";
 import {BreadCrumbs} from "../../UserList/HOC/BreadCrumbs";
 import BottomNavigationBar from "../../UserList/HOC/BottomNavigationBar";
 import {Pagination} from "../../_Micro/Pagination";
+import NotFound from "../../_Micro/NotFound";
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
 
@@ -255,16 +256,14 @@ export const PageList = (props) => {
                                       loading={loading}/>
                     ) : (
                         <div>
-                            <p style={{textAlign: 'center', marginTop: 20}}>
-                                صفحه ای برای نمایش وجود ندارد!
-                            </p>
+                            <NotFound />
                             <div id={"maines"}>
-                                <button id="add-page"
-                                        onClick={() => handleAddPage()}
-                                        style={{width: 180}}
+                                <button id="add-category"
+                                        onClick={(e) => handleAddPage(e)}
+                                        style={{width: 180 , marginTop : '35px'}}
                                         className="btn btn-primary glow mr-1 mb-1"
                                         type="button">
-                                    <span className="align-middle ml-25">افزودن صفحه </span>
+                                    <span className="align-middle ml-25">افزودن صفحه</span>
                                 </button>
                             </div>
                         </div>

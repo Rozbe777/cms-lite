@@ -42,7 +42,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     const [slugManage, setSlugManage] = useState(true);
     const [formData, setFormData] = useState({});
     let default_value = {
-        is_menu: 1,
+        is_menu: 0,
         status: "active",
         content: '',
         parent_id: idParent,
@@ -111,7 +111,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     const handleClose = () => {
         ReactDOM.render('', document.getElementById("add-datas"));
         setFormData({
-            is_menu: 1,
+            is_menu: 0,
             status: "active",
             content: '',
             parent_id: 0,
@@ -318,7 +318,6 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
         let slug = slugManage ? titleWrite : $("input.slugest").val();
         formOldData.name = name;
         formOldData.slug = slug;
-        console.log("data category in : ", names);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
@@ -456,7 +455,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>نمایش در منو</label>
                                     <Switcher
-                                        defaultState={dataUpdateParse ? dataUpdateParse.is_menu == 0 ? false : true : true}
+                                        defaultState={dataUpdateParse ? dataUpdateParse.is_menu == 0 ? false : true : false}
                                         status={(state) => handleSwitchMenu(state)} name={"showMenu"}
                                         valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
                                 </fieldset>

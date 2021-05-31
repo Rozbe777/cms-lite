@@ -6,8 +6,6 @@
     <div id="main-dashboard"></div>
 
 </div>
-
-
 @endsection
 
 @section('pageScripts')

@@ -3,13 +3,14 @@
 
 @section("content")
 
-    <div class="content-wrapper">
-        <div class="content-header row">
-            <div class="item-title">
-                <h3>ویرایش کاربر</h3>
+    <div class="content-wrapper" style="padding: 0px !important; margin : 0px !important ; border-top : 1px solid #eee">
+        <div class="row col-12" id="headerContent">
+            <div id="bradcrummmm" style="width: 100%">
+
+
             </div>
         </div>
-        <div class="content-body"><!-- users edit start -->
+        <div class="content-body" style="padding: 20px 30px"><!-- users edit start -->
             <section class="users-edit">
                 <div class="card">
                     <div class="card-content">
@@ -46,6 +47,7 @@
                                      role="tabpanel">
                                     <!-- change password form start -->
                                     <div id="update-user-password-by-admin"
+                                         data-user="{{$data}}"
                                          data-token="{{csrf_token()}}"></div>
                                     <!-- change password form ends -->
                                 </div>

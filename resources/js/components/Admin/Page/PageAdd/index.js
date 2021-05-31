@@ -46,8 +46,8 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
     const [formData, setFormData] = useState({});
 
     let default_value = {
-        is_menu: 1,
-        is_index: 1,
+        is_menu: 0,
+        is_index: 0,
         status: "active",
         content: '',
         slug: ''
@@ -119,7 +119,8 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
     const handleClose = () => {
         ReactDOM.render('', document.getElementById("add-datas"));
         setFormData({
-            is_menu: 1,
+            is_menu: 0,
+            is_index: 0,
             status: "active",
             content: '',
             slug: ''
@@ -447,7 +448,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>نمایش در منو</label>
                                     <Switcher
-                                        defaultState={dataUpdateParse ? dataUpdateParse.is_menu == 0 ? false : true : true}
+                                        defaultState={dataUpdateParse ? dataUpdateParse.is_menu == 0 ? false : true : false}
                                         status={(state) => handleSwitchMenu(state)} name={"showMenu"}
                                         valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
                                 </fieldset>
@@ -456,7 +457,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>صفحه اصلی</label>
                                     <Switcher
-                                        defaultState={dataUpdateParse ? dataUpdateParse.is_index == 1 ? true : false : true}
+                                        defaultState={dataUpdateParse ? dataUpdateParse.is_index == 1 ? true : false : false}
                                         status={(state) => handleSwitchComment(state)} name={"is_index"}
                                         valueActive={"بله"}
                                         valueDeActive={"خیر"}/>

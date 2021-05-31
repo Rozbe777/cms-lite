@@ -12,7 +12,7 @@ import {MultiSelected} from "../../Shop/ProductManager/HOC/MultiSelected";
 import $ from "jquery";
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
-const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
+const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result: pushResult}) => {
 
 
     const [categories, setCategorise] = useState([]);
@@ -49,7 +49,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
     const [formData, setFormData] = useState({});
 
     let default_value = {
-        is_menu: 1,
+        is_menu: 0,
         status: "active",
         content: '',
         slug: ''
@@ -78,7 +78,6 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
 
 
     const CreateAddContent = (data) => {
-        console.log("................", data)
         swal({
             title: 'افزودن محتوا جدید',
             text: "آیا مطمئنید؟",
@@ -93,6 +92,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
             if (result.value) {
                 Request.AddNewContent(data)
                     .then(res => {
+                        pushCheckChange(true)
                         $("span.checkboxeds").removeClass("active");
                         pushResult(res);
                         setClear(true)
@@ -109,7 +109,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                         })
 
                     }).catch(err => {
-
+                    pushCheckChange(true)
                     if (err.response.data.errors) {
                         ErroHandle(err.response.data.errors);
                     } else {
@@ -154,7 +154,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
         $("span.checkboxeds").removeClass("active");
         ReactDOM.render('', document.getElementById("add-datas"));
         setFormData({
-            is_menu: 1,
+            is_menu: 0,
             status: "active",
             content: '',
             slug: ''
@@ -498,7 +498,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>نمایش در منو</label>
                                     <Switcher
-                                        defaultState={dataUpdateParse ? dataUpdateParse.is_menu == 0 ? false : true : true}
+                                        defaultState={dataUpdateParse ? dataUpdateParse.is_menu == 0 ? false : true : false}
                                         status={(state) => handleSwitchMenu(state)} name={"showMenu"}
                                         valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
                                 </fieldset>

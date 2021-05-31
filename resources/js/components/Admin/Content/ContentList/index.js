@@ -281,7 +281,7 @@ export const ContentList = () => {
                 </div>
 
 
-                <div className={"container"} style={{minHeight : '300px'}}>
+                <div className={"container-fluied"} style={{minHeight : '300px' , padding : '0 20px'}}>
                     <div className={"row"}>
 
                         {loading === false && contentData.data ? contentData.data.length > 0 ? (

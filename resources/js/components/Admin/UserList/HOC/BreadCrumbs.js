@@ -1,9 +1,9 @@
 import React from "react";
 import './styleAction.scss'
 
-export const BreadCrumbs = ({data , floatBtn , titleBtn , icon , clicked : pushClick}) => {
+export const BreadCrumbs = ({fixed , data , floatBtn , titleBtn , icon , clicked : pushClick}) => {
     return (
-        <div id={"breadCrumb"} style={{width: '100%'}}>
+        <div id={"breadCrumb"} className={fixed ? "activeCrumb" : ''} style={{width: '100%'}}>
             <div className={"container-fluid"}>
                 <div className={"row"}>
                     <div className={"col-12"} style={{marginBottom: 5, marginTop: 5, lineHeight: '2.3'}}>
