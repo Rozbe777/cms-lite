@@ -83,11 +83,14 @@ Route::middleware('auth')->group(function () {
 //        return redirect()->route('dashboard.index');
 //    });
 
-    Route::get('/role',function (){
-       echo "admin.role";
+    Route::get('/role', function () {
+        echo "admin.role";
     })->name('role');
+    Route::get('/role', function () {
+        echo "admin.role";
+    })->name('roles.create');
 
-    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard.index');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     //------------------------------User----------------------------
     Route::resource('users', UserController::class);
@@ -108,22 +111,36 @@ Route::middleware('auth')->group(function () {
     //------------------------------Pages----------------------------
     Route::resource('pages', PageController::class);
     Route::delete('pages/multi/destroy', [PageController::class, 'multipleDestroy'])->name('pages.multipleDestroy');
+
+    //------------------------------Profile----------------------------
+
+    Route::get('profile/', [ProfileController::class, 'index'])->name('profile.edit');
+    Route::put('profile/', [ProfileController::class, 'update'])->name('profile.edit');
+    Route::put('profile/password', [ProfileController::class, 'changePassword'])->name('profile.password');
+
+    //------------------------------Settings----------------------------
+    Route::name('settings.')->group(function () {
+        Route::get('/', [SettingController::class, 'index'])->name('edit');
+        Route::put('/', [SettingController::class, 'update'])->name('update');
+    });
+
+
+    //------------------------------Settings----------------------------
+    Route::prefix('role/')->name('roles.')->group(function () {
+        Route::get('/', [RoleController::class, 'index'])->name('index');
+        Route::get('/list', [RoleController::class, 'list'])->name('list');
+        Route::get('/create', [RoleController::class, 'create'])->name('create');
+        Route::post('/', [RoleController::class, 'store'])->name('store');
+        Route::get('/{roleId}/edit', [RoleController::class, 'edit'])->name('edit');
+        Route::put('/{roleId}/update', [RoleController::class, 'update'])->name('update');
+        Route::post('/{roleId}/destroy', [RoleController::class, 'destroy'])->name('destroy');
+
+    });
+
 });
 
-Route::get('a',[function(){
-    dd('Hello ZerOne');
-}])->name('settings.index');
+
 //-----------------------Mehrshad End----------------------
-
-
-
-
-
-
-
-
-
-
 
 
 //Route::group(['middleware' => 'user_permission'], function () {
@@ -152,17 +169,7 @@ Route::get('a',[function(){
 //
 //        });
 //
-//        Route::group(['as' => 'role.', 'prefix' => 'role', 'namespace' => 'Role', 'name' => 'role.'], function () {
-//
-//            Route::get('/', [RoleController::class, 'index'])->name('index');
-//            Route::get('/list', [RoleController::class, 'list'])->name('list');
-//            Route::get('/create', [RoleController::class, 'create'])->name('create');
-//            Route::post('/', [RoleController::class, 'store'])->name('store');
-//            Route::get('/{roleId}/edit', [RoleController::class, 'edit'])->name('edit');
-//            Route::put('/{roleId}/update', [RoleController::class, 'update'])->name('update');
-//            Route::post('/{roleId}/destroy', [RoleController::class, 'destroy'])->name('destroy');
-//
-//        });
+
 //
 //        Route::group(['as' => 'setting.', 'prefix' => 'setting', 'namespace' => 'Setting', 'name' => 'setting.'], function () {
 //            Route::get('/', [SettingController::class, 'index'])->name('index');

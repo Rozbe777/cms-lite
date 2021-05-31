@@ -70,7 +70,7 @@
                                                          data-verify_comment_status="{{setting('auto_comment_accept')}}"
                                                          data-cron="{{setting('cron')}}"
                                                          data-enable_registration="{{setting('join')}}"
-                                                         data-action="{{route('admin.setting.index')}}"
+                                                         data-action="{{route('settings.edit')}}"
                                                          data-token="{{csrf_token()}}"
                                                     ></div>
                                                 </div>
@@ -78,7 +78,7 @@
                                                      role="tabpanel" aria-labelledby="account-pill-password"
                                                      aria-expanded="false">
                                                     <div id="js-and-css-setting-form"
-                                                         data-action="{{route('admin.setting.index')}}"
+                                                         data-action="{{route('settings.edit')}}"
                                                          data-token="{{csrf_token()}}"
                                                          data-head_include="{{setting('script_head')}}"
                                                          data-body_include="{{setting('script_top_body')}}"

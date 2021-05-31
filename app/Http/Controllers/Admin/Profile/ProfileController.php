@@ -21,13 +21,13 @@ class ProfileController extends Controller
         $name = $request->input('name');
         $lastName = $request->input('last_name');
         $email = $request->input('email');
-        $phone = mobile($request->input('phone'));
+        $mobile = mobile($request->input('mobile'));
 
         $user = User::find(auth()->id());
         $user->name = $name;
         $user->last_name = $lastName;
         $user->email = $email;
-        $user->phone = $phone;
+        $user->mobile = $mobile;
         $user->save();
         return success(['user' => $user], 'تغییرات با موفقیت ثبت شد.');
     }

@@ -18,7 +18,7 @@
                              role="tabpanel">
                             <div id="create-user-form-by-admin"
                                  data-roles="{{$roles}}"
-                                 data-action="{{route('user.store')}}"
+                                 data-action="{{route('users.store')}}"
                                  data-token="{{csrf_token()}}">
 
                             </div>

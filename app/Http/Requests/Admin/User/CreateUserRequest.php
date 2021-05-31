@@ -29,7 +29,7 @@ class CreateUserRequest extends FormRequest
             'last_name' => 'required|string|max:255',
             'email' => 'nullable|string|email|max:255|unique:users',
             'mobile' => ['required', 'unique:users', 'mobile'],
-            'password' => 'required|string|min:4|confirmed',
+            'password' => 'required|string|min:4',
             'role_id' => 'required|exists:roles,id',
             'status' => 'nullable|in:active,deactivate',
             'image' => 'nullable|image',
