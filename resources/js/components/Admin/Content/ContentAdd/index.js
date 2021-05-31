@@ -14,13 +14,11 @@ import $ from "jquery";
 const LOCAL_CAT = "localcat-zerone-cmslite";
 const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result: pushResult}) => {
 
-
     const [categories, setCategorise] = useState([]);
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? dataGet.allData : '';
     const [changeCheck,setChangeCheck] = useState(false)
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
-
 
     const [comments, setComments] = useState();
     const [clear, setClear] = useState(false)
@@ -151,6 +149,7 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
 
     const handleClose = () => {
         setClear(true)
+        pushCheckChange(true)
         $("span.checkboxeds").removeClass("active");
         ReactDOM.render('', document.getElementById("add-datas"));
         setFormData({

@@ -5,7 +5,7 @@ import $ from 'jquery';
 import {Request} from "../../../../services/AdminService/Api";
 import {ErroHandle, error as ErrorToast} from "../../../../helper";
 
-const SearchComponent = ({total, searchRes: pushSearchRes}) => {
+const SearchComponent = ({tagReload,total, searchRes: pushSearchRes}) => {
 
 
     const [size, setSize] = useState(0);
@@ -16,10 +16,11 @@ const SearchComponent = ({total, searchRes: pushSearchRes}) => {
     const [search, setSearch] = useState({});
     useEffect(() => {
         GetAllCategory();
-        GetAllTag();
-
+        GetAllTag()
+        tagReload ? GetAllTag() : '';
     }, [])
 
+    console.log("8888888888 : " , tagData)
     let idss = [];
 
     const GetAllCategory = () => {
