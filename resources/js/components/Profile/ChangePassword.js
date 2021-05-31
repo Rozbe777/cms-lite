@@ -1,111 +1,129 @@
-import React, {Component} from "react";
+import React, {useEffect, useState} from "react";
+import {convertDigit, empty, ErroHandle, error as ErrorToast, error, success, url, warning} from "../../helper";
+import {Request} from "../../services/AdminService/Api";
+import Loading from "../Auth/Loading";
 import ReactDOM from "react-dom";
-import Webservice, {PUT_METHOD} from "../../classes/webservice";
-import {empty, error, success} from "../../helper";
+import $ from "jquery";
+import {BreadCrumbs} from "../Admin/UserList/HOC/BreadCrumbs";
 
-export default class ChangePassword extends Component {
-    constructor() {
-        super();
-        let {is_admin = 0} = this.props;
-        this.state = {
-            current_password: '',
-            password: '',
-            password_confirmation: '',
-        }
+const ChangePassword = (props) => {
+
+
+    const {token, user} = props;
+    const userDef = JSON.parse(user);
+    let elementLoading = document.getElementById("loading-show")
+    const breadData = {
+        title: 'پروفایل',
+        desc: 'تنظیمات پروفایل شخصی'
+    };
+    const [userData, setUserData] = useState({});
+    const changeInput = e => {
+        e.preventDefault();
+        setUserData({
+            ...userData,
+            [e.target.name]: e.target.value
+        })
     }
 
-    render() {
-        let {current_password, password, password_confirmation} = this.state;
-        return (<form noValidate onSubmit={e => {
-            e.preventDefault();
-            this.onSubmit()
-        }}>
-            <div className="row justify-content-center">
-                <div className="col-12 col-sm-4">
-                    <div className="form-group">
-                        <label>رمز عبور فعلی</label>
-                        <input className="form-control text-left" name={'current_password'} type="password" dir="ltr"
-                               placeholder={'رمزعبور فعلی خود را وارد نمایید'}
-                               value={current_password} onChange={(e) => {
-                            this.setState({current_password: e.target.value})
-                        }}/>
-                    </div>
-                    <div className="form-group">
-                        <label>رمزعبور جدید</label>
-                        <input className="form-control text-left" name={'password'} type="password" dir="ltr"
-                               placeholder={'رمزعبور جدید خود را وارد نمایید'}
-                               value={password} onChange={(e) => {
-                            this.setState({password: e.target.value})
-                        }}/>
-                    </div>
-                    <div className="form-group">
-                        <label>تکرار رمز عبور جدید</label>
-                        <input className="form-control text-left" name={'password_confirmation'} type="password"
-                               dir="ltr"
-                               placeholder={'تکرار رمزعبور جدید خود را وارد نمایید'}
-                               value={password_confirmation} onChange={(e) => {
-                            this.setState({password_confirmation: e.target.value})
-                        }}/>
-                    </div>
+    useEffect(()=>{
+        ReactDOM.render(<BreadCrumbs fixed={true} data={breadData} /> , document.getElementById("bradcrummmm"))
 
-                </div>
+    } , [])
 
+    let time_toast = 0;
+    const submitForm = e => {
+        e.preventDefault();
+        let userr = {...userData};
+        userr._token = token;
+        let pass = $("input[name=password]").val();
+        let passCon = $("input[name=password_confirmation]").val();
 
-                <div className="col-12 d-flex flex-sm-row flex-column justify-content-center mt-1">
-                    <button type="submit"
-                            className="btn btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">ذخیره
-                        تغییرات
-                    </button>
+        if (pass.length > 3) {
+            if (pass == passCon) {
+                $(".changeProfielPass").addClass("activeLoadingLogin");
+                Request.UpdateUserDetail(userr, userDef.id)
+                    .then(response => {
+                        $(".changeProfielPass").removeClass("activeLoadingLogin");
+                        success("پسورد با موفقیت تعویض شد");
+                    }).catch(error => {
+                    $(".changeProfielPass").removeClass("activeLoadingLogin");
+                    if (error.response.data.errors) {
+                        ErroHandle(error.response.data.errors)
+                    } else {
+                        ErrorToast("خطای غیر منتظره ای رخ داده است")
+                    }
 
-                </div>
-            </div>
-        </form>);
-    }
-
-    async onSubmit() {
-        let {token, action} = this.props;
-        let {current_password, password, password_confirmation} = this.state;
-        if (empty(current_password)) {
-            return error('وارد کردن رمزعبور فعلی الزامی است.')
-        }
-        if (empty(password)) {
-            return error('وارد کردن رمزعبور جدید الزامی است.')
-        }
-        if (empty(password_confirmation)) {
-            return error('وارد کردن تکرار رمزعبور جدید الزامی است.')
-        }
-
-        let ws = new Webservice();
-        ws.url = action;
-        ws.method = PUT_METHOD;
-        ws.body = {
-            _token: token,
-            current_password,
-            password,
-            password_confirmation
-        }
-        try {
-            let response = await ws.call();
-            let responseJson = await response.json();
-            if (responseJson.status) {
-                success(responseJson.message);
-                this.setState({
-                    current_password: '',
-                    password: '',
-                    password_confirmation: '',
                 })
             } else {
-                error(responseJson.message)
+                ErrorToast("پسورد ها با هم تطابق ندارند");
             }
-        } catch (e) {
-            console.log(e);
-            error('مشکلی در ارتباط با سرور رخ داده است!')
+
+        } else {
+            ErrorToast("پسورد باید بیشتر از 4 رقم باشد");
         }
+
+
     }
+
+    return (
+        <>
+            <div
+                style={{position: 'relative', padding: '0px !important'}}
+                className="card disable-rounded-right mb-0 p-2 h-100 d-flex justify-content-center">
+
+                <form onSubmit={e => submitForm(e)} autoComplete="off">
+
+
+                    <div className={"col-12"} style={{padding: '0px'}}>
+                        <div className="col-lg-6 col-sm-12 form-group mb-50" style={{padding: 0}}>
+                            <label className="text-bold-700" htmlFor="username">پسورد جدید</label>
+                            <input
+                                autoComplete="one-time-code"
+                                onChange={e => changeInput(e)}
+                                type="password" className="form-control text-left"
+                                id="username"
+                                name="password"
+                                placeholder="پسورد جدید" dir="ltr"/>
+                        </div>
+                    </div>
+
+                    <div className={"col-12"} style={{padding: '0px'}}>
+                        <div className="col-lg-6 col-sm-12 form-group mb-50" style={{padding: 0}}>
+                            <label className="text-bold-700" htmlFor="password">تکرار پسورد جدید</label>
+                            <input type="password" className="form-control text-left"
+                                   name="password_confirmation" id="password"
+                                   onChange={e => changeInput(e)}
+                                   autoComplete="one-time-code"
+                                   placeholder="تکرار پسورد جدید" dir="ltr"/>
+                        </div>
+
+                    </div>
+
+                    <div className="col-lg-6 col-sm-12 d-flex flex-sm-row flex-column justify-content-end mt-1"
+                         style={{padding: 0}}>
+                        <button type="submit"
+                                className="btn  btn-primary glow mb-1 mb-sm-0 ">تنظیم پسورد
+                        </button>
+                    </div>
+                </form>
+
+
+
+            </div>
+
+            <div className={"changeProfielPass"} id={"loading-show"} style={{zIndex: 9999, visibility: 'hidden'}}>
+                <Loading/>
+            </div>
+        </>
+
+    );
+
 }
+
 let elementId = 'password-form';
 let element = document.getElementById(elementId);
 if (element) {
     const props = Object.assign({}, element.dataset);
     ReactDOM.render(<ChangePassword {...props}/>, element);
 }
+

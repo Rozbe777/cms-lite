@@ -49,16 +49,3 @@
 
 
 <script src="https://unpkg.com/@lottiefiles/lottie-interactivity@latest/dist/lottie-interactivity.min.js"></script>
-<script>
-    LottieInteractivity.create({
-        mode: 'scroll',
-        player: '#firstLottie',
-        actions: [
-            {
-                visibility: [0,1],
-                type: 'seek',
-                frames: [0, 100],
-            },
-        ],
-    });
-</script>

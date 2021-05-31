@@ -2,10 +2,13 @@
 @php($title = "حساب کاربری")
 @section("content")
     <!-- BEGIN: Content-->
-    <div class="content-wrapper">
-        <div class="content-header row">
+    <div class="content-wrapper" style="padding: 0px !important; margin : 0px !important ; border-top : 1px solid #eee">
+        <div class="row col-12" id="headerContent">
+            <div id="bradcrummmm" style="width: 100%">
+
+            </div>
         </div>
-        <div class="content-body"><!-- users edit start -->
+        <div class="content-body" style="padding: 20px 30px"><!-- users edit start -->
             <section class="users-edit">
                 <div class="card">
                     <div class="card-content">
@@ -16,7 +19,7 @@
                                        data-toggle="tab" href="#account" aria-controls="account" role="tab"
                                        aria-selected="true">
                                         <i class="bx bx-user mr-25"></i><span
-                                            class="d-none d-sm-block"> اطلاعات پروفایل</span>
+                                            class="d-none d-sm-block"> اطلاعات کاربری</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -28,16 +31,15 @@
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active fade show" id="account" aria-labelledby="account-tab"
+                                <div class="tab-pane active show" id="account" aria-labelledby="account-tab"
                                      role="tabpanel">
                                     <div id="profile-form" data-user="{{$user}}"
-                                         data-action="{{route('profile.edit')}}"
                                          data-token="{{csrf_token()}}"></div>
                                 </div>
-                                <div class="tab-pane fade show" id="password" aria-labelledby="password-tab"
+                                <div class="tab-pane show" id="password" aria-labelledby="password-tab"
                                      role="tabpanel">
                                     <!-- change password form start -->
-                                    <div id="password-form" data-action="{{route('profile.password')}}" data-token="{{csrf_token()}}"></div>
+                                    <div id="password-form"  data-user="{{$user}}" data-token="{{csrf_token()}}"></div>
                                     <!-- change password form ends -->
                                 </div>
                             </div>

@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import ReactDOM from "react-dom";
 import Webservice, {PUT_METHOD} from "../../classes/webservice";
-import {convertDigit, empty, error, success, warning} from "../../helper";
-
+import {convertDigit, empty, ErroHandle, error as ErrorToast, error, success, warning} from "../../helper";
+import {Request} from "../../services/AdminService/Api";
+import $ from "jquery";
+import Loading from "../Auth/Loading";
 
 export default class Profile extends Component {
 
@@ -15,12 +17,13 @@ export default class Profile extends Component {
         role_id = parseInt(role_id);
         user = JSON.parse(user)
         this.setState({
+            id : user.id,
             name: user.name,
             last_name: user.last_name,
             full_name: user.fullname,
             email: user.email,
             avatar: user.avatar,
-            phone: user.phone,
+            mobile: user.mobile,
             status: user.status,
             roles,
             role_id,
@@ -30,7 +33,7 @@ export default class Profile extends Component {
     }
 
     render() {
-        let {name, last_name, email, phone, avatar, status, full_name} = this.state;
+        let {name, last_name, email, mobile, avatar, status, full_name , id} = this.state;
 
         return (
             <div>
@@ -99,8 +102,8 @@ export default class Profile extends Component {
                                 <div className="controls">
                                     <label>شماره تلفن‌همراه</label>
                                     <input type="tel" className="form-control text-left" placeholder="شماره تلفن‌همراه"
-                                           value={phone} onChange={(e) => {
-                                        this.setState({phone: convertDigit(e.target.value)})
+                                           value={mobile} onChange={(e) => {
+                                        this.setState({mobile: convertDigit(e.target.value)})
                                     }} required
                                            data-validation-required-message="وارد کردن شماره تلفن‌همراه الزامی است"
                                            dir="ltr"/>
@@ -118,6 +121,9 @@ export default class Profile extends Component {
                     </div>
                 </form>
 
+                <div id={"loading-show"} style={{zIndex: 9999, visibility: 'hidden'}}>
+                    <Loading/>
+                </div>
             </div>
         );
     }
@@ -139,7 +145,7 @@ export default class Profile extends Component {
     }
 
     async submitForm() {
-        let {name, last_name, email, phone} = this.state;
+        let {name, last_name, email, mobile} = this.state;
         if (empty(name)) {
             return error('وارد کردن نام الزامی است.')
         }
@@ -149,27 +155,37 @@ export default class Profile extends Component {
         if (empty(email)) {
             return error('وارد کردن ایمیل الزامی است.')
         }
-        if (empty(phone)) {
+        if (empty(mobile)) {
             return error('وارد کردن شماره تلفن‌همراه الزامی است.')
         }
-        let ws = new Webservice();
-        ws.url = this.props.action;
-        ws.method = PUT_METHOD;
-        ws.body = {name, last_name, email, phone, _token: this.props.token}
-        try {
-            let response = await ws.call()
-            let responseJson = await response.json();
-            if (responseJson.status) {
-                success(responseJson.message);
-                this.setState({
-                    full_name: responseJson.data.user.fullname
-                })
-            } else {
-                error(responseJson.message)
-            }
-        } catch (e) {
-            error("مشکلی در ارتباط با سرور رخ داده است.")
+
+
+        let data = {
+            name : this.state.name,
+            last_name : this.state.last_name,
+            email : this.state.email,
+            mobile : this.state.mobile,
+            _token : this.props.token
         }
+
+        $("#loading-show").addClass("activeLoadingLogin");
+
+        Request.UpdateUserDetail(data , this.state.id)
+            .then(response => {
+                    $("#loading-show").removeClass("activeLoadingLogin");
+                    success("تغییرات ثبت شدند")
+                }).catch(error => {
+                    $("#loading-show").removeClass("activeLoadingLogin");
+                    if (error.response.data.errors) {
+                        ErroHandle(error.response.data.errors)
+                    } else {
+                        ErrorToast("خطای غیر منتظره ای رخ داده است")
+                    }
+            })
+
+
+
+
     }
 
     adminInputsHandler() {
@@ -202,6 +218,7 @@ export default class Profile extends Component {
                             </select>
                         </div>
                     </div>
+
                 </div>
             );
         }

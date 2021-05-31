@@ -1,9 +1,10 @@
-import React, {useState} from "react";
+import React, {useState , useEffect} from "react";
 import {convertDigit, empty, ErroHandle, error as ErrorToast, error, success, url, warning} from "../../helper";
 import {Request} from "../../services/AdminService/Api";
 import Loading from "../Auth/Loading";
 import ReactDOM from "react-dom";
 import $ from "jquery";
+import {BreadCrumbs} from "../Admin/UserList/HOC/BreadCrumbs";
 
 const UpdateUser = (props) => {
 
@@ -34,6 +35,14 @@ const UpdateUser = (props) => {
         })
     }
 
+    const breadData = {
+        title: 'ویرایش اطلاعات',
+        desc: 'ویرایش اطلاعات و پسورد کاربر'
+    };
+
+    useEffect(()=>{
+        ReactDOM.render(<BreadCrumbs fixed={true} data={breadData} /> , document.getElementById("bradcrummmm"))
+    },[])
     const submitForm = () => {
 
 

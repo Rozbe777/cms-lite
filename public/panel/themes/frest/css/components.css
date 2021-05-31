@@ -5004,3 +5004,13 @@ input::placeholder{
     margin: -5px 11px 2px  !important;
     padding: 16px 0 !important;
 }
+.nav-link.active{
+    transition: 0.3s all ease !important;
+    -webkit-transition: 0.3s all ease !important;
+    -moz-transition: 0.3s all ease !important;
+}
+.nav-link{
+    transition: 0.3s all ease !important;
+    -webkit-transition: 0.3s all ease !important;
+    -moz-transition: 0.3s all ease !important;
+}
