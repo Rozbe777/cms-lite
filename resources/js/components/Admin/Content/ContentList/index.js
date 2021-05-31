@@ -42,6 +42,7 @@ export const ContentList = () => {
 
     });
 
+    const [reloadTag , setReloadTag] = useState(false);
 
     const GetAllContents = (stringSearchs) => {
         setLoading(true)
@@ -78,7 +79,7 @@ export const ContentList = () => {
     }, [])
 
     const handleAddContent = () => {
-        ReactDom.render(<ContentAdd display={true} dataUpdate={''} idParent={0}
+        ReactDom.render(<ContentAdd display={true} dataUpdate={''} idParent={0} checkChange={item => setReloadTag(true)}
                                     result={item => handleBackContent(item)}/>, document.getElementById("add-datas"))
     }
 
@@ -243,7 +244,7 @@ export const ContentList = () => {
                 </div>
 
 
-                <SearchComponent total={total} searchRes={items => {
+                <SearchComponent total={total} tagReload={reloadTag} searchRes={items => {
                     Object.keys(items).forEach((key, value) => {
                         setSearch(true)
                         if (key === "pageSize") {
@@ -262,6 +263,7 @@ export const ContentList = () => {
                         }
 
                     })
+
                     stringSearchs.params.page = 1;
                     GetAllContents(stringSearchs)
                 }}/>
