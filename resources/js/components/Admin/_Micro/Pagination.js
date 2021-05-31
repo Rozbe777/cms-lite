@@ -21,33 +21,39 @@ export const Pagination = (props) => {
     }
 
     const handleNextPage = () => {
+        let id = $("li.page-item.numberss.active").attr("id");
 
-        let id = $("li.page-item.active").attr("id");
         if (id == Math.ceil(total / perPage)) {
 
         } else {
             let num = parseInt(id) + 1;
+            $("ul.pagination li.numberss").removeClass("active");
+            $("ul.pagination li.numberss#"+num).addClass("active");
             paginate(num);
         }
-
     }
 
 
     const handlePrevPage = () => {
 
-        let id = $("li.page-item.active").attr("id");
+
+        let id = $("li.page-item.numberss.active").attr("id");
         if (id == 1)
         {
 
         }else{
+
             let num = parseInt(id) - 1 ;
+            $("ul.pagination li.numberss").removeClass("active");
+            $("ul.pagination li.numberss#"+num).addClass("active");
             paginate(num);
         }
 
     }
 
-    $("ul.pagination li").click(function (){
-        $("ul.pagination li").removeClass("active");
+
+    $("ul.pagination li.numberss").click(function (){
+        $("ul.pagination li.numberss").removeClass("active");
         $(this).addClass("active");
     })
 
@@ -59,10 +65,10 @@ export const Pagination = (props) => {
                     <i className="bx bx-chevron-right"></i>
                 </a></li>
                 {pageNumbers.map(number => number == 1 ? (
-                    <li key={number} id={number} className="active page-item" onClick={() => paginate(number)}>
+                    <li key={number} id={number} className="active page-item numberss" onClick={() => paginate(number)}>
                         <a className="page-link">{number}</a>
                     </li>
-                ) : <li key={number} id={number} className="page-item" onClick={() => paginate(number)}>
+                ) : <li key={number} id={number} className="page-item numberss" onClick={() => paginate(number)}>
                     <a className="page-link">{number}</a>
                 </li>)}
                 <li className="page-item next"  onClick={handleNextPage}><a className="page-link"

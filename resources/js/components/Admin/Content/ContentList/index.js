@@ -49,7 +49,7 @@ export const ContentList = () => {
                 console.log("resultttttt : " , res)
                 localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
                 setLoading(false)
-                setContentData(res.data)
+                setContentData(res.data.data)
                 setPerPage(res.data.data.per_page);
                 setContentAll(res.data.data)
                 setTotal(res.data.data.total);
