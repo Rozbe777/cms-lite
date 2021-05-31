@@ -133,7 +133,7 @@ class PermissionSeeder extends Seeder
 //        $mapPermission=collect($permissions_map);
 //        $mapPermissionPersian=collect($permissions_map_persian);
 
-//        $this->permissionCreator($permissions,$mapPermission,$mapPermissionPersian);
+        $this->permissionCreator($permissions);
 
 
     }

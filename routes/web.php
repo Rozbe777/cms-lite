@@ -54,7 +54,6 @@ Route::get('csrf', function () {
 });
 
 //-----------------------Mehrshad Start----------------------
-Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard.index');
 
 Route::get('/login', [LoginController::class, 'show'])->name('show.login');
 Route::post('auth/login', [LoginController::class, 'login'])->name('auth.login');
@@ -88,7 +87,7 @@ Route::middleware('auth')->group(function () {
        echo "admin.role";
     })->name('role');
 
-
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard.index');
 
     //------------------------------User----------------------------
     Route::resource('users', UserController::class);

@@ -48,7 +48,8 @@ class ContentRepository implements Interfaces\RepositoryInterface
             })->when(empty($categories), function ($query) {
                 $query->with('categories');
             })
-            ->get();
+            ->where('status','active')
+            ->paginate(config('view.pagination'));
     }
 
     public function get($content)
