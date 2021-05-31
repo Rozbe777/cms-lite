@@ -1,23 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Setting;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Setting\UpdateSettingRequest;
-use App\Models\Setting;
-use Illuminate\Http\Request;
+namespace App\Repositories;
+
+
+use App\Repositories\AbstractFac\CrudFactory;
 use Illuminate\Support\Facades\Artisan;
 
-class SettingController extends Controller
+abstract class SettingRepository extends CrudFactory
 {
-    public function index()
-    {
 
+    public function all()
+    {
         return adminView("pages.admin.setting.index");
     }
 
-
-    public function update(UpdateSettingRequest $request)
+    public function update(array $data, $id)
     {
         $settings = $request->all();
         foreach ($settings as $index => $setting) {
@@ -26,8 +24,5 @@ class SettingController extends Controller
         Artisan::call("view:clear");
 
         return success([],'با موفقیت ثبت شد.');
-
     }
-
-
 }

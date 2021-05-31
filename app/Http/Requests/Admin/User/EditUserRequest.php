@@ -43,7 +43,7 @@ class EditUserRequest extends FormRequest
             'name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
             'email' => 'nullable|string|email|max:255unique:users,email,'.$this->route('userId'),
-            'phone' => ['nullable','unique:users,phone,'.$this->route('userId') , 'mobile'],
+            'mobile' => ['nullable','unique:users,phone,'.$this->route('userId') , 'mobile'],
             'password' => 'nullable|string|min:4|confirmed',
             'status' => 'nullable|in:active,deactivate',
             'role' => 'nullable|exists:roles,id',
