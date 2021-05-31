@@ -17,7 +17,7 @@ class SettingController extends Controller
     }
 
 
-    public function update(UpdateSettingRequest $request)
+    public function update(Request $request)
     {
         $settings = $request->all();
         foreach ($settings as $index => $setting) {
