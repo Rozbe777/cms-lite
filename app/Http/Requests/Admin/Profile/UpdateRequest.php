@@ -16,10 +16,10 @@ class UpdateRequest extends BaseRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email|unique:users,email,' . auth()->id(),
-            'mobile' => 'required|mobile|unique:users,phone,' . auth()->id(),
+            'name' => 'string|nullable',
+            'last_name' => 'string|nullable',
+            'email' => 'email|unique:users,email,' . auth()->id(),
+            'mobile' => ['mobile|unique:users,phone,' . auth()->id(),'mobile'],
         ];
     }
 }

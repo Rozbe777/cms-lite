@@ -6,18 +6,25 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Profile\PasswordRequest;
 use App\Http\Requests\Admin\Profile\UpdateRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
     function index()
     {
-        $user = User::find(auth()->id());
+        $user = Auth::user();
         return adminView('pages.admin.profile.index', compact('user'));
     }
 
     function update(UpdateRequest $request)
     {
+        $data = $request->all();
+        $user = Auth::user();
+
+            $data['mobile'] = !empty($data['mobile'])?
+                $data['mobile'] :
+                $user->mobile;
         $name = $request->input('name');
         $lastName = $request->input('last_name');
         $email = $request->input('email');

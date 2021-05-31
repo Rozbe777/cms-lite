@@ -137,9 +137,4 @@ class UserController extends Controller
 
         return $this->message(__('message.content.destroy.successful'))->view('pages.admin.user.index')->success();
     }
-
-    public function permissions(User $user)
-    {
-//        $user
-    }
 }

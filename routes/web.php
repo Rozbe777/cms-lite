@@ -83,13 +83,6 @@ Route::middleware('auth')->group(function () {
 //        return redirect()->route('dashboard.index');
 //    });
 
-    Route::get('/role', function () {
-        echo "admin.role";
-    })->name('role');
-    Route::get('/role', function () {
-        echo "admin.role";
-    })->name('roles.create');
-
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     //------------------------------User----------------------------
