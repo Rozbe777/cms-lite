@@ -49,7 +49,7 @@ class ContentRepository implements Interfaces\RepositoryInterface
                 $query->with('categories');
             })
             ->where('status','active')
-            ->get();
+            ->paginate(5);
     }
 
     public function get($content)
