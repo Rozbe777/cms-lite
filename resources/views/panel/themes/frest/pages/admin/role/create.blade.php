@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 row ">
-                                            @foreach($permissions as $permission)
+                                            @foreach($data as $permission)
                                                 <div class="col-md-6" style="min-height: 100px">
                                                     <div class="">
                                                         <h5 class="panel-title"> {{$permission->display_name}}</h5>

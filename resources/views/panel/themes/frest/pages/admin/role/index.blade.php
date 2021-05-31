@@ -15,7 +15,7 @@
                                    data-toggle="dropdown" aria-expanded="false">...</a>
 
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="{{ url('/admin/role/create') }}"><i
+                                    <a class="dropdown-item" href="{{ url('/roles/create') }}"><i
                                             class="fas fa-redo-alt text-orange-peel"></i>افزودن</a>
                                 </div>
                             </div>
@@ -33,7 +33,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($roles as $role)
+                                @foreach($data as $role)
                                     <tr>
                                         <td class="footable-visible footable-first-column"><span
                                                 class="footable-toggle"></span>{{$role->id}}</td>
@@ -48,10 +48,10 @@
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a class="dropdown-item"
-                                                       href="{{route("admin.role.edit" , ["role"=>$role->id])}}"><i
+                                                       href="{{route("roles.edit" , ["roleId"=>$role->id])}}"><i
                                                             class="fas fa-cogs text-dark-pastel-green"></i>ویرایش</a>
                                                     <form class="deleteRecord"
-                                                          action="{{route("admin.role.destroy" , ["role"=>$role->id])}}"
+                                                          action="{{route("roles.destroy" , ["roleId"=>$role->id])}}"
                                                           method="post">
                                                         @method("DELETE")
                                                         @csrf

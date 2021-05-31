@@ -15,7 +15,7 @@ class Role extends EntrustRole
 {
     use HasFactory;
 
-
+protected $guarded = [];
 
     public function permissions(){
         return $this->belongsToMany(Permission::class);

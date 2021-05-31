@@ -27,7 +27,7 @@ class EditRoleRequest extends BaseRequest
             "name"=>"required|min:3|unique:permissions,name,".$this->route('roleId'),
             "display_name"=>"required|min:3|unique:permissions,display_name,".$this->route('roleId'),
             "permissions"=> "array",
-            "permissions.*" => "exists:permissions,id",
+//            "permissions.*" => "exists:permissions,id",
         ];
     }
 }
