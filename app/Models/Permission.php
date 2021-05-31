@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Shanmuga\LaravelEntrust\Models\EntrustPermission;
 
 /**
- * @method static isPrent()
+ * @method static isParent()
  * @method static isMenu()
  * @method static parentId($parentId)
  * @property mixed children

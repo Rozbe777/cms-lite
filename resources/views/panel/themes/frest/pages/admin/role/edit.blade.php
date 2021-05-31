@@ -19,35 +19,35 @@
                                 <div class="card-title">
                                     <h6>{{$title}}</h6>
                                 </div>
-                                <form action="{{route("admin.role.update" , ["role"=>$role->id])}}" method="post">
+                                <form action="{{route("roles.update" , ["roleId"=>$data['role']->id])}}" method="post">
                                     @method("PUT")
                                     @csrf
-                                    <input type="hidden" name="id" value="{{$role->id}}">
+                                    <input type="hidden" name="id" value="{{$data['role']->id}}">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="display_name"
-                                                       value="{{$role->display_name}}" placeholder="نام فارسی (ادمین)">
+                                                       value="{{$data['role']->display_name}}" placeholder="نام فارسی (ادمین)">
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="name" value="{{$role->name}}"
+                                                <input type="text" class="form-control" name="name" value="{{$data['role']->name}}"
                                                        placeholder="نام لاتین (admin)">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 row ">
-                                            @foreach($permissions as $permission)
+                                            @foreach($data['permissions'] as $permission)
                                                 <div class="col-md-6" style="min-height: 100px">
                                                     <div class="">
                                                         <h5 class="panel-title"> {{$permission->display_name}}</h5>
 
                                                         <div class="">
                                                             <div class="form-check">
-                                                                <input type="checkbox" class="form-check-input checkAll" {{in_array($permission->id , $rolePermissions)?"checked":""}} onclick="toggle(this,{{$permission->childrenIds}})" name="permissions[]" value="{{$permission->id}}">
+                                                                <input type="checkbox" class="form-check-input checkAll" {{in_array($permission->id , $data['rolePermissions'])?"checked":""}} onclick="toggle(this,{{$permission->childrenIds}})" name="permissions[]" value="{{$permission->id}}">
                                                                 <label class="form-check-label">{{$permission->display_name}}</label>
                                                             </div>
 {{--                                                            <div class="checkbox">--}}
@@ -61,7 +61,7 @@
                                                             @foreach($permission->children as $child)
                                                                 <div class="form-check">
                                                                     <input type="checkbox" class="form-check-input checkAll " id="{{$child->id}}"
-                                                                           {{in_array($child->id , $rolePermissions)?"checked":""}}
+                                                                           {{in_array($child->id , $data['rolePermissions'])?"checked":""}}
                                                                            name="permissions[]" value="{{$child->id}}">
                                                                     <label class="form-check-label">{{$child->display_name}}</label>
                                                                 </div>

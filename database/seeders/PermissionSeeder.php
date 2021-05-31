@@ -64,7 +64,7 @@ class PermissionSeeder extends Seeder
                         ],
                         [
                             'is_menu' => 1,
-                            "name" => "roles.create",
+                            "name" => "roles.index",
                             "display_name" => "دسترسی"
                         ],
                     ],

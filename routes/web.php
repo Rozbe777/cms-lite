@@ -126,15 +126,13 @@ Route::middleware('auth')->group(function () {
 
 
     //------------------------------Settings----------------------------
-    Route::prefix('role/')->name('roles.')->group(function () {
+    Route::prefix('roles/')->name('roles.')->group(function () {
         Route::get('/', [RoleController::class, 'index'])->name('index');
-        Route::get('/list', [RoleController::class, 'list'])->name('list');
         Route::get('/create', [RoleController::class, 'create'])->name('create');
-        Route::post('/', [RoleController::class, 'store'])->name('store');
+        Route::post('/create', [RoleController::class, 'store'])->name('store');
         Route::get('/{roleId}/edit', [RoleController::class, 'edit'])->name('edit');
         Route::put('/{roleId}/update', [RoleController::class, 'update'])->name('update');
-        Route::post('/{roleId}/destroy', [RoleController::class, 'destroy'])->name('destroy');
-
+        Route::post('multi/destroy', [RoleController::class, 'multipleDestroy'])->name('destroy');
     });
 
 });
