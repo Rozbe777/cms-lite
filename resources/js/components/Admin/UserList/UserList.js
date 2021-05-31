@@ -142,7 +142,7 @@ const UserList = memo((props) => {
         });
 
         GetAllUser(stringSearchs);
-        $("ul.pagination li").removeClass("active");
+
         if (pageNumber == Math.ceil(total / perPage)) {
             $("li.page-item.next").css("opacity", 0.4);
             $("li.page-item.previous").css("opacity", 1);
@@ -153,7 +153,8 @@ const UserList = memo((props) => {
             $("li.page-item.next").css("opacity", 2);
             $("li.page-item.previous").css("opacity", 2);
         }
-        $("ul.pagination li#" + pageNumber).addClass("active");
+        // $("ul.pagination li.numberss").removeClass("active");
+        // $("ul.pagination li.numberss#" + pageNumber).addClass("active");
     };
 
 
