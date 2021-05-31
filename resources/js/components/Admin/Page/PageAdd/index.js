@@ -8,6 +8,7 @@ import MyEditor from "../../_Micro/MyEditor/MyEditor";
 import {ErroHandle, error as ErrorToast, error} from './../../../../helper'
 import {ChipsetHandler} from './../../../HOC/ChipsetHandler'
 import './../../_Micro/TreeShow/_Shared/style.scss';
+import $ from "jquery";
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
 const PageAdd = ({display, dataUpdate, result: pushResult}) => {
@@ -15,19 +16,20 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
 
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? dataGet.allData : '';
-    const MetaDataUpdate = dataUpdateParse ?  JSON.parse(dataUpdateParse.metadata) : {robots : false};
+    const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
 
     // console.log("*************", dataGet);
 
-
+    let titleWrite = $("input[name=titlePage]").val();
     const [comments, setComments] = useState();
+    const [changeCheck, setChangeCheck] = useState(false)
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
     const [contentNew, setContentNew] = useState({});
     const [statusNew, setStatusNew] = useState();
     const [menuShow, setMenuShow] = useState();
     // const [MetaDataUpdate , setMetaDataUpdate] = useState({});
-    const [ids , setIds] = useState(0)
+    const [ids, setIds] = useState(0)
     const [chipset, setChipset] = useState([]);
     let tags = [];
     const [edit, setEdit] = useState(false);
@@ -45,7 +47,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
 
     let default_value = {
         is_menu: 1,
-        is_index : 1,
+        is_index: 1,
         status: "active",
         content: '',
         slug: ''
@@ -101,19 +103,17 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
 
         setIds(formNews.id);
         setFormData({
-            content : formNews.content,
-            is_index : formNews.is_index,
-            is_menu : formNews.is_menu,
-            metadata : formNews.metadata,
-            slug : formNews.slug,
-            title : formNews.title
+            content: formNews.content,
+            is_index: formNews.is_index,
+            is_menu: formNews.is_menu,
+            metadata: formNews.metadata,
+            slug: formNews.slug,
+            title: formNews.title
         });
 
 
         MetaDataUpdate.tags ? setChipset(MetaDataUpdate.tags) : '';
     }, [])
-
-
 
 
     const handleClose = () => {
@@ -137,6 +137,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
     const handleInput = (e) => {
         setEdit(true);
 
+        setChangeCheck(true)
         let formDataOld = {...formData};
         if (e.target.name == "title") {
             formDataOld.title = e.target.value;
@@ -165,16 +166,16 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         setEdit(true)
         let metaDatas = {...metaData};
         let chipsets = [...chipset];
-        if (item === ""){
+        if (item === "") {
 
-        }else{
+        } else {
             chipsets.push(item);
             setChipset(chipsets);
             metaDatas.tags = chipsets;
             setMetaData(metaDatas);
         }
 
-        console.log("iiiiii : " , metaDatas)
+        console.log("iiiiii : ", metaDatas)
 
     }
 
@@ -204,10 +205,10 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         MetaDaa.robots = robots;
         formNew.metadata = JSON.stringify(MetaDaa);
         if (formData.title && formData.title !== '') {
-            $("input[name=title]").removeClass("is-invalid");
+            $("input[name=titlePage]").removeClass("is-invalid");
             CreateAddPage(formNew);
         } else {
-            $("input[name=title]").addClass("is-invalid");
+            $("input[name=titlePage]").addClass("is-invalid");
             error("لطفا فیلد عنوان صفحه را پر کنید !")
         }
 
@@ -286,28 +287,32 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
 
     const HandleEdit = () => {
         let formOldData = {...formData};
-        console.log("iiiii edit" , formOldData)
-
+        let title = titleWrite;
+        let slug = slugManage ? titleWrite : $("input.slugest").val();
+        formOldData.title = title;
+        formOldData.slug = slug;
         formOldData.content = JSON.stringify(contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-        let is_index = localStorage.getItem("is_index") ? localStorage.getItem("is_index") : formData.is_index;
+        let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
+        formOldData.title = titleWrite;
         formOldData.metadata = JSON.stringify(metaDatas);
         formOldData.status = status;
-        formOldData.is_index = parseInt(is_index);
+        formOldData.comment_status = comment_status;
         formOldData.is_menu = parseInt(is_menu);
-
-        console.log("iiiii edit" , formOldData)
+        delete formOldData.tag_list;
+        console.log("iiiii edit", formOldData)
         HandleUpdateForm(formOldData, ids);
     }
 
     const HandleDuplicate = () => {
         let formOldData = {...formData};
-        let title = $("input[name=title]").val();
-        let slug = $("input.slugest").val();
+        let title = titleWrite;
+        let slug = slugManage ? titleWrite : $("input.slugest").val();
+
         formOldData.content = JSON.stringify(contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
@@ -317,10 +322,10 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
         formOldData.metadata = JSON.stringify(metaDatas);
-        console.log("dataaaaa : " , metaDatas)
+        console.log("dataaaaa : ", metaDatas)
         formOldData.status = status;
-        formOldData.title  = title;
-        formOldData.slug  = slug;
+        formOldData.title = title;
+        formOldData.slug = slug;
         formOldData.is_index = parseInt(is_index);
         formOldData.is_menu = parseInt(is_menu);
         // console.log("data duplicate : " , formOldData);
@@ -423,7 +428,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان محتوا</label>
                                     <input type={"text"} defaultValue={HandleMakeName()} onChange={e => handleInput(e)}
-                                           name={"title"} id={"title"}
+                                           name={"titlePage"} id={"title"}
                                            className={"form-control"}/>
                                 </fieldset>
                             </div>
@@ -508,16 +513,20 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                                 </fieldset>
                             </div>
 
-                            <div className={"col-lg-9 col-md-8 col-sm-12"}>
+                            <div className={"col-lg-9 col-md-8 col-sm-12"} style={{paddingTop: 7}}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس صفحه محتوا</label>
-                                    {slugManage ? (
-                                        <input type={"text"}
-                                               defaultValue={HandleDefaultValuSlug()}
-                                               disabled id={"title"} className={"form-control slugest"}/>
+                                    {slugManage ? changeCheck ? (
+                                        <div className={"fucks"}>
+                                            {titleWrite}
+                                        </div>
+                                    ) : (
+                                        <div className={"fucks"}>
+                                            {formData.slug}
+                                        </div>
                                     ) : (
                                         <input type={"text"}
-                                               defaultValue={dataUpdateParse.slug ? dataUpdateParse.slug : formData.title}
+                                               defaultValue={formData.slug}
                                                onChange={e => handleInput(e)} name={"slug"} id={"title"}
                                                className={"form-control slugest"}/>
                                     )}
@@ -531,7 +540,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                                 </div>
                             </div>
 
-                            {console.log("//////////////////" ,MetaDataUpdate)}
+                            {console.log("//////////////////", MetaDataUpdate)}
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان صفحه ( حداکثر 60 حرف )</label>
@@ -560,7 +569,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                                     )</label>
                                 <div className={"row"} style={{padding: '15px'}}>
 
-                                    <div className={"col-12"} id={"chip-box"} style={{minHeight : 50}}>
+                                    <div className={"col-12"} id={"chip-box"} style={{minHeight: 50}}>
                                         <div className={"row"}>
 
                                             <div className={"col-sm-12 col-md-3 col-lg-2"}>
