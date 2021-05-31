@@ -9,7 +9,7 @@ export const BreadCrumbs = ({data , floatBtn , titleBtn , icon , clicked : pushC
                     <div className={"col-12"} style={{marginBottom: 5, marginTop: 5, lineHeight: '2.3'}}>
                         <span id={"title"}>{data.title}</span>
                         <span id={"icon"}>
-                        <a href="/admin"><i className={"bx bxs-home"}></i> <span>داشبورد</span> </a>
+                        <a href="/dashboard"><i className={"bx bxs-home"}></i> <span>پیشخوان</span> </a>
                     </span>
                         <span id={"icon"}>
                         <a><i className={"bx bx-chevron-left"}></i></a>
