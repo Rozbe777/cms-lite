@@ -93,6 +93,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
             if (result.value) {
                 Request.AddNewContent(data)
                     .then(res => {
+                        $("span.checkboxeds").removeClass("active");
                         pushResult(res);
                         setClear(true)
                         localStorage.removeItem("is_menu");
@@ -150,6 +151,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
 
     const handleClose = () => {
         setClear(true)
+        $("span.checkboxeds").removeClass("active");
         ReactDOM.render('', document.getElementById("add-datas"));
         setFormData({
             is_menu: 1,
@@ -299,6 +301,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
             if (result.value) {
                 Request.UpdateDataContent(data, id)
                     .then(res => {
+                        $("span.checkboxeds").removeClass("active");
                         setClear(true)
                         pushResult(res);
                         localStorage.removeItem("is_menu");
