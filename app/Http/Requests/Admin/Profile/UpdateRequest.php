@@ -19,7 +19,7 @@ class UpdateRequest extends BaseRequest
             'name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email,' . auth()->id(),
-            'phone' => 'required|mobile|unique:users,phone,' . auth()->id(),
+            'mobile' => 'required|mobile|unique:users,phone,' . auth()->id(),
         ];
     }
 }

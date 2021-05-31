@@ -24,7 +24,7 @@
                     </ul>
                 </div>
                 <ul class="nav navbar-nav float-right">
-                    <li class="dropdown dropdown-language nav-item"><a class="dropdown-toggle nav-link"
+              {{--      <li class="dropdown dropdown-language nav-item"><a class="dropdown-toggle nav-link"
                                                                        id="dropdown-flag" href="#"
                                                                        data-toggle="dropdown" aria-haspopup="true"
                                                                        aria-expanded="false"><i
@@ -32,10 +32,10 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-flag"><a
                                 class="dropdown-item" href="#" data-language="fa"><i
                                     class="flag-icon flag-icon-ir mr-50"></i> فارسی</a></div>
-                    </li>
+                    </li>--}}
                     <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand"><i
                                 class="ficon bx bx-fullscreen"></i></a></li>
-                    <li class="nav-item nav-search"><a class="nav-link nav-link-search"><i
+                {{--    <li class="nav-item nav-search"><a class="nav-link nav-link-search"><i
                                 class="ficon bx bx-search"></i></a>
                         <div class="search-input">
                             <div class="search-input-icon"><i class="bx bx-search primary"></i></div>
@@ -192,7 +192,7 @@
                                     class="dropdown-item p-50 text-primary justify-content-center"
                                     href="javascript:void(0)">خواندن همه اعلان ها</a></li>
                         </ul>
-                    </li>
+                    </li>--}}
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link"
                                                                    href="#" data-toggle="dropdown">
                             <div class="user-nav d-sm-flex d-none"><span
@@ -204,7 +204,7 @@
                             <span><img class="round" src="{{asset("images/avatar.jpg")}}"
                                        alt="avatar" height="40" width="40"></span></a>
                         <div class="dropdown-menu pb-0"><a class="dropdown-item"
-                                                           href="#"><i{{--{{route('profile.index')}}--}}
+                                                           href="{{route('profile.edit')}}"><i
 
                                     class="bx bx-user mr-50"></i> حساب کاربری</a>
                             <div class="dropdown-divider mb-0"></div>

@@ -31,13 +31,13 @@
                                 <div class="tab-pane active fade show" id="account" aria-labelledby="account-tab"
                                      role="tabpanel">
                                     <div id="profile-form" data-user="{{$user}}"
-                                         data-action="{{route('admin.profile.index')}}"
+                                         data-action="{{route('profile.edit')}}"
                                          data-token="{{csrf_token()}}"></div>
                                 </div>
                                 <div class="tab-pane fade show" id="password" aria-labelledby="password-tab"
                                      role="tabpanel">
                                     <!-- change password form start -->
-                                    <div id="password-form" data-action="{{route('admin.profile.password')}}" data-token="{{csrf_token()}}"></div>
+                                    <div id="password-form" data-action="{{route('profile.password')}}" data-token="{{csrf_token()}}"></div>
                                     <!-- change password form ends -->
                                 </div>
                             </div>

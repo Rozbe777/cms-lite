@@ -18,6 +18,7 @@ class ContentRepository implements Interfaces\RepositoryInterface
 
     public function all($status = null, $search = null, $tags = null, $categories = null)
     {
+
         $owner = 'content';
         if (!empty($tags))
             $tags = array_map('intval', $tags);
@@ -48,8 +49,8 @@ class ContentRepository implements Interfaces\RepositoryInterface
             })->when(empty($categories), function ($query) {
                 $query->with('categories');
             })
-            ->where('status','active')
             ->paginate(5);
+
     }
 
     public function get($content)
@@ -130,7 +131,7 @@ class ContentRepository implements Interfaces\RepositoryInterface
 
     public function multipleDestroy($data)
     {
-        return Content::whereIn('id', $data['contentIds'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);
+        return Content::whereIn('id', $data['contentIds'])->delete();
 
     }
 }

@@ -34,8 +34,13 @@ class PermissionSeeder extends Seeder
                     'icon' => 'flaticon-multiple-users-silhouette',
                     'is_menu' => 1,
                     "name" => "contents.index",
-                    "display_name" => "محتوا",
-                    "children" => []
+                    "display_name" => "محتوا ها",
+                    "children" => [
+                        ['icon' => 'flaticon-multiple-users-silhouette',
+                            'is_menu' => 1,
+                            "name" => "categories.index",
+                            "display_name" => "دسته بندی ها"],
+                    ]
                 ],
                 [
                     'weight' => 10,
@@ -64,79 +69,33 @@ class PermissionSeeder extends Seeder
                         ],
                     ],
                 ],
-//                [
-//                    'weight' => 20,
-//                    'icon' => 'flaticon-multiple-users-silhouette',
-//                    'is_menu' => 1,
-//                    "name" => "settings.index",
-//                    "display_name" => "تنظیمات",
-//                    "children" => []
-//                ],
-//                    [
-//                        'weight' => 1000,
-//                        'icon' => 'flaticon-multiple-users-silhouette',
-//                        'is_menu' => 1,
-//                        "name" => "dashboard.index",
-//                        "display_name" => "حساب کاربری",
-//                        "children" => [
-//                            [
-//                                'is_menu' => 1,
-//                                "name" => "user.create",
-//                                "display_name" => "اطلاعات"
-//                            ],
-//                            [
-//                                'is_menu' => 1,
-//                                "name" => "user.create",
-//                                "display_name" => "ویرایش رمزعبور"
-//                            ],
-//                            [
-//                                'is_menu' => 1,
-//                                "name" => "user.create",
-//                                "display_name" => "ویرایش تصویر پروفایل"
-//                            ],
-//                        ]
-//                    ]
-//                ],
-        ];
-//
-        //---------
-//        $permissions_map=[
-//            's' => 'store',
-//            'i' => 'index',
-//            'c' => 'create',
-//            'u' => 'update',
-//            'e' => 'edit',
-//            'd' => 'delete',
-//            'des' => 'destroy',
-//            'multides' => 'multipleDestroy',
-//            'r' => 'read',
-//            'sh' => 'show',
-//            'export' => 'export',
-//            'search' => 'search',
-//            'userList'=>'userList'
-//        ];
-//
-//        $permissions_map_persian=[
-//            's' => 'ایجاد',
-//            'i' => 'لیست',
-//            'c' => 'صفحه ایجاد',
-//            'u' => 'به روز رسانی',
-//            'e' => 'صفحه به روز رسانی',
-//            'd' => 'صفحه حذف',
-//            'des' => 'حذف',
-//            'multides' => ' حذف گروهی',
-//            'r' => 'خواندن',
-//            'sh' => 'نمایش',
-//            'export' => 'خروجی',
-//            'search' => 'جستجو',
-//        ];
-//        $mapPermission=collect($permissions_map);
-//        $mapPermissionPersian=collect($permissions_map_persian);
+                [
+                    'weight' => 10,
+                    'icon' => 'flaticon-multiple-users-silhouette',
+                    'is_menu' => 1,
+                    "name" => "settings.edit",
+                    "display_name" => "تنظیمات",
+                    "children" => []
+                ],
+                [
+                    'weight' => 1000,
+                    'icon' => 'flaticon-multiple-users-silhouette',
+                    'is_menu' => 0,
+                    "name" => "profile.edit",
+                    "display_name" => "حساب کاربری",
+                    "children" => [
+                        [
+                            'is_menu' => 1,
+                            "name" => "profile.password",
+                            "display_name" => "ویرایش رمزعبور"
+                        ],
+                    ],
+                ],
+
+            ];
 
         $this->permissionCreator($permissions);
 
-
     }
-
 
 }
