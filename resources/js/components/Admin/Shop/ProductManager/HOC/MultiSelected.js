@@ -24,32 +24,25 @@ export const MultiSelected = ({
     const [paginateThumbs, setPaginateThumbs] = useState();
     const [load, setLoad] = useState(false);
     let selectCheckBox = new Set();
+    let interValOptionsss = 0;
+
     useEffect(() => {
 
 
-
-        let interValOptionsss;
         $(".main-selected").mouseover(function () {
             var thisisss = $(this);
             clearInterval(interValOptionsss)
-            interValOptionsss = setInterval(() => {
                 thisisss.find(".optionBox").addClass("active")
                 thisisss.find("#box-droper i").addClass("active");
-            }, 300)
 
         })
         $(".main-selected").mouseout(function () {
             var thisisss = $(this);
             clearInterval(interValOptionsss)
-            interValOptionsss = setInterval(() => {
                 thisisss.find(".optionBox").removeClass("active")
                 thisisss.find("#box-droper i").removeClass("active");
-            }, 300)
-
-
         })
 
-        console.log("interval : " , interValOptionsss)
 
 
         let checkkks = [...check];
@@ -71,6 +64,14 @@ export const MultiSelected = ({
         }
 
     }, [])
+
+
+
+
+
+    console.log("interval : ", interValOptionsss)
+
+
     const HandleChange = (e, id) => {
         let checkBoxCustom = $("span.checkboxeds." + id);
         let checked = [...check];
@@ -95,23 +96,6 @@ export const MultiSelected = ({
             pushSelected(results)
         }
 
-    }
-
-
-    const handleDropDown = (e) => {
-        e.preventDefault();
-        $(".optionBox#selected").toggleClass("active")
-        var icoon = $(".selecteddd i").attr("class");
-        if (icoon === "bx-chevron-down") {
-            $(".selecteddd").html('');
-            $(".selecteddd").append('bx-chevron-up');
-
-        } else {
-            $(".selecteddd").html('');
-            $(".selecteddd").append('bx-chevron-down');
-        }
-        // $(".selecteddd").toggleClass("active");
-        // console.log("click daaaaaa , " , e.currentTarget.getAttribute('data-appmode'))
     }
 
 
@@ -160,7 +144,7 @@ export const MultiSelected = ({
                         ) : ''}
                     </Swiper>
                 ) : (
-                    <p onClick={e => handleDropDown(e)}>انتخاب کنید</p>
+                    <p>انتخاب کنید</p>
                 )}
 
             </div>
