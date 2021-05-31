@@ -7,6 +7,7 @@ import {Item} from './HOC/Item'
 import $ from 'jquery';
 import {TotalActions} from './HOC/TotalActions'
 import Loading from './../_Micro/Loading'
+import NotFound from './../_Micro/NotFound'
 import SearchComponent from "./Search";
 import {BreadCrumbs} from './HOC/BreadCrumbs'
 import {CHECK_BOX_CONTENT} from "./Helper/Context";
@@ -41,21 +42,16 @@ const UserList = memo((props) => {
     let userIdArr = [];
 
     let GetAllUser = (datass) => {
+
         setLoading(true);
         Request.GetAllUserApi(datass)
             .then(res => {
-                // if(searchload === true){
-                //     $("ul.pagination li").removeClass("active");
-                //     $("ul.pagination li#1").addClass("active");
-                //     setSearch(false)
-                // }
+                    setLoading(false)
+                    setUserData(res.data.data);
+                    setPerPage(res.data.data.per_page);
+                    setTotal(res.data.data.total);
+                    setAllUser(res.data.data.data);
 
-                console.log(".........." , )
-                setLoading(false)
-                setUserData(res.data.data);
-                setPerPage(res.data.data.per_page);
-                setTotal(res.data.data.total);
-                setAllUser(res.data.data.data);
             }).catch(err => {
             return err
         })
@@ -268,7 +264,7 @@ const UserList = memo((props) => {
                                     <Item props={items}/>
 
                                 )) :
-                                <p style={{width: '100%', textAlign: 'center', fontSize: '21px'}}>کاربری یافت نشد!</p> :
+                                <NotFound /> :
                                 <Loading/>}
                         </div>
 

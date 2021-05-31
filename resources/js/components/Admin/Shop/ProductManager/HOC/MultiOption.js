@@ -1,50 +1,41 @@
-import React, {useEffect , useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import $ from 'jquery'
 import "swiper/swiper-bundle.css";
 
-export const MultiOption = ({name , data , selected : pushSelected}) => {
+export const MultiOption = ({name, data, selected: pushSelected}) => {
 
-    const [selectedO , setSelectedO] = useState({
-        item : ''
+    const [selectedO, setSelectedO] = useState({
+        item: ''
     });
     useEffect(() => {
         var interValOption;
         $(".main-options-sel").mouseover(function () {
             var thisis = $(this);
-            clearInterval(interValOption)
-            interValOption = setInterval(() => {
-                // $(".main-options-sel .option-icon i").removeClass("active")
-                $(".main-options-sel #content").removeClass("active")
-                // thisis.find(".option-icon i").addClass("active")
-                thisis.find(".option-icon").html('');
-                thisis.find(".option-icon").append('<i class="bx bx-chevron-up"></i>');
-                thisis.find("#content").addClass("active")
-            }, 300)
+            $(".main-options-sel .option-icon i").removeClass("active")
+            $(".main-options-sel #content").removeClass("active")
+            thisis.find(".option-icon i").addClass("active")
+            thisis.find("#content").addClass("active")
         })
         $(".main-options-sel").mouseout(function () {
             var thisis = $(this);
-            clearInterval(interValOption)
-            interValOption = setInterval(() => {
-                // $(".main-options-sel .option-icon i").removeClass("active")
-                $(".main-options-sel #content").removeClass("active")
-                thisis.find(".option-icon").html('');
-                thisis.find(".option-icon").append('<i class="bx bx-chevron-down"></i>');
-                thisis.find("#content").removeClass("active")
-            }, 300)
+            $(".main-options-sel .option-icon i").removeClass("active")
+            $(".main-options-sel #content").removeClass("active")
+            thisis.find(".option-icon i").removeClass("active")
+            thisis.find("#content").removeClass("active")
         })
     }, [])
 
-    const selectedOpt = (e , name) => {
+    const selectedOpt = (e, name) => {
         e.preventDefault();
         setSelectedO({
-            item : name
+            item: name
         })
         pushSelected(name)
     }
-    const delSel = (e , name) => {
+    const delSel = (e, name) => {
         e.preventDefault();
         setSelectedO({
-            item : ''
+            item: ''
         })
         pushSelected('')
     }
@@ -57,15 +48,15 @@ export const MultiOption = ({name , data , selected : pushSelected}) => {
                 </div>
                 <span id={"selected"}>
                     {selectedO.item !== "" ? (
-                        <a onClick={e =>delSel(e)}><i className='bx bx-x'></i><span>{selectedO.item}</span></a>
-                        ) : 'انتخاب کنید'}
+                        <a onClick={e => delSel(e)}><i className='bx bx-x'></i><span>{selectedO.item}</span></a>
+                    ) : 'انتخاب کنید'}
                 </span>
             </li>
             <li id={"content"}>
                 <ul>
                     {data ? data.map(item => (
-                        <li onClick={e => selectedOpt(e , item)}>{item}</li>
-                    )) :(<li disabled>موردی یافت نشد</li>)}
+                        <li onClick={e => selectedOpt(e, item)}>{item}</li>
+                    )) : (<li disabled>موردی یافت نشد</li>)}
 
                 </ul>
             </li>

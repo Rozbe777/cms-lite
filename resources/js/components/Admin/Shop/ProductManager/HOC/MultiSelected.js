@@ -7,60 +7,71 @@ import './_shared/style.scss';
 import $ from "jquery";
 
 
-export const MultiSelected = ({defSelected , clear , clearNew : pushClear  , data, selected: pushSelected , check : pushIdCheck}) => {
+export const MultiSelected = ({
+                                  defSelected,
+                                  clear,
+                                  clearNew: pushClear,
+                                  data,
+                                  selected: pushSelected,
+                                  check: pushIdCheck
+                              }) => {
 
 
     const [check, setCheck] = useState([])
-
 
 
     // const [data, setData] = useState()
     const [paginateThumbs, setPaginateThumbs] = useState();
     const [load, setLoad] = useState(false);
     let selectCheckBox = new Set();
+    let interValOptionsss = 0;
+
     useEffect(() => {
 
 
+        $(".main-selected").mouseover(function () {
+            var thisisss = $(this);
+            clearInterval(interValOptionsss)
+                thisisss.find(".optionBox").addClass("active")
+                thisisss.find("#box-droper i").addClass("active");
+
+        })
+        $(".main-selected").mouseout(function () {
+            var thisisss = $(this);
+            clearInterval(interValOptionsss)
+                thisisss.find(".optionBox").removeClass("active")
+                thisisss.find("#box-droper i").removeClass("active");
+        })
+
+
+
         let checkkks = [...check];
-        if (defSelected){
+        if (defSelected) {
             defSelected.map(item => {
                 checkkks.push({
-                    id : item.id,
-                    name : item.name
+                    id: item.id,
+                    name: item.name
                 })
                 setCheck(checkkks)
             })
         }
 
-
-
-
-        var interValOptions;
         let checkdddd = [...check];
-        if(clear){
+        if (clear) {
             checkdddd = [];
             setCheck(checkdddd);
             pushClear(false);
         }
-        $(".main-selected").mouseover(function () {
-            clearInterval(interValOptions)
-            var thisis = $(this);
-            interValOptions = setInterval(() => {
-                thisis.find(".optionBox").addClass("active")
-                thisis.find("#box-droper").html('');
-                thisis.find("#box-droper").append('<i class="bx bx-chevron-up"></i>');
-            }, 10)
-        })
-        $(".main-selected").mouseout(function () {
-            clearInterval(interValOptions)
-            var thisis = $(this);
-            interValOptions = setInterval(() => {
-                thisis.find(".optionBox").removeClass("active")
-                thisis.find("#box-droper").html('');
-                thisis.find("#box-droper").append('<i class="bx bx-chevron-down"></i>');
-            }, 10)
-        })
+
     }, [])
+
+
+
+
+
+    console.log("interval : ", interValOptionsss)
+
+
     const HandleChange = (e, id) => {
         let checkBoxCustom = $("span.checkboxeds." + id);
         let checked = [...check];
@@ -88,25 +99,6 @@ export const MultiSelected = ({defSelected , clear , clearNew : pushClear  , dat
     }
 
 
-    const handleDropDown = (e) => {
-        e.preventDefault();
-        $(".optionBox#selected").toggleClass("active")
-        var icoon = $(".selecteddd i").attr("class");
-        if (icoon === "bx-chevron-down") {
-            $(".selecteddd").html('');
-            $(".selecteddd").append('bx-chevron-up');
-
-        } else {
-            $(".selecteddd").html('');
-            $(".selecteddd").append('bx-chevron-down');
-        }
-        // $(".selecteddd").toggleClass("active");
-        // console.log("click daaaaaa , " , e.currentTarget.getAttribute('data-appmode'))
-    }
-
-
-
-
     const RemoveChipset = (id) => {
         $("span.checkboxeds." + id).removeClass("active");
         $("input[name=" + id + "]").prop("checked", false);
@@ -116,10 +108,10 @@ export const MultiSelected = ({defSelected , clear , clearNew : pushClear  , dat
     }
 
 
-    $(function (){
+    $(function () {
         check.map(item => {
-            $("input[name="+item.id+"]").prop("checked" , true);
-            $("span.checkboxeds."+item.id).addClass("active");
+            $("input[name=" + item.id + "]").prop("checked", true);
+            $("span.checkboxeds." + item.id).addClass("active");
         })
     })
 
@@ -152,7 +144,7 @@ export const MultiSelected = ({defSelected , clear , clearNew : pushClear  , dat
                         ) : ''}
                     </Swiper>
                 ) : (
-                    <p onClick={e => handleDropDown(e)}>انتخاب کنید</p>
+                    <p>انتخاب کنید</p>
                 )}
 
             </div>

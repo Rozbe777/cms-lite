@@ -4994,3 +4994,13 @@ input::placeholder{
 .preloader.active{
     display: none;
 }
+.main-menu .navbar-header .navbar-brand .brand-text{
+    margin-top: -7px !important;
+}
+.main-menu.menu-light .navigation li.has-sub ul{
+    padding: 0px !important;
+}
+.main-menu.menu-light .navigation li.has-sub > a{
+    margin: -5px 11px 2px  !important;
+    padding: 16px 0 !important;
+}
