@@ -64,14 +64,14 @@ class PermissionSeeder extends Seeder
                         ],
                     ],
                 ],
-                [
-                    'weight' => 20,
-                    'icon' => 'flaticon-multiple-users-silhouette',
-                    'is_menu' => 1,
-                    "name" => "settings.index",
-                    "display_name" => "تنظیمات",
-                    "children" => []
-                ],
+//                [
+//                    'weight' => 20,
+//                    'icon' => 'flaticon-multiple-users-silhouette',
+//                    'is_menu' => 1,
+//                    "name" => "settings.index",
+//                    "display_name" => "تنظیمات",
+//                    "children" => []
+//                ],
 //                    [
 //                        'weight' => 1000,
 //                        'icon' => 'flaticon-multiple-users-silhouette',

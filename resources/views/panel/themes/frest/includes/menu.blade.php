@@ -103,52 +103,52 @@
                     <li class=" nav-item"><a href="{{route($menu->name)}}"><i class="bx {{$menu->icon}}"></i><span
                                 class="menu-title"
                             >{{$menu->display_name}}</span></a>
-                                    <ul class="menu-content">
-                                        @foreach($childrenMenus as $subMenu)
-                                            @php($subChildrenMenus=$subMenu->childrenMenu)
-                                            @if($subChildrenMenus->count()>1)
-                                                <li class=" nav-item"><a href="#"><i class="bx {{$subMenu->icon}}"></i><span
-                                                            class="menu-title"
-                                                            data-i18n="User">{{$subMenu->display_name}}</span></a>
-                                                    <ul class="menu-content">
-                                                        @foreach($subChildrenMenus as $childSubMenu)
+{{--                                    <ul class="menu-content">--}}
+{{--                                        @foreach($childrenMenus as $subMenu)--}}
+{{--                                            @php($subChildrenMenus=$subMenu->childrenMenu)--}}
+{{--                                            @if($subChildrenMenus->count()>1)--}}
+{{--                                                <li class=" nav-item"><a href="#"><i class="bx {{$subMenu->icon}}"></i><span--}}
+{{--                                                            class="menu-title"--}}
+{{--                                                            data-i18n="User">{{$subMenu->display_name}}</span></a>--}}
+{{--                                                    <ul class="menu-content">--}}
+{{--                                                        @foreach($subChildrenMenus as $childSubMenu)--}}
 
-                                                            <li class="{{Route::current()->getName() == $childSubMenu->name ?"active" : ""}}">
-                                                                <a href="{{route("$childSubMenu->name")}}"><i
-                                                                        class="bx bx-left-arrow-alt"></i><span class="menu-item"
-                                                                                                               data-i18n="List">{{$childSubMenu->display_name}}</span></a>
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
+{{--                                                            <li class="{{Route::current()->getName() == $childSubMenu->name ?"active" : ""}}">--}}
+{{--                                                                <a href="{{route("$childSubMenu->name")}}"><i--}}
+{{--                                                                        class="bx bx-left-arrow-alt"></i><span class="menu-item"--}}
+{{--                                                                                                               data-i18n="List">{{$childSubMenu->display_name}}</span></a>--}}
+{{--                                                            </li>--}}
+{{--                                                        @endforeach--}}
+{{--                                                    </ul>--}}
 
-                                                </li>
-                                            @elseif($subChildrenMenus->count()>0)
-                                                @foreach($subChildrenMenus as $childSubMenu)
-                                                    @if(auth()->user()->can($childSubMenu->name))
+{{--                                                </li>--}}
+{{--                                            @elseif($subChildrenMenus->count()>0)--}}
+{{--                                                @foreach($subChildrenMenus as $childSubMenu)--}}
+{{--                                                    @if(auth()->user()->can($childSubMenu->name))--}}
 
-                                                        <li class="{{Route::current()->getName() == $childSubMenu->name ?"active" : ""}} nav-item">
-                                                            <a href="{{route("$childSubMenu->name")}}"><i
-                                                                    class="bx bx-user"></i><span class="menu-title"
-                                                                                                 data-i18n="User Profile">{{$subMenu->display_name}}</span></a>
-                                                        </li>
-                                                    @endif
-                                                @endforeach
-                                            @else
-                                                @if(auth()->user()->can($subMenu->name))
-                                                    <li class="{{Route::current()->getName() == $subMenu->name ?"active" : ""}}">
-                                                        <a href="{{route("$subMenu->name")}}"><i
-                                                                class="bx bx-left-arrow-alt"></i><span class="menu-item"
-                                                                                                       data-i18n="List">{{$subMenu->display_name}}</span></a>
-                                                    </li>
-                                                @endif
+{{--                                                        <li class="{{Route::current()->getName() == $childSubMenu->name ?"active" : ""}} nav-item">--}}
+{{--                                                            <a href="{{route("$childSubMenu->name")}}"><i--}}
+{{--                                                                    class="bx bx-user"></i><span class="menu-title"--}}
+{{--                                                                                                 data-i18n="User Profile">{{$subMenu->display_name}}</span></a>--}}
+{{--                                                        </li>--}}
+{{--                                                    @endif--}}
+{{--                                                @endforeach--}}
+{{--                                            @else--}}
+{{--                                                @if(auth()->user()->can($subMenu->name))--}}
+{{--                                                    <li class="{{Route::current()->getName() == $subMenu->name ?"active" : ""}}">--}}
+{{--                                                        <a href="{{route("$subMenu->name")}}"><i--}}
+{{--                                                                class="bx bx-left-arrow-alt"></i><span class="menu-item"--}}
+{{--                                                                                                       data-i18n="List">{{$subMenu->display_name}}</span></a>--}}
+{{--                                                    </li>--}}
+{{--                                                @endif--}}
 
-                                            @endif
+{{--                                            @endif--}}
 
 
-                                        @endforeach
+{{--                                        @endforeach--}}
 
-                                    </ul>
-                    </li>
+{{--                                    </ul>--}}
+{{--                    </li>--}}
 
 
 
