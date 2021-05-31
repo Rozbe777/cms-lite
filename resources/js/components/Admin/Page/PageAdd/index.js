@@ -139,7 +139,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
 
         setChangeCheck(true)
         let formDataOld = {...formData};
-        if (e.target.name == "title") {
+        if (e.target.name == "titlePage") {
             formDataOld.title = e.target.value;
             formDataOld.slug = e.target.value;
             setFormData(formDataOld);

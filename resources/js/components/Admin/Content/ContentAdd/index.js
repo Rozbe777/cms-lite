@@ -174,7 +174,7 @@ const ContentAdd = ({display, dataUpdate, result: pushResult}) => {
 
         setChangeCheck(true)
         setEdit(true);
-        if (e.target.name == "name") {
+        if (e.target.name == "titleContent") {
             if (slugManage) {
                 let formDataOld = {...formData};
                 formDataOld.title = e.target.value;

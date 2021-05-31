@@ -7,6 +7,7 @@ import './../../_Micro/TreeShow/_Shared/style.scss';
 import {CHECK_BOX_CONTENT} from "../../UserList/Helper/Context";
 import ContentAdd from './../../Content/ContentAdd'
 import Loading from './../../_Micro/Loading'
+import NotFound from './../../_Micro/NotFound'
 import $ from 'jquery';
 import {ErroHandle, error as ErrorToast} from "../../../../helper";
 import {TotalActions} from "../../UserList/HOC/TotalActions";
@@ -280,11 +281,8 @@ export const ContentList = () => {
                 </div>
 
 
-                <div className={"container"}>
+                <div className={"container"} style={{minHeight : '300px'}}>
                     <div className={"row"}>
-
-
-                        {console.log("content : ", contentData)}
 
                         {loading === false && contentData.data ? contentData.data.length > 0 ? (
                             <TreeShowPage handleCata={itemCat => console.log("cat back ,", itemCat)}
@@ -297,9 +295,7 @@ export const ContentList = () => {
                                           loading={loading}/>
                         ) : (
                             <div style={{width : '100%'}}>
-                                <p style={{textAlign: 'center', marginTop: 20}}>
-                                    محتوایی ای برای نمایش وجود ندارد!
-                                </p>
+                               <NotFound />
                                 {stringSearchs ? '' : (
                                     <div id={"maines"}>
                                         <button id="add-page"

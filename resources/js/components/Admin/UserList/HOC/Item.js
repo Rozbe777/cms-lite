@@ -98,7 +98,7 @@ export const Item = (props) => {
             </span>
 
                     <span className={"final"} className={"d-none d-lg-block"}>
-              <a className={"role"}> {email ? email : "ندارد"} </a>  <p id={"labels"}>ایمیل : </p>
+              <a className={"role"}> {mobile ? mobile : "ندارد"} </a>  <p id={"labels"}>تلفن : </p>
             </span>
 
 

@@ -12,6 +12,7 @@ import {ErroHandle, error as ErrorToast} from "../../../../helper";
 import {TotalActions} from "../../UserList/HOC/TotalActions";
 import {BreadCrumbs} from "../../UserList/HOC/BreadCrumbs";
 import BottomNavigationBar from "../../UserList/HOC/BottomNavigationBar";
+import NotFound from "../../_Micro/NotFound";
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
 
@@ -230,13 +231,11 @@ export const CategoryList = () => {
                                               loading={loading}/>
                         ) : (
                             <div>
-                                <p style={{textAlign: 'center', marginTop: 20}}>
-                                    لیست دسته بندی برای نمایش وجود ندارد!
-                                </p>
+                               <NotFound />
                                 <div id={"maines"}>
                                     <button id="add-category"
                                             onClick={(e) => handleAddCategory(e)}
-                                            style={{width: 180}}
+                                            style={{width: 180 , marginTop : '35px'}}
                                             className="btn btn-primary glow mr-1 mb-1"
                                             type="button">
                                         <span className="align-middle ml-25">افزودن دسته بندی</span>
