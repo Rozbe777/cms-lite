@@ -110,6 +110,7 @@ Route::middleware('auth')->group(function () {
     Route::get('profile/{userId}/edit', [ProfileController::class, 'index'])->name('profile.edit');
     Route::put('profile/{userId}/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('profile/password', [ProfileController::class, 'changePassword'])->name('profile.password');
+    Route::delete('profile/delete', [ProfileController::class, 'delete'])->name('profile.delete');
 
     //------------------------------Settings----------------------------
     Route::name('settings.')->group(function () {
@@ -125,9 +126,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/create', [RoleController::class, 'store'])->name('store');
         Route::get('/{roleId}/edit', [RoleController::class, 'edit'])->name('edit');
         Route::put('/{roleId}/update', [RoleController::class, 'update'])->name('update');
-        Route::post('multi/destroy', [RoleController::class, 'multipleDestroy'])->name('destroy');
+        Route::delete('/{roleId}/destroy', [RoleController::class, 'multipleDestroy'])->name('destroy');
     });
-
 });
 
 
