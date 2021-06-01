@@ -51,6 +51,7 @@
                                                                        style="z-index: 99"
                                                                        class="checkbox-input checkAll"
                                                                        id="{{$permission->id}}"
+                                                                       value="{{$permission->id}}"
                                                                        name="permissions[]"
                                                                        onclick="toggle(this,{{$permission->children}})">
                                                                 <label style="font-size: 16px;line-height: 1.5;background: #fff"
@@ -81,7 +82,6 @@
                                                                     <div class="lineeeeeeChild"></div>
                                                                         <div class="checkbox">
                                                                             <input type="checkbox"
-                                                                                   id="{{$child->id}}"
                                                                                    class="checkbox-input checkAll"
                                                                                    name="permissions[]"
                                                                                    value="{{$child->id}}"
