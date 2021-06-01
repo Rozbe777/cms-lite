@@ -30,7 +30,7 @@ class RoleController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the Roles resource.
      *
      * @return Factory|View
      */
@@ -42,7 +42,7 @@ class RoleController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource Roles with Permissions.
      *
      * @return Factory|View
      */
@@ -108,9 +108,9 @@ class RoleController extends Controller
      * @param MultipleDestroyRoleRequest $request
      * @return Factory|JsonResponse|View
      */
-    public function multipleDestroy(MultipleDestroyRoleRequest $request)
+    public function multipleDestroy($id)
     {
-        $this->roleRepository->multipleDestroy($request->all());
+        $this->roleRepository->multipleDestroy($id);
         return $this->message(__('message.content.destroy.successful'))->view('pages.admin.role.index')->success();
     }
 }

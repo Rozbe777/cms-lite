@@ -69,8 +69,8 @@ class RoleRepository
         return $this->all();
     }
 
-    public function multipleDestroy(array $data)
+    public function multipleDestroy($id)
     {
-        return Role::whereIn('id', $data['roleId'])->delete();
+        return Role::where('id',$id)->delete();
     }
 }
