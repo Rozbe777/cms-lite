@@ -51,7 +51,7 @@ class PermissionSeeder extends Seeder
                     "children" => []
                 ],
                 [
-                    'weight' => 15,
+                    'weight' => 50,
                     'icon' => 'flaticon-multiple-users-silhouette',
                     'is_menu' => 1,
                     "name" => "users.index",
@@ -70,7 +70,7 @@ class PermissionSeeder extends Seeder
                     ],
                 ],
                 [
-                    'weight' => 10,
+                    'weight' => 100,
                     'icon' => 'flaticon-multiple-users-silhouette',
                     'is_menu' => 1,
                     "name" => "settings.edit",
@@ -78,7 +78,7 @@ class PermissionSeeder extends Seeder
                     "children" => []
                 ],
                 [
-                    'weight' => 1000,
+                    'weight' => 200,
                     'icon' => 'flaticon-multiple-users-silhouette',
                     'is_menu' => 0,
                     "name" => "profile.edit",
