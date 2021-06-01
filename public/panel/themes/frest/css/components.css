@@ -5014,3 +5014,54 @@ input::placeholder{
     -webkit-transition: 0.3s all ease !important;
     -moz-transition: 0.3s all ease !important;
 }
+.nav-item.is-shown{
+    border: none !important;
+}
+
+.main-menu.menu-light .navigation>li.nav-item.open .menu-content li a, .main-menu.menu-light .navigation>li.nav-item.sidebar-group-active .menu-content li a{
+    margin: 0px !important;
+}
+.permitionbox{
+    /*border: 1px solid #eee;*/
+    padding: 2px 20px 10px;
+    border-radius: 5px;
+    position: relative;
+    transition: 0.3s all ease;
+    -webkit-transition: 0.3s all ease;
+    -moz-transition: 0.3s all ease;
+    margin-bottom: 15px;
+}
+
+.lineeeeee{
+    position: absolute;
+    top: 7px;
+    right: 30px;
+    width: 1px;
+    bottom : 18px;
+    background: #909090;
+}
+.lineeeeeeChild{
+    position: absolute;
+    top: 13px;
+    right: -18px;
+    width: 25px;
+    background: #909090;
+    height: 1px;
+}
+.lineeeeeeChild::after{
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: -6px;
+    width: 14px;
+    height: 14px;
+    border-radius: 100%;
+    background: #909090;
+    border: 2px solid #fff;
+}
+
+.dropdown-menu.dropdown-menu-right::before{
+    right: 0;
+    left: 0;
+    margin: auto;
+}

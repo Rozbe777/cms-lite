@@ -6,6 +6,7 @@ import {Request} from "../../../services/AuthService/Api";
 import {error as ErrorToast,ErroHandle, success as SuccessToast} from './../../../helper';
 import PasswordSet from "./PasswordSet";
 import Loading from "../Loading";
+import FinalDataRegister from "../Register/FinalDataRegister";
 
 const MobileVerify = (props) => {
     useEffect(() => {
@@ -70,8 +71,8 @@ const MobileVerify = (props) => {
                     clearInterval(intervals);
                     ReactDOM.render('', elementLoading);
                     var pattern = /[0-9]/;
-                    if (pattern.test(error.response.data.errors.data[0])) {
-                        Timer(e, error.response.data.errors.data[0])
+                    if (pattern.test(error.response.data.data)) {
+                        Timer(e, error.response.data.data)
                         $(".container-loader").fadeIn();
                         setTimeout(() => {
                             $(".verifyForm").addClass("active");
@@ -100,6 +101,7 @@ const MobileVerify = (props) => {
     const Timer = (e, timers) => {
 
         e.preventDefault()
+        console.log("timers" , timers)
         var min = Math.floor(timers / 60);
         var sec = Math.floor(timers - (min * 60));
 
@@ -138,12 +140,36 @@ const MobileVerify = (props) => {
         let data = {
             token: code,
             _token: token,
-            mobile : phone.mobile
+            mobile: phone.mobile
         }
 
-        console.log("ffff : " , data)
+        console.log("da " , data)
 
-        ReactDOM.render(<Loading/>, loadingElement);
+        if (token !== ""){
+            ReactDOM.render(<Loading/>, loadingElement);
+            Request.VerifyCodeCheck(data)
+                .then(response => {
+                    ReactDOM.render('', loadingElement);
+                    if (response.data.http_code == 200) {
+                        SuccessToast("تایید شماره تلفن موفقیت آمیز بود. کمی صبر کنید...")
+                        setTimeout(() => {
+                            clearInterval(intervals);
+                            ReactDOM.render(<PasswordSet token={token}
+                                                               id={response.data.data.id}/>, document.getElementById("login-form"));
+                        }, 600)
+                    }
+                }).catch(error => {
+                ReactDOM.render('', loadingElement);
+                if (error.response.data.errors) {
+                    ErroHandle(error.response.data.errors)
+                } else {
+                    ErrorToast("خطای غیر منتظره ای رخ داده است")
+                }
+            })
+        }else{
+            ErrorToast("لطفا کد تایید را وارد کنید")
+        }
+
 
     }
 
@@ -218,7 +244,7 @@ const MobileVerify = (props) => {
                             </label>
                             <input type="number" className="form-control text-left"
                                    id="username"
-                                   autocomplete="one-time-code"
+                                   autoComplete="one-time-code"
                                    onChange={e => HandlePhone(e)}
                                    name="mobile"
                                    placeholder="شماره تلفن" dir="ltr"/>

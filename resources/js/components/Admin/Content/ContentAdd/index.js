@@ -31,6 +31,7 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
     // const [MetaDataUpdate , setMetaDataUpdate] = useState({});
     const [ids, setIds] = useState(0)
     const [chipset, setChipset] = useState([]);
+    const [chipsetChange , setChipChange] = useState(false)
     let tags = [];
     const [edit, setEdit] = useState(false);
     const [file, setFile] = useState();
@@ -90,6 +91,8 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
             if (result.value) {
                 Request.AddNewContent(data)
                     .then(res => {
+                        $(".pagination li.page-item.numberss").removeClass("active")
+                        $(".pagination li#1.page-item.numberss").addClass("active")
                         pushCheckChange(true)
                         $("span.checkboxeds").removeClass("active");
                         pushResult(res);
@@ -147,9 +150,9 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
     }, [])
 
 
-    const handleClose = () => {
+    const handleClose = (e) => {
+        e.preventDefault()
         setClear(true)
-        pushCheckChange(true)
         $("span.checkboxeds").removeClass("active");
         ReactDOM.render('', document.getElementById("add-datas"));
         setFormData({
@@ -195,6 +198,7 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
 
     const RemoveChipset = (name) => {
         let metaData = {...metaData};
+        setChipChange(true)
         var chipsetArr = [...chipset];
         var index = chipsetArr.indexOf(name);
         if (index !== -1) {
@@ -206,6 +210,7 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
 
     const handleAddChip = (item) => {
         setEdit(true)
+        setChipChange(true)
         let chipsets = [...chipset];
         if (item === "") {
 
@@ -241,7 +246,7 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
         MetaDaa.robots = robots;
         formNew.metadata = JSON.stringify(MetaDaa);
         formNew.category_list = idSelCat;
-        formNew.tag_list = chipset;
+        formNew.tag_list = chipsetChange ? chipset : [];
         if (formData.title && formData.title !== '') {
             $("input[name=titleContent]").removeClass("is-invalid");
             CreateAddContent(formNew);
@@ -278,12 +283,6 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
         setEdit(true)
         setSlugManage(status)
     }
-
-    // if (slugManage){
-    //     let title = $("input[name=title]").val();
-    //     $("input.slugest").val(title);
-    //     formData
-    // }
 
     const HandleUpdateForm = (data, id) => {
         swal({
@@ -349,7 +348,7 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
         formOldData.comment_status = comment_status;
         formOldData.is_menu = parseInt(is_menu);
         formOldData.category_list = idSelCat;
-        formOldData.tag_list = chipset;
+        formOldData.tag_list = setChipChange ? chipset : [];
 
         console.log("iiiii edit", formOldData)
         HandleUpdateForm(formOldData, ids);
@@ -364,12 +363,10 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
-        // console.log("selected : duplicate  : " , localStorage.getItem("selected"));
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
         formOldData.metadata = JSON.stringify(metaDatas);
-        console.log("dataaaaa : ", metaDatas)
         formOldData.status = status;
         formOldData.category_list = idSelCat;
         formOldData.tag_list = chipset;
@@ -600,7 +597,7 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
                                 }}
                                           id={"my-editor"}
                                           type={"perfect"}
-                                          defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
+                                          defaultVal={dataUpdateParse ? JSON.parse(dataUpdateParse.content) : ''}
                                 />
                             </div>
                         </div>
@@ -708,7 +705,7 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
                 <div className={"col-12 bottom-footer"}>
                     <div className={"row"}>
 
-                        <div className={"col-6"} onClick={handleClose}
+                        <div className={"col-6"} onClick={e => handleClose(e)}
                              style={{
                                  cursor: 'pointer',
                                  textAlign: 'center',

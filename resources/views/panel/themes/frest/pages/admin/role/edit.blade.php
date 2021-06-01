@@ -27,82 +27,84 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="display_name"
-                                                       value="{{$data['role']->display_name}}" placeholder="نام فارسی (ادمین)">
+                                                       value="{{$data['role']->display_name}}"
+                                                       placeholder="نام فارسی (ادمین)">
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="name" value="{{$data['role']->name}}"
+                                                <input type="text" class="form-control" name="name"
+                                                       value="{{$data['role']->name}}"
                                                        placeholder="نام لاتین (admin)">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12 row ">
+                                        <div style="width: 100% ;padding: 0px ;margin: 0px" class="row">
                                             @foreach($data['permissions'] as $permission)
                                                 <div class="col-md-6" style="min-height: 100px">
-                                                    <div class="">
-                                                        <h5 class="panel-title"> {{$permission->display_name}}</h5>
-
-                                                        <div class="">
-                                                            <div class="form-check">
-                                                                <input type="checkbox" class="form-check-input checkAll" {{in_array($permission->id , $data['rolePermissions'])?"checked":""}} onclick="toggle(this,{{$permission->childrenIds}})" name="permissions[]" value="{{$permission->id}}">
-                                                                <label class="form-check-label">{{$permission->display_name}}</label>
+                                                    <div class="permitionbox">
+                                                        <div class="lineeeeee"></div>
+                                                        <fieldset>
+                                                            <div class="checkbox">
+                                                                <input type="checkbox"
+                                                                       style="z-index: 99"
+                                                                       class="checkbox-input checkAll"
+                                                                       {{in_array($permission->id , $data['rolePermissions'])?"checked":""}} onclick="toggle(this,{{$permission->childrenIds}})"
+                                                                       name="permissions[]" value="{{$permission->id}}">
+                                                                <label
+                                                                    style="font-size: 16px;line-height: 1.5;background: #fff"
+                                                                    for="{{$permission->id}}">{{$permission->display_name}}</label>
                                                             </div>
-{{--                                                            <div class="checkbox">--}}
-{{--                                                                <label>--}}
-{{--                                                                    <input {{in_array($permission->id , $rolePermissions)?"checked":""}} type="checkbox"--}}
-{{--                                                                           class="control-custom"--}}
-{{--                                                                           name="permissions[]" value="{{$permission->id}}">--}}
-
-{{--                                                                </label>--}}
-{{--                                                            </div>--}}
-                                                            @foreach($permission->children as $child)
-                                                                <div class="form-check">
-                                                                    <input type="checkbox" class="form-check-input checkAll " id="{{$child->id}}"
-                                                                           {{in_array($child->id , $data['rolePermissions'])?"checked":""}}
-                                                                           name="permissions[]" value="{{$child->id}}">
-                                                                    <label class="form-check-label">{{$child->display_name}}</label>
-                                                                </div>
-{{--                                                                <div class="checkbox">--}}
-{{--                                                                    <label>--}}
-{{--                                                                        <input {{in_array($child->id , $rolePermissions)?"checked":""}} type="checkbox"--}}
-{{--                                                                               class="control-custom"--}}
-{{--                                                                               name="permissions[]" value="{{$child->id}}">--}}
-{{--                                                                        {{$child->display_name}}--}}
-{{--                                                                    </label>--}}
-{{--                                                                </div>--}}
-                                                            @endforeach
-                                                        </div>
+                                                        </fieldset>
+                                                            <div style="padding-right: 27px;font-size: 15px !important;position: relative">
+                                                                @foreach($permission->children as $child)
+                                                                    <fieldset style="position:relative;">
+                                                                        <div class="lineeeeeeChild"></div>
+                                                                        <div class="checkbox">
+                                                                            <input type="checkbox"
+                                                                                   id="{{$child->id}}"
+                                                                                   class="checkbox-input checkAll"
+                                                                                   {{in_array($child->id , $data['rolePermissions'])?"checked":""}}
+                                                                                   name="permissions[]"
+                                                                                   value="{{$child->id}}">
+                                                                            <label
+                                                                                style="font-size: 13px;background: #fff"
+                                                                                for="{{$child->id}}"
+                                                                                class="form-check-label">{{$child->display_name}}</label>
+                                                                        </div>
+                                                                    </fieldset>>
+                                                                @endforeach
+                                                            </div>
                                                     </div>
-                                                    <hr/>
                                                 </div>
-                                                {{--<div class="col-md-4">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" class="control-custom" name="permissions[]" value="{{$permission->id}}">
-                                                            {{$permission->display_name}}
-                                                        </label>
-                                                    </div>
-                                                </div>--}}
-
-                                            @endforeach
                                         </div>
+                                        {{--<div class="col-md-4">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="control-custom" name="permissions[]" value="{{$permission->id}}">
+                                                    {{$permission->display_name}}
+                                                </label>
+                                            </div>
+                                        </div>--}}
 
+                                        @endforeach
                                     </div>
 
-                                    <div class="text-right">
-                                        <button type="submit" class="btn btn-lg btn-primary ">ثبت</button>
-                                    </div>
-                                </form>
                             </div>
+
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-lg btn-primary ">ثبت</button>
+                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-
             </div>
+
         </div>
+    </div>
     </div>
 
 
@@ -114,9 +116,9 @@
     <script type="text/javascript" src="{{adminTheme("lib/js/pages/form_checkboxes_radios.js")}}"></script>
     <script type="text/javascript" src="{{adminTheme("lib/js/plugins/ui/ripple.min.js")}}"></script>
     <script>
-        function toggle(source,children) {
-            for(var i=0, n=children.length;i<n;i++) {
-                childId=children[i]
+        function toggle(source, children) {
+            for (var i = 0, n = children.length; i < n; i++) {
+                childId = children[i]
                 checkbox = document.getElementById(childId);
                 checkbox.checked = source.checked;
             }

@@ -191,7 +191,9 @@ export const ContentList = () => {
                             confirmButtonText: 'باشه',
                         })
 
-                        stringSearchs.params.Content = 1;
+                        stringSearchs.params.page = 1;
+                        $(".pagination li.page-item.numberss").removeClass("active")
+                        $(".pagination li#1.page-item.numberss").addClass("active")
 
                         GetAllContents(stringSearchs);
                     }).catch(error => {
@@ -230,19 +232,14 @@ export const ContentList = () => {
         $("li#" + pageNumber).addClass("active");
     };
 
-
-    console.log("checkkkkk ,", checkBox)
-
     return (
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
             <div>
                 <div className={"row col-12"} id={"headerContent"}>
-                    {console.log("...................////" , contentData)}
                     <TotalActions text={" مورد انتخاب شده است "} deleteUsers={e => handleDeleteGroup(e)}
                                   allData={contentData.data ? contentData : []} data={checkBox}/>
                     <BreadCrumbs titleBtn={"افزودن"} icon={"bx bx-plus"} data={breadData}/>
                 </div>
-
 
                 <SearchComponent total={total} tagReload={reloadTag} searchRes={items => {
                     Object.keys(items).forEach((key, value) => {

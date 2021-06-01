@@ -31,6 +31,10 @@ const Index = () => {
     })
 
     useEffect(() => {
+
+
+
+
         $("#breadCrumb").addClass("activeCrumb");
         $("#formBuilderCategory").click(function () {
             $(".form-category-back").fadeIn()
@@ -74,6 +78,10 @@ const Index = () => {
     }, [])
 
 
+
+
+
+
     //
     window.onscroll = function () {
         var header = document.querySelector(".flexiable");
@@ -101,6 +109,26 @@ const Index = () => {
 
     const onDragEnd = result => {
 
+
+
+        // let typess =result.draggableId.slice(0, 8);
+        // console.log("type : ", typess)
+        // switch (typess) {
+        //     case "input_01" :
+        //         $("span.force#" + typess).css("width", "50%");
+        //         console.log("span.force#" + typess)
+        //
+        //         break;
+        //     case "input_02" :
+        //         console.log("input 2")
+        //         $("span.force#" + typess).css("width", "50%");
+        //         break;
+        //     default :
+        //         $("span.force").css("width", "100%");
+        //         break;
+        // }
+
+
         document.querySelector(".element-chose").style.background = "unset"
 
         var min = 100;
@@ -108,11 +136,11 @@ const Index = () => {
         var random = Math.floor(Math.random() * (max - min) + min);
         const {destination, source, draggableId} = result;
 
-        // console.log("destination.droppableId : // ", destination.droppableId, "\n",
-        //     "source.droppableId : // ", source.droppableId, "\n",
-        //     "destination.index// ", destination.index, "\n",
-        //     "source.index : // ", source.index, "\n",
-        //     );
+        console.log("destination.droppableId : // ", destination.droppableId, "\n",
+            "source.droppableId : // ", source.droppableId, "\n",
+            "destination.index// ", destination.index, "\n",
+            "source.index : // ", source.index, "\n",
+            );
 
 
         if (!destination) {
@@ -129,13 +157,65 @@ const Index = () => {
         if (destination.droppableId === "tools" && source.droppableId === "inspect") {
 
         } else {
+
+            const start = state.columns[source.droppableId];   // tools all data
+            const finish = state.columns[destination.droppableId]; // inspect all Data
             //  && destination.index === source.index
-            if (destination.droppableId === source.droppableId) {
-                $(".nav-tabs li a").addClass("active");
-                $(".tab-pane").addClass("active");
-                $(".tab-pane.field").removeClass("active");
-                $(".nav-tabs li a.field").removeClass("active");
+            if (destination.droppableId === source.droppableId && destination.droppableId === "inspect" ) {
+                // $(".nav-tabs li a").addClass("active");
+                // $(".tab-pane").addClass("active");
+                // $(".tab-pane.field").removeClass("active");
+                // $(".nav-tabs li a.field").removeClass("active");
+
+
+                console.log("starttttttt" , start)
+
+
+                const startTaskIds = Array.from(start.taskIds);
+                // startTaskIds.splice(source.index, 1);
+                const newStart = {
+                    ...start,
+                    taskIds: startTaskIds
+                };
+
+
+                console.log("startttttttttt" , newStart , startTaskIds)
+                // const finishTaskIds = Array.from(finish.taskIds);
+                const finishTaskIds = finish.taskIds;
+
+
+                console.log("/ ", finishTaskIds)
+                console.log("draggableId", draggableId)
+                finishTaskIds.splice(destination.index, 0, draggableId);
+
+                console.log("fin0 ", finishTaskIds[0])
+                console.log("destination.index ", destination.index)
+
+                console.log("000000fin ", finishTaskIds)
+
+                console.log("fintask ", finish.taskIds)
+
+                const newFinish = {
+                    ...finish,
+                    taskIds: finishTaskIds
+                };
+                console.log("newff ", newFinish.taskIds)
+                const newState = {
+                    ...state,
+                    columns: {
+                        ...state.columns,
+                        [newStart.id]: InitialData.columns.tools,
+                        [newFinish.id]: newFinish
+                    }
+                }
+
+
+
+                setState(newState);
                 return;
+
+
+
             }
 
             $(".nav-tabs li a").removeClass("active");
@@ -144,9 +224,8 @@ const Index = () => {
             $(".nav-tabs li a.field").addClass("active");
 
 
-            const start = state.columns[source.droppableId];   // tools all data
-            const finish = state.columns[destination.droppableId]; // inspect all Data
-            console.log(">>>>state : ", finish)
+
+            console.log(">>>>state : ", finish , start)
 
             if (start === finish) {
                 const newTaskId = Array.from(start.taskIds);
@@ -211,8 +290,6 @@ const Index = () => {
             return;
         }
     }
-
-    console.log("state : ", state)
 
 
     const Tools = state.columns['tools'];
