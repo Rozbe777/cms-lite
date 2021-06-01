@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Role\CreateRoleRequest;
 use App\Http\Requests\Admin\Role\EditRoleRequest;
 use App\Http\Requests\Admin\Role\MultipleDestroyRoleRequest;
+use App\Models\Permission;
 use App\Repositories\RoleRepository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -17,8 +18,12 @@ class RoleController extends Controller
 {
     use ResponsesTrait;
 
-    protected $roleRepository;
+    protected RoleRepository $roleRepository;
 
+    /**
+     * RoleController constructor.
+     * @param RoleRepository $roleRepository
+     */
     public function __construct(RoleRepository $roleRepository)
     {
         $this->roleRepository = $roleRepository;
@@ -43,7 +48,12 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return (!$permissions = $this->roleRepository->all()) ?
+        $permissions = Permission::isParent()->get();
+        foreach ($permissions as $p) {
+            $children = Permission::parentId($p->id)->get();
+            $p->children = $children;
+        }
+        return (!$permissions) ?
             $this->message(__('message.content.search.notSuccess'))->view("pages.admin.role.create")->error() :
             $this->data($permissions)->message(__('message.success.200'))->view("pages.admin.role.create")->success();
     }
@@ -93,13 +103,14 @@ class RoleController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the list(array) specified resource from storage.
      *
-     * @param int $id
-     * @return Response
+     * @param MultipleDestroyRoleRequest $request
+     * @return Factory|JsonResponse|View
      */
     public function multipleDestroy(MultipleDestroyRoleRequest $request)
     {
         $this->roleRepository->multipleDestroy($request->all());
+        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.role.index')->success();
     }
 }

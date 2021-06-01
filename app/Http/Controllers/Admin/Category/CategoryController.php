@@ -22,8 +22,8 @@ class CategoryController extends Controller
 {
     use ResponsesTrait;
 
-    protected $responses;
-    protected $categoryRepository;
+    protected Responses $responses;
+    protected CategoryRepository $categoryRepository;
 
     public function __construct(Responses $responses, CategoryRepository $categoryRepository)
     {
@@ -60,7 +60,7 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param CreateCategoryRequest $request
      * @return View|JsonResponse|Response
      */
     public function store(CreateCategoryRequest $request)
@@ -77,7 +77,7 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param Category $category
      * @return View|JsonResponse
      */
     public function show(Category $category)
@@ -101,9 +101,9 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return JsonResponse|Response
+     * @param EditCategoryRequest $request
+     * @param Category $category
+     * @return JsonResponse
      */
     public function update(EditCategoryRequest $request, Category $category)
     {
@@ -116,7 +116,7 @@ class CategoryController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Category $category
-     * @return JsonResponse|RedirectResponse
+     * @return JsonResponse
      */
     public function destroy(Category $category)
     {
@@ -125,6 +125,12 @@ class CategoryController extends Controller
         return $this->message(__('message.content.destroy.successful'))->view('pages.admin.category.index')->success();
     }
 
+    /**
+     * Remove the list(array) resources from storage.
+     *
+     * @param multipleDestroyRequest $request
+     * @return \Illuminate\Contracts\View\Factory|View|JsonResponse
+     */
     public function multipleDestroy(multipleDestroyRequest $request)
     {
         $this->categoryRepository->multipleDestroy($request);

@@ -6,21 +6,13 @@ namespace App\Repositories;
 
 use App\Models\Permission;
 use App\Models\Role;
-use App\Repositories\AbstractFac\CrudFactory;
 use Illuminate\Support\Arr;
 
-class RoleRepository extends CrudFactory
+class RoleRepository
 {
 
     public function all()
     {
-//        $permissions = Permission::isParent()->get(); //where parentId is 0
-//        foreach ($permissions as $p) {
-//            $children = Permission::parentId($p->id)->get();
-//            $p->children = $children;
-//        }
-//        return $permissions;
-
         return Role::with('permissions')->get();
     }
 

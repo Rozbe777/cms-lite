@@ -31,7 +31,7 @@ class PageRepository implements Interfaces\RepositoryInterface
             })
             ->where('published_at', '<=', Carbon::now())
             ->with('user')
-            ->paginate($pageSize);
+            ->orderByDesc('id')->paginate($pageSize);
     }
 
     public function get($page)

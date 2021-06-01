@@ -83,13 +83,6 @@ Route::middleware('auth')->group(function () {
 //        return redirect()->route('dashboard.index');
 //    });
 
-    Route::get('/role', function () {
-        echo "admin.role";
-    })->name('role');
-    Route::get('/role', function () {
-        echo "admin.role";
-    })->name('roles.create');
-
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     //------------------------------User----------------------------
@@ -114,8 +107,8 @@ Route::middleware('auth')->group(function () {
 
     //------------------------------Profile----------------------------
 
-    Route::get('profile/', [ProfileController::class, 'index'])->name('profile.edit');
-    Route::put('profile/', [ProfileController::class, 'update'])->name('profile.edit');
+    Route::get('profile/{userId}/edit', [ProfileController::class, 'index'])->name('profile.edit');
+    Route::put('profile/{userId}/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('profile/password', [ProfileController::class, 'changePassword'])->name('profile.password');
 
     //------------------------------Settings----------------------------

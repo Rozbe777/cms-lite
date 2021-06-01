@@ -46,7 +46,7 @@ trait ResponsesTrait
                     "data" => $this->data
                 ], $status);
         } else {
-            return adminView($this->view,compact('data'));
+            return adminView($this->view,compact('data'))->with('success', $this->message);
         }
 
     }

@@ -22,7 +22,6 @@ trait ContentTrait
                 $item = $slug . '_' . $i++;
             } while ((Content::where('slug', "=", $item)->count()) != 0);
             return $item;
-
         } else {
             return $slug;
         }

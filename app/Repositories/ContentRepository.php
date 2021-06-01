@@ -18,7 +18,6 @@ class ContentRepository implements Interfaces\RepositoryInterface
 
     public function all($status = null, $search = null, $tags = null, $categories = null)
     {
-
         $owner = 'content';
         if (!empty($tags))
             $tags = array_map('intval', $tags);
@@ -49,8 +48,7 @@ class ContentRepository implements Interfaces\RepositoryInterface
             })->when(empty($categories), function ($query) {
                 $query->with('categories');
             })
-            ->paginate(5);
-
+            ->orderByDesc('id')->paginate(config('view.pagination'));
     }
 
     public function get($content)
@@ -85,10 +83,14 @@ class ContentRepository implements Interfaces\RepositoryInterface
                 ['name' => $tag],
                 ['user_id' => Auth::id()]
             );
-            $content->tags()->attach($tag);
+            if ($tag->wasRecentlyCreated) {
+                $content->tags()->attach($tag);
+            } else {
+                $content->tags()->sync($tag);
+            }
         }
         /** modify category relations in database tables */
-        foreach ($category_list as $category){
+        foreach ($category_list as $category) {
             $category = Category::findOrFail((int)$category);
             $content->categories()->attach($category);
         }
@@ -110,20 +112,25 @@ class ContentRepository implements Interfaces\RepositoryInterface
         $data['user_id'] = Auth::id();
         if (!empty($data['image']))
             $data['image'] = $this->imageHandler($data['image']);
+        else
+            unset($data['image']);
 
         $content = Content::create($data);
 
         $content->viewCounts()->create();
+
+
         foreach ($tag_list as $tag) {
-                $tag = Tag::firstOrCreate(
-                    ['name' => $tag],
-                    ['user_id' => Auth::id()]
-                );
+            $tag = Tag::firstOrCreate(
+                ['name' => $tag],
+                ['user_id' => Auth::id()]
+            );
             $content->tags()->attach($tag);
-}
-        foreach ($category_list as $category){
+
+        }
+        foreach ($category_list as $category) {
             $category = Category::findOrFail((int)$category);
-            $content->categories()->attach($category);
+            $content->categories()->sync($category);
         }
 
         return $content;

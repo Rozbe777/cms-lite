@@ -20,9 +20,14 @@ class TagController extends Controller
 {
     use ResponsesTrait;
 
-    protected $responses;
-    protected $tagRepositories;
+    protected Responses $responses;
+    protected TagRepositories $tagRepositories;
 
+    /**
+     * TagController constructor.
+     * @param Responses $responses
+     * @param TagRepositories $tagRepositories
+     */
     public function __construct(Responses $responses, TagRepositories $tagRepositories)
     {
         $this->responses = $responses;
@@ -110,7 +115,7 @@ class TagController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Tag $tag
-     * @return JsonResponse|\Illuminate\Http\RedirectResponse
+     * @return Factory|JsonResponse|View
      */
     public function destroy(Tag $tag)
     {
@@ -119,6 +124,12 @@ class TagController extends Controller
         return $this->message(__('message.content.destroy.successful'))->view('pages.admin.tag.index')->success();
     }
 
+    /**
+     * Remove the list(array) resources from storage.
+     *
+     * @param multipleDestroyRequest $request
+     * @return Factory|View|JsonResponse
+     */
     public function multipleDestroy(multipleDestroyRequest $request)
     {
         $this->tagRepositories->multipleDestroy($request);

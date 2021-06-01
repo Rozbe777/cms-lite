@@ -17,17 +17,20 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
-use function GuzzleHttp\Promise\all;
 
 
 class UserController extends Controller
 {
     use ResponsesTrait;
 
-    protected $userRepository;
-    protected $responses;
+    protected UserRepository $userRepository;
+    protected Responses $responses;
 
+    /**
+     * UserController constructor.
+     * @param UserRepository $userRepository
+     * @param Responses $responses
+     */
     public function __construct(UserRepository $userRepository, Responses $responses)
     {
         $this->userRepository = $userRepository;
@@ -89,7 +92,7 @@ class UserController extends Controller
      * @param User $user
      * @return View
      */
-    public function edit(User $user): View
+    public function edit(User $user)
     {
         return adminView("pages.admin.user.edit")->with(['data' => $user, 'roles' => Role::all()]);
     }
@@ -115,7 +118,7 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param User $user
-     * @return Factory|View|JsonResponse|RedirectResponse
+     * @return Factory|JsonResponse|View
      */
     public function destroy(User $user)
     {
@@ -125,6 +128,8 @@ class UserController extends Controller
     }
 
     /**
+     * Remove the list(array) resources from storage.
+     *
      * @param multipleDestroyRequest $request
      * @return Factory|View|JsonResponse
      */
@@ -136,10 +141,5 @@ class UserController extends Controller
         $this->userRepository->multipleDestroy($request->all());
 
         return $this->message(__('message.content.destroy.successful'))->view('pages.admin.user.index')->success();
-    }
-
-    public function permissions(User $user)
-    {
-//        $user
     }
 }

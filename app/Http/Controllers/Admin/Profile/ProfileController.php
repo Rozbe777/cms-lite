@@ -2,51 +2,59 @@
 
 namespace App\Http\Controllers\Admin\Profile;
 
+use App\Classes\Responses\Admin\ResponsesTrait;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Profile\PasswordRequest;
 use App\Http\Requests\Admin\Profile\UpdateRequest;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
+    use ResponsesTrait;
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Factory|View
+     */
     function index()
     {
-        $user = User::find(auth()->id());
-        return adminView('pages.admin.profile.index', compact('user'));
+        $data = Auth::user();
+        return adminView('pages.admin.profile.index', compact('data'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param UpdateRequest $request
+     * @return Factory|View|JsonResponse
+     */
     function update(UpdateRequest $request)
     {
-        $name = $request->input('name');
-        $lastName = $request->input('last_name');
-        $email = $request->input('email');
-        $mobile = mobile($request->input('mobile'));
+        $data = $request->all();
+        $user = Auth::user();
 
-        $user = User::find(auth()->id());
-        $user->name = $name;
-        $user->last_name = $lastName;
-        $user->email = $email;
-        $user->mobile = $mobile;
-        $user->save();
-        return success(['user' => $user], 'تغییرات با موفقیت ثبت شد.');
-    }
+        if (empty($data['mobile']))
+            $data['mobile'] = $user->mobile;
 
-    function changePassword(PasswordRequest $request)
-    {
-        $currentPassword = $request->input('current_password');
-        $user = User::find(auth()->id());
-        if (!Hash::check($currentPassword, $user->password)) {
-            return error('رمز عبور فعلی نامعتبر است.');
-        }
-        $password = convertDigit($request->input('password'));
+        if (empty($data['email']))
+            $data['email'] = $user->email;
 
-        $confirmPassword = convertDigit($request->input('password_confirmation'));;
-        if ($password != $confirmPassword) {
-            return error('رمز عبور با تکراررمز عبور یکسان نیست!');
-        }
-        $user->password = bcrypt($password);
-        $user->save();
-        return success([], 'رمزعبور جدید ثبت شد.');
+        if (empty($data['name']))
+            $data['name'] = $user->name;
+
+        if (empty($data['last_name']))
+            $data['last_name'] = $user->last_name;
+
+        if (empty($data['password']))
+            $data['password'] = $user->password;
+        else
+            $data['password'] = bcrypt($data['password']);
+
+        unset($data['password_confirmation']);
+        $data = $user->update($data);
+        return $this->message(__('message.success.200'))->view('pages.admin.profile.index')->data($data)->success();
     }
 }

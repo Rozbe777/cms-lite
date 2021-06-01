@@ -33,13 +33,13 @@
                             <div class="tab-content">
                                 <div class="tab-pane active show" id="account" aria-labelledby="account-tab"
                                      role="tabpanel">
-                                    <div id="profile-form" data-user="{{$user}}"
+                                    <div id="profile-form" data-user="{{$data}}"
                                          data-token="{{csrf_token()}}"></div>
                                 </div>
                                 <div class="tab-pane show" id="password" aria-labelledby="password-tab"
                                      role="tabpanel">
                                     <!-- change password form start -->
-                                    <div id="password-form"  data-user="{{$user}}" data-token="{{csrf_token()}}"></div>
+                                    <div id="password-form"  data-user="{{$data}}" data-token="{{csrf_token()}}"></div>
                                     <!-- change password form ends -->
                                 </div>
                             </div>
