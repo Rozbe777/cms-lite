@@ -75,7 +75,13 @@ class PermissionSeeder extends Seeder
                     'is_menu' => 1,
                     "name" => "settings.edit",
                     "display_name" => "تنظیمات",
-                    "children" => []
+                    "children" => [
+                        [
+                            'is_menu' => 1,
+                            "name" => "theme.index",
+                            "display_name" => "انتخاب پوسته"
+                        ]
+                    ]
                 ],
                 [
                     'weight' => 200,

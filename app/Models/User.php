@@ -83,6 +83,11 @@ class User extends Authenticatable
         return $this->hasMany(Page::class, 'user_id', 'id');
     }
 
+    public function themes()
+    {
+        return $this->hasMany(Theme::class,'user_id', 'id');
+    }
+
     public function getFullnameAttribute()
     {
         if (empty($this->attributes['name'])) {
