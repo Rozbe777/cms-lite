@@ -41,6 +41,7 @@ class MobileRegisterController extends Controller
         return adminView("pages.auth.mobile.index");
     }
 
+    /** verify user's mobile */
     public function register(MobileRegisterRequest $request)
     {
         $mobile = mobile($request->mobile);

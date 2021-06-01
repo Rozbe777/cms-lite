@@ -4,6 +4,7 @@ namespace App\Http\Requests\Admin\Profile;
 
 
 use App\Http\Requests\BaseRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateRequest extends BaseRequest
 {
@@ -16,10 +17,11 @@ class UpdateRequest extends BaseRequest
     public function rules()
     {
         return [
-            'name' => 'string|nullable',
-            'last_name' => 'string|nullable',
-            'email' => 'email|unique:users,email,' . auth()->id(),
-            'mobile' => ['mobile|unique:users,phone,' . auth()->id(),'mobile'],
+            'name'         => 'string|nullable',
+            'last_name'    => 'string|nullable',
+            'email'        => 'email|unique:users,email,'.Auth::id(),
+            'mobile'       => 'mobile|unique:users,mobile,'.Auth::id(),
+            'password'     => 'nullable|min:3|max:24|confirmed'
         ];
     }
 }
