@@ -425,7 +425,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                     <div className={"content-pages"}>
 
                         <div className={"row"} style={{padding: '20px'}}>
-                            <div className={"col-lg-4 col-md-12 col-sm-12"}>
+                            <div className={"col-lg-4 col-md-12 col-sm-12"} style={{paddingTop : 4}}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان محتوا</label>
                                     <input type={"text"} defaultValue={HandleMakeName()} onChange={e => handleInput(e)}
@@ -493,7 +493,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                                 }}
                                           id={"my-editor"}
                                           type={"perfect"}
-                                          defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
+                                          defaultVal={dataUpdateParse ? JSON.parse(dataUpdateParse.content) : ''}
                                 />
                             </div>
                         </div>

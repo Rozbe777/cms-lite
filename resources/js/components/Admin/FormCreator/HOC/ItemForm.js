@@ -103,6 +103,26 @@ const Item = (props) => {
     })
 
     useEffect(() => {
+
+        let choseSize =  $(".element-chose").width();
+        $("span.force").css({"width" : choseSize+"px"})
+
+        // let typess = props.task.slice(0, 8);
+        // console.log("type : ", typess)
+        // switch (typess) {
+        //     case "input_01" :
+        //         console.log("input 1")
+        //         $("span.force#" + typess).css("width", "50%");
+        //         break;
+        //     case "input_02" :
+        //         console.log("input 2")
+        //         $("span.force#" + typess).css("width", "50%");
+        //         break;
+        //     default :
+        //         $("span.force").css("width", "100%");
+        //         break;
+        // }
+
     }, [])
 
     const setting_main_content = document.getElementById("setting_main_content");
@@ -122,7 +142,7 @@ const Item = (props) => {
         </FormContextMini.Provider>
     }
 
-    console.log("....." , initialFormDataEmail)
+    console.log(".....", initialFormDataEmail)
     const HandleEmail = (task) => {
 
         // setInitialFormDataEmail({
@@ -134,11 +154,11 @@ const Item = (props) => {
         //     }
         // })
 
-        initialFormDataEmail[task] =  {
-                    title: '',
-                    description: '',
-                    Mandatory: false,
-                }
+        initialFormDataEmail[task] = {
+            title: '',
+            description: '',
+            Mandatory: false,
+        }
 
 
         ReactDOM.render(<FormContextEmail.Provider value={{
@@ -243,6 +263,9 @@ const Item = (props) => {
     //     }}><ImageUploaded/></FormContextFile.Provider>
     // }
 
+
+
+
     const HandleTask = (task) => {
         switch (task.slice(0, 8)) {
             case 'input_01' :
@@ -279,10 +302,18 @@ const Item = (props) => {
         }
     }
 
+
+
+    let choseSize =  $(".element-chose").width();
+    $("span.force").css({"width" : choseSize+"px"})
+
+
     return (
-        <Draggable key={props.index} draggableId={props.index} index={props.index}>
+        <Draggable key={props.index} draggableId={props.task} index={props.index}>
             {(provided, snapshot) => (
                 <span
+                    style={{width : "100%"}}
+                    id={props.task.slice(0,8)}
                     className={"force"}
                     // id={props.task.size === "small" ? "element" : "elementBig"}
                     ref={provided.innerRef}

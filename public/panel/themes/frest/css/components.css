@@ -5014,3 +5014,10 @@ input::placeholder{
     -webkit-transition: 0.3s all ease !important;
     -moz-transition: 0.3s all ease !important;
 }
+.nav-item.is-shown{
+    border: none !important;
+}
+
+.main-menu.menu-light .navigation>li.nav-item.open .menu-content li a, .main-menu.menu-light .navigation>li.nav-item.sidebar-group-active .menu-content li a{
+    margin: 0px !important;
+}

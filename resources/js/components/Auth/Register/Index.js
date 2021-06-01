@@ -62,7 +62,6 @@ const Index = (props) => {
         if (!phone.mobile || phone.mobile === ""){
             ErrorToast("فیلد شماره تلفن خالی میباشد");
         }else{
-            console.log("dataaaaa : " , pattern.test(phones.mobile))
             if (pattern.test(phones.mobile)) {
                 phones._token = token;
                 ReactDOM.render(<Loading/>, elementLoading);
@@ -89,7 +88,7 @@ const Index = (props) => {
                         ReactDOM.render('', elementLoading);
                         var pattern = /[0-9]/;
                         if (pattern.test(error.response.data.errors.data[0])) {
-                            // console.log("data : " , error.response.data)
+
                             Timer(e, parseInt(error.response.data.data))
                             $(".container-loader").fadeIn();
                             setTimeout(() => {

@@ -5,7 +5,7 @@ import $ from 'jquery';
 import {Request} from "../../../../services/AdminService/Api";
 import {ErroHandle, error as ErrorToast} from "../../../../helper";
 
-const SearchComponent = ({tagReload,total, searchRes: pushSearchRes}) => {
+const SearchComponent = ({tagReload, total, searchRes: pushSearchRes}) => {
 
 
     const [size, setSize] = useState(0);
@@ -17,11 +17,12 @@ const SearchComponent = ({tagReload,total, searchRes: pushSearchRes}) => {
     useEffect(() => {
         GetAllCategory();
         GetAllTag()
-        tagReload ? GetAllTag() : '';
+        console.log("set reload : ", tagReload)
+
     }, [])
 
-    console.log("8888888888 : " , tagData)
     let idss = [];
+
 
     const GetAllCategory = () => {
         setLoading(true)
@@ -167,7 +168,7 @@ const SearchComponent = ({tagReload,total, searchRes: pushSearchRes}) => {
                             <div className="col-12 col-sm-6 col-lg-3">
                                 <label
                                     htmlFor="users-list-role">برچسپ</label>
-                                <MultiSelected name={"categories"} data={tagData ? tagData : []}
+                                <MultiSelected name={"tags"} data={tagData ? tagData : []}
                                                selected={item => {
                                                    console.log("sssssss : ", item)
                                                    let oldSearch = {...search};

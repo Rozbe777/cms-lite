@@ -10,6 +10,7 @@ import $ from "jquery";
 export const MultiSelected = ({
                                   defSelected,
                                   clear,
+                                  name,
                                   clearNew: pushClear,
                                   data,
                                   selected: pushSelected,
@@ -32,17 +33,16 @@ export const MultiSelected = ({
         $(".main-selected").mouseover(function () {
             var thisisss = $(this);
             clearInterval(interValOptionsss)
-                thisisss.find(".optionBox").addClass("active")
-                thisisss.find("#box-droper i").addClass("active");
+            thisisss.find(".optionBox").addClass("active")
+            thisisss.find("#box-droper i").addClass("active");
 
         })
         $(".main-selected").mouseout(function () {
             var thisisss = $(this);
             clearInterval(interValOptionsss)
-                thisisss.find(".optionBox").removeClass("active")
-                thisisss.find("#box-droper i").removeClass("active");
+            thisisss.find(".optionBox").removeClass("active")
+            thisisss.find("#box-droper i").removeClass("active");
         })
-
 
 
         let checkkks = [...check];
@@ -66,14 +66,12 @@ export const MultiSelected = ({
     }, [])
 
 
-
-
-
     console.log("interval : ", interValOptionsss)
 
 
     const HandleChange = (e, id) => {
-        let checkBoxCustom = $("span.checkboxeds." + id);
+        console.log("nammmmmm : " , name)
+        let checkBoxCustom = $("span." + name + ".checkboxeds." + id);
         let checked = [...check];
         if (e.target.checked) {
             checkBoxCustom.addClass("active")
@@ -100,7 +98,7 @@ export const MultiSelected = ({
 
 
     const RemoveChipset = (id) => {
-        $("span.checkboxeds." + id).removeClass("active");
+        $("span." + name + ".checkboxeds." + id).removeClass("active");
         $("input[name=" + id + "]").prop("checked", false);
         var result = check.filter(obj => obj.id !== id);
         setCheck(result)
@@ -111,14 +109,14 @@ export const MultiSelected = ({
     $(function () {
         check.map(item => {
             $("input[name=" + item.id + "]").prop("checked", true);
-            $("span.checkboxeds." + item.id).addClass("active");
+            $("span.checkboxeds." + item.id + "." + name).addClass("active");
         })
     })
 
 
     return (
         <div className={"main-selected"}>
-            <div className={"show-chipset-multi"}>
+            <div className={"show-chipset-multi"} id={name}>
                 {check.length > 0 ? (
                     <Swiper
                         slidesPerView={1}
@@ -153,11 +151,11 @@ export const MultiSelected = ({
             </div>
 
             <div className={"optionBox"} id={"selected"}>
-                <ul>
+                <ul id={name}>
                     {data.length > 0 ? data.map(item => (
                         <li>
                             <fieldset>
-                                <span className={"checkboxeds " + item.id} style={{color: '#fff'}}>
+                                <span className={"checkboxeds " + item.id+" "+name} style={{color: '#fff'}}>
                                     <i className={"bx bx-check"}></i>
                                 </span>
                                 <input type="checkbox"
@@ -174,7 +172,7 @@ export const MultiSelected = ({
                                         <li>
                                             <fieldset>
                                                 <span style={{float: 'right'}}>></span>
-                                                <span className={"checkboxeds " + child2.id} id={"child2"}
+                                                <span className={"checkboxeds " + child2.id+" "+name} id={"child2"}
                                                       style={{color: '#fff'}}>
                                                    <i className={"bx bx-check"}></i>
                                                </span>
@@ -193,7 +191,7 @@ export const MultiSelected = ({
                                                             <fieldset>
                                                                 <span style={{float: 'right'}}>>></span>
 
-                                                                <span className={"checkboxeds " + child3.id}
+                                                                <span className={"checkboxeds " + child3.id+" "+name}
                                                                       id={"child3"} style={{color: '#fff'}}>
                                                                     <i className={"bx bx-check"}></i>
                                                                 </span>
