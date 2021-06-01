@@ -5,18 +5,32 @@ namespace App\Http\Controllers\Admin\Profile;
 use App\Classes\Responses\Admin\ResponsesTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Profile\UpdateRequest;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
     use ResponsesTrait;
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Factory|View
+     */
     function index()
     {
         $data = Auth::user();
         return adminView('pages.admin.profile.index', compact('data'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param UpdateRequest $request
+     * @return Factory|View|JsonResponse
+     */
     function update(UpdateRequest $request)
     {
         $data = $request->all();

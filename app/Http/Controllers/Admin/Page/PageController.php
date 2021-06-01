@@ -14,15 +14,21 @@ use App\Repositories\PageRepository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class PageController extends Controller
 {
     use ResponsesTrait;
 
-    protected $pageRepository;
-    protected $responses;
+    protected PageRepository $pageRepository;
+    protected Responses $responses;
 
+    /**
+     * PageController constructor.
+     * @param PageRepository $pageRepository
+     * @param Responses $responses
+     */
     public function __construct(PageRepository $pageRepository, Responses $responses)
     {
         $this->pageRepository = $pageRepository;
@@ -47,7 +53,7 @@ class PageController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Factory|View|\Illuminate\Http\Response
+     * @return Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -57,7 +63,7 @@ class PageController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param CreatePageRequest $request
      * @return JsonResponse
      */
     public function store(CreatePageRequest $request)
@@ -70,7 +76,7 @@ class PageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Page $page
+     * @param Page $page
      * @return JsonResponse
      */
     public function show(Page $page)
@@ -83,8 +89,8 @@ class PageController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Page $page
-     * @return Factory|View|\Illuminate\Http\Response
+     * @param Page $page
+     * @return Factory|\Illuminate\Contracts\View\View
      */
     public function edit(Page $page)
     {
@@ -94,8 +100,8 @@ class PageController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Page $page
+     * @param EditPageRequest $request
+     * @param Page $page
      * @return JsonResponse
      */
     public function update(EditPageRequest $request, Page $page)
@@ -108,8 +114,8 @@ class PageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Page $page
-     * @return JsonResponse|RedirectResponse
+     * @param Page $page
+     * @return Factory|\Illuminate\Contracts\View\View|JsonResponse
      */
     public function destroy(Page $page)
     {
@@ -119,8 +125,10 @@ class PageController extends Controller
     }
 
     /**
+     * Remove the list(array) resources from storage.
+     *
      * @param multipleDestroyRequest $request
-     * @return JsonResponse|RedirectResponse
+     * @return Factory|\Illuminate\Contracts\View\View|JsonResponse
      */
     public function multipleDestroy(multipleDestroyRequest $request)
     {

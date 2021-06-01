@@ -18,8 +18,12 @@ class RoleController extends Controller
 {
     use ResponsesTrait;
 
-    protected $roleRepository;
+    protected RoleRepository $roleRepository;
 
+    /**
+     * RoleController constructor.
+     * @param RoleRepository $roleRepository
+     */
     public function __construct(RoleRepository $roleRepository)
     {
         $this->roleRepository = $roleRepository;
@@ -99,13 +103,14 @@ class RoleController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the list(array) specified resource from storage.
      *
-     * @param int $id
-     * @return Response
+     * @param MultipleDestroyRoleRequest $request
+     * @return Factory|JsonResponse|View
      */
     public function multipleDestroy(MultipleDestroyRoleRequest $request)
     {
         $this->roleRepository->multipleDestroy($request->all());
+        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.role.index')->success();
     }
 }

@@ -15,20 +15,26 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ContentController extends Controller
 {
     use ResponsesTrait;
 
-    protected $contentRepository;
-    protected $responses;
+    protected ContentRepository $contentRepository;
+    protected Responses $responses;
 
+    /**
+     * ContentController constructor.
+     * @param ContentRepository $contentRepository
+     * @param Responses $responses
+     */
     public function __construct(ContentRepository $contentRepository, Responses $responses)
     {
         $this->contentRepository = $contentRepository;
         $this->responses = $responses;
-//        $this->middleware('user_permission');
+//        $this->middleware(middleware'user_permission');
     }
 
     /**
@@ -48,7 +54,7 @@ class ContentController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Factory|View|\Illuminate\Http\Response
+     * @return Factory|View
      */
     public function create()
     {
@@ -58,7 +64,7 @@ class ContentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param CreateContentRequest $request
      * @return JsonResponse
      */
     public function store(CreateContentRequest $request)
@@ -71,7 +77,7 @@ class ContentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Content $content
+     * @param Content $content
      * @return JsonResponse
      */
     public function show(Content $content)
@@ -85,8 +91,8 @@ class ContentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Content $content
-     * @return Factory|View|\Illuminate\Http\Response
+     * @param Content $content
+     * @return Factory|View
      */
     public function edit(Content $content)
     {
@@ -97,9 +103,9 @@ class ContentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return JsonResponse|Response
+     * @param EditContentRequest $request
+     * @param Content $content
+     * @return Factory|JsonResponse|View
      */
     public function update(EditContentRequest $request, Content $content)
     {
@@ -112,7 +118,7 @@ class ContentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Content $content
+     * @param Content $content
      * @return JsonResponse|RedirectResponse
      */
     public function destroy(Content $content)
@@ -123,6 +129,8 @@ class ContentController extends Controller
     }
 
     /**
+     * Remove the list(array) resources from storage.
+     *
      * @param multipleDestroyRequest $request
      * @return JsonResponse|RedirectResponse
      */
