@@ -1,18 +1,62 @@
 @extends("panel.themes.frest.layouts.dashboardLayout")
 @php($title = "افزودن دسترسی جدید")
 @section("content")
-    <div class="content-wrapper">
+    <div class="content-wrapper" style="padding: 0px;margin: 0px;border-top: 1px solid #eee;">
         @if($errors->any())
             <script>
                 updateProfileError("{!! $errors->first() !!}");
             </script>
         @endif
-        <div class="content-header row">
+
+            <div class="row col-12" id="headerContent">
+                <div id="breadCrumb" style="width: 100%" class="activeCrumb">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12" style="marginbottom: 5; margin-top: 5px; line-height: 2.3">
+                                <span id="title">سطح دسترسی کاربران</span>
+                                <span id="icon">
+                        <a style="float: right" href="/dashboard"><i
+                                style="float: right;margin: 5px;font-size: 22px;color: #727e8c;"
+                                class="bx bxs-home"></i> <span
+                                style="color: #727e8c">پیشخوان</span> </a>
+                    </span>
+
+                                <span id="icon">
+                                <a>
+                                    <i style="font-size: 25px;margin-top: 5px;" class="bx bx-chevron-left"></i>
+                                </a>
+                            </span>
+
+                                <span id="icon">
+                                <a href="/roles"><span style="color: #727e8c">دسترسی ها</span></a>
+                            </span>
+
+                                <span id="icon">
+                                <a>
+                                    <i style="font-size: 25px;margin-top: 5px;" class="bx bx-chevron-left"></i>
+                                </a>
+                            </span>
+
+                                <span id="icon">
+                                 <a>افزودن دسترسی</a>
+                             </span>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        <div class="content-header row" style="margin: 20px 5px">
             <div class="content-body col-12">
                 <div class="row">
 
                     <div class="col-lg-12">
-                        <div class="card card-flat">
+                        <div class="card card-flat" style="border-radius: 5px !important;">
 
                             <div class="card-body">
                                 <div class="card-title">

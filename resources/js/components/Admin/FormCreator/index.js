@@ -33,8 +33,6 @@ const Index = () => {
     useEffect(() => {
 
 
-
-
         $("#breadCrumb").addClass("activeCrumb");
         $("#formBuilderCategory").click(function () {
             $(".form-category-back").fadeIn()
@@ -78,10 +76,6 @@ const Index = () => {
     }, [])
 
 
-
-
-
-
     //
     window.onscroll = function () {
         var header = document.querySelector(".flexiable");
@@ -109,7 +103,8 @@ const Index = () => {
 
     const onDragEnd = result => {
 
-
+        console.log("resoult", result)
+        console.log("resoultDrag", state)
 
         // let typess =result.draggableId.slice(0, 8);
         // console.log("type : ", typess)
@@ -140,7 +135,7 @@ const Index = () => {
             "source.droppableId : // ", source.droppableId, "\n",
             "destination.index// ", destination.index, "\n",
             "source.index : // ", source.index, "\n",
-            );
+        );
 
 
         if (!destination) {
@@ -161,133 +156,88 @@ const Index = () => {
             const start = state.columns[source.droppableId];   // tools all data
             const finish = state.columns[destination.droppableId]; // inspect all Data
             //  && destination.index === source.index
-            if (destination.droppableId === source.droppableId && destination.droppableId === "inspect" ) {
-                // $(".nav-tabs li a").addClass("active");
-                // $(".tab-pane").addClass("active");
-                // $(".tab-pane.field").removeClass("active");
-                // $(".nav-tabs li a.field").removeClass("active");
-
-
-                console.log("starttttttt" , start)
-
+            if (destination.droppableId === source.droppableId && destination.droppableId === "inspect") {
 
                 const startTaskIds = Array.from(start.taskIds);
-                // startTaskIds.splice(source.index, 1);
+
                 const newStart = {
                     ...start,
-                    taskIds: startTaskIds
+                    taskIds: start.taskIds
                 };
 
-
-                console.log("startttttttttt" , newStart , startTaskIds)
-                // const finishTaskIds = Array.from(finish.taskIds);
-                const finishTaskIds = finish.taskIds;
+                const finishTaskIds = start.taskIds;
 
 
-                console.log("/ ", finishTaskIds)
-                console.log("draggableId", draggableId)
                 finishTaskIds.splice(destination.index, 0, draggableId);
 
-                console.log("fin0 ", finishTaskIds[0])
-                console.log("destination.index ", destination.index)
+                finishTaskIds.map((val, index) => {
+                    if (val === draggableId) {
+                        if (index === destination.index) {
 
-                console.log("000000fin ", finishTaskIds)
+                        } else {
+                            finishTaskIds.splice(index, 1);
+                        }
+                    } else {
+                        console.log("noooo")
+                    }
+                    // console.log("val : " , val , "index : " , index)
+                })
 
-                console.log("fintask ", finish.taskIds)
 
                 const newFinish = {
                     ...finish,
                     taskIds: finishTaskIds
                 };
-                console.log("newff ", newFinish.taskIds)
                 const newState = {
                     ...state,
                     columns: {
                         ...state.columns,
-                        [newStart.id]: InitialData.columns.tools,
                         [newFinish.id]: newFinish
                     }
                 }
 
 
-
                 setState(newState);
                 return;
 
 
-
-            }
-
-            $(".nav-tabs li a").removeClass("active");
-            $(".tab-pane").removeClass("active");
-            $(".tab-pane.field").addClass("active");
-            $(".nav-tabs li a.field").addClass("active");
+            } else {
 
 
+                $(".nav-tabs li a").removeClass("active");
+                $(".tab-pane").removeClass("active");
+                $(".tab-pane.field").addClass("active");
+                $(".nav-tabs li a.field").addClass("active");
 
-            console.log(">>>>state : ", finish , start)
+                const finishTaskIds = finish.taskIds;
 
-            if (start === finish) {
-                const newTaskId = Array.from(start.taskIds);
-                const newColumn = {
-                    ...start,
-                    taskIds: newTaskId
+                finishTaskIds.splice(destination.index, 0, draggableId);
+
+                finishTaskIds[destination.index] = draggableId + "_" + random
+
+
+                const newFinish = {
+                    ...finish,
+                    taskIds: finishTaskIds
                 };
-
                 const newState = {
                     ...state,
                     columns: {
                         ...state.columns,
-                        [newColumn.id]: newColumn
+                        ["tools"]: InitialData.columns.tools,
+                        [newFinish.id]: newFinish
                     }
                 }
-                console.log("equal")
+
+                // console.log("newffdd " , newState)
+
+
                 setState(newState);
                 return;
+
+
             }
 
-            const startTaskIds = Array.from(start.taskIds);
-            startTaskIds.splice(source.index, 1);
-            const newStart = {
-                ...start,
-                taskIds: startTaskIds
-            };
-
-
-            // console.log(">>>>>>" , newStart , "\n" , ">>>>>" , startTaskIds)
-            // const finishTaskIds = Array.from(finish.taskIds);
-            const finishTaskIds = finish.taskIds;
-
-            console.log("/ ", finishTaskIds)
-            console.log(">>>>>>> ", finish)
-            finishTaskIds.splice(destination.index, 0, draggableId);
-
-            console.log(">>>>>>>>>> ///// ", finishTaskIds[0])
-
-            finishTaskIds[0] = finishTaskIds[0] + "_" + random
-            console.log("newfffff /////af ", finishTaskIds)
-
-            console.log("newfffff ///// ", finish.taskIds)
-
-            const newFinish = {
-                ...finish,
-                taskIds: finishTaskIds
-            };
-            console.log("newff ", newFinish.taskIds)
-            const newState = {
-                ...state,
-                columns: {
-                    ...state.columns,
-                    [newStart.id]: InitialData.columns.tools,
-                    [newFinish.id]: newFinish
-                }
-            }
-
-            // console.log("newffdd " , newState)
-
-
-            setState(newState);
-            return;
         }
     }
 
@@ -296,7 +246,7 @@ const Index = () => {
     const HtmlCreate = state.columns['inspect'];
     console.log("html create : ", HtmlCreate)
     const Tasks = Tools.taskIds.map(taskId => state.task[taskId]);
-    const HtmlTasks = HtmlCreate.taskIds.map(taskId => console.log(",,,,,, : ", taskId));
+    const HtmlTasks = HtmlCreate.taskIds.map((taskId, index) => console.log("zzzzzzz", index, taskId));
     const HtmlTask = HtmlCreate.taskIds.map(taskId => taskId);
 
     console.log("html task : ", HtmlTasks)
@@ -309,7 +259,7 @@ const Index = () => {
             <FormTheme.Provider value={{formTheme, setFormTheme}}>
                 <div className={"row col-12"} id={"headerContent"}>
                     <BreadCrumbs data={{title: 'فرم ساز', desc: 'ساخت و تنظیمات فرمهای شخصی'}}
-                                />
+                    />
                 </div>
                 <div className={"row"} style={{padding: '5px 20px'}}>
                     <DragDropContext

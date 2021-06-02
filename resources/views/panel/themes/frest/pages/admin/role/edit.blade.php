@@ -14,30 +14,29 @@
                                 style="float: right;margin: 5px;font-size: 22px;color: #727e8c;"
                                 class="bx bxs-home"></i> <span
                                 style="color: #727e8c">پیشخوان</span> </a>
-                    </span
-                            <span id="icon">
-                        <a>
-                            <i style="font-size: 25px;margin-top: 5px;" class="bx bx-chevron-left"></i>
-                        </a>
-
-                            </span>
-                            <span id="icon">
-                        <a>ویرایش دسترسی</a>
-                    </span>
-                            <span id="icon">
-                        <a>
-                            <i style="font-size: 25px;margin-top: 5px;" class="bx bx-chevron-left"></i>
-                        </a>
-
-                            </span>
-                            <span id="icon">
-                        <a>ویرایش دسترسی</a>
                     </span>
 
-                            <button id="show-loader-selected" style="float : left" href="{{ url('/roles/create') }}"
-                                    class="btn btn-primary shadow mr-1 mb-1"><i class="bx bx-plus"></i>&nbsp; افزودن
-                                &nbsp;
-                            </button>
+                            <span id="icon">
+                                <a>
+                                    <i style="font-size: 25px;margin-top: 5px;" class="bx bx-chevron-left"></i>
+                                </a>
+                            </span>
+
+                            <span id="icon">
+                                <a href="/roles"><span style="color: #727e8c">دسترسی ها</span></a>
+                            </span>
+
+                            <span id="icon">
+                                <a>
+                                    <i style="font-size: 25px;margin-top: 5px;" class="bx bx-chevron-left"></i>
+                                </a>
+                            </span>
+
+                            <span id="icon">
+                                 <a>ویرایش دسترسی</a>
+                             </span>
+
+
                         </div>
                     </div>
                 </div>

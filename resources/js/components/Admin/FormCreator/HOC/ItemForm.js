@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState, useReducer} from "react";
 import ReactDOM from 'react-dom';
 import {Draggable} from "react-beautiful-dnd";
 import InputMini from "../components/InputMini";
@@ -12,7 +12,7 @@ import YesNo from "../components/YesNo";
 import ImageUploaded from "../components/ImageUploaded";
 import Url from "../components/Url";
 import {EmailSetting} from "../components/Setting/EmailSetting";
-import {MiniInputSetting} from "../components/Setting/MiniInputSetting";
+import MiniInputSetting from "../components/Setting/MiniInputSetting";
 import {OneSelectedSetting} from "../components/Setting/OneSelectedSetting";
 import {
     FormContext,
@@ -33,10 +33,18 @@ import {UrlSetting} from "../components/Setting/UlrSetting";
 import {YesNoSetting} from "../components/Setting/YesNoSetting";
 
 
+
+
 const Item = (props) => {
 
 
-    const [initialFormData, setInitialFormData] = useState({Options: [], Mandatory: false, title: ''});
+    // const [initialFormData, setInitialFormData] = useState(
+    //     {
+    //     {Options: [], Mandatory: false, title: ''}
+    //     });
+
+    let code = '';
+    const [initialFormData, setInitialFormData] = useState({});
     const [initialFormDataMultiSel, setInitialFormDataMultiSel] = useState({Options: [], Mandatory: false, title: ''});
 
 
@@ -96,16 +104,15 @@ const Item = (props) => {
     });
     // input mini state
     const [initialFormDataMiniText, setInitialFormDataMiniText] = useState({
-        title: '',
-        description: '',
-        Mandatory: false,
-        maximum: 0,
+
     })
+
+
 
     useEffect(() => {
 
-        let choseSize =  $(".element-chose").width();
-        $("span.force").css({"width" : choseSize+"px"})
+        let choseSize = $(".element-chose").width();
+        $("span.force").css({"width": choseSize + "px"})
 
         // let typess = props.task.slice(0, 8);
         // console.log("type : ", typess)
@@ -128,21 +135,44 @@ const Item = (props) => {
     const setting_main_content = document.getElementById("setting_main_content");
 
 
-    const HandleMini = () => {
+    const reducerDefData = (state, action) => {
+        switch (action.type){
+            case "input_1" :
+                return {...state , [action.code] : action.data}
+
+
+        }
+    }
+
+    const HandleMini = (task) => {
+        let rand_name = task.slice(9, 12);
+        // let initialFormDataMiniTexts = {...initialFormDataMiniText};
+        // initialFormDataMiniTexts[rand_name] = {Options: [], Mandatory: false, title: ''};
+        // setInitialFormDataMiniText(initialFormDataMiniTexts);
+        //
+        // const changeState = useReducer(reducerDefData , initialFormDataMiniText);
+        // dispatch({type:"input_01" , code : rand_name , data :  {Options: [], Mandatory: false, title: ''}})
+        //
+        // console.log("dataaaaa", initialFormDataMiniTexts);
+        // return;
+
+        initialFormDataMiniText[rand_name] = {description : '',maximum : 0 , Mandatory: false, title: ''}
+
+
         ReactDOM.render(<FormContextMini.Provider value={{
             initialFormDataMiniText,
             setInitialFormDataMiniText
-        }}><MiniInputSetting/></FormContextMini.Provider>, setting_main_content);
+        }}><MiniInputSetting name={task}/></FormContextMini.Provider>, setting_main_content);
         return <FormContextMini.Provider
             value={{
                 initialFormDataMiniText,
                 setInitialFormDataMiniText
             }}>
-            <InputMini/>
+            <InputMini name={task}/>
         </FormContextMini.Provider>
     }
 
-    console.log(".....", initialFormDataEmail)
+    // console.log(".....", initialFormDataEmail)
     const HandleEmail = (task) => {
 
         // setInitialFormDataEmail({
@@ -264,13 +294,11 @@ const Item = (props) => {
     // }
 
 
-
-
     const HandleTask = (task) => {
         switch (task.slice(0, 8)) {
             case 'input_01' :
                 ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
-                return HandleMini();
+                return HandleMini(task);
             case 'input_02' :
                 ReactDOM.render("<p id='not-selected'>فیلدی انتخاب نشده است!</p>", setting_main_content);
                 return HandleEmail(task);
@@ -303,17 +331,19 @@ const Item = (props) => {
     }
 
 
+    let choseSize = $(".element-chose").width();
+    $("span.force").css({"width": choseSize + "px"})
 
-    let choseSize =  $(".element-chose").width();
-    $("span.force").css({"width" : choseSize+"px"})
-
+    {
+        console.log("task drag ", props)
+    }
 
     return (
         <Draggable key={props.index} draggableId={props.task} index={props.index}>
             {(provided, snapshot) => (
                 <span
-                    style={{width : "100%"}}
-                    id={props.task.slice(0,8)}
+                    style={{width: "100%"}}
+                    // id={props.task}
                     className={"force"}
                     // id={props.task.size === "small" ? "element" : "elementBig"}
                     ref={provided.innerRef}
