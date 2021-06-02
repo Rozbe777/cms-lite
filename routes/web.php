@@ -16,6 +16,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\MobileRegisterController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Front\Search\SearchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -130,13 +131,39 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{roleId}/destroy', [RoleController::class, 'multipleDestroy'])->name('destroy');
     });
 
-
     //------------------------------Theme----------------------------
-    Route::get('themes/index',[ThemeController::class,'index'])->name('theme.index');
-    Route::get('themes/{themeId}/select',[ThemeController::class,'select'])->name('theme.select');
+    Route::get('themes/index', [ThemeController::class, 'index'])->name('theme.index');
+    Route::get('themes/{themeId}/select', [ThemeController::class, 'select'])->name('theme.select');
 
 
+//-------------------------------------------------------------------------------------------------------------------
+//##################################------------FRONT Routes------------#############################################
+//-------------------------------------------------------------------------------------------------------------------
+
+    Route::name('front.')->group(function () {
+        Route::get('contents/show/{slug}', [\App\Http\Controllers\Front\Content\ContentController::class, 'show'])->name('contents.show');
+        Route::get('contents/list', [\App\Http\Controllers\Front\Content\ContentController::class, 'list'])->name('contents.list');
+        Route::get('contents/search', [\App\Http\Controllers\Front\Content\ContentController::class, 'search'])->name('contents.search');
+
+
+        Route::get('categories/show/{slug}', [\App\Http\Controllers\Front\Category\CategoryController::class, 'show'])->name('categories.show');
+        Route::get('categories/list', [\App\Http\Controllers\Front\Category\CategoryController::class, 'list'])->name('categories.list');
+        Route::get('categories/search', [\App\Http\Controllers\Front\Category\CategoryController::class, 'search'])->name('categories.search');
+
+
+        Route::get('tags/show/{slug}', [\App\Http\Controllers\Front\Tag\TagController::class, 'show'])->name('tags.show');
+        Route::get('tags/list', [\App\Http\Controllers\Front\Tag\TagController::class, 'list'])->name('tags.list');
+        Route::get('tags/search', [\App\Http\Controllers\Front\Tag\TagController::class, 'search'])->name('tags.search');
+
+
+        Route::get('search/show/{slug}', [SearchController::class, 'show'])->name('search.show');
+        Route::get('search/list', [SearchController::class, 'list'])->name('search.list');
+        Route::get('search/search', [SearchController::class, 'search'])->name('search.search');
+    });
 });
+
+
+
 
 //-----------------------Mehrshad End----------------------
 

@@ -51,7 +51,7 @@
                                                                        style="z-index: 99"
                                                                        class="checkbox-input checkAll"
                                                                        id="{{$permission->id}}"
-                                                                       name="permissions[]"
+                                                                       name="permissions[]" value="{{$permission->id}}"
                                                                        onclick="toggle(this,{{$permission->children}})">
                                                                 <label style="font-size: 16px;line-height: 1.5;background: #fff"
                                                                        for="{{$permission->id}}">{{$permission->display_name}}</label>
