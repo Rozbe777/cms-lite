@@ -67,7 +67,7 @@ class Category extends Model
         return $this->hasMany(Category::class, 'parent_id', 'id');
     }
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

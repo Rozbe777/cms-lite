@@ -5,26 +5,25 @@ namespace App\Http\Controllers\Front\Content;
 use App\Classes\Responses\Front\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Models\Content;
-use Illuminate\Http\Request;
+use App\Models\Repositories\Front\FrontContentRepository;
 
 class ContentController extends Controller
 {
     use ResponseTrait;
 
-    public function show($slug)
-    {
-        $content = Content::where('slug', $slug)->with('tags')->with('categories')->with('user')->with('viewCounts')->get();
+    protected FrontContentRepository $repository;
 
-        return $this->view('content.show')->message(__('message.success.200'))->data($content)->success();
+    public function __construct(FrontContentRepository $repository)
+    {
+        $this->repository = $repository;
     }
 
-    public function list()
+    public function search($slug = null)
     {
+        $contents = $this->repository->search($slug);
 
-    }
-
-    public function search()
-    {
-
+        return !empty($contents) ?
+            $this->view('content.show')->message(__('message.success.200'))->data($contents)->success() :
+            $this->view('index')->message(__('message.content.search.notSuccess'))->error();
     }
 }

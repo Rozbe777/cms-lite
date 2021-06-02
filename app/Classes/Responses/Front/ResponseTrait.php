@@ -66,7 +66,7 @@ trait ResponseTrait
                     ],
                 ], $status);
         } else {
-            return adminView($this->view);
+            return frontView($this->view)->with('error',$this->message);
         }
 
     }

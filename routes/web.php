@@ -29,6 +29,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/test', function () {
+    $user = \App\Model\User::first();
+    (new \App\Classes\Notifier\Notifier())->sms()
+        ->to($user)
+        ->body("hi")
+        ->send();
+});
 
 Route::get('/', function () {
     return view('welcome');
@@ -137,28 +144,19 @@ Route::middleware('auth')->group(function () {
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//##################################------------FRONT Routes------------#############################################
+//#####################################------------FRONT Routes------------##########################################
 //-------------------------------------------------------------------------------------------------------------------
 
+
     Route::name('front.')->group(function () {
-        Route::get('contents/show/{slug}', [\App\Http\Controllers\Front\Content\ContentController::class, 'show'])->name('contents.show');
-        Route::get('contents/list', [\App\Http\Controllers\Front\Content\ContentController::class, 'list'])->name('contents.list');
-        Route::get('contents/search', [\App\Http\Controllers\Front\Content\ContentController::class, 'search'])->name('contents.search');
 
+        Route::get('category/{slug}', [\App\Http\Controllers\Front\Category\CategoryController::class, 'search'])->name('categories');
 
-        Route::get('categories/show/{slug}', [\App\Http\Controllers\Front\Category\CategoryController::class, 'show'])->name('categories.show');
-        Route::get('categories/list', [\App\Http\Controllers\Front\Category\CategoryController::class, 'list'])->name('categories.list');
-        Route::get('categories/search', [\App\Http\Controllers\Front\Category\CategoryController::class, 'search'])->name('categories.search');
+        Route::get('tag/{name}', [\App\Http\Controllers\Front\Tag\TagController::class, 'search'])->name('tags');
 
+        Route::get('search', [SearchController::class, 'search'])->name('search');
 
-        Route::get('tags/show/{slug}', [\App\Http\Controllers\Front\Tag\TagController::class, 'show'])->name('tags.show');
-        Route::get('tags/list', [\App\Http\Controllers\Front\Tag\TagController::class, 'list'])->name('tags.list');
-        Route::get('tags/search', [\App\Http\Controllers\Front\Tag\TagController::class, 'search'])->name('tags.search');
-
-
-        Route::get('search/show/{slug}', [SearchController::class, 'show'])->name('search.show');
-        Route::get('search/list', [SearchController::class, 'list'])->name('search.list');
-        Route::get('search/search', [SearchController::class, 'search'])->name('search.search');
+        Route::get('{slug}', [\App\Http\Controllers\Front\Content\ContentController::class, 'search'])->name('contents');
     });
 });
 

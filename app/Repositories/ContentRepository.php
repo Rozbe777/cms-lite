@@ -26,10 +26,12 @@ class ContentRepository implements Interfaces\RepositoryInterface
             $categories = array_map('intval', $categories);
 
         return Content::when(!empty($search), function ($query) use ($search) {
-            $query->where('title', 'like', '%' . $search . '%')
-                ->orWhere('slug', 'like', '%' . $search . '%')
-                ->orWhere('content', 'like', '%' . $search . '%');
-        })->whereOwner($owner)
+            $query->where(function ($q) use ($search){
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('slug', 'like', '%' . $search . '%')
+                    ->orWhere('content', 'like', '%' . $search . '%');
+            });
+        })
             ->when(!empty($status), function ($query) use ($status) {
                 $query->where('status', $status);
             })

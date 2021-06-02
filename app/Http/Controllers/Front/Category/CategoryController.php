@@ -2,23 +2,28 @@
 
 namespace App\Http\Controllers\Front\Category;
 
+use App\Classes\Responses\Front\ResponseTrait;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\Repositories\Front\FrontCategoryRepository;
 
 class CategoryController extends Controller
 {
-    public function show($slug)
-    {
+    use ResponseTrait;
 
+    protected FrontCategoryRepository $repository;
+
+    public function __construct(FrontCategoryRepository $repository)
+    {
+        $this->repository = $repository;
     }
 
-    public function list()
+    public function search($slug = null)
     {
+        $categories = $this->repository->search($slug);
 
-    }
-
-    public function search()
-    {
-
+        return !empty($categories) ?
+            $this->view('content.show')->message(__('message.success.200'))->data($categories)->success() :
+            $this->view('index')->message(__('message.content.search.notSuccess'))->error();
     }
 }

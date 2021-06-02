@@ -18,18 +18,20 @@ class UserRepository implements Interfaces\RepositoryInterface
         if (empty($pageSize))
             $pageSize = config('view.pagination');
 
-        return User::when($search != null, function ($query) use ($search) {
-            $query->where('name', 'like', '%' . $search . '%')
+        if (empty($status))
+            $status = 'deactivate';
+
+        return User::when($search != null, function ($query) use ($search, $status,$role) {
+            $query->where(function ($query) use ($status,$role) {
+                $query->whereHas('roles', function ($query) use ($role){
+                    $query->where('role_id',$role);
+                })->where('status', $status);
+            })->where('name', 'like', '%' . $search . '%')
                 ->orWhere('last_name', 'like', '%' . $search . '%')
                 ->orWhere('mobile', 'like', '%' . $search . '%');
-        })->when($role != null, function ($query) use ($role) {
-            $query->whereHas('roles', function ($query) use ($role) {
-                $query->where("role_id", $role);
-            });
-        })->when($status != null, function ($query) use ($status) {
-            $query->where('status', $status);
         })
-            ->orderByDesc('id')->paginate($pageSize);
+            ->orderByDesc('id')->
+            paginate(config('view.pagination'));
     }
 
     public function get($id)

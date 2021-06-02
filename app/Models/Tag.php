@@ -15,7 +15,7 @@ class Tag extends Model
 //        "real_url"
     ];
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
