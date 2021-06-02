@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\Profile\ProfileController;
 use App\Http\Controllers\Admin\Role\RoleController;
 use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\Tag\TagController;
+use App\Http\Controllers\Admin\Theme\ThemeController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Auth\LoginController;
@@ -128,8 +129,14 @@ Route::middleware('auth')->group(function () {
         Route::put('/{roleId}/update', [RoleController::class, 'update'])->name('update');
         Route::delete('/{roleId}/destroy', [RoleController::class, 'multipleDestroy'])->name('destroy');
     });
-});
 
+
+    //------------------------------Theme----------------------------
+    Route::get('themes/index',[ThemeController::class,'index'])->name('theme.index');
+    Route::get('themes/{themeId}/select',[ThemeController::class,'select'])->name('theme.select');
+
+
+});
 
 //-----------------------Mehrshad End----------------------
 
