@@ -21,9 +21,11 @@
                         <a>سطح دسترسی کاربران و مدیریت آن ها</a>
                     </span>
 
-                            <button id="show-loader-selected" style="float : left"  href="{{ url('/roles/create') }}"
-                                    class="btn btn-primary shadow mr-1 mb-1"><i class="bx bx-plus"></i>&nbsp; افزودن
-                                &nbsp;
+                            <button id="show-loader-selected" style="float : left"
+                                    class="btn btn-primary shadow mr-1 mb-1">
+                                <a href="{{ url('/roles/create') }}" style="color: #fff !important;">
+                                    <i class="bx bx-plus"></i>&nbsp; افزودن
+                                    &nbsp;</a>
                             </button>
                         </div>
                     </div>
