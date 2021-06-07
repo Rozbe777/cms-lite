@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState, useReducer} from "react";
+import React, {useContext, useEffect, useState, useReducer , memo} from "react";
 import ReactDOM from 'react-dom';
 import {Draggable} from "react-beautiful-dnd";
 import InputMini from "../components/InputMini";
@@ -13,6 +13,7 @@ import ImageUploaded from "../components/ImageUploaded";
 import Url from "../components/Url";
 import {EmailSetting} from "../components/Setting/EmailSetting";
 import MiniInputSetting from "../components/Setting/MiniInputSetting";
+import { useStateWithCallbackLazy } from 'use-state-with-callback';
 import {OneSelectedSetting} from "../components/Setting/OneSelectedSetting";
 import {
     FormContext,
@@ -33,9 +34,9 @@ import {UrlSetting} from "../components/Setting/UlrSetting";
 import {YesNoSetting} from "../components/Setting/YesNoSetting";
 
 
-
-
-const Item = (props) => {
+const clickInput = "INPUT_CLICK";
+const localInput = "INPUT_ONES";
+const Item =  memo((props) => {
 
 
     // const [initialFormData, setInitialFormData] = useState(
@@ -103,11 +104,7 @@ const Item = (props) => {
 
     });
     // input mini state
-    const [initialFormDataMiniText, setInitialFormDataMiniText] = useState({
-
-    })
-
-
+    const [initialFormDataMiniText, setInitialFormDataMiniText] =  useState({})
 
     useEffect(() => {
 
@@ -132,13 +129,15 @@ const Item = (props) => {
 
     }, [])
 
+    // const [initializeMini] = {description : '' , maximum : 0 , Mandatory: false, title: ''}
+
     const setting_main_content = document.getElementById("setting_main_content");
 
 
     const reducerDefData = (state, action) => {
-        switch (action.type){
+        switch (action.type) {
             case "input_1" :
-                return {...state , [action.code] : action.data}
+                return {...state, [action.code]: action.data}
 
 
         }
@@ -146,6 +145,9 @@ const Item = (props) => {
 
     const HandleMini = (task) => {
         let rand_name = task.slice(9, 12);
+
+
+
         // let initialFormDataMiniTexts = {...initialFormDataMiniText};
         // initialFormDataMiniTexts[rand_name] = {Options: [], Mandatory: false, title: ''};
         // setInitialFormDataMiniText(initialFormDataMiniTexts);
@@ -156,20 +158,35 @@ const Item = (props) => {
         // console.log("dataaaaa", initialFormDataMiniTexts);
         // return;
 
-        initialFormDataMiniText[rand_name] = {description : '',maximum : 0 , Mandatory: false, title: ''}
+
+        // setInitialFormDataMiniText({
+        //     ...initialFormDataMiniText,
+        //     [rand_name] : {description : ''+rand_name , maximum : 0 , Mandatory: false, title: ''}
+        // })
 
 
-        ReactDOM.render(<FormContextMini.Provider value={{
-            initialFormDataMiniText,
-            setInitialFormDataMiniText
-        }}><MiniInputSetting name={task}/></FormContextMini.Provider>, setting_main_content);
-        return <FormContextMini.Provider
-            value={{
-                initialFormDataMiniText,
-                setInitialFormDataMiniText
-            }}>
-            <InputMini name={task}/>
-        </FormContextMini.Provider>
+        // localStorage.setItem(clickInput, rand_name);
+        // let oldData = localStorage.getItem(localInput) ? JSON.parse(localStorage.getItem(localInput)) : {}
+        // oldData[rand_name] = oldData[rand_name] ? oldData[rand_name] : {description: '' + rand_name, maximum: 0, Mandatory: false, title: '', code: rand_name};
+        // localStorage.setItem(localInput, JSON.stringify(oldData));
+        // console.log("old dataaaa : ", JSON.parse(localStorage.getItem(localInput)), "name rand : ", rand_name)
+        //
+        // let initialFormDataMiniTexts = {...initialFormDataMiniText};
+        // initialFormDataMiniTexts[rand_name] = {description: '' + rand_name, maximum: 0, Mandatory: false, title: ''}
+        // setInitialFormDataMiniText(initialFormDataMiniTexts , () =>{
+        //
+        // });
+        // return initialFormDataMiniText;
+
+        // console.log("item : " , initialFormDataMiniText);
+
+
+        ReactDOM.render(<FormContextMini.Provider value={{initialFormDataMiniText , setInitialFormDataMiniText}}><MiniInputSetting code={rand_name} name={task}/></FormContextMini.Provider> , setting_main_content);
+        return (
+                <FormContextMini.Provider value={{initialFormDataMiniText , setInitialFormDataMiniText}}>
+                    <InputMini code={rand_name} name={task}/>
+                </FormContextMini.Provider>
+        )
     }
 
     // console.log(".....", initialFormDataEmail)
@@ -359,5 +376,5 @@ const Item = (props) => {
         </Draggable>
 
     )
-}
+})
 export default Item;

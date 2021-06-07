@@ -5,24 +5,44 @@ import {FormContextMini} from "../../Helper/Context";
 import {InputTextMiniInput} from "./MiniInput/MiniInput/InputTextMiniInput";
 import {CheckBoxMiniInput} from "./MiniInput/MiniInput/CheckBoxMiniInput";
 
-export default memo(({name}) => {
+const MiniInputSetting = ({code , name}) => {
     const nameRand = name.slice(9, 12);
+    const initializeMini = {description : '' , maximum : 0 , Mandatory: false, title: ''}
 
     const {initialFormDataMiniText, setInitialFormDataMiniText} = useContext(FormContextMini);
+    let checked =initialFormDataMiniText[code] ? initialFormDataMiniText[code] : {...initialFormDataMiniText , [code] : initializeMini}
+
+    console.log("????????" ,checked);
+    const localInput = "INPUT_ONES";
+    const clickInput = "INPUT_CLICK";
+
+    let codeGet  = code;
+    // let dataOld = JSON.parse(localStorage.getItem(localInput));
+    console.log(",,,,,,,,,,,,,me" , code , " last  : " , initialFormDataMiniText , "datassss "   , initialFormDataMiniText[code]);
+
+    console.log("initial state : " , initialFormDataMiniText);
 
 
-    console.log("tttt" , initialFormDataMiniText[nameRand])
 
-    const [data, setData] = useState(initialFormDataMiniText);
+    const [dataMe, setDataMe] = useState(initialFormDataMiniText[code] ? initialFormDataMiniText[code] : initializeMini);
+
+
+    console.log("///////// , " , dataMe)
+    // console.log("tttt" , JSON.parse(localStorage.getItem(localInput))[code] , "dataaaaa : " ,dataOld , " / rand name : " , codeGet , )
+
 
     useEffect(() => {
-
+        let checked =initialFormDataMiniText[code] ? true : false
+        let initializesss = {...initialFormDataMiniText};
+        initializesss[code] = checked ? initializesss[code] :  initializeMini;
+        setInitialFormDataMiniText(initializesss);
+        setInitialFormDataMiniText({...initialFormDataMiniText , [code] : dataMe})
     }, [])
 
 
     const ChangeValueTitle = val => {
-        let dataIn = {...data};
-        // let inii = {...initialFormDataMiniText};
+        let dataIn = {...dataMe};
+        let inii = {...initialFormDataMiniText};
 
 
 
@@ -33,52 +53,62 @@ export default memo(({name}) => {
         //         title :  val.value
         //     }
         // })
-       dataIn[nameRand].title = val.value;
+       dataIn.title = val.value;
         // dataIn[nameRand].title = val.value;
-        setData(dataIn)
-        setInitialFormDataMiniText(dataIn)
+        setDataMe(dataIn);
+        // let dataMes = {...dataMe};
+        // dataMes[code] =dataIn;
+        inii[code]=dataIn;
+        // dataOld[code] = dataIn;
+        // localStorage.setItem(localInput , JSON.stringify(dataMes));
+
+        // initialFormDataMiniText[nameRand] = dataIn;
+        setInitialFormDataMiniText(inii)
         console.log("//////++" , initialFormDataMiniText)
 
     }
     const ChangeValueDesc = val => {
-        let dataIn = {...data};
+        let dataIn = {...dataMe};
         dataIn[nameRand].description = val.value;
-        setData(dataIn)
-        setInitialFormDataMiniText(dataIn)
+        setDataMe(dataIn)
+        // setInitialFormDataMiniText(dataIn)
     }
     const ChangeValueMaximum = val => {
-        let dataIn = {...data};
+        let dataIn = {...dataMe};
         dataIn[nameRand].maximum = val.value;
-        setData(dataIn)
-        setInitialFormDataMiniText(dataIn)
+        setDataMe(dataIn)
+        // setInitialFormDataMiniText(dataIn)
     }
 
     const ChangeCheckBox = val => {
-        let dataIn = {...data};
+        let dataIn = {...dataMe};
         dataIn[nameRand].Mandatory = val;
-        setData(dataIn)
-        setInitialFormDataMiniText(dataIn)
+        setDataMe(dataIn)
+        // setInitialFormDataMiniText(dataIn)
     }
     return (
-        <FormContextMini.Provider value={{initialFormDataMiniText, setInitialFormDataMiniText}}>
+        <>
             <div className={"row"} style={{padding: '0 15px'}}>
                 <p style={{padding: '0px 17px', margin: 0, color: 'grey', fontWeight: 300, fontSize: 13}}>نوع فیلد : متن
                     کوتاه</p>
                 <div className={"col-12"}>
-                    {console.log('dataaaa : ', data)}
+                    {console.log('dataaaa : ', dataMe)}
                     <InputTextMiniInput placeholder={"عنوان"} name={"title"} label={"عنوان"}
-                                        defaultValue={initialFormDataMiniText[nameRand].title ? initialFormDataMiniText[nameRand].title : ''}
-                                        isInvalid={data.title ? "" : "is-invalid"}
+                                        defaultValue={dataMe.title ? dataMe.title : ''}
+                                        code={code}
+                                        isInvalid={dataMe.title ? "" : "is-invalid"}
                                         value={val => ChangeValueTitle(val)}/>
                 </div>
                 <div className={"col-12"}>
                     <InputTextMiniInput placeholder={"توضیح"} name={"description"} label={"توضیح"} isInvalid={''}
-                                        defaultValue={initialFormDataMiniText[nameRand].description ? initialFormDataMiniText[nameRand].description : ''}
+                                        code={code}
+                                        defaultValue={dataMe.description ? dataMe.description : ''}
                                         value={val => ChangeValueDesc(val)}/>
                 </div>
                 <div className={"col-12"}>
                     <CheckBoxMiniInput name={"Mandatory"} defaultState={false} valueActive={"غیر اجباری"}
-                                       defaultState={initialFormDataMiniText[nameRand].Mandatory === true ? true : false}
+                                       defaultState={dataMe.Mandatory === true ? true : false}
+                                       code={code}
                                        valueDeActive={"اجباری"} status={types => ChangeCheckBox(types)}/>
                 </div>
 
@@ -86,13 +116,16 @@ export default memo(({name}) => {
                     <InputTextMiniInput placeholder={"حداکثر تعداد حروف"} name={"maximum"}
                                         value={val => ChangeValueMaximum(val)}
                                         type={"number"}
-                                        defaultValue={initialFormDataMiniText[nameRand].maximum ? initialFormDataMiniText[nameRand].maximum : 0}
+                                        code={code}
+                                        defaultValue={dataMe.maximum ? dataMe.maximum : 0}
                                         label={"حداکثر تعداد حروف"} isInvalid={''}/>
                 </div>
 
             </div>
-        </FormContextMini.Provider>
+        </>
 
 
     )
-})
+}
+
+export default MiniInputSetting;

@@ -45,6 +45,7 @@
         "react-colorful": "^5.1.2",
         "react-dropzone": "^11.3.2",
         "suneditor-react": "^2.16.2",
-        "swiper": "^6.5.7"
+        "swiper": "^6.5.7",
+        "use-state-with-callback": "^2.0.3"
     }
 }
