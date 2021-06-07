@@ -44,6 +44,20 @@
                 </div>
                     <div class="col-lg-4">
                         <div class="blog_right_sidebar">
+                            <aside class="single_sidebar_widget search_widget">
+                                <form method="post" action="{{ route('front.search') }} ">
+                                    @csrf
+                                    @error('slug')
+                                    <div class="error text-danger">{{ $message }}</div>
+                                    @enderror
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <input id="search-slug" type="text" class="form-control" name="slug" placeholder='Search Keyword'>
+                                        </div>
+                                    </div>
+                                    <button class="button rounded-0 primary-bg text-white w-100 btn_1" type="submit">Search</button>
+                                </form>
+                            </aside>
                             <aside class="single_sidebar_widget post_category_widget">
                                 <h4 class="widget_title">عنوان</h4>
                                 <ul class="list cat-list">
@@ -65,8 +79,9 @@
                             </aside>
                             <aside class="single_sidebar_widget popular_post_widget">
                                 <h3 class="widget_title">محتواهای مرتبط</h3>
+                                <?php $i = 0 ?>
                                 @foreach($category->contents as $content)
-                                    @if($data->id != $content->id && $content->owner != "page" )
+                                    @if($data->id != $content->id && $content->owner != "page" && $i < 6 )
                                 <div class="media post_item">
                                     <img src="{{ asset('portal/img/post/post_1.png') }}" alt="post">
                                     <div class="media-body">
@@ -77,6 +92,7 @@
                                     </div>
                                 </div>
                                     @endif
+                                    <?php $i++ ?>
                                 @endforeach
                             </aside>
                             @endforeach

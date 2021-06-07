@@ -22,6 +22,8 @@ class ContentController extends Controller
     {
         $contents = $this->repository->search($slug);
 
+//        $category = $contents->categories()->orderByDesc('id')->paginate(config('view.pagination'));
+
         return !empty($contents) ?
             $this->view('basic.content')->message(__('message.success.200'))->data($contents)->success() :
             $this->view('index')->message(__('message.content.search.notSuccess'))->error();

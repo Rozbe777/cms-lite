@@ -11,7 +11,7 @@ class FrontTagRepository implements Interfaces\FrontInterface
 
     public function search(string $slug)
     {
-        return Tag::when(!empty($slug), function ($query) use ($slug) {
+        $tag = Tag::when(!empty($slug), function ($query) use ($slug) {
         $query->where('name', $slug);
     })
         ->with('contents')
@@ -19,5 +19,12 @@ class FrontTagRepository implements Interfaces\FrontInterface
         ->with('viewCounts')
         ->orderByDesc('id')
         ->firstOrFail();
+
+        $instance = $tag->viewCounts;
+        $instance->view_count++;
+        $instance->save();
+
+        return $tag;
+
     }
 }

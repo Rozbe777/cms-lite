@@ -11,7 +11,7 @@ class FrontContentRepository implements Interfaces\FrontInterface
 
     public function search(string $slug)
     {
-        return Content::when(!empty($slug), function ($query) use ($slug) {
+        $content = Content::when(!empty($slug), function ($query) use ($slug) {
             $query->where(function ($q) use ($slug) {
                 $q->Where('slug',$slug);
             })->where('owner', 'content');
@@ -20,5 +20,11 @@ class FrontContentRepository implements Interfaces\FrontInterface
             ->with('user')
             ->with('viewCounts')
             ->orderByDesc('id')->firstOrFail();
+
+        $instance = $content->viewCounts;
+        $instance->view_count++;
+        $instance->save();
+
+        return $content;
     }
 }

@@ -16,20 +16,14 @@
                 </div>
                 <div class="col-lg-5 offset-lg-1">
                     <div class="s_product_text">
-                        <h3>{{ $data->name }}</h3>
-                        <h2>{{ $data->slug }}</h2>
+                        <h3>{{ $data[0]->name }}</h3>
+                        <h2>{{ $data[0]->slug }}</h2>
                         <ul class="blog-info-link mt-3 mb-4">
-                            <li><p><i class="far fa-user" style="padding: 0 1em"></i> نویسنده </p>{{ $data->user->name }} {{ $data->user->last_name }}</li>
+                            <li><p><i class="far fa-user" style="padding: 0 1em"></i> نویسنده </p>{{ $data[0]->user->name }} {{ $data[0]->user->last_name }}</li>
                         </ul>
                         <ul class="blog-info-link mt-3 mb-4">
-                            <li><p> تعداد بازدید<i class="far fa-eye" style="padding: 0 0.2em"></i>{{ $data->viewCounts->view_count }}</p></li>
+                            <li><p> تعداد بازدید<i class="far fa-eye" style="padding: 0 0.2em"></i>{{ $data[0]->viewCounts->view_count }}</p></li>
                         </ul>
-                        <p class="excert">
-                            {{ $data->content }}
-                        </p>
-                        <p>
-                            {{ $data->metadata }}
-                        </p>
                     </div>
                 </div>
             </div>
@@ -44,22 +38,20 @@
             <div class="row justify-content-center">
                 <div class="col-lg-12">
                     <div class="section_tittle text-center">
-                        <h2>محتواهای مرتبط</h2>
+                        <h2>محتواهای این دسته</h2>
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                @foreach($data->contents as $content)
+                @foreach($data[1] as $content)
                     @if($content->owner != "page")
                 <div class="col-lg-3 col-sm-6">
                     <div class="single_category_product">
-
                         <div class="single_category_img">
                             <img src="{{ asset("portal/img/category/category_5.png") }}" alt="">
                             <div class="category_product_text">
-                                <a href="{{ $content->url }}"><h5>{{ $content->title }}</h5></a>
-                                <p class="far fa-eye" style="padding: 0 0.2em">{{ $data->viewCounts->view_count }}</p>
+                                <a href="{{ $content->url }}"><h5>{{ $content->id }}</h5></a>
                             </div>
                         </div>
 
@@ -67,6 +59,7 @@
                 </div>
                     @endif
                 @endforeach
+                    {{ $data[1]->links() }}
             </div>
         </div>
     </section>

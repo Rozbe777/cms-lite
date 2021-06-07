@@ -2,31 +2,30 @@
 
 namespace App\Http\Controllers\Front\Search;
 
+use App\Classes\Responses\Front\ResponseTrait;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SearchRequest;
 use App\Models\Content;
+use App\Models\Repositories\Front\FrontSearchRepository;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-    public function search(Request $request)
-    {
-        $slug = $request->slug;
+    use ResponseTrait;
 
-        $data = Content::with('tags')
-            ->with('categories')
-            ->with('user')
-            ->with('viewCounts')
-            ->when(!empty($slug), function ($query) use ($slug) {
-                $query->where(function ($q) use ($slug){
-                    $q->where('title', 'like', '%' . $slug . '%')
-                        ->orWhere('slug', 'like', '%' . $slug . '%')
-                        ->orWhere('content', 'like', '%' . $slug . '%');
-                })->where('owner','content');
-            })
-            ->orderByDesc('id')->paginate(config('view.pagination'));
+    protected $repository;
+
+    public function __construct(FrontSearchRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    public function search(SearchRequest $request)
+    {
+        $data = $this->repository->search($request->slug);
 
         return !empty($data) ?
-            $this->view('content.show')->message(__('message.success.200'))->data($data)->success() :
+            $this->view('basic.index')->message(__('message.success.200'))->data($data)->success() :
             $this->view('index')->message(__('message.content.search.notSuccess'))->error();
     }
 
