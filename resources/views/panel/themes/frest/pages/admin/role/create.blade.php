@@ -95,8 +95,12 @@
                                                                        style="z-index: 99"
                                                                        class="checkbox-input checkAll"
                                                                        id="{{$permission->id}}"
+<<<<<<< HEAD
+                                                                       name="permissions[]" value="{{$permission->id}}"
+=======
                                                                        value="{{$permission->id}}"
                                                                        name="permissions[]"
+>>>>>>> 3ba7635997aeed09ff187a9f40d59e5c488070e9
                                                                        onclick="toggle(this,{{$permission->children}})">
                                                                 <label style="font-size: 16px;line-height: 1.5;background: #fff"
                                                                        for="{{$permission->id}}">{{$permission->display_name}}</label>

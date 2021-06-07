@@ -10,7 +10,6 @@ use Illuminate\Support\Arr;
 
 class RoleRepository
 {
-
     public function all()
     {
         return Role::with('permissions')->get();

@@ -16,6 +16,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\MobileRegisterController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Front\Search\SearchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,11 +29,21 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//Route::get('/test', function () {
+//    $user = \App\Model\User::first();
+//    (new \App\Classes\Notifier\Notifier())->sms()
+//        ->to($user)
+//        ->body("hi")
+//        ->send();
+//});
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('a',function (){
+   return view('front.show.content.show');
+});
 
 /*Route::get('/react/auth', function () {
     return adminView('pages.auth.Auth');
@@ -130,13 +141,30 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{roleId}/destroy', [RoleController::class, 'multipleDestroy'])->name('destroy');
     });
 
-
     //------------------------------Theme----------------------------
-    Route::get('themes/index',[ThemeController::class,'index'])->name('theme.index');
-    Route::get('themes/{themeId}/select',[ThemeController::class,'select'])->name('theme.select');
+    Route::get('themes/index', [ThemeController::class, 'index'])->name('theme.index');
+    Route::get('themes/{themeId}/select', [ThemeController::class, 'select'])->name('theme.select');
 
 
+//-------------------------------------------------------------------------------------------------------------------
+//#####################################------------FRONT Routes------------##########################################
+//-------------------------------------------------------------------------------------------------------------------
+
+
+    Route::name('front.')->group(function () {
+
+        Route::get('category/{slug}', [\App\Http\Controllers\Front\Category\CategoryController::class, 'search'])->name('categories');
+
+        Route::get('tag/{name}', [\App\Http\Controllers\Front\Tag\TagController::class, 'search'])->name('tags');
+
+        Route::post('search', [SearchController::class, 'search'])->name('search');
+
+        Route::get('{slug}', [\App\Http\Controllers\Front\Content\ContentController::class, 'search'])->name('contents');
+    });
 });
+
+
+
 
 //-----------------------Mehrshad End----------------------
 

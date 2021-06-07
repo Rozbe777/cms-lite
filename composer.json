@@ -53,7 +53,8 @@
             "app/Http/Helper/backoffice.php",
             "app/Http/Helper/response.php",
             "app/Http/Helper/common.php",
-            "app/Http/Helper/functions.php"
+            "app/Http/Helper/functions.php",
+            "app/Classes/Front/Themes/Helper/themes.php"
         ]
     },
     "autoload-dev": {
