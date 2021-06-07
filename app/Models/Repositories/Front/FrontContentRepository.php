@@ -8,20 +8,22 @@ use App\Models\Content;
 
 class FrontContentRepository implements Interfaces\FrontInterface
 {
-
     public function search(string $slug)
     {
-        return Content::when(!empty($slug), function ($query) use ($slug) {
+        $content = Content::when(!empty($slug), function ($query) use ($slug) {
             $query->where(function ($q) use ($slug) {
-                $q->where('title', 'like', '%' . $slug . '%')
-                    ->orWhere('slug', 'like', '%' . $slug . '%')
-                    ->orWhere('content', 'like', '%' . $slug . '%');
+                $q->Where('slug',$slug);
             })->where('owner', 'content');
         })->with('tags')
             ->with('categories')
             ->with('user')
             ->with('viewCounts')
-            ->orderByDesc('id')
-            ->paginate(config('view.pagination'));
+            ->orderByDesc('id')->firstOrFail();
+
+        $instance = $content->viewCounts;
+        $instance->view_count++;
+        $instance->save();
+
+        return $content;
     }
 }

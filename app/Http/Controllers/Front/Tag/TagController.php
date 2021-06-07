@@ -22,9 +22,10 @@ class TagController extends Controller
     public function search($slug = null)
     {
         $tags = $this->repository->search($slug);
+        $contents = $tags->contents()->orderByDesc('id')->paginate(config('view.pagination'));
 
         return !empty($tags) ?
-            $this->view('content.show')->message(__('message.success.200'))->data($tags)->success() :
+            $this->view('basic.tag')->message(__('message.success.200'))->data([$tags,$contents])->success() :
             $this->view('index')->message(__('message.content.search.notSuccess'))->error();
     }
 }

@@ -24,23 +24,21 @@ use Morilog\Jalali\Jalalian;
  * @property boolean is_index
  * @property boolean is_menu
  */
-
-
 class Content extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $guarded=[];
-    protected $appends = ['jalali_created_at'];
+    protected $guarded = [];
+    protected $appends = ['jalali_created_at', 'url'];
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class,'category_content', 'content_id', 'category_id');
+        return $this->belongsToMany(Category::class, 'category_content', 'content_id', 'category_id');
     }
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class,'content_tag', 'content_id', 'tag_id');
+        return $this->belongsToMany(Tag::class, 'content_tag', 'content_id', 'tag_id');
     }
 
     public function user()
@@ -51,12 +49,17 @@ class Content extends Model
 
     public function viewCounts()
     {
-        return $this->morphOne(ViewCount::class,'viewcountable');
+        return $this->morphOne(ViewCount::class, 'viewcountable');
     }
 
     function scopeActive($query)
     {
         return $query->where('status', 'active');
+    }
+
+    public function getUrlAttribute()
+    {
+        return route('front.contents', $this->attributes['slug']);
     }
 
     public function getJalaliCreatedAtAttribute()

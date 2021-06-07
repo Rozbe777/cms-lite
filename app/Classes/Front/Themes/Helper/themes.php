@@ -17,7 +17,7 @@ if (!function_exists('frontView')) {
      * @param string $frontThemeName
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    function frontView($view = null, $data = [], $mergeData = [],$frontThemeName="show")
+    function frontView($view = null, $data = [], $mergeData = [],$frontThemeName="basic")
     {
         $factory = app(ViewFactory::class);
 
@@ -25,7 +25,7 @@ if (!function_exists('frontView')) {
             return $factory;
         }
 
-        return $factory->make("front.$frontThemeName.".$view, $data, $mergeData);
+        return $factory->make("themes.".$view, $data, $mergeData);
     }
 }
 

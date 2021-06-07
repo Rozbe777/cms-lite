@@ -23,7 +23,7 @@ class ContentController extends Controller
         $contents = $this->repository->search($slug);
 
         return !empty($contents) ?
-            $this->view('content.show')->message(__('message.success.200'))->data($contents)->success() :
+            $this->view('basic.content')->message(__('message.success.200'))->data($contents)->success() :
             $this->view('index')->message(__('message.content.search.notSuccess'))->error();
     }
 }

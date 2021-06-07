@@ -11,14 +11,18 @@ class FrontCategoryRepository implements Interfaces\FrontInterface
 
     public function search(string $slug)
     {
-        return Category::when(!empty($slug), function ($query) use ($slug) {
-            $query->where('name', 'like', '%' . $slug . '%')
-                ->orWhere('slug', 'like', '%' . $slug . '%')
-                ->orWhere('content', 'like', '%' . $slug . '%');
+        $category = Category::when(!empty($slug), function ($query) use ($slug) {
+            $query->Where('slug',$slug);
         })->with('contents')
             ->with('user')
             ->with('viewCounts')
             ->orderByDesc('id')
-            ->paginate(config('view.pagination'));
+            ->firstOrFail();
+
+        $instance = $category->viewCounts;
+        $instance->view_count++;
+        $instance->save();
+
+        return $category;
     }
 }

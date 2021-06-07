@@ -29,11 +29,11 @@ class Category extends Model
     protected $guarded = [];
     protected $appends = [
         "content_count",
+        "url",
 //        "real_url",
 //        "edit_url",
 //        "delete_url"
     ];
-
 
 //    public function getRealUrlAttribute()
 //    {
@@ -97,5 +97,9 @@ class Category extends Model
         return $query->where("status", "active");
     }
 
+    public function getUrlAttribute()
+    {
+        return route('front.categories', $this->attributes['slug']);
+    }
 
 }
