@@ -5,66 +5,30 @@ import {FormContextMini} from "../../Helper/Context";
 import {InputTextMiniInput} from "./MiniInput/MiniInput/InputTextMiniInput";
 import {CheckBoxMiniInput} from "./MiniInput/MiniInput/CheckBoxMiniInput";
 
-const MiniInputSetting = ({code , name}) => {
+const MiniInputSetting = ({code, name}) => {
     const nameRand = name.slice(9, 12);
-    const initializeMini = {description : '' , maximum : 0 , Mandatory: false, title: ''}
+    // const initializeMini = {description: '', maximum: 0, Mandatory: false, title: ''}
 
     const {initialFormDataMiniText, setInitialFormDataMiniText} = useContext(FormContextMini);
-    let checked =initialFormDataMiniText[code] ? initialFormDataMiniText[code] : {...initialFormDataMiniText , [code] : initializeMini}
 
-    console.log("????????" ,checked);
-    const localInput = "INPUT_ONES";
-    const clickInput = "INPUT_CLICK";
+    const [dataMe, setDataMe] = useState(initialFormDataMiniText[code]);
 
-    let codeGet  = code;
-    // let dataOld = JSON.parse(localStorage.getItem(localInput));
-    console.log(",,,,,,,,,,,,,me" , code , " last  : " , initialFormDataMiniText , "datassss "   , initialFormDataMiniText[code]);
-
-    console.log("initial state : " , initialFormDataMiniText);
-
-
-
-    const [dataMe, setDataMe] = useState(initialFormDataMiniText[code] ? initialFormDataMiniText[code] : initializeMini);
-
-
-    console.log("///////// , " , dataMe)
-    // console.log("tttt" , JSON.parse(localStorage.getItem(localInput))[code] , "dataaaaa : " ,dataOld , " / rand name : " , codeGet , )
-
+    console.log("////////first : " , dataMe , " /// all : " , initialFormDataMiniText);
 
     useEffect(() => {
-        let checked =initialFormDataMiniText[code] ? true : false
-        let initializesss = {...initialFormDataMiniText};
-        initializesss[code] = checked ? initializesss[code] :  initializeMini;
-        setInitialFormDataMiniText(initializesss);
-        setInitialFormDataMiniText({...initialFormDataMiniText , [code] : dataMe})
+
+        // setInitialFormDataMiniText({...initialFormDataMiniText, [code]: dataMe})
     }, [])
 
 
     const ChangeValueTitle = val => {
         let dataIn = {...dataMe};
         let inii = {...initialFormDataMiniText};
-
-
-
-        // setInitialFormDataMiniText({
-        //     ...initialFormDataMiniText,
-        //     [nameRand] : {
-        //         ...[nameRand],
-        //         title :  val.value
-        //     }
-        // })
-       dataIn.title = val.value;
-        // dataIn[nameRand].title = val.value;
+        dataIn.title = val.value;
         setDataMe(dataIn);
-        // let dataMes = {...dataMe};
-        // dataMes[code] =dataIn;
-        inii[code]=dataIn;
-        // dataOld[code] = dataIn;
-        // localStorage.setItem(localInput , JSON.stringify(dataMes));
-
-        // initialFormDataMiniText[nameRand] = dataIn;
+        inii[code] = dataIn;
         setInitialFormDataMiniText(inii)
-        console.log("//////++" , initialFormDataMiniText)
+        console.log("//////++", initialFormDataMiniText)
 
     }
     const ChangeValueDesc = val => {
@@ -86,28 +50,36 @@ const MiniInputSetting = ({code , name}) => {
         setDataMe(dataIn)
         // setInitialFormDataMiniText(dataIn)
     }
+
+    // let dataaaa = initialFormDataMiniText[code] ?;
+    // console.log("..........//////" , dataaaa)
+
     return (
         <>
             <div className={"row"} style={{padding: '0 15px'}}>
                 <p style={{padding: '0px 17px', margin: 0, color: 'grey', fontWeight: 300, fontSize: 13}}>نوع فیلد : متن
                     کوتاه</p>
                 <div className={"col-12"}>
-                    {console.log('dataaaa : ', dataMe)}
+                    {console.log('dataaaa : ', dataMe , "////////" , initialFormDataMiniText[code])}
                     <InputTextMiniInput placeholder={"عنوان"} name={"title"} label={"عنوان"}
-                                        defaultValue={dataMe.title ? dataMe.title : ''}
+                                        defaultValue={dataaaa.title ? dataaaa.title : ""}
                                         code={code}
-                                        isInvalid={dataMe.title ? "" : "is-invalid"}
+                                        isInvalid={dataaaa.title ? "" : "is-invalid"}
                                         value={val => ChangeValueTitle(val)}/>
+
                 </div>
+
+
+
                 <div className={"col-12"}>
                     <InputTextMiniInput placeholder={"توضیح"} name={"description"} label={"توضیح"} isInvalid={''}
                                         code={code}
-                                        defaultValue={dataMe.description ? dataMe.description : ''}
+                                        defaultValue={dataaaa.description}
                                         value={val => ChangeValueDesc(val)}/>
                 </div>
                 <div className={"col-12"}>
                     <CheckBoxMiniInput name={"Mandatory"} defaultState={false} valueActive={"غیر اجباری"}
-                                       defaultState={dataMe.Mandatory === true ? true : false}
+                                       defaultState={dataaaa.Mandatory === true ? true : false}
                                        code={code}
                                        valueDeActive={"اجباری"} status={types => ChangeCheckBox(types)}/>
                 </div>
@@ -117,7 +89,7 @@ const MiniInputSetting = ({code , name}) => {
                                         value={val => ChangeValueMaximum(val)}
                                         type={"number"}
                                         code={code}
-                                        defaultValue={dataMe.maximum ? dataMe.maximum : 0}
+                                        defaultValue={dataaaa.maximum }
                                         label={"حداکثر تعداد حروف"} isInvalid={''}/>
                 </div>
 
