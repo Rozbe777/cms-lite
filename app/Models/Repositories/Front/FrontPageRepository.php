@@ -6,14 +6,14 @@ namespace App\Models\Repositories\Front;
 
 use App\Models\Content;
 
-class FrontContentRepository implements Interfaces\FrontInterface
+class FrontPageRepository implements Interfaces\FrontInterface
 {
     public function search(string $slug)
     {
         $content = Content::when(!empty($slug), function ($query) use ($slug) {
             $query->where(function ($q) use ($slug) {
                 $q->Where('slug',$slug);
-            })->where('owner', 'content');
+            })->where('owner', 'page');
         })->with('tags')
             ->with('categories')
             ->with('user')
