@@ -42,6 +42,7 @@ const InputMini = ({newData , code, label, placeHolder, name = "name", required}
         // setInitialFormDataMiniText(initialize);
         // console.log("////////first : afterssss" , initialFormDataMiniText , initializeMini)
 
+        console.log("data : " , newData)
         setInitialFormDataMiniText({
             ...initialFormDataMiniText,
             [code] : newData.code
