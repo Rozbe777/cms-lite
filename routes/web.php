@@ -29,18 +29,21 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/test', function () {
-    $user = \App\Model\User::first();
-    (new \App\Classes\Notifier\Notifier())->sms()
-        ->to($user)
-        ->body("hi")
-        ->send();
-});
+//Route::get('/test', function () {
+//    $user = \App\Model\User::first();
+//    (new \App\Classes\Notifier\Notifier())->sms()
+//        ->to($user)
+//        ->body("hi")
+//        ->send();
+//});
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('a',function (){
+   return view('front.show.content.show');
+});
 
 /*Route::get('/react/auth', function () {
     return adminView('pages.auth.Auth');

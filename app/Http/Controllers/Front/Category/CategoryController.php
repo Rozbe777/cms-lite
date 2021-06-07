@@ -23,7 +23,7 @@ class CategoryController extends Controller
         $categories = $this->repository->search($slug);
 
         return !empty($categories) ?
-            $this->view('content.show')->message(__('message.success.200'))->data($categories)->success() :
+            $this->view('basic.category')->message(__('message.success.200'))->data($categories)->success() :
             $this->view('index')->message(__('message.content.search.notSuccess'))->error();
     }
 }

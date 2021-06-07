@@ -24,7 +24,7 @@ class TagController extends Controller
         $tags = $this->repository->search($slug);
 
         return !empty($tags) ?
-            $this->view('content.show')->message(__('message.success.200'))->data($tags)->success() :
+            $this->view('basic.tag')->message(__('message.success.200'))->data($tags)->success() :
             $this->view('index')->message(__('message.content.search.notSuccess'))->error();
     }
 }
