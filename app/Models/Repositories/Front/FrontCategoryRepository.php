@@ -4,6 +4,7 @@
 namespace App\Models\Repositories\Front;
 
 
+use App\Classes\Counter\Counter;
 use App\Models\Category;
 
 class FrontCategoryRepository implements Interfaces\FrontInterface
@@ -19,9 +20,7 @@ class FrontCategoryRepository implements Interfaces\FrontInterface
             ->orderByDesc('id')
             ->firstOrFail();
 
-        $instance = $category->viewCounts;
-        $instance->view_count++;
-        $instance->save();
+        (new Counter())->count($category);
 
         return $category;
     }

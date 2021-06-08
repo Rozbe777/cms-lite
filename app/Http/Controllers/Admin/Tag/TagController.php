@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Admin\Tag;
 
 use App\Classes\Responses\Admin\Responses;
 use App\Classes\Responses\Admin\ResponsesTrait;
-use App\Http\Controllers\Admin\Tag\Helper\TagSearchHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Tag\CreateTagRequest;
 use App\Http\Requests\Admin\Tag\EditTagRequest;
 use App\Http\Requests\Admin\Tag\multipleDestroyRequest;
 use App\Http\Requests\Admin\Tag\SearchTagRequest;
+use App\Models\Repositories\Admin\TagRepositories;
 use App\Models\Tag;
-use App\Repositories\TagRepositories;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
