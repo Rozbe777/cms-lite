@@ -6,6 +6,8 @@ namespace App\Http\Controllers\Admin\Product\Traits;
 
 use App\Models\Attribute;
 use App\Models\Product;
+use App\Models\Type;
+use App\Models\TypeـFeature;
 use Illuminate\Support\Facades\Auth;
 
 trait ProductTrait
@@ -31,16 +33,20 @@ trait ProductTrait
 
     public function featureHandler($features)
     {
-        $attributes = [];
-
         foreach ($features as $feature) {
-            $attributes[] = Attribute::firstOrCreate(
+            $data = Type::firstOrCreate(
                 ['name' => $feature['name']],
-                ['user_id' => Auth::id(),
-                    'type' => $feature['type']
-                ]
+                ['type' => $feature['type']]
             );
-            return $attributes;
+
+            $item = TypeـFeature::updateOrCreate(
+//                [ "type_id" =>  ]
+            );
         }
+    }
+
+    public function attributeHandler()
+    {
+
     }
 }

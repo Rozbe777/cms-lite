@@ -17,12 +17,17 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_content', 'content_id', 'category_id');
+        return $this->belongsToMany(Category::class, 'category_product', 'product_id', 'category_id');
     }
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'content_tag', 'content_id', 'tag_id');
+        return $this->belongsToMany(Tag::class, 'product_tag', 'product_id', 'tag_id');
+    }
+
+    public function attributes()
+    {
+        return $this->hasOne(Attribute::class,'product_id');
     }
 
     public function user()
