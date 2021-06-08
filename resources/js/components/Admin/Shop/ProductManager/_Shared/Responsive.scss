@@ -5,37 +5,37 @@
         display: none;
     }
 
-    .main-active-theme{
+    .main-active-theme {
         visibility: hidden;
         display: none;
     }
-    .itemUserShow span a.role{
+    .itemUserShow span a.role {
         max-width: 135px;
     }
 
-    .bottom-tab-navigator{
+    .bottom-tab-navigator {
         display: block;
     }
-    #breadCrumb{
+    #breadCrumb {
         display: none;
     }
-    #headerContent{
+    #headerContent {
         display: none;
     }
-    li.nav-item i{
+    li.nav-item i {
         display: block;
         visibility: visible;
     }
-    #theme-item{
+    #theme-item {
         width: 25% !important;
     }
 
-    .header-form-option button{
+    .header-form-option button {
         font-size: 10px !important;
     }
 
-    .force{
-        padding:0px;
+    .force {
+        padding: 0px;
         width: 100% !important;
         height: auto;
     }
@@ -45,7 +45,7 @@
     //    //display: none;
     //    //visibility: hidden;
     //}
-    .float-btn{
+    .float-btn {
         display: block !important;
         visibility: visible !important;
     }
@@ -54,21 +54,23 @@
         clear: both;
         display: none;
     }
-    .optionBox{
-        top : unset !important;
+    .optionBox {
+        top: unset !important;
         bottom: 55px;
         z-index: -1;
 
     }
-    .optionBox#selectedFilter{
+    .optionBox#selectedFilter {
         visibility: hidden;
-        &.active{
+
+        &.active {
             visibility: visible;
         }
     }
-    .optionBox#options{
+    .optionBox#options {
         visibility: hidden;
-        &.active{
+
+        &.active {
             visibility: visible;
         }
     }
@@ -78,6 +80,7 @@
             height: 55px;
             line-height: 4.3;
         }
+
         padding: 0px !important;
         height: 110px !important;
     }
@@ -103,12 +106,12 @@
         height: 300px;
     }
 
-    .main-active-theme{
+    .main-active-theme {
         visibility: hidden;
         display: none;
     }
 
-    a.more-details{
+    a.more-details {
         visibility: visible !important;
         display: block !important;
     }
@@ -118,7 +121,7 @@
     //    visibility: visible !important;
     //}
 
-    .users-list-filter{
+    .users-list-filter {
         height: 100%;
     }
     #actionGroup.actived {
@@ -127,6 +130,7 @@
             height: 55px;
             line-height: 4.3;
         }
+
         height: 130px !important;
         padding: 0px 30px 0px 0px;
     }
@@ -135,3 +139,160 @@
 @media screen and (max-width: 1600px) {
 }
 
+
+//    -------------  dark mode Emran  -------------
+$background: #1a233a;
+$color: #bdd1f8;
+$itemBackground: #272E48;
+$itemBorder: solid 1px #464D5C;
+$title: #bdd1f8;
+$titleHover: #00e5ff;
+$focusHover: solid 1px #00e5ff;
+body {
+    background: $background !important;
+}
+
+.navbar-container {
+    background: $background !important;
+    color: $color !important;
+}
+
+#headerContent {
+    background: $background !important;
+    color: $color !important;
+}
+
+.itemUserShow {
+    background: $itemBackground !important;
+    color: $color !important;
+    border: $itemBorder !important;
+}
+
+.content-wrapper {
+    border-top: $itemBorder !important;
+}
+
+.users-list-filter {
+    border-top: $itemBorder !important;
+    border-bottom: $itemBorder !important;
+
+    .main-options-sel {
+        height: 47px !important;
+
+        .option-icon {
+            color: $color !important;
+            background: $background !important;
+
+            i {
+                color: $color !important;
+            }
+        }
+
+        #content {
+            background: $itemBackground !important;
+
+            ul {
+                li:hover {
+                    color: $titleHover !important;
+                }
+            }
+        }
+    }
+}
+
+input {
+    background: $itemBackground !important;
+    color: $color !important;
+    border: $itemBorder !important;
+    height: 47px !important;
+
+    &::placeholder {
+        color: $color !important;
+    }
+
+    &:focus {
+        border: $focusHover !important;
+    }
+}
+
+a {
+    color: $color !important;
+
+    &.activeUser {
+        color: #00c853 !important;
+    }
+
+    &:hover span {
+        color: $titleHover !important;
+    }
+}
+
+label {
+    color: $color !important;
+}
+
+a.moreOptions {
+    ul {
+        background: $itemBackground !important;
+        border: $itemBorder !important;
+        li::after{
+            left: -15px !important;
+            background: #464D5C !important;;
+        }
+    }
+}
+
+.main-options-sel {
+    color: $color !important;
+    border: $itemBorder !important;
+    background-color: #272E48 !important;
+}
+
+.main-menu {
+    background: $background !important;
+    color: $color !important;
+
+    .main-menu-content {
+        background: $background !important;
+        color: $color !important;
+    }
+
+    .nav-item.has-sub.open {
+        border-radius: 0.267rem !important;
+        border: $itemBorder !important;
+        background-color: #272E48 !important;
+
+        .menu-content {
+            background-color: #272E48 !important;
+        }
+    }
+
+    .nav-item.has-sub {
+        min-height: 45px !important;
+        border-radius: 0.267rem !important;
+        border: $itemBorder !important;
+        background-color: #272E48 !important;
+        margin-bottom: 10px !important;
+
+        .menu-content {
+            background-color: #272E48 !important;
+
+        }
+    }
+
+    .navigation-main {
+        background: $background !important;
+        color: $color !important;
+    }
+
+    .navbar-header {
+        ul {
+            background: $background !important;
+            color: $color !important;
+        }
+
+        background: $background !important;
+        color: $color !important;
+    }
+
+}

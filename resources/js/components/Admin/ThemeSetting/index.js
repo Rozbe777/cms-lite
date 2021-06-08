@@ -1,8 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './_shared/style.scss'
+import {BreadCrumbs} from "../UserList/HOC/BreadCrumbs";
 
 const ThemeSetting = () => {
+
+
+    const breadData = {
+        title: 'انتخاب پوسته',
+        desc: 'تنظیمات و مدیریت پوسته ها'
+    };
+
+    ReactDOM.render(<BreadCrumbs fixed={true} data={breadData} /> , document.getElementById("bradcrummmm"))
     return (
         <div className={"container"}>
 

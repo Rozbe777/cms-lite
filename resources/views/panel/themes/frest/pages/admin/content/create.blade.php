@@ -2,19 +2,12 @@
 @php($title = "محتوا")
 
 @section("content")
-    <div class="content-wrapper" style="padding: 0px 0px !important;margin : 0px !important;">
-        {{--                <div id="form-creator" style="border-top : 1px solid #eee">--}}
+        <div class="content-wrapper" style="padding: 0px 0px !important;margin : 0px !important;">
+                <div id="form-creator" style="border-top : 1px solid #eee">
 
-        {{--                </div>--}}
-
-
-        <div id="theme_setting_component" style="border-top : 1px solid #eee">
-
+                </div>
 
         </div>
-
-
-    </div>
 @endsection
 @section('pageScripts')
 
@@ -25,9 +18,9 @@
         }
         console.info(performance.navigation.type);
         if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-            console.info("This page is reloaded");
+            console.info( "This page is reloaded" );
         } else {
-            console.info("This page is not reloaded");
+            console.info( "This page is not reloaded");
         }
     </script>
 
