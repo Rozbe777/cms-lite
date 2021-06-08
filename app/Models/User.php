@@ -88,6 +88,16 @@ class User extends Authenticatable
         return $this->hasMany(Theme::class,'user_id', 'id');
     }
 
+    public function contents()
+    {
+        return $this->hasMany(Content::class, 'user_id', 'id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'user_id', 'id');
+    }
+
     public function getFullnameAttribute()
     {
         if (empty($this->attributes['name'])) {

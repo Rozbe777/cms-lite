@@ -4,6 +4,7 @@
 namespace App\Models\Repositories\Front;
 
 
+use App\Classes\Counter\Counter;
 use App\Models\Tag;
 
 class FrontTagRepository implements Interfaces\FrontInterface
@@ -20,9 +21,7 @@ class FrontTagRepository implements Interfaces\FrontInterface
         ->orderByDesc('id')
         ->firstOrFail();
 
-        $instance = $tag->viewCounts;
-        $instance->view_count++;
-        $instance->save();
+        (new Counter())->count($tag);
 
         return $tag;
 

@@ -1,18 +1,17 @@
 <?php
 
 
-namespace App\Repositories;
+namespace App\Models\Repositories\Admin;
 
 
 use App\Http\Controllers\Admin\Content\Traits\ContentTrait;
-use App\Http\Requests\Admin\Services\RelationsService;
 use App\Models\Category;
 use App\Models\Content;
+use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 use App\Models\Tag;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class ContentRepository implements Interfaces\RepositoryInterface
+class ContentRepository implements RepositoryInterface
 {
     use ContentTrait;
 
@@ -103,7 +102,6 @@ class ContentRepository implements Interfaces\RepositoryInterface
     public function create(array $data)
     {
         $data['slug'] = $this->slugHandler($data['slug']);
-//        $data['metadata'] = !empty($data['metadata']) ? json_encode($data['metadata']) : null;
 
         $tag_list = $data['tag_list'] ?? null;
         unset($data["tag_list"]);

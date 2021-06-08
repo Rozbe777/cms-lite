@@ -10,7 +10,7 @@ use App\Http\Requests\Admin\Page\EditPageRequest;
 use App\Http\Requests\Admin\Page\multipleDestroyRequest;
 use App\Http\Requests\Admin\Page\SearchPageRequest;
 use App\Models\Page;
-use App\Repositories\PageRepository;
+use App\Models\Repositories\Admin\PageRepository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;

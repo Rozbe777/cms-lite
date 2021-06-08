@@ -10,13 +10,12 @@ use App\Http\Requests\Admin\Content\EditContentRequest;
 use App\Http\Requests\Admin\Content\multipleDestroyRequest;
 use App\Http\Requests\Admin\Content\SearchContentRequest;
 use App\Models\Content;
-use App\Repositories\ContentRepository;
+use App\Models\Repositories\Admin\ContentRepository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+
 
 class ContentController extends Controller
 {

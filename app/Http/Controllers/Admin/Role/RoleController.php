@@ -8,7 +8,7 @@ use App\Http\Requests\Admin\Role\CreateRoleRequest;
 use App\Http\Requests\Admin\Role\EditRoleRequest;
 use App\Http\Requests\Admin\Role\MultipleDestroyRoleRequest;
 use App\Models\Permission;
-use App\Repositories\RoleRepository;
+use App\Models\Repositories\Admin\RoleRepository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;

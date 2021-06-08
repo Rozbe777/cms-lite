@@ -8,23 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Morilog\Jalali\Jalalian;
 
-/**
- * @property string owner
- * @property string title
- * @property string slug
- * @property mixed content
- * @property mixed metadata
- * @property mixed fields
- * @property string status
- * @property integer user_id
- * @property integer layout_id
- * @property mixed image
- * @property string comment_status
- * @property integer weight
- * @property boolean is_index
- * @property boolean is_menu
- */
-class Content extends Model
+class Product extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -52,16 +36,6 @@ class Content extends Model
         return $this->morphOne(ViewCount::class, 'viewcountable');
     }
 
-    function scopeActive($query)
-    {
-        return $query->where('status', 'active');
-    }
-
-    public function getUrlAttribute()
-    {
-        return route('front.contents', $this->attributes['slug']);
-    }
-
     public function getJalaliCreatedAtAttribute()
     {
         switch (setting("date_time")) {
@@ -80,21 +54,20 @@ class Content extends Model
         }
     }
 
-    public function getRelatedContentAttribute()
+    public function getRelatedProductAttribute()
     {
         $id = [];
         $i = 0;
         $categories = $this->categories;
         foreach ($categories as $cat) {
-            foreach ($cat->contents as $contents) {
-                if ($contents->id != $this->id && !in_array($contents->id, $id) && $i < config("view.list.number")) {
-                        $id[] = $contents->id;
-                        $content[$i] = $contents;
-                        $i++;
-                    }
+            foreach ($cat->products as $products) {
+                if ($products->id != $this->id && !in_array($products->id, $id) && $i < config("view.list.number")) {
+                    $id[] = $products->id;
+                    $content[$i] = $products;
+                    $i++;
+                }
             }
         }
-        return $content;
+        return $products;
     }
-
 }

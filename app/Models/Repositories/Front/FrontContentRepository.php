@@ -4,6 +4,7 @@
 namespace App\Models\Repositories\Front;
 
 
+use App\Classes\Counter\Counter;
 use App\Models\Content;
 
 class FrontContentRepository implements Interfaces\FrontInterface
@@ -20,9 +21,7 @@ class FrontContentRepository implements Interfaces\FrontInterface
             ->with('viewCounts')
             ->orderByDesc('id')->firstOrFail();
 
-        $instance = $content->viewCounts;
-        $instance->view_count++;
-        $instance->save();
+         (new Counter())->count($content);
 
         return $content;
     }

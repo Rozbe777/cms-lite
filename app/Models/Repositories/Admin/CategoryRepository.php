@@ -1,12 +1,12 @@
 <?php
 
 
-namespace App\Repositories;
+namespace App\Models\Repositories\Admin;
 
 
 use App\Http\Controllers\Admin\Category\Traits\CategoryTrait;
 use App\Models\Category;
-use App\Repositories\Interfaces\RepositoryInterface;
+use \App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Repositories\Interfaces;
+namespace App\Models\Repositories\Admin\Interfaces;
 
 
 interface RepositoryInterface

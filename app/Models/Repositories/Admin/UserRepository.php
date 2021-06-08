@@ -1,15 +1,16 @@
 <?php
 
 
-namespace App\Repositories;
+namespace App\Models\Repositories\Admin;
 
 
 use App\Http\Controllers\Admin\User\Traits\UserTrait;
+use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
 
-class UserRepository implements Interfaces\RepositoryInterface
+class UserRepository implements RepositoryInterface
 {
     use UserTrait;
 
@@ -21,10 +22,10 @@ class UserRepository implements Interfaces\RepositoryInterface
         if (empty($status))
             $status = 'deactivate';
 
-        return User::when($search != null, function ($query) use ($search, $status,$role) {
-            $query->where(function ($query) use ($status,$role) {
-                $query->whereHas('roles', function ($query) use ($role){
-                    $query->where('role_id',$role);
+        return User::when($search != null, function ($query) use ($search, $status, $role) {
+            $query->where(function ($query) use ($status, $role) {
+                $query->whereHas('roles', function ($query) use ($role) {
+                    $query->where('role_id', $role);
                 })->where('status', $status);
             })->where('name', 'like', '%' . $search . '%')
                 ->orWhere('last_name', 'like', '%' . $search . '%')

@@ -1,20 +1,28 @@
 <?php
 
 
-namespace App\Repositories;
+namespace App\Models\Repositories\Admin;
 
 
 use App\Models\Permission;
+use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 use App\Models\Role;
 use Illuminate\Support\Arr;
 
-class RoleRepository
+class RoleRepository implements RepositoryInterface
 {
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function all()
     {
         return Role::with('permissions')->get();
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
     public function edit($id)
     {
         $role = Role::findOrFail($id);
@@ -27,6 +35,11 @@ class RoleRepository
         return ['role'=>$role , "permissions" => $permissions , "rolePermissions" => $rolePermissions];
     }
 
+    /**
+     * @param array $data
+     * @param $id
+     * @return mixed
+     */
     public function update(array $data, $id)
     {
         $data_permissions= $data['permissions'];
@@ -41,6 +54,10 @@ class RoleRepository
         return $role->permissions()->sync($permissions);
     }
 
+    /**
+     * @param array $data
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function create(array $data)
     {
         unset($data['_token']);
@@ -68,8 +85,28 @@ class RoleRepository
         return $this->all();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function multipleDestroy($id)
     {
         return Role::where('id',$id)->delete();
+    }
+
+    /**
+     * @param $id
+     */
+    public function get($id)
+    {
+        // TODO: Implement get() method.
+    }
+
+    /**
+     * @param $id
+     */
+    public function delete($id)
+    {
+        // TODO: Implement delete() method.
     }
 }
