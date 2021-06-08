@@ -29,7 +29,7 @@ class Content extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
-    protected $appends = ['jalali_created_at', 'url'];
+    protected $appends = ['jalali_created_at', 'url', 'related_content'];
 
     public function categories()
     {
@@ -78,8 +78,23 @@ class Content extends Model
             default:
                 return Jalalian::forge($this->attributes['created_at'])->format(setting("date_time"));
         }
+    }
 
-
+    public function getRelatedContentAttribute()
+    {
+        $id = [];
+        $i = 0;
+        $categories = $this->categories;
+        foreach ($categories as $cat) {
+            foreach ($cat->contents as $contents) {
+                if ($contents->id != $this->id && !in_array($contents->id, $id) && $i < config("view.list.number")) {
+                        $id[] = $contents->id;
+                        $content[$i] = $contents;
+                        $i++;
+                    }
+            }
+        }
+        return $content;
     }
 
 }

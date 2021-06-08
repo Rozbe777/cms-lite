@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Content\ContentController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\Layout\LayoutController;
 use App\Http\Controllers\Admin\Page\PageController;
+use App\Http\Controllers\Admin\Product\ProductController;
 use App\Http\Controllers\Admin\Profile\ProfileController;
 use App\Http\Controllers\Admin\Role\RoleController;
 use App\Http\Controllers\Admin\Setting\SettingController;
@@ -39,10 +40,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
-
-Route::get('a',function (){
-   return view('front.show.content.show');
 });
 
 /*Route::get('/react/auth', function () {
@@ -141,14 +138,18 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{roleId}/destroy', [RoleController::class, 'multipleDestroy'])->name('destroy');
     });
 
-    //------------------------------Theme----------------------------
-    Route::get('themes/index', [ThemeController::class, 'index'])->name('theme.index');
-    Route::get('themes/{themeId}/select', [ThemeController::class, 'select'])->name('theme.select');
+    //------------------------------Settings----------------------------
+    Route::resource('products', ProductController::class);
+    Route::delete('products/multi/destroy', [ProductController::class, 'multipleDestroy'])->name('products.multipleDestroy');
 
 
 //-------------------------------------------------------------------------------------------------------------------
 //#####################################------------FRONT Routes------------##########################################
 //-------------------------------------------------------------------------------------------------------------------
+
+    //------------------------------Theme-------------------------------
+    Route::get('themes/index', [ThemeController::class, 'index'])->name('theme.index');
+    Route::get('themes/{themeId}/select', [ThemeController::class, 'select'])->name('theme.select');
 
 
     Route::name('front.')->group(function () {
@@ -158,6 +159,8 @@ Route::middleware('auth')->group(function () {
         Route::get('tag/{name}', [\App\Http\Controllers\Front\Tag\TagController::class, 'search'])->name('tags');
 
         Route::post('search', [SearchController::class, 'search'])->name('search');
+
+        Route::get('page/{slug}', [\App\Http\Controllers\Front\Page\FrontPageController::class, 'search'])->name('pages');
 
         Route::get('{slug}', [\App\Http\Controllers\Front\Content\ContentController::class, 'search'])->name('contents');
     });

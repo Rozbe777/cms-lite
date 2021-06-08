@@ -35,4 +35,5 @@ require("./components/Admin/Shop/ProductManager");
 require("./components/Admin/Shop/ProductAdd");
 require("./components/Admin/Shop/Search");
 require("./components/Admin/FormCreator");
+require("./components/Admin/ThemeSetting");
 

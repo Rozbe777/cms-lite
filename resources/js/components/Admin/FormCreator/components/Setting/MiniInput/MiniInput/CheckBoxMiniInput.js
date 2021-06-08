@@ -23,7 +23,7 @@ export const CheckBoxMiniInput = ({defaultState, name, valueActive, valueDeActiv
             <div className={"switch-container formcreator-switch"}>
 
                 <div className="custom-control custom-switch mr-2 mb-1">
-                    <input type="checkbox" className="custom-control-input" id="customSwitch11" defaultChecked={defaultState} onChange={e => handleChange(e)}  />
+                    <input type="checkbox" className="custom-control-input " id="customSwitch11" defaultChecked={defaultState ? defaultState : false} onChange={e => handleChange(e)}  />
                     <label className="custom-control-label" htmlFor="customSwitch11">
 
                     </label>

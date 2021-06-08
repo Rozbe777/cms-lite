@@ -1,6 +1,9 @@
 @extends('themes.basic.includes.main')
 @section('content')
 
+
+
+
     <!--================Single Product Area =================-->
     <div class="product_image_area section_padding">
         <div class="container">
@@ -15,6 +18,20 @@
                     </div>
                 </div>
                 <div class="col-lg-5 offset-lg-1">
+                    <aside class="single_sidebar_widget search_widget">
+                        <form method="post" action="{{ route('front.search') }} ">
+                            @csrf
+                            @error('slug')
+                            <div class="error text-danger">{{ $message }}</div>
+                            @enderror
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <input id="search-slug" type="text" class="form-control" name="slug" placeholder='Search Keyword'>
+                                </div>
+                            </div>
+                            <button class="button rounded-0 primary-bg text-white w-100 btn_1" type="submit">Search</button>
+                        </form>
+                    </aside>
                     <div class="s_product_text">
                         <h3>{{ $data[0]->name }}</h3>
                         <h2>{{ $data[0]->slug }}</h2>

@@ -14,7 +14,8 @@ class ThemeController extends Controller
 
     public function index()
     {
-        return Theme::with('user')->get();
+        $theme = Theme::with('user')->get();
+        return adminView('pages.admin.theme.index',compact('theme'));
     }
 
     public function select($id)

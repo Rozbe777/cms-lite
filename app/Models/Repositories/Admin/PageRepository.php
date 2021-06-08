@@ -1,16 +1,16 @@
 <?php
 
 
-namespace App\Repositories;
+namespace App\Models\Repositories\Admin;
 
 
 use App\Http\Controllers\Admin\Page\Traits\PageTrait;
-use App\Http\Requests\Admin\Services\RelationsService;
 use App\Models\Page;
+use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class PageRepository implements Interfaces\RepositoryInterface
+class PageRepository implements RepositoryInterface
 {
     use PageTrait;
 

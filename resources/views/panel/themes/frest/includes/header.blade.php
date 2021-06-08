@@ -2,7 +2,7 @@
 <div class="header-navbar-shadow"></div>
 <nav class="header-navbar main-header-navbar navbar-expand-lg navbar navbar-with-menu ">
     <div class="navbar-wrapper">
-        <div class="navbar-container content" style="background: #fff !important;">
+        <div class="navbar-container content">
             <div class="navbar-collapse" id="navbar-mobile">
                 <div class="mr-auto float-left bookmark-wrapper d-flex align-items-center">
                     <ul class="nav navbar-nav">

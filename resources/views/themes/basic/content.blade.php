@@ -66,9 +66,10 @@
                                     </li>
                                 </ul>
                             </aside>
-                            @foreach($data->categories as $category)
+
                             <aside class="single_sidebar_widget post_category_widget">
                                 <h4 class="widget_title">دسته بندی</h4>
+                                @foreach($data->categories as $category)
                                     <ul class="list cat-list">
                                         <li>
                                             <a href="{{$category->url}}" class="d-flex">
@@ -76,26 +77,24 @@
                                             </a>
                                         </li>
                                     </ul>
-                            </aside>
-                            <aside class="single_sidebar_widget popular_post_widget">
-                                <h3 class="widget_title">محتواهای مرتبط</h3>
-                                <?php $i = 0 ?>
-                                @foreach($category->contents as $content)
-                                    @if($data->id != $content->id && $content->owner != "page" && $i < 6 )
-                                <div class="media post_item">
-                                    <img src="{{ asset('portal/img/post/post_1.png') }}" alt="post">
-                                    <div class="media-body">
-                                        <a href="{{ $content->url }}">
-                                            <h3>{{ $content->slug }}</h3>
-                                        </a>
-                                        <p>{{ $content->created_at }}</p>
-                                    </div>
-                                </div>
-                                    @endif
-                                    <?php $i++ ?>
                                 @endforeach
                             </aside>
-                            @endforeach
+
+                            <aside class="single_sidebar_widget popular_post_widget">
+                                <h3 class="widget_title">محتواهای مرتبط</h3>
+                                @foreach($data->related_content as $content)
+                                    <div class="media post_item">
+                                        <img src="{{ asset('portal/img/post/post_1.png') }}" alt="post">
+                                        <div class="media-body">
+                                            <a href="{{ $content->url }}">
+                                                <h3>{{ $content->slug }}</h3>
+                                            </a>
+                                            <p>{{ $content->jalali_created_at }}</p>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </aside>
+
                             <aside class="single_sidebar_widget tag_cloud_widget">
                                 <h4 class="widget_title">کلمات کلیدی</h4>
                                 @foreach($data->tags as $tag)

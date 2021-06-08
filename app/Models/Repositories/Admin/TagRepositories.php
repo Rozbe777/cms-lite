@@ -1,18 +1,23 @@
 <?php
 
 
-namespace App\Repositories;
+namespace App\Models\Repositories\Admin;
 
 
-use App\Http\Requests\Admin\Services\RelationsService;
 use App\Models\Tag;
-use App\Repositories\Interfaces\RepositoryInterface;
+use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class TagRepositories implements RepositoryInterface
 {
 
+    /**
+     * @param null $status
+     * @param null $search
+     * @param null $pageSize
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public function all($status = null, $search = null, $pageSize = null)
     {
         if (empty($pageSize))
@@ -26,6 +31,9 @@ class TagRepositories implements RepositoryInterface
             ->paginate($pageSize);
     }
 
+    /**
+     * @param $tag
+     */
     public function get($tag)
     {
         $instance = $tag->viewCounts;
@@ -39,33 +47,22 @@ class TagRepositories implements RepositoryInterface
         return $tag->delete();
     }
 
+    /**
+     * @param array $data
+     * @param $tag
+     * @return mixed
+     */
     public function update(array $data, $tag)
     {
-//            /** modify category relations in database tables */
-//            if (array_key_exists('category_list_old', $data) && array_key_exists('category_list_new', $data)) {
-//                $category_list_old = $data['category_list_old'];
-//                $category_list_new = $data['category_list_new'];
-//                (new RelationsService())->categoryService($tag,$category_list_old,$category_list_new);
-//                unset($data['category_list_old'], $data['category_list_new']);
-//
-//            } elseif (!array_key_exists('category_list_old', $data)) {
-//                $category_list_new = $data['category_list_new'];
-//                (new RelationsService())->categoryService($tag,'',$category_list_new);
-//                unset($data['category_list_new']);
-//
-//            } elseif (!array_key_exists('category_list_new', $data)) {
-//                $category_list_old = $data['category_list_old'];
-//                (new RelationsService())->categoryService($tag,$category_list_old,'');
-//                unset($data['category_list_old']);
-//            }
-
         return $tag->update($data);
     }
 
+    /**
+     * @param array $data
+     * @return array
+     */
     public function create(array $data)
     {
-//            $category_list = $data['category_list'];
-//            unset($data['category_list']);
         $i =0;
 
         foreach ($data['name'] as $name) {
@@ -77,10 +74,13 @@ class TagRepositories implements RepositoryInterface
             $tags[$i] = $tag;
             $i++;
         }
-//            $tag->categories()->attach($category_list);
         return $tags;
     }
 
+    /**
+     * @param $data
+     * @return mixed
+     */
     public function multipleDestroy($data)
     {
         return Tag::whereIn('id', $data['tagIds'])->update(['status' => 'deactivate', "deleted_at" => Carbon::now()]);

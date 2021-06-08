@@ -25,7 +25,6 @@ class CreateContentsTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('page_id')->unsigned();
             $table->bigInteger('layout_id')->default(0);
-            $table->bigInteger('view_count')->unsigned()->default(0);
             $table->string('image')->nullable()->default(0);
             $table->enum('comment_status', ['active', 'deactivate'])->default('active');
 //            $table->bigInteger('weight')->default(0);
