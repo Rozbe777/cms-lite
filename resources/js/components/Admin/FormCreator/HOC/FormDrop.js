@@ -16,7 +16,7 @@ const FormDrop = (props) => {
                              ref={provider.innerRef}
                              {...provider.droppableProps}
                         >
-                            {props.tasks.map((task, index) => <Item index={index} key={index} task={task}/>)}
+                            {props.tasks.map((task, index) => <Item lengths={props.langthhh} index={index} key={index} task={task}/>)}
 
                             {provider.placeholder}
                         </div>

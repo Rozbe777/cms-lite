@@ -433,7 +433,7 @@ const Index = () => {
                                     </div>
                                     <div className={"col-12"} style={{marginTop: '15px'}}>
                                         <div className={"element-chose"} style={{borderColor: formTheme.borderColor}}>
-                                            <FormDrop key={HtmlTask.id} column={HtmlCreate} tasks={HtmlTask}/>
+                                            <FormDrop langthhh={HtmlTask.length}  key={HtmlTask.id} column={HtmlCreate} tasks={HtmlTask}/>
                                             {HtmlTask.length > 0 ? (
                                                 <>
                                                 </>

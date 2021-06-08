@@ -49,6 +49,7 @@ const Item = memo((props) => {
     const [initialFormDataMultiSel, setInitialFormDataMultiSel] = useState({Options: [], Mandatory: false, title: ''});
 
 
+    const [counter , setCounter] = useState(0)
     const {formTheme, setFormTheme} = useContext(FormTheme);
     // email state
     const [initialFormDataEmail, setInitialFormDataEmail] = useState({});
@@ -104,7 +105,7 @@ const Item = memo((props) => {
 
     });
     // input mini state
-    const [initialFormDataMiniText, setInitialFormDataMiniText] = useState()
+    const [initialFormDataMiniText, setInitialFormDataMiniText] = useState({})
 
     useEffect(() => {
 
@@ -145,26 +146,64 @@ const Item = memo((props) => {
     const HandleMini = (task) => {
         let rand_name = task.slice(9, 12);
 
-        fitdataMini[rand_name] = {
-            description: '',
-            maximum: 0,
-            Mandatory: false,
-            title: ''
-        };
-        console.log("fffffffff", initialFormDataMiniText)
+        console.log("resoultssssss : ///",initialFormDataMiniText)
+
+        // let coun = counter;
+        // coun++;
+        // setCounter(coun);
+
+        // console.log("--------------"  , props.lengths);
+        if (initialFormDataMiniText) {
+            let ObjToArr = Object.keys(initialFormDataMiniText);
+
+            let resultSearch = ObjToArr.includes(rand_name + "");
+
+            console.log("resoultssssss : ", resultSearch, ObjToArr, rand_name)
+            if (!resultSearch) {
+                setInitialFormDataMiniText({
+                    ...initialFormDataMiniText, [rand_name]: {
+                        description: '',
+                        maximum: 0,
+                        Mandatory: false,
+                        title: ''
+                    }
+                })
+            }
+
+        }else{
+            initialFormDataMiniText[rand_name] = {
+                description: '',
+                maximum: 0,
+                Mandatory: false,
+                title: ''
+            }
+        }
+
+        ReactDOM.render(<FormContextMini.Provider value={{
+            initialFormDataMiniText, setInitialFormDataMiniText
+        }}><MiniInputSetting name={task} slices={task}/></FormContextMini.Provider>, setting_main_content);
         return (
             <FormContextMini.Provider value={{initialFormDataMiniText, setInitialFormDataMiniText}}>
-                <InputMini newData={fitdataMini} code={rand_name} name={task}/>
+                <InputMini code={rand_name} slices={task} />
             </FormContextMini.Provider>
         )
+
+        //
+        // fitdataMini[rand_name] = {
+        //     description: '',
+        //     maximum: 0,
+        //     Mandatory: false,
+        //     title: ''
+        // };
+        // initialFormDataMiniText.filter(item => console.log("itemmmmmmm : ", item))
+        console.log("fffffffff", initialFormDataMiniText)
+
 
         // let initialFormDataMiniText = {...initialFormDataMiniText};
         // initialFormDataMiniTexts[rand_name] = {description: '' + rand_name, maximum: 0, Mandatory: false, title: ''}
         // console.log("miniiiiiiiiiiii", initialFormDataMiniText)
 
-        // ReactDOM.render(<FormContextMini.Provider value={{
-        //     initialFormDataMiniTexts, setInitialFormDataMiniText
-        // }}><MiniInputSetting taskName={task}/></FormContextMini.Provider>, setting_main_content);
+
 
 
         // ReactDOM.render(<FormContextMini.Provider
