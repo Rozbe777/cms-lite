@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->longText('content')->nullable();
             $table->longText('metadata')->nullable();
             $table->enum('status', ["active", "deactivate"])->default('active');
+            $table->enum('entity',['available', 'unavailable'])->default('available');
             $table->bigInteger('user_id')->unsigned();
             $table->string('image')->nullable()->default(null);
             $table->softDeletes();
