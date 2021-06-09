@@ -46,14 +46,17 @@ class ProductRepository implements RepositoryInterface
             })->orderBy('attributes.'.$sort, "DESC")->paginate(config('view.pagination'));
     }
 
-    public function get($id)
+    public function get($product)
     {
-        // TODO: Implement get() method.
+        $instance = $product->viewCounts;
+        $instance->view_count++;
+        $instance->save();
     }
 
-    public function delete($id)
+    public function delete($product)
     {
-        // TODO: Implement delete() method.
+        $product->update(['status' => 'deactivate']);
+        return $product->delete();
     }
 
     public function update(array $data, $id)
