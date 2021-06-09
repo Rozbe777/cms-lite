@@ -36,6 +36,8 @@ trait ProductTrait
             [ "product_id" => $p_id , "product_code" => $attribute['product_code']],
             [ "price" => $attribute['price'], "count" => $attribute['count'], "limit" => $attribute['limit']]
         );
+
+        return $data;
     }
 
     public function featureHandler($features, $attr_id)
@@ -49,6 +51,20 @@ trait ProductTrait
                 [ "type_id" => $data->id, "attribute_id" => $attr_id,"title" => $features['title'] , "value" => $features['value']],
 
             );
+
+    }
+
+    public function featureUpdateHandler($features, $attr_id)
+    {
+
+        $data = Type::firstOrCreate(
+            ['name' => $features['name'], "attribute_id" => $attr_id]
+        );
+
+        $feature = TypeFeature::firstOrCreate(
+            [ "type_id" => $data->id, "attribute_id" => $attr_id,"title" => $features['title'] , "value" => $features['value']],
+
+        );
 
     }
 
