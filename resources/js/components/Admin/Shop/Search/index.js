@@ -68,7 +68,7 @@ const SearchComponent = ({category: pushCategory}) => {
 
 
     return (
-        <>
+        <div className={"container-fluid"} style={{padding : '0px 4px'}}>
             <div id={"shop_product_search"} style={{marginBottom: 20}}>
 
                 <div className="users-list-filter col-12" style={{padding: '0px !important'}}>
@@ -226,7 +226,7 @@ const SearchComponent = ({category: pushCategory}) => {
             </div>
 
 
-        </>
+        </div>
     )
 
 

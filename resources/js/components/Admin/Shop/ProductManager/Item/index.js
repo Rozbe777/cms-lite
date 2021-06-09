@@ -61,7 +61,8 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected}) => {
                         <p id={"title"}>{data.title}</p>
                     </li>
                     <li>
-                        <span>{data.buy + " فروش "}</span>
+                        <span>&nbsp;&nbsp;12 <i className={"bx bx-cart"} style={{fontSize : '14px'}}></i>&nbsp;&nbsp; </span>
+                        <span style={{float : 'right'}}>&nbsp;&nbsp;<h5 style={{float : "right" , padding : 0 , marginTop : '8px' , fontSize : 14 , fontWeight : 100 }}>12</h5> <i className={"bx bx-show"} style={{ float : 'right' , fontSize : 17 , marginTop : 10 , marginRight : 5}}></i>&nbsp;&nbsp; </span>
                         <span>{data.price !== 0 ? data.price + " تومان " : 'رایگان'}</span>
                     </li>
                 </ul>

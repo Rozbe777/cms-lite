@@ -252,7 +252,7 @@ const Index = () => {
 
             <SearchComponent category={itemCat => HandleSearchCategory(itemCat)}/>
 
-            <div className={"container"} style={{marginTop: '20px'}}>
+            <div className={"container-fluid"} style={{marginTop: '20px' , padding : '0px 4px'}}>
                 <div className={"row"} style={{padding: 10}}>
                     {loading === false ? contentNew.length > 0 ? contentNew.map(item => {
                         return (

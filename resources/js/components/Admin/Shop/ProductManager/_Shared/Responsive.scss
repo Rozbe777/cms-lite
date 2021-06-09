@@ -191,6 +191,10 @@ body.active-darked {
         }
     }
 
+    .dropdown-divider {
+        border-top: $itemBorder !important;
+    }
+
     .form-control.selectVal {
         background: $itemBackground !important;
         border: $itemBorder !important;
@@ -199,6 +203,31 @@ body.active-darked {
 
     a:hover span {
         color: $titleHover !important;
+    }
+
+    .dropdown-user-link {
+        background: $background !important;
+
+        &:focus {
+            background: $background !important;
+        }
+    }
+
+    .dropdown-user {
+        .dropdown-menu {
+            border: $itemBorder !important;
+
+            &::before {
+                width: 15px;
+                clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+                content: '';
+                background-color: $itemBackground !important;
+                border: none;
+                height: 10px;
+                transform: rotate(0deg);
+                top: -9px;
+            }
+        }
     }
 
     #breadCrumb {
@@ -361,34 +390,39 @@ body.active-darked {
 
     }
 
-    .content-body{
-        border-top : $itemBorder !important;
+    .content-body {
+        border-top: $itemBorder !important;
         margin-top: 0px !important;
         padding-top: 15px !important;
     }
-    .content-header{
-        margin  : 0px 0px !important;
+
+    .content-header {
+        margin: 0px 0px !important;
     }
 
-    #theme_setting_component{
+    #theme_setting_component {
         border-top: $itemBorder !important;
     }
+
     .main-active-theme {
         background: $itemBackground !important;
 
-        p{
+        p {
             color: $color;
         }
+
         .big-img {
             background: #000 !important;
 
             .header {
                 background: #000 !important;
-                .sss{
+
+                .sss {
                     background: $background !important;
                 }
             }
         }
+
         .mid-img {
             background: #000 !important;
 
@@ -396,10 +430,12 @@ body.active-darked {
                 background: $background !important;
 
             }
-            span{
-                  background: $background !important;
-              }
+
+            span {
+                background: $background !important;
+            }
         }
+
         .min-img {
             background: #000 !important;
 
@@ -407,9 +443,10 @@ body.active-darked {
                 background: $background !important;
 
             }
-            span{
-                  background: $background !important;
-              }
+
+            span {
+                background: $background !important;
+            }
         }
     }
 
@@ -611,6 +648,73 @@ body.active-darked {
 
     .content-pages {
         background: $background !important;
+    }
+
+    a#password-tab {
+        color: #000 !important;
+
+        &:hover span {
+            color: #000 !important;
+        }
+
+        &.active {
+            color: #fff !important;;
+            border-bottom: none !important;
+
+            &:hover span {
+                color: #fff !important;
+            }
+        }
+    }
+
+    a#account-tab {
+        color: #000 !important;
+
+        &:hover span {
+            color: #000 !important;
+        }
+
+        &.active {
+            color: #fff !important;;
+            border-bottom: none !important;
+
+            &:hover span {
+                color: #fff !important;
+            }
+        }
+    }
+
+    .item-product {
+        background: $itemBackground !important;
+
+        ul {
+            li {
+                p {
+                    color: $color !important;
+                }
+
+                border-bottom: $itemBorder !important;
+            }
+
+            li:nth-child(2) {
+                span:nth-child(1) {
+                    font-size: 16px;
+                    float: right;
+                }
+
+                span:nth-child(2) {
+                    padding: 10px 0px;
+                    margin-right: -10px;
+                }
+
+                color: $color !important;
+                border-bottom: unset !important;
+            }
+        }
+
+        label {
+            background: unset !important;
+        }
     }
 
 }
