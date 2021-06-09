@@ -701,8 +701,9 @@ body.active-darked {
                 }
 
                 span:nth-child(2) {
-                    padding: 10px 0px;
-                    margin-right: -10px;
+                    h5{
+                        color: $color !important;
+                    }
                 }
 
                 color: $color !important;
