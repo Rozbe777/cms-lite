@@ -31,7 +31,7 @@ class ProductRepository implements RepositoryInterface
             });
         })->when(!empty($status), function ($query) use ($status) {
             $query->where('status', $status);
-        })->with('user')->with('view_counts')
+        })->with('user')->with('viewCounts')
             ->when(!empty($categories), function ($query) use ($categories) {
                 $query->with(['categories' => function ($query) use ($categories) {
                     $query->whereIn('categories.id', $categories);
@@ -53,15 +53,53 @@ class ProductRepository implements RepositoryInterface
         $instance->save();
     }
 
+    /**
+     * @param $product
+     * @return mixed
+     */
     public function delete($product)
     {
         $product->update(['status' => 'deactivate']);
         return $product->delete();
     }
 
-    public function update(array $data, $id)
+    /**
+     * @param array $data
+     * @param $product
+     * @return mixed
+     */
+    public function update(array $data, $product)
     {
-        // TODO: Implement update() method.
+        $data['slug'] = $this->slugHandler($data['slug']);
+
+        $tag_list = $data['tag_list'] ?? [];
+        unset($data["tag_list"]);
+
+        $category_list = $data['category_list'] ?? [];
+        unset($data["category_list"]);
+
+        if (!empty($data['image']))
+            $data['image'] = $this->imageHandler($data['image']);
+
+        /** modify tag relations in database tables */
+        foreach ($tag_list as $tag) {
+            $tag = Tag::firstOrCreate(
+                ['name' => $tag],
+                ['user_id' => Auth::id()]
+            );
+            if ($tag->wasRecentlyCreated) {
+                $content->tags()->attach($tag);
+            } else {
+                $content->tags()->sync($tag);
+            }
+        }
+        /** modify category relations in database tables */
+        foreach ($category_list as $category) {
+            $category = Category::findOrFail((int)$category);
+            $content->categories()->attach($category);
+        }
+
+        return $content->update($data);
     }
 
     public function create(array $data)

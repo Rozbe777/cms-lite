@@ -37,7 +37,6 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
-
     public function viewCounts()
     {
         return $this->morphOne(ViewCount::class, 'viewcountable');
