@@ -22,6 +22,7 @@ class ProductController extends Controller
     protected $repository;
 
     use ResponsesTrait;
+
     public function __construct(ProductRepository $repository)
     {
         $this->repository = $repository;
@@ -71,7 +72,7 @@ class ProductController extends Controller
      * Display the specified resource.
      *
      * @param Product $product
-     * @return Factory|View|JsonResponse|Response
+     * @return Factory|JsonResponse|View
      */
     public function show(Product $product)
     {
@@ -85,7 +86,7 @@ class ProductController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Product $product
-     * @return Factory|View|Response
+     * @return Factory|View
      */
     public function edit(Product $product)
     {
@@ -97,22 +98,22 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      *
      * @param EditProductRequest $request
-     * @param Content $content
-     * @return Factory|View|JsonResponse|Response
+     * @param Product $product
+     * @return Factory|JsonResponse|View
      */
-    public function update(EditProductRequest $request, Content $content)
+    public function update(EditProductRequest $request, Product $product)
     {
-        $this->repository->update($request->all(), $content);
-        $content->load('tags')->load('categories')->load('viewCounts');
+        $this->repository->update($request->all(), $product);
+        $product->load('tags')->load('categories')->load('viewCounts');
 
-        return $this->message(__('message.success.200'))->view('pages.admin.content.edit')->data($content)->success();
+        return $this->message(__('message.success.200'))->view('pages.admin.content.edit')->data($product)->success();
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Product $product
-     * @return Factory|View|JsonResponse|Response
+     * @return Factory|JsonResponse|View
      */
     public function destroy(Product $product)
     {
