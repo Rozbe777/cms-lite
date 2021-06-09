@@ -148,8 +148,64 @@ $itemBorder: solid 1px #464D5C;
 $title: #bdd1f8;
 $titleHover: #00e5ff;
 $focusHover: solid 1px #00e5ff;
-body.darkedd {
+body.active-darked {
     background: $background !important;
+
+
+    table {
+        color: $color !important;
+
+        th {
+            color: $color !important;
+        }
+    }
+
+    .deleteRecordButton {
+        color: $color !important;
+    }
+
+    .checkbox {
+        label {
+            background: $itemBackground !important;
+            color: $color !important;
+        }
+    }
+
+    .dropdown-menu, .dropdown-menu-right, .show {
+        background: $itemBackground !important;
+        color: $color !important;
+
+        .dropdown-item {
+            color: $color !important;
+
+            &:hover {
+                background: $background !important;
+            }
+        }
+
+        &::before {
+            right: 20px !important;
+            left: unset !important;
+            margin: unset !important;
+            background: $itemBackground !important;
+        }
+    }
+
+    .form-control.selectVal {
+        background: $itemBackground !important;
+        border: $itemBorder !important;
+        color: $color !important;
+    }
+
+    a:hover span {
+        color: $titleHover !important;
+    }
+
+    #breadCrumb {
+        span {
+            color: $color !important;
+        }
+    }
 
     .navbar-container {
         background: $background !important;
@@ -214,6 +270,52 @@ body.darkedd {
         }
     }
 
+    #bigest {
+        li {
+            color: $color !important;
+        }
+    }
+
+
+    .bottom-footer {
+        border-top: $itemBorder;
+        background: $itemBackground !important;
+        color: $color !important;
+
+        #clear {
+            color: $color !important;
+        }
+    }
+
+    .se-wrapper-inner, .se-wrapper-wysiwyg, .sun-editor-editable {
+        color: $color !important;
+        background: $itemBackground !important;
+    }
+
+
+    .se-toolbar, .sun-editor-common {
+        background: $itemBackground !important;
+        color: $color !important;
+    }
+
+    .se-btn, .se-tooltip {
+        color: $color !important;
+    }
+
+    textarea {
+        background: $itemBackground !important;
+        color: $color !important;
+        border: $itemBorder !important;
+
+        &::placeholder {
+            color: $color !important;
+        }
+
+        &:focus {
+            border: $focusHover !important;
+        }
+    }
+
     a {
         color: $color !important;
 
@@ -234,32 +336,125 @@ body.darkedd {
         ul {
             background: $itemBackground !important;
             border: $itemBorder !important;
-            li::after{
+
+            li::after {
                 left: -15px !important;
                 background: #464D5C !important;;
             }
         }
     }
-    h1,h2,h3,h4{
+
+    ul.flex-column {
+        li {
+            margin-bottom: 10px !important;
+
+            a {
+                background: $itemBackground !important;
+                border: none !important;
+
+                &.active {
+                    border: none !important;
+                    border-right: 3px solid $titleHover !important;
+                }
+            }
+        }
+
+    }
+
+    .content-body{
+        border-top : $itemBorder !important;
+        margin-top: 0px !important;
+        padding-top: 15px !important;
+    }
+    .content-header{
+        margin  : 0px 0px !important;
+    }
+
+    #theme_setting_component{
+        border-top: $itemBorder !important;
+    }
+    .main-active-theme {
+        background: $itemBackground !important;
+
+        p{
+            color: $color;
+        }
+        .big-img {
+            background: #000 !important;
+
+            .header {
+                background: #000 !important;
+                .sss{
+                    background: $background !important;
+                }
+            }
+        }
+        .mid-img {
+            background: #000 !important;
+
+            .contents {
+                background: $background !important;
+
+            }
+            span{
+                  background: $background !important;
+              }
+        }
+        .min-img {
+            background: #000 !important;
+
+            .contents {
+                background: $background !important;
+
+            }
+            span{
+                  background: $background !important;
+              }
+        }
+    }
+
+    .main-box-item {
+        background: $itemBackground !important;
+
+        #toppoint {
+            background: $itemBackground !important;
+        }
+    }
+
+    h1, h2, h3, h4, h5, h6 {
         color: $titleHover !important;
     }
-    .card{
+
+    select.form-control {
+        background: $itemBackground !important;
+        border: $itemBorder !important;
+        color: $color !important;
+
+    }
+
+    .card {
         background: $itemBackground !important;
         color: $titleHover !important;
     }
 
-    .bg-authentication{
+    .bg-authentication {
         background: $itemBackground !important;
     }
-    .main-selected{
+
+    .main-selected {
         background: $itemBackground !important;
         border: $itemBorder !important;
         color: $color !important;
         height: 47px !important;
-        #box-droper{
+
+        #box-droper {
             background: $background !important;
             height: 44px !important;
             border-radius: 5px !important;
+        }
+
+        .optionBox {
+            background: $itemBackground !important;
         }
     }
 
@@ -269,7 +464,7 @@ body.darkedd {
         background-color: #272E48 !important;
     }
 
-    .verifyForm{
+    .verifyForm {
         color: $color !important;
         background-color: #272E48 !important;
     }
@@ -323,7 +518,100 @@ body.darkedd {
 
     }
 
+    .page-link {
+        background: $itemBackground !important;
+    }
 
+    .checkboxeds {
+        color: $itemBackground !important;
+
+        &.active {
+            color: #fff !important;
+        }
+    }
+
+    .switch-container {
+        border: $itemBorder !important;
+        color: $color !important;
+
+        .showState {
+            color: $color !important;
+        }
+
+        .showMenu {
+            color: $color !important;
+        }
+    }
+
+    #li-div {
+        background: $itemBackground !important;
+        color: $color !important;
+    }
+
+    .chips_input {
+        background: $background !important;
+
+        &:focus {
+            border: unset !important;
+        }
+    }
+
+    .nav.nav-tabs {
+        border: unset !important;
+    }
+
+    .AddressType {
+        color: $color !important;
+    }
+
+    .fucks {
+        background: $itemBackground !important;
+        cursor: not-allowed !important;
+    }
+
+    .nav-link {
+        color: $color !important;
+
+        &.active {
+            color: $titleHover !important;
+            border-bottom: 3px solid $titleHover !important;
+
+            .align-middle {
+                color: $titleHover;
+            }
+        }
+    }
+
+    .nav.nav-tabs.tab-layout {
+        background: $itemBackground !important;
+        border-radius: 0px !important;
+
+        &.active {
+            color: $color !important;
+            border-bottom: 3px solid $color !important;
+        }
+    }
+
+
+    .chip {
+        background: $itemBackground !important;
+
+        .chip-text {
+            color: $color !important;
+        }
+
+        .chip-closeable {
+            background: $background !important;
+        }
+    }
+
+    #chip-box {
+        border: $itemBorder !important;
+    }
+
+    .content-pages {
+        background: $background !important;
+    }
 
 }
 

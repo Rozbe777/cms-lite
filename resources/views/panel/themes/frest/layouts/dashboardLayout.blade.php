@@ -13,7 +13,7 @@
 <!-- END: Head-->
 
 <!-- BEGIN: Body-->
-<body class="darkedd vertical-layout vertical-menu-modern boxicon-layout no-card-shadow 2-columns  navbar-sticky footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+<body class="vertical-layout vertical-menu-modern boxicon-layout no-card-shadow 2-columns  navbar-sticky footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
 
 @include('panel.themes.frest.includes.header')
 <!-- END: Head-->
