@@ -15,10 +15,11 @@ class CreateAttributesTable extends Migration
     {
         Schema::create('attributes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
             $table->bigInteger('product_id')->index();
             $table->bigInteger('product_code')->unique();
             $table->bigInteger('price');
+            $table->bigInteger('discount')->default(0);
+            $table->enum('discount_status',['active','deactivate'])->default('active');
             $table->bigInteger('count')->default(0);
             $table->integer('limit')->default(0);
             $table->softDeletes();

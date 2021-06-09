@@ -7,8 +7,7 @@ namespace App\Http\Controllers\Admin\Product\Traits;
 use App\Models\Attribute;
 use App\Models\Product;
 use App\Models\Type;
-use App\Models\TypeـFeature;
-use Illuminate\Support\Facades\Auth;
+use App\Models\TypeFeature;
 
 trait ProductTrait
 {
@@ -31,22 +30,36 @@ trait ProductTrait
         }
     }
 
-    public function featureHandler($features)
+    public function attributeHandler($attribute,$p_id)
     {
-        foreach ($features as $feature) {
+        $data = Attribute::updateOrCreate(
+            [ "product_id" => $p_id , "product_code" => $attribute['product_code']],
+            [ "price" => $attribute['price'], "count" => $attribute['count'], "limit" => $attribute['limit']]
+        );
+    }
+
+    public function featureHandler($features, $attr_id)
+    {
+
             $data = Type::firstOrCreate(
-                ['name' => $feature['name']],
-                ['type' => $feature['type']]
+                ['name' => $features['name'], "attribute_id" => $attr_id]
             );
 
-            $item = TypeـFeature::updateOrCreate(
-//                [ "type_id" =>  ]
+            $feature = TypeFeature::firstOrCreate(
+                [ "type_id" => $data->id, "attribute_id" => $attr_id,"title" => $features['title'] , "value" => $features['value']],
+
             );
-        }
+
     }
 
-    public function attributeHandler()
+    public function tagHandler($tag_list)
     {
 
     }
+
+    public function categoryHandler($category_list)
+    {
+
+    }
+
 }

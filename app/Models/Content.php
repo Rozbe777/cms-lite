@@ -88,16 +88,20 @@ class Content extends Model
 //        $i = 0;
 //        $content = [];
 //        $categories = $this->categories;
-//        foreach ($categories as $cat) {
-//            foreach ($cat->contents as $contents) {
-//                if ($contents->id != $this->id && !in_array($contents->id, $id) && $i < config("view.list.number")) {
+//        if (count($categories) > 0) {
+//            foreach ($categories as $cat) {
+//                foreach ($cat->contents as $contents) {
+//                    if ($contents->id != $this->id && !in_array($contents->id, $id) && $i < config("view.list.number")) {
 //                        $id[] = $contents->id;
 //                        $content[$i] = $contents;
 //                        $i++;
+//
 //                    }
+//                }
 //            }
+//            return $content;
 //        }
-//        return $content;
+//        return false;
 //    }
 
 }

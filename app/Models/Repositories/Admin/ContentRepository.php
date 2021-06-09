@@ -29,7 +29,7 @@ class ContentRepository implements RepositoryInterface
                 $q->where('title', 'like', '%' . $search . '%')
                     ->orWhere('slug', 'like', '%' . $search . '%')
                     ->orWhere('content', 'like', '%' . $search . '%');
-            });
+            })->where('owner', 'content');
         })
             ->when(!empty($status), function ($query) use ($status) {
                 $query->where('status', $status);
