@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin\Product;
 
 use App\Classes\Responses\Admin\ResponsesTrait;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Product\CreateProductRequest;
+use App\Http\Requests\Admin\Product\EditProductRequest;
 use App\Http\Requests\Admin\Product\MultipleDestroyRequest;
-use App\Http\Requests\CreateProductRequest;
-use App\Http\Requests\SearchProductRequest;
+use App\Http\Requests\Admin\Product\SearchProductRequest;
 use App\Models\Product;
 use App\Models\Repositories\Admin\ProductRepository;
 use Illuminate\Contracts\View\Factory;
@@ -60,7 +61,9 @@ class ProductController extends Controller
     {
         $product = $this->repository->create($request->all());
 
-        return $this->message(__('message.success.200'))->data($product)->view('pages.admin.product.show')->success();
+        return (!$product) ?
+            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.product.index")->error() :
+            $this->data($product)->message(__('message.success.200'))->view("pages.admin.product.index")->success();
     }
 
 
@@ -73,39 +76,42 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         $this->repository->get($product);
-        $content = $product->load('tags')->load('categories')->load('attributes');
+        $product = $product->load('tags')->load('categories')->load('attributes')->load('viewCounts');
 
-        return $this->message(__('message.success.200'))->data($content)->view('pages.admin.product.show')->success();
+        return $this->message(__('message.success.200'))->data($product)->view('pages.admin.product.show')->success();
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param Product $product
      * @return Factory|View|Response
      */
     public function edit(Product $product)
     {
         $product->load('tags')->load('categories')->load('viewCounts');
-        return adminView("pages.admin.product.edit", compact('product'));
+        return $this->message(__('message.success.200'))->data($product)->view('pages.admin.product.edit')->success();
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return Response
+     * @param EditProductRequest $request
+     * @param Content $content
+     * @return Factory|View|JsonResponse|Response
      */
-    public function update(Request $request, $id)
+    public function update(EditProductRequest $request, Content $content)
     {
-        //
+        $this->repository->update($request->all(), $content);
+        $content->load('tags')->load('categories')->load('viewCounts');
+
+        return $this->message(__('message.success.200'))->view('pages.admin.content.edit')->data($content)->success();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param Product $product
      * @return Factory|View|JsonResponse|Response
      */
     public function destroy(Product $product)
@@ -115,6 +121,10 @@ class ProductController extends Controller
         return $this->message(__('message.content.destroy.successful'))->view('pages.admin.product.index')->success();
     }
 
+    /**
+     * @param MultipleDestroyRequest $request
+     * @return Factory|View|JsonResponse
+     */
     public function multipleDestroy(multipleDestroyRequest $request)
     {
         $this->repository->multipleDestroy($request->all());

@@ -31,7 +31,7 @@ class ProductRepository implements RepositoryInterface
             });
         })->when(!empty($status), function ($query) use ($status) {
             $query->where('status', $status);
-        })->with('user')
+        })->with('user')->with('view_counts')
             ->when(!empty($categories), function ($query) use ($categories) {
                 $query->with(['categories' => function ($query) use ($categories) {
                     $query->whereIn('categories.id', $categories);
