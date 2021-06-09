@@ -1,11 +1,8 @@
-
 <script src="{{asset('js/app.js')}}"></script>
 
 <!-- BEGIN: Vendor JS-->
 <script src="{{adminTheme("vendors/js/vendors.min.js")}}"></script>
 <!-- BEGIN Vendor JS-->
-
-
 
 
 <!-- BEGIN: Page JS-->
@@ -26,17 +23,38 @@
 {{--<script src="{{adminTheme("vendors/js/forms/select/jquery.repeater.min.js")}}"></script>--}}
 
 
+<script>
+    $(document).ready(function () {
+        let localDarked = localStorage.getItem("darked");
+        console.log(localDarked)
+        if (localDarked === "dark"){
+            $("body").addClass("active-darked");
+            $("#customSwitch10").prop("checked" , true)
+        }else{
+            $("body").removeClass("active-darked");
+            $("#customSwitch10").prop("checked" , false)
+        }
+
+        $("#customSwitch10").on("change", function () {
+            if ($(this).prop("checked")) {
+                $("body").addClass("active-darked");
+                localStorage.setItem("darked" , "dark")
+            } else {
+                $("body").removeClass("active-darked");
+                localStorage.setItem("darked" , "light")
+
+            }
+
+        })
 
 
-
+    })
+</script>
 
 
 <script src="{{adminTheme("js/scripts/forms/select/form-select2.js")}}"></script>
 
 <!-- END: Page JS-->
-
-
-
 
 
 <!-- BEGIN: Theme JS-->

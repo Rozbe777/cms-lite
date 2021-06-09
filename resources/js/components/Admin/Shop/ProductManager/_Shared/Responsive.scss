@@ -148,151 +148,470 @@ $itemBorder: solid 1px #464D5C;
 $title: #bdd1f8;
 $titleHover: #00e5ff;
 $focusHover: solid 1px #00e5ff;
-body {
+body.active-darked {
     background: $background !important;
-}
 
-.navbar-container {
-    background: $background !important;
-    color: $color !important;
-}
 
-#headerContent {
-    background: $background !important;
-    color: $color !important;
-}
+    table {
+        color: $color !important;
 
-.itemUserShow {
-    background: $itemBackground !important;
-    color: $color !important;
-    border: $itemBorder !important;
-}
-
-.content-wrapper {
-    border-top: $itemBorder !important;
-}
-
-.users-list-filter {
-    border-top: $itemBorder !important;
-    border-bottom: $itemBorder !important;
-
-    .main-options-sel {
-        height: 47px !important;
-
-        .option-icon {
+        th {
             color: $color !important;
-            background: $background !important;
+        }
+    }
 
-            i {
-                color: $color !important;
+    .deleteRecordButton {
+        color: $color !important;
+    }
+
+    .checkbox {
+        label {
+            background: $itemBackground !important;
+            color: $color !important;
+        }
+    }
+
+    .dropdown-menu, .dropdown-menu-right, .show {
+        background: $itemBackground !important;
+        color: $color !important;
+
+        .dropdown-item {
+            color: $color !important;
+
+            &:hover {
+                background: $background !important;
             }
         }
 
-        #content {
+        &::before {
+            right: 20px !important;
+            left: unset !important;
+            margin: unset !important;
             background: $itemBackground !important;
+        }
+    }
 
-            ul {
-                li:hover {
-                    color: $titleHover !important;
+    .form-control.selectVal {
+        background: $itemBackground !important;
+        border: $itemBorder !important;
+        color: $color !important;
+    }
+
+    a:hover span {
+        color: $titleHover !important;
+    }
+
+    #breadCrumb {
+        span {
+            color: $color !important;
+        }
+    }
+
+    .navbar-container {
+        background: $background !important;
+        color: $color !important;
+    }
+
+    #headerContent {
+        background: $background !important;
+        color: $color !important;
+    }
+
+    .itemUserShow {
+        background: $itemBackground !important;
+        color: $color !important;
+        border: $itemBorder !important;
+    }
+
+    .content-wrapper {
+        border-top: $itemBorder !important;
+    }
+
+    .users-list-filter {
+        border-top: $itemBorder !important;
+        border-bottom: $itemBorder !important;
+
+        .main-options-sel {
+            height: 47px !important;
+
+            .option-icon {
+                color: $color !important;
+                background: $background !important;
+
+                i {
+                    color: $color !important;
+                }
+            }
+
+            #content {
+                background: $itemBackground !important;
+
+                ul {
+                    li:hover {
+                        color: $titleHover !important;
+                    }
                 }
             }
         }
     }
-}
 
-input {
-    background: $itemBackground !important;
-    color: $color !important;
-    border: $itemBorder !important;
-    height: 47px !important;
+    input {
+        background: $itemBackground !important;
+        color: $color !important;
+        border: $itemBorder !important;
+        height: 47px !important;
 
-    &::placeholder {
+        &::placeholder {
+            color: $color !important;
+        }
+
+        &:focus {
+            border: $focusHover !important;
+        }
+    }
+
+    #bigest {
+        li {
+            color: $color !important;
+        }
+    }
+
+
+    .bottom-footer {
+        border-top: $itemBorder;
+        background: $itemBackground !important;
+        color: $color !important;
+
+        #clear {
+            color: $color !important;
+        }
+    }
+
+    .se-wrapper-inner, .se-wrapper-wysiwyg, .sun-editor-editable {
+        color: $color !important;
+        background: $itemBackground !important;
+    }
+
+
+    .se-toolbar, .sun-editor-common {
+        background: $itemBackground !important;
         color: $color !important;
     }
 
-    &:focus {
-        border: $focusHover !important;
-    }
-}
-
-a {
-    color: $color !important;
-
-    &.activeUser {
-        color: #00c853 !important;
+    .se-btn, .se-tooltip {
+        color: $color !important;
     }
 
-    &:hover span {
+    textarea {
+        background: $itemBackground !important;
+        color: $color !important;
+        border: $itemBorder !important;
+
+        &::placeholder {
+            color: $color !important;
+        }
+
+        &:focus {
+            border: $focusHover !important;
+        }
+    }
+
+    a {
+        color: $color !important;
+
+        &.activeUser {
+            color: #00c853 !important;
+        }
+
+        &:hover span {
+            color: $titleHover !important;
+        }
+    }
+
+    label {
+        color: $color !important;
+    }
+
+    a.moreOptions {
+        ul {
+            background: $itemBackground !important;
+            border: $itemBorder !important;
+
+            li::after {
+                left: -15px !important;
+                background: #464D5C !important;;
+            }
+        }
+    }
+
+    ul.flex-column {
+        li {
+            margin-bottom: 10px !important;
+
+            a {
+                background: $itemBackground !important;
+                border: none !important;
+
+                &.active {
+                    border: none !important;
+                    border-right: 3px solid $titleHover !important;
+                }
+            }
+        }
+
+    }
+
+    .content-body{
+        border-top : $itemBorder !important;
+        margin-top: 0px !important;
+        padding-top: 15px !important;
+    }
+    .content-header{
+        margin  : 0px 0px !important;
+    }
+
+    #theme_setting_component{
+        border-top: $itemBorder !important;
+    }
+    .main-active-theme {
+        background: $itemBackground !important;
+
+        p{
+            color: $color;
+        }
+        .big-img {
+            background: #000 !important;
+
+            .header {
+                background: #000 !important;
+                .sss{
+                    background: $background !important;
+                }
+            }
+        }
+        .mid-img {
+            background: #000 !important;
+
+            .contents {
+                background: $background !important;
+
+            }
+            span{
+                  background: $background !important;
+              }
+        }
+        .min-img {
+            background: #000 !important;
+
+            .contents {
+                background: $background !important;
+
+            }
+            span{
+                  background: $background !important;
+              }
+        }
+    }
+
+    .main-box-item {
+        background: $itemBackground !important;
+
+        #toppoint {
+            background: $itemBackground !important;
+        }
+    }
+
+    h1, h2, h3, h4, h5, h6 {
         color: $titleHover !important;
     }
-}
 
-label {
-    color: $color !important;
-}
-
-a.moreOptions {
-    ul {
+    select.form-control {
         background: $itemBackground !important;
         border: $itemBorder !important;
-        li::after{
-            left: -15px !important;
-            background: #464D5C !important;;
+        color: $color !important;
+
+    }
+
+    .card {
+        background: $itemBackground !important;
+        color: $titleHover !important;
+    }
+
+    .bg-authentication {
+        background: $itemBackground !important;
+    }
+
+    .main-selected {
+        background: $itemBackground !important;
+        border: $itemBorder !important;
+        color: $color !important;
+        height: 47px !important;
+
+        #box-droper {
+            background: $background !important;
+            height: 44px !important;
+            border-radius: 5px !important;
+        }
+
+        .optionBox {
+            background: $itemBackground !important;
         }
     }
-}
 
-.main-options-sel {
-    color: $color !important;
-    border: $itemBorder !important;
-    background-color: #272E48 !important;
-}
-
-.main-menu {
-    background: $background !important;
-    color: $color !important;
-
-    .main-menu-content {
-        background: $background !important;
+    .main-options-sel {
         color: $color !important;
-    }
-
-    .nav-item.has-sub.open {
-        border-radius: 0.267rem !important;
         border: $itemBorder !important;
         background-color: #272E48 !important;
-
-        .menu-content {
-            background-color: #272E48 !important;
-        }
     }
 
-    .nav-item.has-sub {
-        min-height: 45px !important;
-        border-radius: 0.267rem !important;
-        border: $itemBorder !important;
+    .verifyForm {
+        color: $color !important;
         background-color: #272E48 !important;
-        margin-bottom: 10px !important;
-
-        .menu-content {
-            background-color: #272E48 !important;
-
-        }
     }
 
-    .navigation-main {
+    .main-menu {
         background: $background !important;
         color: $color !important;
-    }
 
-    .navbar-header {
-        ul {
+        .main-menu-content {
             background: $background !important;
             color: $color !important;
         }
 
-        background: $background !important;
+        .nav-item.has-sub.open {
+            border-radius: 0.267rem !important;
+            border: $itemBorder !important;
+            background-color: #272E48 !important;
+
+            .menu-content {
+                background-color: #272E48 !important;
+            }
+        }
+
+        .nav-item.has-sub {
+            min-height: 45px !important;
+            border-radius: 0.267rem !important;
+            border: $itemBorder !important;
+            background-color: #272E48 !important;
+            margin-bottom: 10px !important;
+
+            .menu-content {
+                background-color: #272E48 !important;
+
+            }
+        }
+
+        .navigation-main {
+            background: $background !important;
+            color: $color !important;
+        }
+
+        .navbar-header {
+            ul {
+                background: $background !important;
+                color: $color !important;
+            }
+
+            background: $background !important;
+            color: $color !important;
+        }
+
+    }
+
+    .page-link {
+        background: $itemBackground !important;
+    }
+
+    .checkboxeds {
+        color: $itemBackground !important;
+
+        &.active {
+            color: #fff !important;
+        }
+    }
+
+    .switch-container {
+        border: $itemBorder !important;
+        color: $color !important;
+
+        .showState {
+            color: $color !important;
+        }
+
+        .showMenu {
+            color: $color !important;
+        }
+    }
+
+    #li-div {
+        background: $itemBackground !important;
         color: $color !important;
     }
 
+    .chips_input {
+        background: $background !important;
+
+        &:focus {
+            border: unset !important;
+        }
+    }
+
+    .nav.nav-tabs {
+        border: unset !important;
+    }
+
+    .AddressType {
+        color: $color !important;
+    }
+
+    .fucks {
+        background: $itemBackground !important;
+        cursor: not-allowed !important;
+    }
+
+    .nav-link {
+        color: $color !important;
+
+        &.active {
+            color: $titleHover !important;
+            border-bottom: 3px solid $titleHover !important;
+
+            .align-middle {
+                color: $titleHover;
+            }
+        }
+    }
+
+    .nav.nav-tabs.tab-layout {
+        background: $itemBackground !important;
+        border-radius: 0px !important;
+
+        &.active {
+            color: $color !important;
+            border-bottom: 3px solid $color !important;
+        }
+    }
+
+
+    .chip {
+        background: $itemBackground !important;
+
+        .chip-text {
+            color: $color !important;
+        }
+
+        .chip-closeable {
+            background: $background !important;
+        }
+    }
+
+    #chip-box {
+        border: $itemBorder !important;
+    }
+
+    .content-pages {
+        background: $background !important;
+    }
+
 }
+

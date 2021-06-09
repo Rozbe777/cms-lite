@@ -266,7 +266,7 @@ export const ContentList = () => {
                 }}/>
 
                 <div className={"loaderErrorBack"}>
-                    <div clssName={"container"}>
+                    <div className={"container"}>
                         <div className={"row justify-content-center"}>
                             <div className={"col-lg-4 col-md-5 col-sm-10"} style={{top: '14vh'}}>
                                 <div className={"cardError"}>
