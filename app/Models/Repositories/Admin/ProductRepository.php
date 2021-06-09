@@ -69,17 +69,34 @@ class ProductRepository implements RepositoryInterface
      * @return mixed
      */
     public function update(array $data, $product)
-    {
+    {dd($data);
+        unset($data['_token']);
+
         $data['slug'] = $this->slugHandler($data['slug']);
 
-        $tag_list = $data['tag_list'] ?? [];
+        $tag_list = $data['tag_list'] ?? null;
         unset($data["tag_list"]);
 
-        $category_list = $data['category_list'] ?? [];
-        unset($data["category_list"]);
+        $categoryIds = $data['categoryIds'] ?? null;
+        unset($data["categoryIds"]);
 
+        $features = $data['features'] ?? null;
+        unset($data['features']);
+
+        $attributes = $data['attributes'] ?? null;
+        unset($data['attributes']);
+
+        $data['user_id'] = Auth::id();
         if (!empty($data['image']))
             $data['image'] = $this->imageHandler($data['image']);
+        else
+            unset($data['image']);
+
+        if (!empty($attributes))
+            $att = $this->attributeHandler($attributes, $product->id);
+
+        if (!empty($features))
+            $this->featureUpdateHandler($features, $att->id);
 
         /** modify tag relations in database tables */
         foreach ($tag_list as $tag) {
@@ -88,18 +105,18 @@ class ProductRepository implements RepositoryInterface
                 ['user_id' => Auth::id()]
             );
             if ($tag->wasRecentlyCreated) {
-                $content->tags()->attach($tag);
+                $product->tags()->attach($tag);
             } else {
-                $content->tags()->sync($tag);
+                $product->tags()->sync($tag);
             }
         }
         /** modify category relations in database tables */
-        foreach ($category_list as $category) {
+        foreach ($categoryIds as $category) {
             $category = Category::findOrFail((int)$category);
-            $content->categories()->attach($category);
+            $product->categories()->attach($category);
         }
 
-        return $content->update($data);
+        return $product->update($data);
     }
 
     public function create(array $data)
@@ -128,10 +145,10 @@ class ProductRepository implements RepositoryInterface
         $product = Product::create($data);
 
         if (!empty($attributes))
-            $this->attributeHandler($attributes, $product->id);
+            $att = $this->attributeHandler($attributes, $product->id);
 
         if (!empty($features))
-            $this->featureHandler($features, 1);
+            $this->featureHandler($features, $att->id);
 
         $product->viewCounts()->create();
 
