@@ -13,7 +13,7 @@ class Product extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
-    protected $appends = ['jalali_created_at', 'url',
+    protected $appends = ['jalali_created_at',
 //        'related_content'
     ];
 
