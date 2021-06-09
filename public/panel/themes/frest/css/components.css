@@ -5067,4 +5067,32 @@ input::placeholder{
 }
 
 
+.itemUserShow span:nth-child(5){
+    border-left: unset !important;
+}
 
+
+.item-product ul li span:nth-child(1){
+  font-size: 14px !important;
+}
+
+
+.dropdown-divider {
+    margin: 0px !important;
+}
+.dropdown-menu{
+    padding: 0px !important;
+}
+.dropdown-menu a:hover{
+    border-radius: 5px !important;
+}
+.switch-icon-left i{
+    font-size: 12px !important;
+    margin-top: 2px !important;
+    margin-right: 3px !important;
+}
+.switch-icon-right i{
+    font-size: 12px !important;
+    margin-top: 2px !important;
+    margin-left: 1px !important;
+}

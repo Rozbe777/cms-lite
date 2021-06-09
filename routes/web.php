@@ -31,11 +31,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //Route::get('/test', function () {
-//    $user = \App\Model\User::first();
-//    (new \App\Classes\Notifier\Notifier())->sms()
-//        ->to($user)
-//        ->body("hi")
-//        ->send();
+//    $x = ["1",'2',"3",'4'];
 //});
 
 Route::get('/', function () {

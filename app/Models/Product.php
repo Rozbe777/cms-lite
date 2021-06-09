@@ -13,7 +13,9 @@ class Product extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
-    protected $appends = ['jalali_created_at', 'url', 'related_content'];
+    protected $appends = ['jalali_created_at',
+//        'related_content'
+    ];
 
     public function categories()
     {
@@ -34,7 +36,6 @@ class Product extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 
     public function viewCounts()
     {
@@ -59,20 +60,20 @@ class Product extends Model
         }
     }
 
-    public function getRelatedProductAttribute()
-    {
-        $id = [];
-        $i = 0;
-        $categories = $this->categories;
-        foreach ($categories as $cat) {
-            foreach ($cat->products as $products) {
-                if ($products->id != $this->id && !in_array($products->id, $id) && $i < config("view.list.number")) {
-                    $id[] = $products->id;
-                    $content[$i] = $products;
-                    $i++;
-                }
-            }
-        }
-        return $products;
-    }
+//    public function getRelatedProductAttribute()
+//    {
+//        $id = [];
+//        $i = 0;
+//        $categories = $this->categories;
+//        foreach ($categories as $cat) {
+//            foreach ($cat->products as $products) {
+//                if ($products->id != $this->id && !in_array($products->id, $id) && $i < config("view.list.number")) {
+//                    $id[] = $products->id;
+//                    $content[$i] = $products;
+//                    $i++;
+//                }
+//            }
+//        }
+//        return $products;
+//    }
 }

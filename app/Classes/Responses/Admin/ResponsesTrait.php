@@ -43,7 +43,7 @@ trait ResponsesTrait
                 response()->json([
                     "http_code" => $status,
                     "message" => $this->message,
-                    "data" => $this->data
+                    "data" => $data
                 ], $status);
         } else {
             return adminView($this->view,compact('data'))->with('success', $this->message);

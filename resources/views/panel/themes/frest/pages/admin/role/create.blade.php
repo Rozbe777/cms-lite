@@ -95,6 +95,7 @@
                                                                        style="z-index: 99"
                                                                        class="checkbox-input checkAll"
                                                                        id="{{$permission->id}}"
+                                                                       name="permissions[]" value="{{$permission->id}}"
                                                                        value="{{$permission->id}}"
                                                                        name="permissions[]"
                                                                        onclick="toggle(this,{{$permission->children}})">

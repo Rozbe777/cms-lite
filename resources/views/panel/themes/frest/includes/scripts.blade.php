@@ -1,11 +1,8 @@
-
 <script src="{{asset('js/app.js')}}"></script>
 
 <!-- BEGIN: Vendor JS-->
 <script src="{{adminTheme("vendors/js/vendors.min.js")}}"></script>
 <!-- BEGIN Vendor JS-->
-
-
 
 
 <!-- BEGIN: Page JS-->
@@ -26,17 +23,65 @@
 {{--<script src="{{adminTheme("vendors/js/forms/select/jquery.repeater.min.js")}}"></script>--}}
 
 
+<script>
+
+    // function msToHMS( ms ) {
+    //     // 1- Convert to seconds:
+    //     var seconds = ms / 1000;
+    //     // 2- Extract hours:
+    //     var hours = parseInt( seconds / 3600 ); // 3,600 seconds in 1 hour
+    //     seconds = seconds % 3600; // seconds remaining after extracting hours
+    //     // 3- Extract minutes:
+    //     var minutes = parseInt( seconds / 60 ); // 60 seconds in 1 minute
+    //     // 4- Keep only seconds not extracted to minutes:
+    //     seconds = seconds % 60;
+    //     alert( hours+" hours and "+minutes+" minutes and "+seconds+" seconds!" );
+    // }
+    $(document).ready(function () {
 
 
+        // const current = new Date();
+        //
+        // const hourse = current.getHours();
+        // const minutes = current.getMinutes();
+        // const sec = current.getSeconds();
+        // let miliHourse = parseInt((hourse * 3600000) + (minutes * 60000 ) + (sec * 1000));
+        //
+        // if (miliHourse > 68460000) {
+        //     console.log("night");
+        // } else {
+        //     console.log("rooz");
+        // }
 
+        let localDarked = localStorage.getItem("darked");
+        if (localDarked === "dark") {
+            $("body").addClass("active-darked");
+            $("input#customSwitch10").prop("checked", true)
+        } else {
+            $("body").removeClass("active-darked");
+            $("input#customSwitch10").prop("checked", false)
+        }
+
+        $("#customSwitch10").on("change", function () {
+            if ($(this).prop("checked")) {
+                $("body").addClass("active-darked");
+                localStorage.setItem("darked", "dark")
+            } else {
+                $("body").removeClass("active-darked");
+                localStorage.setItem("darked", "light")
+
+            }
+
+        })
+
+
+    })
+</script>
 
 
 <script src="{{adminTheme("js/scripts/forms/select/form-select2.js")}}"></script>
 
 <!-- END: Page JS-->
-
-
-
 
 
 <!-- BEGIN: Theme JS-->

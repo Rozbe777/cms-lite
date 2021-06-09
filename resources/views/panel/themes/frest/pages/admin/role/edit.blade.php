@@ -72,6 +72,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row" style="width: 100% ;padding: 0px ;margin: 0px">
 
                             @foreach($data['permissions'] as $permission)
@@ -81,9 +82,11 @@
                                         <fieldset>
                                             <div class="checkbox">
                                                 <input type="checkbox"
+                                                       id="{{$permission->id}}"
                                                        style="z-index: 99"
                                                        class="checkbox-input checkAll"
-                                                       {{in_array($permission->id , $data['rolePermissions'])?"checked":""}} onclick="toggle(this,{{$permission->childrenIds}})"
+                                                       onchange="toggle(this,{{$permission->children}})"
+                                                       {{in_array($permission->id , $data['rolePermissions'])?"checked":""}}
                                                        name="permissions[]" value="{{$permission->id}}">
                                                 <label
                                                     style="font-size: 16px;line-height: 1.5;background: #fff"
@@ -143,7 +146,9 @@
 @section("pageScripts")
     <script>
         function toggle(source, children) {
+            console.log("error : ")
             for (var i = 0, n = children.length; i < n; i++) {
+                console.log("//////", children[i].id)
                 childId = children[i].id
                 checkbox = document.getElementById(childId);
                 checkbox.checked = source.checked;
@@ -151,10 +156,10 @@
 
         }
     </script>
-    <script type="text/javascript" src="{{adminTheme("lib/js/plugins/forms/styling/uniform.min.js")}}"></script>
-    <script type="text/javascript" src="{{adminTheme("lib/js/plugins/forms/styling/switchery.min.js")}}"></script>
-    <script type="text/javascript" src="{{adminTheme("lib/js/plugins/forms/styling/switch.min.js")}}"></script>
-    <script type="text/javascript" src="{{adminTheme("lib/js/pages/form_checkboxes_radios.js")}}"></script>
-    <script type="text/javascript" src="{{adminTheme("lib/js/plugins/ui/ripple.min.js")}}"></script>
+    {{--    <script type="text/javascript" src="{{adminTheme("lib/js/plugins/forms/styling/uniform.min.js")}}"></script>--}}
+    {{--    <script type="text/javascript" src="{{adminTheme("lib/js/plugins/forms/styling/switchery.min.js")}}"></script>--}}
+    {{--    <script type="text/javascript" src="{{adminTheme("lib/js/plugins/forms/styling/switch.min.js")}}"></script>--}}
+    {{--    <script type="text/javascript" src="{{adminTheme("lib/js/pages/form_checkboxes_radios.js")}}"></script>--}}
+    {{--    <script type="text/javascript" src="{{adminTheme("lib/js/plugins/ui/ripple.min.js")}}"></script>--}}
 
 @endsection
