@@ -46,8 +46,8 @@ const Index = () => {
 
     const GetAllContentsAction = () => {
         setLoading(true);
-        Request.GetAllContents().then(res => {
-            // console.log("res" , res.data.data.data)
+        Request.GetAllProducts().then(res => {
+            console.log("res" , res.data.data.data)
             setContentNew(res.data.data.data)
             setContentData(res.data.data);
             setPerPage(res.data.data.per_page);

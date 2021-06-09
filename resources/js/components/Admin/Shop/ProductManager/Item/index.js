@@ -46,7 +46,6 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected}) => {
                     </fieldset>
                 </div>
 
-
                 {data.image !== "" && data.image !== "0" ? (
                     <div className={"image-src"}>
                         <img className={"default"} src={data.image} alt=""/>
