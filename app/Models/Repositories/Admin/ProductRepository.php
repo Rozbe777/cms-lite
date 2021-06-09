@@ -46,6 +46,9 @@ class ProductRepository implements RepositoryInterface
         $features = $data['feature'] ?? null;
         unset($data['feature']);
 
+        $attributes = $data['attributes'] ?? null;
+        unset($data['attributes']);
+
         $data['user_id'] = Auth::id();
         if (!empty($data['image']))
             $data['image'] = $this->imageHandler($data['image']);
@@ -54,10 +57,13 @@ class ProductRepository implements RepositoryInterface
 
         $product = Product::create($data);
 
-        $attributes = $this->featureHandler($features);
-        foreach ($attributes as $attribute){
-            $product->attributes()->attach($attribute);
-        }
+        $features = $this->featureHandler($features);
+        $attributes = $this->attributeHandler($attributes);
+
+//        $attributes = $this->featureHandler($features);
+//        foreach ($attributes as $attribute){
+//            $product->attributes()->attach($attribute);
+//        }
 
         $product->viewCounts()->create();
 

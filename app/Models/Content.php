@@ -29,7 +29,9 @@ class Content extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
-    protected $appends = ['jalali_created_at', 'url', 'related_content'];
+    protected $appends = ['jalali_created_at', 'url',
+//        'related_content'
+    ];
 
     public function categories()
     {
@@ -80,21 +82,22 @@ class Content extends Model
         }
     }
 
-    public function getRelatedContentAttribute()
-    {
-        $id = [];
-        $i = 0;
-        $categories = $this->categories;
-        foreach ($categories as $cat) {
-            foreach ($cat->contents as $contents) {
-                if ($contents->id != $this->id && !in_array($contents->id, $id) && $i < config("view.list.number")) {
-                        $id[] = $contents->id;
-                        $content[$i] = $contents;
-                        $i++;
-                    }
-            }
-        }
-        return $content;
-    }
+//    public function getRelatedContentAttribute()
+//    {
+//        $id = [];
+//        $i = 0;
+//        $content = [];
+//        $categories = $this->categories;
+//        foreach ($categories as $cat) {
+//            foreach ($cat->contents as $contents) {
+//                if ($contents->id != $this->id && !in_array($contents->id, $id) && $i < config("view.list.number")) {
+//                        $id[] = $contents->id;
+//                        $content[$i] = $contents;
+//                        $i++;
+//                    }
+//            }
+//        }
+//        return $content;
+//    }
 
 }
