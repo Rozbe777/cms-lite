@@ -5,6 +5,20 @@
         display: none;
     }
 
+    .align-middle {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+
+    li.nav-item i {
+        opacity: 1 !important;
+        display: block !important;
+        visibility: visible !important;
+
+    }
+
+
     .main-active-theme {
         visibility: hidden;
         display: none;
@@ -26,6 +40,7 @@
         display: block;
         visibility: visible;
     }
+
     #theme-item {
         width: 25% !important;
     }
@@ -40,11 +55,6 @@
         height: auto;
     }
 
-    // TODO check shavad ke id new behesh ezafe beshe
-    //li.nav-item span{
-    //    //display: none;
-    //    //visibility: hidden;
-    //}
     .float-btn {
         display: block !important;
         visibility: visible !important;
@@ -99,11 +109,37 @@
 
     }
 
+    .nav-link {
+        i {
+            display: block !important;
+            visibility: visible !important;
+        }
+    }
+
 }
 
 @media screen and (max-width: 1024px) {
     #shop_product_search {
         height: 300px;
+    }
+
+
+    li.nav-item i {
+        opacity: 1 !important;
+        display: block !important;
+        visibility: visible !important;
+    }
+
+
+    .align-middle {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    .nav-link {
+        i {
+            display: block !important;
+            visibility: visible !important;
+        }
     }
 
     .main-active-theme {
@@ -115,11 +151,6 @@
         visibility: visible !important;
         display: block !important;
     }
-
-    //.float-btn{
-    //    display: block !important;
-    //    visibility: visible !important;
-    //}
 
     .users-list-filter {
         height: 100%;
@@ -148,6 +179,7 @@ $itemBorder: solid 1px #464D5C;
 $title: #bdd1f8;
 $titleHover: #00e5ff;
 $focusHover: solid 1px #00e5ff;
+$itemDarkLigth: #2e3652;
 body.active-darked {
     background: $background !important;
 
@@ -155,10 +187,40 @@ body.active-darked {
     table {
         color: $color !important;
 
+        tr {
+            background: $itemDarkLigth !important;
+        }
+
         th {
             color: $color !important;
         }
     }
+
+    #category_add_pop_base {
+        background: $background !important;
+    }
+
+    #back-loadered {
+        #fetures {
+            border: $itemBorder !important;
+            background: $background !important;
+
+            p {
+                color: $color !important;
+            }
+
+            .bottom-btns {
+                background: $itemDarkLigth !important;
+                color: $color !important;
+                border-top: $itemBorder !important;
+
+                #btn-action {
+                    border: $itemBorder !important;
+                }
+            }
+        }
+    }
+
 
     .deleteRecordButton {
         color: $color !important;
@@ -246,6 +308,19 @@ body.active-darked {
         color: $color !important;
     }
 
+    #chipset-container {
+        background: $itemBackground !important;
+        border: $itemBorder !important;
+
+        input {
+            border-radius: 0px !important;
+            background: unset !important;
+            border: unset !important;
+            margin-top: 3px !important;
+            float: right;
+        }
+    }
+
     .itemUserShow {
         background: $itemBackground !important;
         color: $color !important;
@@ -310,6 +385,7 @@ body.active-darked {
         border-top: $itemBorder;
         background: $itemBackground !important;
         color: $color !important;
+        z-index: 999;
 
         #clear {
             color: $color !important;
@@ -630,7 +706,7 @@ body.active-darked {
 
 
     .chip {
-        background: $itemBackground !important;
+        background: $itemDarkLigth !important;
 
         .chip-text {
             color: $color !important;
@@ -686,6 +762,10 @@ body.active-darked {
     .item-product {
         background: $itemBackground !important;
 
+        .image {
+            background: $itemDarkLigth;
+        }
+
         ul {
             li {
                 p {
@@ -701,7 +781,7 @@ body.active-darked {
                 }
 
                 span:nth-child(2) {
-                    h5{
+                    h5 {
                         color: $color !important;
                     }
                 }
@@ -718,3 +798,16 @@ body.active-darked {
 
 }
 
+
+.tab-content {
+    #catdetail {
+        max-height: 72vh !important;
+        width: 100%;
+        overflow-y: scroll;
+    }
+}
+
+li.nav-item i {
+    display: none !important;
+    visibility: hidden !important;
+}
