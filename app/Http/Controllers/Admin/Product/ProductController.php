@@ -35,7 +35,11 @@ class ProductController extends Controller
      */
     public function index(SearchProductRequest $request)
     {
-        $product = $this->repository->all($request->status, $request->search , $request->entity, $request->categories , $request->sort, $request->discount);
+        $status = !empty($request->filter['status']) ? $request->filter['status'] : null;
+        $entity = !empty($request->filter['entity']) ? $request->filter['entity'] : null;
+        $discount = !empty($request->filter['discount']) ? $request->filter['discount'] : null;
+
+        $product = $this->repository->all($status, $request->search , $entity, $request->categories , $request->sort, $discount);
 
         return (!$product) ?
             $this->message(__('message.content.search.notSuccess'))->view("pages.admin.product.index")->error() :

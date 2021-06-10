@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Admin\Product\Traits;
 
 
 use App\Models\Attribute;
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\Tag;
 use App\Models\Type;
 use App\Models\TypeFeature;
+use Illuminate\Support\Facades\Auth;
 
 trait ProductTrait
 {
@@ -30,52 +33,95 @@ trait ProductTrait
         }
     }
 
-    public function attributeHandler($attribute,$p_id)
+    public function attributeHandler($attribute, $p_id)
     {
-        $data = Attribute::updateOrCreate(
-            [ "product_id" => $p_id , "product_code" => $attribute['product_code']],
-            [ "price" => $attribute['price'], "count" => $attribute['count'], "limit" => $attribute['limit']]
-        );
+        $count = (!empty($attribute['count'])) ? (int)$attribute['count'] : null;
+        $limit = !empty($attribute['limit']) ? (int)$attribute['limit'] : null;
+        $discount = (!empty($attribute['discount']) || $attribute['discount'] != 0) ? (int)$attribute['discount'] : null;
+        $discount_status = (!empty($discount)) ? "active" : "deactivate";
 
-        return $data;
+        return Attribute::updateOrCreate(
+            ["product_id" => $p_id, "product_code" => $attribute['product_code']],
+            ["price" => $attribute['price'], "count" => $count, "limit" => $limit, "discount" => $discount, "discount_status" => $discount_status]
+        );
     }
 
     public function featureHandler($features, $attr_id)
     {
-
+        foreach ($features as $item) {
             $data = Type::firstOrCreate(
-                ['name' => $features['name'], "attribute_id" => $attr_id]
+                ['name' => $item['name'], "attribute_id" => $attr_id]
             );
+
+            $title = !empty($item['title']) ? $item['title'] : null;
+            $value = !empty($item['value']) ? $item['value'] : null;
+            $color = ($title == "رنگ") ? $item['color'] : null;
 
             $feature = TypeFeature::firstOrCreate(
-                [ "type_id" => $data->id, "attribute_id" => $attr_id,"title" => $features['title'] , "value" => $features['value']],
-
+                ["type_id" => $data->id, "attribute_id" => $attr_id, "title" => $title, "color" => $color, "value" => $value],
             );
-
+        }
     }
+
+    public function attributeUpdateHandler($attribute, $p_id)
+    {
+        $data = Attribute::where(['product_id' => $p_id, 'product_code' => $attribute['product_code']])->firstOrFail();
+
+        $data->price = !empty($attribute['price']) ? (int)$attribute['price'] : $data->price;
+        $data->count = (!empty($attribute['count']) || $attribute['count'] == 0 ) ? (int)$attribute['count'] : $data->count;
+        $data->limit = !empty($attribute['limit']) ? (int)$attribute['limit'] : $data->limit;
+
+        if (!empty($attribute['discount'])) {
+            if ($attribute['discount'] != null || (int)$attribute['discount'] != 0) {
+                $data->discount = (int)$attribute['discount'];
+                $data->discount_status = 'active';
+            } else {
+                $data->discount = 0;
+                $data->discount_status = 'deactivate';
+            }
+            $data->save();
+        }
+        $data->save();
+        return $data;
+    }
+
 
     public function featureUpdateHandler($features, $attr_id)
     {
-
         $data = Type::firstOrCreate(
             ['name' => $features['name'], "attribute_id" => $attr_id]
         );
 
         $feature = TypeFeature::firstOrCreate(
-            [ "type_id" => $data->id, "attribute_id" => $attr_id,"title" => $features['title'] , "value" => $features['value']],
-
+            ["type_id" => $data->id, "attribute_id" => $attr_id]
         );
 
+        $feature->title = !empty($features['title']) ? $features['title'] : $feature->title;
+        $feature->value = !empty($features['value']) ? $features['value'] : $feature->value;
+        $feature->color = !empty($features['color']) ? $features['color'] : $feature->color;
+        $feature->save();
+
+        return $feature;
     }
 
-    public function tagHandler($tag_list)
+    public function tagHandler($tag_list, $product)
     {
-
+        foreach ($tag_list as $tag) {
+            $tag = Tag::firstOrCreate(
+                ['name' => $tag],
+                ['user_id' => Auth::id()]
+            );
+            if (!$product->tags->contains($tag->id))
+                $product->tags()->attach($tag->id);
+        }
     }
 
-    public function categoryHandler($category_list)
+    public function categoryHandler($categoryIds, $product)
     {
-
+        foreach ($categoryIds as $category) {
+            $category = Category::findOrFail((int)$category);
+            $product->categories()->attach($category);
+        }
     }
 
 }

@@ -12,6 +12,7 @@ export const Request = {
     GetAllTags : () =>  request.get("/tags"),
     GetAllPages : () =>  request.get("/pages"),
     AddNewCategory : (data) =>  request.post("/categories" ,  data),
+    AddNewProduct : (data) =>  request.post("/products" ,  data),
     AddNewPage : (data) =>  request.post("/pages" , data),
     AddNewContent : (data) =>  request.post("/contents" , data),
     DeleteCategoryOne : (data) =>  request.delete("/categories/"+data),
