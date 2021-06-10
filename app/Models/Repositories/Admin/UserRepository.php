@@ -19,19 +19,17 @@ class UserRepository implements RepositoryInterface
         if (empty($pageSize))
             $pageSize = config('view.pagination');
 
-        if (empty($status))
-            $status = 'deactivate';
-
-        return User::when($search != null, function ($query) use ($search, $status, $role) {
-            $query->where(function ($query) use ($status, $role) {
-                $query->whereHas('roles', function ($query) use ($role) {
-                    $query->where('role_id', $role);
-                })->where('status', $status);
-            })->where('name', 'like', '%' . $search . '%')
+        return User::when($search != null, function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%')
                 ->orWhere('last_name', 'like', '%' . $search . '%')
                 ->orWhere('mobile', 'like', '%' . $search . '%');
-        })
-            ->orderByDesc('id')->
+        })->when($role != null, function ($query) use ($role) {
+            $query->whereHas('roles',function ($q) use ($role) {
+                $q->where('role_id',$role);
+            });
+        })->when($status != null, function ($query) use ($status) {
+            $query->where('status', $status);
+        })->orderByDesc('id')->
             paginate(config('view.pagination'));
     }
 
