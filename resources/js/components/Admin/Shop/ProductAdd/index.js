@@ -425,8 +425,8 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
     }
     const HandleInventory = (e, count, hasDis) => {
         e.preventDefault();
-        $("#back-loadered").addClass("active");
-        ReactDOM.render(<Inventory count={count} hasDiscount={hasDis}/>, document.getElementById("back-loadered"));
+        $("#back-loaderedss").addClass("active");
+        ReactDOM.render(<Inventory count={count} hasDiscount={hasDis} out={item => console.log("inventory , " , item)}/>, document.getElementById("back-loaderedss"));
     }
     const HandleLimited = (e, count, infinte) => {
         e.preventDefault();
@@ -444,17 +444,16 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
 
     const HandleFeture = (e) => {
         e.preventDefault();
-        $("#back-loadered").addClass("active");
+        $("#back-loaderedss").addClass("active");
         ReactDOM.render(<NewFeture close={e => closeFeture(e)}
-                                   dataOut={item => AddFeture(item)}/>, document.getElementById("back-loadered"));
-        console.log("fade");
+                                   dataOut={item => AddFeture(item)}/>, document.getElementById("back-loaderedss"));
 
     }
 
     const closeFeture = (e) => {
         e.preventDefault();
-        $("#back-loadered").removeClass("active");
-        ReactDOM.render('', document.getElementById("back-loadered"));
+        $("#back-loaderedss").removeClass("active");
+        ReactDOM.render('', document.getElementById("back-loaderedss"));
 
     }
 

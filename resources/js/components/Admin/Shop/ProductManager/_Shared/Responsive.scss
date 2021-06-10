@@ -221,6 +221,30 @@ body.active-darked {
         }
     }
 
+    #back-loaderedss {
+        select{
+            height: 45px !important;
+        }
+        #fetures {
+            border: $itemBorder !important;
+            background: $background !important;
+
+            p {
+                color: $color !important;
+            }
+
+            .bottom-btns {
+                background: $itemDarkLigth !important;
+                color: $color !important;
+                border-top: $itemBorder !important;
+
+                #btn-action {
+                    border: $itemBorder !important;
+                }
+            }
+        }
+    }
+
 
     .deleteRecordButton {
         color: $color !important;
@@ -803,6 +827,13 @@ body.active-darked {
         }
     }
 
+    a#add-future{
+        color: #fff !important;
+    }
+
+    .content-pages{
+        color: $color;
+    }
     #form-group-chipset{
         border: none !important;
     }
@@ -874,6 +905,9 @@ a.nav-link i {
     right: 0px;
     display: none;
     z-index: 99999999;
+    select{
+        height: 45px !important;
+    }
     &.active{
         display: flex;
         align-items: center;
