@@ -17,8 +17,9 @@ class CreateTypeFeaturesTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('type_id');
             $table->bigInteger('attribute_id');
-            $table->string('title');
-            $table->string('value');
+            $table->string('title')->nullable();
+            $table->string('color')->nullable();
+            $table->string('value')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

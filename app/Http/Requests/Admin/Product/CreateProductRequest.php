@@ -35,6 +35,7 @@ class CreateProductRequest extends FormRequest
             "attributes.count" => "numeric",
             "attributes.limit" => "numeric",
             "features.name" => "string",
+            "features.color" => "string|required_if:features.name,رنگ",
             "features.title" => "required_with:features.name|string",
             "features.value" => "required_with:features.name|string",
             "tag_list" => "array",

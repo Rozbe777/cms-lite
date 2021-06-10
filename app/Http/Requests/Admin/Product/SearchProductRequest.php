@@ -24,7 +24,12 @@ class SearchProductRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "status" => "in:active,deactivate|nullable",
+            "entity" => "in:available,unavailable|nullable",
+            "categories" => "nullable|integer",
+            "sort" => "nullable|string",
+            "search" => "nullable|string",
+            "discount" => "in:active,deactivate|nullable",
         ];
     }
 }
