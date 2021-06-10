@@ -642,6 +642,13 @@ body.active-darked {
         }
     }
 
+    .checkboxed.priceee{
+        color: $background !important;
+        &.active{
+            color: #fff !important;
+        }
+    }
+
     .switch-container {
         border: $itemBorder !important;
         color: $color !important;
@@ -796,6 +803,33 @@ body.active-darked {
         }
     }
 
+    #form-group-chipset{
+        border: none !important;
+    }
+    .is-invalid{
+        border-color :#FF5B5C !important;
+    }
+
+    .dropzones{
+        box-shadow: inset 0 0 3px 2px rgb(0 0 0 / 30%) !important;
+        border-radius: 5px !important;
+    }
+
+    #prices{
+        color: $color !important;
+        background: $background !important;
+        border : $itemBorder !important;
+        .bottom-btns{
+            background: $itemBackground !important;
+            border: $itemBorder !important;
+            color: $color !important;
+            .btn-action{
+                border-left: $itemBorder !important;
+                color: $color !important;
+            }
+        }
+    }
+
 }
 
 
@@ -807,7 +841,42 @@ body.active-darked {
     }
 }
 
-li.nav-item i {
+a.nav-link i {
     display: none !important;
     visibility: hidden !important;
+}
+
+#price{
+    input{
+        text-align: center ;
+    }
+}
+
+.checkboxed.active{
+    width: 20px;
+    height: 20px;
+}
+
+#discount#input-dis{
+    height: 45px !important;
+    text-align: center !important;
+    cursor: not-allowed !important;
+}
+
+
+
+#back-loaderedss{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: rgba(0,0,0,0.7);
+    top: 0px;
+    right: 0px;
+    display: none;
+    z-index: 99999999;
+    &.active{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }

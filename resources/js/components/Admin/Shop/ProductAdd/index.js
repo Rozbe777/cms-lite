@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import ReactDOM from 'react-dom';
+import ReactDOMs from 'react-dom';
 import {Switcher} from './../../../HOC/Switch'
 import {BigSwitcher} from './../../../HOC/BigSwitcher';
 import './../../_Shared/Style.scss'
@@ -17,16 +18,18 @@ import {Limited} from "../../_Micro/ProductMiniComponent/Limited";
 import {Inventory} from "../../_Micro/ProductMiniComponent/Inventoryz";
 import ColorPicker from './../../../HOC/ColorPicker';
 import {NewFeture} from "../../_Micro/ProductMiniComponent/NewFeture";
+import $ from "jquery";
+import Loading from "../../_Micro/Loading";
 
 const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}) => {
     let defaultCol = {
         code: 12341216513156,
-        price: 1542,
-        discount: 1000,
+        price: 0,
+        discount: 0,
         hasDiscount: true,
-        countInventory: 1254,
+        countInventory: 'نامحدود',
         infiniteInventory: true,
-        limited: 154,
+        limited: "نامحدود",
         isInfinite: true,
         fetures: {
             text: [],
@@ -45,6 +48,7 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
         'محدودیت'
     ])
 
+    const [changeCheck, setChangeCheck] = useState(false)
     const [comments, setComments] = useState();
     const [color, setColor] = useState("#aabbcc");
     const [categoryData, setCategoryData] = useState({});
@@ -69,10 +73,10 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : '';
     const types = dataGet ? dataGet.type : '';
 
+    let titleWrite = $("input[name=title]").val();
     const [slugManage, setSlugManage] = useState(true);
     const [formData, setFormData] = useState({});
     let default_value = {
-        is_menu: 1,
         status: "active",
         content: '',
         parent_id: idParent,
@@ -88,8 +92,7 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
     }
 
 
-    // const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
-    const CreateAddCategory = (data) => {
+    const CreateNewProduct = (data) => {
         console.log("adding dataaaaaa : ", data)
         swal({
             title: 'افزودن دسته بندی جدید',
@@ -103,13 +106,12 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-                Request.AddNewCategory(data)
+                Request.AddNewProduct(data)
                     .then(res => {
                         let resError = res.data.message ? res.data.message : '';
                         console.log("status error : ", res.data.size)
                         if (res.status == 200 && resError == '') {
                             pushResult(res);
-                            localStorage.removeItem("is_menu");
                             localStorage.removeItem("status");
                             localStorage.removeItem("selected");
                             Swal.fire({
@@ -146,7 +148,6 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
     const handleClose = () => {
         ReactDOM.render('', document.getElementById("add-product"));
         setFormData({
-            is_menu: 1,
             status: "active",
             content: '',
             parent_id: 0,
@@ -163,16 +164,17 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
     }
 
     const handleInput = (e) => {
+        setChangeCheck(true)
         setEdit(true);
-        if (e.target.name == "name") {
+        if (e.target.name == "title") {
             if (slugManage) {
                 let formDataOld = {...formData};
-                formDataOld.name = e.target.value;
+                formDataOld.title = e.target.value;
                 formDataOld.slug = e.target.value;
                 setFormData(formDataOld);
             } else {
                 let formDataOld = {...formData};
-                formDataOld.name = e.target.value;
+                formDataOld.title = e.target.value;
                 setFormData(formDataOld);
             }
         } else {
@@ -180,8 +182,6 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
             formDataOld.slug = e.target.value;
             setFormData(formDataOld);
         }
-
-
     }
 
 
@@ -205,41 +205,45 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
         setEdit(true)
         let metaDatas = {...metaData};
         let chipsets = [...chipset];
-        chipsets.push(item);
-        setChipset(chipsets);
-        metaDatas.tags = chipsets;
-        setMetaData(metaDatas);
+        if (item === "") {
+
+        } else {
+            chipsets.push(item);
+            setChipset(chipsets);
+            metaDatas.tags = chipsets;
+            setMetaData(metaDatas);
+        }
+
     }
     const HandleForm = (e) => {
         let formNew = {...formData};
         let formFile = new FormData();
         formFile.append("file", file);
-        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
         let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formNew.parent_id;
         formNew.status = status;
         formNew.parent_id = parseInt(parent_id);
         formNew.image = file;
-        formNew.is_menu = is_menu ? 1 : 0;
         if (slugManage == false) {
             formNew.slug = formNew.name;
         } else {
         }
 
         if (formData.slug == "") {
-            formNew.slug = formNew.name
+            formNew.slug = formNew.title
         }
         formNew.content = contentNew;
 
+        metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
         formNew.metadata = JSON.stringify(metaData);
-        if (formData.name && formData.name !== '') {
-            $("input[name=name]").removeClass("is-invalid");
+        if (formData.title && formData.title !== '') {
+            $("input[name=title]").removeClass("is-invalid");
             console.log("form dataaaaaaaa : ", formNew)
             formNew.parent_id = formNew.parent_id ? formNew.parent_id : 0;
-            CreateAddCategory(formNew);
+            CreateNewProduct(formNew);
         } else {
-            $("input[name=name]").addClass("is-invalid");
-            error("لطفا فیلد نام دسته بندی را پر کنید !")
+            $("input[name=title]").addClass("is-invalid");
+            error("لطفا فیلد عنوان محصول را پر کنید !")
         }
     }
 
@@ -289,7 +293,6 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                         console.log("status error : ", res.data.size)
                         if (res.status == 200 && resError == '') {
                             pushResult(res);
-                            localStorage.removeItem("is_menu");
                             localStorage.removeItem("status");
                             localStorage.removeItem("selected");
                             localStorage.removeItem("robots");
@@ -318,15 +321,17 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
     const HandleEdit = () => {
         let formOldData = {...formData};
         formOldData.content = contentNew;
-        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
+        let name = titleWrite;
+        let slug = slugManage ? titleWrite : $("input.slugest").val();
+        formOldData.title = name;
+        formOldData.slug = slug;
         metaDatas.robots = robots;
         formOldData.status = status;
         formOldData.metadata = JSON.stringify(metaDatas);
-        formOldData.is_menu = parseInt(is_menu);
         formOldData.parent_id = parseInt(parent_ids);
         HandleUpdateForm(formOldData, formOldData.id);
     }
@@ -334,22 +339,20 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
     const HandleDuplicate = () => {
         let formOldData = {...formData};
         formOldData.content = contentNew;
-        let names = $("input.titleCat").val();
-        let slugs = $("input.slugest").val();
         console.log("data category in : ", names);
-        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
         formOldData.status = status;
-        formOldData.name = names;
-        formOldData.slug = slugs;
+        let name = titleWrite;
+        let slug = slugManage ? titleWrite : $("input.slugest").val();
+        formOldData.title = name;
+        formOldData.slug = slug;
         formOldData.metadata = JSON.stringify(metaDatas);
-        formOldData.is_menu = parseInt(is_menu);
         formOldData.parent_id = parseInt(parent_id);
-        CreateAddCategory(formOldData);
+        CreateNewProduct(formOldData);
     }
 
 
@@ -381,10 +384,7 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
         setEdit(true)
         localStorage.setItem("status", status ? "active" : "deactivate");
     }
-    const handleSwitchMenu = (status) => {
-        setEdit(true)
-        localStorage.setItem("is_menu", status ? 1 : 0);
-    }
+
     const HandleSelectOption = (check) => {
         setEdit(true)
         console.log("data checked : ", check)
@@ -399,8 +399,8 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                 return dataUpdateParse.slug;
             }
         } else {
-            formData.slug = formData.name;
-            return formData.name;
+            formData.slug = formData.title;
+            return formData.title;
         }
     }
 
@@ -412,16 +412,16 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                 return dataUpdateParse.name;
             }
         } else {
-            formData.slug = formData.name;
-            return formData.name;
+            formData.slug = formData.title;
+            return formData.title;
         }
     }
-
     const HandlePrice = (e, price, discount, hasDiscount) => {
         e.preventDefault();
-        $("#back-loadered").addClass("active");
-        ReactDOM.render(<Price price={price} discount={discount}
-                               hasDiscount={hasDiscount}/>, document.getElementById("back-loadered"));
+        $("#back-loaderedss").addClass("active");
+        ReactDOMs.render(<Price priceDataOld
+                               newPrice={prices => console.log("priceeee : ", prices)}
+                               hasDiscount={hasDiscount}/>, document.getElementById("back-loaderedss"));
     }
     const HandleInventory = (e, count, hasDis) => {
         e.preventDefault();
@@ -445,11 +445,20 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
     const HandleFeture = (e) => {
         e.preventDefault();
         $("#back-loadered").addClass("active");
-        ReactDOM.render(<NewFeture
-            dataOut={item => HandleCloseFeture(item)}/>, document.getElementById("back-loadered"));
+        ReactDOM.render(<NewFeture close={e => closeFeture(e)}
+                                   dataOut={item => AddFeture(item)}/>, document.getElementById("back-loadered"));
+        console.log("fade");
+
     }
 
-    const HandleCloseFeture = (item) => {
+    const closeFeture = (e) => {
+        e.preventDefault();
+        $("#back-loadered").removeClass("active");
+        ReactDOM.render('', document.getElementById("back-loadered"));
+
+    }
+
+    const AddFeture = (item) => {
         let newItemHead = [...defaultTableHead];
         newItemHead.push(item.name)
 
@@ -562,10 +571,10 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                             <div className={"row"} style={{padding: '20px'}}>
                                 <div className={"col-lg-8 col-md-8 col-sm-12"}>
                                     <fieldset className="form-group">
-                                        <label htmlFor={"title"}>عنوان دسته بندی</label>
+                                        <label htmlFor={"title"}>عنوان محصول</label>
                                         <input type={"text"} defaultValue={HandleMakeName()}
                                                onChange={e => handleInput(e)}
-                                               name={"name"} id={"title"}
+                                               name={"title"} id={"title"}
                                                className={"form-control titleCat"}/>
                                     </fieldset>
                                 </div>
@@ -594,7 +603,7 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                         <div className={"row"} style={{padding: '20px'}}>
                             <div className="col-md-6">
                                 <label>دسته بندی</label>
-                                <MultiSelected />
+                                <MultiSelected/>
                             </div>
                             <div className={"col-md-6"}>
                                 <label>برچسپ ها</label>
@@ -634,7 +643,7 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                                           id={"my-editor"}
                                           type={"small"}
                                           defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
-                                          placeholder={"توضیحات دسته بندی را بنویسید ..."}/>
+                                />
                             </div>
                         </div>
                     </div>
@@ -662,7 +671,8 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
                                                 </th>
                                             </tr>
 
-                                            <a id={"add-future"} style={{zIndex : 9999}} className={"mr-1 mb-1"} onClick={e => HandleFeture(e)}>
+                                            <a id={"add-future"} style={{zIndex: 9999}} className={"mr-1 mb-1"}
+                                               onClick={e => HandleFeture(e)}>
                                                 <i className={"bx bx-plus"}></i>&nbsp;&nbsp;ویژگی
                                                 جدید &nbsp;&nbsp;
                                             </a>
@@ -721,215 +731,225 @@ const AddProduct = ({display, dataAll, dataUpdate, idParent, result: pushResult}
 
 
                                 </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
 
-                <div className="tab-pane" id="seo" aria-labelledby="seo-tab" role="tabpanel">
-                    <div className={"content-pages"} style={{padding: '20px'}}>
-                        <div className={"row"}>
-                            <div className={"col-lg-3 col-md-4 col-sm-12"}>
-                                <fieldset className="form-group">
-                                    <label id={"selectParent"}>نوع آدرس</label>
+                    <div className="tab-pane" id="seo" aria-labelledby="seo-tab" role="tabpanel">
+                        <div className={"content-pages"} style={{padding: '20px'}}>
+                            <div className={"row"}>
+                                <div className={"col-lg-3 col-md-4 col-sm-12"}>
+                                    <fieldset className="form-group">
+                                        <label id={"selectParent"}>نوع آدرس</label>
 
-                                    <Switcher defaultState={true} status={state => handleAddress(state)}
-                                              name={"AddressType"}
-                                              valueActive={"خودکار"} valueDeActive={"دستی"}/>
-                                </fieldset>
-                            </div>
-
-                            <div className={"col-lg-9 col-md-8 col-sm-12"}>
-                                <fieldset className="form-group">
-                                    <label htmlFor={"title"}>آدرس صفحه دسته بندی</label>
-                                    {console.log("form data new change : ", formData)}
-                                    {console.log("slug manages : ", slugManage)}
-                                    {console.log("update data", dataUpdateParse)}
-                                    {slugManage ? (
-                                        <input type={"text"}
-                                               defaultValue={types == "dup" ? $(".titleCat").val() : formData.slug}
-                                               disabled id={"title"} className={"form-control slugest"}/>
-                                    ) : (
-                                        <input type={"text"}
-                                               defaultValue={formData.slug}
-                                               onChange={e => handleInput(e)} name={"slug"} id={"title"}
-                                               className={"form-control slugest"}/>
-                                    )}
-                                </fieldset>
-                            </div>
-
-                            <div className={"col s12"}>
-                                <div className={"alert alert-primary mb-2 col-12"} role={"alert"}>
-                                    اطلاعات تیتر و توضیحات صفحه به صورت خودکار توسط zerone برای سئوی بهتر ایجاد
-                                    می‌شوند.
-                                    در صورتی که تمایل به شخصی‌سازی آن دارید، می‌توانید از بخش زیر استفاده کنید.
+                                        <Switcher defaultState={true} status={state => handleAddress(state)}
+                                                  name={"AddressType"}
+                                                  valueActive={"خودکار"} valueDeActive={"دستی"}/>
+                                    </fieldset>
                                 </div>
-                            </div>
 
-                            <div className={"col-12"}>
-                                <fieldset className="form-group">
-                                    <label htmlFor={"title"}>عنوان صفحه ( حداکثر 60 حرف )</label>
-                                    <input type={"text"}
-                                           defaultValue={MetaDataUpdate ? MetaDataUpdate.title : ''}
-                                           onChange={e => HandleMetaData(e)} name={"title"} id={"title"}
-                                           className={"form-control"}/>
-
-
-                                </fieldset>
-                            </div>
-
-                            <div className={"col-12"}>
-                                <fieldset className="form-group">
-                                    <label htmlFor={"title"}>توضیح صفحه ( حداکثر 155 حرف )</label>
-                                    <textarea
-                                        defaultValue={MetaDataUpdate ? MetaDataUpdate.content : ''}
-                                        type={"text"}
-                                        onChange={e => HandleMetaData(e)} name={"content"}
-                                        id={"title"}
-                                        className={"form-control"}/>
-                                </fieldset>
-                            </div>
-
-                            <div className={"col-12"}>
-                                <label htmlFor={"title"}>کلمات کلیدی صفحه ( تایپ کنید و Enter بزنید تا اضافه شود.
-                                    )</label>
-                                <div className={"row"} style={{padding: '15px'}}>
-                                    <div className={"col-12"} id={"chip-box"}>
-                                        <div className={"row"} style={{overflow: 'hidden'}}>
-                                            <div className={"col-sm-12 col-md-4 col-lg-3"}>
-                                                <ChipsetHandler callback={item => handleAddChip(item)}/>
+                                <div className={"col-lg-9 col-md-8 col-sm-12"}>
+                                    <fieldset className="form-group">
+                                        <label htmlFor={"title"}>آدرس صفحه دسته بندی</label>
+                                        {slugManage ? changeCheck ? (
+                                            <div className={"fucks"}>
+                                                {titleWrite}
                                             </div>
-                                            {chipset.map(item => (
-                                                <div className="chip mr-1">
-                                                    <div className="chip-body">
-                                                        <span className="chip-text">{item}</span>
-                                                        <div className="chip-closeable"
-                                                             onClick={e => RemoveChipset(item)}>
-                                                            <i className="bx bx-x"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
+                                        ) : (
+                                            <div className={"fucks"}>
+                                                {formData.slug}
+                                            </div>
+                                        ) : (
+                                            <input type={"text"}
+                                                   defaultValue={formData.slug}
+                                                   onChange={e => handleInput(e)} name={"slug"} id={"title"}
+                                                   className={"form-control slugest"}/>
+                                        )}
+                                    </fieldset>
+                                </div>
 
-
-                                        </div>
-
+                                <div className={"col s12"}>
+                                    <div className={"alert alert-primary mb-2 col-12"} role={"alert"}>
+                                        اطلاعات تیتر و توضیحات صفحه به صورت خودکار توسط zerone برای سئوی بهتر ایجاد
+                                        می‌شوند.
+                                        در صورتی که تمایل به شخصی‌سازی آن دارید، می‌توانید از بخش زیر استفاده کنید.
                                     </div>
                                 </div>
 
+                                <div className={"col-12"}>
+                                    <fieldset className="form-group">
+                                        <label htmlFor={"title"}>عنوان صفحه ( حداکثر 60 حرف )</label>
+                                        <input type={"text"}
+                                               defaultValue={MetaDataUpdate ? MetaDataUpdate.title : ''}
+                                               onChange={e => HandleMetaData(e)} name={"title"} id={"title"}
+                                               className={"form-control"}/>
+
+
+                                    </fieldset>
+                                </div>
+
+                                <div className={"col-12"}>
+                                    <fieldset className="form-group">
+                                        <label htmlFor={"title"}>توضیح صفحه ( حداکثر 155 حرف )</label>
+                                        <textarea
+                                            defaultValue={MetaDataUpdate ? MetaDataUpdate.content : ''}
+                                            type={"text"}
+                                            onChange={e => HandleMetaData(e)} name={"content"}
+                                            id={"title"}
+                                            className={"form-control"}/>
+                                    </fieldset>
+                                </div>
+
+                                <div className={"col-12"}>
+                                    <label htmlFor={"title"}>کلمات کلیدی صفحه ( تایپ کنید و Enter بزنید تا اضافه شود.
+                                        )</label>
+                                    <div className={"row"} style={{padding: '15px'}}>
+                                        <div className={"col-12"} id={"chip-box"}>
+                                            <div className={"row"} style={{overflow: 'hidden'}}>
+                                                <div className={"col-sm-12 col-md-4 col-lg-3"}>
+                                                    <ChipsetHandler callback={item => handleAddChip(item)}/>
+                                                </div>
+                                                {chipset.map(item => (
+                                                    <div className="chip mr-1">
+                                                        <div className="chip-body">
+                                                            <span className="chip-text">{item}</span>
+                                                            <div className="chip-closeable"
+                                                                 onClick={e => RemoveChipset(item)}>
+                                                                <i className="bx bx-x"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div className={"col-12"}>
+                                    <fieldset className="form-group">
+                                        <label htmlFor={"title"}>آدرس داخلی برای انتقال (301 Redirect)</label>
+                                        <input type={"text"}
+                                               defaultValue={MetaDataUpdate ? MetaDataUpdate.redirect : ''}
+                                               onChange={e => HandleMetaData(e)} name={"redirect"}
+                                               id={"title"} className={"form-control"}/>
+
+                                    </fieldset>
+                                </div>
+
+                                <div className={"col-12"}>
+                                    <fieldset className="form-group">
+                                        <label htmlFor={"title"}>آدرس Canonical</label>
+                                        <input
+                                            defaultValue={MetaDataUpdate ? MetaDataUpdate.canonical : ''}
+                                            onChange={e => HandleMetaData(e)}
+                                            name={"canonical"} type={"text"}
+                                            id={"title"} className={"form-control"}/>
+                                    </fieldset>
+                                </div>
+
+                                <div className={"col-12"}>
+                                    <label>تنظیمات Robots</label>
+
+                                    {/*{console.log("robots : " , MetaDataUpdate)}*/}
+                                    <BigSwitcher status={states => HandlerBigSwitcher(states)} name={"Robots"}
+                                                 defaultStatus={MetaDataUpdate ? MetaDataUpdate.robots : false}
+                                                 valueOne={"غیرفعال"} valueTow={"noindex,follow"}
+                                                 valueThree={"noindex,unfolow"}/>
+                                </div>
 
                             </div>
 
-                            <div className={"col-12"}>
-                                <fieldset className="form-group">
-                                    <label htmlFor={"title"}>آدرس داخلی برای انتقال (301 Redirect)</label>
-                                    <input type={"text"}
-                                           defaultValue={MetaDataUpdate ? MetaDataUpdate.redirect : ''}
-                                           onChange={e => HandleMetaData(e)} name={"redirect"}
-                                           id={"title"} className={"form-control"}/>
+                        </div>
+                    </div>
 
-                                </fieldset>
+
+                    <div className={"col-12 bottom-footer"}>
+                        <div className={"row"}>
+
+
+                            <div className={"col-6"} onClick={handleClose}
+                                 style={{cursor: 'pointer', textAlign: 'center', borderLeft: '1px solid #a9a9a9'}}>
+                                <button type={"reset"} id={"clear"}>
+                                    انصراف
+                                </button>
                             </div>
 
-                            <div className={"col-12"}>
-                                <fieldset className="form-group">
-                                    <label htmlFor={"title"}>آدرس Canonical</label>
-                                    <input
-                                        defaultValue={MetaDataUpdate ? MetaDataUpdate.canonical : ''}
-                                        onChange={e => HandleMetaData(e)}
-                                        name={"canonical"} type={"text"}
-                                        id={"title"} className={"form-control"}/>
-                                </fieldset>
-                            </div>
 
-                            <div className={"col-12"}>
-                                <label>تنظیمات Robots</label>
+                            {types ? types == 'edit' ? edit ? (
+                                    <div onClick={(e) => HandleEdit(e)}
+                                         className={"col-6"}
+                                         style={{
+                                             textAlign: 'center',
+                                             cursor: 'pointer',
+                                             background: "#5a8dee",
+                                             color: '#fff'
+                                         }}>
+                                        <span>ویرایش</span>
+                                    </div>
+                                )
+                                : (
+                                    <div
+                                        id={"disable-div"}
+                                        className={"col-6"}
+                                        style={{
+                                            textAlign: 'center',
+                                            cursor: 'pointer',
+                                            background: "#5a8dee",
+                                            color: '#fff'
+                                        }}>
+                                        <span style={{color: '#fff !important'}}>ویرایش</span>
+                                    </div>
+                                )
+                                : (
+                                    <div onClick={(e) => HandleDuplicate(e)}
+                                         className={"col-6"}
+                                         style={{
+                                             textAlign: 'center',
+                                             cursor: 'pointer',
+                                             background: "#5a8dee",
+                                             color: '#fff'
+                                         }}>
+                                        <span style={{color: '#fff !important'}}>ذخیره کپی</span>
+                                    </div>
+                                ) :
 
-                                {/*{console.log("robots : " , MetaDataUpdate)}*/}
-                                <BigSwitcher status={states => HandlerBigSwitcher(states)} name={"Robots"}
-                                             defaultStatus={MetaDataUpdate ? MetaDataUpdate.robots : false}
-                                             valueOne={"غیرفعال"} valueTow={"noindex,follow"}
-                                             valueThree={"noindex,unfolow"}/>
-                            </div>
+                                (
+                                    <div onClick={(e) => HandleForm(e)} className={"col-6"}
+                                         style={{
+                                             textAlign: 'center',
+                                             cursor: 'pointer',
+                                             background: "#5a8dee",
+                                             color: '#fff'
+                                         }}>
+                                        <span style={{color: '#fff !important'}}>ذخیره</span>
+                                    </div>
+                                )}
+
 
                         </div>
 
                     </div>
-                </div>
-
-
-                <div className={"col-12 bottom-footer"}>
-                    <div className={"row"}>
-
-
-                        <div className={"col-6"} onClick={handleClose}
-                             style={{cursor: 'pointer', textAlign: 'center', borderLeft: '1px solid #a9a9a9'}}>
-                            <button type={"reset"} id={"clear"}>
-                                انصراف
-                            </button>
-                        </div>
-
-
-                        {types ? types == 'edit' ? edit ? (
-                                <div onClick={(e) => HandleEdit(e)}
-                                     className={"col-6"}
-                                     style={{
-                                         textAlign: 'center',
-                                         cursor: 'pointer',
-                                         background: "#5a8dee",
-                                         color: '#fff'
-                                     }}>
-                                    <span>ویرایش</span>
-                                </div>
-                            )
-                            : (
-                                <div
-                                    id={"disable-div"}
-                                    className={"col-6"}
-                                    style={{
-                                        textAlign: 'center',
-                                        cursor: 'pointer',
-                                        background: "#5a8dee",
-                                        color: '#fff'
-                                    }}>
-                                    <span style={{color: '#fff !important'}}>ویرایش</span>
-                                </div>
-                            )
-                            : (
-                                <div onClick={(e) => HandleDuplicate(e)}
-                                     className={"col-6"}
-                                     style={{
-                                         textAlign: 'center',
-                                         cursor: 'pointer',
-                                         background: "#5a8dee",
-                                         color: '#fff'
-                                     }}>
-                                    <span style={{color: '#fff !important'}}>ذخیره کپی</span>
-                                </div>
-                            ) :
-
-                            (
-                                <div onClick={(e) => HandleForm(e)} className={"col-6"}
-                                     style={{
-                                         textAlign: 'center',
-                                         cursor: 'pointer',
-                                         background: "#5a8dee",
-                                         color: '#fff'
-                                     }}>
-                                    <span style={{color: '#fff !important'}}>ذخیره</span>
-                                </div>
-                            )}
-
-
-                    </div>
-
-                </div>
                 </div>
 
             </div>
 
-            <div id={"back-loadered"}>
-
+            <div id={"back-loaderedss"}>
+                <div style={{
+                    width: '100%',
+                    height: '100%',
+                    position: 'fixed',
+                    zIndex: 9999,
+                    background: 'rgba(0,0,0,0.3)',
+                    top: 0,
+                    right: 0
+                }}>
+                </div>
             </div>
         </>
 
