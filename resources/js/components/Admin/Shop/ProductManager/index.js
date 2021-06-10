@@ -46,8 +46,9 @@ const Index = () => {
 
     const GetAllContentsAction = () => {
         setLoading(true);
-        Request.GetAllContents().then(res => {
-            // console.log("res" , res.data.data.data)
+        console.log("resoult search : ", stringSearchs);
+        Request.GetAllProducts(stringSearchs).then(res => {
+            console.log("res", res.data.data.data)
             setContentNew(res.data.data.data)
             setContentData(res.data.data);
             setPerPage(res.data.data.per_page);
@@ -250,9 +251,32 @@ const Index = () => {
             </div>
 
 
-            <SearchComponent category={itemCat => HandleSearchCategory(itemCat)}/>
+            <SearchComponent category={itemCat => HandleSearchCategory(itemCat)} searchRes={items => {
+                Object.keys(items).forEach((key, value) => {
+                    setSearch(true)
+                    if (key === "pageSize") {
+                        if (!items[key]) {
+                            stringSearchs.params.page = 1;
+                            stringSearchs.params[key] = 15;
+                        } else {
+                            stringSearchs.params.page = 1;
+                            stringSearchs.params[key] = items[key];
+                        }
 
-            <div className={"container"} style={{marginTop: '20px'}}>
+
+                    } else {
+                        stringSearchs.params.page = 1;
+                        stringSearchs.params[key] = items[key];
+                    }
+
+                })
+
+                stringSearchs.params.page = 1;
+                GetAllProducts(stringSearchs)
+            }}
+            />
+
+            <div className={"container-fluid"} style={{marginTop: '20px', padding: '0px 4px'}}>
                 <div className={"row"} style={{padding: 10}}>
                     {loading === false ? contentNew.length > 0 ? contentNew.map(item => {
                         return (

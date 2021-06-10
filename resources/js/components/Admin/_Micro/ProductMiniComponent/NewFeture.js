@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import ReactDOM from 'react-dom';
 import './_Shared/style.scss'
 
-export const NewFeture = ({dataOut : pushDataOut}) => {
+export const NewFeture = ({dataOut : pushDataOut , close :pushClose}) => {
 
     const [status, setStatus] = useState(true);
     const [data ,setData] = useState({
@@ -10,8 +10,7 @@ export const NewFeture = ({dataOut : pushDataOut}) => {
     });
     const handleClose = e => {
         e.preventDefault();
-        $("#back-loadered").removeClass("active");
-        ReactDOM.render('', document.getElementById("back-loadered"));
+        pushClose(e)
     }
 
     const HandleChangeSelectOption = (e) => {

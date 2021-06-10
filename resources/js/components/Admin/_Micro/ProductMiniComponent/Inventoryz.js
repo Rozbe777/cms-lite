@@ -2,13 +2,20 @@ import React, {useState} from "react";
 import ReactDOM from 'react-dom';
 import './_Shared/style.scss'
 
-export const Inventory = ({count, hasDiscount}) => {
+export const Inventory = ({count, hasDiscount , out : setOut}) => {
 
     const [status, setStatus] = useState(true);
+    const [data , setData] = useState({count : ''})
     const handleClose = e => {
         e.preventDefault();
-        $("#back-loadered").removeClass("active");
-        ReactDOM.render('', document.getElementById("back-loadered"));
+        $("#back-loaderedss").removeClass("active");
+        ReactDOM.render('', document.getElementById("back-loaderedss"));
+    }
+
+    const handleAdd = e => {
+        e.preventDefault();
+        setOut(data);
+        handleClose(e);
     }
 
     const HandleChange = (e, id) => {
@@ -17,20 +24,19 @@ export const Inventory = ({count, hasDiscount}) => {
         if (e.target.checked) {
             checkBoxCustom.addClass("active")
             setStatus(false)
-            // $("input#input-dis").css("cursor" , "not-allowed");
-            // checked.push({
-            //     id: e.target.name,
-            //     name: e.target.value
-            // })
-            // setCheck(checked)
-            // console.log("1111111 : " , check)
+            setData({count : ""})
+
         } else {
             checkBoxCustom.removeClass("active")
             setStatus(true)
-            // const results = check.filter(obj => parseInt(obj.id) !== id);
-            // var result = check.filter(obj => console.log("object name : " , parseInt(obj.id) , " / name : " , id));
-            // setCheck(results)
         }
+    }
+
+    const HandleInventory = e => {
+        e.preventDefault();
+        let datain = {...data};
+        datain[e.target.name] = e.target.value;
+        setData(datain);
     }
 
     return (
@@ -42,14 +48,15 @@ export const Inventory = ({count, hasDiscount}) => {
                         <fieldset className={"form-group"} style={{textAlign: 'center'}}>
                             <label htmlFor={"discount"}>موجودی</label>
                             {status ? (
-                                <input style={{height: '45px', textAlign: 'center'}} value={count ? count : 0}
-                                       type={"number"} className={"form-control"} id={"discount"} name={"discount"}
+                                <input style={{height: '45px', textAlign: 'center'}} value={data.count ? data.count : 0}
+                                       onChange={e => HandleInventory(e)}
+                                       type={"number"} className={"form-control"} id={"discount"} name={"count"}
                                        min={0}
                                        placeholder={"0"}/>
                             ) : (
                                 <input style={{height: '45px', textAlign: 'center',}}
                                        disabled className={"form-control deactive"} id={"discount input-dis"}
-                                       name={"discount"}
+                                       name={"count"}
                                        value={"نامحدود"}
                                        placeholder={"نامحدود"}/>
                             )}
@@ -80,7 +87,7 @@ export const Inventory = ({count, hasDiscount}) => {
                          id={"btn-action"}>
                         انصراف
                     </div>
-                    <div className={"col-6"} id={"btn-action"}>
+                    <div onClick={e => handleAdd(e)} className={"col-6"} id={"btn-action"}>
                         ذخیره
                     </div>
                 </div>

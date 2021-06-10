@@ -1,19 +1,22 @@
-@mixin transition{
+@mixin transition {
     -webkit-transition: all 2s;
     -moz-transition: all 2s;
     -o-transition: all 2s;
     transition: all 2s;
 }
-.active{
+
+.active {
     width: 100%;
     height: 100%;
     @include transition;
 }
-.scrolls{
+
+.scrolls {
     position: fixed !important;
-    top : 0px;
+    top: 0px;
     z-index: 9999 !important;
     box-shadow: -12px 0 9px 5px rgb(0 0 0 / 23%);
     padding-left: 260px;
     @include transition;
 }
+
