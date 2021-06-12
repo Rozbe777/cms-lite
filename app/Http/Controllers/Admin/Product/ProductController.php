@@ -13,16 +13,20 @@ use App\Models\Repositories\Admin\ProductRepository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Symfony\Component\Console\Input\Input;
 
 class ProductController extends Controller
 {
 
-    protected $repository;
-
     use ResponsesTrait;
 
+    protected ProductRepository $repository;
+
+    /**
+     * ProductController constructor.
+     * @param ProductRepository $repository
+     */
     public function __construct(ProductRepository $repository)
     {
         $this->repository = $repository;
@@ -35,7 +39,11 @@ class ProductController extends Controller
      */
     public function index(SearchProductRequest $request)
     {
-        $product = $this->repository->all($request->status, $request->search , $request->entity, $request->categories , $request->sort, $request->discount);
+        $status = !empty($request->filter['status']) ? $request->filter['status'] : null;
+        $entity = !empty($request->filter['entity']) ? $request->filter['entity'] : null;
+        $discount = !empty($request->filter['discount']) ? $request->filter['discount'] : null;
+
+        $product = $this->repository->all($status, $request->search , $entity, $request->categories , $request->sort, $discount);
 
         return (!$product) ?
             $this->message(__('message.content.search.notSuccess'))->view("pages.admin.product.index")->error() :
@@ -67,7 +75,6 @@ class ProductController extends Controller
             $this->data($product)->message(__('message.success.200'))->view("pages.admin.product.index")->success();
     }
 
-
     /**
      * Display the specified resource.
      *
@@ -91,7 +98,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $product->load('tags')->load('categories')->load('viewCounts');
-        return $this->message(__('message.success.200'))->data($product)->view('pages.admin.product.edit')->success();
+        return adminView("pages.admin.product.edit", compact('product'));
     }
 
     /**

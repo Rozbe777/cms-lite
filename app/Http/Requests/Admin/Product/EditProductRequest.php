@@ -13,7 +13,7 @@ class EditProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,22 @@ class EditProductRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "content" => "string|nullable",
+            "title" => "string|nullable",
+            "slug" => "string|nullable",
+            "metadata" => "string|nullable",
+            "status" => "in:active,deactivate",
+            "image" => "image|nullable",
+            "attributes.price" => "string",
+            "attributes.product_code" => "required|string",
+            "attributes.count" => "numeric",
+            "attributes.limit" => "numeric",
+            "features.*.name" => "string",
+            "features.*.color" => "string|required_if:features.*.name,رنگ",
+            "features.*.title" => "required_with:features.name|string",
+            "features.*.value" => "required_with:features.name|string",
+            "tag_list" => "array",
+            "categoryIds" => "array",
         ];
     }
 }

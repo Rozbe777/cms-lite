@@ -11,7 +11,7 @@ class Tag extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
-    protected $appends = ["content_count", "slug", "url", "percentage"
+    protected $appends = ["content_count", "slug", "url"
 //        "real_url"
     ];
 
@@ -64,16 +64,5 @@ class Tag extends Model
     public function getUrlAttribute()
     {
         return route('front.tags', $this->attributes['name']);
-    }
-
-    public function getPercentageAttribute()
-    {
-        $tags = Tag::with('user')->with('contents')->get();
-        $all = 0;
-        foreach ($tags as $tag) {
-            $all += $tag->viewCounts->view_count;
-        }
-        $percent = ($this->viewCounts->view_count / $all) * 100;
-        return $percent;
     }
 }

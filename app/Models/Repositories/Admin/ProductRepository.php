@@ -40,10 +40,10 @@ class ProductRepository implements RepositoryInterface
                 $query->with('categories');
             })->when(!empty($entity), function ($query) use ($entity) {
                 $query->where('entity', $entity);
-            })->join('attributes','attributes.product_id','=' ,'products.id')
-            ->when(!empty($discount), function ($query) use ($discount){
-                    $query->where('attributes.discount_status','=', $discount);
-            })->orderBy('attributes.'.$sort, "DESC")->paginate(config('view.pagination'));
+            })->join('attributes', 'attributes.product_id', '=', 'products.id')
+            ->when(!empty($discount), function ($query) use ($discount) {
+                $query->where('attributes.discount_status', '=', $discount);
+            })->orderBy('attributes.' . $sort, "DESC")->paginate(config('view.pagination'));
     }
 
     public function get($product)
@@ -69,10 +69,11 @@ class ProductRepository implements RepositoryInterface
      * @return mixed
      */
     public function update(array $data, $product)
-    {dd($data);
+    {
         unset($data['_token']);
 
-        $data['slug'] = $this->slugHandler($data['slug']);
+        if (!empty($data['slug']))
+            $data['slug'] = $this->slugHandler($data['slug']);
 
         $tag_list = $data['tag_list'] ?? null;
         unset($data["tag_list"]);
@@ -93,30 +94,24 @@ class ProductRepository implements RepositoryInterface
             unset($data['image']);
 
         if (!empty($attributes))
-            $att = $this->attributeHandler($attributes, $product->id);
+            $att = $this->attributeUpdateHandler($attributes, $product->id);
 
         if (!empty($features))
             $this->featureUpdateHandler($features, $att->id);
 
         /** modify tag relations in database tables */
-        foreach ($tag_list as $tag) {
-            $tag = Tag::firstOrCreate(
-                ['name' => $tag],
-                ['user_id' => Auth::id()]
-            );
-            if ($tag->wasRecentlyCreated) {
-                $product->tags()->attach($tag);
-            } else {
-                $product->tags()->sync($tag);
-            }
-        }
-        /** modify category relations in database tables */
-        foreach ($categoryIds as $category) {
-            $category = Category::findOrFail((int)$category);
-            $product->categories()->attach($category);
-        }
+        if (!empty($tag_list))
+            $this->tagHandler($tag_list, $product);
 
-        return $product->update($data);
+        /** modify category relations in database tables */
+        if (!empty($categoryIds))
+            $this->categoryHandler($categoryIds, $product);
+
+        $product->update($data);
+
+        $product->entity = ($product->attributes->count == 0) ? "unavailable" : "available";
+        $product->save();
+        return $product;
     }
 
     public function create(array $data)

@@ -44,7 +44,6 @@ class UserController extends Controller
      */
     public function index(SearchUserRequest $request)
     {
-
         $user = $this->userRepository->all($request->role_id, $request->status, $request->search, $request->pageSize);
 
         return (!$user) ?

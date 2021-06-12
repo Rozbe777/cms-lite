@@ -30,9 +30,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//Route::get('/test', function () {
-//    $x = ["1",'2',"3",'4'];
-//});
+Route::get('a', function () {
+    dd((new \App\Classes\Notifier\Notifier())->sms()->body("ali"));
+});
 
 Route::get('/', function () {
     return view('welcome');

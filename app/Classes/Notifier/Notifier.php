@@ -15,4 +15,9 @@ class Notifier
         return (new Provider\Sms\Sms());
     }
 
+    function mail()
+    {
+        //TODO : Send an Email
+    }
+
 }
