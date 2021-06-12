@@ -11,13 +11,18 @@ const ColorPicker = ({dataOut : pushDataOut}) => {
 
     const handleChangeComplete = (color) => {
         setState({background: color.hex});
-        pushDataOut(color.hex)
     };
 
     const closeColorPicker = (e) => {
         e.preventDefault();
-        $("#back-loadered").removeClass("active");
-        ReactDOM.render('', document.getElementById("back-loadered"));
+        $("#back-loaderedss").removeClass("active");
+        ReactDOM.render('', document.getElementById("back-loaderedss"));
+    }
+
+    const handleSave = e => {
+        e.preventDefault();
+        pushDataOut(state.background)
+        closeColorPicker(e)
     }
     return (
         <div className={"col-lg-4 col-sm-12 col-md-8"} style={{background : '#fff' , borderRadius : '5px' , overflow : 'hidden' , padding : 0}}>
@@ -33,7 +38,7 @@ const ColorPicker = ({dataOut : pushDataOut}) => {
                         <span>انصراف</span>
                     </div>
 
-                    <div className={"col-6"}>
+                    <div className={"col-6"} onClick={e => handleSave(e)}>
                         <span>ذخیره</span>
                     </div>
                 </div>

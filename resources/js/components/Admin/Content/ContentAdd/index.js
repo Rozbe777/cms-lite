@@ -161,6 +161,11 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
             content: '',
             slug: ''
         });
+        localStorage.removeItem("is_menu");
+        localStorage.removeItem("status");
+        localStorage.removeItem("selected");
+        localStorage.removeItem("comment_status");
+        localStorage.removeItem("robots");
         setMetaData({
             robots: false,
         })
@@ -349,8 +354,6 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
         formOldData.is_menu = parseInt(is_menu);
         formOldData.category_list = idSelCat;
         formOldData.tag_list = setChipChange ? chipset : [];
-
-        console.log("iiiii edit", formOldData)
         HandleUpdateForm(formOldData, ids);
     }
 
