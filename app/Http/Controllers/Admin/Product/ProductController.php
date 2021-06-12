@@ -14,14 +14,19 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Symfony\Component\Console\Input\Input;
 
 class ProductController extends Controller
 {
 
     use ResponsesTrait;
 
-    protected $repository;
+    protected ProductRepository $repository;
 
+    /**
+     * ProductController constructor.
+     * @param ProductRepository $repository
+     */
     public function __construct(ProductRepository $repository)
     {
         $this->repository = $repository;
@@ -93,7 +98,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $product->load('tags')->load('categories')->load('viewCounts');
-        return $this->message(__('message.success.200'))->data($product)->view('pages.admin.product.edit')->success();
+        return adminView("pages.admin.product.edit", compact('product'));
     }
 
     /**

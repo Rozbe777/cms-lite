@@ -3,8 +3,9 @@
 
 namespace App\Classes\Notifier\Provider\Sms\Gateway;
 
+use Kavenegar;
 
-class Kavenegar extends Gateway
+class KavenegarCenter extends Gateway
 {
 
     function handle()

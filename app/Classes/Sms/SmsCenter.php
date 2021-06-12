@@ -10,7 +10,7 @@ class SmsCenter
     public function sendToken($mobile = [], $token)
     {
         $receptor = $mobile;            //Receptors numbers
-        $template = "verify";
+        $template = config('kavenegar.template');
 
         (new Kavenegar\KavenegarApi(config('kavenegar.apikey')))->VerifyLookup($receptor, $token, '', '', $template);
     }
