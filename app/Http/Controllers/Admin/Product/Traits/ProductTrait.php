@@ -35,9 +35,9 @@ trait ProductTrait
 
     public function attributeHandler($attribute, $p_id)
     {
-        $count = (!empty($attribute['count'])) ? (int)$attribute['count'] : null;
-        $limit = !empty($attribute['limit']) ? (int)$attribute['limit'] : null;
-        $discount = (!empty($attribute['discount']) || $attribute['discount'] != 0) ? (int)$attribute['discount'] : null;
+        $count = (!empty($attribute['count'])) ? $attribute['count'] != 0 ? (int)$attribute['count'] : null : null;
+        $limit = !empty($attribute['limit']) ? $attribute['limit'] != 0 ? (int)$attribute['limit'] : null : null;
+        $discount = (!empty($attribute['discount'])) ? $attribute['discount'] != 0 ? (int)$attribute['discount'] : 0 : 0;
         $discount_status = (!empty($discount)) ? "active" : "deactivate";
 
         return Attribute::updateOrCreate(
@@ -68,17 +68,16 @@ trait ProductTrait
         $data = Attribute::where(['product_id' => $p_id, 'product_code' => $attribute['product_code']])->firstOrFail();
 
         $data->price = !empty($attribute['price']) ? (int)$attribute['price'] : $data->price;
-        $data->count = (!empty($attribute['count']) || $attribute['count'] == 0 ) ? (int)$attribute['count'] : $data->count;
+        $data->count = !empty($attribute['count']) ? (int)$attribute['count'] : ((array_key_exists('count', $attribute) && $attribute['count'] == 0 ) ? 0 : $data->count);
         $data->limit = !empty($attribute['limit']) ? (int)$attribute['limit'] : $data->limit;
 
         if (!empty($attribute['discount'])) {
-            if ($attribute['discount'] != null || (int)$attribute['discount'] != 0) {
                 $data->discount = (int)$attribute['discount'];
                 $data->discount_status = 'active';
             } else {
                 $data->discount = 0;
                 $data->discount_status = 'deactivate';
-            }
+
             $data->save();
         }
         $data->save();

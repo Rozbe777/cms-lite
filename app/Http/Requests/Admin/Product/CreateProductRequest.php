@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class CreateProductRequest extends FormRequest
 {
@@ -30,14 +31,14 @@ class CreateProductRequest extends FormRequest
             "metadata" => "string|nullable",
             "status" => "in:active,deactivate",
             "image" => "image|nullable",
-            "attributes.price" => "string",
+            "attributes.price" => "required|string",
             "attributes.product_code" => "string|unique:attributes,product_code",
             "attributes.count" => "numeric",
             "attributes.limit" => "numeric",
-            "features.name" => "string",
-            "features.color" => "string|required_if:features.name,رنگ",
-            "features.title" => "required_with:features.name|string",
-            "features.value" => "required_with:features.name|string",
+            "features.*.name" => "string",
+            "features.*.color" => "string|required_if:features.*.name,رنگ",
+            "features.*.title" => "required_with:features.name|string",
+            "features.*.value" => "required_with:features.name|string",
             "tag_list" => "array",
             "categoryIds" => "array",
         ];

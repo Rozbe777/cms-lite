@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin\Content;
 
-use App\Classes\Responses\Admin\Responses;
 use App\Classes\Responses\Admin\ResponsesTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Content\CreateContentRequest;
@@ -22,17 +21,14 @@ class ContentController extends Controller
     use ResponsesTrait;
 
     protected ContentRepository $contentRepository;
-    protected Responses $responses;
 
     /**
      * ContentController constructor.
      * @param ContentRepository $contentRepository
-     * @param Responses $responses
      */
-    public function __construct(ContentRepository $contentRepository, Responses $responses)
+    public function __construct(ContentRepository $contentRepository)
     {
         $this->contentRepository = $contentRepository;
-        $this->responses = $responses;
 //        $this->middleware(middleware'user_permission');
     }
 

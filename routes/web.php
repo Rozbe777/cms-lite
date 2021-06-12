@@ -30,8 +30,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//Route::get('/test', function () {
-//    $x = ["1",'2',"3",'4'];
+//Route::get('/products/1/edit', function () {
+//    $x = ["1",'2',"3",'4'];dd($x);
 //});
 
 Route::get('/', function () {

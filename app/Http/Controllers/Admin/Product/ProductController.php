@@ -13,15 +13,14 @@ use App\Models\Repositories\Admin\ProductRepository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {
 
-    protected $repository;
-
     use ResponsesTrait;
+
+    protected $repository;
 
     public function __construct(ProductRepository $repository)
     {
@@ -70,7 +69,6 @@ class ProductController extends Controller
             $this->message(__('message.content.search.notSuccess'))->view("pages.admin.product.index")->error() :
             $this->data($product)->message(__('message.success.200'))->view("pages.admin.product.index")->success();
     }
-
 
     /**
      * Display the specified resource.

@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Type;
 use App\Models\TypeFeature;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ProductSeeder extends Seeder
@@ -53,7 +54,13 @@ class ProductSeeder extends Seeder
             ]);
         }
 
-
+        foreach (range(1,10) as $index) {
+            DB::table('view_counts')->insert([
+                'viewcountable_type' => 'App\Models\Product',
+                'viewcountable_id' => $index,
+                'view_count' => 1
+            ]);
+        }
 
 
     }
