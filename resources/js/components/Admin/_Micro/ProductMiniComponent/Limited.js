@@ -1,36 +1,61 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import ReactDOM from 'react-dom';
 import './_Shared/style.scss'
 
-export const Limited = ({count, isInfinite}) => {
+export const Limited = ({limit, out: setOut}) => {
 
     const [status, setStatus] = useState(true);
+    const [data, setData] = useState({limit: limit ? limit : null})
+
     const handleClose = e => {
         e.preventDefault();
-        $("#back-loadered").removeClass("active");
-        ReactDOM.render('', document.getElementById("back-loadered"));
+        $("#back-loaderedss").removeClass("active");
+        ReactDOM.render('', document.getElementById("back-loaderedss"));
     }
 
-    const HandleChange = (e, id) => {
+    const handleAdd = e => {
+        e.preventDefault();
+        console.log("dataaa :" , data)
+        setOut(data);
+        handleClose(e);
+    }
 
-        let checkBoxCustom = $("span.checkboxed.priceee");
+    const HandleChange = (e) => {
+        let checkBoxCustom = $("span.checkboxed.limi");
         if (e.target.checked) {
             checkBoxCustom.addClass("active")
-            setStatus(false)
-            // $("input#input-dis").css("cursor" , "not-allowed");
-            // checked.push({
-            //     id: e.target.name,
-            //     name: e.target.value
-            // })
-            // setCheck(checked)
-            // console.log("1111111 : " , check)
-        } else {
-            checkBoxCustom.removeClass("active")
             setStatus(true)
-            // const results = check.filter(obj => parseInt(obj.id) !== id);
-            // var result = check.filter(obj => console.log("object name : " , parseInt(obj.id) , " / name : " , id));
-            // setCheck(results)
+            setData({limit: null})
+        } else {
+            setData({limit: 0})
+            checkBoxCustom.removeClass("active")
+            setStatus(false)
         }
+    }
+
+    useEffect(() => {
+        if (status) {
+            $("span.checkboxed.limi").addClass("active");
+        } else {
+            $("span.checkboxed.limi").removeClass("active");
+        }
+    }, [])
+
+
+    const HandleChangeLimit = e => {
+        e.preventDefault();
+        if (e.target.value < 1){
+            setData({
+                ...data,
+                [e.target.name] : 1
+            })
+        }else{
+            setData({
+                ...data,
+                [e.target.name] : e.target.value
+            })
+        }
+
     }
 
     return (
@@ -42,15 +67,17 @@ export const Limited = ({count, isInfinite}) => {
                         <fieldset className={"form-group"} style={{textAlign: 'center'}}>
                             <label htmlFor={"discount"}>حداکثر مقدار قابل خرید</label>
                             {status ? (
-                                <input style={{height: '45px', textAlign: 'center'}} value={count ? count : 0}
-                                       type={"number"} className={"form-control"} id={"discount"} name={"discount"}
-                                       min={0}
-                                       placeholder={"0"}/>
+                                <input style={{height: '45px', textAlign: 'center'}} value={"اندازه کل موجودی"}
+                                       type={"number"} className={"form-control deactive"} id={"discount"} name={"limit"}
+                                       disabled
+                                       placeholder={"اندازه کل موجودی"}/>
                             ) : (
                                 <input style={{height: '45px', textAlign: 'center',}}
-                                       disabled className={"form-control deactive"} id={"discount input-dis"}
-                                       name={"discount"}
-                                       value={"نامحدود"}
+                                       className={"form-control  "} id={"discount input-dis"}
+                                       name={"limit"}
+                                       type={"number"}
+                                       onChange={e => HandleChangeLimit(e)}
+                                       value={data.limit}
                                        placeholder={"نامحدود"}/>
                             )}
                         </fieldset>
@@ -59,13 +86,14 @@ export const Limited = ({count, isInfinite}) => {
                     <div className={"col-4"}>
                         <p style={{textAlign: 'center', fontSize: 12}}>نامحدود</p>
                         <fieldset>
-                                <span className={"checkboxed priceee"} style={{color: '#fff'}}>
+                                <span className={"checkboxed priceee limi"} style={{color: '#fff'}}>
                                     <i className={"bx bx-check"}></i>
                                 </span>
                             <input type="checkbox"
                                    onChange={e => HandleChange(e)}
                                    name={"discount"}
                                    className={"checked-do"}
+                                   defaultChecked={status}
                                    style={{background: 'green !important', opacity: 0}}
                                    value={0} id="checkbox1"/>
                             <label id={"labels"} htmlFor="checkbox1"></label>
@@ -80,7 +108,7 @@ export const Limited = ({count, isInfinite}) => {
                          id={"btn-action"}>
                         انصراف
                     </div>
-                    <div className={"col-6"} id={"btn-action"}>
+                    <div onClick={e => handleAdd(e)} className={"col-6"} id={"btn-action"}>
                         ذخیره
                     </div>
                 </div>

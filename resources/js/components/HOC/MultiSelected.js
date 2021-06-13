@@ -9,7 +9,7 @@ import './_Shared/style.scss'
 export const MultiSelected = () => {
 
     const [check, setCheck] = useState([])
-    const [data, setData] = useState()
+    const [data, setData] = useState({data : []})
     const [paginateThumbs, setPaginateThumbs] = useState();
     const [load, setLoad] = useState(false);
     let selectCheckBox = new Set();
@@ -18,9 +18,9 @@ export const MultiSelected = () => {
     }, [])
 
 
-    const GetAllCategory = () => {
+    const GetAllCategory = async () => {
         setLoad(true)
-        Request.GetAllCategory()
+        await Request.GetAllCategory()
             .then(res => {
                 console.log("ddddddddddd : " , res)
                 setLoad(false)
@@ -63,6 +63,7 @@ export const MultiSelected = () => {
         $("input[name="+id+"]").prop("checked" , false);
         var result = check.filter(obj => obj.id !== id);
         setCheck(result)
+        console.log("chipppp : " , check)
     }
     return (
         <div className={"main-selected"} style={{background : '#fff'}}>
@@ -102,7 +103,8 @@ export const MultiSelected = () => {
 
             <div className={"optionBox"}>
                 <ul>
-                    {data ? data.data.length > 0 ? data.data.map(item => (
+                    {/*{console.log("dataaaaa : " , data.data.data)}*/}
+                    {!load ? data.data.data ? data.data.data.map(item => (
                         <li>
                             <fieldset>
                                 <span className={"checkboxeds "+item.id} style={{color : '#fff'}}>
@@ -163,7 +165,7 @@ export const MultiSelected = () => {
 
                         </li>
 
-                    )) : (<p>انتخاب کنید</p>) : (
+                    )) : (<p>دسته ای برای انتخاب وجود ندارد</p>) : (
                         <Loading/>
                     )}
 

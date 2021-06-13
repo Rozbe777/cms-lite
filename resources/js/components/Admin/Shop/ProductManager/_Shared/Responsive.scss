@@ -120,7 +120,7 @@
 
 @media screen and (max-width: 1024px) {
     #shop_product_search {
-        height: 300px;
+        height: 185px;
     }
 
 
@@ -183,6 +183,11 @@ $itemDarkLigth: #2e3652;
 body.active-darked {
     background: $background !important;
 
+    #back-loaderedss{
+        .col-lg-4.col-sm-12.col-md-8{
+            background: $background !important;
+        }
+    }
 
     table {
         color: $color !important;
@@ -609,7 +614,7 @@ body.active-darked {
     .main-menu {
         background: $background !important;
         color: $color !important;
-
+        border: $itemBorder !important;
         .main-menu-content {
             background: $background !important;
             color: $color !important;
@@ -644,6 +649,8 @@ body.active-darked {
         }
 
         .navbar-header {
+            border: $itemBorder !important;
+
             ul {
                 background: $background !important;
                 color: $color !important;
@@ -846,6 +853,51 @@ body.active-darked {
         border-radius: 5px !important;
     }
 
+    .sketch-picker{
+        background: $background !important;
+    }
+    #btn-color-picker{
+        border-top: $itemBorder !important;
+        background: $itemBackground !important;
+        color: $color !important;
+        .col-6{
+            background: $itemBackground !important;
+        }
+        .col-6:first-child{
+            border-left: $itemBorder !important;
+        }
+    }
+
+    .top-table-input{
+        background: none !important;
+        border: none !important;
+        height: 30px !important;
+        color: $color !important;
+        &:focus{
+            border : $itemBorder !important;
+        }
+    }
+
+    .productsss{
+        height: auto !important;
+    }
+
+    .feture-color{
+        float: right;
+        height: 30px !important;
+        width: 30px !important;
+        box-shadow: unset!important;
+        padding: 0px;
+        border: unset !important;
+        float: right;
+        margin: 4px !important;
+    }
+
+
+    .table td{
+        padding: 10px !important;
+    }
+
     #prices{
         color: $color !important;
         background: $background !important;
@@ -859,6 +911,16 @@ body.active-darked {
                 color: $color !important;
             }
         }
+    }
+
+    .chips_input.form-control.connnn{
+        border: none !important;
+    }
+    #content-manager{
+        border-top: $itemBorder !important;
+    }
+    #shop_product_manager{
+        border-top: $itemBorder !important;
     }
 
 }
@@ -914,3 +976,38 @@ a.nav-link i {
         justify-content: center;
     }
 }
+
+#content-manager{
+    border-top: 1px solid #eee;
+}
+.bottom-footer{
+    z-index: 9999;
+}
+.navbar-container.content{
+    background: #fff;
+}
+.top-table-input{
+    background: none !important;
+    border: none !important;
+    height: 30px !important;
+    color: #fff !important;
+}
+
+.productsss{
+    height: auto !important;
+}
+
+.feture-color{
+    float: right;
+    height: 30px !important;
+    width: 30px !important;
+    box-shadow: unset!important;
+    padding: 0px;
+    border: unset !important;
+    float: right;
+    margin: 4px !important;
+}
+.table td{
+    padding: 10px !important;
+}
+

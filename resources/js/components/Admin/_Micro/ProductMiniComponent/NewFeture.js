@@ -1,8 +1,9 @@
 import React, {useState} from "react";
 import ReactDOM from 'react-dom';
+import {ErroHandle, error as ErrorToast, error} from './../../../../helper'
 import './_Shared/style.scss'
 
-export const NewFeture = ({dataOut : pushDataOut , close :pushClose}) => {
+export const NewFeture = ({dataOut : pushDataOut}) => {
 
     const [status, setStatus] = useState(true);
     const [data ,setData] = useState({
@@ -10,20 +11,36 @@ export const NewFeture = ({dataOut : pushDataOut , close :pushClose}) => {
     });
     const handleClose = e => {
         e.preventDefault();
-        pushClose(e)
+        $("#back-loaderedss").removeClass("active");
+        ReactDOM.render('', document.getElementById("back-loaderedss"));
     }
 
     const HandleChangeSelectOption = (e) => {
         e.preventDefault()
-        setData({
-            ...data ,
-            [e.target.name] : e.target.value
-        })
+        if (e.target.name === "text"){
+            setData({
+                ...data ,
+                [e.target.name] : e.target.value
+            })
+        }else{
+            setData({
+                ...data ,
+                type : 'color',
+                [e.target.name] : e.target.value
+            })
+        }
+
     }
 
     const HandleForm = e => {
         e.preventDefault()
-        pushDataOut(data)
+        // handleClose(e)
+        console.log(data.name , data , ".........")
+        if (data.name){
+            pushDataOut(data)
+        }else{
+            ErrorToast("نام ویژگی را اضافه کنید")
+        }
     }
 
     return (
@@ -34,7 +51,7 @@ export const NewFeture = ({dataOut : pushDataOut , close :pushClose}) => {
                     <div className={"col-12"}>
                         <p style={{textAlign: 'center', fontSize: 12}}>نوع ورودی</p>
                         <fieldset className={"form-group"} style={{textAlign: 'center' , width : '100%'}} >
-                            <select name={"type"} className={"form-control"} id={"basicSelect"} onChange={HandleChangeSelectOption}>
+                            <select name={"type"} className={"form-control"} id={"basicSelect"} onChange={e => HandleChangeSelectOption(e)}>
                                 <option value={"text"}>متن ( پیشفرض )</option>
                                 <option value={"color"}>رنگ</option>
                             </select>
@@ -60,7 +77,7 @@ export const NewFeture = ({dataOut : pushDataOut , close :pushClose}) => {
                          id={"btn-action"}>
                         انصراف
                     </div>
-                    <div onClick={HandleForm} className={"col-6"} id={"btn-action"}>
+                    <div onClick={e => HandleForm(e)} className={"col-6"} id={"btn-action"}>
                         ذخیره
                     </div>
                 </div>

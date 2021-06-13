@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React, {useState , useEffect} from "react";
 import ReactDOM from 'react-dom';
 import './_Shared/style.scss'
 
-export const Inventory = ({count, hasDiscount , out : setOut}) => {
+export const Inventory = ({count, out: setOut}) => {
 
-    const [status, setStatus] = useState(true);
-    const [data , setData] = useState({count : ''})
+    const [status, setStatus] = useState(count === null ? true : false);
+    const [data, setData] = useState({count: count ? count : null})
     const handleClose = e => {
         e.preventDefault();
         $("#back-loaderedss").removeClass("active");
@@ -18,19 +18,30 @@ export const Inventory = ({count, hasDiscount , out : setOut}) => {
         handleClose(e);
     }
 
-    const HandleChange = (e, id) => {
+    useEffect(() => {
+        if (status) {
+            $("span.checkboxed.invev").addClass("active");
+        } else {
+            $("span.checkboxed.invev").removeClass("active");
+        }
+    }, [])
 
-        let checkBoxCustom = $("span.checkboxed.priceee");
+    const HandleChange = (e, id) => {
+        let checkBoxCustom = $("span.checkboxed.invev");
         if (e.target.checked) {
             checkBoxCustom.addClass("active")
-            setStatus(false)
-            setData({count : ""})
+            setStatus(true)
+            setData({count: null})
 
         } else {
+            setData({count: 0})
             checkBoxCustom.removeClass("active")
-            setStatus(true)
+            setStatus(false)
         }
     }
+
+
+
 
     const HandleInventory = e => {
         e.preventDefault();
@@ -47,8 +58,8 @@ export const Inventory = ({count, hasDiscount , out : setOut}) => {
                     <div className={"col-8"}>
                         <fieldset className={"form-group"} style={{textAlign: 'center'}}>
                             <label htmlFor={"discount"}>موجودی</label>
-                            {status ? (
-                                <input style={{height: '45px', textAlign: 'center'}} value={data.count ? data.count : 0}
+                            {!status ? (
+                                <input style={{height: '45px', textAlign: 'center'}} value={data.count ? data.count : null}
                                        onChange={e => HandleInventory(e)}
                                        type={"number"} className={"form-control"} id={"discount"} name={"count"}
                                        min={0}
@@ -61,17 +72,17 @@ export const Inventory = ({count, hasDiscount , out : setOut}) => {
                                        placeholder={"نامحدود"}/>
                             )}
                         </fieldset>
-
                     </div>
                     <div className={"col-4"}>
                         <p style={{textAlign: 'center', fontSize: 12}}>نامحدود</p>
                         <fieldset>
-                                <span className={"checkboxed priceee"} style={{color: '#fff'}}>
+                                <span className={"checkboxed priceee invev"} style={{color: '#fff'}}>
                                     <i className={"bx bx-check"}></i>
                                 </span>
                             <input type="checkbox"
                                    onChange={e => HandleChange(e)}
                                    name={"discount"}
+                                   defaultChecked={status}
                                    className={"checked-do"}
                                    style={{background: 'green !important', opacity: 0}}
                                    value={0} id="checkbox1"/>

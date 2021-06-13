@@ -1,16 +1,29 @@
-import React, {useState} from "react";
+import React, {useState,useEffect} from "react";
 import ReactDOM from 'react-dom';
 import './_Shared/style.scss'
 
-export const Price = ({priceDataOld,newPrice :setPrice }) => {
+export const Price = ({discount, priceDataOld, price, newPrice: setPrice}) => {
 
-    const [status, setStatus] = useState(true);
-    const [priceData , setPriceData] = useState({})
+    const [status, setStatus] = useState(discount !== 0 ? true : false);
+    console.log("itemssss : " , discount , status)
+
+    const [priceData, setPriceData] = useState({
+        price : price,
+        discount : discount
+    })
     const handleClose = e => {
         e.preventDefault();
         $("#back-loaderedss").removeClass("active");
         ReactDOM.render('', document.getElementById("back-loaderedss"));
     }
+
+    useEffect(() => {
+        if (status) {
+            $("span.checkboxed.priceee").addClass("active");
+        } else {
+            $("span.checkboxed.priceee").removeClass("active");
+        }
+    }, [])
 
     const handleAdd = e => {
         e.preventDefault();
@@ -22,20 +35,29 @@ export const Price = ({priceDataOld,newPrice :setPrice }) => {
         let checkBoxCustom = $("span.checkboxed.priceee");
         if (e.target.checked) {
             checkBoxCustom.addClass("active")
-            setStatus(false)
+            setStatus(true)
         } else {
             checkBoxCustom.removeClass("active")
-            setStatus(true)
-            delete priceData.discount;
+            setStatus(false)
+            priceData.discount = 0;
             setPriceData(priceData)
         }
     }
 
     const HandlePrice = e => {
         e.preventDefault();
-        let datain = {...priceData};
-        datain[e.target.name] = e.target.value;
-        setPriceData(datain);
+        let checkBoxCustom = $("span.checkboxed.priceee").prop("checked");
+        if (!checkBoxCustom) {
+            setPriceData({
+                ...priceData,
+                [e.target.name]: e.target.value
+            })
+        } else {
+            let datain = {...priceData};
+            datain.discount ? delete datain.discount : null;
+            datain[e.target.name] = e.target.value;
+            setPriceData(datain);
+        }
     }
 
     return (
@@ -46,13 +68,15 @@ export const Price = ({priceDataOld,newPrice :setPrice }) => {
                     <div className={"col-4"}>
                         <fieldset className={"form-group"} style={{textAlign: 'center'}}>
                             <label htmlFor={"price"}>قیمت</label>
-                            {status ? (
+                            {!status ? (
                                 <input style={{height: '45px', textAlign: 'center'}} value={priceData.price}
                                        onChange={e => HandlePrice(e)}
                                        type={"number"} className={"form-control"} id={"price"} name={"price"} min={0}
                                        placeholder={"0"}/>
                             ) : (
-                                <input style={{height: '45px', textAlign: 'center' ,textDecoration : 'line-through'}} value={priceData.price}
+                                <input style={{height: '45px', textAlign: 'center', textDecoration: 'line-through'}}
+                                       value={priceData.price}
+                                       onChange={e => HandlePrice(e)}
                                        type={"number"} className={"form-control"} id={"price"} name={"price"} min={0}
                                        placeholder={"0"}/>
                             )}
@@ -63,8 +87,9 @@ export const Price = ({priceDataOld,newPrice :setPrice }) => {
                     <div className={"col-4"}>
                         <fieldset className={"form-group"} style={{textAlign: 'center'}}>
                             <label htmlFor={"discount"}>قیمت با تخفیف</label>
-                            {status ? (
-                                <input style={{height: '45px', textAlign: 'center',cursor : 'not-allowed !important'}} value={0}
+                            {!status ? (
+                                <input style={{height: '45px', textAlign: 'center', cursor: 'not-allowed !important'}}
+                                       value={discount ? discount : "ندارد"}
                                        disabled className={"form-control deactive"} id={"discount input-dis"}
                                        name={"discount"} min={0}
                                        placeholder={"0"}/>
@@ -88,6 +113,7 @@ export const Price = ({priceDataOld,newPrice :setPrice }) => {
                                    onChange={e => HandleChange(e)}
                                    name={"discount"}
                                    className={"checked-do"}
+                                   defaultChecked={status}
                                    style={{background: 'green !important', opacity: 0}}
                                    value={0} id="checkbox1"/>
                             <label id={"labels"} htmlFor="checkbox1"></label>
@@ -102,9 +128,16 @@ export const Price = ({priceDataOld,newPrice :setPrice }) => {
                          id={"btn-action"}>
                         انصراف
                     </div>
-                    <div onClick={e => handleAdd(e)} className={"col-6"} id={"btn-action"}>
-                        ذخیره
-                    </div>
+                    {priceData.price ? (
+                        <div onClick={e => handleAdd(e)} className={"col-6"} id={"btn-action"}>
+                            ذخیره
+                        </div>
+                    ) : (
+                        <div className={"col-6"} id={"btn-action"} style={{cursor: 'not-allowed'}}>
+                            ذخیره
+                        </div>
+                    )}
+
                 </div>
             </div>
         </div>
