@@ -23,25 +23,37 @@ import Loading from "../../_Micro/Loading";
 
 const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
     let defaultCol = {
-        product_code: 12341216513156,
-        price: 0,
-        discount: 0,
-        count: null,
-        isInfinite: true,
-        limit: null,
+        attributes: {
+            product_code: 12341216513156,
+            price: 0,
+            discount: 0,
+            count: null,
+            isInfinite: true,
+            limit: null,
+        },
         fetures: {
             text: [],
             color: []
         }
     };
 
+    //
+    const [attributes, setAttributes] = useState([
+        {
+            product_code: 12341216513156,
+            price: 0,
+            discount: 0,
+            count: null,
+            isInfinite: true,
+            limit: null,
+        }
+    ]);
 
-    const [defaultTableHead, setDefaultTableHead] = useState([
-        'کد کالا',
-        'قیمت',
-        'موجودی',
-        'محدودیت'
-    ])
+    const [defaultTableHead, setDefaultTableHead] = useState({
+        color: [],
+        text: []
+    })
+
 
     const [changeCheck, setChangeCheck] = useState(false)
     const [comments, setComments] = useState();
@@ -56,9 +68,13 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
     const [chipsetChange, setChipsetChange] = useState(false);
     const [chipsetTagsChange, setChipsetTagsChange] = useState(false);
     const [chipsetTags, setChipsetTags] = useState([]);
-    const [priceData, setPriceData] = useState([
-        defaultCol
-    ]);
+
+    let mins = 1000000000;
+    let maxs = 9999999999;
+    let codes = Math.round(mins + Math.random() * (maxs - mins));
+    const [priceData, setPriceData] = useState({
+        [codes]: defaultCol
+    });
     let tags = [];
     const [edit, setEdit] = useState(false);
     const [file, setFile] = useState();
@@ -92,7 +108,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
 
 
     const CreateNewProduct = (data) => {
-        console.log("adding dataaaaaa : ", data)
+        // console.log("adding dataaaaaa : ", data)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -109,7 +125,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
                     .then(res => {
                         setClear(true)
                         let resError = res.data.message ? res.data.message : '';
-                        console.log("status error : ", res.data.size)
+                        // console.log("status error : ", res.data.size)
                         if (res.status == 200 && resError == '') {
                             pushResult(res);
                             localStorage.removeItem("status");
@@ -233,7 +249,6 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
             metaDatas.tags = chipsets;
             setMetaData(metaDatas);
         }
-
     }
 
     const handleAddChipTags = (item) => {
@@ -246,7 +261,6 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
             chipsets.push(item);
             setChipsetTags(chipsets);
         }
-
     }
 
     const GetAllCategory = async () => {
@@ -270,7 +284,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
     }
 
     const HandleForm = (e) => {
-        console.log("mmmmm ", priceData);
+        // console.log("mmmmm ", priceData);
         let formNew = {...formData};
         let formFile = new FormData();
         formFile.append("file", file);
@@ -294,7 +308,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         formNew.metadata = JSON.stringify(metaData);
         if (formData.title && formData.title !== '') {
             $("input[name=title]").removeClass("is-invalid");
-            console.log("form dataaaaaaaa : ", formNew)
+            // console.log("form dataaaaaaaa : ", formNew)
             CreateNewProduct(formNew);
         } else {
             $("input[name=title]").addClass("is-invalid");
@@ -329,7 +343,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
     }
 
     const HandleUpdateForm = (data, id) => {
-        console.log("data update : ", data)
+        // console.log("data update : ", data)
         swal({
             title: 'ویرایش دسته بندی',
             text: "آیا مطمئنید؟",
@@ -345,7 +359,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
                 Request.UpdateDataCategory(data, id)
                     .then(res => {
                         let resError = res.data.message ? res.data.message : '';
-                        console.log("status error : ", res.data.size)
+                        // console.log("status error : ", res.data.size)
                         if (res.status == 200 && resError == '') {
                             pushResult(res);
                             localStorage.removeItem("status");
@@ -395,7 +409,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
     const HandleDuplicate = () => {
         let formOldData = {...formData};
         formOldData.content = contentNew;
-        console.log("data category in : ", names);
+        // console.log("data category in : ", names);
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
@@ -440,21 +454,39 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         }
     }
 
+    const [localed, setLocaled] = useState(false)
 
-    const HandleDataprice = (data, index) => {
-        let prices = [...priceData];
-        prices[index].price = data.price;
-        prices[index].discount = data.discount ? data.discount : 0;
-        setPriceData(prices);
+    let counter = 0;
+    const HandleDataprice = (data, index, product_code) => {
+        let products = {...priceData};
+
+        if (!localed) {
+            Object.keys(priceData).map(item => {
+                if (item == product_code) {
+                    setLocaled(true);
+                    products[item].attributes.price = data.price;
+                    console.log("ppppp ", products);
+                    setPriceData({
+                        ...priceData,
+                        [item]: products
+                    });
+                }
+            })
+        }
+
+        console.log('-----------------------------------------' , priceData)
     }
 
-    const HandlePrice = (e, price, discount, index) => {
+    const HandlePrice = (e, price, discount, index, product_code) => {
         e.preventDefault();
+        setLocaled(false)
+        let ids = index;
+        console.log("id : ", index)
         $("#back-loaderedss").addClass("active");
         ReactDOMs.render(<Price priceDataOld
                                 discount={discount}
                                 price={price}
-                                newPrice={prices => HandleDataprice(prices, index)}
+                                newPrice={prices => HandleDataprice(prices, ids, product_code)}
         />, document.getElementById("back-loaderedss"));
     }
 
@@ -484,9 +516,17 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
 
     const HandleAddNew = (e) => {
         e.preventDefault();
-        let dataaa = [...priceData];
-        dataaa.push(priceData[priceData.length - 1]);
-        setPriceData(dataaa);
+        let dataaa = {...priceData};
+        let min = 1000000000;
+        let max = 9999999999;
+        let code = Math.round(min + Math.random() * (max - min));
+        Object.keys(dataaa).map((item, index) => {
+            if (index == Object.keys(dataaa).length - 1) {
+                console.log("?????", dataaa[item]);
+                dataaa[code] = priceData[item];
+                setPriceData(dataaa);
+            }
+        })
     }
 
     const HandleFeture = (e) => {
@@ -494,52 +534,74 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<NewFeture close={e => closeFeture(e)}
                                    dataOut={item => AddFeture(item)}/>, document.getElementById("back-loaderedss"));
-
     }
 
     const closeFeture = (e) => {
         e.preventDefault();
         $("#back-loaderedss").removeClass("active");
         ReactDOM.render('', document.getElementById("back-loaderedss"));
-
     }
 
     const AddFeture = (item) => {
-        let newItemHead = [...defaultTableHead];
-        let ressss = newItemHead.includes(item.name);
-        console.log("....." , ressss)
-        if (!ressss){
-            newItemHead.push(item.name)
-            setDefaultTableHead(newItemHead);
-            if (item.type === "text") {
-                let itemCounts = priceData[0].fetures.text.length;
-                priceData.map((items, index) => {
-                    items.fetures.text[itemCounts] = {
-                        name: item.name,
-                        title: ''
-                    };
-                    priceData[index] = items;
-                })
-                setPriceData(priceData);
-            } else {
+        let newItemHead = {...defaultTableHead};
+        let ressss = newItemHead.text.includes(item.name) || newItemHead.color.includes(item.name);
+        if (!ressss) {
+            if (item.type == "text") {
+                newItemHead.text.push(item.name);
+                setDefaultTableHead(newItemHead)
 
-                let itemCounts = priceData[0].fetures.color.length;
-                priceData.map((items, index) => {
-                    items.fetures.color[itemCounts] = {
-                        name: item.name,
-                        title: '',
-                        value: ''
-                    };
-                    priceData[index] = items;
+                Object.keys(priceData).map((items, index) => {
+                    if (priceData[items].fetures.text.length > 0) {
+                        priceData[items].fetures.text.map(news => {
+                            let indexFind = priceData[items].fetures.text.find(elem => elem.name === item.name);
+                            if (!indexFind) {
+                                priceData[items].fetures.text.push({
+                                    name: item.name,
+                                    title: ''
+                                });
+                                setPriceData(priceData);
+                            }
+                        })
+                    } else {
+                        priceData[items].fetures.text.push({
+                            name: item.name,
+                            title: ''
+                        });
+                        setPriceData(priceData);
+                    }
                 })
-                setPriceData(priceData);
+            } else {
+                newItemHead.color.push(item.name);
+                setDefaultTableHead(newItemHead)
+
+                Object.keys(priceData).map((items, index) => {
+                    if (priceData[items].fetures.color.length > 0) {
+                        priceData[items].fetures.color.map(news => {
+                            let indexFind = priceData[items].fetures.color.find(elem => elem.name === item.name);
+                            if (!indexFind) {
+                                priceData[items].fetures.color.push({
+                                    name: item.name,
+                                    title: 'مشکی',
+                                    value: '#000000'
+                                });
+                                setPriceData(priceData);
+                            }
+                        })
+                    } else {
+                        priceData[items].fetures.color.push({
+                            name: item.name,
+                            title: 'مشکی',
+                            value: '#000000'
+                        });
+                        setPriceData(priceData);
+                    }
+                })
             }
             $("#back-loaderedss").removeClass("active");
             ReactDOM.render('', document.getElementById("back-loaderedss"));
-        }else{
+        } else {
             ErrorToast("ویژگی قبلا ثبت شده است")
         }
-
 
 
     }
@@ -556,11 +618,15 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         setPriceData(data)
     }
 
-    const HandleFetureText = (e, index, id) => {
+    const HandleFetureText = (e, index, id, item) => {
         e.preventDefault();
         let data = [...priceData];
-        data[id].fetures.text[index].name = e.target.name;
-        data[id].fetures.text[index].title = e.target.value;
+
+        item[index].title = e.target.value
+        // thisData.title = e.target.value;
+        data[id].fetures.text = item;
+        // console.log("id /// price", data)
+
         setPriceData(data)
     }
 
@@ -575,43 +641,72 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         let data = [...priceData];
         data[id].fetures.color[index].value = hex;
         setPriceData(data)
-        console.log("////,,,,", "span#color-selected." + id + index)
+        // console.log("////,,,,", "span#color-selected." + id + index)
         $("span#color-selected." + title + "." + id).css({"color": "#000 !important"})
     }
-    let renderFiture = (feture, type, id) => {
-        if (type == "text") {
-            return feture.map((item, index) => (
-                <td id={"color-col"}>
-                    <input type={"text"} id={"input-code-kala"}
-                           placeholder={"مقدار"} className={"form-control productsss"}
-                           name={item.name}
-                           onChange={e => HandleFetureText(e, index, id)}
-                           style={{maxWidth: '130px'}}
-                           value={item.title ? item.title : ''}/>
-                </td>
-            ))
-        } else if (type == "color") {
-            return feture.map((item, index) => (
-                <td id={"color-col"}>
-                    <input type={"text"} id={"input-code-kala"}
-                           placeholder={"مقدار"} className={"form-control productsss"}
-                           name={item.name}
-                           style={{maxWidth: '120px', float: 'right'}}
-                           onChange={e => HandleFetureColor(e, index, id)}
-                           value={item.title ? item.title : ''}/>
-                    {/*<span id={"color-selected"} className={item.title} style={{background : "#f00"}} onClick={e => handleShowColorPicker(e , index , id , item.title)}></span>*/}
-                    <input type={"color"} className={"feture-color"} defaultValue={priceData[id].fetures.color[index].value}
-                                                       onChange={e => handleShowColorPicker(e, index, id)}/>
-                </td>
-            ))
-        } else {
+    const renderFitureText = (dataIns, id) => {
+        // console.log("text ", dataIns)
 
-        }
+        return dataIns.map((item, index) => (
+            <td id={"color-col"}>
+                <input type={"text"} id={"input-code-kala"}
+                       placeholder={"مقدار"} className={"form-control productsss"}
+                       name={item.name}
+                       id={id + " " + index}
+                       onChange={e => HandleFetureText(e, index, id, dataIns)}
+                       style={{maxWidth: '130px'}}
+                       value={item.title ? item.title : ''}/>
+            </td>
+        ))
+    }
+    const renderFitureColor = (dataInss, id, code) => {
+        // console.log("colors ", dataInss)
+        return dataInss.map((item, index) => (
+            <td id={"color-col"}>
+                <input type={"text"} id={"input-code-kala"}
+                       placeholder={"مقدار"} className={"form-control productsss"}
+                       name={item.name}
+                       style={{maxWidth: '120px', float: 'right'}}
+                       onChange={e => HandleFetureColor(e, index, id)}
+                       value={item.title ? item.title : ''}/>
+                {/*<span id={"color-selected"} className={item.title} style={{background : "#f00"}} onClick={e => handleShowColorPicker(e , index , id , item.title)}></span>*/}
+                <input type={"color"} className={"feture-color"}
+                       defaultValue={priceData[code].fetures.color[index].value}
+                       onChange={e => handleShowColorPicker(e, index, id)}/>
+            </td>
+        ))
     }
 
-    const HandlePickerColor = () => {
-        <ColorPicker/>
+    // const HandlePickerColor = () => {
+    //     <ColorPicker/>
+    // }
+
+    const ChangeHeadTitleText = (e, index) => {
+        e.preventDefault();
+        let dataHead = {...defaultTableHead};
+        let priceNew = [...priceData];
+        dataHead.text[index] = e.target.value;
+        priceData.map((items, indexes) => {
+            items.fetures.text[index].name = e.target.value;
+            priceNew[indexes] = items;
+            setPriceData(priceNew);
+        })
+        setDefaultTableHead(dataHead);
+
     }
+    const ChangeHeadTitleColor = (e, index) => {
+        e.preventDefault();
+        let dataHead = {...defaultTableHead};
+        let priceNew = [...priceData];
+        dataHead.color[index] = e.target.value;
+        priceData.map((items, indexes) => {
+            items.fetures.color[index].name = e.target.value;
+            priceNew[indexes] = items;
+            setPriceData(priceNew);
+        })
+        setDefaultTableHead(dataHead);
+    }
+
 
     return (
         <>
@@ -767,22 +862,29 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
                                         <table className="table">
                                             <thead>
                                             <tr className={"product-table-head"}>
-                                                {defaultTableHead.map((items, index) => {
-                                                    if (index > 3) {
-                                                        return (
-                                                            (
-                                                                <th id={"color-col"}>
-                                                                    <input className={"top-table-input"} type={"text"}
-                                                                           value={items}/>
-                                                                </th>
-                                                            )
-                                                        )
-                                                    } else {
-                                                        return (
-                                                            <th id={"color-col"}>{items}</th>
-                                                        )
-                                                    }
-                                                })}
+                                                <th id={"color-col"}>کدکالا</th>
+                                                <th id={"color-col"}>قیمت</th>
+                                                <th id={"color-col"}>موجودی</th>
+                                                <th id={"color-col"}>محدودیت</th>
+
+
+                                                {defaultTableHead.text.map((items, index) => (
+                                                    <th id={"color-col"}>
+                                                        <input className={"top-table-input"} type={"text"}
+                                                               onChange={e => ChangeHeadTitleText(e, index)}
+                                                               value={items}/>
+                                                    </th>
+                                                ))}
+
+                                                {defaultTableHead.color.map((items, index) => (
+                                                    <th id={"color-col"}>
+                                                        <input className={"top-table-input"} type={"text"}
+                                                               onChange={e => ChangeHeadTitleColor(e, index)}
+                                                               value={items}/>
+                                                    </th>
+                                                ))}
+
+
                                                 <th>
                                                     عملیات ها
                                                 </th>
@@ -798,38 +900,78 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
                                             <tbody>
 
                                             {
-                                                priceData.map((item, index) => (
-                                                    <tr>
-                                                        <td style={{maxWidth: '120px', padding: '0 10px'}}>
-                                                            <input type={"text"} style={{textAlign: 'center'}}
-                                                                   className={"form-control productsss"}
-                                                                   defaultValue={item.product_code}
-                                                                   name={"productCode"}
-                                                                   id={"input-code-kala"}/>
-                                                        </td>
-                                                        <td><span
-                                                            onClick={e => HandlePrice(e, item.price, item.discount, index)}>{item.price} تومان</span>
-                                                        </td>
-                                                        <td><span
-                                                            onClick={e => HandleInventory(e, item.count, index)}>{item.count === null ? 'نامحدود' : item.count}</span>
-                                                        </td>
-                                                        <td><span
-                                                            onClick={e => HandleLimited(e, item.limit, index)}>{item.limit !== null ? item.limit : item.count === null ? 'نامحدود' : item.count}</span>
-                                                        </td>
-                                                        {item.fetures.text.length > 0 ? renderFiture(item.fetures.text, "text", index) : ''}
-                                                        {item.fetures.color.length > 0 ? renderFiture(item.fetures.color, "color", index) : ''}
-                                                        <td id={"actions-item"}>
-                                                    <span>
-                                                        <i className={"bx bx-link"}></i>
-                                                        لینک خرید
-                                                    </span>
-                                                            <a href="#">
-                                                                <i className="bx bx-trash"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                ))
+                                                Object.keys(priceData).map((item, index) => {
+                                                    return (
+                                                        <tr>
+                                                            <td style={{maxWidth: '120px', padding: '0 10px'}}>
+                                                                <input type={"text"} style={{textAlign: 'center'}}
+                                                                       className={"form-control productsss"}
+                                                                       value={item}
+                                                                       name={"productCode"}
+                                                                       id={"input-code-kala"}/>
+                                                            </td>
+                                                            <td><span
+                                                                onClick={e => HandlePrice(e, priceData[item].attributes.price, priceData[item].attributes.discount, index, item)}>{priceData[item].attributes.price} تومان</span>
+                                                            </td>
+                                                            <td><span
+                                                                onClick={e => HandleInventory(e, priceData[item].attributes.count, index)}>{priceData[item].attributes.count === null ? 'نامحدود' : priceData[item].attributes.count}</span>
+                                                            </td>
+                                                            <td><span
+                                                                onClick={e => HandleLimited(e, priceData[item].attributes.limit, index)}>{priceData[item].attributes.limit !== null ? priceData[item].attributes.limit : priceData[item].attributes.count === null ? 'نامحدود' : priceData[item].attributes.count}</span>
+                                                            </td>
+                                                            {renderFitureText(priceData[item].fetures.text, index)}
+                                                            {renderFitureColor(priceData[item].fetures.color, index, item)}
+
+                                                            <td id={"actions-item"}>
+                                                                        <span>
+                                                                            <i className={"bx bx-link"}></i>
+                                                                            لینک خرید
+                                                                        </span>
+                                                                <a href="#">
+                                                                    <i className="bx bx-trash"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+
+                                                    )
+                                                })
                                             }
+
+
+                                            {/*{*/}
+                                            {/*    Object.keys(priceData).map((item, index) => (*/}
+                                            {/*        <tr>*/}
+                                            {/*            <td style={{maxWidth: '120px', padding: '0 10px'}}>*/}
+                                            {/*                <input type={"text"} style={{textAlign: 'center'}}*/}
+                                            {/*                       className={"form-control productsss"}*/}
+                                            {/*                       defaultValue={item.attributes.product_code}*/}
+                                            {/*                       name={"productCode"}*/}
+                                            {/*                       id={"input-code-kala"}/>*/}
+                                            {/*            </td>*/}
+                                            {/*            <td><span*/}
+                                            {/*                onClick={e => HandlePrice(e, item.attributes.price, item.attributes.discount, index ,  item.attributes.product_code)}>{item.attributes.price} تومان</span>*/}
+                                            {/*            </td>*/}
+                                            {/*            <td><span*/}
+                                            {/*                onClick={e => HandleInventory(e, item.attributes.count, index)}>{item.attributes.count === null ? 'نامحدود' : item.attributes.count}</span>*/}
+                                            {/*            </td>*/}
+                                            {/*            <td><span*/}
+                                            {/*                onClick={e => HandleLimited(e, item.attributes.limit, index)}>{item.attributes.limit !== null ? item.attributes.limit : item.attributes.count === null ? 'نامحدود' : item.attributes.count}</span>*/}
+                                            {/*            </td>*/}
+                                            {/*            {renderFitureText(item.fetures.text, index)}*/}
+                                            {/*            {renderFitureColor(item.fetures.color, index)}*/}
+
+                                            {/*            <td id={"actions-item"}>*/}
+                                            {/*        <span>*/}
+                                            {/*            <i className={"bx bx-link"}></i>*/}
+                                            {/*            لینک خرید*/}
+                                            {/*        </span>*/}
+                                            {/*                <a href="#">*/}
+                                            {/*                    <i className="bx bx-trash"></i>*/}
+                                            {/*                </a>*/}
+                                            {/*            </td>*/}
+                                            {/*        </tr>*/}
+                                            {/*    ))*/}
+                                            {/*}*/}
 
 
                                             </tbody>
