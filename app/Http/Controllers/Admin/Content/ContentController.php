@@ -47,6 +47,20 @@ class ContentController extends Controller
     }
 
     /**
+     * @param SearchContentRequest $request
+     * @return Factory|View|RedirectResponse
+     */
+    public function blade(SearchContentRequest $request)
+    {
+        $contents = $this->contentRepository->all($request->status, $request->search, $request->tags, $request->categories);
+
+        if (!$contents)
+            return redirect()->back()->with('error', __("message.content.search.notSuccess"));
+
+        return adminView('pages.admin.content.index', compact('contents'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return Factory|View
@@ -60,7 +74,7 @@ class ContentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param CreateContentRequest $request
-     * @return JsonResponse
+     * @return Factory|View|JsonResponse
      */
     public function store(CreateContentRequest $request)
     {
@@ -73,7 +87,7 @@ class ContentController extends Controller
      * Display the specified resource.
      *
      * @param Content $content
-     * @return JsonResponse
+     * @return Factory|View|JsonResponse
      */
     public function show(Content $content)
     {
@@ -114,7 +128,7 @@ class ContentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Content $content
-     * @return JsonResponse|RedirectResponse
+     * @return Factory|View|JsonResponse|RedirectResponse
      */
     public function destroy(Content $content)
     {
@@ -127,7 +141,7 @@ class ContentController extends Controller
      * Remove the list(array) resources from storage.
      *
      * @param multipleDestroyRequest $request
-     * @return JsonResponse|RedirectResponse
+     * @return Factory|View|JsonResponse|RedirectResponse
      */
     public function multipleDestroy(multipleDestroyRequest $request)
     {

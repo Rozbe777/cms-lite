@@ -51,6 +51,21 @@ class PageController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return View|JsonResponse|RedirectResponse
+     */
+    public function blade(SearchPageRequest $request)
+    {
+        $page = $this->pageRepository->all($request->status, $request->search, $request->owner, $request->pageSize);
+
+        if (!$page)
+            return redirect()->back()->with('error', __("message.content.search.notSuccess"));
+
+        return adminView('pages.admin.page.index', compact('page'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return Factory|\Illuminate\Contracts\View\View

@@ -33,7 +33,7 @@ class PermissionSeeder extends Seeder
                     'weight' => 5,
                     'icon' => 'flaticon-multiple-users-silhouette',
                     'is_menu' => 1,
-                    "name" => "contents.index",
+                    "name" => "contents.blade",
                     "display_name" => "محتوا ها",
                     "children" => [
                         ['icon' => 'flaticon-multiple-users-silhouette',
@@ -46,7 +46,7 @@ class PermissionSeeder extends Seeder
                     'weight' => 10,
                     'icon' => 'flaticon-multiple-users-silhouette',
                     'is_menu' => 1,
-                    "name" => "pages.index",
+                    "name" => "pages.blade",
                     "display_name" => "صفحات",
                     "children" => []
                 ],
@@ -54,7 +54,7 @@ class PermissionSeeder extends Seeder
                     'weight' => 50,
                     'icon' => 'flaticon-multiple-users-silhouette',
                     'is_menu' => 1,
-                    "name" => "users.index",
+                    "name" => "users.blade",
                     "display_name" => "کاربران",
                     "children" => [
                         [
