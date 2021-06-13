@@ -50,6 +50,21 @@ class TagController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return View|JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function blade(SearchTagRequest $request)
+    {
+        $tag = $this->tagRepositories->all($request->status, $request->search, $request->pageSize);
+
+        if (!$tag)
+            return redirect()->back()->with('error', __("message.content.search.notSuccess"));
+
+        return adminView('pages.admin.tag.index', compact('tag'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return Factory|View

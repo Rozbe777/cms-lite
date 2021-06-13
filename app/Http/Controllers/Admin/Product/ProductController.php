@@ -51,6 +51,25 @@ class ProductController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return Factory|View|JsonResponse|\Illuminate\Http\RedirectResponse|Response
+     */
+    public function blade(SearchProductRequest $request)
+    {
+        $status = !empty($request->filter['status']) ? $request->filter['status'] : null;
+        $entity = !empty($request->filter['entity']) ? $request->filter['entity'] : null;
+        $discount = !empty($request->filter['discount']) ? $request->filter['discount'] : null;
+
+        $product = $this->repository->all($status, $request->search , $entity, $request->categories , $request->sort, $discount);
+
+        if (!$product)
+            return redirect()->back()->with('error', __("message.content.search.notSuccess"));
+
+        return adminView('pages.admin.product.index', compact('product'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return Factory|View

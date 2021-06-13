@@ -30,9 +30,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('a', function () {
-    dd((new \App\Classes\Notifier\Notifier())->sms()->body("ali"));
-});
+//Route::get('a', function () {
+//    dd((new \App\Classes\Notifier\Notifier())->sms()->body("ali"));
+//});
 
 Route::get('/', function () {
     return view('welcome');
@@ -91,22 +91,28 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     //------------------------------User----------------------------
+    Route::get('user',[UserController::class,'blade'])->name('users.blade');
     Route::resource('users', UserController::class);
     Route::delete('users/multi/destroy', [UserController::class, 'multipleDestroy'])->name('users.multipleDestroy');
 
     //----------------------------Contents---------------------------
+
+    Route::get('content',[ContentController::class,'blade'])->name('contents.blade');
     Route::resource('contents', ContentController::class);
     Route::delete('contents/multi/destroy', [ContentController::class, 'multipleDestroy'])->name('contents.multipleDestroy');
 
     //---------------------------Categories--------------------------
+    Route::get('category',[CategoryController::class,'blade'])->name('categories.blade');
     Route::resource('categories', CategoryController::class);
     Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy'])->name('categories.multipleDestroy');
 
     //------------------------------Tags-----------------------------
+    Route::get('tag',[TagController::class,'blade'])->name('tags.blade');
     Route::resource('tags', TagController::class);
     Route::delete('tags/multi/destroy', [TagController::class, 'multipleDestroy'])->name('tags.multipleDestroy');
 
     //------------------------------Pages----------------------------
+    Route::get('page',[PageController::class,'blade'])->name('pages.blade');
     Route::resource('pages', PageController::class);
     Route::delete('pages/multi/destroy', [PageController::class, 'multipleDestroy'])->name('pages.multipleDestroy');
 
@@ -135,6 +141,7 @@ Route::middleware('auth')->group(function () {
     });
 
     //------------------------------Settings----------------------------
+    Route::get('product',[ProductController::class,'blade'])->name('products.blade');
     Route::resource('products', ProductController::class);
     Route::delete('products/multi/destroy', [ProductController::class, 'multipleDestroy'])->name('products.multipleDestroy');
 
@@ -161,11 +168,13 @@ Route::middleware('auth')->group(function () {
         Route::get('{slug}', [\App\Http\Controllers\Front\Content\ContentController::class, 'search'])->name('contents');
     });
 });
-
-
-
-
 //-----------------------Mehrshad End----------------------
+
+
+
+
+
+
 
 
 //Route::group(['middleware' => 'user_permission'], function () {

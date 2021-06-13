@@ -12,6 +12,7 @@ use App\Http\Requests\Admin\Category\multipleDestroyRequest;
 use App\Http\Requests\Admin\Category\SearchCategoryRequest;
 use App\Models\Category;
 use App\Models\Repositories\Admin\CategoryRepository;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -44,6 +45,21 @@ class CategoryController extends Controller
         return (!$categories) ?
             $this->message(__('message.content.search.notSuccess'))->view("pages.admin.category.index")->error() :
             $this->data($categories)->message(__('message.success.200'))->view("pages.admin.category.index")->success();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Factory|RedirectResponse|View
+     */
+    public function blade(SearchCategoryRequest $request)
+    {
+        $categories = $this->categoryRepository->all($request->status, $request->search, $request->pageSize);
+
+        if (!$categories)
+            return redirect()->back()->with('error', __("message.content.search.notSuccess"));
+
+        return adminView('pages.admin.category.index', compact('categories'));
     }
 
     /**
@@ -128,7 +144,7 @@ class CategoryController extends Controller
      * Remove the list(array) resources from storage.
      *
      * @param multipleDestroyRequest $request
-     * @return \Illuminate\Contracts\View\Factory|View|JsonResponse
+     * @return Factory|View|JsonResponse
      */
     public function multipleDestroy(multipleDestroyRequest $request)
     {

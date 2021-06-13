@@ -52,6 +52,20 @@ class UserController extends Controller
     }
 
     /**
+     * @param SearchUserRequest $request
+     * @return Factory|View|RedirectResponse
+     */
+    public function blade(SearchUserRequest $request)
+    {
+        $user = $this->userRepository->all($request->role_id, $request->status, $request->search, $request->pageSize);
+
+        if (!$user)
+            return redirect()->back()->with('error', __("message.content.search.notSuccess"));
+
+        return adminView('pages.admin.user.index', compact('user'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return View

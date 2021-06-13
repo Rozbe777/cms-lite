@@ -26,7 +26,6 @@ trait ResponsesTrait
         return $this;
     }
 
-
     public function isAxios(): bool
     {
         if (!empty(request()->header('is_axios'))) {
@@ -38,6 +37,7 @@ trait ResponsesTrait
     public function success($status = 200)
     {
         $data = $this->data;
+
         if ($this->isAxios()) {
             return
                 response()->json([
