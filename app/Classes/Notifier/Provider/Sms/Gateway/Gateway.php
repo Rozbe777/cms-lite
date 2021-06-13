@@ -7,7 +7,26 @@ namespace App\Classes\Notifier\Provider\Sms\Gateway;
 abstract class Gateway
 {
     private $username, $password, $from, $to, $body, $url;
-    private $prefixConfigPath = 'notifier.providers.sms.';
+    private $prefixConfigPath = 'notifier.providers.sms';
+
+    /**
+     * @param mixed $to
+     */
+    public function setTo($to)
+    {
+
+        $this->to = $to;
+        return $this;
+    }
+
+    /**
+     * @param mixed $body
+     */
+    public function setBody($body)
+    {
+        $this->body = $body;
+        return $this;
+    }
 
     /**
      * @return mixed
