@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import {ErroHandle, error as ErrorToast, error} from './../../../../helper'
 import './_Shared/style.scss'
 
-export const NewFeture = ({dataOut : pushDataOut}) => {
+export const NewFeture = ({dataOut: pushDataOut}) => {
 
     const [status, setStatus] = useState(true);
-    const [data ,setData] = useState({
-        type : 'text'
+    const [data, setData] = useState({
+        type: 'text'
     });
     const handleClose = e => {
         e.preventDefault();
@@ -17,41 +17,49 @@ export const NewFeture = ({dataOut : pushDataOut}) => {
 
     const HandleChangeSelectOption = (e) => {
         e.preventDefault()
-        if (e.target.name === "text"){
+        if (e.target.value === "text") {
             setData({
-                ...data ,
-                [e.target.name] : e.target.value
+                ...data,
+                [e.target.name]: e.target.value
             })
-        }else{
+        } else {
             setData({
-                ...data ,
-                type : 'color',
-                [e.target.name] : e.target.value
+                ...data,
+                [e.target.name]: e.target.value
             })
         }
 
     }
 
+    const HandleSelected = e => {
+        e.preventDefault();
+        setData({
+            ...data,
+            type: e.target.value
+        })
+
+
+    }
     const HandleForm = e => {
         e.preventDefault()
-        // handleClose(e)
-        console.log(data.name , data , ".........")
-        if (data.name){
+
+        if (data.name) {
             pushDataOut(data)
-        }else{
+        } else {
             ErrorToast("نام ویژگی را اضافه کنید")
         }
     }
 
     return (
-        <div className={"col-lg-4 col-sm-12 col-md-8"} id={"fetures"} style={{height : '260px !important'}}>
+        <div className={"col-lg-4 col-sm-12 col-md-8"} id={"fetures"} style={{height: '260px !important'}}>
 
             <div className={"col-12"}>
                 <div className={"row"} style={{marginTop: '15px'}}>
                     <div className={"col-12"}>
                         <p style={{textAlign: 'center', fontSize: 12}}>نوع ورودی</p>
-                        <fieldset className={"form-group"} style={{textAlign: 'center' , width : '100%'}} >
-                            <select name={"type"} className={"form-control"} id={"basicSelect"} onChange={e => HandleChangeSelectOption(e)}>
+                        <fieldset className={"form-group"} style={{textAlign: 'center', width: '100%'}}>
+                            <select name={"type"} className={"form-control"} id={"basicSelect"}
+                                    onChange={e => HandleSelected(e)}>
                                 <option value={"text"}>متن ( پیشفرض )</option>
                                 <option value={"color"}>رنگ</option>
                             </select>
@@ -62,10 +70,10 @@ export const NewFeture = ({dataOut : pushDataOut}) => {
                         <fieldset className={"form-group"} style={{textAlign: 'center'}}>
                             <label htmlFor={"discount"}>نام ویژگی محصول</label>
 
-                                <input style={{height: '45px', textAlign: 'center'}}
-                                       onChange={HandleChangeSelectOption}
-                                       type={"text"} className={"form-control"} id={"discount"} name={"name"}
-                                       placeholder={"رنگ ، سایز ، ابعاد و ..."}/>
+                            <input style={{height: '45px', textAlign: 'center'}}
+                                   onChange={HandleChangeSelectOption}
+                                   type={"text"} className={"form-control"} id={"discount"} name={"name"}
+                                   placeholder={"رنگ ، سایز ، ابعاد و ..."}/>
                         </fieldset>
 
                     </div>
