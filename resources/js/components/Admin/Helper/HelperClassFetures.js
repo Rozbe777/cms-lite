@@ -14,7 +14,7 @@ export const NoralizeFetures = (data) => {
                 code : item,
                 title : itemText.name,
                 value : itemText.title,
-                name : ""
+                name : "متن"
             })
         })
         data[item].fetures.color.map((itemColor) => {

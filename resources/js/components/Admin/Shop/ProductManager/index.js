@@ -21,11 +21,9 @@ const Index = () => {
     const [chipset, setChipset] = useState([]);
     const [stateOf, setStateOf] = useState();
     const [loading, setLoading] = useState(false);
-    const [contentData, setContentData] = useState();
-    const [contentNew, setContentNew] = useState([]);
+    const [Products, setProducts] = useState([]);
     const [perPage, setPerPage] = useState();
     const [total, setTotal] = useState();
-    const [allUser, setAllUser] = useState();
     const [edit, setEdit] = useState(false);
     const [stringSearchs, setStringSearch] = useState({
         params: {
@@ -40,20 +38,18 @@ const Index = () => {
     });
 
     useEffect(() => {
-        GetAllContentsAction()
+        GetAllProducts()
     }, [])
 
 
-    const GetAllContentsAction = () => {
+    const GetAllProducts = () => {
         setLoading(true);
         console.log("resoult search : ", stringSearchs);
         Request.GetAllProducts(stringSearchs).then(res => {
             console.log("res", res.data.data.data)
-            setContentNew(res.data.data.data)
-            setContentData(res.data.data);
+            setProducts(res.data.data.data)
             setPerPage(res.data.data.per_page);
             setTotal(res.data.data.total);
-            setAllUser(res.data.data.data);
             setLoading(false)
 
         }).catch(err => {
@@ -221,7 +217,7 @@ const Index = () => {
             }
         });
 
-        GetAllContentsAction(stringSearchs);
+        GetAllProducts(stringSearchs);
         $("li.page-item").removeClass("active");
         if (pageNumber == Math.ceil(total / perPage)) {
             $("li.page-item.next").css("opacity", 0.4);
@@ -245,7 +241,8 @@ const Index = () => {
 
 
             <div className={"row col-12"} id={"headerContent"}>
-                <TotalActions deleteUsers={e => handleDeleteGroup(e)} allData={contentNew} data={checkBox}/>
+                <TotalActions text={" محصول انتخاب شده است "} deleteUsers={e => handleDeleteGroup(e)}
+                              allData={Products.data ? Products : []} data={checkBox}/>
                 <BreadCrumbs titleBtn={"افزودن"} clicked={e => HandlePopUpAddProduct(e)} icon={"bx-plus"}
                              data={breadData}/>
             </div>
@@ -278,9 +275,9 @@ const Index = () => {
 
             <div className={"container-fluid"} style={{marginTop: '20px', padding: '0px 4px'}}>
                 <div className={"row"} style={{padding: 10}}>
-                    {loading === false ? contentNew.length > 0 ? contentNew.map(item => {
+                    {loading === false ? Products.length > 0 ? Products.map(item => {
                         return (
-                            <Item data={item} checkStateOfOut={checked} sizeOf={DataInitial.Products.length}
+                            <Item data={item} checkStateOfOut={checked} sizeOf={Products.length}
                                   selected={response => HandleChecked(response)}/>
                         )
                     }) : (

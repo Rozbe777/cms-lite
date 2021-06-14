@@ -430,7 +430,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         if (formData.slug == "") {
             formNew.slug = formNew.title
         }
-        formNew.content = contentNew;
+        formNew.content = JSON.stringify(contentNew);
 
         let normal = NoralizeFetures(priceData);
         formNew.attributes = normal.attributes;
@@ -460,15 +460,6 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
     const HandlerBigSwitcher = (states) => {
         setEdit(true)
         localStorage.setItem("robots", states)
-    }
-
-    const HandleSlug = (e) => {
-        e.preventDefault();
-        setEdit(true)
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        })
     }
 
     const handleAddress = (status) => {
@@ -523,7 +514,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
 
     const HandleEdit = () => {
         let formOldData = {...formData};
-        formOldData.content = contentNew;
+        formOldData.content = JSON.stringify(contentNew);
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
@@ -542,7 +533,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
 
     const HandleDuplicate = () => {
         let formOldData = {...formData};
-        formOldData.content = contentNew;
+        formOldData.content = JSON.stringify(contentNew);
         // console.log("data category in : ", names);
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
@@ -586,56 +577,6 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
             formData.slug = formData.title;
             return formData.title;
         }
-    }
-
-
-    const [localed, setLocaled] = useState(false)
-
-    let counter = 0;
-    const HandleDataprice = (data, index, product_code) => {
-        let products = {...priceData};
-
-        if (!localed) {
-            Object.keys(priceData).map(item => {
-                if (item == product_code) {
-                    setLocaled(true);
-                    priceData[item].attributes.price = data.price;
-                    console.log("ppppp ", products);
-                    setPriceData({
-                        ...priceData,
-                        [item]: products
-                    });
-                }
-            })
-        }
-        git
-
-        console.log('-----------------------------------------', priceData)
-    }
-
-    const HandlePrice = (e, price, discount, index, product_code) => {
-        e.preventDefault();
-        setLocaled(false)
-        let ids = index;
-        $("#back-loaderedss").addClass("active");
-        ReactDOMs.render(<Price priceDataOld
-                                discount={discount}
-                                price={price}
-                                newPrice={prices => HandleDataprice(prices, ids, product_code)}
-        />, document.getElementById("back-loaderedss"));
-    }
-
-    const HandleDataInventiry = (data, index) => {
-        let prices = [...priceData];
-        prices[index].count = data.count;
-        setPriceData(prices);
-    }
-
-
-    const HandleDataLimit = (data, index) => {
-        let prices = [...priceData];
-        prices[index].limit = data.limit;
-        setPriceData(prices);
     }
 
 
