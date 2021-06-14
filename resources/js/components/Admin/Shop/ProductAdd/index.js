@@ -19,8 +19,9 @@ import {Inventory} from "../../_Micro/ProductMiniComponent/Inventoryz";
 import ColorPicker from './../../../HOC/ColorPicker';
 import {NewFeture} from "../../_Micro/ProductMiniComponent/NewFeture";
 import $ from "jquery";
-import {Normalize} from "../../Helper/HelperClassFetures";
+import {NoralizeFetures} from "../../Helper/HelperClassFetures";
 import Loading from "../../_Micro/Loading";
+// import HelperClassFetures from  '../../Helper/HelperClassFetures';
 
 
 const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
@@ -38,6 +39,9 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
             color: []
         }
     };
+
+
+
 
     //
     const [attributes, setAttributes] = useState([
@@ -428,9 +432,9 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         }
         formNew.content = contentNew;
 
-        let normal = Normalize(priceData);
-        console.log("dataaaaaa///////" , normal);
-        formNew.attributes = priceData;
+        let normal = NoralizeFetures(priceData);
+        formNew.attributes = normal.attributes;
+        formNew.features = normal.fetures;
         formNew.category_list = idSelCat;
         formNew.tag_list = chipsetTagsChange ? chipsetTags : [];
 
