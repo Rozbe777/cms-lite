@@ -20,6 +20,7 @@ const Index = () => {
     const [checked, setChecked] = useState([]);
     const [checkBox, setCheckBox] = useState([]);
     const [chipset, setChipset] = useState([]);
+    const [search , setSearch] = useState(false)
     const [stateOf, setStateOf] = useState();
     const [loading, setLoading] = useState(false);
     const [Products, setProducts] = useState({
@@ -126,7 +127,7 @@ const Index = () => {
 
                         stringSearchs.params.page = 1;
 
-                        GetAllUser(stringSearchs);
+                        GetAllProducts(stringSearchs);
                     }).catch(error => {
                     if (error.response.data.errors) {
                         ErroHandle(error.response.data.errors)
@@ -257,6 +258,7 @@ const Index = () => {
 
 
                 <SearchComponent category={itemCat => HandleSearchCategory(itemCat)} searchRes={items => {
+                    console.log("......____" , items);
                     Object.keys(items).forEach((key, value) => {
                         setSearch(true)
                         if (key === "pageSize") {
