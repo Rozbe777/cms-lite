@@ -27,22 +27,11 @@ class Notifier implements iNotifier
         return new Notifier($type);
     }
 
-//    function sms()
-//    {
-//        return (new Provider\Sms\Sms());
-//    }
-//
-//
-//    function mail()
-//    {
-//        //TODO : Send an Email
-//    }
-
     /**
-     * @param User $user
+     * @param iUser $user
      * @return mixed
      */
-    function to(User $user)
+    function to(iUser $user)
     {
         return $this->provider->to($user);
     }

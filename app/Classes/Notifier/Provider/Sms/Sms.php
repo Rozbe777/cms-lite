@@ -5,6 +5,8 @@ namespace App\Classes\Notifier\Provider\Sms;
 
 
 use App\Classes\Notifier\iNotifier;
+use App\Classes\Notifier\iUser;
+use App\Jobs\SendNotifier;
 use App\Models\User;
 use Kavenegar;
 use function Symfony\Component\Translation\t;
@@ -14,9 +16,8 @@ class Sms implements iNotifier
     private $to, $body;
     private $prefixConfigPath = 'notifier.providers.sms';
 
-    function to(User $user)
+    function to(iUser $user)
     {
-
         $this->to = $user;
         return $this;
     }
@@ -38,9 +39,14 @@ class Sms implements iNotifier
         $gateway = config("$this->prefixConfigPath.gateway.$defaultGateway");
         $className = $gateway['class'];
 
-        return (new $className())->setTo($this->to)->setBody($this->body)->handle();
+        if (!is_array($this->body)) {
+            $body = [
+                $gateway['body'],
+                $this->body
+            ];
+        }
 
-
-        //(new Kavenegar\KavenegarApi(config('kavenegar.apikey')))->VerifyLookup('0'.$input[0], $input[1], '', '', config('kavenegar.template'));
+        dispatch(new SendNotifier($className,$this->to,$body));
+//        return (new $className())->setTo($this->to)->setBody($this->body)->handle();
     }
 }

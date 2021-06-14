@@ -31,13 +31,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('a', function () {
-    $notifire = \App\Classes\Notifier\Notifier::getInstance(\App\Classes\Notifier\Notifier::SMS_TYPE);
-
-    $notifire->to(\App\Models\User::find(2));
-    $notifire->body(['verify','1234']);
-    $notifire->from('form');
-    $notifire->send();
-//    dd((new \App\Classes\Notifier\Notifier(App\Classes\Notifier\Notifier::SMS_TYPE)->get->to()));
+//    $notifire = \App\Classes\Notifier\Notifier::getInstance(\App\Classes\Notifier\Notifier::SMS_TYPE);
+//
+//    $notifire->to(\App\Models\User::find(2));
+//    $notifire->body(['verify','23232']);
+//    $notifire->from('form');
+//    $notifire->send();
 });
 
 Route::get('/', function () {

@@ -11,6 +11,7 @@ return [
                         'password' => '',
                         'from' => '10004346',
                         'url' => '',
+                        'body' => 'verify',
                         'class' => App\Classes\Notifier\Provider\Sms\Gateway\KavenegarCenter::class
                     ]
             ]
