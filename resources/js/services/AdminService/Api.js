@@ -22,5 +22,5 @@ export const Request = {
     UpdateDataPage :  (data , id) =>  request.put("/pages/"+id+"" , data),
     UpdateDataContent :  (data , id) =>  request.put("/contents/"+id+"" , data),
     GetAllContents :  (search) =>  request.get("/contents" ,  search),
-    GetAllProducts :  (search) =>  request.get("/contents" ,  search),
+    GetAllProducts :  (search) =>  request.get("/products" ,  search),
 }
