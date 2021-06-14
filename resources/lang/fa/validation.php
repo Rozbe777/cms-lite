@@ -48,9 +48,9 @@ return array(
         "string" => ":attribute نباید بیشتر از :max کاراکتر باشد.",
         "array" => ":attribute نباید بیشتر از :max آیتم باشد.",
     ),
-    'lt' => [
-        'numeric' => ':attribute باید کمتر از :value باشد '
-    ],
+//    'lt' => [
+//        'numeric' => ':attribute باید کمتر از :value باشد '
+//    ],
     'lte' => [
         'numeric' => ':attribute باید کمتر یا برابر از :value باشد '
     ],
@@ -81,10 +81,10 @@ return array(
     ),
     "timezone" => "The :attribute must be a valid zone.",
     "unique" => ":attribute قبلا انتخاب شده است.",
-    'gt' => [
+    "gt" => [
         'numeric' =>  ":attribute باید بزرگتر از صفر و کمتر از موجودی باشد.",
     ],
-    'lt' => [
+    "lt" => [
         'numeric'  =>  ":attribute باید کمتر از موجودی باشد.",
     ],
     'distinct' => ':attribute مقدار تکراری دارد.',

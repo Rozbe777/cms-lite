@@ -33,17 +33,19 @@ trait ProductTrait
         }
     }
 
-    public function attributeHandler($attribute, $p_id)
+    public function attributeHandler($attributes, $p_id)
     {
-        $count = (!empty($attribute['count'])) ? $attribute['count'] != 0 ? (int)$attribute['count'] : null : null;
-        $limit = !empty($attribute['limit']) ? $attribute['limit'] != 0 ? (int)$attribute['limit'] : null : null;
-        $discount = (!empty($attribute['discount'])) ? $attribute['discount'] != 0 ? (int)$attribute['discount'] : 0 : 0;
-        $discount_status = (!empty($discount)) ? "active" : "deactivate";
+        foreach ($attributes as $attribute) {
+            $count = !empty($attribute['count']) ? (int)$attribute['count'] : ($attribute['count'] == 0 ? 0 : null); //null is unlimited
+            $limit = !empty($attribute['limit']) ? (int)$attribute['limit'] : null;
+            $discount = (!empty($attribute['discount'])) ? $attribute['discount'] != 0 ? (int)$attribute['discount'] : 0 : 0;
+            $discount_status = (!empty($discount)) ? "active" : "deactivate";
 
-        return Attribute::updateOrCreate(
-            ["product_id" => $p_id, "product_code" => $attribute['product_code']],
-            ["price" => $attribute['price'], "count" => $count, "limit" => $limit, "discount" => $discount, "discount_status" => $discount_status]
-        );
+            return Attribute::updateOrCreate(
+                ["product_id" => $p_id, "product_code" => $attribute['product_code']],
+                ["price" => $attribute['price'], "count" => $count, "limit" => $limit, "discount" => $discount, "discount_status" => $discount_status]
+            );
+        }
     }
 
     public function featureHandler($features, $attr_id)
@@ -68,15 +70,15 @@ trait ProductTrait
         $data = Attribute::where(['product_id' => $p_id, 'product_code' => $attribute['product_code']])->firstOrFail();
 
         $data->price = !empty($attribute['price']) ? (int)$attribute['price'] : $data->price;
-        $data->count = !empty($attribute['count']) ? (int)$attribute['count'] : ((array_key_exists('count', $attribute) && $attribute['count'] == 0 ) ? 0 : $data->count);
+        $data->count = !empty($attribute['count']) ? (int)$attribute['count'] : ((array_key_exists('count', $attribute) && $attribute['count'] == 0) ? 0 : $data->count);
         $data->limit = !empty($attribute['limit']) ? (int)$attribute['limit'] : $data->limit;
 
         if (!empty($attribute['discount'])) {
-                $data->discount = (int)$attribute['discount'];
-                $data->discount_status = 'active';
-            } else {
-                $data->discount = 0;
-                $data->discount_status = 'deactivate';
+            $data->discount = (int)$attribute['discount'];
+            $data->discount_status = 'active';
+        } else {
+            $data->discount = 0;
+            $data->discount_status = 'deactivate';
 
             $data->save();
         }
