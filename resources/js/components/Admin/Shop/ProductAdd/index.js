@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, useReducer} from 'react';
 import ReactDOM from 'react-dom';
 import ReactDOMs from 'react-dom';
 import {Switcher} from './../../../HOC/Switch'
@@ -19,7 +19,9 @@ import {Inventory} from "../../_Micro/ProductMiniComponent/Inventoryz";
 import ColorPicker from './../../../HOC/ColorPicker';
 import {NewFeture} from "../../_Micro/ProductMiniComponent/NewFeture";
 import $ from "jquery";
+import {Normalize} from "../../Helper/HelperClassFetures";
 import Loading from "../../_Micro/Loading";
+
 
 const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
     let defaultCol = {
@@ -75,6 +77,8 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
     const [priceData, setPriceData] = useState({
         [codes]: defaultCol
     });
+
+
     let tags = [];
     const [edit, setEdit] = useState(false);
     const [file, setFile] = useState();
@@ -107,8 +111,131 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
     }
 
 
+    const reducerAttr = (state, action) => {
+        console.log("state : ", state, "action : ", action);
+        switch (action.type) {
+            case "price" :
+                let newState = {
+                    ...action.data,
+                    [action.code]: {
+                        ...action.data[action.code],
+                        attributes: {
+                            ...action.data[action.code].attributes,
+                            price: action.price.price,
+                            discount: action.price.discount
+                        }
+                    }
+                }
+                setPriceData(newState)
+                return newState;
+            case "count" :
+                let newStates = {
+                    ...action.data,
+                    [action.code]: {
+                        ...action.data[action.code],
+                        attributes: {
+                            ...action.data[action.code].attributes,
+                            count: action.count
+                        }
+                    }
+                }
+                setPriceData(newStates)
+                return newStates;
+            case "limit" :
+                let newStateLimit = {
+                    ...action.data,
+                    [action.code]: {
+                        ...action.data[action.code],
+                        attributes: {
+                            ...action.data[action.code].attributes,
+                            limit: action.count
+                        }
+                    }
+                }
+                setPriceData(newStateLimit)
+                return newStateLimit;
+
+            case "text" :
+                let oldest = [...action.data[action.code].fetures.text];
+                oldest[action.index] = {
+                    ...oldest[action.index],
+                    title: action.title
+                }
+                let newStateText = {
+                    ...action.data,
+                    [action.code]: {
+                        ...action.data[action.code],
+                        fetures: {
+                            ...action.data[action.code].fetures,
+                            text: oldest
+                        }
+                    }
+                }
+                setPriceData(newStateText)
+                return newStateText;
+
+            case "colorTit" :
+                let oldestColor = [...action.data[action.code].fetures.color];
+                oldestColor[action.index] = {
+                    ...oldestColor[action.index],
+                    title: action.title,
+                }
+                let newStateColor = {
+                    ...action.data,
+                    [action.code]: {
+                        ...action.data[action.code],
+                        fetures: {
+                            ...action.data[action.code].fetures,
+                            color: oldestColor
+                        }
+                    }
+                }
+                setPriceData(newStateColor)
+                return newStateColor;
+
+            case "colorVal" :
+                let oldestColorVal = [...action.data[action.code].fetures.color];
+                oldestColorVal[action.index] = {
+                    ...oldestColorVal[action.index],
+                    value: action.value
+                }
+                let newStateColorVal = {
+                    ...action.data,
+                    [action.code]: {
+                        ...action.data[action.code],
+                        fetures: {
+                            ...action.data[action.code].fetures,
+                            color: oldestColorVal
+                        }
+                    }
+                }
+                setPriceData(newStateColorVal)
+                return newStateColorVal;
+
+            default:
+                throw new Error();
+        }
+
+
+        // switch (action.type){
+        //     case "price" :
+        //         return {
+        //             ...state ,
+        //             [action.code] : {
+        //                 attributes : {
+        //                     ...attributes,
+        //                     price : action.price
+        //                 }
+        //             }
+        //         }
+        // }
+    }
+
+
+    const [stateData, dispatchAttr] = useReducer(reducerAttr, priceData);
+
     const CreateNewProduct = (data) => {
-        // console.log("adding dataaaaaa : ", data)
+        console.log("dddddd" , data)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -167,6 +294,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         metaDataNew = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
         setMetaData(metaDataNew)
         MetaDataUpdate.tags ? setChipset(MetaDataUpdate.tags) : '';
+        setPriceData(stateData);
         GetAllCategory();
     }, [])
     const handleClose = () => {
@@ -284,7 +412,6 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
     }
 
     const HandleForm = (e) => {
-        // console.log("mmmmm ", priceData);
         let formNew = {...formData};
         let formFile = new FormData();
         formFile.append("file", file);
@@ -301,6 +428,9 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         }
         formNew.content = contentNew;
 
+        let normal = Normalize(priceData);
+        console.log("dataaaaaa///////" , normal);
+        formNew.attributes = priceData;
         formNew.category_list = idSelCat;
         formNew.tag_list = chipsetTagsChange ? chipsetTags : [];
 
@@ -454,6 +584,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         }
     }
 
+
     const [localed, setLocaled] = useState(false)
 
     let counter = 0;
@@ -464,7 +595,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
             Object.keys(priceData).map(item => {
                 if (item == product_code) {
                     setLocaled(true);
-                    products[item].attributes.price = data.price;
+                    priceData[item].attributes.price = data.price;
                     console.log("ppppp ", products);
                     setPriceData({
                         ...priceData,
@@ -473,15 +604,15 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
                 }
             })
         }
+        git
 
-        console.log('-----------------------------------------' , priceData)
+        console.log('-----------------------------------------', priceData)
     }
 
     const HandlePrice = (e, price, discount, index, product_code) => {
         e.preventDefault();
         setLocaled(false)
         let ids = index;
-        console.log("id : ", index)
         $("#back-loaderedss").addClass("active");
         ReactDOMs.render(<Price priceDataOld
                                 discount={discount}
@@ -495,24 +626,14 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         prices[index].count = data.count;
         setPriceData(prices);
     }
-    const HandleInventory = (e, count, index) => {
-        e.preventDefault();
-        $("#back-loaderedss").addClass("active");
-        ReactDOM.render(<Inventory count={count}
-                                   out={item => HandleDataInventiry(item, index)}/>, document.getElementById("back-loaderedss"));
-    }
+
 
     const HandleDataLimit = (data, index) => {
         let prices = [...priceData];
         prices[index].limit = data.limit;
         setPriceData(prices);
     }
-    const HandleLimited = (e, count, index) => {
-        e.preventDefault();
-        $("#back-loaderedss").addClass("active");
-        ReactDOM.render(<Limited count={count}
-                                 out={e => HandleDataLimit(e, index)}/>, document.getElementById("back-loaderedss"));
-    }
+
 
     const HandleAddNew = (e) => {
         e.preventDefault();
@@ -548,8 +669,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         if (!ressss) {
             if (item.type == "text") {
                 newItemHead.text.push(item.name);
-                setDefaultTableHead(newItemHead)
-
+                setDefaultTableHead(newItemHead);
                 Object.keys(priceData).map((items, index) => {
                     if (priceData[items].fetures.text.length > 0) {
                         priceData[items].fetures.text.map(news => {
@@ -618,24 +738,18 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         setPriceData(data)
     }
 
-    const HandleFetureText = (e, index, id, item) => {
+    const HandleFetureText = (e, index, item) => {
         e.preventDefault();
-        let data = [...priceData];
-
-        item[index].title = e.target.value
-        // thisData.title = e.target.value;
-        data[id].fetures.text = item;
-        // console.log("id /// price", data)
-
-        setPriceData(data)
+        dispatchAttr({type: "text", index, title: e.target.value, data: priceData, code: item})
     }
 
-    const HandleFetureColor = (e, index, id) => {
+    const HandleFetureColorTit = (e, index, id) => {
         e.preventDefault();
-        let data = [...priceData];
-        data[id].fetures.color[index].name = e.target.name;
-        data[id].fetures.color[index].title = e.target.value;
-        setPriceData(data)
+        dispatchAttr({type: "colorTit", index, title: e.target.value, data: priceData, code: id})
+    }
+    const HandleFetureColorVal = (e, index, id) => {
+        e.preventDefault();
+        dispatchAttr({type: "colorVal", index, value: e.target.value, data: priceData, code: id})
     }
     const HandleFetureColorPicker = (hex, index, id, title) => {
         let data = [...priceData];
@@ -645,8 +759,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         $("span#color-selected." + title + "." + id).css({"color": "#000 !important"})
     }
     const renderFitureText = (dataIns, id) => {
-        // console.log("text ", dataIns)
-
+        console.log("text ", dataIns)
         return dataIns.map((item, index) => (
             <td id={"color-col"}>
                 <input type={"text"} id={"input-code-kala"}
@@ -659,20 +772,20 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
             </td>
         ))
     }
-    const renderFitureColor = (dataInss, id, code) => {
-        // console.log("colors ", dataInss)
+    const renderFitureColor = (dataInss, id) => {
+        console.log("colors ", dataInss)
         return dataInss.map((item, index) => (
             <td id={"color-col"}>
                 <input type={"text"} id={"input-code-kala"}
                        placeholder={"مقدار"} className={"form-control productsss"}
                        name={item.name}
                        style={{maxWidth: '120px', float: 'right'}}
-                       onChange={e => HandleFetureColor(e, index, id)}
+                       onChange={e => HandleFetureColorTit(e, index, id)}
                        value={item.title ? item.title : ''}/>
                 {/*<span id={"color-selected"} className={item.title} style={{background : "#f00"}} onClick={e => handleShowColorPicker(e , index , id , item.title)}></span>*/}
                 <input type={"color"} className={"feture-color"}
-                       defaultValue={priceData[code].fetures.color[index].value}
-                       onChange={e => handleShowColorPicker(e, index, id)}/>
+                       defaultValue={priceData[id].fetures.color[index].value}
+                       onChange={e => HandleFetureColorVal(e, index, id)}/>
             </td>
         ))
     }
@@ -707,10 +820,54 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         setDefaultTableHead(dataHead);
     }
 
+    let dataOut = priceData;
+
+
+    const handleDispatchAttr = (e, item, type, price, discount) => {
+        e.preventDefault();
+        console.log("pricessss : ", priceData)
+        $("#back-loaderedss").addClass("active");
+        ReactDOMs.render(<Price priceDataOld
+                                discount={discount}
+                                price={price}
+                                newPrice={prices => dispatchAttr({
+                                    type: type,
+                                    code: item,
+                                    data: priceData,
+                                    price: prices
+                                })}
+        />, document.getElementById("back-loaderedss"));
+
+    }
+
+    const HandleInventory = (e, item, type, count) => {
+        e.preventDefault();
+        $("#back-loaderedss").addClass("active");
+        ReactDOM.render(<Inventory count={count}
+                                   out={items => dispatchAttr({
+                                       type: "count",
+                                       code: item,
+                                       data: priceData,
+                                       count: items.count
+                                   })}/>, document.getElementById("back-loaderedss"))
+
+    }
+    const HandleLimited = (e, item, type, count) => {
+        e.preventDefault();
+        $("#back-loaderedss").addClass("active");
+        ReactDOM.render(<Limited count={count}
+                                 out={items => dispatchAttr({
+                                     type: "limit",
+                                     code: item,
+                                     data: priceData,
+                                     count: items.limit
+                                 })}/>, document.getElementById("back-loaderedss"))
+
+    }
+
 
     return (
         <>
-
             <div id={"category_add_pop_base"}>
                 <ul className="nav nav-tabs tab-layout" role="tablist">
                     <li className="nav-item col-3 nav-custom ">
@@ -855,7 +1012,8 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
                                 <div className={"col-12"}>
 
 
-                                    <p>اطلاعات تکمیلی محصول شامل رنگ، سایز، موجودی انبار، قیمت و... را در بخش زیر وارد
+                                    <p>اطلاعات تکمیلی محصول شامل رنگ، سایز، موجودی انبار، قیمت و... را در بخش زیر
+                                        وارد
                                         کنید.</p>
 
                                     <div className="table-responsive">
@@ -898,43 +1056,72 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
 
                                             </thead>
                                             <tbody>
+                                            {console.log("......", stateData, priceData, Object.keys(priceData).length == Object.keys(stateData).length)}
 
                                             {
-                                                Object.keys(priceData).map((item, index) => {
-                                                    return (
-                                                        <tr>
-                                                            <td style={{maxWidth: '120px', padding: '0 10px'}}>
-                                                                <input type={"text"} style={{textAlign: 'center'}}
-                                                                       className={"form-control productsss"}
-                                                                       value={item}
-                                                                       name={"productCode"}
-                                                                       id={"input-code-kala"}/>
-                                                            </td>
-                                                            <td><span
-                                                                onClick={e => HandlePrice(e, priceData[item].attributes.price, priceData[item].attributes.discount, index, item)}>{priceData[item].attributes.price} تومان</span>
-                                                            </td>
-                                                            <td><span
-                                                                onClick={e => HandleInventory(e, priceData[item].attributes.count, index)}>{priceData[item].attributes.count === null ? 'نامحدود' : priceData[item].attributes.count}</span>
-                                                            </td>
-                                                            <td><span
-                                                                onClick={e => HandleLimited(e, priceData[item].attributes.limit, index)}>{priceData[item].attributes.limit !== null ? priceData[item].attributes.limit : priceData[item].attributes.count === null ? 'نامحدود' : priceData[item].attributes.count}</span>
-                                                            </td>
-                                                            {renderFitureText(priceData[item].fetures.text, index)}
-                                                            {renderFitureColor(priceData[item].fetures.color, index, item)}
+                                                Object.keys(priceData).length == Object.keys(stateData).length ?
+                                                    Object.keys(stateData).map((item, index) => {
+                                                        return (
+                                                            <tr>
+                                                                <td style={{maxWidth: '120px', padding: '0 10px'}}>
+                                                                     <span style={{textAlign: 'center'}}
+                                                                           className={"not-alloeds"}>{"RI_" + item}</span>
+                                                                </td>
+                                                                <td><span
+                                                                    onClick={e => handleDispatchAttr(e, item, "price", stateData[item].attributes.price, stateData[item].attributes.discount)}>{stateData[item].attributes.discount && stateData[item].attributes.discount !== 0 ? stateData[item].attributes.discount + " تومان " : stateData[item].attributes.price == 0 ? "رایگان" : stateData[item].attributes.price + "تومان"} </span>
+                                                                </td>
+                                                                <td><span
+                                                                    onClick={e => HandleInventory(e, item, "count", stateData[item].attributes.count)}>{stateData[item].attributes.count === null ? 'نامحدود' : stateData[item].attributes.count}</span>
+                                                                </td>
+                                                                <td><span
+                                                                    onClick={e => HandleLimited(e, item, "limit", stateData[item].attributes.limit)}>{stateData[item].attributes.limit === null ? stateData[item].attributes.count ? stateData[item].attributes.count : 'نامحدود' : stateData[item].attributes.limit}</span>
+                                                                </td>
+                                                                {renderFitureText(stateData[item].fetures.text, item)}
+                                                                {renderFitureColor(stateData[item].fetures.color, item)}
 
-                                                            <td id={"actions-item"}>
+                                                                <td id={"actions-item"}>
                                                                         <span>
                                                                             <i className={"bx bx-link"}></i>
                                                                             لینک خرید
                                                                         </span>
-                                                                <a href="#">
-                                                                    <i className="bx bx-trash"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
+                                                                    <a href="#">
+                                                                        <i className="bx bx-trash"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
 
-                                                    )
-                                                })
+                                                        )
+                                                    }) : Object.keys(priceData).map((item, index) => {
+                                                        return (
+                                                            <tr>
+                                                                <td style={{maxWidth: '120px', padding: '0 10px'}}>
+                                                                    <a style={{textAlign: 'center'}}
+                                                                       className={"not-alloeds"}>{"RI_" + item}</a>
+                                                                </td>
+                                                                <td><span
+                                                                    onClick={e => handleDispatchAttr(e, item, "price", priceData[item].attributes.price, priceData[item].attributes.discount)}>{priceData[item].attributes.discount && priceData[item].attributes.discount !== 0 ? priceData[item].attributes.discount + " تومان " : priceData[item].attributes.price == 0 ? "رایگان" : priceData[item].attributes.price + "تومان"}</span>
+                                                                </td>
+                                                                <td><span
+                                                                    onClick={e => HandleInventory(e, item, "count", priceData[item].attributes.count)}>{priceData[item].attributes.count === null ? 'نامحدود' : priceData[item].attributes.count}</span>
+                                                                </td>
+                                                                <td><span
+                                                                    onClick={e => HandleLimited(e, item, "limit", priceData[item].attributes.limit)}>{priceData[item].attributes.limit === null ? priceData[item].attributes.count ? priceData[item].attributes.count : 'نامحدود' : priceData[item].attributes.limit}</span>
+                                                                </td>
+                                                                {renderFitureText(priceData[item].fetures.text, item)}
+                                                                {renderFitureColor(priceData[item].fetures.color, item)}
+                                                                <td id={"actions-item"}>
+                                                                        <span>
+                                                                            <i className={"bx bx-link"}></i>
+                                                                            لینک خرید
+                                                                        </span>
+                                                                    <a href="#">
+                                                                        <i className="bx bx-trash"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+
+                                                        )
+                                                    })
                                             }
 
 
@@ -981,7 +1168,12 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
                                     <div className={"col-md-3"} style={{padding: 0}}>
                                         <a className={"btn btn-primary"}
                                            onClick={e => HandleAddNew(e)}
-                                           style={{width: '100%', color: '#fff', cursor: 'pointer', marginTop: '20px'}}>
+                                           style={{
+                                               width: '100%',
+                                               color: '#fff',
+                                               cursor: 'pointer',
+                                               marginTop: '20px'
+                                           }}>
                                             <i className={"bx bx-plus"}></i> &nbsp;
                                             اضافه کردن تنوع محصول
                                             &nbsp;
@@ -1061,7 +1253,8 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
                                 </div>
 
                                 <div className={"col-12"}>
-                                    <label htmlFor={"title"}>کلمات کلیدی صفحه ( تایپ کنید و Enter بزنید تا اضافه شود.
+                                    <label htmlFor={"title"}>کلمات کلیدی صفحه ( تایپ کنید و Enter بزنید تا اضافه
+                                        شود.
                                         )</label>
                                     <div className={"row"} style={{padding: '15px'}}>
                                         <div className={"col-12"} id={"chip-box"}>
