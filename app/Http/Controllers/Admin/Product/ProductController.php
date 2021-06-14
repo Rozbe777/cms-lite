@@ -13,6 +13,7 @@ use App\Models\Repositories\Admin\ProductRepository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\Console\Input\Input;
 
@@ -85,7 +86,7 @@ class ProductController extends Controller
      * @param CreateProductRequest $request
      * @return Factory|View|JsonResponse|Response
      */
-    public function store(CreateProductRequest $request)
+    public function store(CreateProductRequest $request)//
     {
         $product = $this->repository->create($request->all());
 
