@@ -843,6 +843,14 @@ body.active-darked {
         }
     }
 
+    .not-alloweds{
+        cursor: not-allowed !important;
+        &:hover{
+            color: $color !important;
+            cursor: not-allowed !important;
+        }
+    }
+
     a#add-future{
         color: #fff !important;
     }
@@ -1020,3 +1028,10 @@ a.nav-link i {
     padding: 10px !important;
 }
 
+.not-alloweds{
+    cursor: not-allowed !important;
+    &:hover{
+        color: $color !important;
+        cursor: not-allowed !important;
+    }
+}
