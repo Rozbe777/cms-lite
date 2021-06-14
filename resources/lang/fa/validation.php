@@ -48,9 +48,9 @@ return array(
         "string" => ":attribute نباید بیشتر از :max کاراکتر باشد.",
         "array" => ":attribute نباید بیشتر از :max آیتم باشد.",
     ),
-    'lt' => [
-        'numeric' => ':attribute باید کمتر از :value باشد '
-    ],
+//    'lt' => [
+//        'numeric' => ':attribute باید کمتر از :value باشد '
+//    ],
     'lte' => [
         'numeric' => ':attribute باید کمتر یا برابر از :value باشد '
     ],
@@ -81,11 +81,11 @@ return array(
     ),
     "timezone" => "The :attribute must be a valid zone.",
     "unique" => ":attribute قبلا انتخاب شده است.",
-    'gte' => [
-        'numeric' => ":attribute باید بزرگتر از صفر و کمتر از موجودی باشد.",
-        'file' => 'The :attribute must be greater than or equal :value kilobytes.',
-        'string' => 'The :attribute must be greater than or equal :value characters.',
-        'array' => 'The :attribute must have :value items or more.',
+    "gt" => [
+        'numeric' =>  ":attribute باید بزرگتر از صفر و کمتر از موجودی باشد.",
+    ],
+    "lt" => [
+        'numeric'  =>  ":attribute باید کمتر از موجودی باشد.",
     ],
     'distinct' => ':attribute مقدار تکراری دارد.',
 
@@ -153,9 +153,10 @@ return array(
         "status" => "وضعیت",
         "logo" => "لوگو",
         "price" => "مبلغ",
-        "attributes.product_code" => "کد کالا",
-        "attributes.limit" => "حداکثر تعداد مجاز خرید این کالا ",
-        "attributes.count" => "حداکثر تعداد مجاز خرید این کالا ",
+        "attributes.*.price" => "مبلغ کالا",
+        "attributes.*.product_code" => "کد کالا",
+        "attributes.*.limit" => "حداکثر تعداد مجاز خرید این کالا ",
+        "attributes.*.count" => "تعداد این کالا",
         "features.*.color" => "رنگ کالا",
         "features.*.name" => "ردیف ویژگی",
         "features.*.title" => "عنوان ویژگی",

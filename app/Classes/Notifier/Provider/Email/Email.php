@@ -5,16 +5,17 @@ namespace App\Classes\Notifier\Provider\Email;
 
 
 use App\Classes\Notifier\iNotifier;
+use App\Classes\Notifier\iUser;
 use App\Models\User;
 
 class Email implements iNotifier
 {
 
     /**
-     * @param User $user
+     * @param iUser $user
      * @return mixed
      */
-    function to(User $user)
+    function to(iUser $user)
     {
         // TODO: Implement to() method.
     }

@@ -29,15 +29,13 @@ class MobileRegisterController extends Controller
     protected $sms;
     protected $mobileRepository;
     protected $responses;
-    protected $noticeCenterTrigger;
 
-    public function __construct(Responses $responses, UserModelRepository $userRepository, SmsRepository $sms, MobileRepository $mobileRepository,NoticeCenterTrigger $noticeCenterTrigger)
+    public function __construct(Responses $responses, UserModelRepository $userRepository, SmsRepository $sms, MobileRepository $mobileRepository)
     {
         $this->userRepository = $userRepository;
         $this->sms = $sms;
         $this->mobileRepository = $mobileRepository;
         $this->responses = $responses;
-        $this->noticeCenterTrigger = $noticeCenterTrigger;
     }
 
     public function show()
@@ -48,6 +46,7 @@ class MobileRegisterController extends Controller
     /** verify user's mobile */
     public function register(MobileRegisterRequest $request)
     {
+        $noticeCenterTrigger = new NoticeCenterTrigger();
         $mobile = mobile($request->mobile);
 
         /** check if mobile was registered */
@@ -59,8 +58,7 @@ class MobileRegisterController extends Controller
             $client = $this->mobileRepository->creatClient($mobile);
 
             /** API panel SMS */
-//            dispatch(new SendSmsJob($request->mobile));
-            $this->noticeCenterTrigger->handle($request->mobile);
+            $noticeCenterTrigger->handle($request->mobile);
 
             return $this->message(__('message.auth.register.resendToken.successful'))->success();
 
@@ -77,8 +75,7 @@ class MobileRegisterController extends Controller
 
             if ($needToPass < 0) {
                 /** send the token again */
-//                dispatch(new SendSmsJob($request->mobile));
-                $this->noticeCenterTrigger->handle($request->mobile);
+                $noticeCenterTrigger->handle($request->mobile);
 
                 return $this->message(__('message.auth.register.resendToken.successful'))->success();
             } else {

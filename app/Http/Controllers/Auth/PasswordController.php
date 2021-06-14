@@ -24,13 +24,11 @@ class PasswordController extends Controller
 
     protected $userRepository;
     protected $responses;
-    protected $noticeCenterTrigger;
 
-    public function __construct(Responses $responses, UserModelRepository $userRepository, NoticeCenterTrigger $noticeCenterTrigger)
+    public function __construct(Responses $responses, UserModelRepository $userRepository)
     {
         $this->responses = $responses;
         $this->userRepository = $userRepository;
-        $this->noticeCenterTrigger = $noticeCenterTrigger;
     }
 
     public function show()
@@ -41,6 +39,8 @@ class PasswordController extends Controller
     /** verify user's mobile when ask for reset password */
     public function passwordToken(MobileRegisterRequest $request)
     {
+        $noticeCenterTrigger = new NoticeCenterTrigger();
+
         $mobile = mobile($request->mobile);
         $mobileRepository = new MobileRepository();
 
@@ -55,9 +55,7 @@ class PasswordController extends Controller
             $client = $mobileRepository->creatClient($mobile);
 
             /** API panel SMS */
-//            dispatch(new SendSmsJob($request->mobile));
-
-            $this->noticeCenterTrigger->handle($request->mobile);
+            $noticeCenterTrigger->handle($request->mobile);
 
             return $this->message(__('message.auth.register.resendToken.successful'))->success();
         }
@@ -66,8 +64,7 @@ class PasswordController extends Controller
         $needToPass = config('kavenegar.waitTimer') - (strtotime(Carbon::now()->toDateTimeString()) - strtotime((new MobileRepository())->find($mobile)->updated_at->toDateTimeString()));
         if ($needToPass < 0) {
             /** send the token again */
-//            dispatch(new SendSmsJob($request->mobile));
-            $this->noticeCenterTrigger->handle($request->mobile);
+            $noticeCenterTrigger->handle($request->mobile);
 
             return $this->message(__('message.auth.register.resendToken.successful'))->success();
         } else {
