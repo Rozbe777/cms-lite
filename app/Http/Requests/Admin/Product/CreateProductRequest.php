@@ -33,14 +33,14 @@ class CreateProductRequest extends FormRequest
             "image" => "nullable|image",
             "attributes.*.price" => "required|integer",
             "attributes.*.product_code" => "required|string|unique:attributes,product_code",
-            "attributes.*.count" => "nullable|integer|gte:attributes.limit",
-            "attributes.*.limit" => "nullable|integer|0",
-            "features.*.name" => "string",
-            "features.*.color" => "string|required_if:features.*.name,رنگ",
-            "features.*.title" => "required_with:features.*.name|string",
-            "features.*.value" => "required_with:features.*.name|string",
-            "tag_list" => "array",
-            "categoryIds" => "array|exists:categories,id",
+            "attributes.*.count" => "nullable|integer",
+            "attributes.*.limit" => "nullable|integer|gt:0|lt:attributes.*.count",
+//            "features.*.name" => "string",
+//            "features.*.color" => "string|required_if:features.*.name,رنگ",
+//            "features.*.title" => "required_with:features.*.name|string",
+//            "features.*.value" => "required_with:features.*.name|string",
+//            "tag_list" => "array",
+//            "categoryIds" => "array|exists:categories,id",
         ];
     }
 }

@@ -87,7 +87,7 @@ class ProductController extends Controller
      * @return Factory|View|JsonResponse|Response
      */
     public function store(CreateProductRequest $request)//CreateProductRequest
-    {
+    {dd(123);
         $product = $this->repository->create($request->all());
 
         return (!$product) ?
