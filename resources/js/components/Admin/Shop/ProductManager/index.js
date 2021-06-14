@@ -5,6 +5,7 @@ import './_Shared/Responsive.scss';
 import ProductAdd from './../ProductAdd';
 import {Request} from "../../../../services/AdminService/Api";
 import $ from 'jquery';
+import {CHECK_BOX_CONTENT} from './../../UserList/Helper/Context'
 import Item from './Item';
 import Loading from "../../_Micro/Loading";
 import SearchComponent from './../Search'
@@ -21,7 +22,9 @@ const Index = () => {
     const [chipset, setChipset] = useState([]);
     const [stateOf, setStateOf] = useState();
     const [loading, setLoading] = useState(false);
-    const [Products, setProducts] = useState([]);
+    const [Products, setProducts] = useState({
+        data: []
+    });
     const [perPage, setPerPage] = useState();
     const [total, setTotal] = useState();
     const [edit, setEdit] = useState(false);
@@ -46,8 +49,8 @@ const Index = () => {
         setLoading(true);
         console.log("resoult search : ", stringSearchs);
         Request.GetAllProducts(stringSearchs).then(res => {
-            console.log("res", res.data.data.data)
-            setProducts(res.data.data.data)
+            console.log("res", res.data.data)
+            setProducts(res.data.data)
             setPerPage(res.data.data.per_page);
             setTotal(res.data.data.total);
             setLoading(false)
@@ -89,6 +92,8 @@ const Index = () => {
 
     const handleDeleteGroup = (event) => {
 
+
+        let finalAllIds = {};
 
         finalAllIds.userIds = checkBox;
 
@@ -239,79 +244,83 @@ const Index = () => {
             {/*    <GroupAction data={checked} allProduct={DataInitial.Products} newCheck={item => handleCheckAll(item)}/>*/}
             {/*</div>*/}
 
+            {console.log("?????????", Products)}
 
-            <div className={"row col-12"} id={"headerContent"}>
-                <TotalActions text={" محصول انتخاب شده است "} deleteUsers={e => handleDeleteGroup(e)}
-                              allData={Products.data ? Products : []} data={checkBox}/>
-                <BreadCrumbs titleBtn={"افزودن"} clicked={e => HandlePopUpAddProduct(e)} icon={"bx-plus"}
-                             data={breadData}/>
-            </div>
+            <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
+                <div className={"row col-12"} id={"headerContent"}>
+                    <TotalActions text={" محصول انتخاب شده است "} deleteUsers={e => handleDeleteGroup(e)}
+                                  allData={Products ? Products : []} data={checkBox}/>
+                    <BreadCrumbs titleBtn={"افزودن"} clicked={e => HandlePopUpAddProduct(e)} icon={"bx-plus"}
+                                 data={breadData}/>
+                </div>
 
 
-            <SearchComponent category={itemCat => HandleSearchCategory(itemCat)} searchRes={items => {
-                Object.keys(items).forEach((key, value) => {
-                    setSearch(true)
-                    if (key === "pageSize") {
-                        if (!items[key]) {
-                            stringSearchs.params.page = 1;
-                            stringSearchs.params[key] = 15;
+                <SearchComponent category={itemCat => HandleSearchCategory(itemCat)} searchRes={items => {
+                    Object.keys(items).forEach((key, value) => {
+                        setSearch(true)
+                        if (key === "pageSize") {
+                            if (!items[key]) {
+                                stringSearchs.params.page = 1;
+                                stringSearchs.params[key] = 15;
+                            } else {
+                                stringSearchs.params.page = 1;
+                                stringSearchs.params[key] = items[key];
+                            }
+
+
                         } else {
                             stringSearchs.params.page = 1;
                             stringSearchs.params[key] = items[key];
                         }
 
+                    })
 
-                    } else {
-                        stringSearchs.params.page = 1;
-                        stringSearchs.params[key] = items[key];
-                    }
+                    stringSearchs.params.page = 1;
+                    GetAllProducts(stringSearchs)
+                }}
+                />
 
-                })
+                <div className={"container-fluid"} style={{marginTop: '20px', padding: '0px 4px'}}>
+                    <div className={"row"} style={{padding: 10}}>
+                        {loading === false ? Products.data.length > 0 ? Products.data.map(item => {
+                            return (
+                                <Item data={item} checkStateOfOut={checked} sizeOf={Products.data.length}
+                                      selected={response => HandleChecked(response)}/>
+                            )
+                        }) : (
+                            <div id={"add-product-btn-box"}>
+                                <p>محصولی ثبت نشده است!</p>
+                                <button type={"button"} className={"btn btn-primary shadow mr-1 mb-1"}
+                                        onClick={e => HandlePopUpAddProduct(e)}>
+                                    افزودن محصول
+                                </button>
+                            </div>
+                        ) : (<Loading/>)}
 
-                stringSearchs.params.page = 1;
-                GetAllProducts(stringSearchs)
-            }}
-            />
 
-            <div className={"container-fluid"} style={{marginTop: '20px', padding: '0px 4px'}}>
-                <div className={"row"} style={{padding: 10}}>
-                    {loading === false ? Products.length > 0 ? Products.map(item => {
-                        return (
-                            <Item data={item} checkStateOfOut={checked} sizeOf={Products.length}
-                                  selected={response => HandleChecked(response)}/>
-                        )
-                    }) : (
-                        <div id={"add-product-btn-box"}>
-                            <p>محصولی ثبت نشده است!</p>
-                            <button type={"button"} className={"btn btn-primary shadow mr-1 mb-1"}
-                                    onClick={e => HandlePopUpAddProduct(e)}>
-                                افزودن محصول
-                            </button>
+                        <div className="col-md-12">
+                            {/*{contentData.data ? contentData.data.length ? (*/}
+                            {/*    <Pagination*/}
+                            {/*        firstPageUrl={contentData.first_page_url}*/}
+                            {/*        lastPageUrl={contentData.last_page_url}*/}
+                            {/*        currentPage={contentData.cuerrent_page}*/}
+                            {/*        perPage={perPage}*/}
+                            {/*        users={allUser}*/}
+                            {/*        total={total}*/}
+                            {/*        paginate={paginate}*/}
+                            {/*    />*/}
+                            {/*) : '' : ''}*/}
+
                         </div>
-                    ) : (<Loading/>)}
-
-
-                    <div className="col-md-12">
-                        {/*{contentData.data ? contentData.data.length ? (*/}
-                        {/*    <Pagination*/}
-                        {/*        firstPageUrl={contentData.first_page_url}*/}
-                        {/*        lastPageUrl={contentData.last_page_url}*/}
-                        {/*        currentPage={contentData.cuerrent_page}*/}
-                        {/*        perPage={perPage}*/}
-                        {/*        users={allUser}*/}
-                        {/*        total={total}*/}
-                        {/*        paginate={paginate}*/}
-                        {/*    />*/}
-                        {/*) : '' : ''}*/}
 
                     </div>
 
                 </div>
+                <div id={"add-product"}>
+                </div>
 
-            </div>
-            <div id={"add-product"}>
-            </div>
 
+            </CHECK_BOX_CONTENT.Provider>
 
         </>
     )
