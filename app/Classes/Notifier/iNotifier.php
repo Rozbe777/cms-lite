@@ -8,10 +8,8 @@ use App\Models\User;
 
 interface iNotifier
 {
-    function to(User $user);
-
-    function body($body);
-
+    function to(iUser $user);
+    function body(string $body);
     function from($from = null);
     function send();
 }

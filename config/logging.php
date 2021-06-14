@@ -99,6 +99,18 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'notifier'  => [
+            "success"  => [
+                'driver' => 'single',
+                'path' => storage_path('logs/notifier/log_notifier_info.log'),
+            ],
+            "error"    =>  [
+                "driver" => "single",
+                "path" => storage_path('logs/notifier/log_notifier_error.log'),
+            ]
+            ],
+
     ],
 
 ];

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Classes\Notifier\Classes\NoticeCenterTrigger;
+use App\Classes\Notifier\UserOtp;
 use App\Classes\Responses\Auth\Responses;
 use App\Classes\Responses\Auth\ResponseTrait;
 use App\Classes\Sms\SmsCenter;
@@ -27,13 +29,15 @@ class MobileRegisterController extends Controller
     protected $sms;
     protected $mobileRepository;
     protected $responses;
+    protected $noticeCenterTrigger;
 
-    public function __construct(Responses $responses, UserModelRepository $userRepository, SmsRepository $sms, MobileRepository $mobileRepository)
+    public function __construct(Responses $responses, UserModelRepository $userRepository, SmsRepository $sms, MobileRepository $mobileRepository,NoticeCenterTrigger $noticeCenterTrigger)
     {
         $this->userRepository = $userRepository;
         $this->sms = $sms;
         $this->mobileRepository = $mobileRepository;
         $this->responses = $responses;
+        $this->noticeCenterTrigger = $noticeCenterTrigger;
     }
 
     public function show()
@@ -55,7 +59,8 @@ class MobileRegisterController extends Controller
             $client = $this->mobileRepository->creatClient($mobile);
 
             /** API panel SMS */
-            dispatch(new SendSmsJob($request->mobile));
+//            dispatch(new SendSmsJob($request->mobile));
+            $this->noticeCenterTrigger->handle($request->mobile);
 
             return $this->message(__('message.auth.register.resendToken.successful'))->success();
 
@@ -72,7 +77,8 @@ class MobileRegisterController extends Controller
 
             if ($needToPass < 0) {
                 /** send the token again */
-                dispatch(new SendSmsJob($request->mobile));
+//                dispatch(new SendSmsJob($request->mobile));
+                $this->noticeCenterTrigger->handle($request->mobile);
 
                 return $this->message(__('message.auth.register.resendToken.successful'))->success();
             } else {
@@ -89,7 +95,6 @@ class MobileRegisterController extends Controller
     /** check the token */
     public function checkMobile(MobileRequest $request)
     {
-
         $client = (new MobileRepository())->find(mobile($request->mobile));
 
         if ($client == null)

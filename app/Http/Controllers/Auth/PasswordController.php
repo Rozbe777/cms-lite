@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Classes\Notifier\Classes\NoticeCenterTrigger;
+use App\Classes\Notifier\UserOtp;
 use App\Classes\Responses\Auth\Responses;
 use App\Classes\Responses\Auth\ResponseTrait;
 use App\Http\Controllers\Auth\Traits\MobileTrait;
@@ -11,6 +13,7 @@ use App\Http\Requests\MobileRegisterRequest;
 use App\Http\Requests\MobileRequest;
 use App\Jobs\SendSmsJob;
 use App\Models\Repositories\Auth\MobileRepository;
+use App\Models\Repositories\Auth\SmsRepository;
 use App\Models\Repositories\Auth\UserModelRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -21,11 +24,13 @@ class PasswordController extends Controller
 
     protected $userRepository;
     protected $responses;
+    protected $noticeCenterTrigger;
 
-    public function __construct(Responses $responses, UserModelRepository $userRepository)
+    public function __construct(Responses $responses, UserModelRepository $userRepository, NoticeCenterTrigger $noticeCenterTrigger)
     {
         $this->responses = $responses;
         $this->userRepository = $userRepository;
+        $this->noticeCenterTrigger = $noticeCenterTrigger;
     }
 
     public function show()
@@ -50,7 +55,9 @@ class PasswordController extends Controller
             $client = $mobileRepository->creatClient($mobile);
 
             /** API panel SMS */
-            dispatch(new SendSmsJob($request->mobile));
+//            dispatch(new SendSmsJob($request->mobile));
+
+            $this->noticeCenterTrigger->handle($request->mobile);
 
             return $this->message(__('message.auth.register.resendToken.successful'))->success();
         }
@@ -59,7 +66,8 @@ class PasswordController extends Controller
         $needToPass = config('kavenegar.waitTimer') - (strtotime(Carbon::now()->toDateTimeString()) - strtotime((new MobileRepository())->find($mobile)->updated_at->toDateTimeString()));
         if ($needToPass < 0) {
             /** send the token again */
-            dispatch(new SendSmsJob($request->mobile));
+//            dispatch(new SendSmsJob($request->mobile));
+            $this->noticeCenterTrigger->handle($request->mobile);
 
             return $this->message(__('message.auth.register.resendToken.successful'))->success();
         } else {

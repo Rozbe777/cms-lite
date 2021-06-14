@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Classes\Notifier\iUser;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -27,7 +28,7 @@ use Shanmuga\LaravelEntrust\Traits\LaravelEntrustUserTrait;
  * @method static findOrFail($id)
  * @method static paginate(int $int)
  */
-class User extends Authenticatable
+class User extends Authenticatable implements iUser
 {
 
     use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
@@ -128,6 +129,4 @@ class User extends Authenticatable
             return __('message.errors.403');
         return $role->name;
     }
-
-
 }
