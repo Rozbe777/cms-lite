@@ -1,12 +1,16 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import './_Shared/style.scss'
 import $ from 'jquery';
+import {CHECK_BOX_CONTENT} from "../../../UserList/Helper/Context";
 
 const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected}) => {
+    const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
+
     useEffect(() => {
         checkTest();
     })
-    console.log(checkStateOfOut.length," //////// " , data);
+
+    console.log(checkStateOfOut.length, " //////// ", data);
 
     function checkTest() {
         if (checkStateOfOut.length == sizeOf) {
@@ -22,26 +26,35 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected}) => {
         }
     }
 
-    const HandleChange = (e, id) => {
-        if (e.target.checked) {
-            $("html, body").animate({scrollTop : 0},700);
-            $(".item-product#" + id).addClass("activeCheck");
-            pushSelected({type: "added", id});
+    const HandlePushCheck = (e, idGet) => {
+        let checkBoxx = [...checkBox];
+        let checkState = e.target.checked;
+        console.log("idddddd :" , idGet , checkState , checkBoxx)
+
+        var filterRes = checkBoxx.indexOf(idGet);
+        if (filterRes !== -1) {
+            // document.querySelector(".item-product."+idGet).classList.remove("activeCheck");
+            // $("#product-item.item-product." + idGet).removeClass("activeCheck");
+            checkBoxx.splice(filterRes, 1);
         } else {
-            $(".item-product#" + id).removeClass("activeCheck");
-            pushSelected({type: "removed", id});
+            // $("#product-item.item-product." + idGet).addClass("activeCheck");
+            checkBoxx.push(idGet);
         }
+        setCheckBox(checkBoxx)
+
+        console.log(checkBoxx)
     }
 
 
     return (
-        <div className={"col-lg-3 col-md-4 col-sm-12"} id={"product-item"} style={{padding : '8px !important'}}>
-            <div className={"item-product"} id={data.id}>
+        <div className={"col-lg-3 col-md-4 col-sm-12"} id={"product-item"} style={{padding: '8px !important'}}>
+            <div className={"item-product "+data.id}>
                 <div className={"header-box-pro"}>
                     <fieldset>
                         <div className={"checkbox"}>
-                            <input type={"checkbox"} className={"checkbox-input"} name={"product_"+data.id} id={"checkbox_"+data.id} onChange={e => HandleChange(e , data.id)} />
-                            <label htmlFor={"checkbox_"+data.id}></label>
+                            <input type={"checkbox"} className={"checkbox-input"} name={"product_" + data.id}
+                                   id={"checkbox_" + data.id} onChange={e => HandlePushCheck(e, data.id)}/>
+                            <label htmlFor={"checkbox_" + data.id}></label>
                         </div>
                     </fieldset>
                 </div>
@@ -60,28 +73,40 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected}) => {
                         <p id={"title"}>{data.title}</p>
                     </li>
                     <li>
-                        <span>&nbsp;&nbsp;12 <i className={"bx bx-cart"} style={{fontSize : '14px'}}></i>&nbsp;&nbsp; </span>
-                        <span style={{float : 'right'}}>&nbsp;&nbsp;<h5 style={{float : "right" , padding : 0 , marginTop : '8px' , fontSize : 14 , fontWeight : 100 }}>12</h5> <i className={"bx bx-show"} style={{ float : 'right' , fontSize : 17 , marginTop : 10 , marginRight : 5}}></i>&nbsp;&nbsp; </span>
+                        <span>&nbsp;&nbsp;12 <i className={"bx bx-cart"}
+                                                style={{fontSize: '14px'}}></i>&nbsp;&nbsp; </span>
+                        <span style={{float: 'right'}}>&nbsp;&nbsp;<h5 style={{
+                            float: "right",
+                            padding: 0,
+                            marginTop: '8px',
+                            fontSize: 14,
+                            fontWeight: 100
+                        }}>12</h5> <i className={"bx bx-show"} style={{
+                            float: 'right',
+                            fontSize: 17,
+                            marginTop: 10,
+                            marginRight: 5
+                        }}></i>&nbsp;&nbsp; </span>
                         <span>{data.price !== 0 ? data.price + " تومان " : 'رایگان'}</span>
                     </li>
                 </ul>
 
-            <div className={"back-show-detail-pro"}>
+                <div className={"back-show-detail-pro"}>
 
-                <div className={"manage-pro"}>
-                    <a className={"btn"}>ویرایش</a>
-                    <a className={"btn btn-primary"}>طراحی صفحه</a>
-                </div>
+                    <div className={"manage-pro"}>
+                        <a className={"btn"}>ویرایش</a>
+                        <a className={"btn btn-primary"}>طراحی صفحه</a>
+                    </div>
 
-                <div className={"footer-manage-pro"}>
-                    <i className={"bx bx-trash-alt"}></i>
-                    <i className={"bx bx-duplicate"}></i>
-                    <i className={"bx bx-link-alt"} id={"right"}></i>
+                    <div className={"footer-manage-pro"}>
+                        <i className={"bx bx-trash-alt"}></i>
+                        <i className={"bx bx-duplicate"}></i>
+                        <i className={"bx bx-link-alt"} id={"right"}></i>
+                    </div>
                 </div>
             </div>
-        </div>
 
-    </div>
+        </div>
     )
 }
 export default Index;

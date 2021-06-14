@@ -4,10 +4,10 @@ export const NoralizeFetures = (data) => {
     Object.keys(data).map(item => {
         attributes.push({
             product_code : item,
-            price : data[item].attributes.price,
-            discount : data[item].attributes.discount,
-            count : data[item].attributes.count,
-            limit : data[item].attributes.limit,
+            price : parseInt(data[item].attributes.price),
+            discount : parseInt(data[item].attributes.discount),
+            count : parseInt(data[item].attributes.count),
+            limit : parseInt(data[item].attributes.limit),
         });
         data[item].fetures.text.map((itemText) => {
             fetures.push({

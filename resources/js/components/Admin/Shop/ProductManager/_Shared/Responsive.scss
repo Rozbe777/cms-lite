@@ -183,21 +183,23 @@ $itemDarkLigth: #2e3652;
 body.active-darked {
     background: $background !important;
 
-    #back-loaderedss{
-        .col-lg-4.col-sm-12.col-md-8{
+    #back-loaderedss {
+        .col-lg-4.col-sm-12.col-md-8 {
             background: $background !important;
         }
     }
 
 
-    .manage-pro{
-        .btn{
+    .manage-pro {
+        .btn {
             color: #000000 !important;
         }
-        .btn-primary{
+
+        .btn-primary {
             color: #fff !important;
         }
     }
+
     table {
         color: $color !important;
 
@@ -236,9 +238,10 @@ body.active-darked {
     }
 
     #back-loaderedss {
-        select{
+        select {
             height: 45px !important;
         }
+
         #fetures {
             border: $itemBorder !important;
             background: $background !important;
@@ -624,6 +627,7 @@ body.active-darked {
         background: $background !important;
         color: $color !important;
         border: $itemBorder !important;
+
         .main-menu-content {
             background: $background !important;
             color: $color !important;
@@ -682,9 +686,10 @@ body.active-darked {
         }
     }
 
-    .checkboxed.priceee{
+    .checkboxed.priceee {
         color: $background !important;
-        &.active{
+
+        &.active {
             color: #fff !important;
         }
     }
@@ -843,67 +848,74 @@ body.active-darked {
         }
     }
 
-    .not-alloweds{
+    .not-alloweds {
         cursor: not-allowed !important;
-        &:hover{
+
+        &:hover {
             color: $color !important;
             cursor: not-allowed !important;
         }
     }
 
-    a#add-future{
+    a#add-future {
         color: #fff !important;
     }
 
-    .content-pages{
+    .content-pages {
         color: $color;
     }
-    #form-group-chipset{
+
+    #form-group-chipset {
         border: none !important;
     }
-    .is-invalid{
-        border-color :#FF5B5C !important;
+
+    .is-invalid {
+        border-color: #FF5B5C !important;
     }
 
-    .dropzones{
+    .dropzones {
         box-shadow: inset 0 0 3px 2px rgb(0 0 0 / 30%) !important;
         border-radius: 5px !important;
     }
 
-    .sketch-picker{
+    .sketch-picker {
         background: $background !important;
     }
-    #btn-color-picker{
+
+    #btn-color-picker {
         border-top: $itemBorder !important;
         background: $itemBackground !important;
         color: $color !important;
-        .col-6{
+
+        .col-6 {
             background: $itemBackground !important;
         }
-        .col-6:first-child{
+
+        .col-6:first-child {
             border-left: $itemBorder !important;
         }
     }
 
-    .top-table-input{
+    .top-table-input {
         background: none !important;
         border: none !important;
         height: 30px !important;
         color: $color !important;
-        &:focus{
-            border : $itemBorder !important;
+
+        &:focus {
+            border: $itemBorder !important;
         }
     }
 
-    .productsss{
+    .productsss {
         height: auto !important;
     }
 
-    .feture-color{
+    .feture-color {
         float: right;
         height: 30px !important;
         width: 30px !important;
-        box-shadow: unset!important;
+        box-shadow: unset !important;
         padding: 0px;
         border: unset !important;
         float: right;
@@ -911,32 +923,36 @@ body.active-darked {
     }
 
 
-    .table td{
+    .table td {
         padding: 10px !important;
     }
 
-    #prices{
+    #prices {
         color: $color !important;
         background: $background !important;
-        border : $itemBorder !important;
-        .bottom-btns{
+        border: $itemBorder !important;
+
+        .bottom-btns {
             background: $itemBackground !important;
             border: $itemBorder !important;
             color: $color !important;
-            .btn-action{
+
+            .btn-action {
                 border-left: $itemBorder !important;
                 color: $color !important;
             }
         }
     }
 
-    .chips_input.form-control.connnn{
+    .chips_input.form-control.connnn {
         border: none !important;
     }
-    #content-manager{
+
+    #content-manager {
         border-top: $itemBorder !important;
     }
-    #shop_product_manager{
+
+    #shop_product_manager {
         border-top: $itemBorder !important;
     }
 
@@ -956,82 +972,96 @@ a.nav-link i {
     visibility: hidden !important;
 }
 
-#price{
-    input{
-        text-align: center ;
+#price {
+    input {
+        text-align: center;
     }
 }
 
-.checkboxed.active{
+.checkboxed.active {
     width: 20px;
     height: 20px;
 }
 
-#discount#input-dis{
+#discount#input-dis {
     height: 45px !important;
     text-align: center !important;
     cursor: not-allowed !important;
 }
 
 
-
-#back-loaderedss{
+#back-loaderedss {
     width: 100%;
     height: 100%;
     position: fixed;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0, 0, 0, 0.7);
     top: 0px;
     right: 0px;
     display: none;
     z-index: 99999999;
-    select{
+
+    select {
         height: 45px !important;
     }
-    &.active{
+
+    &.active {
         display: flex;
         align-items: center;
         justify-content: center;
     }
 }
 
-#content-manager{
+#content-manager {
     border-top: 1px solid #eee;
 }
-.bottom-footer{
+
+.bottom-footer {
     z-index: 9999;
 }
-.navbar-container.content{
+
+.navbar-container.content {
     background: #fff;
 }
-.top-table-input{
+
+.top-table-input {
     background: none !important;
     border: none !important;
     height: 30px !important;
     color: #fff !important;
 }
 
-.productsss{
+.productsss {
     height: auto !important;
 }
 
-.feture-color{
+.feture-color {
     float: right;
     height: 30px !important;
     width: 30px !important;
-    box-shadow: unset!important;
+    box-shadow: unset !important;
     padding: 0px;
     border: unset !important;
     float: right;
     margin: 4px !important;
 }
-.table td{
+
+.table td {
     padding: 10px !important;
 }
 
-.not-alloweds{
+.not-alloweds {
     cursor: not-allowed !important;
-    &:hover{
+
+    &:hover {
         color: $color !important;
         cursor: not-allowed !important;
+    }
+}
+
+#headerContent #breadCrumb span#icon a span {
+    line-height: 2.3 !important;
+
+    &:hover {
+        color: $color !important;
     }
 }
