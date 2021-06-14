@@ -8,52 +8,65 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected}) => {
 
     useEffect(() => {
         checkTest();
-    })
+        checkBox.map(item => {
+            $(".item-product.id_"+item).addClass("activeCheck");
+            $("input#checkbox_" + item).prop("checked", true);
+        })
 
-    console.log(checkStateOfOut.length, " //////// ", data);
+    })
 
     function checkTest() {
         if (checkStateOfOut.length == sizeOf) {
             checkStateOfOut.map(item => {
-                $(".item-product#" + item).addClass("activeCheck");
+                $(".item-product.id_" + item).addClass("activeCheck");
                 $("input[name=product_" + item + "]").prop("checked", true);
             })
         } else if (checkStateOfOut.length == 0) {
-            // barrasi shavad
             $(".item-product").removeClass("activeCheck");
             $("input[type=checkbox]").prop("checked", false);
 
         }
     }
 
-    const HandlePushCheck = (e, idGet) => {
+
+
+    const HandlePushCheck = (check, idGet) => {
         let checkBoxx = [...checkBox];
-        let checkState = e.target.checked;
-        console.log("idddddd :" , idGet , checkState , checkBoxx)
-
         var filterRes = checkBoxx.indexOf(idGet);
-        if (filterRes !== -1) {
-            // document.querySelector(".item-product."+idGet).classList.remove("activeCheck");
-            // $("#product-item.item-product." + idGet).removeClass("activeCheck");
+        if (filterRes !== -1 || check === false) {
             checkBoxx.splice(filterRes, 1);
+            setCheckBox(checkBoxx);
         } else {
-            // $("#product-item.item-product." + idGet).addClass("activeCheck");
             checkBoxx.push(idGet);
+            setCheckBox(checkBoxx)
         }
-        setCheckBox(checkBoxx)
 
-        console.log(checkBoxx)
+    }
+
+    const HandleChange = (e, id) => {
+        console.log(",,,,,,,,", id);
+
+        if (e.target.checked) {
+            $("html, body").animate({scrollTop: 0}, 700);
+            $(".item-product.id_" + id).addClass("activeCheck");
+            HandlePushCheck(true, id)
+        } else {
+            $(".item-product.id_" + id).removeClass("activeCheck");
+            pushSelected({type: "removed", id});
+            HandlePushCheck(false, id)
+
+        }
     }
 
 
     return (
         <div className={"col-lg-3 col-md-4 col-sm-12"} id={"product-item"} style={{padding: '8px !important'}}>
-            <div className={"item-product "+data.id}>
+            <div className={"item-product  maxi id_" + data.id}>
                 <div className={"header-box-pro"}>
                     <fieldset>
                         <div className={"checkbox"}>
                             <input type={"checkbox"} className={"checkbox-input"} name={"product_" + data.id}
-                                   id={"checkbox_" + data.id} onChange={e => HandlePushCheck(e, data.id)}/>
+                                   id={"checkbox_" + data.id} onChange={e => HandleChange(e, data.id)}/>
                             <label htmlFor={"checkbox_" + data.id}></label>
                         </div>
                     </fieldset>

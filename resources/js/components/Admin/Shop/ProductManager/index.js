@@ -92,16 +92,17 @@ const Index = () => {
 
     const handleDeleteGroup = (event) => {
 
+        console.log("dataa_____" , checkBox)
 
         let finalAllIds = {};
 
-        finalAllIds.userIds = checkBox;
+        finalAllIds.productIds = checkBox;
 
         finalAllIds._token = $('meta[name="csrf-token"]').attr('content');
 
         event.preventDefault();
         swal({
-            title: 'حذف کاربر',
+            title: 'حذف محصول',
             text: "آیا مطمئنید؟",
             type: 'warning',
             showCancelButton: true,
@@ -112,13 +113,13 @@ const Index = () => {
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-                Request.GroupDelUser(finalAllIds)
+                Request.GroupDelProduct(finalAllIds)
                     .then(res => {
                         setCheckBox([])
                         Swal.fire({
                             type: "success",
                             title: 'حذف شد!',
-                            text: 'کاربر مورد نظر حذف شد',
+                            text: 'محصول مورد نظر حذف شد',
                             confirmButtonClass: 'btn btn-success',
                             confirmButtonText: 'باشه',
                         })

@@ -6,6 +6,7 @@ export const Request = {
     GroupDelCategory : (categoryId) =>  request.delete("/categories/multi/destroy" , {params : categoryId}),
     GroupDelContent : (contentIds) =>  request.delete("/contents/multi/destroy" , {params : contentIds}),
     GroupDelPage : (pageIds) =>  request.delete("/pages/multi/destroy" , {params : pageIds}),
+    GroupDelProduct : (pageIds) =>  request.delete("/products/multi/destroy" , {params : pageIds}),
     CreateUserNew : (data) =>  request.post("/users" , data),
     UpdateUserDetail : (data , id) =>  request.put("/users/"+id , data),
     GetAllCategory : () =>  request.get("/categories?page=1"),
