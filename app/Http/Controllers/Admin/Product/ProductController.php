@@ -86,7 +86,7 @@ class ProductController extends Controller
      * @param CreateProductRequest $request
      * @return Factory|View|JsonResponse|Response
      */
-    public function store(CreateProductRequest $request)//
+    public function store(CreateProductRequest $request)//CreateProductRequest
     {
         $product = $this->repository->create($request->all());
 
