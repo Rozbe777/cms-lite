@@ -22,7 +22,7 @@ class ProductRepository implements RepositoryInterface
         $entity = ($entity == 'true') ? 'available' : null;
 
         $discount = ($discount == 'true') ? 'active' : null;
-dd($status,$entity,$discount);
+
         if (empty($sort))
             $sort = 'id';
 

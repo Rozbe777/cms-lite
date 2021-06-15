@@ -39,7 +39,7 @@ class ProductController extends Controller
      * @return Factory|View|JsonResponse|Response
      */
     public function index(SearchProductRequest $request)
-    {dd($request->all());
+    {
         $status = ($request->status == 'true') ? $request->status : null;
         $entity = ($request->entity == 'true') ? $request->entity : null;
         $discount = ($request->discount == 'true') ? $request->discount : null;
