@@ -37,7 +37,11 @@ class ProductRepository implements RepositoryInterface
             });
         })->when(!empty($status), function ($query) use ($status) {
             $query->where('status', $status);
-        })->with('attributes', function ($q) {
+        })->when(!empty($discount), function ($query) use ($discount) {
+            $query->whereHas('attributes', function ($query) use ($discount) {
+                $query->where('attributes.discount_status', $discount);
+            });
+        })->with('attributes', function ($q) use ($discount) {
             $q->with('typeFeatures')->with('types');
         })
             ->when(!empty($categories), function ($query) use ($categories) {
@@ -48,12 +52,12 @@ class ProductRepository implements RepositoryInterface
                 $query->with('categories');
             })->when(!empty($entity), function ($query) use ($entity) {
                 $query->where('entity', $entity);
-            })->join('attributes', 'attributes.product_id', '=', 'products.id')
-            ->when(!empty($discount), function ($query) use ($discount) {
-                $query->where('attributes.discount_status', '=', $discount);
             })->with('user')
             ->with('viewCounts')
-            ->orderBy('attributes.' . $sort, "DESC")
+//            ->orderBy('attributes.' . $sort, "DESC")
+            ->with('attributes' , function($query) use($sort){
+                $query->orderByDesc($sort);
+            })
             ->paginate(config('view.pagination'));
     }
 
