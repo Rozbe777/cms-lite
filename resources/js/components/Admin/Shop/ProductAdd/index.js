@@ -236,8 +236,9 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
 
     const [stateData, dispatchAttr] = useReducer(reducerAttr, priceData);
 
-    const CreateNewProduct = (data) => {
+    const CreateNewProduct = (dataed) => {
 
+        console.log("@@@@@@@@" , dataed)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -250,7 +251,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-                Request.AddNewProduct(data)
+                Request.AddNewProduct(dataed)
                     .then(res => {
                         setClear(true)
                         pushResult(res);
@@ -422,6 +423,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         let checkValueFetures = CheckTextFetures(normal)
 
         if(checkValueFetures){
+            console.log("ddddd : " ,normal.attributes )
             formNew.attributes = normal.attributes;
             formNew.features = normal.fetures;
             formNew.category_list = idSelCat;

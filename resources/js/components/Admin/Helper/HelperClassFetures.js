@@ -39,7 +39,7 @@ export const NormalFilter = (data) => {
     let filter = [];
     data.map(item => {
         switch (item.id) {
-            case "entry" :
+            case "entity" :
                 filter["entity"] = true;
                 break;
             case "status" :
