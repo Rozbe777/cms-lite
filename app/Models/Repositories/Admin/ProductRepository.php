@@ -17,6 +17,12 @@ class ProductRepository implements RepositoryInterface
 
     public function all($status = null, $search = null, $entity = null, $categories = null, $sort = null, $discount = null)
     {
+        $status = ($status == 'true') ? 'active' : null;
+
+        $entity = ($entity == 'true') ? 'available' : null;
+
+        $discount = ($discount == 'true') ? 'active' : null;
+
         if (empty($sort))
             $sort = 'id';
 
@@ -31,11 +37,13 @@ class ProductRepository implements RepositoryInterface
             });
         })->when(!empty($status), function ($query) use ($status) {
             $query->where('status', $status);
-        })->with('user')->with('viewCounts')
+        })->with('attributes', function ($q) {
+            $q->with('typeFeatures')->with('types');
+        })
             ->when(!empty($categories), function ($query) use ($categories) {
-                $query->with(['categories' => function ($query) use ($categories) {
+                $query->whereHas('categories', function ($query) use ($categories) {
                     $query->whereIn('categories.id', $categories);
-                }])->has('categories');
+                });
             })->when(empty($categories), function ($query) {
                 $query->with('categories');
             })->when(!empty($entity), function ($query) use ($entity) {
@@ -43,7 +51,10 @@ class ProductRepository implements RepositoryInterface
             })->join('attributes', 'attributes.product_id', '=', 'products.id')
             ->when(!empty($discount), function ($query) use ($discount) {
                 $query->where('attributes.discount_status', '=', $discount);
-            })->orderBy('attributes.' . $sort, "DESC")->paginate(config('view.pagination'));
+            })->with('user')
+            ->with('viewCounts')
+            ->orderBy('attributes.' . $sort, "DESC")
+            ->paginate(config('view.pagination'));
     }
 
     public function get($product)
@@ -143,7 +154,7 @@ class ProductRepository implements RepositoryInterface
             $att = $this->attributeHandler($attributes, $product->id);
 
         if (!empty($features))
-            $this->featureHandler($features, $att->id);
+            $this->featureHandler($features);
 
         $product->viewCounts()->create();
 
@@ -153,14 +164,14 @@ class ProductRepository implements RepositoryInterface
                     ['name' => $tag],
                     ['user_id' => Auth::id()]
                 );
-                $product->tags()->attach($tag);
+                $product->tags()->syncWithoutDetaching($tag);
             }
         }
 
         if (!empty($categoryIds)) {
             foreach ($categoryIds as $category) {
                 $category = Category::findOrFail((int)$category);
-                $product->categories()->sync($category);
+                $product->categories()->syncWithoutDetaching($category);
             }
         }
 

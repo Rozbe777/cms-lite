@@ -11,4 +11,9 @@ class TypeFeature extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+
+    public function attributes()
+    {
+        return $this->belongsTo(Attribute::class);
+    }
 }

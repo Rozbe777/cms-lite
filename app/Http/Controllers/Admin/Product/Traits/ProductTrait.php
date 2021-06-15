@@ -35,33 +35,37 @@ trait ProductTrait
 
     public function attributeHandler($attributes, $p_id)
     {
+        $attribute_list = [];
         foreach ($attributes as $attribute) {
             $count = !empty($attribute['count']) ? (int)$attribute['count'] : ($attribute['count'] == 0 ? 0 : null); //null is unlimited
             $limit = !empty($attribute['limit']) ? (int)$attribute['limit'] : null;
             $discount = (!empty($attribute['discount'])) ? $attribute['discount'] != 0 ? (int)$attribute['discount'] : 0 : 0;
             $discount_status = (!empty($discount)) ? "active" : "deactivate";
 
-            return Attribute::updateOrCreate(
+            $attribute_list[] = Attribute::updateOrCreate(
                 ["product_id" => $p_id, "product_code" => $attribute['product_code']],
                 ["price" => $attribute['price'], "count" => $count, "limit" => $limit, "discount" => $discount, "discount_status" => $discount_status]
             );
         }
+        return $attribute_list;
     }
 
-    public function featureHandler($features, $attr_id)
+    public function featureHandler($features)
     {
         foreach ($features as $item) {
-            $data = Type::firstOrCreate(
-                ['name' => $item['name'], "attribute_id" => $attr_id]
-            );
 
-            $title = !empty($item['title']) ? $item['title'] : null;
-            $value = !empty($item['value']) ? $item['value'] : null;
-            $color = ($title == "رنگ") ? $item['color'] : null;
+            $attr = Attribute::where('product_code', $item['code'])->first();
+                $data = Type::firstOrCreate(
+                    ['name' => $item['name'], "attribute_id" => $attr->id]
+                );
 
-            $feature = TypeFeature::firstOrCreate(
-                ["type_id" => $data->id, "attribute_id" => $attr_id, "title" => $title, "color" => $color, "value" => $value],
-            );
+                $title = !empty($item['title']) ? $item['title'] : null;
+                $value = !empty($item['value']) ? $item['value'] : null;
+                $color = ($item['name'] === "رنگ") ? $item['color'] : null;
+
+                $feature = TypeFeature::firstOrCreate(
+                    ["type_id" => $data->id, "attribute_id" => $attr->id, "title" => $title, "color" => $color, "value" => $value],
+                );
         }
     }
 
