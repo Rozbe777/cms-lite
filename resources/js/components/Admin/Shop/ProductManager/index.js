@@ -16,6 +16,7 @@ import {Pagination} from "../../_Micro/Pagination";
 import {TotalActions} from "../../UserList/HOC/TotalActions";
 import {BreadCrumbs} from "../../UserList/HOC/BreadCrumbs";
 import ReactDom from "react-dom";
+import {NormalProductOneItem} from "../../Helper/HelperClassFetures";
 
 const Index = () => {
     const [checked, setChecked] = useState([]);
@@ -203,6 +204,7 @@ const Index = () => {
 
     const HandlePopUpAddProduct = e => {
         e.preventDefault();
+        let NormalGetData = NormalProductOneItem()
         ReactDOM.render(<ProductAdd result={res => handleBackRef(res) }/>, document.getElementById("add-product"));
     }
 

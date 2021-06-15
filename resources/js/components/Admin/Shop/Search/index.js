@@ -37,7 +37,7 @@ const SearchComponent = ({sort: pushSort}) => {
         let normalizes = NormalFilter(select);
         let sortings = {...sorting};
         sortings.status = normalizes["status"] ? normalizes["status"] : false;
-        sortings.entry = normalizes["entry"] ? normalizes["entry"] : false;
+        sortings.entity = normalizes["entity"] ? normalizes["entity"] : false;
         sortings.discount = normalizes["discount"] ? normalizes["discount"] : false;
         setSorting(sortings);
         pushSort(sortings);
@@ -83,7 +83,7 @@ const SearchComponent = ({sort: pushSort}) => {
 
     let dataFilter = [
         {
-            name: "entry",
+            name: "entity",
             value: ' موجودها'
         }, {
             name: 'status',
@@ -103,7 +103,7 @@ const SearchComponent = ({sort: pushSort}) => {
             id: "price",
             name: "بر اساس قیمت"
         }, {
-            id: 'entity',
+            id: 'count',
             name: "بر اساس موجودی",
         }, {
             id: 'discount',
