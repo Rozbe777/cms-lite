@@ -3,7 +3,7 @@ import './_Shared/style.scss'
 import $ from 'jquery';
 import {CHECK_BOX_CONTENT} from "../../../UserList/Helper/Context";
 
-const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected}) => {
+const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected , editClick : pushEditClick , deleteClick : delPushClick}) => {
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
 
     useEffect(() => {
@@ -22,8 +22,11 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected}) => {
                 $("input[name=product_" + item + "]").prop("checked", true);
             })
         } else if (checkStateOfOut.length == 0) {
-            $(".item-product").removeClass("activeCheck");
-            $("input[type=checkbox]").prop("checked", false);
+
+            checkStateOfOut.map(item => {
+                $(".item-product.id_" + item).removeClass("activeCheck");
+                $("input[name=product_" + item + "]").prop("checked", false);
+            })
 
         }
     }
@@ -107,12 +110,15 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected}) => {
                 <div className={"back-show-detail-pro"}>
 
                     <div className={"manage-pro"}>
-                        <a className={"btn"}>ویرایش</a>
+                        <a className={"btn"} onClick={e => pushEditClick(e)}>ویرایش</a>
                         <a className={"btn btn-primary"}>طراحی صفحه</a>
                     </div>
 
                     <div className={"footer-manage-pro"}>
-                        <i className={"bx bx-trash-alt"}></i>
+                        <i className={"bx bx-trash-alt"} onClick={e => delPushClick({
+                            event : e,
+                            id : data.id
+                        })}></i>
                         <i className={"bx bx-duplicate"}></i>
                         <i className={"bx bx-link-alt"} id={"right"}></i>
                     </div>
