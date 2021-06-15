@@ -122,8 +122,8 @@ class ProductRepository implements RepositoryInterface
         $tag_list = $data['tag_list'] ?? null;
         unset($data["tag_list"]);
 
-        $categoryIds = $data['categoryIds'] ?? null;
-        unset($data["categoryIds"]);
+        $categoryIds = $data['category_list'] ?? null;
+        unset($data["category_list"]);
 
         $features = $data['features'] ?? null;
         unset($data['features']);

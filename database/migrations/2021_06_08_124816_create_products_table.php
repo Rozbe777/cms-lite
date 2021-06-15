@@ -22,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->enum('status', ["active", "deactivate"])->default('active');
             $table->enum('entity',['available', 'unavailable'])->default('available');
             $table->bigInteger('user_id')->unsigned();
-            $table->string('image')->nullable()->default(null);
+            $table->string('image')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
