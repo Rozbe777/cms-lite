@@ -22,11 +22,8 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected , editClic
                 $("input[name=product_" + item + "]").prop("checked", true);
             })
         } else if (checkStateOfOut.length == 0) {
-
-            checkStateOfOut.map(item => {
-                $(".item-product.id_" + item).removeClass("activeCheck");
-                $("input[name=product_" + item + "]").prop("checked", false);
-            })
+            $(".item-product").removeClass("activeCheck");
+            $(".itemcheckboxed").prop("checked", false);
 
         }
     }
@@ -68,7 +65,7 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected , editClic
                 <div className={"header-box-pro"}>
                     <fieldset>
                         <div className={"checkbox"}>
-                            <input type={"checkbox"} className={"checkbox-input"} name={"product_" + data.id}
+                            <input type={"checkbox"} className={"checkbox-input itemcheckboxed"} name={"product_" + data.id}
                                    id={"checkbox_" + data.id} onChange={e => HandleChange(e, data.id)}/>
                             <label htmlFor={"checkbox_" + data.id}></label>
                         </div>

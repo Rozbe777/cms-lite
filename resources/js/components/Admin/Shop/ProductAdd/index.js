@@ -19,7 +19,7 @@ import {Inventory} from "../../_Micro/ProductMiniComponent/Inventoryz";
 import ColorPicker from './../../../HOC/ColorPicker';
 import {NewFeture} from "../../_Micro/ProductMiniComponent/NewFeture";
 import $ from "jquery";
-import {NoralizeFetures} from "../../Helper/HelperClassFetures";
+import {CheckTextFetures, NoralizeFetures} from "../../Helper/HelperClassFetures";
 import Loading from "../../_Micro/Loading";
 // import HelperClassFetures from  '../../Helper/HelperClassFetures';
 
@@ -39,8 +39,6 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
             color: []
         }
     };
-
-
 
 
     //
@@ -239,7 +237,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
     const [stateData, dispatchAttr] = useReducer(reducerAttr, priceData);
 
     const CreateNewProduct = (data) => {
-        console.log("dddddd" , data)
+
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -255,37 +253,23 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
                 Request.AddNewProduct(data)
                     .then(res => {
                         setClear(true)
-                        let resError = res.data.message ? res.data.message : '';
-                        // console.log("status error : ", res.data.size)
-                        if (res.status == 200 && resError == '') {
-                            pushResult(res);
-                            localStorage.removeItem("status");
-                            localStorage.removeItem("selected");
-                            Swal.fire({
-                                type: "success",
-                                title: 'با موفقیت اضافه شد !',
-                                confirmButtonClass: 'btn btn-success',
-                                confirmButtonText: 'باشه',
-                            })
-                        } else if (res.status == 200 && resError !== '') {
-                            error(resError)
-                        } else {
-                            Swal.fire({
-                                type: "error",
-                                title: 'خطایی غیر منتظره ای رخ داده است !',
-                                cancelButtonClass: 'btn btn-primary',
-                                cancelButtonText: 'تلاش مجدد',
-                            })
-                        }
-
+                        pushResult(res);
+                        localStorage.removeItem("status");
+                        localStorage.removeItem("selected");
+                        Swal.fire({
+                            type: "success",
+                            title: 'با موفقیت اضافه شد !',
+                            confirmButtonClass: 'btn btn-success',
+                            confirmButtonText: 'باشه',
+                        })
                     }).catch(err => {
-
                     if (err.response.data.errors) {
                         ErroHandle(err.response.data.errors);
                     } else {
                         //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
                         ErrorToast("خطای غیر منتظره ای رخ داده است")
                     }
+
                 })
             }
         });
@@ -433,21 +417,30 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         formNew.content = JSON.stringify(contentNew);
 
         let normal = NoralizeFetures(priceData);
-        formNew.attributes = normal.attributes;
-        formNew.features = normal.fetures;
-        formNew.category_list = idSelCat;
-        formNew.tag_list = chipsetTagsChange ? chipsetTags : [];
 
-        metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
-        formNew.metadata = JSON.stringify(metaData);
-        if (formData.title && formData.title !== '') {
-            $("input[name=title]").removeClass("is-invalid");
-            // console.log("form dataaaaaaaa : ", formNew)
-            CreateNewProduct(formNew);
-        } else {
-            $("input[name=title]").addClass("is-invalid");
-            error("لطفا فیلد عنوان محصول را پر کنید !")
+
+        let checkValueFetures = CheckTextFetures(normal)
+
+        if(checkValueFetures){
+            formNew.attributes = normal.attributes;
+            formNew.features = normal.fetures;
+            formNew.category_list = idSelCat;
+            formNew.tag_list = chipsetTagsChange ? chipsetTags : [];
+            metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
+            formNew.metadata = JSON.stringify(metaData);
+            if (formData.title && formData.title !== '') {
+                $("input[name=title]").removeClass("is-invalid");
+                // console.log("form dataaaaaaaa : ", formNew)
+                CreateNewProduct(formNew);
+            } else {
+                $("input[name=title]").addClass("is-invalid");
+                error("لطفا فیلد عنوان محصول را پر کنید !")
+            }
+        }else{
+            ErrorToast("مقدار ویژگی الزامی است زمانی که ردیف ویژگی موجود است.")
         }
+
+
     }
 
     const HandleMetaData = (e) => {
@@ -485,29 +478,27 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
                     .then(res => {
                         let resError = res.data.message ? res.data.message : '';
                         // console.log("status error : ", res.data.size)
-                        if (res.status == 200 && resError == '') {
-                            pushResult(res);
-                            localStorage.removeItem("status");
-                            localStorage.removeItem("selected");
-                            localStorage.removeItem("robots");
 
-                            Swal.fire({
-                                type: "success",
-                                title: 'با موفقیت ویرایش شد !',
-                                confirmButtonClass: 'btn btn-success',
-                                confirmButtonText: 'باشه',
-                            })
-                        } else if (res.status == 200 && resError !== '') {
-                            error(resError)
-                        } else {
-                            Swal.fire({
-                                type: "error",
-                                title: 'خطایی غیر منتظره ای رخ داده است !',
-                                cancelButtonClass: 'btn btn-primary',
-                                cancelButtonText: 'تلاش مجدد',
-                            })
-                        }
-                    }).catch(error => console.log("error", error))
+                        pushResult(res);
+                        localStorage.removeItem("status");
+                        localStorage.removeItem("selected");
+                        localStorage.removeItem("robots");
+
+                        Swal.fire({
+                            type: "success",
+                            title: 'با موفقیت ویرایش شد !',
+                            confirmButtonClass: 'btn btn-success',
+                            confirmButtonText: 'باشه',
+                        })
+                    }).catch(err => {
+                    if (err.response.data.errors) {
+                        ErroHandle(err.response.data.errors);
+                    } else {
+                        //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
+                        ErrorToast("خطای غیر منتظره ای رخ داده است")
+                    }
+
+                })
             }
         });
     }
@@ -582,17 +573,23 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
 
     const HandleAddNew = (e) => {
         e.preventDefault();
-        let dataaa = {...priceData};
-        let min = 1000000000;
-        let max = 9999999999;
-        let code = Math.round(min + Math.random() * (max - min));
-        Object.keys(dataaa).map((item, index) => {
-            if (index == Object.keys(dataaa).length - 1) {
-                console.log("?????", dataaa[item]);
-                dataaa[code] = priceData[item];
-                setPriceData(dataaa);
-            }
-        })
+        let checkedFeatures = NoralizeFetures(priceData).fetures.length;
+        if (checkedFeatures > 0) {
+            let dataaa = {...priceData};
+            let min = 1000000000;
+            let max = 9999999999;
+            let code = Math.round(min + Math.random() * (max - min));
+            Object.keys(dataaa).map((item, index) => {
+                if (index == Object.keys(dataaa).length - 1) {
+                    console.log("?????", dataaa[item]);
+                    dataaa[code] = priceData[item];
+                    setPriceData(dataaa);
+                }
+            })
+        } else {
+            ErrorToast("حداقل باید یک ویژگی اضافه کنید")
+        }
+
     }
 
     const HandleFeture = (e) => {

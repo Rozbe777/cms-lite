@@ -40,7 +40,7 @@ export const NormalFilter = (data) => {
     data.map(item => {
         switch (item.id) {
             case "entry" :
-                filter["entry"] = true;
+                filter["entity"] = true;
                 break;
             case "status" :
                 filter["status"] = true;
@@ -73,4 +73,20 @@ export const NormalCategorise = (data) => {
         dataOut.push(item.id)
     })
     return dataOut;
+}
+
+export const CheckTextFetures = data => {
+    let res = true;
+
+    data.fetures.map(item => {
+        if (item.value == "") {
+            res = false
+        }
+    })
+    return res;
+}
+
+
+export const NormalProductOneItem = data => {
+    return data
 }

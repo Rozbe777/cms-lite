@@ -65,7 +65,6 @@ export const CategoryList = () => {
     }
 
 
-
     useEffect(() => {
         GetAllCategory();
 
@@ -78,13 +77,13 @@ export const CategoryList = () => {
         if (!loading) {
             ReactDom.render(<AddCategory display={true}
                                          dataAll={JSON.stringify(categoryData)}
-                                         result={item => handleBackPage(item)} />, document.getElementById("add-datas"))
+                                         result={item => handleBackPage(item)}/>, document.getElementById("add-datas"))
         } else {
         }
     }
 
     const HandleAdd = (item) => {
-            GetAllCategory();
+        GetAllCategory();
 
     }
 
@@ -96,12 +95,12 @@ export const CategoryList = () => {
     }
 
     const HandleDelete = (status) => {
-            GetAllCategory();
+        GetAllCategory();
         setCheckBox([])
     }
 
     const HandleDuplicate = (status) => {
-            GetAllCategory();
+        GetAllCategory();
     }
 
     const handleClickItem = (clickId) => {
@@ -130,7 +129,7 @@ export const CategoryList = () => {
     }
 
     const HandleAddContentSelect = (data) => {
-            handleAddCategory();
+        handleAddCategory();
 
     }
 
@@ -150,7 +149,7 @@ export const CategoryList = () => {
 
         finalAllIds._token = $('meta[name="csrf-token"]').attr('content');
 
-        console.log("dataaaaaa : " , finalAllIds)
+        console.log("dataaaaaa : ", finalAllIds)
         event.preventDefault();
         swal({
             title: 'حذف دسته بندی',
@@ -195,12 +194,11 @@ export const CategoryList = () => {
 
 
                 <div className={"row col-12"} id={"headerContent"}>
-                    <TotalActions text={" مورد انتخاب شده است "} deleteUsers={e => handleDeleteGroup(e)} allData={categoryDataTotal} data={checkBox}/>
-                    <BreadCrumbs data={breadData}  titleBtn={"افزودن"} icon={"bx bx-plus"} clicked={e => handleAddCategory(e) } />
+                    <TotalActions text={" مورد انتخاب شده است "} deleteUsers={e => handleDeleteGroup(e)}
+                                  allData={categoryDataTotal} data={checkBox}/>
+                    <BreadCrumbs data={breadData} titleBtn={"افزودن"} icon={"bx bx-plus"}
+                                 clicked={e => handleAddCategory(e)}/>
                 </div>
-
-
-
 
 
                 <div className={"loaderErrorBack"}>
@@ -231,18 +229,18 @@ export const CategoryList = () => {
                                               loading={loading}/>
                         ) : (
                             <div>
-                               <NotFound />
+                                <NotFound/>
                                 <div id={"maines"}>
                                     <button id="add-category"
                                             onClick={(e) => handleAddCategory(e)}
-                                            style={{width: 180 , marginTop : '35px'}}
+                                            style={{width: 180, marginTop: '35px'}}
                                             className="btn btn-primary glow mr-1 mb-1"
                                             type="button">
                                         <span className="align-middle ml-25">افزودن دسته بندی</span>
                                     </button>
                                 </div>
                             </div>
-                        ) : <Loading /> : <Loading/>}
+                        ) : <Loading/> : <Loading/>}
                     </div>
 
 

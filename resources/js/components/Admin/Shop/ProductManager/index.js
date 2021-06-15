@@ -15,6 +15,8 @@ import {ErroHandle, error as ErrorToast} from "../../../../helper";
 import {Pagination} from "../../_Micro/Pagination";
 import {TotalActions} from "../../UserList/HOC/TotalActions";
 import {BreadCrumbs} from "../../UserList/HOC/BreadCrumbs";
+import ReactDom from "react-dom";
+import {NormalProductOneItem} from "../../Helper/HelperClassFetures";
 
 const Index = () => {
     const [checked, setChecked] = useState([]);
@@ -43,14 +45,11 @@ const Index = () => {
 
     const GetAllProducts = (dataSearch) => {
         setLoading(true);
-        console.log("resoult search : ", dataSearch);
         Request.GetAllProducts(dataSearch).then(res => {
-            console.log("res", res.data.data)
             setProducts(res.data.data)
             setPerPage(res.data.data.per_page);
             setTotal(res.data.data.total);
             setLoading(false)
-
         }).catch(err => {
             if (err.response.data.errors) {
                 ErroHandle(err.response.data.errors);
@@ -181,24 +180,37 @@ const Index = () => {
     }
 
 
-    window.onscroll = function () {
-        scrollFunction()
-    };
+    // window.onscroll = function () {
+    //     scrollFunction()
+    // };
 
-    function scrollFunction() {
-        if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
-            $("#actionGroup").addClass("scrolls");
-        } else {
-            $("#actionGroup").removeClass("scrolls");
+    // function scrollFunction() {
+    //     if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
+    //         $("#actionGroup").addClass("scrolls");
+    //     } else {
+    //         $("#actionGroup").removeClass("scrolls");
+    //
+    //     }
+    // }
 
+
+    const handleBackRef = (item) => {
+        console.log("...@@@@" , item)
+        if (item.status == 200) {
+            GetAllProducts(stringSearchs);
+            ReactDom.render('', document.getElementById('add-product'))
         }
     }
 
-    $("")
-
     const HandlePopUpAddProduct = e => {
         e.preventDefault();
-        ReactDOM.render(<ProductAdd/>, document.getElementById("add-product"));
+        let NormalGetData = NormalProductOneItem()
+        ReactDOM.render(<ProductAdd result={res => handleBackRef(res) }/>, document.getElementById("add-product"));
+    }
+
+    const HandlePopUpEditProduct = (e , data) => {
+        e.preventDefault();
+        // ReactDOM.render(<ProductAdd defaultValue={} result={res => handleBackRef(res) }/>, document.getElementById("add-product"));
     }
 
 
