@@ -39,12 +39,12 @@ class ProductController extends Controller
      * @return Factory|View|JsonResponse|Response
      */
     public function index(SearchProductRequest $request)
-    {
-        $status = !empty($request->filter['status']) ? $request->filter['status'] : null;
-        $entity = !empty($request->filter['entity']) ? $request->filter['entity'] : null;
-        $discount = !empty($request->filter['discount']) ? $request->filter['discount'] : null;
+    {dd($request->all());
+        $status = ($request->status == 'true') ? $request->status : null;
+        $entity = ($request->entity == 'true') ? $request->entity : null;
+        $discount = ($request->discount == 'true') ? $request->discount : null;
 
-        $product = $this->repository->all($status, $request->search , $entity, $request->categories , $request->sort, $discount);
+        $product = $this->repository->all($status, $request->search , $entity, $request->categorise , $request->sort, $discount);
 
         return (!$product) ?
             $this->message(__('message.content.search.notSuccess'))->view("pages.admin.product.index")->error() :
