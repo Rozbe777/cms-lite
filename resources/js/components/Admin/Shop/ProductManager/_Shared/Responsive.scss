@@ -262,6 +262,12 @@ body.active-darked {
         }
     }
 
+    .custom-control-label{
+        &::before{
+            background: $itemDarkLigth;
+        }
+    }
+
 
     .deleteRecordButton {
         color: $color !important;
@@ -378,13 +384,20 @@ body.active-darked {
 
         .main-options-sel {
             height: 47px !important;
-
+            color: $color !important;
+            border: $itemBorder !important;
+            background-color: #272E48 !important;
             .option-icon {
                 color: $color !important;
                 background: $background !important;
 
                 i {
                     color: $color !important;
+                }
+                span#selected{
+                    a{
+                        border : none !important;
+                    }
                 }
             }
 
@@ -612,11 +625,6 @@ body.active-darked {
         }
     }
 
-    .main-options-sel {
-        color: $color !important;
-        border: $itemBorder !important;
-        background-color: #272E48 !important;
-    }
 
     .verifyForm {
         color: $color !important;
@@ -896,6 +904,14 @@ body.active-darked {
         }
     }
 
+    .main-options-sel{
+        a{
+            background: $itemDarkLigth !important;
+            border: $itemBorder !important;
+
+        }
+    }
+
     .top-table-input {
         background: none !important;
         border: none !important;
@@ -905,6 +921,11 @@ body.active-darked {
         &:focus {
             border: $itemBorder !important;
         }
+    }
+
+    .main-options-sel #selected a i{
+        background: $background !important;
+        border: none !important;
     }
 
     .productsss {
@@ -1064,4 +1085,9 @@ a.nav-link i {
     &:hover {
         color: $color !important;
     }
+}
+.main-options-sel #selected a i{
+    float: left !important;
+    margin-left: -5px !important;
+    margin-right: 10px ;
 }

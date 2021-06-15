@@ -20,7 +20,7 @@ const Index = () => {
     const [checked, setChecked] = useState([]);
     const [checkBox, setCheckBox] = useState([]);
     const [chipset, setChipset] = useState([]);
-    const [search , setSearch] = useState(false)
+    const [search, setSearch] = useState(false)
     const [stateOf, setStateOf] = useState();
     const [loading, setLoading] = useState(false);
     const [Products, setProducts] = useState({
@@ -29,12 +29,7 @@ const Index = () => {
     const [perPage, setPerPage] = useState();
     const [total, setTotal] = useState();
     const [edit, setEdit] = useState(false);
-    const [stringSearchs, setStringSearch] = useState({
-        params: {
-            page: 1
-        }
-
-    });
+    const [stringSearchs, setStringSearch] = useState({});
 
     const [breadData] = useState({
         title: 'لیست محصولات',
@@ -46,10 +41,10 @@ const Index = () => {
     }, [])
 
 
-    const GetAllProducts = () => {
+    const GetAllProducts = (dataSearch) => {
         setLoading(true);
-        console.log("resoult search : ", stringSearchs);
-        Request.GetAllProducts(stringSearchs).then(res => {
+        console.log("resoult search : ", dataSearch);
+        Request.GetAllProducts(dataSearch).then(res => {
             console.log("res", res.data.data)
             setProducts(res.data.data)
             setPerPage(res.data.data.per_page);
@@ -93,7 +88,7 @@ const Index = () => {
 
     const handleDeleteGroup = (event) => {
 
-        console.log("dataa_____" , checkBox)
+        console.log("dataa_____", checkBox)
 
         let finalAllIds = {};
 
@@ -181,14 +176,7 @@ const Index = () => {
     });
 
 
-    // search by element
-    const HandleSearchCategory = (input) => {
-
-    }
-
-
     const handleCheckAll = (idArray) => {
-
         setChecked(idArray);
     }
 
@@ -240,6 +228,12 @@ const Index = () => {
     };
 
 
+    const HandleEdit = (e, data) => {
+        e.preventDefault();
+        console.log("click data : ", data)
+    }
+
+
     return (
         <>
             {/*<div id={"actionGroup"} className={"actived"}>*/}
@@ -257,29 +251,9 @@ const Index = () => {
                 </div>
 
 
-                <SearchComponent category={itemCat => HandleSearchCategory(itemCat)} searchRes={items => {
-                    console.log("......____" , items);
-                    Object.keys(items).forEach((key, value) => {
-                        setSearch(true)
-                        if (key === "pageSize") {
-                            if (!items[key]) {
-                                stringSearchs.params.page = 1;
-                                stringSearchs.params[key] = 15;
-                            } else {
-                                stringSearchs.params.page = 1;
-                                stringSearchs.params[key] = items[key];
-                            }
-
-
-                        } else {
-                            stringSearchs.params.page = 1;
-                            stringSearchs.params[key] = items[key];
-                        }
-
-                    })
-
-                    stringSearchs.params.page = 1;
-                    GetAllProducts(stringSearchs)
+                <SearchComponent sort={items => {
+                    setStringSearch(items)
+                    GetAllProducts(items)
                 }}
                 />
 
@@ -288,6 +262,11 @@ const Index = () => {
                         {loading === false ? Products.data.length > 0 ? Products.data.map(item => {
                             return (
                                 <Item data={item} checkStateOfOut={checked} sizeOf={Products.data.length}
+                                      editClick={e => HandleEdit(e, item)}
+                                      deleteClick={e => {
+                                          setCheckBox([e.id])
+                                          handleDeleteGroup(e.event)
+                                      }}
                                       selected={response => HandleChecked(response)}/>
                             )
                         }) : (

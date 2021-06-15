@@ -1,19 +1,23 @@
 import React, {useEffect, useState} from "react";
 import {MultiSelected} from "./../ProductManager/HOC/MultiSelected";
 import {MultiOption} from "./../ProductManager/HOC/MultiOption";
-import {MultiSelectedFilter} from "../ProductManager/HOC/MultiSelectedFilter";
+import {MultiSelectedFilterSwitcher} from "../ProductManager/HOC/MultiSelectedFilterSwitcher";
 // import {MultiOption} from '../../../';
 import $ from 'jquery';
 import ReactDOM from "react-dom";
+import {NormalFilter, NormalCategorise} from './../../Helper/HelperClassFetures'
 import ProductAdd from "../ProductAdd";
 import {Request} from "../../../../services/AdminService/Api";
 
-const SearchComponent = ({category: pushCategory}) => {
+const SearchComponent = ({sort: pushSort}) => {
 
     const [size, setSize] = useState(0);
     const [load, setLoad] = useState(false)
     const [categories, setCategories] = useState([]);
     const [sizeCategory, setSizeCategory] = useState(0);
+    const [sorting, setSorting] = useState({
+        filter : []
+    });
     useEffect(() => {
         GetAllCategory();
     }, [])
@@ -30,13 +34,23 @@ const SearchComponent = ({category: pushCategory}) => {
 
 
     const handleSelected = (select) => {
-        console.log("ssss ", select)
+        let normalizes = NormalFilter(select);
+        let sortings = {...sorting};
+        sortings.status = normalizes["status"] ? normalizes["status"] : false;
+        sortings.entry = normalizes["entry"] ? normalizes["entry"] : false;
+        sortings.discount = normalizes["discount"] ? normalizes["discount"] : false;
+        setSorting(sortings);
+        pushSort(sortings);
         setSize(select.length)
     }
 
+
     const handleCategory = (item) => {
-        console.log("++++", item)
-        pushCategory(item);
+        let categorise = NormalCategorise(item);
+        let sortings = {...sorting};
+        sortings.categorise = categorise;
+        setSorting(sortings);
+        pushSort(sortings);
         setSizeCategory(item.length)
     }
 
@@ -67,8 +81,55 @@ const SearchComponent = ({category: pushCategory}) => {
     }
 
 
+    let dataFilter = [
+        {
+            name: "entry",
+            value: ' موجودها'
+        }, {
+            name: 'status',
+            value: ' فعال ها'
+        }, {
+            name: 'discount',
+            value: ' تخفیف دار ها'
+        }
+    ]
+
+
+    let dataSort = [
+        {
+            id: "created_at",
+            name: "بر اساس تاریخ انتشار"
+        }, {
+            id: "price",
+            name: "بر اساس قیمت"
+        }, {
+            id: 'entity',
+            name: "بر اساس موجودی",
+        }, {
+            id: 'discount',
+            name: "بر اساس تخفیف",
+        }
+    ]
+
+
+    const handleOptionSort = (data) => {
+        let sortings = {...sorting};
+        sortings.sort = data;
+        setSorting(sortings);
+        pushSort(sortings);
+    }
+
+    const HandleSearchInput = e => {
+        e.preventDefault();
+        let sortings = {...sorting};
+        sortings[e.target.name] = e.target.value;
+        setSorting(sortings);
+        pushSort(sortings);
+    }
+
+
     return (
-        <div className={"container-fluid"} style={{padding : '0px 4px'}}>
+        <div className={"container-fluid"} style={{padding: '0px 4px'}}>
             <div id={"shop_product_search"} style={{marginBottom: 20}}>
 
                 <div className="users-list-filter col-12" style={{padding: '0px !important'}}>
@@ -78,6 +139,7 @@ const SearchComponent = ({category: pushCategory}) => {
                             <label htmlFor="users-list-verified">جستجو</label>
                             <input type="text" className="form-control"
                                    id={"search_input"}
+                                   onChange={e => HandleSearchInput(e)}
                                    placeholder="جستجو با ایمیل و تلفن ..." name="search"/>
 
                         </div>
@@ -85,48 +147,12 @@ const SearchComponent = ({category: pushCategory}) => {
                             <label
                                 htmlFor="users-list-verified">{size > 0 ? "( " + size + " ) فیلتر اعمال شده " : 'فیلتر'}</label>
 
-                            <MultiSelected data={[
-                                {
-                                    id: "Available",
-                                    name: 'موجود'
-                                }, {
-                                    id: "NotAvailable",
-                                    name: 'ناموجود'
-                                }, {
-                                    id: "Active",
-                                    name: 'فعال'
-                                }, {
-                                    id: "NotActive",
-                                    name: 'غیرفعال'
-                                }, {
-                                    id: "Discount",
-                                    name: 'با تخفیف'
-                                }, {
-                                    id: "NotDiscount",
-                                    name: 'بدون تخفیف'
-                                }, {
-                                    id: "Physical",
-                                    name: 'فیزیکی'
-                                }, {
-                                    id: "Digital",
-                                    name: 'دیجیتال'
-                                }, {
-                                    id: "Services",
-                                    name: 'خدمات'
-                                }
-                            ]} selected={sel => handleSelected(sel)}/>
+                            <MultiSelectedFilterSwitcher dataRes={dataFilter} selected={sel => handleSelected(sel)}/>
                         </div>
 
                         <div className="col-12 col-sm-6 col-lg-3">
                             <label htmlFor="users-list-status">مرتب سازی</label>
-                            <MultiOption data={[
-                                "بر اساس تاریخ انتشار",
-                                "بر اساس بیشترین قیمت",
-                                "بر اساس موجود بودن",
-                                "بر اساس ناموجود بودن",
-                                "محصولات با تخفیف",
-                                "محصولات بدون تخفیف",
-                            ]}/>
+                            <MultiOption data={dataSort} selected={item => handleOptionSort(item)}/>
                         </div>
 
                         <div className="col-12 col-sm-6 col-lg-3">
@@ -152,36 +178,7 @@ const SearchComponent = ({category: pushCategory}) => {
                     <div className="col-12 col-sm-6 col-lg-3">
                         <label
                             htmlFor="users-list-verified">{size > 0 ? "( " + size + " ) فیلتر اعمال شده " : 'فیلتر'}</label>
-                        <MultiSelected data={[
-                            {
-                                id: "Available",
-                                name: 'موجود'
-                            }, {
-                                id: "NotAvailable",
-                                name: 'ناموجود'
-                            }, {
-                                id: "Active",
-                                name: 'فعال'
-                            }, {
-                                id: "NotActive",
-                                name: 'غیرفعال'
-                            }, {
-                                id: "Discount",
-                                name: 'با تخفیف'
-                            }, {
-                                id: "NotDiscount",
-                                name: 'بدون تخفیف'
-                            }, {
-                                id: "Physical",
-                                name: 'فیزیکی'
-                            }, {
-                                id: "Digital",
-                                name: 'دیجیتال'
-                            }, {
-                                id: "Services",
-                                name: 'خدمات'
-                            }
-                        ]} selected={sel => handleSelected(sel)}/>
+                        <MultiSelected data={dataFilter} selected={sel => handleSelected(sel)}/>
                     </div>
 
                     <div className="col-12 col-sm-6 col-lg-3">

@@ -25,12 +25,12 @@ export const MultiOption = ({name, data, selected: pushSelected}) => {
         })
     }, [])
 
-    const selectedOpt = (e, name) => {
+    const selectedOpt = (e, name , id) => {
         e.preventDefault();
         setSelectedO({
             item: name
         })
-        pushSelected(name)
+        pushSelected(id)
     }
     const delSel = (e, name) => {
         e.preventDefault();
@@ -55,7 +55,7 @@ export const MultiOption = ({name, data, selected: pushSelected}) => {
             <li id={"content"}>
                 <ul>
                     {data ? data.map(item => (
-                        <li onClick={e => selectedOpt(e, item)}>{item}</li>
+                        <li onClick={e => selectedOpt(e,item.name, item.id)}>{item.name}</li>
                     )) : (<li disabled>موردی یافت نشد</li>)}
 
                 </ul>
