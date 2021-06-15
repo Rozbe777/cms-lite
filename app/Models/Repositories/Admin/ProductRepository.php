@@ -31,7 +31,9 @@ class ProductRepository implements RepositoryInterface
             });
         })->when(!empty($status), function ($query) use ($status) {
             $query->where('status', $status);
-        })->with('user')->with('viewCounts')
+        })->with('attributes', function ($q) {
+                $q->with('typeFeatures')->with('types');
+            })
             ->when(!empty($categories), function ($query) use ($categories) {
                 $query->with(['categories' => function ($query) use ($categories) {
                     $query->whereIn('categories.id', $categories);
@@ -43,7 +45,7 @@ class ProductRepository implements RepositoryInterface
             })->join('attributes', 'attributes.product_id', '=', 'products.id')
             ->when(!empty($discount), function ($query) use ($discount) {
                 $query->where('attributes.discount_status', '=', $discount);
-            })->orderBy('attributes.' . $sort, "DESC")->paginate(config('view.pagination'));
+            })->with('user')->with('viewCounts')->orderBy('attributes.' . $sort, "DESC")->paginate(config('view.pagination'));
     }
 
     public function get($product)
@@ -143,7 +145,7 @@ class ProductRepository implements RepositoryInterface
             $att = $this->attributeHandler($attributes, $product->id);
 
         if (!empty($features))
-            $this->featureHandler($features, $att->id);
+            $this->featureHandler($features);
 
         $product->viewCounts()->create();
 
@@ -153,14 +155,14 @@ class ProductRepository implements RepositoryInterface
                     ['name' => $tag],
                     ['user_id' => Auth::id()]
                 );
-                $product->tags()->attach($tag);
+                $product->tags()->syncWithoutDetaching($tag);
             }
         }
 
         if (!empty($categoryIds)) {
             foreach ($categoryIds as $category) {
                 $category = Category::findOrFail((int)$category);
-                $product->categories()->sync($category);
+                $product->categories()->syncWithoutDetaching($category);
             }
         }
 

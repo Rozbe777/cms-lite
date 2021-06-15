@@ -21,4 +21,14 @@ class Attribute extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function types()
+    {
+        return $this->hasMany(Type::class, 'attribute_id','id');
+    }
+
+    public function typeFeatures()
+    {
+        return $this->hasMany(TypeFeature::class, 'attribute_id', 'id');
+    }
 }

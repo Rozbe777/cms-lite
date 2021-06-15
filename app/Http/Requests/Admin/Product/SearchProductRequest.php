@@ -26,7 +26,7 @@ class SearchProductRequest extends FormRequest
         return [
             "status" => "in:active,deactivate|nullable",
             "entity" => "in:available,unavailable|nullable",
-            "categories" => "nullable|integer",
+            "categories" => "nullable|array",
             "sort" => "nullable|string",
             "search" => "nullable|string",
             "discount" => "in:active,deactivate|nullable",
