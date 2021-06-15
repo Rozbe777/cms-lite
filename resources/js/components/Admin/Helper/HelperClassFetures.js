@@ -74,3 +74,14 @@ export const NormalCategorise = (data) => {
     })
     return dataOut;
 }
+
+export const CheckTextFetures = data => {
+    let res = true;
+
+    data.fetures.map(item => {
+        if (item.value == "") {
+            res = false
+        }
+    })
+    return res;
+}
