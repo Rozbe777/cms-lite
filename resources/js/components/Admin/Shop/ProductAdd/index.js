@@ -19,12 +19,12 @@ import {Inventory} from "../../_Micro/ProductMiniComponent/Inventoryz";
 import ColorPicker from './../../../HOC/ColorPicker';
 import {NewFeture} from "../../_Micro/ProductMiniComponent/NewFeture";
 import $ from "jquery";
-import {CheckTextFetures, NoralizeFetures} from "../../Helper/HelperClassFetures";
+import {CheckTextFetures, NoralizeFetures, NormalProductOneItem} from "../../Helper/HelperClassFetures";
 import Loading from "../../_Micro/Loading";
 // import HelperClassFetures from  '../../Helper/HelperClassFetures';
 
 
-const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
+const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, result: pushResult}) => {
     let defaultCol = {
         attributes: {
             product_code: 12341216513156,
@@ -57,6 +57,11 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         color: [],
         text: []
     })
+
+
+    let metaDataNew = {...metaData};
+    metaDataNew = defaultValuePro ? JSON.parse(defaultValuePro.metadata) : {robots: false};
+    const MetaDataUpdate = defaultValuePro ? JSON.parse(defaultValuePro.metadata) : {robots: false};
 
 
     const [changeCheck, setChangeCheck] = useState(false)
@@ -92,17 +97,17 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
 
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? JSON.parse(dataGet.allData) : '';
-    const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : '';
-    const types = dataGet ? dataGet.type : '';
 
-    let titleWrite = $("input[name=title]").val();
+    let titleWrite = $("input[name=title]#pro-title").val();
     const [slugManage, setSlugManage] = useState(true);
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState(defaultValuePro ? defaultValuePro : {});
     let default_value = {
         status: "active",
         content: '',
         slug: ''
     };
+
+    console.log("/////@@@", formData)
 
 
     let randomData = () => {
@@ -238,7 +243,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
 
     const CreateNewProduct = (dataed) => {
 
-        console.log("@@@@@@@@" , dataed)
+        console.log("@@@@@@@@", dataed)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -276,16 +281,16 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         });
     }
     useEffect(() => {
-        let formNews = {...formData};
-        formNews = dataUpdateParse ? dataUpdateParse : default_value;
-        setFormData(formNews);
-        let metaDataNew = {...metaData};
-        metaDataNew = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
         setMetaData(metaDataNew)
-        MetaDataUpdate.tags ? setChipset(MetaDataUpdate.tags) : '';
+        let chipTag = defaultValuePro ? MetaDataUpdate.tags ? MetaDataUpdate.tags : [] : [];
+        let chipTagProduct = defaultValuePro ? defaultValuePro.tag_list : [];
+        setChipset(chipTag)
+        setChipsetTags(chipTagProduct)
         setPriceData(stateData);
         GetAllCategory();
     }, [])
+
+
     const handleClose = () => {
         setClear(true)
         ReactDOM.render('', document.getElementById("add-product"));
@@ -422,8 +427,8 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
 
         let checkValueFetures = CheckTextFetures(normal)
 
-        if(checkValueFetures){
-            console.log("ddddd : " ,normal.attributes )
+        if (checkValueFetures) {
+            console.log("ddddd : ", normal.attributes)
             formNew.attributes = normal.attributes;
             formNew.features = normal.fetures;
             formNew.category_list = idSelCat;
@@ -431,14 +436,14 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
             metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
             formNew.metadata = JSON.stringify(metaData);
             if (formData.title && formData.title !== '') {
-                $("input[name=title]").removeClass("is-invalid");
+                $("input[name=title]#pro-title").removeClass("is-invalid");
                 // console.log("form dataaaaaaaa : ", formNew)
                 CreateNewProduct(formNew);
             } else {
-                $("input[name=title]").addClass("is-invalid");
+                $("input[name=title]#pro-title").addClass("is-invalid");
                 error("لطفا فیلد عنوان محصول را پر کنید !")
             }
-        }else{
+        } else {
             ErrorToast("مقدار ویژگی الزامی است زمانی که ردیف ویژگی موجود است.")
         }
 
@@ -518,10 +523,18 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
         formOldData.category_list = idSelCat;
         formOldData.tag_list = chipsetTagsChange ? chipsetTags : [];
 
+
         metaDatas.robots = robots;
         formOldData.status = status;
         formOldData.metadata = JSON.stringify(metaDatas);
-        HandleUpdateForm(formOldData, formOldData.id);
+        if (formOldData.title && formOldData.title !== '') {
+            $("input[name=title]#pro-title").removeClass("is-invalid");
+            // console.log("form dataaaaaaaa : ", formNew)
+            HandleUpdateForm(formOldData, formOldData.id);
+        } else {
+            $("input[name=title]#pro-title").addClass("is-invalid");
+            error("لطفا فیلد عنوان محصول را پر کنید !")
+        }
     }
 
     const HandleDuplicate = () => {
@@ -810,6 +823,22 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
     }
 
 
+    const deleteColAttr = (e , items) => {
+        e.preventDefault();
+        console.log("data....3333" , items)
+        let priceChange ={...priceData};
+
+        if (Object.keys(priceData).length > 1){
+            // Object.keys(priceData).filter(itemId => parseInt(itemId) !== parseInt(items));
+            delete priceChange[items];
+            setPriceData(priceChange)
+        }else{
+            ErrorToast("محصول حداقل باید یک تنوع محصولی داشته باشد")
+        }
+    }
+
+    console.log("metadata : ", metaData)
+
     return (
         <>
             <div id={"category_add_pop_base"}>
@@ -856,6 +885,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
                                         <input type={"text"} defaultValue={HandleMakeName()}
                                                onChange={e => handleInput(e)}
                                                name={"title"} id={"title"}
+                                               id={"pro-title"}
                                                className={"form-control titleCat"}/>
                                     </fieldset>
                                 </div>
@@ -863,7 +893,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
                                     <fieldset className="form-group">
                                         <label id={"selectParent"}>وضعیت نمایش</label>
                                         <Switcher
-                                            defaultState={dataUpdateParse ? dataUpdateParse.status == "active" ? true : false : true}
+                                            defaultState={dataUpdateParse ? formData.status == "active" ? true : false : true}
                                             status={(state) => handleSwitchStatus(state)} name={"showState"}
                                             valueActive={"فعال"}
                                             valueDeActive={"غیرفعال"}/>
@@ -886,7 +916,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
                                 <label>دسته بندی</label>
                                 <MultiSelected name={"categories"} data={categoryData ? categoryData : []}
                                                clear={clear}
-                                               defSelected={dataUpdateParse.categories ? dataUpdateParse.categories : []}
+                                               defSelected={defaultValuePro ? defaultValuePro.categories : []}
                                                clearNew={cl => setClear(cl)}
                                                selected={item => {
                                                    setEdit(true)
@@ -902,7 +932,7 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
                                                    })
                                                }}
 
-                                               defaultsel={dataUpdateParse ? dataUpdateParse.categories : []}
+                                               defaultsel={defaultValuePro ? defaultValuePro.categories : []}
                                 />
                             </div>
                             <div className={"col-md-6"}>
@@ -1028,8 +1058,8 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
                                                                             <i className={"bx bx-link"}></i>
                                                                             لینک خرید
                                                                         </span>
-                                                                    <a href="#">
-                                                                        <i className="bx bx-trash"></i>
+                                                                    <a onClick={e => deleteColAttr(e , item)}>
+                                                                        <i id={"del-fet"} className="bx bx-trash"></i>
                                                                     </a>
                                                                 </td>
                                                             </tr>
@@ -1058,8 +1088,8 @@ const AddProduct = ({display, dataAll, dataUpdate, result: pushResult}) => {
                                                                             <i className={"bx bx-link"}></i>
                                                                             لینک خرید
                                                                         </span>
-                                                                    <a href="#">
-                                                                        <i className="bx bx-trash"></i>
+                                                                    <a onClick={e => deleteColAttr(e , item)}>
+                                                                        <i id={"del-fet"} className="bx bx-trash"></i>
                                                                     </a>
                                                                 </td>
                                                             </tr>

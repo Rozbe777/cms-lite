@@ -237,6 +237,10 @@ body.active-darked {
         }
     }
 
+    td#actions-item i#del-fet{
+        color: $color !important;
+    }
+
     #back-loaderedss {
         select {
             height: 45px !important;
@@ -261,6 +265,7 @@ body.active-darked {
             }
         }
     }
+
 
     .custom-control-label{
         &::before{
@@ -1091,3 +1096,9 @@ a.nav-link i {
     margin-left: -5px !important;
     margin-right: 10px ;
 }
+//td#color-col{
+//    //align-items: center;
+//    //justify-content: center;
+//    //display: flex;
+//    //width: auto !important;
+//}

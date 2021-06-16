@@ -1,5 +1,3 @@
-import React, {useState} from 'react';
-
 export const NoralizeFetures = (data) => {
     let attributes = [];
     let fetures = [];
@@ -34,8 +32,6 @@ export const NoralizeFetures = (data) => {
 
 
 export const NormalFilter = (data) => {
-    // let dataE = {entry : '' , status : '' , discount : ''}
-
     let filter = [];
     data.map(item => {
         switch (item.id) {
@@ -48,18 +44,6 @@ export const NormalFilter = (data) => {
             case "discount" :
                 filter["discount"] = true;
                 break;
-            // case "غیرفعال" :
-            //     let dataSD = {...dataOut};
-            //     dataSD.status = "deactivate";
-            //     return setDataOut(dataSD)
-            // case "با تخفیف" :
-            //     let dataD = {...dataOut};
-            //     dataD.discount = "active";
-            //     return setDataOut(dataD)
-            // case "بدون تخفیف" :
-            //     let dataDN = {...dataOut};
-            //     dataDN.discount = "deactivate";
-            //     return setDataOut(dataDN)
             default :
                 return item;
         }
@@ -88,5 +72,21 @@ export const CheckTextFetures = data => {
 
 
 export const NormalProductOneItem = data => {
-    return data
+
+    console.log("!!!!!!!!!! : " , data)
+    let dataNew = {
+        title : data.title,
+        slug : data.slug,
+        tag_list : data.tag_list,
+        content : data.content,
+        metadata : data.metadata,
+        attributes : data.attributes,
+        categories : data.categories,
+        image : data.image,
+        status : data.status,
+    };
+
+    return dataNew;
 }
+
+
