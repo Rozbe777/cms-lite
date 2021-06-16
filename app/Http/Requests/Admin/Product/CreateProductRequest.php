@@ -40,7 +40,7 @@ class CreateProductRequest extends FormRequest
             "features.*.title" => "required_with:features.*.name|string",
             "features.*.value" => "required_with:features.*.name|string",
             "tag_list" => "array",
-            "categoryIds" => "array|exists:categories,id",
+            "category_list" => "array|exists:categories,id",
         ];
     }
 }
