@@ -57,15 +57,12 @@ class ProductRepository implements RepositoryInterface
             })
             ->when(!empty($discount), function ($query) use ($discount) {
                 $query->whereHas('attributes', function ($query) use ($discount) {
-                    $query->where('attributes.discount_status', 'active');
+                    $query->where('attributes.discount_status', $discount);
                 });
             })
             ->with('user')
             ->with('viewCounts')
             ->with('tags')
-//            ->when(!empty($discount), function ($query) use ($discount) {
-//                $query->join('attributes', 'attributes.product_id', '=', 'products.id')->select('products.*', "discount_status")->where('discount_status','active')->groupBy('id')->get();
-//            })
             ->when(!empty($sort), function ($query) use ($sort) {
                 $query->join('attributes', 'attributes.product_id', '=', 'products.id')->select('products.*', $sort)->orderByDesc($sort)->groupBy('id')->get();
             })
