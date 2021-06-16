@@ -73,20 +73,90 @@ export const CheckTextFetures = data => {
 
 export const NormalProductOneItem = data => {
 
-    console.log("!!!!!!!!!! : " , data)
+    let tags_me = [];
+    data.tags.map(id => {
+        tags_me.push(id.name);
+    });
     let dataNew = {
-        title : data.title,
-        slug : data.slug,
-        tag_list : data.tag_list,
-        content : data.content,
-        metadata : data.metadata,
-        attributes : data.attributes,
-        categories : data.categories,
-        image : data.image,
-        status : data.status,
+        id : data.id,
+        title: data.title,
+        slug: data.slug,
+        tag_list: tags_me,
+        content: data.content,
+        metadata: data.metadata,
+        attributes: data.attributes,
+        categories: data.categories,
+        image: data.image,
+        status: data.status,
     };
-
     return dataNew;
 }
 
+let NormalFet = data => {
+    let out = {
+        text: [],
+        color: []
+    }
+    data.map(item => {
+        if(item.color && item.color !== ""){
+            out.color.push({
+                name : item.title,
+                title : item.value,
+                value : item.color
+            })
+        }else{
+            out.text.push({
+                name : item.title,
+                title : item.value
+            })
+        }
+    })
+    return out;
+}
 
+
+export const NormalAttrHead = data => {
+    let headTitle = {
+        text : [],
+        color : [],
+    }
+    data.attributes.map(item => {
+        item.type_features.map(item => {
+            if(item.color && item.color !== ""){
+                if (!headTitle.color.includes(item.title))
+                {
+                    headTitle.color.push(
+                        item.title,
+                    )
+                }
+
+            }else{
+                if (!headTitle.text.includes(item.title)){
+                    headTitle.text.push(
+                        item.title,
+                    )
+                }
+
+            }
+        })
+    })
+
+    return headTitle;
+}
+
+export const NormalAttrOnePro = data => {
+    let priceData = {};
+    data.attributes.map(item => {
+        priceData[item.product_code] = {
+            attributes: {
+                price: item.price,
+                discount: item.discount,
+                limit: item.limit,
+                count: item.count,
+            },
+            fetures: NormalFet(item.type_features)
+        }
+    })
+
+    return priceData;
+}

@@ -20,6 +20,7 @@ export const Request = {
     DeletePageOne : (data) =>  request.delete("/pages/"+data),
     DeleteContentOne : (data) =>  request.delete("/contents/"+data),
     UpdateDataCategory :  (data , id) =>  request.put("/categories/"+id+"" , data),
+    UpdateDataProduct :  (data , id) =>  request.put("/products/"+id+"" , data),
     UpdateDataPage :  (data , id) =>  request.put("/pages/"+id+"" , data),
     UpdateDataContent :  (data , id) =>  request.put("/contents/"+id+"" , data),
     GetAllContents :  (search) =>  request.get("/contents" ,  search),
