@@ -27,7 +27,7 @@ class ProductRepository implements RepositoryInterface
 
         $id = empty($sort) ? 'id' : null;
 
-        if ($sort == 'created_at'){
+        if ($sort == 'created_at') {
             $time = 'created_at';
             $sort = null;
         }
@@ -44,9 +44,9 @@ class ProductRepository implements RepositoryInterface
         })->when(!empty($status), function ($query) use ($status) {
             $query->where('status', $status);
         })->when(!empty($entity), function ($query) use ($entity) {
-                $query->where('entity', $entity);
-            })
-            ->with('attributes', function ($q) use ($discount){
+            $query->where('entity', $entity);
+        })
+            ->with('attributes', function ($q) use ($discount) {
                 $q->when(!empty($discount), function ($query) use ($discount) {
                     $query->whereHas('attributes', function ($query) use ($discount) {
                         $query->where('attributes.discount_status', $discount);
@@ -63,13 +63,13 @@ class ProductRepository implements RepositoryInterface
             ->with('viewCounts')
             ->with('tags')
             ->when(!empty($sort), function ($query) use ($sort) {
-                $query->join('attributes','attributes.product_id','=','products.id')->select('products.*',$sort)->orderByDesc($sort)->get();
-                $query->with('attributes');
+                $query->join('attributes', 'attributes.product_id', '=', 'products.id')->select('products.*', $sort)->orderByDesc($sort)->get();
+
             })
             ->when(!empty($id), function ($query) {
                 $query->orderByDesc('id');
             })
-            ->when(!empty($time),function ($query) use ($time) {
+            ->when(!empty($time), function ($query) use ($time) {
                 $query->latest();
             })
             ->paginate(config('view.pagination'));
