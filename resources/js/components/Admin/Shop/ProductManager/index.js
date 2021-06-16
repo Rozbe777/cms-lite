@@ -45,10 +45,13 @@ const Index = () => {
     }, [])
 
 
+
+
     const GetAllProducts = (dataSearch) => {
         setLoading(true);
         Request.GetAllProducts(dataSearch).then(res => {
             setProducts(res.data.data)
+            console.log("//////++++++" , res.data.data.data)
             setPerPage(res.data.data.per_page);
             setTotal(res.data.data.total);
             setLoading(false)
@@ -73,10 +76,6 @@ const Index = () => {
             element.removeClass("actived")
         }
     })
-
-    const HandleMakeName = () => {
-
-    }
 
     const handleInput = (e) => {
 
@@ -214,6 +213,11 @@ const Index = () => {
         let normalData = NormalProductOneItem(data)
         ReactDOM.render(<ProductAdd types={"edit"} defaultValuePro={normalData} result={res => handleBackRef(res) }/>, document.getElementById("add-product"));
     }
+    const HandleDuplicate = (e , data) => {
+        e.preventDefault();
+        let normalData = NormalProductOneItem(data)
+        ReactDOM.render(<ProductAdd types={"duplicate"} defaultValuePro={normalData} result={res => handleBackRef(res) }/>, document.getElementById("add-product"));
+    }
 
 
     const paginate = (pageNumber) => {
@@ -281,6 +285,7 @@ const Index = () => {
                             return (
                                 <Item data={item} checkStateOfOut={checked} sizeOf={Products.data.length}
                                       editClick={e => HandleEdit(e, item)}
+                                      duplicated={e=> HandleDuplicate(e , item)}
                                       deleteClick={e => {
                                           setCheckBox([e.id])
                                           handleDeleteGroup(e.event)

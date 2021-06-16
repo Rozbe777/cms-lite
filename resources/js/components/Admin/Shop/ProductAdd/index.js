@@ -268,6 +268,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
     const [stateData, dispatchAttr] = useReducer(reducerAttr, priceData);
 
     const CreateNewProduct = (dataed) => {
+        console.log("dataaaaa_____" , dataed)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -603,11 +604,11 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
 
     let HandleMakeName = () => {
-        if (dataUpdateParse) {
-            if (types == "dup") {
-                return MakeNewName(dataUpdateParse.name);
+        if (formData) {
+            if (types == "duplicate") {
+                return MakeNewName(formData.title);
             } else {
-                return dataUpdateParse.name;
+                return formData.title;
             }
         } else {
             formData.slug = formData.title;
