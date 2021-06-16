@@ -55,6 +55,8 @@ class ProductRepository implements RepositoryInterface
             })->when(empty($categories), function ($query) {
                 $query->with('categories');
             })
+            ->join('attributes', 'attributes.product_id', '=', 'products.id')->select('products.*', "price")
+//            ->whereRaw('price in (select max(price) from attributes group by (products.id))')
             ->when(!empty($discount), function ($query) use ($discount) {
                 $query->whereHas('attributes', function ($query) use ($discount) {
                     $query->where('attributes.discount_status', $discount);
