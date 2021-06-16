@@ -86,7 +86,7 @@ export const NormalProductOneItem = data => {
         content: data.content,
         metadata: data.metadata,
         attributes: data.attributes,
-        categories: data.categories,
+        category_list: data.categories,
         image: data.image,
         status: data.status,
     };
