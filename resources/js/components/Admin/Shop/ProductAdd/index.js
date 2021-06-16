@@ -268,6 +268,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
     const [stateData, dispatchAttr] = useReducer(reducerAttr, priceData);
 
     const CreateNewProduct = (dataed) => {
+        console.log("dataaaaa_____" , dataed)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -547,10 +548,10 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
         let normal = NoralizeFetures(priceData);
         let checkValueFetures = CheckTextFetures(normal)
 
+        formOldData.metadata = JSON.stringify(metaDatas);
 
         metaDatas.robots = robots;
         formOldData.status = status;
-        formOldData.metadata = JSON.stringify(metaDatas);
         if (checkValueFetures) {
             formOldData.attributes = normal.attributes;
             formOldData.features = normal.fetures;
@@ -583,7 +584,23 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
         formOldData.category_list = idSelCat;
         formOldData.tag_list = chipsetTagsChange ? chipsetTags : [];
         formOldData.metadata = JSON.stringify(metaDatas);
-        CreateNewProduct(formOldData);
+
+        let normal = NoralizeFetures(priceData);
+        let checkValueFetures = CheckTextFetures(normal)
+        if (checkValueFetures) {
+            formOldData.attributes = normal.attributes;
+            formOldData.features = normal.fetures;
+            if (formOldData.title && formOldData.title !== '') {
+                $("input[name=title]#pro-title").removeClass("is-invalid");
+                // console.log("form dataaaaaaaa : ", formNew)
+                CreateNewProduct(formOldData);
+            } else {
+                $("input[name=title]#pro-title").addClass("is-invalid");
+                error("لطفا فیلد عنوان محصول را پر کنید !")
+            }
+        } else {
+            ErrorToast("مقدار ویژگی الزامی است زمانی که ردیف ویژگی موجود است.")
+        }
     }
 
 
@@ -603,11 +620,11 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
 
     let HandleMakeName = () => {
-        if (dataUpdateParse) {
-            if (types == "dup") {
-                return MakeNewName(dataUpdateParse.name);
+        if (formData) {
+            if (types == "duplicate") {
+                return MakeNewName(formData.title);
             } else {
-                return dataUpdateParse.name;
+                return formData.title;
             }
         } else {
             formData.slug = formData.title;
@@ -933,7 +950,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                                 <label>دسته بندی</label>
                                 <MultiSelected name={"categories"} data={categoryData ? categoryData : []}
                                                clear={clear}
-                                               defSelected={defaultValuePro ? defaultValuePro.categories : []}
+                                               defSelected={defaultValuePro ? defaultValuePro.category_list : []}
                                                clearNew={cl => setClear(cl)}
                                                selected={item => {
                                                    setEdit(true)
@@ -949,7 +966,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                                                    })
                                                }}
 
-                                               defaultsel={defaultValuePro ? defaultValuePro.categories : []}
+                                               defaultsel={defaultValuePro ? defaultValuePro.category_list : []}
                                 />
                             </div>
                             <div className={"col-md-6"}>

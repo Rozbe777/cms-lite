@@ -3,7 +3,7 @@ import './_Shared/style.scss'
 import $ from 'jquery';
 import {CHECK_BOX_CONTENT} from "../../../UserList/Helper/Context";
 
-const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected , editClick : pushEditClick , deleteClick : delPushClick}) => {
+const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected ,duplicated : duplicate, editClick : pushEditClick , deleteClick : delPushClick}) => {
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
 
     console.log("_______>>>>" , data)
@@ -117,7 +117,7 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected , editClic
                             event : e,
                             id : data.id
                         })}></i>
-                        <i className={"bx bx-duplicate"}></i>
+                        <i className={"bx bx-duplicate"} onClick={e =>duplicate(e)}></i>
                         <i className={"bx bx-link-alt"} id={"right"}></i>
                     </div>
                 </div>
