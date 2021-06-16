@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProductRepository implements RepositoryInterface
 {
@@ -55,8 +56,13 @@ class ProductRepository implements RepositoryInterface
             })->when(empty($categories), function ($query) {
                 $query->with('categories');
             })
-            ->join('attributes', 'attributes.product_id', '=', 'products.id')->select('products.*', "price")
-//            ->whereRaw('price in (select max(price) from attributes group by (products.id))')
+            ->join('attributes', 'attributes.product_id', '=', 'products.id')
+            ->selectRaw('
+            products.*,max(attributes.price) as price,
+            max(attributes.count) as count,
+            min(attributes.discount) as discount'
+            )
+            ->groupby('attributes.product_id')
             ->when(!empty($discount), function ($query) use ($discount) {
                 $query->whereHas('attributes', function ($query) use ($discount) {
                     $query->where('attributes.discount_status', $discount);
@@ -66,7 +72,7 @@ class ProductRepository implements RepositoryInterface
             ->with('viewCounts')
             ->with('tags')
             ->when(!empty($sort), function ($query) use ($sort) {
-                $query->join('attributes', 'attributes.product_id', '=', 'products.id')->select('products.*', $sort)->orderByDesc($sort)->groupBy('id')->get();
+                $query->orderByDesc($sort)->groupBy('id')->get();
             })
             ->when(!empty($id), function ($query) {
                 $query->orderByDesc('id');

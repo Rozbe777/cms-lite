@@ -37,6 +37,7 @@ Route::get('a', function () {
 //    $notifire->body(['verify','23232']);
 //    $notifire->from('form');
 //    $notifire->send();
+
 });
 
 Route::get('/', function () {
