@@ -72,7 +72,7 @@ trait ProductTrait
     {
         foreach ($attributes as $attribute) {
             $data = Attribute::where(['product_id' => $p_id, 'product_code' => $attribute['product_code']])->firstOrFail();
-dd($data);
+
             $data->price = !empty($attribute['price']) ? (int)$attribute['price'] : $data->price;
             $data->count = !empty($attribute['count']) ? (int)$attribute['count'] : ((array_key_exists('count', $attribute) && $attribute['count'] == 0) ? 0 : $data->count);
             $data->limit = !empty($attribute['limit']) ? (int)$attribute['limit'] : $data->limit;
