@@ -31,7 +31,9 @@ const Index = () => {
     const [perPage, setPerPage] = useState();
     const [total, setTotal] = useState();
     const [edit, setEdit] = useState(false);
-    const [stringSearchs, setStringSearch] = useState({});
+    const [stringSearchs, setStringSearch] = useState({
+        page : 1
+    });
 
     const [breadData] = useState({
         title: 'لیست محصولات',
@@ -119,7 +121,7 @@ const Index = () => {
                             confirmButtonText: 'باشه',
                         })
 
-                        stringSearchs.params.page = 1;
+                        stringSearchs.page = 1;
 
                         GetAllProducts(stringSearchs);
                     }).catch(error => {
@@ -204,24 +206,23 @@ const Index = () => {
 
     const HandlePopUpAddProduct = e => {
         e.preventDefault();
-        let NormalGetData = NormalProductOneItem()
         ReactDOM.render(<ProductAdd result={res => handleBackRef(res) }/>, document.getElementById("add-product"));
     }
 
-    const HandlePopUpEditProduct = (e , data) => {
+    const HandleEdit = (e , data) => {
         e.preventDefault();
-        // ReactDOM.render(<ProductAdd defaultValue={} result={res => handleBackRef(res) }/>, document.getElementById("add-product"));
+        let normalData = NormalProductOneItem(data)
+        ReactDOM.render(<ProductAdd types={"edit"} defaultValuePro={normalData} result={res => handleBackRef(res) }/>, document.getElementById("add-product"));
     }
 
 
     const paginate = (pageNumber) => {
         // let pagess = stringSearchs ? "page=" + pageNumber + "&" + stringSearchs : "page=" + pageNumber;
 
-        stringSearchs.params.page = pageNumber;
+        stringSearchs.page = pageNumber;
         setStringSearch({
-            params: {
                 page: pageNumber
-            }
+
         });
 
         GetAllProducts(stringSearchs);
@@ -240,10 +241,6 @@ const Index = () => {
     };
 
 
-    const HandleEdit = (e, data) => {
-        e.preventDefault();
-        console.log("click data : ", data)
-    }
 
 
     return (
@@ -265,7 +262,16 @@ const Index = () => {
 
                 <SearchComponent sort={items => {
                     setStringSearch(items)
-                    GetAllProducts(items)
+                    let stringed = {...stringSearchs};
+                    Object.keys(items).map(ii => {
+                        stringed[ii] = items[ii];
+                    })
+                    paginate(1)
+                    stringed.page = 1;
+                    setStringSearch(stringed)
+
+                    console.log("@@@@@@ " ,stringed)
+                    GetAllProducts(stringed)
                 }}
                 />
 
@@ -293,17 +299,17 @@ const Index = () => {
 
 
                         <div className="col-md-12">
-                            {/*{contentData.data ? contentData.data.length ? (*/}
-                            {/*    <Pagination*/}
-                            {/*        firstPageUrl={contentData.first_page_url}*/}
-                            {/*        lastPageUrl={contentData.last_page_url}*/}
-                            {/*        currentPage={contentData.cuerrent_page}*/}
-                            {/*        perPage={perPage}*/}
-                            {/*        users={allUser}*/}
-                            {/*        total={total}*/}
-                            {/*        paginate={paginate}*/}
-                            {/*    />*/}
-                            {/*) : '' : ''}*/}
+                            {Products.data ? Products.data.length ? (
+                                <Pagination
+                                    firstPageUrl={Products.first_page_url}
+                                    lastPageUrl={Products.last_page_url}
+                                    currentPage={Products.cuerrent_page}
+                                    perPage={perPage}
+                                    // users={allU/ser}
+                                    total={total}
+                                    paginate={paginate}
+                                />
+                            ) : '' : ''}
 
                         </div>
 

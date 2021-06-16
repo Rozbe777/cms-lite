@@ -1,5 +1,3 @@
-import React, {useState} from 'react';
-
 export const NoralizeFetures = (data) => {
     let attributes = [];
     let fetures = [];
@@ -34,8 +32,6 @@ export const NoralizeFetures = (data) => {
 
 
 export const NormalFilter = (data) => {
-    // let dataE = {entry : '' , status : '' , discount : ''}
-
     let filter = [];
     data.map(item => {
         switch (item.id) {
@@ -48,18 +44,6 @@ export const NormalFilter = (data) => {
             case "discount" :
                 filter["discount"] = true;
                 break;
-            // case "غیرفعال" :
-            //     let dataSD = {...dataOut};
-            //     dataSD.status = "deactivate";
-            //     return setDataOut(dataSD)
-            // case "با تخفیف" :
-            //     let dataD = {...dataOut};
-            //     dataD.discount = "active";
-            //     return setDataOut(dataD)
-            // case "بدون تخفیف" :
-            //     let dataDN = {...dataOut};
-            //     dataDN.discount = "deactivate";
-            //     return setDataOut(dataDN)
             default :
                 return item;
         }
@@ -88,5 +72,92 @@ export const CheckTextFetures = data => {
 
 
 export const NormalProductOneItem = data => {
-    return data
+
+    let tags_me = [];
+    data.tags.map(id => {
+        tags_me.push(id.name);
+    });
+    let dataNew = {
+        id : data.id,
+        title: data.title,
+        slug: data.slug,
+        price : data.price,
+        tag_list: tags_me,
+        content: data.content,
+        metadata: data.metadata,
+        attributes: data.attributes,
+        categories: data.categories,
+        image: data.image,
+        status: data.status,
+    };
+    return dataNew;
+}
+
+let NormalFet = data => {
+    let out = {
+        text: [],
+        color: []
+    }
+    data.map(item => {
+        if(item.color && item.color !== ""){
+            out.color.push({
+                name : item.title,
+                title : item.value,
+                value : item.color
+            })
+        }else{
+            out.text.push({
+                name : item.title,
+                title : item.value
+            })
+        }
+    })
+    return out;
+}
+
+
+export const NormalAttrHead = data => {
+    let headTitle = {
+        text : [],
+        color : [],
+    }
+    data.attributes.map(item => {
+        item.type_features.map(item => {
+            if(item.color && item.color !== ""){
+                if (!headTitle.color.includes(item.title))
+                {
+                    headTitle.color.push(
+                        item.title,
+                    )
+                }
+
+            }else{
+                if (!headTitle.text.includes(item.title)){
+                    headTitle.text.push(
+                        item.title,
+                    )
+                }
+
+            }
+        })
+    })
+
+    return headTitle;
+}
+
+export const NormalAttrOnePro = data => {
+    let priceData = {};
+    data.attributes.map(item => {
+        priceData[item.product_code] = {
+            attributes: {
+                price: item.price,
+                discount: item.discount,
+                limit: item.limit,
+                count: item.count,
+            },
+            fetures: NormalFet(item.type_features)
+        }
+    })
+
+    return priceData;
 }

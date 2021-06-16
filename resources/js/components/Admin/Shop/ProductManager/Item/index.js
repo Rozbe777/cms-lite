@@ -6,6 +6,7 @@ import {CHECK_BOX_CONTENT} from "../../../UserList/Helper/Context";
 const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected , editClick : pushEditClick , deleteClick : delPushClick}) => {
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
 
+    console.log("_______>>>>" , data)
     useEffect(() => {
         checkTest();
         checkBox.map(item => {
