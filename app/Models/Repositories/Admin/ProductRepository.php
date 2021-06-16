@@ -27,7 +27,7 @@ class ProductRepository implements RepositoryInterface
 
         $id = empty($sort) ? 'id' : null;
 
-        if ($sort == 'created_at'){
+        if ($sort == 'created_at') {
             $time = 'created_at';
             $sort = null;
         }
@@ -43,12 +43,10 @@ class ProductRepository implements RepositoryInterface
             });
         })->when(!empty($status), function ($query) use ($status) {
             $query->where('status', $status);
-        })->with('attributes', function ($q) use ($discount){
-            $q->when(!empty($discount), function ($query) use ($discount) {
-                $query->whereHas('attributes', function ($query) use ($discount) {
-                    $query->where('attributes.discount_status', $discount);
-                });
-            })->with('typeFeatures')->with('types');
+        })->when(!empty($entity), function ($query) use ($entity) {
+            $query->where('entity', $entity);
+        })->with('attributes', function ($q) {
+            $q->with('typeFeatures')->with('types');
         })
             ->when(!empty($categories), function ($query) use ($categories) {
                 $query->whereHas('categories', function ($query) use ($categories) {
@@ -56,18 +54,22 @@ class ProductRepository implements RepositoryInterface
                 });
             })->when(empty($categories), function ($query) {
                 $query->with('categories');
-            })->when(!empty($entity), function ($query) use ($entity) {
-                $query->where('entity', $entity);
-            })->with('user')
+            })
+            ->when(!empty($discount), function ($query) use ($discount) {
+                $query->whereHas('attributes', function ($query) use ($discount) {
+                    $query->where('attributes.discount_status', $discount);
+                });
+            })
+            ->with('user')
             ->with('viewCounts')
             ->with('tags')
             ->when(!empty($sort), function ($query) use ($sort) {
-                $query->join('attributes', 'products.id', '=', 'attributes.product_id')->orderByDesc($sort);
+                $query->join('attributes', 'attributes.product_id', '=', 'products.id')->select('products.*', $sort)->orderByDesc($sort)->groupBy('id')->get();
             })
             ->when(!empty($id), function ($query) {
                 $query->orderByDesc('id');
             })
-            ->when(!empty($time),function ($query) use ($time) {
+            ->when(!empty($time), function ($query) use ($time) {
                 $query->latest();
             })
             ->paginate(config('view.pagination'));

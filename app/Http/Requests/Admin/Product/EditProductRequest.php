@@ -30,16 +30,16 @@ class EditProductRequest extends FormRequest
             "metadata" => "string|nullable",
             "status" => "in:active,deactivate",
             "image" => "image|nullable",
-            "attributes.price" => "string",
-            "attributes.product_code" => "required|string",
-            "attributes.count" => "numeric",
-            "attributes.limit" => "numeric",
+            "attributes.*.price" => "integer",
+            "attributes.*.product_code" => "required|string",
+            "attributes.*.count" => "nullable|numeric",
+            "attributes.*.limit" => "nullable|numeric",
             "features.*.name" => "string",
             "features.*.color" => "string|required_if:features.*.name,رنگ",
             "features.*.title" => "required_with:features.name|string",
             "features.*.value" => "required_with:features.name|string",
             "tag_list" => "array",
-            "categoryIds" => "array",
+            "categoryIds" => "array|exists:categories,id",
         ];
     }
 }
