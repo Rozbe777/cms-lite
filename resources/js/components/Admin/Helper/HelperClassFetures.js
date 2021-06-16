@@ -81,6 +81,7 @@ export const NormalProductOneItem = data => {
         id : data.id,
         title: data.title,
         slug: data.slug,
+        price : data.price,
         tag_list: tags_me,
         content: data.content,
         metadata: data.metadata,
