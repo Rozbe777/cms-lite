@@ -44,11 +44,11 @@ class ProductController extends Controller
         $entity = ($request->entity == 'true') ? $request->entity : null;
         $discount = ($request->discount == 'true') ? $request->discount : null;
 
-        $product = $this->repository->all($status, $request->search , $entity, $request->categorise , $request->sort, $discount);
+        $products = $this->repository->all($status, $request->search , $entity, $request->categorise , $request->sort, $discount);
 
-        return (!$product) ?
+        return (!$products) ?
             $this->message(__('message.content.search.notSuccess'))->view("pages.admin.product.index")->error() :
-            $this->data($product)->message(__('message.success.200'))->view("pages.admin.product.index")->success();
+            $this->data($products)->message(__('message.success.200'))->view("pages.admin.product.index")->success();
     }
 
     /**

@@ -29,7 +29,7 @@ class Product extends Model
 
     public function attributes()
     {
-        return $this->hasOne(Attribute::class,'product_id');
+        return $this->hasMany(Attribute::class,'product_id','id');
     }
 
     public function user()

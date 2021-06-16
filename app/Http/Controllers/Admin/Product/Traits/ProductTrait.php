@@ -53,60 +53,64 @@ trait ProductTrait
     public function featureHandler($features)
     {
         foreach ($features as $item) {
-
             $attr = Attribute::where('product_code', $item['code'])->first();
-                $data = Type::firstOrCreate(
-                    ['name' => $item['name'], "attribute_id" => $attr->id]
-                );
+            $data = Type::firstOrCreate(
+                ['name' => $item['name'], "attribute_id" => $attr->id]
+            );
 
-                $title = !empty($item['title']) ? $item['title'] : null;
-                $value = !empty($item['value']) ? $item['value'] : null;
-                $color = ($item['name'] === "رنگ") ? $item['color'] : null;
+            $title = !empty($item['title']) ? $item['title'] : null;
+            $value = !empty($item['value']) ? $item['value'] : null;
+            $color = ($item['name'] === "رنگ") ? $item['color'] : null;
 
-                $feature = TypeFeature::firstOrCreate(
-                    ["type_id" => $data->id, "attribute_id" => $attr->id, "title" => $title, "color" => $color, "value" => $value],
-                );
+            $feature = TypeFeature::firstOrCreate(
+                ["type_id" => $data->id, "attribute_id" => $attr->id, "title" => $title, "color" => $color, "value" => $value],
+            );
         }
     }
 
-    public function attributeUpdateHandler($attribute, $p_id)
+    public function attributeUpdateHandler($attributes, $p_id)
     {
-        $data = Attribute::where(['product_id' => $p_id, 'product_code' => $attribute['product_code']])->firstOrFail();
+        foreach ($attributes as $attribute) {
+            $data = Attribute::where(['product_id' => $p_id, 'product_code' => $attribute['product_code']])->firstOrFail();
 
-        $data->price = !empty($attribute['price']) ? (int)$attribute['price'] : $data->price;
-        $data->count = !empty($attribute['count']) ? (int)$attribute['count'] : ((array_key_exists('count', $attribute) && $attribute['count'] == 0) ? 0 : $data->count);
-        $data->limit = !empty($attribute['limit']) ? (int)$attribute['limit'] : $data->limit;
+            $data->price = !empty($attribute['price']) ? (int)$attribute['price'] : $data->price;
+            $data->count = !empty($attribute['count']) ? (int)$attribute['count'] : ((array_key_exists('count', $attribute) && $attribute['count'] == 0) ? 0 : $data->count);
+            $data->limit = !empty($attribute['limit']) ? (int)$attribute['limit'] : $data->limit;
 
-        if (!empty($attribute['discount'])) {
-            $data->discount = (int)$attribute['discount'];
-            $data->discount_status = 'active';
-        } else {
-            $data->discount = 0;
-            $data->discount_status = 'deactivate';
-
+            if (!empty($attribute['discount'])) {
+                $data->discount = (int)$attribute['discount'];
+                $data->discount_status = 'active';
+            } else {
+                $data->discount = 0;
+                $data->discount_status = 'deactivate';
+            }
             $data->save();
+
         }
-        $data->save();
         return $data;
+
     }
 
 
-    public function featureUpdateHandler($features, $attr_id)
+    public function featureUpdateHandler($features)
     {
-        $data = Type::firstOrCreate(
-            ['name' => $features['name'], "attribute_id" => $attr_id]
-        );
+        foreach ($features as $feature) {
 
-        $feature = TypeFeature::firstOrCreate(
-            ["type_id" => $data->id, "attribute_id" => $attr_id]
-        );
+            $attr = Attribute::where('product_code', $feature['code'])->first();
 
-        $feature->title = !empty($features['title']) ? $features['title'] : $feature->title;
-        $feature->value = !empty($features['value']) ? $features['value'] : $feature->value;
-        $feature->color = !empty($features['color']) ? $features['color'] : $feature->color;
-        $feature->save();
+            $data = Type::firstOrCreate(
+                ['name' => $features['name'], "attribute_id" => $attr->id]
+            );
 
-        return $feature;
+            $feature = TypeFeature::firstOrCreate(
+                ["type_id" => $data->id, "attribute_id" => $attr->id]
+            );
+
+            $feature->title = !empty($features['title']) ? $features['title'] : $feature->title;
+            $feature->value = !empty($features['value']) ? $features['value'] : $feature->value;
+            $feature->color = !empty($features['color']) ? $features['color'] : $feature->color;
+            $feature->save();
+        }
     }
 
     public function tagHandler($tag_list, $product)
