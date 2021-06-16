@@ -17,14 +17,20 @@ class ProductRepository implements RepositoryInterface
 
     public function all($status = null, $search = null, $entity = null, $categories = null, $sort = null, $discount = null)
     {
+        $time = null;
+
         $status = ($status == 'true') ? 'active' : null;
 
         $entity = ($entity == 'true') ? 'available' : null;
 
         $discount = ($discount == 'true') ? 'active' : null;
 
-        if (empty($sort))
-            $sort = 'id';
+        $id = empty($sort) ? 'id' : null;
+
+        if ($sort == 'created_at'){
+            $time = 'created_at';
+            $sort = null;
+        }
 
         if (!empty($categories))
             $categories = array_map('intval', $categories);
@@ -37,12 +43,12 @@ class ProductRepository implements RepositoryInterface
             });
         })->when(!empty($status), function ($query) use ($status) {
             $query->where('status', $status);
-        })->when(!empty($discount), function ($query) use ($discount) {
-            $query->whereHas('attributes', function ($query) use ($discount) {
-                $query->where('attributes.discount_status', $discount);
-            });
-        })->with('attributes', function ($q) use ($discount) {
-            $q->with('typeFeatures')->with('types');
+        })->with('attributes', function ($q) use ($discount){
+            $q->when(!empty($discount), function ($query) use ($discount) {
+                $query->whereHas('attributes', function ($query) use ($discount) {
+                    $query->where('attributes.discount_status', $discount);
+                });
+            })->with('typeFeatures')->with('types');
         })
             ->when(!empty($categories), function ($query) use ($categories) {
                 $query->whereHas('categories', function ($query) use ($categories) {
@@ -54,9 +60,15 @@ class ProductRepository implements RepositoryInterface
                 $query->where('entity', $entity);
             })->with('user')
             ->with('viewCounts')
-//            ->orderBy('attributes.' . $sort, "DESC")
-            ->with('attributes' , function($query) use($sort){
-                $query->orderByDesc($sort);
+            ->with('tags')
+            ->when(!empty($sort), function ($query) use ($sort) {
+                $query->join('attributes', 'products.id', '=', 'attributes.product_id')->orderByDesc($sort);
+            })
+            ->when(!empty($id), function ($query) {
+                $query->orderByDesc('id');
+            })
+            ->when(!empty($time),function ($query) use ($time) {
+                $query->latest();
             })
             ->paginate(config('view.pagination'));
     }
@@ -112,7 +124,7 @@ class ProductRepository implements RepositoryInterface
             $att = $this->attributeUpdateHandler($attributes, $product->id);
 
         if (!empty($features))
-            $this->featureUpdateHandler($features, $att->id);
+            $this->featureUpdateHandler($features);
 
         /** modify tag relations in database tables */
         if (!empty($tag_list))
