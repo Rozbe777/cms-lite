@@ -23,8 +23,7 @@ class ProductRepository implements RepositoryInterface
 
         $discount = ($discount == 'true') ? 'active' : null;
 
-        if (empty($sort))
-            $sort = 'id';
+        $id = 'id';
 
         if (!empty($categories))
             $categories = array_map('intval', $categories);
@@ -54,10 +53,13 @@ class ProductRepository implements RepositoryInterface
                 $query->where('entity', $entity);
             })->with('user')
             ->with('viewCounts')
-//            ->orderBy('attributes.' . $sort, "DESC")
-            ->with('attributes' , function($query) use($sort){
-                $query->orderByDesc($sort);
+            ->when(!empty($sort),function ($query) use($sort) {
+            $query->join('attributes','products.id','=','attributes.product_id')->orderByDesc($sort);
+                })
+            ->when(empty($sort),function ($query) {
+                $query->orderByDesc('id');
             })
+
             ->paginate(config('view.pagination'));
     }
 
