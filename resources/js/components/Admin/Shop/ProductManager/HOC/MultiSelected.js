@@ -150,7 +150,7 @@ export const MultiSelected = ({
                 <i className={"bx bx-chevron-down"}></i>
             </div>
 
-            <div className={"optionBox"} id={"selected"}>
+            <div className={"optionBox float_on"} id={"selected"}>
                 <ul id={name}>
                     {data.length > 0 ? data.map(item => (
                         <li>

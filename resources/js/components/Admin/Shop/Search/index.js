@@ -179,18 +179,18 @@ const SearchComponent = ({sort: pushSort}) => {
                         <label
                             htmlFor="users-list-verified">{size > 0 ? "( " + size + " ) فیلتر اعمال شده " : 'فیلتر'}</label>
 
-                        <MultiSelectedFilterSwitcher dataRes={dataFilter} selected={sel => handleSelected(sel)}/>
+                        <MultiSelectedFilterSwitcher let={"bottom"} dataRes={dataFilter} selected={sel => handleSelected(sel)}/>
                     </div>
 
                     <div className="col-12 col-sm-6 col-lg-3">
                         <label htmlFor="users-list-status">مرتب سازی</label>
-                        <MultiOption data={dataSort} selected={item => handleOptionSort(item)}/>
+                        <MultiOption lett={"bottom"} data={dataSort} selected={item => handleOptionSort(item)}/>
                     </div>
 
                     <div className="col-12 col-sm-6 col-lg-3">
                         <label
                             htmlFor="users-list-role">{sizeCategory > 0 ? "( " + sizeCategory + " ) دسته بندی انتخاب شده " : 'دسته بندی'}</label>
-                        <MultiSelected data={categories} selected={itemsSel => handleCategory(itemsSel)}/>
+                        <MultiSelected let={"bottom"} data={categories} selected={itemsSel => handleCategory(itemsSel)}/>
                     </div>
 
                     {/*<div className="col-6 col-sm-6 col-lg-2" style={{marginBlockStart: 'auto'}}>*/}

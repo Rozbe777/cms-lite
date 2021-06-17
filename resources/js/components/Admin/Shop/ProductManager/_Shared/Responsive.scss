@@ -5,6 +5,10 @@
         display: none;
     }
 
+
+    #navbar-mobile.navbar-collapse .navbar-nav .dropdown-menu{
+        z-index: 9999;
+    }
     .align-middle {
         display: none !important;
         visibility: hidden !important;
@@ -70,7 +74,7 @@
         clear: both;
         display: none;
     }
-    .optionBox {
+    .optionBox.float_on {
         top: unset !important;
         bottom: 55px;
         z-index: -1;
@@ -935,6 +939,10 @@ body.active-darked {
     .main-options-sel {
         #content{
             background: $itemBackground !important;
+            color: $color;
+            li:hover{
+                color: $titleHover !important;
+            }
         }
         .option-icon {
             background: $background !important;
@@ -983,6 +991,7 @@ body.active-darked {
     .main-options-sel #selected {
         border-radius: 5px !important;
         color: $color !important;
+        height: 45px !important;
         background: $itemBackground !important;
 
         a i {

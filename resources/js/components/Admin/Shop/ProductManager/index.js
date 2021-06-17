@@ -17,6 +17,7 @@ import {TotalActions} from "../../UserList/HOC/TotalActions";
 import {BreadCrumbs} from "../../UserList/HOC/BreadCrumbs";
 import ReactDom from "react-dom";
 import {NormalProductOneItem} from "../../Helper/HelperClassFetures";
+import BottomNavigationBar from "../../UserList/HOC/BottomNavigationBar";
 
 const Index = () => {
     const [checked, setChecked] = useState([]);
@@ -255,7 +256,6 @@ const Index = () => {
             {/*    <GroupAction data={checked} allProduct={DataInitial.Products} newCheck={item => handleCheckAll(item)}/>*/}
             {/*</div>*/}
 
-            {console.log("?????????", Products)}
 
             <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
                 <div className={"row col-12"} id={"headerContent"}>
@@ -325,6 +325,8 @@ const Index = () => {
                 <div id={"add-product"}>
                 </div>
 
+
+                <BottomNavigationBar userData={Products} deleteAll={e => handleDeleteGroup(e)}/>
 
             </CHECK_BOX_CONTENT.Provider>
 

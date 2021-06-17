@@ -5,14 +5,22 @@ import "swiper/swiper-bundle.css";
 import './_shared/style.scss';
 
 
-export const MultiSelectedFilterSwitcher = ({dataRes, selected: pushSelected}) => {
+export const MultiSelectedFilterSwitcher = ({lett , dataRes, selected: pushSelected}) => {
 
     const [checkFilter, setCheckFilter] = useState([])
     const [data] = useState(dataRes)
 
+    useEffect(()=>{
+        if (lett){
+            document.querySelector(".optionBox").classList.add("float_on");
+        }else{
+            document.querySelector(".optionBox").classList.remove("float_on");
+        }
+
+    } , [])
+
     const HandleChange = (e, id, value) => {
 
-        console.log("chhhh : " , e.target.checked)
         let checkBoxCustom = $("span.checkboxeds." + id);
         let checked = [...checkFilter]
         if (e.target.checked) {
@@ -24,8 +32,8 @@ export const MultiSelectedFilterSwitcher = ({dataRes, selected: pushSelected}) =
             })
             setCheckFilter(checked)
             pushSelected(checked)
-            // console.log("1111111 : " , value)
         } else {
+            $("input[name="+id+"]").prop("checked" , false);
             checkBoxCustom.removeClass("active")
             const results = checked.filter(obj => obj.id !== id);
             // var result = check.filter(obj => console.log("object name : " , parseInt(obj.id) , " / name : " , id));
@@ -50,6 +58,7 @@ export const MultiSelectedFilterSwitcher = ({dataRes, selected: pushSelected}) =
         setCheckFilter(result)
         pushSelected(result)
     }
+
 
 
     return (
