@@ -11,9 +11,12 @@ export const MultiSelectedFilterSwitcher = ({dataRes, selected: pushSelected}) =
     const [data] = useState(dataRes)
 
     const HandleChange = (e, id, value) => {
+
+        console.log("chhhh : " , e.target.checked)
         let checkBoxCustom = $("span.checkboxeds." + id);
         let checked = [...checkFilter]
         if (e.target.checked) {
+            $("input[name="+id+"]").prop("checked" , true);
             checkBoxCustom.addClass("active")
             checked.push({
                 id: e.target.name,

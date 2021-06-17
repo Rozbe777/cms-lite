@@ -32,9 +32,13 @@ import Loading from "../../_Micro/Loading";
 
 const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, result: pushResult}) => {
 
+    let mins = 10000000000;
+    let maxs = 99999999999;
+    let firstRand = Math.round(mins + Math.random() * (maxs - mins));
+
     const [counter, setCounter] = useState(defaultValuePro ? {
         num: defaultValuePro.attributes[defaultValuePro.attributes.length - 1].product_code
-    } : {num: 15487965800});
+    } : {num: firstRand});
     let defaultCol = {
         [counter.num]:
             {
@@ -58,7 +62,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
     //
     const [attributes, setAttributes] = useState([
         {
-            product_code: 12341216513156,
+            product_code: counter,
             price: 0,
             discount: 0,
             count: null,
@@ -505,14 +509,10 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
             if (result.value) {
                 Request.UpdateDataProduct(data, id)
                     .then(res => {
-                        let resError = res.data.message ? res.data.message : '';
-                        // console.log("status error : ", res.data.size)
-
                         pushResult(res);
                         localStorage.removeItem("status");
                         localStorage.removeItem("selected");
                         localStorage.removeItem("robots");
-
                         Swal.fire({
                             type: "success",
                             title: 'با موفقیت ویرایش شد !',
@@ -547,14 +547,17 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
         let normal = NoralizeFetures(priceData);
         let checkValueFetures = CheckTextFetures(normal)
+        console.log("featuressss : " ,normal )
 
         formOldData.metadata = JSON.stringify(metaDatas);
 
         metaDatas.robots = robots;
         formOldData.status = status;
         if (checkValueFetures) {
+
             formOldData.attributes = normal.attributes;
             formOldData.features = normal.fetures;
+
             if (formOldData.title && formOldData.title !== '') {
                 $("input[name=title]#pro-title").removeClass("is-invalid");
                 // console.log("form dataaaaaaaa : ", formNew)
@@ -581,6 +584,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
         let slug = slugManage ? titleWrite : $("input.slugest").val();
         formOldData.title = name;
         formOldData.slug = slug;
+        delete formOldData.id;
         formOldData.category_list = idSelCat;
         formOldData.tag_list = chipsetTagsChange ? chipsetTags : [];
         formOldData.metadata = JSON.stringify(metaDatas);
@@ -882,7 +886,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                            aria-controls="descript"
                            role="tab" aria-selected="false">
                             <span className="align-middle">عنوان و عکس</span>
-                            <i className={"bx bx-image"}></i>
+                            <i id={"visible-custom"} className={"bx bx-image"}></i>
                         </a>
                     </li>
                     <li className="nav-item col-3 nav-custom">
@@ -890,21 +894,21 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                            aria-controls="catdetail"
                            role="tab" aria-selected="false">
                             <span className="align-middle">توضیحات  و دسته بندی</span>
-                            <i className={"bx bx-list-ul"}></i>
+                            <i id={"visible-custom"} className={"bx bx-list-ul"}></i>
                         </a>
                     </li>
                     <li className="nav-item col-3 nav-custom ">
                         <a className="nav-link" id="price-tab" data-toggle="tab" href="#price" aria-controls="price"
                            role="tab" aria-selected="false">
                             <span className="align-middle">قیمت و مشخصات</span>
-                            <i className={"bx bx-dollar-circle"}></i>
+                            <i id={"visible-custom"} className={"bx bx-dollar-circle"}></i>
                         </a>
                     </li>
                     <li className="nav-item col-3 nav-custom ">
                         <a className="nav-link" id="seo-tab" data-toggle="tab" href="#seo" aria-controls="seo"
                            role="tab" aria-selected="false">
                             <span className="align-middle">سئو و آدرس</span>
-                            <i className={"bx bxl-internet-explorer"}></i>
+                            <i id={"visible-custom"} className={"bx bxl-internet-explorer"}></i>
                         </a>
                     </li>
                 </ul>

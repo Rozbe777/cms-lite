@@ -99,7 +99,7 @@ trait ProductTrait
             $attr = Attribute::where('product_code', $feature['code'])->first();
 
             $data = Type::firstOrCreate(
-                ['name' => $features['name'], "attribute_id" => $attr->id]
+                ['name' => $feature['name'], "attribute_id" => $attr->id]
             );
 
             $feature = TypeFeature::firstOrCreate(

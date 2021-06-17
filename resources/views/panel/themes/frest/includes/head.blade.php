@@ -37,6 +37,35 @@
     <link rel="stylesheet" type="text/css" href="{{adminTheme("css/pages/page-users.css")}}">
     <link rel="stylesheet" type="text/css" href="{{adminTheme("css/plugins/extensions/toastr.css")}}">
 
+    <script>
+
+            // const current = new Date();
+            //
+            // const hourse = current.getHours();
+            // const minutes = current.getMinutes();
+            // const sec = current.getSeconds();
+            // let miliHourse = parseInt((hourse * 3600000) + (minutes * 60000 ) + (sec * 1000));
+            //
+            // if (miliHourse > 68460000) {
+            //     console.log("night");
+            // } else {
+            //     console.log("rooz");
+            // }
+
+
+
+            $("#customSwitch10").on("change", function () {
+                if ($(this).prop("checked")) {
+                    $("body").addClass("active-darked");
+                    localStorage.setItem("darked", "dark")
+                } else {
+                    $("body").removeClass("active-darked");
+                    localStorage.setItem("darked", "light")
+
+                }
+
+            })
+    </script>
     <!-- END: Page CSS-->
 
 </head>

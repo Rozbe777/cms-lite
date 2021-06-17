@@ -16,7 +16,7 @@ const SearchComponent = ({sort: pushSort}) => {
     const [categories, setCategories] = useState([]);
     const [sizeCategory, setSizeCategory] = useState(0);
     const [sorting, setSorting] = useState({
-        filter : []
+        filter: []
     });
     useEffect(() => {
         GetAllCategory();
@@ -140,7 +140,7 @@ const SearchComponent = ({sort: pushSort}) => {
                             <input type="text" className="form-control"
                                    id={"search_input"}
                                    onChange={e => HandleSearchInput(e)}
-                                   placeholder="جستجو با ایمیل و تلفن ..." name="search"/>
+                                   placeholder="جستجو با نام محصول ..." name="search"/>
 
                         </div>
                         <div className="col-12 col-sm-6 col-lg-3">
@@ -178,20 +178,19 @@ const SearchComponent = ({sort: pushSort}) => {
                     <div className="col-12 col-sm-6 col-lg-3">
                         <label
                             htmlFor="users-list-verified">{size > 0 ? "( " + size + " ) فیلتر اعمال شده " : 'فیلتر'}</label>
-                        <MultiSelected data={dataFilter} selected={sel => handleSelected(sel)}/>
+
+                        <MultiSelectedFilterSwitcher dataRes={dataFilter} selected={sel => handleSelected(sel)}/>
                     </div>
 
                     <div className="col-12 col-sm-6 col-lg-3">
                         <label htmlFor="users-list-status">مرتب سازی</label>
-                        <MultiOption/>
+                        <MultiOption data={dataSort} selected={item => handleOptionSort(item)}/>
                     </div>
 
                     <div className="col-12 col-sm-6 col-lg-3">
                         <label
                             htmlFor="users-list-role">{sizeCategory > 0 ? "( " + sizeCategory + " ) دسته بندی انتخاب شده " : 'دسته بندی'}</label>
-                        {console.log("result", categories)}
-                        <MultiSelected data={load ? [] : categories ? categories : []}
-                                       selected={itemsSel => handleCategory(itemsSel)}/>
+                        <MultiSelected data={categories} selected={itemsSel => handleCategory(itemsSel)}/>
                     </div>
 
                     {/*<div className="col-6 col-sm-6 col-lg-2" style={{marginBlockStart: 'auto'}}>*/}
@@ -215,7 +214,9 @@ const SearchComponent = ({sort: pushSort}) => {
                         <i className={"bx bx-search-alt"} id={"search-float-icons"}
                            onClick={e => handleFadeSearchInput(e)}></i>
                         <div className={"search-input-float"}>
-                            <input type={"text"} placeholder={"نام محصول را وارد کنید"}/>
+                            <input onChange={e => HandleSearchInput(e)}
+                                   name="search"
+                                   type={"text"} placeholder={"جستجو با نام محصول ..."}/>
                         </div>
 
                     </li>

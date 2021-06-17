@@ -86,13 +86,15 @@ const Index = () => {
     }
 
 
-    const handleDeleteGroup = (event) => {
+    const handleDeleteGroup = (event , idOne = null) => {
+
 
         console.log("dataa_____", checkBox)
 
         let finalAllIds = {};
 
-        finalAllIds.productIds = checkBox;
+        idOne ? finalAllIds.productIds = [idOne] : finalAllIds.productIds = checkBox;
+
 
         finalAllIds._token = $('meta[name="csrf-token"]').attr('content');
 
@@ -287,8 +289,7 @@ const Index = () => {
                                       editClick={e => HandleEdit(e, item)}
                                       duplicated={e=> HandleDuplicate(e , item)}
                                       deleteClick={e => {
-                                          setCheckBox([e.id])
-                                          handleDeleteGroup(e.event)
+                                          handleDeleteGroup(e.event , e.id)
                                       }}
                                       selected={response => HandleChecked(response)}/>
                             )

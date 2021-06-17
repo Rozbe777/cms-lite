@@ -37,7 +37,6 @@
     //     seconds = seconds % 60;
     //     alert( hours+" hours and "+minutes+" minutes and "+seconds+" seconds!" );
     // }
-    $(document).ready(function () {
 
 
         // const current = new Date();
@@ -53,14 +52,27 @@
         //     console.log("rooz");
         // }
 
+        // let localDarked = localStorage.getItem("darked");
+        // if (localDarked === "dark") {
+        //     $("body").addClass("active-darked");
+        //     $("input#customSwitch10").prop("checked", true)
+        // } else {
+        //     $("body").removeClass("active-darked");
+        //     $("input#customSwitch10").prop("checked", false)
+        // }
+
         let localDarked = localStorage.getItem("darked");
         if (localDarked === "dark") {
-            $("body").addClass("active-darked");
-            $("input#customSwitch10").prop("checked", true)
+            document.querySelector("body").classList.add("active-darked");
+            document.querySelector("input#customSwitch10").checked =  true;
         } else {
-            $("body").removeClass("active-darked");
-            $("input#customSwitch10").prop("checked", false)
+            document.querySelector("body").classList.remove("active-darked");
+            document.querySelector("input#customSwitch10").checked =  false;
+            // $("body").removeClass("active-darked");
+            // $("input#customSwitch10").prop("checked", false)
         }
+
+    $(document).ready(function () {
 
         $("#customSwitch10").on("change", function () {
             if ($(this).prop("checked")) {

@@ -406,12 +406,16 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
                     <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
                        role="tab" aria-selected="true">
                         <span className="align-middle">دسته بندی</span>
+                        <i id={"visible-custom"} className={"bx bxs-categories"}></i>
+
                     </a>
                 </li>
                 <li className="nav-item col-6 nav-custom ">
                     <a className="nav-link" id="seo-tab" data-toggle="tab" href="#seo" aria-controls="seos"
                        role="tab" aria-selected="false">
                         <span className="align-middle">سئو و آدرس</span>
+                        <i id={"visible-custom"} className={"bx bxl-internet-explorer"}></i>
+
                     </a>
                 </li>
             </ul>
