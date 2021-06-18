@@ -95,7 +95,7 @@ trait ProductTrait
     public function featureUpdateHandler($features)
     {
         foreach ($features as $feature) {
-dd($feature);
+
             $attr = Attribute::where('product_code', $feature['code'])->first();
 
             $data = Type::firstOrCreate(
