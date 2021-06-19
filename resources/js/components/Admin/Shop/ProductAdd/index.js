@@ -32,7 +32,6 @@ import Loading from "../../_Micro/Loading";
 
 const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, result: pushResult}) => {
 
-    console.log("_____________" , defaultValuePro)
     let mins = 10000000000;
     let maxs = 99999999999;
     let firstRand = Math.round(mins + Math.random() * (maxs - mins));
@@ -64,17 +63,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
     };
 
     let normalDefalutAttr = defaultValuePro ? NormalAttrOnePro(defaultValuePro, types, counter.num) : defaultCol;
-
-    const [attributes, setAttributes] = useState([
-        {
-            product_code: counter,
-            price: 0,
-            discount: 0,
-            count: null,
-            isInfinite: true,
-            limit: null,
-        }
-    ]);
 
     let normalHeadTitle = defaultValuePro ? NormalAttrHead(defaultValuePro) : {
         color: [],
