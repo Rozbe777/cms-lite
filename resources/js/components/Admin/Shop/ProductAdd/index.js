@@ -32,13 +32,19 @@ import Loading from "../../_Micro/Loading";
 
 const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, result: pushResult}) => {
 
+        console.log("proooooo  " , types)
     let mins = 10000000000;
     let maxs = 99999999999;
     let firstRand = Math.round(mins + Math.random() * (maxs - mins));
 
-    const [counter, setCounter] = useState(defaultValuePro ? {
-        num: defaultValuePro.attributes[defaultValuePro.attributes.length - 1].product_code
-    } : {num: firstRand});
+    let defCounters = {num : firstRand};
+
+    if (defaultValuePro && types !== "duplicate"){
+        defCounters = defaultValuePro.attributes[defaultValuePro.attributes.length - 1].product_code
+    }else {
+
+    }
+    const [counter, setCounter] = useState(defCounters);
     let defaultCol = {
         [counter.num]:
             {
