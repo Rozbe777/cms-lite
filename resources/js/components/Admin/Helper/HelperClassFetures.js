@@ -1,4 +1,5 @@
 export const NoralizeFetures = (data) => {
+    console.log("pricessssss____ : " , data)
     let attributes = [];
     let fetures = [];
     Object.keys(data).map(item => {
@@ -99,12 +100,14 @@ let NormalFet = data => {
     data.map(item => {
         if(item.color && item.color !== ""){
             out.color.push({
+                id : item.id,
                 name : item.title,
                 title : item.value,
                 value : item.color
             })
         }else{
             out.text.push({
+                id : item.id,
                 name : item.title,
                 title : item.value
             })

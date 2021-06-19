@@ -32,6 +32,7 @@ import Loading from "../../_Micro/Loading";
 
 const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, result: pushResult}) => {
 
+    console.log("_____________" , defaultValuePro)
     let mins = 10000000000;
     let maxs = 99999999999;
     let firstRand = Math.round(mins + Math.random() * (maxs - mins));
@@ -673,7 +674,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
     const HandleFeture = (e) => {
         e.preventDefault();
         setEdit(true)
-
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<NewFeture close={e => closeFeture(e)}
                                    dataOut={item => AddFeture(item)}/>, document.getElementById("back-loaderedss"));
