@@ -130,6 +130,8 @@ class ProductRepository implements RepositoryInterface
         else
             unset($data['image']);
 
+
+//        dd($data,$attributes,$features);
         if (!empty($attributes))
             $att = $this->attributeUpdateHandler($attributes, $product->id);
 
@@ -146,7 +148,11 @@ class ProductRepository implements RepositoryInterface
 
         $product->update($data);
 
-        $product->entity = ($product->attributes->count == 0) ? "unavailable" : "available";
+        foreach ($product->attributes as $attribute) {
+            $count[] = $attribute->count;
+        }
+            $product->entity = (array_sum($count) > 0) ? "unavailable" : "available";
+
         $product->save();
         return $product;
     }
