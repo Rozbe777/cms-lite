@@ -254,6 +254,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                 };
                 setEdit(true)
 
+                console.log("++++++++" , dataNormal)
                 setPriceData(dataaa)
                 setCounter(counter)
                 return dataaa;

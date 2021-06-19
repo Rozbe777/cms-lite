@@ -181,7 +181,7 @@ export const NormalAttrOnePro = (data , types , counter) => {
 }
 
 export const NormalNewEmptyFetures = data => {
-    // console.log("%%%%%%%" , data)
+    console.log("%%%%%%%" , data)
     let dataFetText = [];
     let dataFetColor = [];
     let dataaa = {...data};
