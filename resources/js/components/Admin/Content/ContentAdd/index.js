@@ -110,7 +110,7 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
                         })
 
                     }).catch(err => {
-                    pushCheckChange(true)
+                    // pushCheckChange(true)
                     if (err.response.data.errors) {
                         ErroHandle(err.response.data.errors);
                     } else {

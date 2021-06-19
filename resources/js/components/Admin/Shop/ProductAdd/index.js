@@ -821,7 +821,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
         dataHead.text[index] = e.target.value;
         Object.keys(priceData).map((items, indexes) => {
             priceData[items].fetures.text[index].name = e.target.value;
-            // priceNew[items] = items;
             setPriceData(priceNew);
         })
         setDefaultTableHead(dataHead);
@@ -829,12 +828,10 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
     const ChangeHeadTitleColor = (e, index) => {
         e.preventDefault();
         let dataHead = {...defaultTableHead};
-        setEdit(true)
-        let priceNew = [...priceData];
+        let priceNew = {...priceData};
         dataHead.color[index] = e.target.value;
-        priceData.map((items, indexes) => {
-            items.fetures.color[index].name = e.target.value;
-            priceNew[indexes] = items;
+        Object.keys(priceData).map((items, indexes) => {
+            priceData[items].fetures.color[index].name = e.target.value;
             setPriceData(priceNew);
         })
         setDefaultTableHead(dataHead);
