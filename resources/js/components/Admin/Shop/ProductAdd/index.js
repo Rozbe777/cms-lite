@@ -63,9 +63,8 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
             }
     };
 
-    let normalDefalutAttr = defaultValuePro ? NormalAttrOnePro(defaultValuePro) : defaultCol;
+    let normalDefalutAttr = defaultValuePro ? NormalAttrOnePro(defaultValuePro , types , counter.num) : defaultCol;
 
-    //
     const [attributes, setAttributes] = useState([
         {
             product_code: counter,
@@ -105,6 +104,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     const [priceData, setPriceData] = useState(normalDefalutAttr);
 
+    console.log(")))))))))" , priceData)
 
     let tags = [];
     const [edit, setEdit] = useState(false);
@@ -239,18 +239,20 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                 return newStateColorVal;
 
             case "addNew" :
+                let now_num = Object.keys(action.data)[Object.keys(action.data).length - 1]
                 let dataNew = priceData[Object.keys(action.data)[Object.keys(action.data).length - 1]]
 
-                let countCode = parseInt(counter.num);
-                let counterCode = countCode + 1;
-                counter.num = counterCode;
+                let counterCode = parseInt(now_num) + 1;
+
+                console.log(">>>?" , counterCode);
+
+                // counter.num = counterCode;
 
 
                 let dataaa = {
                     ...action.data,
                     [counterCode]: dataNew
                 };
-                console.log("dataaaaa___", dataaa)
                 setPriceData(dataaa)
                 setCounter(counter)
                 return dataaa;
@@ -809,7 +811,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
             setPriceData(priceNew);
         })
         setDefaultTableHead(dataHead);
-
     }
     const ChangeHeadTitleColor = (e, index) => {
         e.preventDefault();
