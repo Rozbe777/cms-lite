@@ -24,6 +24,7 @@ import {
     NoralizeFetures,
     NormalAttrOnePro,
     NormalAttrHead,
+    NormalNewEmptyFetures,
     NormalProductOneItem
 } from "../../Helper/HelperClassFetures";
 import Loading from "../../_Micro/Loading";
@@ -245,10 +246,11 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
                 // counter.num = counterCode;
 
+                let dataNormal = NormalNewEmptyFetures(dataNew);
 
                 let dataaa = {
                     ...action.data,
-                    [counterCode]: dataNew
+                    [counterCode]: dataNormal
                 };
                 setEdit(true)
 

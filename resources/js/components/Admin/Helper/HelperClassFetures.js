@@ -179,3 +179,30 @@ export const NormalAttrOnePro = (data , types , counter) => {
 
     return priceData;
 }
+
+export const NormalNewEmptyFetures = data => {
+    // console.log("%%%%%%%" , data)
+    let dataFetText = [];
+    let dataFetColor = [];
+    let dataaa = {...data};
+    dataaa.fetures.text.map((item) => {
+        dataFetText.push({
+            id : null,
+            name : item.name,
+            title : item.title,
+        })
+    })
+    dataaa.fetures.color.map((item) => {
+        dataFetColor.push({
+            id : null,
+            name : item.name,
+            title : item.title,
+            value : item.value
+        })
+    })
+
+    dataaa.fetures.text = dataFetText;
+    dataaa.fetures.color = dataFetColor;
+
+    return dataaa;
+}

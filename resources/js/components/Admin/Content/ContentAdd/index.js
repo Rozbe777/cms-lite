@@ -67,7 +67,6 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
                 if (err.response.data.errors) {
                     ErroHandle(err.response.data.errors);
                 } else {
-                    //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
                     $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center ;margin : 10px 0 0 '>خطا در ارتباط با دیتابیس</p><p>مجددا تلاش کنید</p><div>");
                     ErrorToast("خطای غیر منتظره ای رخ داده است")
                 }
@@ -93,7 +92,7 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
                     .then(res => {
                         $(".pagination li.page-item.numberss").removeClass("active")
                         $(".pagination li#1.page-item.numberss").addClass("active")
-                        pushCheckChange(true)
+                        pushCheckChange(true);
                         $("span.checkboxeds").removeClass("active");
                         pushResult(res);
                         setClear(true)
