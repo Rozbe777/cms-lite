@@ -95,6 +95,18 @@ trait ProductTrait
 
     public function featureUpdateHandler($features)
     {
+        foreach ($features as $feature){
+            $title[] = $feature['title'];
+        }
+
+        $items = (array_count_values($title));
+
+        foreach ($items as $count){
+            if ($count > 1){
+                return redirect()->back();
+            }
+        }
+
         foreach ($features as $feature) {
 
             $attr = Attribute::where('product_code', $feature['code'])->first();

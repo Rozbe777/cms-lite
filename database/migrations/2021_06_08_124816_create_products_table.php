@@ -16,7 +16,7 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title', 255);
-            $table->string('slug', 255)->unique();
+            $table->string('slug', 255);
             $table->longText('content')->nullable();
             $table->longText('metadata')->nullable();
             $table->enum('status', ["active", "deactivate"])->default('active');
