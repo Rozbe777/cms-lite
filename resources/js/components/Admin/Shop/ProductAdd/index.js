@@ -151,7 +151,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                         }
                     }
                 }
-                setChangeCheck(true)
+                setEdit(true)
                 setPriceData(newState)
                 return newState;
             case "count" :
@@ -165,7 +165,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                         }
                     }
                 }
-                setChangeCheck(true)
+                setEdit(true)
 
                 setPriceData(newStates)
                 return newStates;
@@ -180,7 +180,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                         }
                     }
                 }
-                setChangeCheck(true)
+                setEdit(true)
 
                 setPriceData(newStateLimit)
                 return newStateLimit;
@@ -201,7 +201,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                         }
                     }
                 }
-                setChangeCheck(true)
+                setEdit(true)
 
                 setPriceData(newStateText)
                 return newStateText;
@@ -222,7 +222,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                         }
                     }
                 }
-                setChangeCheck(true)
+                setEdit(true)
 
                 setPriceData(newStateColor)
                 return newStateColor;
@@ -243,7 +243,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                         }
                     }
                 }
-                setChangeCheck(true)
+                setEdit(true)
 
                 setPriceData(newStateColorVal)
                 return newStateColorVal;
@@ -261,7 +261,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                     ...action.data,
                     [counterCode]: dataNew
                 };
-                setChangeCheck(true)
+                setEdit(true)
 
                 setPriceData(dataaa)
                 setCounter(counter)
@@ -660,7 +660,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
         let checkedFeatures = NoralizeFetures(priceData).fetures.length;
         if (checkedFeatures > 0) {
-            setChangeCheck(true)
+            setEdit(true)
 
             dispatchAttr({type: 'addNew', data: priceData})
         } else {
@@ -672,7 +672,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     const HandleFeture = (e) => {
         e.preventDefault();
-        setChangeCheck(true)
+        setEdit(true)
 
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<NewFeture close={e => closeFeture(e)}
@@ -692,7 +692,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
         let ressss = newItemHead.text.includes(item.name) || newItemHead.color.includes(item.name);
         if (!ressss) {
             if (item.type == "text") {
-                setChangeCheck(true)
+                setEdit(true)
 
                 newItemHead.text.push(item.name);
                 setDefaultTableHead(newItemHead);
@@ -720,7 +720,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                 newItemHead.color.push(item.name);
                 setDefaultTableHead(newItemHead)
 
-                setChangeCheck(true)
+                setEdit(true)
 
                 Object.keys(priceData).map((items, index) => {
                     if (priceData[items].fetures.color.length > 0) {
@@ -768,20 +768,20 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     const HandleFetureText = (e, index, item) => {
         e.preventDefault();
-        setChangeCheck(true)
+        setEdit(true)
 
         dispatchAttr({type: "text", index, title: e.target.value, data: priceData, code: item})
     }
 
     const HandleFetureColorTit = (e, index, id) => {
         e.preventDefault();
-        setChangeCheck(true)
+        setEdit(true)
 
         dispatchAttr({type: "colorTit", index, title: e.target.value, data: priceData, code: id})
     }
     const HandleFetureColorVal = (e, index, id) => {
         e.preventDefault();
-        setChangeCheck(true)
+        setEdit(true)
 
         dispatchAttr({type: "colorVal", index, value: e.target.value, data: priceData, code: id})
     }
@@ -814,7 +814,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                        style={{maxWidth: '120px', float: 'right'}}
                        onChange={e => HandleFetureColorTit(e, index, id)}
                        value={item.title ? item.title : ''}/>
-                {/*<span id={"color-selected"} className={item.title} style={{background : "#f00"}} onClick={e => handleShowColorPicker(e , index , id , item.title)}></span>*/}
                 <input type={"color"} className={"feture-color"}
                        defaultValue={priceData[id] ? priceData[id].fetures.color[index].value : '#000000'}
                        onChange={e => HandleFetureColorVal(e, index, id)}/>
