@@ -1,5 +1,4 @@
 export const NoralizeFetures = (data) => {
-    console.log("pricessssss____ : " , data)
     let attributes = [];
     let fetures = [];
     Object.keys(data).map(item => {
@@ -30,6 +29,8 @@ export const NoralizeFetures = (data) => {
             })
         })
     })
+    console.log("pricessssss____ : " , attributes , fetures)
+
     return {attributes, fetures};
 }
 

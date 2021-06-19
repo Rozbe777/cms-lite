@@ -33,6 +33,7 @@ import Loading from "../../_Micro/Loading";
 
 const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, result: pushResult}) => {
 
+
     let mins = 10000000000;
     let maxs = 99999999999;
     let firstRand = Math.round(mins + Math.random() * (maxs - mins));
@@ -65,6 +66,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     let normalDefalutAttr = defaultValuePro ? NormalAttrOnePro(defaultValuePro, types, counter.num) : defaultCol;
 
+
     let normalHeadTitle = defaultValuePro ? NormalAttrHead(defaultValuePro) : {
         color: [],
         text: []
@@ -93,7 +95,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     const [priceData, setPriceData] = useState(normalDefalutAttr);
 
-    console.log(")))))))))", priceData)
 
     let tags = [];
     const [edit, setEdit] = useState(false);
@@ -239,26 +240,54 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                 return newStateColorVal;
 
             case "addNew" :
+                let dataNew = action.data[Object.keys(action.data)[Object.keys(action.data).length - 1]]
                 let now_num = Object.keys(action.data)[Object.keys(action.data).length - 1]
-                let dataNew = priceData[Object.keys(action.data)[Object.keys(action.data).length - 1]]
 
-                let counterCode = parseInt(now_num) + 1;
+                //  let now_num = Object.keys(action.data)[Object.keys(action.data).length - 1]
+                //  console.log("dataaaaaa num_____" , now_num);
+                //
+                let texts = [];
+                let counterCodess = parseInt(now_num) + 1;
+                let olddata = {...action.data};
+                dataNew.fetures.text.map(itemT => {
+                    texts.push({
+                        id : null,
+                        name : itemT.name,
+                        title : itemT.title,
+                    })
+                })
 
-                // counter.num = counterCode;
+                let colors = [];
+                dataNew.fetures.color.map(itemT => {
+                    colors.push({
+                        id : null,
+                        name : itemT.name,
+                        title : itemT.title,
+                        value : itemT.value,
+                    })
+                })
+                let attrs = dataNew.attributes;
 
-                let dataNormal = NormalNewEmptyFetures(dataNew);
+                let newOut = {
+                    attributes : attrs ,
+                    fetures : {
+                        text : texts,
+                        color : colors
+                    }
+                }
 
-                let dataaa = {
-                    ...action.data,
-                    [counterCode]:dataNormal
-                };
-                setEdit(true)
-                console.log("++++++++" , dataNormal , "\n" ,
-                    "" , dataaa , "\n" ,
-                    "" , priceData , "\n")
-                // setPriceData(dataaa)
-                setCounter(counter)
-                return dataaa;
+
+
+                //
+                olddata[counterCodess] = newOut;
+                setCounter(counterCodess);
+                // let dataNormal = NormalNewEmptyFetures(olddata[counterCodess]);
+
+                // console.log("dataaaaaa_____", newOut, counterCodess, olddata);
+
+
+                 setPriceData(olddata)
+                return olddata;
             default:
                 throw new Error();
         }
@@ -654,6 +683,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
         if (checkedFeatures > 0) {
             setEdit(true)
 
+            // console.log("______________======" , priceData)
             dispatchAttr({type: 'addNew', data: priceData})
         } else {
             ErrorToast("حداقل باید یک ویژگی اضافه کنید")
