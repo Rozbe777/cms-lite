@@ -250,15 +250,15 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
                 let dataaa = {
                     ...action.data,
-                    [counterCode]: dataNormal
+                    [counterCode]:dataNormal
                 };
                 setEdit(true)
-
-                console.log("++++++++" , dataNormal)
-                setPriceData(dataaa)
+                console.log("++++++++" , dataNormal , "\n" ,
+                    "" , dataaa , "\n" ,
+                    "" , priceData , "\n")
+                // setPriceData(dataaa)
                 setCounter(counter)
                 return dataaa;
-
             default:
                 throw new Error();
         }
