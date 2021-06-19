@@ -143,19 +143,34 @@ export const NormalAttrHead = data => {
     return headTitle;
 }
 
-export const NormalAttrOnePro = data => {
+export const NormalAttrOnePro = (data , types , counter) => {
     let priceData = {};
-    data.attributes.map(item => {
-        priceData[item.product_code] = {
-            attributes: {
-                price: item.price,
-                discount: item.discount,
-                limit: item.limit,
-                count: item.count,
-            },
-            fetures: NormalFet(item.type_features)
-        }
-    })
+    if (types == "duplicate"){
+        data.attributes.map(item => {
+            priceData[counter++] = {
+                attributes: {
+                    price: item.price,
+                    discount: item.discount,
+                    limit: item.limit,
+                    count: item.count,
+                },
+                fetures: NormalFet(item.type_features)
+            }
+        })
+    }else{
+        data.attributes.map(item => {
+            priceData[item.product_code] = {
+                attributes: {
+                    price: item.price,
+                    discount: item.discount,
+                    limit: item.limit,
+                    count: item.count,
+                },
+                fetures: NormalFet(item.type_features)
+            }
+        })
+    }
+
 
     return priceData;
 }
