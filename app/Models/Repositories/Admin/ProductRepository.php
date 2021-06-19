@@ -109,8 +109,7 @@ class ProductRepository implements RepositoryInterface
     {
         unset($data['_token']);
 
-        if (!empty($data['slug']))
-            $data['slug'] = $this->slugHandler($data['slug']);
+        $data['slug'] = (!empty($data['slug'])) ? ($data['slug'] != $product->slug) ? $this->slugHandler($data['slug']) : $product->slug : $product->slug;
 
         $tag_list = $data['tag_list'] ?? null;
         unset($data["tag_list"]);
@@ -130,8 +129,6 @@ class ProductRepository implements RepositoryInterface
         else
             unset($data['image']);
 
-
-//        dd($data,$attributes,$features);
         if (!empty($attributes))
             $att = $this->attributeUpdateHandler($attributes, $product->id);
 
@@ -151,7 +148,7 @@ class ProductRepository implements RepositoryInterface
         foreach ($product->attributes as $attribute) {
             $count[] = $attribute->count;
         }
-            $product->entity = (array_sum($count) > 0) ? "unavailable" : "available";
+        $product->entity = (array_sum($count) > 0) ? "unavailable" : "available";
 
         $product->save();
         return $product;

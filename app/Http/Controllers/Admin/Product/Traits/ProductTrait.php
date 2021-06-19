@@ -71,8 +71,10 @@ trait ProductTrait
     public function attributeUpdateHandler($attributes, $p_id)
     {
         foreach ($attributes as $attribute) {
-            $data = Attribute::where(['product_id' => $p_id, 'product_code' => $attribute['product_code']])->firstOrFail();
-//dd($data);
+            $data = Attribute::firstOrCreate(
+                ['product_id' => $p_id, 'product_code' => $attribute['product_code']]
+            );
+
             $data->price = !empty($attribute['price']) ? (int)$attribute['price'] : $data->price;
             $data->count = !empty($attribute['count']) ? (int)$attribute['count'] : ((array_key_exists('count', $attribute) && $attribute['count'] == 0) ? 0 : $data->count);
             $data->limit = !empty($attribute['limit']) ? (int)$attribute['limit'] : $data->limit;
@@ -91,7 +93,6 @@ trait ProductTrait
 
     }
 
-
     public function featureUpdateHandler($features)
     {
         foreach ($features as $feature) {
@@ -106,9 +107,9 @@ trait ProductTrait
                 ["type_id" => $data->id, "attribute_id" => $attr->id]
             );
 
-            $feature->title = !empty($features['title']) ? $features['title'] : $feature->title;
-            $feature->value = !empty($features['value']) ? $features['value'] : $feature->value;
-            $feature->color = !empty($features['color']) ? $features['color'] : $feature->color;
+            $feature->title = !empty($feature['title']) ? $feature['title'] : $feature->title;
+            $feature->value = !empty($feature['value']) ? $feature['value'] : $feature->value;
+            $feature->color = !empty($feature['color']) ? $feature['color'] : $feature->color;
             $feature->save();
         }
     }
