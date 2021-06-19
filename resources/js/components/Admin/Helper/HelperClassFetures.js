@@ -12,6 +12,7 @@ export const NoralizeFetures = (data) => {
         });
         data[item].fetures.text.map((itemText) => {
             fetures.push({
+                id : itemText.id,
                 code: item,
                 title: itemText.name,
                 value: itemText.title,
@@ -21,6 +22,7 @@ export const NoralizeFetures = (data) => {
         data[item].fetures.color.map((itemColor) => {
             fetures.push({
                 code: item,
+                id : itemColor.id,
                 title: itemColor.name,
                 value: itemColor.title,
                 name: "رنگ",
