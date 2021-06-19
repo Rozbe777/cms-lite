@@ -103,14 +103,14 @@ trait ProductTrait
                 ['name' => $feature['name'], "attribute_id" => $attr->id]
             );
 
-            $feature = TypeFeature::firstOrCreate(
+            $typeFeature = TypeFeature::firstOrCreate(
                 ["type_id" => $data->id, "attribute_id" => $attr->id]
             );
 
-            $feature->title = !empty($feature['title']) ? $feature['title'] : $feature->title;
-            $feature->value = !empty($feature['value']) ? $feature['value'] : $feature->value;
-            $feature->color = !empty($feature['color']) ? $feature['color'] : $feature->color;
-            $feature->save();
+            $typeFeature->title = !empty($feature['title']) ? $feature['title'] : $typeFeature->title;
+            $typeFeature->value = !empty($feature['value']) ? $feature['value'] : $typeFeature->value;
+            $typeFeature->color = !empty($feature['color']) ? $feature['color'] : $typeFeature->color;
+            $typeFeature->save();
         }
     }
 
