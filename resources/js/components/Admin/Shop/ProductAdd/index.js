@@ -32,16 +32,15 @@ import Loading from "../../_Micro/Loading";
 
 const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, result: pushResult}) => {
 
-        console.log("proooooo  " , types)
     let mins = 10000000000;
     let maxs = 99999999999;
     let firstRand = Math.round(mins + Math.random() * (maxs - mins));
 
-    let defCounters = {num : firstRand};
+    let defCounters = {num: firstRand};
 
-    if (defaultValuePro && types !== "duplicate"){
+    if (defaultValuePro && types !== "duplicate") {
         defCounters = defaultValuePro.attributes[defaultValuePro.attributes.length - 1].product_code
-    }else {
+    } else {
 
     }
     const [counter, setCounter] = useState(defCounters);
@@ -63,7 +62,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
             }
     };
 
-    let normalDefalutAttr = defaultValuePro ? NormalAttrOnePro(defaultValuePro , types , counter.num) : defaultCol;
+    let normalDefalutAttr = defaultValuePro ? NormalAttrOnePro(defaultValuePro, types, counter.num) : defaultCol;
 
     const [attributes, setAttributes] = useState([
         {
@@ -104,7 +103,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     const [priceData, setPriceData] = useState(normalDefalutAttr);
 
-    console.log(")))))))))" , priceData)
+    console.log(")))))))))", priceData)
 
     let tags = [];
     const [edit, setEdit] = useState(false);
@@ -152,6 +151,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                         }
                     }
                 }
+                setChangeCheck(true)
                 setPriceData(newState)
                 return newState;
             case "count" :
@@ -165,6 +165,8 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                         }
                     }
                 }
+                setChangeCheck(true)
+
                 setPriceData(newStates)
                 return newStates;
             case "limit" :
@@ -178,6 +180,8 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                         }
                     }
                 }
+                setChangeCheck(true)
+
                 setPriceData(newStateLimit)
                 return newStateLimit;
 
@@ -197,6 +201,8 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                         }
                     }
                 }
+                setChangeCheck(true)
+
                 setPriceData(newStateText)
                 return newStateText;
 
@@ -216,6 +222,8 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                         }
                     }
                 }
+                setChangeCheck(true)
+
                 setPriceData(newStateColor)
                 return newStateColor;
 
@@ -235,6 +243,8 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                         }
                     }
                 }
+                setChangeCheck(true)
+
                 setPriceData(newStateColorVal)
                 return newStateColorVal;
 
@@ -244,8 +254,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
                 let counterCode = parseInt(now_num) + 1;
 
-                console.log(">>>?" , counterCode);
-
                 // counter.num = counterCode;
 
 
@@ -253,6 +261,8 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                     ...action.data,
                     [counterCode]: dataNew
                 };
+                setChangeCheck(true)
+
                 setPriceData(dataaa)
                 setCounter(counter)
                 return dataaa;
@@ -280,7 +290,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
     const [stateData, dispatchAttr] = useReducer(reducerAttr, priceData);
 
     const CreateNewProduct = (dataed) => {
-        console.log("dataaaaa_____" , dataed)
+        console.log("dataaaaa_____", dataed)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -555,7 +565,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
         let normal = NoralizeFetures(priceData);
         let checkValueFetures = CheckTextFetures(normal)
-        console.log("featuressss : " ,normal )
+        console.log("featuressss : ", normal)
 
         formOldData.metadata = JSON.stringify(metaDatas);
 
@@ -647,8 +657,11 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     const HandleAddNew = (e) => {
         e.preventDefault();
+
         let checkedFeatures = NoralizeFetures(priceData).fetures.length;
         if (checkedFeatures > 0) {
+            setChangeCheck(true)
+
             dispatchAttr({type: 'addNew', data: priceData})
         } else {
             ErrorToast("حداقل باید یک ویژگی اضافه کنید")
@@ -659,6 +672,8 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     const HandleFeture = (e) => {
         e.preventDefault();
+        setChangeCheck(true)
+
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<NewFeture close={e => closeFeture(e)}
                                    dataOut={item => AddFeture(item)}/>, document.getElementById("back-loaderedss"));
@@ -666,15 +681,19 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     const closeFeture = (e) => {
         e.preventDefault();
+
         $("#back-loaderedss").removeClass("active");
         ReactDOM.render('', document.getElementById("back-loaderedss"));
     }
 
     const AddFeture = (item) => {
         let newItemHead = {...defaultTableHead};
+
         let ressss = newItemHead.text.includes(item.name) || newItemHead.color.includes(item.name);
         if (!ressss) {
             if (item.type == "text") {
+                setChangeCheck(true)
+
                 newItemHead.text.push(item.name);
                 setDefaultTableHead(newItemHead);
                 Object.keys(priceData).map((items, index) => {
@@ -700,6 +719,8 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
             } else {
                 newItemHead.color.push(item.name);
                 setDefaultTableHead(newItemHead)
+
+                setChangeCheck(true)
 
                 Object.keys(priceData).map((items, index) => {
                     if (priceData[items].fetures.color.length > 0) {
@@ -747,15 +768,21 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     const HandleFetureText = (e, index, item) => {
         e.preventDefault();
+        setChangeCheck(true)
+
         dispatchAttr({type: "text", index, title: e.target.value, data: priceData, code: item})
     }
 
     const HandleFetureColorTit = (e, index, id) => {
         e.preventDefault();
+        setChangeCheck(true)
+
         dispatchAttr({type: "colorTit", index, title: e.target.value, data: priceData, code: id})
     }
     const HandleFetureColorVal = (e, index, id) => {
         e.preventDefault();
+        setChangeCheck(true)
+
         dispatchAttr({type: "colorVal", index, value: e.target.value, data: priceData, code: id})
     }
     const HandleFetureColorPicker = (hex, index, id, title) => {
@@ -766,7 +793,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
         $("span#color-selected." + title + "." + id).css({"color": "#000 !important"})
     }
     const renderFitureText = (dataIns, id) => {
-        console.log("text ", dataIns)
         return dataIns.map((item, index) => (
             <td id={"color-col"}>
                 <input type={"text"} id={"input-code-kala"}
@@ -803,11 +829,12 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
     const ChangeHeadTitleText = (e, index) => {
         e.preventDefault();
         let dataHead = {...defaultTableHead};
-        let priceNew = [...priceData];
+        let priceNew = {...priceData};
+        console.log("////<<<<" , dataHead , priceNew )
         dataHead.text[index] = e.target.value;
-        priceData.map((items, indexes) => {
-            items.fetures.text[index].name = e.target.value;
-            priceNew[indexes] = items;
+        Object.keys(priceData).map((items, indexes) => {
+            priceData[items].fetures.text[index].name = e.target.value;
+            // priceNew[items] = items;
             setPriceData(priceNew);
         })
         setDefaultTableHead(dataHead);
