@@ -827,9 +827,9 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     const ChangeHeadTitleText = (e, index) => {
         e.preventDefault();
+        setEdit(true)
         let dataHead = {...defaultTableHead};
         let priceNew = {...priceData};
-        console.log("////<<<<" , dataHead , priceNew )
         dataHead.text[index] = e.target.value;
         Object.keys(priceData).map((items, indexes) => {
             priceData[items].fetures.text[index].name = e.target.value;
@@ -841,6 +841,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
     const ChangeHeadTitleColor = (e, index) => {
         e.preventDefault();
         let dataHead = {...defaultTableHead};
+        setEdit(true)
         let priceNew = [...priceData];
         dataHead.color[index] = e.target.value;
         priceData.map((items, indexes) => {
@@ -853,7 +854,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     const handleDispatchAttr = (e, item, type, price, discount) => {
         e.preventDefault();
-        console.log("pricessss : ", priceData)
         $("#back-loaderedss").addClass("active");
         ReactDOMs.render(<Price priceDataOld
                                 discount={discount}
@@ -897,19 +897,13 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
     const deleteColAttr = (e, items) => {
         e.preventDefault();
         let priceChange = {...priceData};
-        console.log("data....3333", items, priceChange, stateData);
         if (Object.keys(priceData).length > 1) {
-            // Object.keys(priceData).filter(itemId => parseInt(itemId) !== parseInt(items));
             priceChange[items] ? delete priceChange[items] : '';
             setPriceData(priceChange)
-            // stateData[items] ? delete stateData[items] : '';
         } else {
             ErrorToast("محصول حداقل باید یک تنوع محصولی داشته باشد")
         }
     }
-
-    console.log("metadata : ", metaData)
-
     return (
         <>
             <div id={"category_add_pop_base"}>
@@ -1101,13 +1095,10 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
                                             </thead>
                                             <tbody>
-                                            {console.log("......", stateData, priceData, Object.keys(priceData).length == Object.keys(stateData).length)}
 
                                             {
                                                 Object.keys(priceData).length == Object.keys(stateData).length ?
                                                     Object.keys(stateData).map((item, index) => {
-                                                        console.log("________________stateDat");
-
                                                         return (
                                                             <tr>
                                                                 <td style={{maxWidth: '120px', padding: '0 10px'}}>
