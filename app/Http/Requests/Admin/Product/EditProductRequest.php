@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Product;
 
+use App\Rules\FeaturesTitleCheck;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EditProductRequest extends FormRequest
@@ -34,6 +35,7 @@ class EditProductRequest extends FormRequest
             "attributes.*.product_code" => "required|string",
             "attributes.*.count" => "nullable|numeric",
             "attributes.*.limit" => "nullable|numeric",
+            "features" => new FeaturesTitleCheck(),
             "features.*.name" => "string",
             "features.*.color" => "string|required_if:features.*.name,رنگ",
             "features.*.title" => "required_with:features.name|string",
