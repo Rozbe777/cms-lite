@@ -52,7 +52,6 @@ const Index = () => {
         setLoading(true);
         Request.GetAllProducts(dataSearch).then(res => {
             setProducts(res.data.data)
-            console.log("//////++++++" , res.data.data.data)
             setPerPage(res.data.data.per_page);
             setTotal(res.data.data.total);
             setLoading(false)
@@ -88,9 +87,6 @@ const Index = () => {
 
 
     const handleDeleteGroup = (event , idOne = null) => {
-
-
-        console.log("dataa_____", checkBox)
 
         let finalAllIds = {};
 
@@ -199,7 +195,6 @@ const Index = () => {
 
 
     const handleBackRef = (item) => {
-        console.log("...@@@@" , item)
         if (item.status == 200) {
             GetAllProducts(stringSearchs);
             ReactDom.render('', document.getElementById('add-product'))
@@ -224,8 +219,6 @@ const Index = () => {
 
 
     const paginate = (pageNumber) => {
-        // let pagess = stringSearchs ? "page=" + pageNumber + "&" + stringSearchs : "page=" + pageNumber;
-
         stringSearchs.page = pageNumber;
         setStringSearch({
                 page: pageNumber
@@ -276,16 +269,15 @@ const Index = () => {
                     stringed.page = 1;
                     setStringSearch(stringed)
 
-                    console.log("@@@@@@ " ,stringed)
                     GetAllProducts(stringed)
                 }}
                 />
 
                 <div className={"container-fluid"} style={{marginTop: '20px', padding: '0px 4px'}}>
                     <div className={"row"} style={{padding: 10}}>
-                        {loading === false ? Products.data.length > 0 ? Products.data.map(item => {
+                        {loading === false ? Products.data.length > 0 ? Products.data.map((item , index) => {
                             return (
-                                <Item data={item} checkStateOfOut={checked} sizeOf={Products.data.length}
+                                <Item key={index} data={item} checkStateOfOut={checked} sizeOf={Products.data.length}
                                       editClick={e => HandleEdit(e, item)}
                                       duplicated={e=> HandleDuplicate(e , item)}
                                       deleteClick={e => {

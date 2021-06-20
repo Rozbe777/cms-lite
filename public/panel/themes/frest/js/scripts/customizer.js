@@ -344,4 +344,21 @@
 			scrollTopBtn.removeClass("d-none");
 		}
 	});
+
+    $(document).ready(function () {
+
+        $("#customSwitch10").on("change", function () {
+            if ($(this).prop("checked")) {
+                $("body").addClass("active-darked");
+                localStorage.setItem("darked", "dark")
+            } else {
+                $("body").removeClass("active-darked");
+                localStorage.setItem("darked", "light")
+
+            }
+
+        })
+
+
+    })
 })(window, document, jQuery);

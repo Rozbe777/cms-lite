@@ -14,7 +14,6 @@ export const TreeShowPage = ({
                                  updateData: pushUpdateData
                              }) => {
 
-    console.log(">>>>>>>>>>>>>>>", data.data)
 
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
 
@@ -53,7 +52,6 @@ export const TreeShowPage = ({
         pushCallBack(item);
     }
     const HandleClick = (id) => {
-        console.log("tree id : ", id)
         pushItemCliks(id);
     }
     const HndleDuplicate = (item) => {
@@ -72,12 +70,12 @@ export const TreeShowPage = ({
     return (
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
             <ul className={"content-li"}>
-                {dataWithOutPaginate ? dataWithOutPaginate.map((keyName) => {
+                {dataWithOutPaginate ? dataWithOutPaginate.map((keyName , index) => {
                         return (
-                            <li style={{position: 'relative'}}>
+                            <li key={index} style={{position: 'relative'}}>
                                 <div className={"branch-top"}>
                                 </div>
-                                <Item key={keyName.id} name={keyName.title}
+                                <Item name={keyName.title}
                                       allData={keyName}
                                       id={keyName.id}
                                       status={keyName.status}

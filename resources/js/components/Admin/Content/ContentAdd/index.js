@@ -11,31 +11,23 @@ import './../../_Micro/TreeShow/_Shared/style.scss';
 import {MultiSelected} from "../../Shop/ProductManager/HOC/MultiSelected";
 import $ from "jquery";
 
-const LOCAL_CAT = "localcat-zerone-cmslite";
-const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result: pushResult}) => {
+const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: pushResult}) => {
 
-    const [categories, setCategorise] = useState([]);
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? dataGet.allData : '';
-    const [changeCheck,setChangeCheck] = useState(false)
+    const [changeCheck, setChangeCheck] = useState(false)
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
 
-    const [comments, setComments] = useState();
     const [clear, setClear] = useState(false)
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
     const [contentNew, setContentNew] = useState({});
-    const [statusNew, setStatusNew] = useState();
-    const [menuShow, setMenuShow] = useState();
     const [idSelCat, setIdSelCat] = useState([])
-    // const [MetaDataUpdate , setMetaDataUpdate] = useState({});
     const [ids, setIds] = useState(0)
     const [chipset, setChipset] = useState([]);
-    const [chipsetChange , setChipChange] = useState(false)
-    let tags = [];
+    const [chipsetChange, setChipChange] = useState(false)
     const [edit, setEdit] = useState(false);
     const [file, setFile] = useState();
-    const StatusSwitch = useRef(null);
     const [metaData, setMetaData] = useState({
         robots: false,
     });
@@ -49,6 +41,7 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
 
     let default_value = {
         is_menu: 0,
+        comment_status: "deactivate",
         status: "active",
         content: '',
         slug: ''
@@ -90,11 +83,12 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
             if (result.value) {
                 Request.AddNewContent(data)
                     .then(res => {
+                        pushResult(res);
                         $(".pagination li.page-item.numberss").removeClass("active")
                         $(".pagination li#1.page-item.numberss").addClass("active")
                         pushCheckChange(true);
                         $("span.checkboxeds").removeClass("active");
-                        pushResult(res);
+
                         setClear(true)
                         localStorage.removeItem("is_menu");
                         localStorage.removeItem("status");
@@ -109,13 +103,14 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
                         })
 
                     }).catch(err => {
-                    // pushCheckChange(true)
-                    if (err.response.data.errors) {
-                        ErroHandle(err.response.data.errors);
-                    } else {
-                        //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
-                        ErrorToast("خطای غیر منتظره ای رخ داده است")
-                    }
+                        if (err.response){
+                            if (err.response.data.errors) {
+                                ErroHandle(err.response.data.errors);
+                            } else {
+                                ErrorToast("خطای غیر منتظره ای رخ داده است")
+                            }
+                        }
+
                 })
             }
         });
@@ -136,8 +131,9 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
         setIds(formNews.id);
         setFormData({
             content: formNews.content,
-            is_index: formNews.is_index,
             is_menu: formNews.is_menu,
+            status: formNews.status,
+            comment_status: formNews.comment_status,
             metadata: formNews.metadata,
             slug: formNews.slug,
             title: formNews.title,
@@ -157,6 +153,7 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
         setFormData({
             is_menu: 0,
             status: "active",
+            comment_status: "active",
             content: '',
             slug: ''
         });
@@ -236,7 +233,7 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
         formNew.status = status;
         formNew.comment_status = comment_status;
         formNew.image = file;
-        formNew.is_menu = is_menu;
+        formNew.is_menu = parseInt(is_menu);
         if (slugManage == false) {
             formNew.slug = formNew.title;
         } else {
@@ -317,13 +314,10 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
                             confirmButtonClass: 'btn btn-success',
                             confirmButtonText: 'باشه',
                         })
-
                     }).catch(err => {
-
                     if (err.response.data.errors) {
                         ErroHandle(err.response.data.errors);
                     } else {
-                        //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
                         ErrorToast("خطای غیر منتظره ای رخ داده است")
                     }
                 })
@@ -376,7 +370,6 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
         formOldData.slug = slug;
         formOldData.comment_status = comment_status;
         formOldData.is_menu = parseInt(is_menu);
-        // console.log("data duplicate : " , formOldData);
         CreateAddContent(formOldData);
     }
 
@@ -420,7 +413,6 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
     }
     const HandleSelectOption = (check) => {
         setEdit(true)
-        console.log("data checked : ", check)
         localStorage.setItem("selected", check)
     }
 
@@ -459,12 +451,14 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
                     <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
                        role="tab" aria-selected="true">
                         <span className="align-middle">محتوا</span>
+                        <i id={"visible-custom"} className={"bx bxs-pencil"}></i>
                     </a>
                 </li>
                 <li className="nav-item col-6 nav-custom ">
                     <a className="nav-link" id="seo-tab" data-toggle="tab" href="#seo" aria-controls="seos"
                        role="tab" aria-selected="false">
                         <span className="align-middle">سئو و آدرس</span>
+                        <i id={"visible-custom"} className={"bx bxl-internet-explorer"}></i>
                     </a>
                 </li>
             </ul>
@@ -473,7 +467,7 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
                     <div className={"content-pages"}>
 
                         <div className={"row"} style={{padding: '20px'}}>
-                            <div className={"col-lg-6 col-md-12 col-sm-12"} style={{paddingTop: 5}}>
+                            <div className={"col-lg-4 col-md-8 col-sm-12"} style={{paddingTop: 5}}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان محتوا</label>
                                     <input type={"text"} defaultValue={HandleMakeName()} onChange={e => handleInput(e)}
@@ -482,6 +476,16 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
                                 </fieldset>
                             </div>
 
+                            <div className={"col-lg-2 col-md-3 col-sm-12"}>
+                                <fieldset className="form-group">
+                                    <label id={"selectParent"}>نظرسنجی</label>
+                                    <Switcher
+                                        defaultState={dataUpdateParse ? dataUpdateParse.comment_status == "active" ? true : false : false}
+                                        status={(state) => handleSwitchComment(state)} name={"showCommentStatus"}
+                                        valueActive={"فعال"}
+                                        valueDeActive={"غیرفعال"}/>
+                                </fieldset>
+                            </div>
                             <div className={"col-lg-2 col-md-3 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>وضعیت نمایش</label>
@@ -572,8 +576,8 @@ const ContentAdd = ({checkChange : pushCheckChange , display, dataUpdate, result
                                                     callback={item => handleAddChip(item)}/>
                                             </div>
 
-                                            {chipset.map(item => (
-                                                <div className="chip mr-1">
+                                            {chipset.map((item, index) => (
+                                                <div key={index} className="chip mr-1">
                                                     <div className="chip-body">
                                                         <span className="chip-text">{item}</span>
                                                         <div className="chip-closeable"

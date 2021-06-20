@@ -16,7 +16,6 @@ export const Switcher = ({defaultState, name, valueActive, valueDeActive, status
             }
         })
     })
-    console.log("state default:" , defaultState)
     return (
         <div className={"switch-container"}>
             {defaultState ? (

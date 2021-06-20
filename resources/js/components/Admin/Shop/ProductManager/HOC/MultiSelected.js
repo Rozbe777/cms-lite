@@ -66,11 +66,7 @@ export const MultiSelected = ({
     }, [])
 
 
-    console.log("interval : ", interValOptionsss)
-
-
     const HandleChange = (e, id) => {
-        console.log("nammmmmm : " , name)
         let checkBoxCustom = $("span." + name + ".checkboxeds." + id);
         let checked = [...check];
         if (e.target.checked) {
@@ -123,10 +119,10 @@ export const MultiSelected = ({
                         pagination={{clickable: true}}
                         scrollbar={{draggable: true}}
                         // onSlideChange={(e) => CheckWidth(e)}
-                        // onSwiper={(swiper) => console.log(swiper)}
+
                     >
-                        {check ? check.map(item => (
-                                <SwiperSlide key={item.id} virtualIndex={item.id}>
+                        {check ? check.map((item , index) => (
+                                <SwiperSlide key={index} virtualIndex={item.id}>
                                     <div className={"chip mr-1"} style={{background: '#1976d2', color: '#fff'}}>
                                         <div className={"chip-body"}>
                                         <span className={"chip-text"}
@@ -152,8 +148,8 @@ export const MultiSelected = ({
 
             <div className={"optionBox float_on"} id={"selected"}>
                 <ul id={name}>
-                    {data.length > 0 ? data.map(item => (
-                        <li>
+                    {data.length > 0 ? data.map((item , index) => (
+                        <li key={index}>
                             <fieldset>
                                 <span className={"checkboxeds " + item.id+" "+name} style={{color: '#fff'}}>
                                     <i className={"bx bx-check"}></i>
@@ -168,8 +164,8 @@ export const MultiSelected = ({
 
                             {item.childern ? item.childern.length > 0 ? (
                                 <ul style={{padding: '10px 10px 0 0'}}>
-                                    {item.childern.map(child2 => (
-                                        <li>
+                                    {item.childern.map((child2 , index2) => (
+                                        <li key={index2}>
                                             <fieldset>
                                                 <span style={{float: 'right'}}>></span>
                                                 <span className={"checkboxeds " + child2.id+" "+name} id={"child2"}
@@ -186,8 +182,8 @@ export const MultiSelected = ({
 
                                             {child2.children.length > 0 ? (
                                                 <ul style={{padding: '5px 10px 0 0'}}>
-                                                    {child2.children.map(child3 => (
-                                                        <li>
+                                                    {child2.children.map((child3 , index3) => (
+                                                        <li key={index3}>
                                                             <fieldset>
                                                                 <span style={{float: 'right'}}>>></span>
 

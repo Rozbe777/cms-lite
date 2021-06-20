@@ -3,7 +3,6 @@ import './_Shared/style.scss'
 import $ from 'jquery';
 export const BigSwitcher = ({name ,defaultStatus, valueOne ,valueTow ,valueThree , status:pushStatus }) => {
 
-    console.log("default value : " , defaultStatus);
 
     useEffect(()=>{
         $("ul#bigest li").removeClass("act")
@@ -40,10 +39,10 @@ export const BigSwitcher = ({name ,defaultStatus, valueOne ,valueTow ,valueThree
             <div className={"switch-container"}>
                 <ul id={"bigest"}>
                     <li id={"false"} className={"deactive"}>
-                        <input onChange={handleBig("false" , name)} id={"false"} cont={"false"} type={"radio"} name={name}  />
+                        <input onChange={handleBig("false" , name)} cont={"false"} type={"radio"} name={name}  />
                         {valueOne}</li>
                     <li id={"nf"} className={"active"}>
-                        <input onChange={handleBig("nf" , name)} id cont={"nf"} type={"radio"} name={name} />
+                        <input onChange={handleBig("nf" , name)} cont={"nf"} type={"radio"} name={name} />
                         {valueTow}
                     </li>
                     <li id={"nn"} className={"active"}>
