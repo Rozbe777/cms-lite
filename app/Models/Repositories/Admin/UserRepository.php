@@ -30,7 +30,7 @@ class UserRepository implements RepositoryInterface
         })->when($status != null, function ($query) use ($status) {
             $query->where('status', $status);
         })->orderByDesc('id')->
-            paginate(config('view.pagination'));
+            paginate($pageSize);
     }
 
     public function get($id)

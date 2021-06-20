@@ -37,6 +37,8 @@ Route::get('a', function () {
 //    $notifire->body(['verify','23232']);
 //    $notifire->from('form');
 //    $notifire->send();
+
+    $x = (new \App\Classes\Payment\Bank\ZarinPal\ZarinpalRequest())->request();
 });
 
 Route::get('/', function () {
