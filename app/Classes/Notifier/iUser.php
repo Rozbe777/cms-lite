@@ -4,6 +4,4 @@
 namespace App\Classes\Notifier;
 
 
-interface iUser
-{
-}
+interface iUser{}
