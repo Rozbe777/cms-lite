@@ -101,16 +101,14 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
                             confirmButtonClass: 'btn btn-success',
                             confirmButtonText: 'باشه',
                         })
-
                     }).catch(err => {
-                        if (err.response){
-                            if (err.response.data.errors) {
-                                ErroHandle(err.response.data.errors);
-                            } else {
-                                ErrorToast("خطای غیر منتظره ای رخ داده است")
-                            }
+                    if (err.response) {
+                        if (err.response.data.errors) {
+                            ErroHandle(err.response.data.errors);
+                        } else {
+                            ErrorToast("خطای غیر منتظره ای رخ داده است")
                         }
-
+                    }
                 })
             }
         });

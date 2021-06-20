@@ -67,17 +67,12 @@ export const Item = ({
 
 
     useEffect(() => {
-
+        // $("span#sub-menu-custom").click(function () {
+        //     console.log("vsvsd")
+        //     // $(this).parents("#li-div").find(".pageIt#moreOpp." + id).toggleClass("active")
+        //     // $(this).find('i.' + id).toggleClass("active");
+        // })
     }, [])
-
-
-    $(function (){
-        $("span#sub-menu-custom").click(function () {
-            $(this).parents("#li-div").find(".pageIt#moreOpp." + id).toggleClass("active")
-            $(this).find('i.' + id).toggleClass("active");
-        })
-    })
-
 
 
     // handle edit single item by id and data
@@ -111,10 +106,10 @@ export const Item = ({
     //
     // }
 
-    const handleClickOpt = (e) => {
-        console.log("......" , e.target.nodeName)
+    const HandleCheckClick = (e, id) => {
+        e.preventDefault();
+        // console.log("vsdvsdv")
     }
-
 
     return (
         <div id={"li-div"} className={"mini"}>
@@ -131,7 +126,7 @@ export const Item = ({
                     </fieldset>
                     <span id={"item-tree-show"}>{name}</span>
 
-                    <span id={"sub-menu-custom"} onClick={e => handleClickOpt(e)}>
+                    <span id={"sub-menu-custom"} >
                     <i className={"bx bx-chevron-down " + id}></i>
                 </span>
                 </div>

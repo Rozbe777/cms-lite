@@ -27,12 +27,12 @@ export const Item = ({
     }, [])
 
 
-    $(function (){
-        $("span#sub-menu-custom").click(function () {
-            $(this).parents("#li-div").find("#moreOpp." + id).toggleClass("active")
-            $(this).find('i.' + id).toggleClass("active");
-        })
-    })
+    // $(function (){
+    //     $("span#sub-menu-custom").click(function () {
+    //         $(this).parents("#li-div").find("#moreOpp." + id).toggleClass("active")
+    //         $(this).find('i.' + id).toggleClass("active");
+    //     })
+    // })
 
 
 
