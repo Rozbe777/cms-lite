@@ -23,7 +23,7 @@ class PermissionSeeder extends Seeder
             [
                 [
                     'weight' => 1,
-                    'icon' => 'flaticon-multiple-users-silhouette',
+                    'icon' => 'bx-home-alt',
                     'is_menu' => 1,
                     "name" => "dashboard.index",
                     "display_name" => "پیشخوان",
@@ -31,38 +31,41 @@ class PermissionSeeder extends Seeder
                 ],
                 [
                     'weight' => 5,
-                    'icon' => 'flaticon-multiple-users-silhouette',
+                    'icon' => 'bx-detail',
                     'is_menu' => 1,
-                    "name" => "contents.blade",
+                    "name" => "content.blade",
                     "display_name" => "محتوا ها",
                     "children" => [
-                        ['icon' => 'flaticon-multiple-users-silhouette',
+                        [
+                            'icon' => 'bx-sitemap',
                             'is_menu' => 1,
-                            "name" => "categories.index",
+                            "name" => "category.index",
                             "display_name" => "دسته بندی ها"],
                     ]
                 ],
                 [
                     'weight' => 10,
-                    'icon' => 'flaticon-multiple-users-silhouette',
+                    'icon' => 'bx-square-rounded',
                     'is_menu' => 1,
-                    "name" => "pages.blade",
+                    "name" => "page.blade",
                     "display_name" => "صفحات",
                     "children" => []
                 ],
                 [
                     'weight' => 50,
-                    'icon' => 'flaticon-multiple-users-silhouette',
+                    'icon' => 'bx-group',
                     'is_menu' => 1,
-                    "name" => "users.blade",
+                    "name" => "user.blade",
                     "display_name" => "کاربران",
                     "children" => [
                         [
+                            'icon' => 'user-plus',
                             'is_menu' => 1,
-                            "name" => "users.create",
+                            "name" => "user.create",
                             "display_name" => "افزودن کاربر"
                         ],
                         [
+                            'icon' => 'bx-directions',
                             'is_menu' => 1,
                             "name" => "roles.index",
                             "display_name" => "دسترسی"

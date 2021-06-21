@@ -2,12 +2,12 @@
 @php($title = "محصول")
 @section("content")
 
-    <div class="content-wrapper" style="padding: 0px !important;margin: 0px">
+    <div class="content-wrapper" style="padding: 0px 0px !important;margin : 0px !important;">
+        <div id="shop_product_manager" style="border-top : 1px solid #eee">
 
-        <div id="content-manager" style="border-top : 1px solid #eee"></div>
+        </div>
 
     </div>
-
 
 
 
