@@ -93,6 +93,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
         setIds(formNews.id)
         setFormData({
+            id : formNews.id,
             name : formNews.name,
             slug : formNews.slug,
             image : formNews.image,

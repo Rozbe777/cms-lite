@@ -279,6 +279,11 @@ export const CategoryList = () => {
                 <BackLoader states={item => (HandleAddContentSelect(item))}/>
                 <div id={"add-datas"}></div>
                 <BottomNavigationBar userData={categoryData} deleteAll={e => handleDeleteGroup(e)}/>
+
+            </div>
+
+            <div className={"float-btn-add"} onClick={e => handleAddCategory(e)}>
+                <i className="bx bx-plus"></i>
             </div>
         </CHECK_BOX_CONTENT.Provider>
     )
