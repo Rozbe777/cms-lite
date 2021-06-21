@@ -6,7 +6,7 @@ const MyEditor = ({label , placeholder , defaultVal , type , editorData : pushEd
     const [editorData , setEditorData] = useState({});
     const editorRef = useRef();
     useEffect(() => {
-        console.log(editorRef.current.editor.core);
+        // console.log(editorRef.current.editor.core);
     }, []);
 
 

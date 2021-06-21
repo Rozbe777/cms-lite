@@ -36,7 +36,6 @@ export const PageList = (props) => {
     });
 
 
-
     const GetAllPages = () => {
         setLoading(true)
         Request.GetAllPages()
@@ -72,7 +71,7 @@ export const PageList = (props) => {
 
     const handleAddPage = () => {
         ReactDom.render(<PageAdd display={true} dataUpdate={''} idParent={0}
-                                    result={item => handleBackPage(item)}/>, document.getElementById("add-datas"))
+                                 result={item => handleBackPage(item)}/>, document.getElementById("add-datas"))
     }
 
 
@@ -81,7 +80,6 @@ export const PageList = (props) => {
             GetAllPages();
             ReactDom.render('', document.getElementById("add-datas"))
         } else {
-            console.log("error in add : ", item)
         }
     }
 
@@ -95,7 +93,6 @@ export const PageList = (props) => {
         if (status == 200) {
             GetAllPages();
         } else {
-            console.log("you have an error");
         }
     }
 
@@ -113,7 +110,6 @@ export const PageList = (props) => {
         }
     }
 
-
     const HandleAddPageSelect = (data) => {
         handleAddPage();
     }
@@ -123,24 +119,22 @@ export const PageList = (props) => {
         if (status == 200) {
             GetAllPages();
         } else {
-            console.log("you have an error");
         }
     }
     const handleClickItemPage = (clickId) => {
         ReactDom.render(<PageAdd display={true} idParent={clickId}
-                                    dataUpdate={''}
-                                    result={item => handleBack(item)}/>, document.getElementById("add-datas"))
+                                 dataUpdate={''}
+                                 result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
     const HandleDeletePage = (status) => {
         if (status == 200) {
             GetAllPages();
         } else {
-            console.log("you have an error");
         }
     }
     const HandleBackLoaderPage = (data) => {
         ReactDom.render(<PageAdd display={true} dataUpdate={data} idParent={0}
-                                    result={item => handleBack(item)}/>, document.getElementById("add-datas"))
+                                 result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
 
     if (checkBox.length > 0) {
@@ -198,26 +192,23 @@ export const PageList = (props) => {
 
 
     const paginate = (pageNumber) => {
-        // let pagess = stringSearchs ? "page=" + pageNumber + "&" + stringSearchs : "page=" + pageNumber;
 
-
+        $(".backLoadings").fadeIn();
         GetAllPages();
-        $("li.page-item").removeClass("active");
         if (pageNumber == Math.ceil(total / perPage)) {
             $("li.page-item.next").css("opacity", 0.4);
             $("li.page-item.previous").css("opacity", 1);
         } else if (pageNumber == 1) {
+            $("li.page-item.numberss").removeClass("active");
+            $("li.page-item.numberss." + pageNumber).addClass("active");
             $("li.page-item.next").css("opacity", 1);
             $("li.page-item.previous").css("opacity", 0.4);
         } else {
             $("li.page-item.next").css("opacity", 2);
             $("li.page-item.previous").css("opacity", 2);
         }
-        $("li#" + pageNumber).addClass("active");
     };
 
-
-    console.log("checkkkkk ,", checkBox)
 
     return (
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
@@ -229,7 +220,7 @@ export const PageList = (props) => {
                 </div>
 
                 <div className={"loaderErrorBack"}>
-                    <div clssName={"container"}>
+                    <div className={"container"}>
                         <div className={"row justify-content-center"}>
                             <div className={"col-lg-4 col-md-5 col-sm-10"} style={{top: '14vh'}}>
                                 <div className={"cardError"}>
@@ -245,22 +236,22 @@ export const PageList = (props) => {
 
                 <div className="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">
                     {loading === false && pageData.data ? pageData.data.data.length > 0 ? (
-                        <TreeShowPage handleCata={itemCat => console.log("cat back ,", itemCat)}
-                                      duplicate={item => HandleDuplicate(item)}
-                                      itemClicks={clicks => handleClickItemPage(clicks)}
-                                      callBack={item => HandleDeletePage(item)}
-                                      delClick={item => HandleDeletePage(item)}
-                                      updateData={item => HandleBackLoaderPage(item)}
-                                      token={token}
-                                      data={pageData}
-                                      loading={loading}/>
+                        <TreeShowPage
+                            duplicate={item => HandleDuplicate(item)}
+                            itemClicks={clicks => handleClickItemPage(clicks)}
+                            callBack={item => HandleDeletePage(item)}
+                            delClick={item => HandleDeletePage(item)}
+                            updateData={item => HandleBackLoaderPage(item)}
+                            token={token}
+                            data={pageData}
+                            loading={loading}/>
                     ) : (
                         <div>
-                            <NotFound />
+                            <NotFound/>
                             <div id={"maines"}>
                                 <button id="add-category"
                                         onClick={(e) => handleAddPage(e)}
-                                        style={{width: 180 , marginTop : '35px'}}
+                                        style={{width: 180, marginTop: '35px'}}
                                         className="btn btn-primary glow mr-1 mb-1"
                                         type="button">
                                     <span className="align-middle ml-25">افزودن صفحه</span>
@@ -273,26 +264,29 @@ export const PageList = (props) => {
                 </div>
 
 
-                <BackLoader states={item => (HandleAddPageSelect(item))} />
+                <BackLoader states={item => (HandleAddPageSelect(item))}/>
                 <div id={"add-datas"}></div>
-                {console.log("paginatesss : ", pageData.data)}
-                <div className="col-md-12">
-                    {pageData.data ? pageData.data.length ? (
-                        <Pagination
-                            firstPageUrl={pageData.first_page_url}
-                            lastPageUrl={pageData.last_page_url}
-                            currentPage={pageData.cuerrent_page}
-                            perPage={perPage}
-                            users={pageAll}
-                            total={total}
-                            paginate={paginate}
-                        />
-                    ) : '' : ''}
+                {/*<div className="col-md-12">*/}
+                {/*    {pageAll.data ? pageAll.data.length ? (*/}
+                {/*        <Pagination*/}
+                {/*            firstPageUrl={pageAll.first_page_url}*/}
+                {/*            lastPageUrl={pageAll.last_page_url}*/}
+                {/*            currentPage={pageAll.cuerrent_page}*/}
+                {/*            perPage={perPage}*/}
+                {/*            users={pageAll}*/}
+                {/*            total={total}*/}
+                {/*            paginate={paginate}*/}
+                {/*        />*/}
+                {/*    ) : '' : ''}*/}
 
-                </div>
-                {console.log("///////page" , pageData)}
+                {/*</div>*/}
                 <BottomNavigationBar userData={pageData ? pageData.data : []} deleteAll={e => handleDeleteGroup(e)}/>
             </div>
+
+            <div className={"float-btn-add"} onClick={e => handleAddPage()}>
+                <i className="bx bx-plus"></i>
+            </div>
+
         </CHECK_BOX_CONTENT.Provider>
     )
 }

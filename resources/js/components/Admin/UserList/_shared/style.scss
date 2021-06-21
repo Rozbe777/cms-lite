@@ -104,6 +104,7 @@
             float: left;
             padding: 0px 5px;
             color: #727E8C;
+
             &:hover {
                 color: #727E8C;
             }
@@ -127,7 +128,7 @@
         }
     }
 
-    a.moreOptions {
+    .moreOptions {
         float: left;
         width: 30px;
         height: 30px;
@@ -159,9 +160,10 @@
             -moz-transition: 0.3s all ease;
 
             &.activeSet {
-                opacity: 1;
-                z-index: 1;
+                opacity: 1 !important;
+                z-index: 1 !important;
                 left: 40px;
+                display: block !important;
                 transition: 0.3s all ease;
                 -webkit-transition: 0.3s all ease;
                 -moz-transition: 0.3s all ease;
@@ -223,7 +225,8 @@
     transition: .3s all ease;
     -webkit-transition: .3s all ease;
     -moz-transition: .3s all ease;
-    &.active{
+
+    &.active {
         bottom: 0px;
         z-index: 999;
         opacity: 1;
@@ -232,6 +235,7 @@
         -webkit-transition: .3s all ease;
         -moz-transition: .3s all ease;
     }
+
     .counter-seleced {
         position: absolute;
         right: 10px;
@@ -249,9 +253,10 @@
         transition: .3s all ease;
         -webkit-transition: .3s all ease;
         -moz-transition: .3s all ease;
-        &.active{
+
+        &.active {
             opacity: 1;
-            top : -25px;
+            top: -25px;
             transition: .3s all ease;
             -webkit-transition: .3s all ease;
             -moz-transition: .3s all ease;
@@ -410,25 +415,28 @@ a {
 
 }
 
-.filter-content-fix#userlist{
-    height : 270px !important;
+.filter-content-fix#userlist {
+    height: 270px !important;
 }
 
-#headerContent #totalAction.activeAction{
+#headerContent #totalAction.activeAction {
     padding: 10px 15px !important;
 }
-#search_input{
+
+#search_input {
     height: 47px !important;
-    &::placeholder{
+
+    &::placeholder {
         text-align: right !important;
     }
 }
 
 
-.search-input-float input{
+.search-input-float input {
     height: 40px !important;
 }
-.users-list-table{
+
+.users-list-table {
     min-height: 350px !important;
 
 }

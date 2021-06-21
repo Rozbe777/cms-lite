@@ -176,8 +176,6 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
             setMetaData(metaDatas);
         }
 
-        console.log("iiiiii : ", metaDatas)
-
     }
 
 
@@ -243,7 +241,6 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
     }
 
     const HandleUpdateForm = (data, id) => {
-        console.log("iiii", data)
         swal({
             title: 'ویرایش صفحه',
             text: "آیا مطمئنید؟",
@@ -296,6 +293,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
+        let is_index = localStorage.getItem("is_index") ? localStorage.getItem("is_index") : formData.is_index;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
@@ -304,8 +302,8 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         formOldData.status = status;
         formOldData.comment_status = comment_status;
         formOldData.is_menu = parseInt(is_menu);
+        formOldData.is_index = parseInt(is_index);
         delete formOldData.tag_list;
-        console.log("iiiii edit", formOldData)
         HandleUpdateForm(formOldData, ids);
     }
 
@@ -323,7 +321,6 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
         formOldData.metadata = JSON.stringify(metaDatas);
-        console.log("dataaaaa : ", metaDatas)
         formOldData.status = status;
         formOldData.title = title;
         formOldData.slug = slug;
@@ -373,7 +370,6 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
     }
     const HandleSelectOption = (check) => {
         setEdit(true)
-        console.log("data checked : ", check)
         localStorage.setItem("selected", check)
     }
 
@@ -411,12 +407,14 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                     <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
                        role="tab" aria-selected="true">
                         <span className="align-middle">اطلاعات صفحه</span>
+                        <i id={"visible-custom"} className={"bx bxs-pencil"}></i>
                     </a>
                 </li>
                 <li className="nav-item col-6 nav-custom ">
                     <a className="nav-link" id="seo-tab" data-toggle="tab" href="#seo" aria-controls="seos"
                        role="tab" aria-selected="false">
                         <span className="align-middle">سئو و آدرس</span>
+                        <i id={"visible-custom"} className={"bx bxl-internet-explorer"}></i>
                     </a>
                 </li>
             </ul>
@@ -541,7 +539,6 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                                 </div>
                             </div>
 
-                            {console.log("//////////////////", MetaDataUpdate)}
                             <div className={"col-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان صفحه ( حداکثر 60 حرف )</label>
@@ -577,8 +574,8 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                                                 <ChipsetHandler callback={item => handleAddChip(item)}/>
                                             </div>
 
-                                            {chipset.map(item => (
-                                                <div className="chip mr-1">
+                                            {chipset.map((item , index) => (
+                                                <div  key={index} className="chip mr-1">
                                                     <div className="chip-body">
                                                         <span className="chip-text">{item}</span>
                                                         <div className="chip-closeable"

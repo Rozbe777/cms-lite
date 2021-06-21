@@ -43,17 +43,25 @@ const UserList = memo((props) => {
 
     let GetAllUser = (datass) => {
 
+
         setLoading(true);
         Request.GetAllUserApi(datass)
             .then(res => {
-                    setLoading(false)
-                    setUserData(res.data.data);
-                    setPerPage(res.data.data.per_page);
-                    setTotal(res.data.data.total);
-                    setAllUser(res.data.data.data);
+                $(".backLoadings").fadeOut();
+                $("html, body").animate({scrollTop: 0}, 700);
+
+
+
+
+                setLoading(false)
+                setUserData(res.data.data);
+                setPerPage(res.data.data.per_page);
+                setTotal(res.data.data.total);
+                setAllUser(res.data.data.data);
+
 
             }).catch(err => {
-            return err
+            ErrorToast("خطای غیر منتظره ای رخ داده است")
         })
     }
 
@@ -127,30 +135,26 @@ const UserList = memo((props) => {
     const indexOfFirstUser = indexOfLastUser - perPage;
     const currentUsers = allUser.slice(indexOfFirstUser, indexOfLastUser);
     const paginate = (pageNumber) => {
-        // let pagess = stringSearchs ? "page=" + pageNumber + "&" + stringSearchs : "page=" + pageNumber;
-
-        console.log("itemssss : " , pageNumber)
         stringSearchs.params.page = pageNumber;
         setStringSearch({
             params: {
                 page: pageNumber
             }
         });
-
+        $(".backLoadings").fadeIn();
         GetAllUser(stringSearchs);
-
         if (pageNumber == Math.ceil(total / perPage)) {
             $("li.page-item.next").css("opacity", 0.4);
             $("li.page-item.previous").css("opacity", 1);
         } else if (pageNumber == 1) {
+            $("li.page-item.numberss").removeClass("active");
+            $("li.page-item.numberss."+pageNumber).addClass("active");
             $("li.page-item.next").css("opacity", 1);
             $("li.page-item.previous").css("opacity", 0.4);
         } else {
             $("li.page-item.next").css("opacity", 2);
             $("li.page-item.previous").css("opacity", 2);
         }
-        // $("ul.pagination li.numberss").removeClass("active");
-        // $("ul.pagination li.numberss#" + pageNumber).addClass("active");
     };
 
 
@@ -176,6 +180,10 @@ const UserList = memo((props) => {
             if (result.value) {
                 Request.GroupDelUser(finalAllIds)
                     .then(res => {
+                        $("li.page-item.numberss").removeClass("active");
+                        $("li.page-item").eq(1).addClass("active");
+                        $("li.page-item.next").css("opacity", 1);
+                        $("li.page-item.previous").css("opacity", 0.4);
                         setCheckBox([])
                         Swal.fire({
                             type: "success",
@@ -184,6 +192,7 @@ const UserList = memo((props) => {
                             confirmButtonClass: 'btn btn-success',
                             confirmButtonText: 'باشه',
                         })
+
 
                         stringSearchs.params.page = 1;
 
@@ -218,7 +227,6 @@ const UserList = memo((props) => {
                     <BreadCrumbs data={breadData}/>
                 </div>
 
-                {/*{console.log("total ", total ? total : '')}*/}
                 <SearchComponent total={total} searchRes={items => {
                     Object.keys(items).forEach((key, value) => {
                         setSearch(true)
@@ -239,6 +247,13 @@ const UserList = memo((props) => {
 
                     })
 
+
+
+                    $("li.page-item.numberss").removeClass("active");
+                    $("li.page-item").eq(1).addClass("active");
+                    $("li.page-item.next").css("opacity", 1);
+                    $("li.page-item.previous").css("opacity", 0.4);
+
                     stringSearchs.params.page = 1;
                     GetAllUser(stringSearchs)
                 }}/>
@@ -258,14 +273,23 @@ const UserList = memo((props) => {
                     </div>
 
                     <div className="users-list-table container-fluid">
-                        <div className={"row userListRow"}>
-                            {userData.data ? userData.data.length > 0 ? userData.data.map(items => (
+                        <div className={"row userListRow"} style={{position: 'relative'}}>
+                            {userData.data ? userData.data.length > 0 ? userData.data.map((items , index) => (
 
-                                    <Item props={items}/>
+                                    <Item  key={index} props={items}/>
 
                                 )) :
-                                <NotFound /> :
+                                <NotFound/> :
                                 <Loading/>}
+
+
+                            <div className={"backLoadings"}>
+                                <div className="spinner-border spinner-border-lg text-info" id={"loading-load"}
+                                     role="status">
+                                    <span className="sr-only">در حال بارگذاری ...</span>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div className="col-md-12">
@@ -285,6 +309,7 @@ const UserList = memo((props) => {
 
                     </div>
                 </form>
+
 
                 <BottomNavigationBar userData={userData} deleteAll={e => handleDeleteGroup(e)}/>
             </>

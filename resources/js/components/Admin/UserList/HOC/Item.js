@@ -7,25 +7,20 @@ export const Item = (props) => {
 
     useEffect(() => {
         let interValOption;
-        $("a.moreOptions").mouseover(function (e) {
-            clearInterval(interValOption)
-            interValOption = setInterval(() => {
-                $("a.moreOptions ul").removeClass("activeSet")
-                let elems = $('ul ', this);
-                elems.addClass("activeSet");
-            }, 300)
+        $(".moreOptions").mouseover(function (e) {
+
+            let elems = $('ul ', this);
+            $("span.moreOptions ul").removeClass("activeSet")
+            elems.addClass("activeSet");
         })
-        $("a.moreOptions").mouseout(function (e) {
-            clearInterval(interValOption)
-            interValOption = setInterval(() => {
-                $("a.moreOptions ul").removeClass("activeSet")
-            }, 300)
+        $(".moreOptions").mouseout(function (e) {
+            $(".moreOptions ul").removeClass("activeSet")
         })
     }, [])
 
     const [data, setData] = useState({})
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT);
-    let {id, name , last_name, email, persianStatus, userRole, mobile} = props.props;
+    let {id, name, last_name, email, persianStatus, userRole, mobile} = props.props;
 
     const checkBoxCheck = (e) => {
         let dataCheck = [...checkBox];
@@ -84,8 +79,8 @@ export const Item = (props) => {
                             <label htmlFor={id}></label>
                         </div>
                     </fieldset>
-                    <span>
-                <a className={"role"}>{name + " " +last_name}</a>
+                    <span id={"inRespo"}>
+                <a className={"role"}>{name + " " + last_name}</a>
             </span>
 
                     <span className={"d-none d-lg-block"}>
@@ -102,11 +97,11 @@ export const Item = (props) => {
             </span>
 
 
-                    <a className={"moreOptions"}>
+                    <div className={"moreOptions"}>
                         <i id={"moreicon"} className={"bx bx-dots-vertical-rounded"}></i>
                         <ul>
 
-                            <a style={{color : '#727E8C'}} href={"users/"+id+"/edit"}>
+                            <a style={{color: '#727E8C'}} href={"users/" + id + "/edit"}>
                                 <li>
                                     <i className={"bx bxs-pencil"}></i>
                                     ویرایش
@@ -114,7 +109,7 @@ export const Item = (props) => {
                             </a>
 
                         </ul>
-                    </a>
+                    </div>
                     <a className={"more-details"} onClick={e => openMoreDet(e)}>
                         <i className={"bx bxs-show"}></i>
                     </a>

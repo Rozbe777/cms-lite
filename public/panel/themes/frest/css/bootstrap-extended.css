@@ -823,7 +823,6 @@ label {
 }
 
 select.form-control:not([multiple]) {
-	background-image: url(../../assets/images/pages/arrow-down.png);
 	background-position: calc(100% - (100% - 12px)) 13px, calc(100% - (100% - 20px)) 13px, 0 0;
 	background-size: 12px 12px, 10px 10px;
 	background-repeat: no-repeat;

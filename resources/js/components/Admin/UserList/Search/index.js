@@ -24,7 +24,6 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
     }
 
 
-    console.log("aaaa : " , search)
 
 
     const handleFadeSearch = (e) => {
@@ -73,7 +72,13 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
 
                             <div className="col-12 col-sm-6 col-lg-3">
                                 <label htmlFor="users-list-status">نقش</label>
-                                <MultiOption name={"role"} data={["کاربر", "مدیر"]}
+                                <MultiOption name={"role"} data={[{
+                                    id : "مدیر",
+                                    name : "مدیر"
+                                },{
+                                    id : "کاربر",
+                                    name : "کاربر"
+                                }]}
                                              selected={item => {
                                                  let oldSearch = {...search};
                                                  oldSearch.role_id = item == "مدیر" ? 1  : item=="کاربر" ? 2 : '';
@@ -86,7 +91,13 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
                             <div className="col-12 col-sm-6 col-lg-3">
                                 <label
                                     htmlFor="users-list-role">وضعیت</label>
-                                <MultiOption name={"status"} data={["غیرفعال", "فعال"]}
+                                <MultiOption name={"status"} data={[{
+                                    id : "فعال",
+                                    name : "فعال"
+                                },{
+                                    id : "غیرفعال",
+                                    name : "غیرفعال"
+                                }]}
                                              selected={item => {
                                                  let oldSearch = {...search};
                                                  oldSearch.status = item == "فعال" ? "active"  : item=="غیرفعال" ? "deactivate" : '';
@@ -98,7 +109,19 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
                             <div className="col-12 col-sm-6 col-lg-3">
                                 <label
                                     htmlFor="users-list-role">تعداد نمایش</label>
-                                <MultiOption name={"status"} data={["10", "15" , "20", "نمایش همه"]}
+                                <MultiOption name={"status"} data={[{
+                                    id : "10",
+                                    name : "10"
+                                },{
+                                    id : "15",
+                                    name : "15"
+                                },{
+                                    id : "20",
+                                    name : "20"
+                                },{
+                                    id : "نمایش همه",
+                                    name : "نمایش همه"
+                                }]}
                                              selected={item => {
                                                  let oldSearch = {...search};
                                                  oldSearch.pageSize = item == "نمایش همه" ? total  : parseInt(item);
@@ -129,8 +152,8 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
                         <label
                             htmlFor="users-list-verified">وضعیت</label>
                         <fieldset className={"form-group"}>
-                            <select onChange={e => responsiveSeach(e)} name={"status"} className={"form-control"} id={"confirm"}>
-                                <option selected>انتخاب کنید</option>
+                            <select defaultValue={"nn"} onChange={e => responsiveSeach(e)} name={"status"} className={"form-control"} id={"confirm"}>
+                                <option value={"nn"}>انتخاب کنید</option>
                                 <option value={"active"}>فعال</option>
                                 <option value={"deactivate"}>غیرفعال</option>
                             </select>
@@ -141,8 +164,8 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
                     <div className="col-12">
                         <label htmlFor="users-list-status">نقش</label>
                         <fieldset className={"form-group"}>
-                            <select onChange={e => responsiveSeach(e)} name={"role_id"} className={"form-control"} id={"confirm"}>
-                                <option selected>انتخاب کنید</option>
+                            <select defaultValue={"0"} onChange={e => responsiveSeach(e)} name={"role_id"} className={"form-control"} id={"confirm"}>
+                                <option  value={"0"}>انتخاب کنید</option>
                                 <option value={"1"}>مدیر</option>
                                 <option value={"2"}>کاربر</option>
                             </select>
@@ -154,8 +177,8 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
                         <label
                             htmlFor="users-list-role">تعداد نمایش</label>
                         <fieldset className={"form-group"}>
-                            <select onChange={e => responsiveSeach(e)} name={"pageSize"} className={"form-control"} id={"confirm"}>
-                                <option selected>انتخاب کنید</option>
+                            <select defaultValue={"5"} onChange={e => responsiveSeach(e)} name={"pageSize"} className={"form-control"} id={"confirm"}>
+                                <option value={"5"}>انتخاب کنید</option>
                                 <option value={"10"}>10</option>
                                 <option value={"15"}>15</option>
                                 <option value={"20"}>20</option>

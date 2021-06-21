@@ -17,7 +17,6 @@ const SearchComponent = ({tagReload, total, searchRes: pushSearchRes}) => {
     useEffect(() => {
         GetAllCategory();
         GetAllTag()
-        console.log("set reload : ", tagReload)
 
     }, [])
 
@@ -75,7 +74,6 @@ const SearchComponent = ({tagReload, total, searchRes: pushSearchRes}) => {
     }
 
 
-    console.log("aaaa : ", search)
 
 
     const handleFadeSearch = (e) => {
@@ -112,7 +110,7 @@ const SearchComponent = ({tagReload, total, searchRes: pushSearchRes}) => {
 
                         <div className="row col-12" id={"header-card-custom"}>
 
-                            <div className="col-12 col-sm-12 col-lg-3">
+                            <div className="col-md-6 col-sm-12 col-lg-3">
                                 <label htmlFor="users-list-verified">جستجو</label>
                                 <input type="text" className="form-control"
                                        id={"search_input"}
@@ -121,18 +119,6 @@ const SearchComponent = ({tagReload, total, searchRes: pushSearchRes}) => {
 
                             </div>
 
-
-                            {/*<div className="col-12 col-sm-6 col-lg-3">*/}
-                            {/*    <label htmlFor="users-list-status">نقش</label>*/}
-                            {/*    <MultiOption name={"role"} data={["کاربر", "مدیر"]}*/}
-                            {/*                 selected={item => {*/}
-                            {/*                     let oldSearch = {...search};*/}
-                            {/*                     oldSearch.role_id = item == "مدیر" ? 1  : item=="کاربر" ? 2 : '';*/}
-                            {/*                     setSearch(oldSearch)*/}
-                            {/*                     pushSearchRes(oldSearch)*/}
-                            {/*                 }}*/}
-                            {/*    />*/}
-                            {/*</div>*/}
 
                             <div className="col-12 col-sm-6 col-lg-3">
                                 <label
@@ -154,7 +140,13 @@ const SearchComponent = ({tagReload, total, searchRes: pushSearchRes}) => {
                             <div className="col-12 col-sm-6 col-lg-3">
                                 <label
                                     htmlFor="users-list-role">وضعیت</label>
-                                <MultiOption name={"status"} data={["منتشر شده", "منتشر نشده"]}
+                                <MultiOption name={"status"} data={[{
+                                    id : 'منتشر شده',
+                                    name : 'منتشر شده'
+                                },{
+                                    id : 'منتشر نشده',
+                                    name : 'منتشر نشده'
+                                }]}
                                              selected={item => {
                                                  let oldSearch = {...search};
                                                  oldSearch.status = item == "منتشر شده" ? "active" : item == "منتشر نشده" ? "deactivate" : '';
@@ -170,9 +162,7 @@ const SearchComponent = ({tagReload, total, searchRes: pushSearchRes}) => {
                                     htmlFor="users-list-role">برچسپ</label>
                                 <MultiSelected name={"tags"} data={tagData ? tagData : []}
                                                selected={item => {
-                                                   console.log("sssssss : ", item)
                                                    let oldSearch = {...search};
-                                                   // oldSearch.pageSize = ;
                                                    setSearch(oldSearch)
                                                    pushSearchRes(oldSearch)
                                                }}
@@ -200,9 +190,9 @@ const SearchComponent = ({tagReload, total, searchRes: pushSearchRes}) => {
                         <label
                             htmlFor="users-list-verified">وضعیت</label>
                         <fieldset className={"form-group"}>
-                            <select onChange={e => responsiveSeach(e)} name={"status"} className={"form-control"}
+                            <select defaultValue={"nn"} onChange={e => responsiveSeach(e)} name={"status"} className={"form-control"}
                                     id={"confirm"}>
-                                <option selected>انتخاب کنید</option>
+                                <option value={"nn"}>انتخاب کنید</option>
                                 <option value={"active"}>فعال</option>
                                 <option value={"deactivate"}>غیرفعال</option>
                             </select>
@@ -210,25 +200,14 @@ const SearchComponent = ({tagReload, total, searchRes: pushSearchRes}) => {
                         </fieldset>
                     </div>
 
-                    {/*<div className="col-12">*/}
-                    {/*    <label htmlFor="users-list-status">نقش</label>*/}
-                    {/*    <fieldset className={"form-group"}>*/}
-                    {/*        <select onChange={e => responsiveSeach(e)} name={"role_id"} className={"form-control"} id={"confirm"}>*/}
-                    {/*            <option selected>انتخاب کنید</option>*/}
-                    {/*            <option value={"1"}>مدیر</option>*/}
-                    {/*            <option value={"2"}>کاربر</option>*/}
-                    {/*        </select>*/}
-
-                    {/*    </fieldset>*/}
-                    {/*</div>*/}
 
                     <div className="col-12">
                         <label
                             htmlFor="users-list-role">تعداد نمایش</label>
                         <fieldset className={"form-group"}>
-                            <select onChange={e => responsiveSeach(e)} name={"pageSize"} className={"form-control"}
+                            <select defaultValue={"0"} onChange={e => responsiveSeach(e)} name={"pageSize"} className={"form-control"}
                                     id={"confirm"}>
-                                <option selected>انتخاب کنید</option>
+                                <option value={"0"}>انتخاب کنید</option>
                                 <option value={"10"}>10</option>
                                 <option value={"15"}>15</option>
                                 <option value={"20"}>20</option>
@@ -237,11 +216,6 @@ const SearchComponent = ({tagReload, total, searchRes: pushSearchRes}) => {
 
                         </fieldset>
                     </div>
-
-                    {/*<div className="col-6 col-sm-6 col-lg-2" style={{marginBlockStart: 'auto'}}>*/}
-                    {/*    <button type="submit" className="btn btn-primary mr-1 mb-1" id={"search-btn"}>جستجو</button>*/}
-                    {/*</div>*/}
-
 
                 </div>
             </div>

@@ -17,7 +17,6 @@ export const TreeShowPage = ({
                                  updateData: pushUpdateData
                              }) => {
 
-    console.log(">>>>>>>>>>>>>>>", data.data.data)
 
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
     const [idDelete, setIdDelete] = useState([]);
@@ -59,7 +58,6 @@ export const TreeShowPage = ({
     });
 
 
-    console.log("del id : " , idDelete)
 
 
     let dataWithOutPaginate = data.data.data;
@@ -67,7 +65,6 @@ export const TreeShowPage = ({
         pushCallBack(item);
     }
     const HandleClick = (id) => {
-        console.log("tree id : ", id)
         pushItemCliks(id);
     }
     const HndleDuplicate = (item) => {
@@ -89,7 +86,6 @@ export const TreeShowPage = ({
         let delIds = {};
         delIds.pageIds = idDelete;
         delIds._token = token;
-        console.log("ccccccc :" , delIds , idDelete)
         if (idDelete) {
             swal({
                 title: 'حذف دسته بندی',
@@ -138,12 +134,12 @@ export const TreeShowPage = ({
     return (
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
             <ul className={"content-li"}>
-                {dataWithOutPaginate ? dataWithOutPaginate.map((keyName) => {
+                {dataWithOutPaginate ? dataWithOutPaginate.map((keyName , index) => {
                         return (
-                            <li style={{position: 'relative'}}>
+                            <li key={index} style={{position: 'relative'}}>
                                 <div className={"branch-top"}>
                                 </div>
-                                <Item key={keyName.id} name={keyName.title}
+                                <Item name={keyName.title}
                                       allData={keyName}
                                       id={keyName.id}
                                       status={keyName.status}
@@ -163,22 +159,22 @@ export const TreeShowPage = ({
                 )}
             </ul>
 
-            <div className={"back-blur"}>
+            {/*<div className={"back-blur"}>*/}
 
-                <div id={"bottom-chip"}>
-                    <div className={"form-check"}>
+            {/*    <div id={"bottom-chip"}>*/}
+            {/*        <div className={"form-check"}>*/}
 
-                        <ul>
-                            <li onClick={e => HandleEdit(e, "dup")}>کپی صفحه</li>
-                            <li onClick={e => HandleEdit(e, "edit")}>ویرایش صفحه</li>
-                            <li onClick={e => HandleDel(e)}>حذف</li>
-                            <li>مشاهده</li>
-                            <li onClick={e => handleAdding(e)}>افزودن زیر دسته</li>
-                        </ul>
+            {/*            <ul>*/}
+            {/*                <li onClick={e => HandleEdit(e, "dup")}>کپی صفحه</li>*/}
+            {/*                <li onClick={e => HandleEdit(e, "edit")}>ویرایش صفحه</li>*/}
+            {/*                <li onClick={e => HandleDel(e)}>حذف</li>*/}
+            {/*                <li>مشاهده</li>*/}
+            {/*                <li onClick={e => handleAdding(e)}>افزودن زیر دسته</li>*/}
+            {/*            </ul>*/}
 
-                    </div>
-                </div>
-            </div>
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
         </CHECK_BOX_CONTENT.Provider>
     )
 

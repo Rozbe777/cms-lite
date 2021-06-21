@@ -3,9 +3,8 @@ import './styleAction.scss'
 import {CHECK_BOX_CONTENT} from './../Helper/Context'
 import $ from "jquery";
 
-export const TotalActions = ({text , data, allData , deleteUsers :pushDeleteUser }) => {
+export const TotalActions = ({text, data, allData, deleteUsers: pushDeleteUser}) => {
 
-    console.log(">>>>>>>>//////" , allData);
     useEffect(() => {
 
     }, [])
@@ -17,14 +16,14 @@ export const TotalActions = ({text , data, allData , deleteUsers :pushDeleteUser
         e.preventDefault();
         let dataAlls = [...checkBox];
         allData.data.map(item => {
-            if(item.childern){
+            if (item.childern) {
                 item.childern.map(itemChild1 => {
                     var indexc1 = dataAlls.indexOf(itemChild1.id);
                     if (indexc1 == -1) {
                         dataAlls.push(itemChild1.id);
                     }
 
-                    if (itemChild1.children){
+                    if (itemChild1.children) {
                         itemChild1.children.map(itemChild2 => {
                             var indexc2 = dataAlls.indexOf(itemChild2.id);
                             if (indexc2 == -1) {
@@ -48,62 +47,51 @@ export const TotalActions = ({text , data, allData , deleteUsers :pushDeleteUser
         setCheckBox(dataAlls);
     }
 
-    // var sidebarWidth = $('.main-menu').parent().width() - $('.main-menu').width();
-    // $(document).scroll(function () {
-    //     sidebarWidth = $('.main-menu').parent().width() - $('.main-menu').width();
-    //     var sr = $(document).scrollTop();
-    //     if (sr > 0) {
-    //         $(".header-navbar").fadeOut(0)
-    //         $("#totalAction").addClass("fixed")
-    //         // $("#totalAction").width(sidebarWidth)
-    //         setCheckFixed(true)
-    //     } else {
-    //         $("#totalAction").removeClass("fixed")
-    //         $(".header-navbar").fadeIn(0)
-    //         setCheckFixed(false)
-    //     }
-    // })
-
-    console.log("******** >>>" , checkBox)
-
     return (
-            <div id={"totalAction"}>
-                <div className={"container-fluid"} style={{padding : 0 , margin : 0}}>
-                    <div className={"row justify-content-center"}>
-                        <div className={checkFixed == false ? "col-0" : "col-2 d-none d-lg-block"}>
+        <div id={"totalAction"}>
+            <div className={"container-fluid"} style={{padding: 0, margin: 0}}>
+                <div className={"row justify-content-center"}>
+                    <div className={checkFixed == false ? "col-0" : "col-2 d-none d-lg-block"}>
 
-                        </div>
-                        <div className={checkFixed == false ? "col-12" : "col-10"}>
-                            <div className={"row"}>
-                                <div className={"col-lg-6 col-md-3"}
-                                     style={{textAlign : 'center',marginBottom: 5, marginTop: 5, lineHeight: '3.1' ,fontSize : '13px'}}>
-                                    {text ? (
-                                        data.length + text
-                                    ) : (
-                                        data.length+ " کاربر انتخاب شده است "
-                                    ) }
+                    </div>
+                    <div className={checkFixed == false ? "col-12" : "col-10"}>
+                        <div className={"row"}>
+                            <div className={"col-lg-6 col-md-3"}
+                                 style={{
+                                     textAlign: 'center',
+                                     marginBottom: 5,
+                                     marginTop: 5,
+                                     lineHeight: '3.1',
+                                     fontSize: '13px'
+                                 }}>
+                                {text ? (
+                                    data.length + text
+                                ) : (
+                                    data.length + " کاربر انتخاب شده است "
+                                )}
 
-                                </div>
-                                <div className={"col-lg-2 col-md-3"} style={{marginBottom: 5, marginTop: 5}}>
-                                    <button style={{width: '100%'}} className={"btn btn-primary"}
-                                            onClick={e => checkAll(e)}>انتخاب
-                                        همه
-                                    </button>
-                                </div>
-                                <div className={"col-lg-2 col-md-3"} style={{marginBottom: 5, marginTop: 5}}>
-                                    <button style={{width: '100%'}} className={"btn btn-warning"}
-                                            onClick={e => unCheckAll(e)}>لغو
-                                    </button>
-                                </div>
-                                <div className={"col-lg-2 col-md-3"} style={{marginBottom: 5, marginTop: 5}}>
-                                    <button style={{width: '100%'}} className={"btn btn-danger"} onClick={e => pushDeleteUser(e)}>حذف</button>
-                                </div>
+                            </div>
+                            <div className={"col-lg-2 col-md-3"} style={{marginBottom: 5, marginTop: 5}}>
+                                <button style={{width: '100%'}} className={"btn btn-primary"}
+                                        onClick={e => checkAll(e)}>انتخاب
+                                    همه
+                                </button>
+                            </div>
+                            <div className={"col-lg-2 col-md-3"} style={{marginBottom: 5, marginTop: 5}}>
+                                <button style={{width: '100%'}} className={"btn btn-warning"}
+                                        onClick={e => unCheckAll(e)}>لغو
+                                </button>
+                            </div>
+                            <div className={"col-lg-2 col-md-3"} style={{marginBottom: 5, marginTop: 5}}>
+                                <button style={{width: '100%'}} className={"btn btn-danger"}
+                                        onClick={e => pushDeleteUser(e)}>حذف
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
+        </div>
 
 
     )

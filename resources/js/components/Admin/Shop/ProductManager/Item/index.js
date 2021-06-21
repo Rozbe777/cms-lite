@@ -6,7 +6,6 @@ import {CHECK_BOX_CONTENT} from "../../../UserList/Helper/Context";
 const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected ,duplicated : duplicate, editClick : pushEditClick , deleteClick : delPushClick}) => {
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
 
-    console.log("_______>>>>" , data)
     useEffect(() => {
         checkTest();
         checkBox.map(item => {
@@ -45,7 +44,6 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected ,duplicate
     }
 
     const HandleChange = (e, id) => {
-        console.log(",,,,,,,,", id);
 
         if (e.target.checked) {
             $("html, body").animate({scrollTop: 0}, 700);

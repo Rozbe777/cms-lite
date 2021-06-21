@@ -2,6 +2,13 @@ import React from "react";
 import './styleAction.scss'
 
 export const BreadCrumbs = ({fixed , data , floatBtn , titleBtn , icon , clicked : pushClick}) => {
+    const handlePushClick = e => {
+        e.preventDefault();
+        if (pushClick){
+            pushClick(e)
+
+        }
+    }
     return (
         <div id={"breadCrumb"} className={fixed ? "activeCrumb" : ''} style={{width: '100%'}}>
             <div className={"container-fluid"}>
@@ -17,9 +24,8 @@ export const BreadCrumbs = ({fixed , data , floatBtn , titleBtn , icon , clicked
                         <span id={"icon"}>
                         <a>{data.desc}</a>
                     </span>
-
                         {titleBtn ? (
-                            <button id={"show-loader-selected"} style={{float : 'left'}} onClick={e => pushClick(e)} type={"button"} className={"btn btn-primary shadow mr-1 mb-1"}><i className={"bx "+icon}></i>&nbsp; {titleBtn}  &nbsp;</button>
+                            <button id={"show-loader-selected"} style={{float : 'left'}} onClick={e => handlePushClick(e)} type={"button"} className={"btn btn-primary shadow mr-1 mb-1"}><i className={"bx "+icon}></i>&nbsp; {titleBtn}  &nbsp;</button>
                         ) : ''}
                     </div>
                 </div>

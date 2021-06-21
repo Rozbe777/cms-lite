@@ -42,13 +42,12 @@ export const ContentList = () => {
 
     });
 
-    const [reloadTag , setReloadTag] = useState(false);
+    const [reloadTag, setReloadTag] = useState(false);
 
     const GetAllContents = (stringSearchs) => {
         setLoading(true)
         Request.GetAllContents(stringSearchs)
             .then(res => {
-                console.log("resultttttt : " , res)
                 localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
                 setLoading(false)
                 setContentData(res.data.data)
@@ -89,7 +88,6 @@ export const ContentList = () => {
             GetAllContents();
             ReactDom.render('', document.getElementById("add-datas"))
         } else {
-            console.log("error in add : ", item)
         }
     }
 
@@ -103,7 +101,6 @@ export const ContentList = () => {
         if (status == 200) {
             GetAllContents();
         } else {
-            console.log("you have an error");
         }
     }
 
@@ -131,7 +128,6 @@ export const ContentList = () => {
         if (status == 200) {
             GetAllContents();
         } else {
-            console.log("you have an error");
         }
     }
     const handleClickItemContent = (clickId) => {
@@ -141,9 +137,12 @@ export const ContentList = () => {
     }
     const HandleDeleteContent = (status) => {
         if (status == 200) {
+            $("li.page-item.numberss").removeClass("active");
+            $("li.page-item").eq(1).addClass("active");
+            $("li.page-item.next").css("opacity", 1);
+            $("li.page-item.previous").css("opacity", 0.4);
             GetAllContents();
         } else {
-            console.log("you have an error");
         }
     }
     const HandleBackLoaderContent = (data) => {
@@ -209,28 +208,28 @@ export const ContentList = () => {
 
 
     const paginate = (pageNumber) => {
-        // let pagess = stringSearchs ? "page=" + pageNumber + "&" + stringSearchs : "page=" + pageNumber;
         stringSearchs.params.page = pageNumber;
         setStringSearch({
             params: {
                 page: pageNumber
             }
         });
-
+        $(".backLoadings").fadeIn();
         GetAllContents(stringSearchs);
-        $("li.page-item").removeClass("active");
         if (pageNumber == Math.ceil(total / perPage)) {
             $("li.page-item.next").css("opacity", 0.4);
             $("li.page-item.previous").css("opacity", 1);
         } else if (pageNumber == 1) {
+            $("li.page-item.numberss").removeClass("active");
+            $("li.page-item.numberss."+pageNumber).addClass("active");
             $("li.page-item.next").css("opacity", 1);
             $("li.page-item.previous").css("opacity", 0.4);
         } else {
             $("li.page-item.next").css("opacity", 2);
             $("li.page-item.previous").css("opacity", 2);
         }
-        $("li#" + pageNumber).addClass("active");
     };
+
 
     return (
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
@@ -261,6 +260,12 @@ export const ContentList = () => {
 
                     })
 
+
+                    $("li.page-item.numberss").removeClass("active");
+                    $("li.page-item").eq(1).addClass("active");
+                    $("li.page-item.next").css("opacity", 1);
+                    $("li.page-item.previous").css("opacity", 0.4);
+
                     stringSearchs.params.page = 1;
                     GetAllContents(stringSearchs)
                 }}/>
@@ -280,11 +285,11 @@ export const ContentList = () => {
                 </div>
 
 
-                <div className={"container-fluied"} style={{minHeight : '300px' , padding : '0 20px'}}>
+                <div className={"container-fluied"} style={{minHeight: '300px', padding: '0 20px' , marginTop:20}}>
                     <div className={"row"}>
 
                         {loading === false && contentData.data ? contentData.data.length > 0 ? (
-                            <TreeShowPage handleCata={itemCat => console.log("cat back ,", itemCat)}
+                            <TreeShowPage
                                           duplicate={item => HandleDuplicate(item)}
                                           itemClicks={clicks => handleClickItemContent(clicks)}
                                           callBack={item => HandleDeleteContent(item)}
@@ -293,8 +298,8 @@ export const ContentList = () => {
                                           data={contentData}
                                           loading={loading}/>
                         ) : (
-                            <div style={{width : '100%'}}>
-                               <NotFound />
+                            <div style={{width: '100%'}}>
+                                <NotFound/>
                                 {stringSearchs ? '' : (
                                     <div id={"maines"}>
                                         <button id="add-page"
@@ -312,7 +317,6 @@ export const ContentList = () => {
 
 
                         <div className="col-md-12">
-                            {console.log("_____" , contentData)}
                             {contentData.data ? contentData.data.length ? (
                                 <Pagination
                                     firstPageUrl={contentData.first_page_url}
@@ -327,13 +331,18 @@ export const ContentList = () => {
 
                         </div>
 
+
                     </div>
                 </div>
 
                 <BackLoader states={item => (HandleAddContentSelect(item))}/>
                 <div id={"add-datas"}></div>
 
-                <BottomNavigationBar userData={categoryData} deleteAll={e => handleDeleteGroup(e)}/>
+                <BottomNavigationBar userData={contentData} deleteAll={e => handleDeleteGroup(e)}/>
+            </div>
+
+            <div className={"float-btn-add"} onClick={e => handleAddContent()}>
+                <i className="bx bx-plus"></i>
             </div>
 
 
