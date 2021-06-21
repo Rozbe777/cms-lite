@@ -11,7 +11,8 @@ class Zarinpal extends BaseBank
 
     function handle()
     {
-
+        $merchantId = $this->merchantId();
+        dd($merchantId);
     }
 
 

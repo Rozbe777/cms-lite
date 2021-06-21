@@ -7,15 +7,26 @@ namespace App\Classes\Payment;
 abstract class BaseBank
 {
     protected $name = null;
-    protected $bank;
-    protected $paymentId;
-    protected $amount;
-    protected $authority;
-    protected $callbackUrl;
+    protected $bank, $paymentId, $amount, $authority, $callbackUrl, $url;
+    private $prefixConfigPath = 'bank.type.online';
+
+    /**
+     * Gateway constructor.
+     */
+    public function __construct()
+    {
+        $this->getGateway();
+    }
+
+    private function getGateway()
+    {
+        $defaultGateway = config("$this->prefixConfigPath.default_gateway");
+        $gateway = config("$this->prefixConfigPath.gateways.$defaultGateway");
+    }
 
     function gatewayClass()
     {
-        return config('bank.gateways.' . $this->name() . '.class');
+        return config('bank.type.online.gateways.' . $this->name() . '.class');
     }
 
     function default()
@@ -32,45 +43,45 @@ abstract class BaseBank
 
     }
 
-    function status()
+    function setStatus()
     {
-        return config('bank.gateways.' . $this->name() . '.status');
+        return config('bank.type.online.gateways.' . $this->name() . '.status');
     }
 
-    function type()
+    function setType()
     {
-        return config('bank.gateways.' . $this->name() . '.type');
+        return config('bank.type.online.gateways.' . $this->name() . '.type');
     }
 
-    function logo()
+    function setLogo()
     {
-        return config('bank.gateways.' . $this->name() . '.logo');
-    }
-
-
-    function minAmount()
-    {
-        return config('bank.setting.min_amount');
-    }
-
-    function requestUrl()
-    {
-        return config('bank.gateways.' . $this->name() . '.request_url');
+        return config('bank.type.online.gateways.' . $this->name() . '.logo');
     }
 
 
-    function payUrl()
+    function setMinAmount()
     {
-        return config('bank.gateways.' . $this->name() . '.pay_url');
+        return config('bank.type.online.default_min_amount');
     }
 
-    function verificationUrl()
+    function setRequestUrl()
     {
-        return config('bank.gateways.' . $this->name() . '.verification_url');
+        return config('bank.type.online.gateways.' . $this->name() . '.request_url');
     }
 
 
-    function merchantId()
+    function setPayUrl()
+    {
+        return config('bank.type.online.gateways.' . $this->name() . '.pay_url');
+    }
+
+    function setVerificationUrl()
+    {
+        return config('bank.type.online.gateways.' . $this->name() . '.verification_url');
+    }
+
+
+    function setMerchantId()
     {
         return config('bank.type.online.gateways.' . $this->name() . '.merchant_id');
     }
@@ -87,17 +98,17 @@ abstract class BaseBank
         return $this->authority;
     }
 
-    function amount()
+    function setAmount()
     {
         return $this->amount;
     }
 
-    function payment()
+    function setPayment()
     {
         return Payment::find($this->paymentId);
     }
 
-    function paymentId()
+    function setPaymentId()
     {
         return $this->paymentId;
     }
