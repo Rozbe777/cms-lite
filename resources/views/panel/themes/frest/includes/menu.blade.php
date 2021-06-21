@@ -101,7 +101,9 @@
 
                     @if(auth()->user()->can($menu->name))
                         @php($subMenus=\App\Models\Permission::parentId($menu->id)->isMenu()->get())
-                        <li class=" nav-item"><a href="{{route($menu->name)}}">{{--<i class="bx {{$menu->icon}}"></i>--}}<span
+                        <li class="nav-item"><a href="{{route($menu->name)}}" style="
+    height: 55px;
+    line-height: 2;"><i class="bx {{$menu->icon}}"></i><span
                                     class="menu-title"
                                 >{{$menu->display_name}}</span></a>
                             @if(sizeof($subMenus))
