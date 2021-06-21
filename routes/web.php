@@ -33,8 +33,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('a', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class,'handle']);
 
 
-Route::get('payment/zarinpal/order', [\App\Classes\Payment\Bank\Zarinpal\ZarinpalVerify::class,'verify']);
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -157,6 +155,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::name('front.')->group(function () {
+        Route::get('shop',[\App\Http\Controllers\Front\Shop\ShopController::class,'index'])->name('shop.blade');
 
         Route::get('category/{slug}', [\App\Http\Controllers\Front\Category\CategoryController::class, 'search'])->name('categories');
 

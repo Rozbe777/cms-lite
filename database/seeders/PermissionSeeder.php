@@ -46,12 +46,20 @@ class PermissionSeeder extends Seeder
                     'weight' => 10,
                     'icon' => 'flaticon-multiple-users-silhouette',
                     'is_menu' => 1,
+                    "name" => "front.shop.blade",
+                    "display_name" => "فروشگاه",
+                    "children" => []
+                ],
+                [
+                    'weight' => 100,
+                    'icon' => 'flaticon-multiple-users-silhouette',
+                    'is_menu' => 1,
                     "name" => "pages.blade",
                     "display_name" => "صفحات",
                     "children" => []
                 ],
                 [
-                    'weight' => 50,
+                    'weight' => 500,
                     'icon' => 'flaticon-multiple-users-silhouette',
                     'is_menu' => 1,
                     "name" => "users.blade",
@@ -70,7 +78,7 @@ class PermissionSeeder extends Seeder
                     ],
                 ],
                 [
-                    'weight' => 100,
+                    'weight' => 1000,
                     'icon' => 'flaticon-multiple-users-silhouette',
                     'is_menu' => 1,
                     "name" => "settings.edit",
@@ -84,7 +92,7 @@ class PermissionSeeder extends Seeder
                     ]
                 ],
                 [
-                    'weight' => 200,
+                    'weight' => 1500,
                     'icon' => 'flaticon-multiple-users-silhouette',
                     'is_menu' => 0,
                     "name" => "profile.edit",
