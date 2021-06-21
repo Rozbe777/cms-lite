@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Classes\Payment\Bank\ZarinPal;
+namespace App\Classes\Payment\Provider\Online\Gateway\Zarinpal;
 
 
 use SoapClient;
@@ -151,7 +151,6 @@ class ZarinpalFunction
             $StartPay 		= (isset($result->Authority) 	&& $result->Authority != "") 	? "https://{$upay}.zarinpal.com/pg/StartPay/". $Authority : "";
             $StartPayUrl 	= (isset($ZarinGate) 			&& $ZarinGate == true) 			? "{$StartPay}/ZarinGate" : $StartPay;
 
-            dd($result);
             return array(
                 "Node" 		=> "{$node}",
                 "Method" 	=> "SOAP",

@@ -30,16 +30,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('a', function () {
-//    $notifire = \App\Classes\Notifier\Notifier::getInstance(\App\Classes\Notifier\Notifier::SMS_TYPE);
-//
-//    $notifire->to(\App\Models\User::find(2));
-//    $notifire->body(['verify','23232']);
-//    $notifire->from('form');
-//    $notifire->send();
+Route::get('a', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class,'handle']);
 
-    $x = (new \App\Classes\Payment\Bank\ZarinPal\ZarinpalRequest())->request();
-});
+Route::get('payment/zarinpal/order', [\App\Classes\Payment\Bank\Zarinpal\ZarinpalVerify::class,'verify']);
 
 Route::get('/', function () {
     return view('welcome');

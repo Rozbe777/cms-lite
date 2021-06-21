@@ -26,34 +26,34 @@ trait ResponsesTrait
         return $this;
     }
 
-    public function isAxios(): bool
-    {
-        if (!empty(request()->header('is_axios'))) {
-            return true;
-        }
-        return false;
-    }
+//    public function isAxios(): bool
+//    {
+//        if (!empty(request()->header('is_axios'))) {
+//            return true;
+//        }
+//        return false;
+//    }
 
     public function success($status = 200)
     {
         $data = $this->data;
 
-        if ($this->isAxios()) {
+//        if ($this->isAxios()) {
             return
                 response()->json([
                     "http_code" => $status,
                     "message" => $this->message,
                     "data" => $data
                 ], $status);
-        } else {
-            return adminView($this->view,compact('data'))->with('success', $this->message);
-        }
+//        } else {
+//            return adminView($this->view,compact('data'))->with('success', $this->message);
+//        }
 
     }
 
     public function error($status = 404)
     {
-        if ($this->isAxios()) {
+//        if ($this->isAxios()) {
             if (!is_array($this->message)) {
                 $this->message = [$this->message];
             }
@@ -65,9 +65,9 @@ trait ResponsesTrait
                         'data' => $this->message
                     ],
                 ], $status);
-        } else {
-            return adminView($this->view);
-        }
+//        } else {
+//            return adminView($this->view);
+//        }
 
     }
 }
