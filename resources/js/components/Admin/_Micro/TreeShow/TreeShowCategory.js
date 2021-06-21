@@ -22,6 +22,21 @@ export const TreeShowCategory = ({
 
 
     useEffect(() => {
+
+        $("div#li-div").mouseover(function () {
+            // $("#li-div div#moreOpp").removeClass("active")
+            $(this).find("#moreOpp").addClass("active")
+            $(this).find("#sub-menu-custom i").addClass("active")
+
+        })
+        $("div#li-div").mouseout(function () {
+            // $("#li-div div#moreOpp").removeClass("active")
+            $("#li-div #moreOpp").removeClass("active")
+            $(this).find("#sub-menu-custom i").removeClass("active")
+
+
+        })
+
         data.map(item => {
             var filterChild1 = checkBox.indexOf(item.id);
             if (filterChild1 !== -1){

@@ -25,7 +25,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
     const [changeCheck, setChangeCheck] = useState(false)
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
-    const [contentNew, setContentNew] = useState({});
+    const [contentNew, setContentNew] = useState('');
     const [statusNew, setStatusNew] = useState();
     const [menuShow, setMenuShow] = useState();
     // const [MetaDataUpdate , setMetaDataUpdate] = useState({});
@@ -152,14 +152,15 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
     }
 
     const RemoveChipset = (name) => {
-        let metaData = {...metaData};
+        let metaDatas = {...metaData};
         var chipsetArr = [...chipset];
+        setEdit(true)
         var index = chipsetArr.indexOf(name);
         if (index !== -1) {
             chipsetArr.splice(index, 1);
             setChipset(chipsetArr);
-            metaData.tags = chipsetArr;
-            setMetaData(metaData)
+            metaDatas.tags = chipsetArr;
+            setMetaData(metaDatas)
         }
     }
 
@@ -289,7 +290,6 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         let slug = slugManage ? titleWrite : $("input.slugest").val();
         formOldData.title = title;
         formOldData.slug = slug;
-        formOldData.content = JSON.stringify(contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
@@ -299,6 +299,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         metaDatas.robots = robots;
         formOldData.title = titleWrite;
         formOldData.metadata = JSON.stringify(metaDatas);
+        formOldData.content =  contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
         formOldData.status = status;
         formOldData.comment_status = comment_status;
         formOldData.is_menu = parseInt(is_menu);
@@ -324,6 +325,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         formOldData.status = status;
         formOldData.title = title;
         formOldData.slug = slug;
+        formOldData.content =  contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
         formOldData.is_index = parseInt(is_index);
         formOldData.is_menu = parseInt(is_menu);
         // console.log("data duplicate : " , formOldData);

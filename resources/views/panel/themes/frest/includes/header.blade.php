@@ -8,7 +8,7 @@
                     <ul class="nav navbar-nav">
                         <li class="nav-item mobile-menu d-xl-none mr-auto"><a
                                 class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i
-                                    class="ficon bx bx-menu"></i></a></li>
+                                    class="bx bx-menu"></i></a></li>
                     </ul>
 
                     <ul class="nav navbar-nav">

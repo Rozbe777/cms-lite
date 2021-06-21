@@ -2,6 +2,7 @@ import React, {useContext, useEffect} from 'react';
 import './_Shared/style.scss';
 import {Request} from './../../../../services/AdminService/Api';
 import {CHECK_BOX_CONTENT} from "../../UserList/Helper/Context";
+import $ from "jquery";
 
 const dataTransitionKey = "cmsLiteData123548$%";
 // allData => all data for this item BUT dataAlls => is all category data for category selected parent
@@ -28,6 +29,22 @@ export const Item = ({
         pushItemClisk(id);
     }
 
+
+    useEffect(() => {
+        $("div#li-div").mouseover(function () {
+            // $("#li-div div#moreOpp").removeClass("active")
+            $(this).find("#moreOpp").addClass("active")
+            $(this).find("#sub-menu-custom i").addClass("active")
+
+        })
+        $("div#li-div").mouseout(function () {
+            // $("#li-div div#moreOpp").removeClass("active")
+            $("#li-div #moreOpp").removeClass("active")
+            $(this).find("#sub-menu-custom i").removeClass("active")
+
+
+        })
+    }, [])
 
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
 
@@ -215,7 +232,7 @@ export const Item = ({
     }
 
     return (
-        <div id={"li-div"}>
+        <div id={"li-div"} className={"mini"}>
             <div className={"row"} style={{padding: '0 20px', position: 'relative'}}>
                 <div className={"col-md-6 col-sm-8"} style={{padding: 13}}>
                     <fieldset style={{float: "right"}}>
@@ -227,12 +244,25 @@ export const Item = ({
                         </div>
                     </fieldset>
                     <span id={"item-tree-show"}>{name}</span>
+                    <div id={"sub-menu-custom"} onClick={handleDataRes} attr-ids={id}>
+                        <i className={"bx bx-chevron-down"}></i>
+                    </div>
+                    <div className={"col-12 " + id} id={"moreOpp"}>
+                        <i className={"bx bx-show"}></i>
+                        <i className={"bx bx-trash-alt"} onClick={e => HandleDel(e, id)}></i>
+                        <i className={"bx bx-edit"} onClick={e => HandleEdit(e, "edit")}></i>
+                        <i className={"bx bx-duplicate"} onClick={e => HandleEdit(e, "dup")}></i>
+
+                        {level == 3 ? (<i style={{opacity: '0.3'}} className={"bx bx-plus"}></i>) : (
+                            <i className={"bx bx-plus"} onClick={e => handleAdding(e)}></i>)}
+
+                        {status == "active" ? (
+                            <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
+                        ) : (
+                            <span className={"badge badge-warning badge-pill ml-50"}>غیرفعال</span>
+                        )}
+                    </div>
                 </div>
-
-
-                <span id={"sub-menu-custom"} onClick={handleDataRes} attr-ids={id}>
-                    <i className={"bx bx-chevron-down"}></i>
-                </span>
 
 
                 <div className={"col-md-6 col-sm-4"} style={{padding: 13}} id={"icon-item-list"}>

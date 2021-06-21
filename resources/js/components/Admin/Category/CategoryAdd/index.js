@@ -93,6 +93,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
         setIds(formNews.id)
         setFormData({
+            id : formNews.id,
             name : formNews.name,
             slug : formNews.slug,
             image : formNews.image,
@@ -289,7 +290,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
 
     const HandleEdit = () => {
         let formOldData = {...formData};
-        formOldData.content = JSON.stringify(contentNew);
+        formOldData.content = contentNew;
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
@@ -313,7 +314,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
 
     const HandleDuplicate = () => {
         let formOldData = {...formData};
-        formOldData.content = JSON.stringify(contentNew);
+        formOldData.content = contentNew;
         let name = titleWrite;
         let slug = slugManage ? titleWrite : $("input.slugest").val();
         formOldData.name = name;
@@ -406,7 +407,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
                     <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
                        role="tab" aria-selected="true">
                         <span className="align-middle">دسته بندی</span>
-                        <i id={"visible-custom"} className={"bx bxs-categories"}></i>
+                        <i id={"visible-custom"} className={"bx bxs-pencil"}></i>
 
                     </a>
                 </li>
@@ -494,7 +495,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
                                 }}
                                           id={"my-editor"}
                                           type={"perfect"}
-                                          defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
+                                          defaultVal={dataUpdateParse ? JSON.parse(dataUpdateParse.content) : ''}
                                           placeholder={"توضیحات دسته بندی را بنویسید ..."}/>
                             </div>
 
