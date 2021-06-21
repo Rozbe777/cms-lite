@@ -9,26 +9,30 @@ use App\Classes\Payment\iBank;
 
 class Pay implements iBank
 {
-    private $to, $body;
     private $prefixConfigPath = 'bank.type.online';
-    public $name;
+    private $defaultGateway, $gateway;
 
-    public function __construct()
+    public function __construct($defaultGateway = null,$gateway = null)
     {
-
+        if (empty($defaultGateway)){
+            $this->defaultGateway = config("$this->prefixConfigPath.default_gateway");
+            $this->gateway = config("$this->prefixConfigPath.gateways.$this->defaultGateway");
+        }
     }
 
     function startPayment()
     {
-        $defaultGateway = config("$this->prefixConfigPath.default_gateway");
-        $gateway = config("$this->prefixConfigPath.gateways.$defaultGateway");
+        $gateway = $this->gateway;
         $className = $gateway['class'];
-//$x = (new $className)->setMerchantId()->setMinAmount(); dd($x)
-        (new $className)->setMerchantId()->setMinAmount()->setRequestUrl()->handle();
+
+        (new $className)->setMerchantId()->setMinAmount()->setRequestUrl()->setPayUrl()->setVerificationUrl()->setPaymentUrl()->startPayment();
     }
 
     function callback()
     {
+        $gateway = $this->gateway;
+        $className = $gateway['class'];
 
+        (new $className)->setMerchantId()->setMinAmount()->setRequestUrl()->setVerificationUrl()->callback();
     }
 }

@@ -8,28 +8,23 @@ use App\Classes\Payment\BaseBank;
 
 class Zarinpal extends BaseBank
 {
-
-    function handle()
-    {
-        $merchantId = $this->merchantId();
-        dd($merchantId);
-    }
-
-
     function startPayment()
     {
-        $MerchantID = "00000000-0000-0000-0000-000000000000";
+        $MerchantID = $this->getMerchantId();
+        $minAmount = $this->getMinAmount();
+        $requestUrl = $this->getRequestUrl();
+        $payUrl = $this->getPayUrl();
+        $paymentUrl = $this->getPaymentUrl();
         $Amount = 100;
-        $Description = "فروش محصول از طریق درگاه زرین پال";
-        $gateway = 'zarinpal';
+        $Description = config('bank.type.online.gateways.zarinpal.description');
+        $gateway = config('bank.type.online.gateways.zarinpal.name');
         $Email = "";
         $Mobile = "";
-        $CallbackURL = url("payment/$gateway/order");
+        $CallbackURL = url(config('bank.type.online.callbackUrl'));
         $ZarinGate = false;
         $SandBox = true;
-
         $zp = new ZarinpalFunction();
-        $result = $zp->request($MerchantID, $Amount, $Description, $Email, $Mobile, $CallbackURL, $SandBox, $ZarinGate);
+        $result = $zp->request($MerchantID, $Amount, $CallbackURL,$requestUrl,$payUrl ,$paymentUrl, $SandBox, $ZarinGate, $Description, $Email, $Mobile );
 
         if (isset($result["Status"]) && $result["Status"] == 100) {
             // Success and redirect to pay
@@ -44,13 +39,16 @@ class Zarinpal extends BaseBank
 
     function callback()
     {
-        $MerchantID = "00000000-0000-0000-0000-000000000000";
+        $MerchantID = $this->getMerchantId();
+        $minAmount = $this->getMinAmount();
+        $requestUrl = $this->getRequestUrl();
+        $verificationUrl = $this->getVerificationUrl();
         $Amount = 100;
         $ZarinGate = false;
         $SandBox = true;
 
         $zp = new ZarinpalFunction();
-        $result = $zp->verify($MerchantID, $Amount, $SandBox, $ZarinGate);
+        $result = $zp->verify($MerchantID, $requestUrl, $verificationUrl, $Amount, $SandBox, $ZarinGate);
 
         if (isset($result["Status"]) && $result["Status"] == 100) {
             // Success

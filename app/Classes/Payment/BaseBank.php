@@ -7,7 +7,7 @@ namespace App\Classes\Payment;
 abstract class BaseBank
 {
     protected $name = null;
-    protected $bank, $paymentId, $amount, $authority, $callbackUrl, $url,$merchantId;
+    private $bank, $paymentId, $amount, $authority, $callbackUrl, $requestUrl, $payUrl, $verificationUrl, $paymentUrl, $merchantId, $minAmount, $userName, $mobile;
     private $prefixConfigPath = 'bank.type.online';
 
     /**
@@ -43,6 +43,53 @@ abstract class BaseBank
 
     }
 
+    function setUserName()
+    {
+        //TODO: ???
+    }
+
+    function setMobile()
+    {
+        //TODO: ???
+    }
+
+    function setMerchantId()
+    {
+        $this->merchantId = config('bank.type.online.gateways.' . $this->name() . '.merchant_id');
+        return $this;
+    }
+
+    function setMinAmount()
+    {
+        $this->minAmount = config('bank.type.online.default_min_amount');
+        return $this;
+    }
+
+    function setRequestUrl()
+    {
+        $this->requestUrl = config('bank.type.online.gateways.' . $this->name() . '.request_url');
+        return $this;
+    }
+
+
+    function setPayUrl()
+    {
+        $this->payUrl = config('bank.type.online.gateways.' . $this->name() . '.pay_url');
+        return $this;
+    }
+
+    function setVerificationUrl()
+    {
+        $this->verificationUrl = config('bank.type.online.gateways.' . $this->name() . '.verification_url');
+        return $this;
+    }
+
+    function setPaymentUrl()
+    {
+        $this->paymentUrl = config('bank.type.online.gateways.' . $this->name() . '.payment_url');
+        return $this;
+    }
+
     function setStatus()
     {
         return config('bank.type.online.gateways.' . $this->name() . '.status');
@@ -58,42 +105,56 @@ abstract class BaseBank
         return config('bank.type.online.gateways.' . $this->name() . '.logo');
     }
 
-
-    function setMinAmount()
-    {
-        $this->minAmount = config('bank.type.online.default_min_amount');
-        return $this;
-    }
-
-    function setRequestUrl()
-    {
-        return config('bank.type.online.gateways.' . $this->name() . '.request_url');
-    }
-
-
-    function setPayUrl()
-    {
-        return config('bank.type.online.gateways.' . $this->name() . '.pay_url');
-    }
-
-    function setVerificationUrl()
-    {
-        return config('bank.type.online.gateways.' . $this->name() . '.verification_url');
-    }
-
-
-    function setMerchantId()
-    {
-        $this->merchantId = config('bank.type.online.gateways.' . $this->name() . '.merchant_id');
-        return $this;
-//        return config('bank.type.online.gateways.' . $this->name() . '.merchant_id');
-    }
-
-
     function setAuthority($authority)
     {
         $this->authority = $authority;
         return $this;
+    }
+
+    function setCallbackUrl($callbackUrl)
+    {
+        $this->callbackUrl = $callbackUrl;
+        return $this;
+    }
+
+    function getUserName()
+    {
+        //TODO: ????
+    }
+
+    function getMobile()
+    {
+        //TODO: ????
+    }
+
+    function getMerchantId()
+    {
+        return $this->merchantId;
+    }
+
+    function getMinAmount()
+    {
+        return $this->minAmount;
+    }
+
+    function getRequestUrl()
+    {
+        return $this->requestUrl;
+    }
+
+    function getPayUrl()
+    {
+        return $this->payUrl;
+    }
+
+    function getVerificationUrl()
+    {
+        return $this->verificationUrl;
+    }
+
+    function getPaymentUrl()
+    {
+        return $this->paymentUrl;
     }
 
     function authority()
@@ -114,13 +175,6 @@ abstract class BaseBank
     function setPaymentId()
     {
         return $this->paymentId;
-    }
-
-
-    function setCallbackUrl($callbackUrl)
-    {
-        $this->callbackUrl = $callbackUrl;
-        return $this;
     }
 
     function callbackUrl()

@@ -30,7 +30,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('a', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class,'handle']);
+Route::get('a', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class,'pay']);
+Route::get('b', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class,'verify']);
 
 
 Route::get('/', function () {

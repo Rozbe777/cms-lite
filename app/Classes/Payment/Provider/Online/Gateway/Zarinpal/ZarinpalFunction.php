@@ -126,7 +126,7 @@ class ZarinpalFunction
         exit;
     }
 
-    public function request($MerchantID, $Amount, $Description="", $Email="", $Mobile="", $CallbackURL, $SandBox=false, $ZarinGate=false)
+    public function request($MerchantID, $Amount, $CallbackURL,$requestUrl, $payUrl, $paymentUrl, $SandBox=false, $ZarinGate=false, $Description=null, $Email=null, $Mobile=null )
     {
         $ZarinGate = ($SandBox == true) ? false : $ZarinGate;
 
@@ -135,7 +135,7 @@ class ZarinpalFunction
             $node 	= ($SandBox == true) ? "sandbox" : $this->zarinpal_node();
             $upay 	= ($SandBox == true) ? "sandbox" : "www";
 
-            $client = new SoapClient("https://{$node}.zarinpal.com/pg/services/WebGate/wsdl", ['encoding' => 'UTF-8']);
+            $client = new SoapClient("https://{$node}.$requestUrl", ['encoding' => 'UTF-8']);
 
             $result = $client->PaymentRequest([
                 'MerchantID'     => $MerchantID,
@@ -148,7 +148,7 @@ class ZarinpalFunction
 
             $Status 		= (isset($result->Status) 		&& $result->Status != "") 		? $result->Status : 0;
             $Authority 		= (isset($result->Authority) 	&& $result->Authority != "") 	? $result->Authority : "";
-            $StartPay 		= (isset($result->Authority) 	&& $result->Authority != "") 	? "https://{$upay}.zarinpal.com/pg/StartPay/". $Authority : "";
+            $StartPay 		= (isset($result->Authority) 	&& $result->Authority != "") 	? "https://{$upay}.$payUrl". $Authority : "";
             $StartPayUrl 	= (isset($ZarinGate) 			&& $ZarinGate == true) 			? "{$StartPay}/ZarinGate" : $StartPay;
 
             return array(
@@ -171,7 +171,7 @@ class ZarinpalFunction
             );
 
             $jsonData = json_encode($data);
-            $ch = curl_init("https://{$upay}.zarinpal.com/pg/rest/WebGate/PaymentRequest.json");
+            $ch = curl_init("https://{$upay}.$paymentUrl");
             curl_setopt($ch, CURLOPT_USERAGENT, 'ZarinPal Rest Api v1');
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
             curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
@@ -196,7 +196,7 @@ class ZarinpalFunction
                 $Status 		= (isset($result["Status"]) 	&& $result["Status"] != "") 	? $result["Status"] : 0;
                 $Message 		= $this->error_message($Status, $Description, $CallbackURL, true);
                 $Authority 		= (isset($result["Authority"]) 	&& $result["Authority"] != "") 	? $result["Authority"] : "";
-                $StartPay 		= (isset($result["Authority"]) 	&& $result["Authority"] != "") 	? "https://{$upay}.zarinpal.com/pg/StartPay/". $Authority : "";
+                $StartPay 		= (isset($result["Authority"]) 	&& $result["Authority"] != "") 	? "https://{$upay}.$payUrl". $Authority : "";
                 $StartPayUrl 	= (isset($ZarinGate) 			&& $ZarinGate == true) 			? "{$StartPay}/ZarinGate" : $StartPay;
             }
 
@@ -211,7 +211,7 @@ class ZarinpalFunction
         }
     }
 
-    public function verify($MerchantID, $Amount, $SandBox=false, $ZarinGate=false)
+    public function verify($MerchantID, $requestUrl, $verificationUrl,$Amount, $SandBox=false, $ZarinGate=false)
     {
         $ZarinGate = ($SandBox == true) ? false : $ZarinGate;
 
@@ -220,7 +220,7 @@ class ZarinpalFunction
             $au 	= (isset($_GET['Authority']) && $_GET['Authority'] != "") ? $_GET['Authority'] : "";
             $node 	= ($SandBox == true) ? "sandbox" : $this->zarinpal_node();
 
-            $client = new SoapClient("https://{$node}.zarinpal.com/pg/services/WebGate/wsdl", ['encoding' => 'UTF-8']);
+            $client = new SoapClient("https://{$node}.$requestUrl", ['encoding' => 'UTF-8']);
 
             $result = $client->PaymentVerification([
                 'MerchantID'     => $MerchantID,

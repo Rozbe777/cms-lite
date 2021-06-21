@@ -13,16 +13,19 @@ return
             'online' => [
                 'default_gateway' => 'zarinpal',
                 'default_min_amount' => '1000',
+                'callbackUrl' => "b",
                 'gateways' => [
                     'zarinpal' => [
                         'id' => 1,
                         'name' => 'زرین پال',
+                        'description' => "فروش محصول از طریق درگاه زرین پال",
                         'status' => 'enable',//enable or disable
                         'type' => 'online', //online or sms
                         'logo' => 0,//logo file id
                         'request_url' => 'zarinpal.com/pg/services/WebGate/wsdl',
-                        'pay_url' => 'https://www.zarinpal.com/pg/StartPay',
-                        'verification_url' => 'https://www.zarinpal.com/pg/services/WebGate/wsdl',
+                        'pay_url' => 'zarinpal.com/pg/StartPay/',
+                        'payment_url' => 'zarinpal.com/pg/rest/WebGate/PaymentRequest.json',
+                        'verification_url' => 'zarinpal.com/pg/rest/WebGate/PaymentVerification.json',
                         'merchant_id' => "00000000-0000-0000-0000-000000000000",
                         'class' => \App\Classes\Payment\Provider\Online\Gateway\Zarinpal\Zarinpal::class,
                     ],
