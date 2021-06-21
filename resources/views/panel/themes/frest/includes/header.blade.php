@@ -6,11 +6,11 @@
             <div class="navbar-collapse" id="navbar-mobile">
                 <div class="mr-auto float-left bookmark-wrapper d-flex align-items-center">
                     <ul class="nav navbar-nav">
-                        <li class="nav-item mobile-menu d-xl-none mr-auto"><a
-                                class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i
+                        <li class="nav-item mobile-menu d-xl-none mr-auto"><a style="float: right"
+                                                                              class=" menu-toggle hidden-xs" href="#"><i
+                                    style="font-size: 32px"
                                     class="bx bx-menu"></i></a></li>
                     </ul>
-
                     <ul class="nav navbar-nav">
                         <li class="nav-item d-none d-lg-block"><a class="nav-link bookmark-star"><i id="showen"
                                                                                                     style="visibility: visible !important;display: block !important;"
@@ -37,6 +37,7 @@
 
                     <li class="nav-item d-none d-lg-block" style="
     display: flex !important;
+    margin-left: 15px;
     align-items: center;
     justify-content: center;
 ">
@@ -50,7 +51,8 @@
                         </div>
                     </li>
 
-                    <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand"><i
+                    <li class="nav-item"><a class="nav-link nav-link-expand"><i
+                                style="display: block !important; visibility: visible !important;"
                                 class="ficon bx bx-fullscreen"></i></a></li>
 
 
