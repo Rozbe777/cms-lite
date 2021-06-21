@@ -9,8 +9,6 @@ import {CHECK_BOX_CONTENT} from './../../UserList/Helper/Context'
 import Item from './Item';
 import Loading from "../../_Micro/Loading";
 import SearchComponent from './../Search'
-import DataInitial from '../InitialData.js';
-import GroupAction from "../GroupAction";
 import {ErroHandle, error as ErrorToast} from "../../../../helper";
 import {Pagination} from "../../_Micro/Pagination";
 import {TotalActions} from "../../UserList/HOC/TotalActions";
@@ -195,7 +193,7 @@ const Index = () => {
 
 
     const handleBackRef = (item) => {
-        if (item.status == 200) {
+        if (item) {
             GetAllProducts(stringSearchs);
             ReactDom.render('', document.getElementById('add-product'))
         }

@@ -20,6 +20,8 @@ export const MultiSelected = ({
 
     const [check, setCheck] = useState([])
 
+    console.log("?????" , defSelected)
+
 
     // const [data, setData] = useState()
     const [paginateThumbs, setPaginateThumbs] = useState();

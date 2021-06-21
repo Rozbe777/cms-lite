@@ -110,7 +110,6 @@ export const TreeShowCategory = ({
         pushCallBack(item);
     }
     const HandleClick = (id) => {
-        console.log("tree id : ", id)
         pushItemCliks(id);
     }
     const HndleDuplicate = (item) => {
@@ -130,7 +129,6 @@ export const TreeShowCategory = ({
 
     const HandleDel = (e) => {
         e.preventDefault();
-        console.log(("idsssssss : " , idDelete))
         if (idDelete) {
             swal({
                 title: 'حذف دسته بندی',
@@ -179,7 +177,6 @@ export const TreeShowCategory = ({
     const HandleEdit = (e, type) => {
         e.preventDefault()
         let editOrDup = JSON.stringify({type, allData: responseData})
-        console.log("loading dataaaaaaa  : ", editOrDup)
 
         pushUpdateData(editOrDup);
     }
@@ -190,15 +187,15 @@ export const TreeShowCategory = ({
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
             <div>
                 <ul className={"content-li"}>
-                    {data ? data.map(item => {
+                    {data ? data.map((item , index) => {
                             return (
-                                <li id={"li-back-item"}>
+                                <li key={index} id={"li-back-item"}>
 
 
                                     <div className={"branch-top"}>
                                     </div>
 
-                                    <Item key={item.name} name={item.name}
+                                    <Item name={item.name}
                                           allData={item}
                                           allDataWidth = {data}
                                           checkSel={id => HandleCheckBox(id)}
@@ -212,9 +209,9 @@ export const TreeShowCategory = ({
                                           dataAlls={data}
                                           responseUpdate={item => setResponseData(item)}
                                     />
-                                    {item.childern.length > 0 ? item.childern.map((itemClildOne, i) => {
+                                    {item.childern.length > 0 ? item.childern.map((itemClildOne, indexed) => {
                                             return (
-                                                <ul style={{padding: '0 50px 0 0', listStyle: 'inherit'}}>
+                                                <ul key={indexed} style={{padding: '0 50px 0 0', listStyle: 'inherit'}}>
 
                                                     <li id={"li-back-item"}>
 
@@ -225,7 +222,7 @@ export const TreeShowCategory = ({
                                                         <div className={"branch"}>
                                                             <div className={"box"}></div>
                                                         </div>
-                                                        <Item key={itemClildOne.id} status={itemClildOne.status}
+                                                        <Item status={itemClildOne.status}
                                                               name={itemClildOne.name} id={itemClildOne.id}
                                                               allData={itemClildOne}
                                                               callBack={item => handlePush(item)}
@@ -237,8 +234,8 @@ export const TreeShowCategory = ({
                                                               itemClick={itemId => HandleClick(itemId)}
                                                         />
 
-                                                        {itemClildOne.children.length > 0 ? itemClildOne.children.map((childThree, i) => (
-                                                            <ul style={{
+                                                        {itemClildOne.children.length > 0 ? itemClildOne.children.map((childThree, indexes) => (
+                                                            <ul key={indexes} style={{
                                                                 padding: '0 50px 0 0',
                                                                 listStyle: 'inherit'
                                                             }}>
@@ -252,7 +249,7 @@ export const TreeShowCategory = ({
                                                                         <div className={"box"}></div>
                                                                     </div>
 
-                                                                    <Item key={childThree.id} status={childThree.status}
+                                                                    <Item status={childThree.status}
                                                                           name={childThree.name} id={childThree.id}
                                                                           callBack={item => handlePush(item)}
                                                                           allData={childThree}

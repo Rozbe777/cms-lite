@@ -5,6 +5,10 @@
         display: none;
     }
 
+    div.row#chipset-container{
+        height: auto !important;
+        margin-right: 0px !important;
+    }
     .float-btn-add{
         display: block !important;
     }
@@ -26,6 +30,9 @@
 
     .main-options-sel #content{
         top: -90px !important;
+    }
+    div#productsSort .main-options-sel #content{
+        top: -150px !important;
     }
 
     #li-div {
@@ -153,13 +160,24 @@
     .optionBox.float_on {
         top: unset !important;
         bottom: 55px;
+    }
+    #filterPro .optionBox.float_on {
+        top: unset !important;
+        bottom: 55px !important;
+    }
+    #inAddings .optionBox.float_on {
+        bottom: unset !important;
+        top : 55px !important;
         z-index: -1;
 
     }
     .optionBox#selectedFilter {
         visibility: hidden;
+        bottom: 55px !important;
+        top: unset !important;
 
         &.active {
+
             visibility: visible;
         }
     }
@@ -826,24 +844,40 @@ body.active-darked {
             border-radius: 0.267rem !important;
             border: $itemBorder !important;
             background-color: #272E48 !important;
-
+            a{
+                height: 55px !important;
+            }
             .menu-content {
                 background-color: #272E48 !important;
+
+                li.is-shown{
+                    margin-right: 20px;
+
+                    a{
+                        height: 40px !important;
+                    }
+
+                }
             }
         }
 
         .nav-item.has-sub {
             min-height: 45px !important;
-            border-radius: 0.267rem !important;
-            border: $itemBorder !important;
-            background-color: #272E48 !important;
+            //border-radius: 0.267rem !important;
+            //border: $itemBorder !important;
+            //background-color: #272E48 !important;
             margin: 5px !important;
+            a{
+                padding: 10px 10px !important;
+                margin: 0px 10px !important;
+            }
 
             .menu-content {
                 background-color: #272E48 !important;
 
             }
         }
+
 
         .navigation-main {
             background: $background !important;
@@ -1007,6 +1041,10 @@ body.active-darked {
         }
     }
 
+    .main-menu.menu-light .navigation > li > ul > li:first-child > a{
+        border-top: $itemBorder !important;
+    }
+
     .item-product {
         background: $itemBackground !important;
 
@@ -1145,7 +1183,11 @@ body.active-darked {
     }
 
     .filter-content-fix {
+        z-index: -1;
         background: #3c445a !important;
+        &.active{
+            z-index: 99999999;
+        }
     }
 
     .main-options-sel #selected {
@@ -1514,4 +1556,25 @@ div#sub-menu-custom {
     opacity: 0;
     background-image: linear-gradient(to right, #ffffff, #ffffff66);;
     visibility: hidden;
+}
+
+
+.nav-item.has-sub.open {
+    a{
+        height: 55px !important;
+    }
+    .menu-content {
+        li.is-shown{
+            margin-right: 20px;
+
+            a{
+                height: 40px !important;
+            }
+
+        }
+    }
+}
+
+#catdetail{
+    overflow-x: hidden;
 }

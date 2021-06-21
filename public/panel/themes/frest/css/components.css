@@ -529,6 +529,17 @@ body.footer-hidden footer {
     margin: 0 11px 0;
     padding: 9px 0;
 }
+.main-menu.menu-light .navigation li.has-sub > a::after {
+    top : 3px !important;
+}
+.main-menu.menu-light .navigation li.has-sub > a span {
+    float: right;
+    margin-top: -5px;
+}
+.main-menu.menu-light .navigation li.has-sub > a i {
+   /*float: right;*/
+    /*margin-top: 10px;*/
+}
 
 .main-menu.menu-light .navigation li.has-sub ul {
     padding: 7px 0 0;

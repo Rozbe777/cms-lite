@@ -11,26 +11,19 @@ import {ChipsetHandler} from './../../../HOC/ChipsetHandler';
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import $ from "jquery";
 
-const LOCAL_CAT = "localcat-zerone-cmslite";
-const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult}) => {
-    const [comments, setComments] = useState();
-    const [categoryData, setCategoryData] = useState({});
-    const [loading, setLoading] = useState(false);
+const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
+    const [categoryData] = useState({});
+    const [loading] = useState(false);
     const [ids, setIds] = useState();
     const [contentNew, setContentNew] = useState();
-    const [statusNew, setStatusNew] = useState();
-    const [menuShow, setMenuShow] = useState();
     const [chipset, setChipset] = useState([]);
-    let tags = [];
     const [edit, setEdit] = useState(false);
     const [file, setFile] = useState();
     const [changeCheck, setChangeCheck] = useState(false)
 
-    const StatusSwitch = useRef(null);
     const [metaData, setMetaData] = useState({
         robots: false,
     });
-    console.log("dataaa**sss*** : ", dataUpdate);
 
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
 
@@ -103,7 +96,6 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
             parent_id : formNews.parent_id,
             status : formNews.status,
         });
-        console.log("data.................", formNews);
         let metaDataNew = {...metaData};
         metaDataNew = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
         setMetaData(metaDataNew)
@@ -150,7 +142,6 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     }
 
 
-    // {console.log("cat .......... : " , dataUpdate ? JSON.parse(JSON.parse(dataUpdate).allData) : '')}
 
 
     const RemoveChipset = (name) => {
@@ -209,9 +200,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
         formNew.metadata = JSON.stringify(metaData);
         if (formData.name && formData.name !== '') {
             $("input[name=name]").removeClass("is-invalid");
-            // console.log("form dataaaaaaaa : ", formNew)
             formNew.parent_id = formNew.parent_id ? formNew.parent_id : 0;
-            console.log("image : ", formNew)
             CreateAddCategory(formNew);
         } else {
             $("input[name=name]").addClass("is-invalid");
@@ -246,7 +235,6 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     }
 
     const HandleUpdateForm = (data, id) => {
-        console.log("id : " , data)
         swal({
             title: 'ویرایش دسته بندی',
             text: "آیا مطمئنید؟",
@@ -262,7 +250,6 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
                 Request.UpdateDataCategory(data, id)
                     .then(res => {
                         let resError = res.data.message ? res.data.message : '';
-                        console.log("status error : ", res.data.size)
                         pushResult(res);
                         localStorage.removeItem("is_menu");
                         localStorage.removeItem("status");
@@ -279,7 +266,6 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
                         if (err.response.data.errors) {
                             ErroHandle(err.response.data.errors);
                         } else {
-                            //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
                             ErrorToast("خطای غیر منتظره ای رخ داده است")
                         }
                     }
@@ -325,6 +311,7 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
         let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
+        delete formOldData.id;
         formOldData.status = status;
         formOldData.metadata = JSON.stringify(metaDatas);
         formOldData.is_menu = parseInt(is_menu);
@@ -359,17 +346,14 @@ const AddCategory = ({display, dataAll, dataUpdate, idParent, result: pushResult
     }
     const handleSwitchStatus = (status) => {
         setEdit(true)
-        console.log("ssssss :"  , status)
         localStorage.setItem("status", status ? "active" : "deactivate");
     }
     const handleSwitchMenu = (status) => {
-        console.log("ffffffff" , status)
         setEdit(true)
         localStorage.setItem("is_menu", status ? 1 : 0);
     }
     const HandleSelectOption = (check) => {
         setEdit(true)
-        console.log("data checked : ", check)
         localStorage.setItem("selected", check)
     }
 

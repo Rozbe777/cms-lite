@@ -53,7 +53,7 @@ class PermissionSeeder extends Seeder
                 ],
                 [
                     'weight' => 100,
-                    'icon' => 'bx-square-rounded',
+                    'icon' => 'bx-note',
                     'is_menu' => 1,
                     "name" => "pages.blade",
                     "display_name" => "صفحات",
@@ -88,7 +88,7 @@ class PermissionSeeder extends Seeder
                     "display_name" => "تنظیمات",
                     "children" => [
                         [
-                            'icon' => 'bx-desktop',
+                            'icon' => 'bx-brush',
                             'is_menu' => 1,
                             "name" => "theme.index",
                             "display_name" => "انتخاب پوسته"
