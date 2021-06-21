@@ -8,23 +8,28 @@
 
 return
     [
-        'setting' => [
-            'default' => 'zarinpal',
-            'min_amount' => 100
-        ],
-        'gateways' => [
-            'zarinpal' => [
-                'id' => 1,
-                'name' => 'زرین پال',
-                'status' => 'enable',//enable or disable
-                'type' => 'online', //online or sms
-                'logo' => 0,//logo file id
-                'request_url' => 'https://www.zarinpal.com/pg/services/WebGate/wsdl',
-                'pay_url' => 'https://www.zarinpal.com/pg/StartPay',
-                'verification_url' => 'https://www.zarinpal.com/pg/services/WebGate/wsdl',
-                'merchant_id' => "00000000-0000-0000-0000-000000000000",
-                'class' => \App\Classes\Payment\Bank\Gateway\Zarinpal\Zarinpal::class
+        'default_type' => 'online',
+        'type' => [
+            'online' => [
+                'default_gateway' => 'zarinpal',
+                'default_min_amount' => '1000',
+                'gateways' => [
+                    'zarinpal' => [
+                        'id' => 1,
+                        'name' => 'زرین پال',
+                        'status' => 'enable',//enable or disable
+                        'type' => 'online', //online or sms
+                        'logo' => 0,//logo file id
+                        'request_url' => 'https://www.zarinpal.com/pg/services/WebGate/wsdl',
+                        'pay_url' => 'https://www.zarinpal.com/pg/StartPay',
+                        'verification_url' => 'https://www.zarinpal.com/pg/services/WebGate/wsdl',
+                        'merchant_id' => "00000000-0000-0000-0000-000000000000",
+                        'class' => \App\Classes\Payment\Provider\Online\Gateway\Zarinpal\Zarinpal::class,
+                    ],
+                ],
             ],
+        ],
+
 //            'parsian' => [
 //                'id' => 2,
 //                'name' => 'پارسیان',
@@ -63,5 +68,5 @@ return
 //                'merchant_id' => '121212121212',
 //                'class' => Limito\Pay\Payment\Bank\Banks\Payping::class
 //            ]
-        ]
+//    ]
     ];

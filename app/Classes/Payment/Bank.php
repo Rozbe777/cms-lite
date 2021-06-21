@@ -4,18 +4,21 @@
 namespace App\Classes\Payment;
 
 
-class Bank extends BaseBank implements iBank
+class Bank implements iBank
 {
     const ONLINE_TYPE = 'Online';
     const OFFLINE_TYPE = 'Offline';
 
     protected ?iBank $provider = null;
+    public $name;
 
-    public function __construct($type = self::ONLINE_TYPE)
+    public function __construct($type = self::ONLINE_TYPE, $name = null)
     {
         $funcPath = __NAMESPACE__ . "\\Provider\\$type\\Pay";
 
         $this->provider = new $funcPath();
+
+        $this->name = $name;
     }
 
     static function getInstance($type = self::ONLINE_TYPE)
@@ -30,6 +33,6 @@ class Bank extends BaseBank implements iBank
 
     function callback()
     {
-        // TODO: Implement callback() method.
+        return $this->provider->callback();
     }
 }

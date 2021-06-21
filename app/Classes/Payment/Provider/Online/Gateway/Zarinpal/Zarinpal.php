@@ -1,14 +1,19 @@
 <?php
 
 
-namespace App\Classes\Payment\Bank\Gateway\Zarinpal;
+namespace App\Classes\Payment\Provider\Online\Gateway\Zarinpal;
 
 
-use App\Classes\Payment\Bank\Gateway\Gateway;
-use App\Classes\Payment\Bank\Zarinpal\ZarinpalFunction;
+use App\Classes\Payment\BaseBank;
 
-class Zarinpal extends Gateway
+class Zarinpal extends BaseBank
 {
+
+    function handle()
+    {
+
+    }
+
 
     function startPayment()
     {
@@ -38,26 +43,25 @@ class Zarinpal extends Gateway
 
     function callback()
     {
-        $MerchantID 	= "00000000-0000-0000-0000-000000000000";
-        $Amount 		= 100;
-        $ZarinGate 		= false;
-        $SandBox 		= true;
+        $MerchantID = "00000000-0000-0000-0000-000000000000";
+        $Amount = 100;
+        $ZarinGate = false;
+        $SandBox = true;
 
-        $zp 	= new ZarinpalFunction();
+        $zp = new ZarinpalFunction();
         $result = $zp->verify($MerchantID, $Amount, $SandBox, $ZarinGate);
 
-        if (isset($result["Status"]) && $result["Status"] == 100)
-        {
+        if (isset($result["Status"]) && $result["Status"] == 100) {
             // Success
             echo "تراکنش با موفقیت انجام شد";
-            echo "<br />مبلغ : ". $result["Amount"];
-            echo "<br />کد پیگیری : ". $result["RefID"];
-            echo "<br />Authority : ". $result["Authority"];
+            echo "<br />مبلغ : " . $result["Amount"];
+            echo "<br />کد پیگیری : " . $result["RefID"];
+            echo "<br />Authority : " . $result["Authority"];
         } else {
             // error
             echo "پرداخت ناموفق";
-            echo "<br />کد خطا : ". $result["Status"];
-            echo "<br />تفسیر و علت خطا : ". $result["Message"];
+            echo "<br />کد خطا : " . $result["Status"];
+            echo "<br />تفسیر و علت خطا : " . $result["Message"];
         }
     }
 }

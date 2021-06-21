@@ -20,7 +20,7 @@ abstract class BaseBank
 
     function default()
     {
-        return config('bank.setting.default'); //zarinpal
+        return config('bank.type.online.default_gateway'); //zarinpal
     }
 
     function name()
@@ -72,7 +72,7 @@ abstract class BaseBank
 
     function merchantId()
     {
-        return config('bank.gateways.' . $this->name() . '.merchant_id');
+        return config('bank.type.online.gateways.' . $this->name() . '.merchant_id');
     }
 
 
