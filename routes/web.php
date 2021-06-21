@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('a', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class,'handle']);
 
+
 Route::get('payment/zarinpal/order', [\App\Classes\Payment\Bank\Zarinpal\ZarinpalVerify::class,'verify']);
 
 Route::get('/', function () {

@@ -23,7 +23,7 @@ class Pay implements iBank
         $defaultGateway = config("$this->prefixConfigPath.default_gateway");
         $gateway = config("$this->prefixConfigPath.gateways.$defaultGateway");
         $className = $gateway['class'];
-
+//$x = (new $className)->setMerchantId()->setMinAmount(); dd($x)
         (new $className)->setMerchantId()->setMinAmount()->setRequestUrl()->handle();
     }
 
