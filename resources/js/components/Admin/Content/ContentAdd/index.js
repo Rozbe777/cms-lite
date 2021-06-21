@@ -21,7 +21,7 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
     const [clear, setClear] = useState(false)
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
-    const [contentNew, setContentNew] = useState({});
+    const [contentNew, setContentNew] = useState('');
     const [idSelCat, setIdSelCat] = useState([])
     const [ids, setIds] = useState(0)
     const [chipset, setChipset] = useState([]);
@@ -333,7 +333,6 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
         let slug = slugManage ? titleWrite : $("input.slugest").val();
         formOldData.title = title;
         formOldData.slug = slug;
-        formOldData.content = JSON.stringify(contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
@@ -342,12 +341,12 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
         metaDatas.robots = robots;
         formOldData.title = titleWrite;
         formOldData.metadata = JSON.stringify(metaDatas);
+        formOldData.content =  contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
         formOldData.status = status;
         formOldData.comment_status = comment_status;
         formOldData.is_menu = parseInt(is_menu);
         formOldData.category_list = idSelCat;
         formOldData.tag_list = setChipChange ? chipset : [];
-        console.log("....." , metaDatas , formOldData)
         HandleUpdateForm(formOldData, ids);
     }
 
@@ -356,7 +355,6 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
         let title = titleWrite;
         let slug = slugManage ? titleWrite : $("input.slugest").val();
 
-        formOldData.content = JSON.stringify(contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
@@ -368,6 +366,7 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
         formOldData.category_list = idSelCat;
         formOldData.tag_list = chipset;
         formOldData.title = title;
+        formOldData.content =  contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
         formOldData.slug = slug;
         formOldData.comment_status = comment_status;
         formOldData.is_menu = parseInt(is_menu);
