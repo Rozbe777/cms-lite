@@ -67,6 +67,8 @@ export const PageList = (props) => {
                 handleAddPage();
             })
         })
+
+
     }, [])
 
     const handleAddPage = () => {

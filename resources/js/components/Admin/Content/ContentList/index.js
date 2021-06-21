@@ -137,6 +137,10 @@ export const ContentList = () => {
     }
     const HandleDeleteContent = (status) => {
         if (status == 200) {
+            $(".pagination li.page-item.numberss").removeClass("active")
+            $("ul.pagination li").eq(1).addClass("active")
+            $("span.checkboxeds").removeClass("active");
+
             $("li.page-item.numberss").removeClass("active");
             $("li.page-item").eq(1).addClass("active");
             $("li.page-item.next").css("opacity", 1);

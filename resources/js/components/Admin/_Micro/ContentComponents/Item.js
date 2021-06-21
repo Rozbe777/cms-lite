@@ -24,6 +24,19 @@ export const Item = ({
     }
     useEffect(() => {
 
+        $("div#li-div").mouseover(function () {
+            // $("#li-div div#moreOpp").removeClass("active")
+            $(this).find("#moreOpp").addClass("active")
+            $(this).find("#sub-menu-custom i").addClass("active")
+
+        })
+        $("div#li-div").mouseout(function () {
+            // $("#li-div div#moreOpp").removeClass("active")
+            $("#li-div #moreOpp").removeClass("active")
+            $(this).find("#sub-menu-custom i").removeClass("active")
+
+
+        })
     }, [])
 
 
@@ -33,8 +46,6 @@ export const Item = ({
     //         $(this).find('i.' + id).toggleClass("active");
     //     })
     // })
-
-
 
 
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
@@ -113,7 +124,7 @@ export const Item = ({
     return (
         <div id={"li-div"} className={"mini"}>
             <div className={"row"} style={{padding: '0 20px', position: 'relative'}}>
-                <div className={"col-md-6 col-sm-8"} style={{padding: 13}}>
+                <div className={"col-md-6 col-sm-8"} style={{padding: '10px 0'}}>
                     <fieldset style={{float: "right"}}>
                         <div className="checkbox">
                             <input type="checkbox" name={"checkbox_content_" + id}
@@ -124,23 +135,22 @@ export const Item = ({
                         </div>
                     </fieldset>
                     <span id={"item-tree-show"}>{name}</span>
-                    <span id={"sub-menu-custom"} >
-                    <i className={"bx bx-chevron-down"}></i>
-                </span>
-                </div>
+                    <div id={"sub-menu-custom"}>
+                        <i className={"bx bx-chevron-down"}></i>
+                    </div>
+                    <div className={"col-12 " + id} id={"moreOpp"}>
+                        <i className={"bx bx-show"}></i>
+                        <i className={"bx bx-trash-alt"} onClick={e => HandleDel(e, id)}></i>
+                        <i className={"bx bx-edit"} onClick={e => HandleEdit(e, "edit")}></i>
+                        <i className={"bx bx-duplicate"} onClick={e => HandleEdit(e, "dup")}></i>
 
+                        {status == "active" ? (
+                            <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
+                        ) : (
+                            <span className={"badge badge-warning badge-pill ml-50"}>غیرفعال</span>
+                        )}
+                    </div>
 
-                <div className={"col-12 " + id} id={"moreOpp"}>
-                    <i className={"bx bx-show"}></i>
-                    <i className={"bx bx-trash-alt"} onClick={e => HandleDel(e, id)}></i>
-                    <i className={"bx bx-edit"} onClick={e => HandleEdit(e, "edit")}></i>
-                    <i className={"bx bx-duplicate"} onClick={e => HandleEdit(e, "dup")}></i>
-
-                    {status == "active" ? (
-                        <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
-                    ) : (
-                        <span className={"badge badge-warning badge-pill ml-50"}>غیرفعال</span>
-                    )}
                 </div>
 
 

@@ -185,36 +185,54 @@ const SearchComponent = ({tagReload, total, searchRes: pushSearchRes}) => {
             </div>
             <div className={"filter-content-fix"} id={"userlist"}>
                 <div className="row col-12" id={"header-card-custom"}>
-
-                    <div className="col-12">
+                    <div className="col-12 col-sm-6 col-lg-3">
                         <label
-                            htmlFor="users-list-verified">وضعیت</label>
-                        <fieldset className={"form-group"}>
-                            <select defaultValue={"nn"} onChange={e => responsiveSeach(e)} name={"status"} className={"form-control"}
-                                    id={"confirm"}>
-                                <option value={"nn"}>انتخاب کنید</option>
-                                <option value={"active"}>فعال</option>
-                                <option value={"deactivate"}>غیرفعال</option>
-                            </select>
+                            htmlFor="users-list-role">دسته بندی</label>
+                        <MultiSelected name={"categories"} data={categoryData ? categoryData : []}
+                                       selected={item => {
+                                           item.map(ii => {
+                                               idss.push(ii);
+                                           })
+                                           let oldSearch = {...search};
+                                           oldSearch.categories = idss;
+                                           setSearch(oldSearch)
+                                           pushSearchRes(oldSearch)
+                                       }}
 
-                        </fieldset>
+                        />
+                    </div>
+
+                    <div className="col-12 col-sm-6 col-lg-3">
+                        <label
+                            htmlFor="users-list-role">وضعیت</label>
+                        <MultiOption name={"status"} data={[{
+                            id : 'منتشر شده',
+                            name : 'منتشر شده'
+                        },{
+                            id : 'منتشر نشده',
+                            name : 'منتشر نشده'
+                        }]}
+                                     selected={item => {
+                                         let oldSearch = {...search};
+                                         oldSearch.status = item == "منتشر شده" ? "active" : item == "منتشر نشده" ? "deactivate" : '';
+                                         setSearch(oldSearch)
+                                         pushSearchRes(oldSearch)
+                                     }}
+                        />
                     </div>
 
 
-                    <div className="col-12">
+                    <div className="col-12 col-sm-6 col-lg-3">
                         <label
-                            htmlFor="users-list-role">تعداد نمایش</label>
-                        <fieldset className={"form-group"}>
-                            <select defaultValue={"0"} onChange={e => responsiveSeach(e)} name={"pageSize"} className={"form-control"}
-                                    id={"confirm"}>
-                                <option value={"0"}>انتخاب کنید</option>
-                                <option value={"10"}>10</option>
-                                <option value={"15"}>15</option>
-                                <option value={"20"}>20</option>
-                                <option value={total}>نمایش همه</option>
-                            </select>
+                            htmlFor="users-list-role">برچسپ</label>
+                        <MultiSelected name={"tags"} data={tagData ? tagData : []}
+                                       selected={item => {
+                                           let oldSearch = {...search};
+                                           setSearch(oldSearch)
+                                           pushSearchRes(oldSearch)
+                                       }}
 
-                        </fieldset>
+                        />
                     </div>
 
                 </div>

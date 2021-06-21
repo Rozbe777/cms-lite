@@ -17,8 +17,20 @@ export const TreeShowPage = ({
 
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
 
-    useEffect(()=>{
+    useEffect(() => {
+        $("div#li-div").mouseover(function () {
+            // $("#li-div div#moreOpp").removeClass("active")
+            $(this).find("#moreOpp").addClass("active")
+            $(this).find("#sub-menu-custom i").addClass("active")
 
+        })
+        $("div#li-div").mouseout(function () {
+            // $("#li-div div#moreOpp").removeClass("active")
+            $("#li-div #moreOpp").removeClass("active")
+            $(this).find("#sub-menu-custom i").removeClass("active")
+
+
+        })
     }, [])
 
 
@@ -33,18 +45,18 @@ export const TreeShowPage = ({
 
 
     $(function () {
-        $("span#sub-menu-custom").click(function () {
-            $(".back-blur").fadeIn(100);
-            setTimeout(() => {
-                $("#bottom-chip").addClass("active");
-            }, 200)
-        })
-        $(".back-blur").click(() => {
-            $("#bottom-chip").removeClass("active");
-            setTimeout(() => {
-                $(".back-blur").fadeOut(100)
-            }, 200)
-        })
+        // $("span#sub-menu-custom").click(function () {
+        //     $(".back-blur").fadeIn(100);
+        //     setTimeout(() => {
+        //         $("#bottom-chip").addClass("active");
+        //     }, 200)
+        // })
+        // $(".back-blur").click(() => {
+        //     $("#bottom-chip").removeClass("active");
+        //     setTimeout(() => {
+        //         $(".back-blur").fadeOut(100)
+        //     }, 200)
+        // })
     })
 
     let dataWithOutPaginate = data.data;

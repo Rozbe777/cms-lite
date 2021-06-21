@@ -67,12 +67,23 @@ export const Item = ({
 
 
     useEffect(() => {
-        // $("span#sub-menu-custom").click(function () {
-        //     console.log("vsvsd")
-        //     // $(this).parents("#li-div").find(".pageIt#moreOpp." + id).toggleClass("active")
-        //     // $(this).find('i.' + id).toggleClass("active");
-        // })
+
+        $("div#li-div").mouseover(function () {
+            // $("#li-div div#moreOpp").removeClass("active")
+            $(this).find("#moreOpp").addClass("active")
+            $(this).find("#sub-menu-custom i").addClass("active")
+
+        })
+        $("div#li-div").mouseout(function () {
+            // $("#li-div div#moreOpp").removeClass("active")
+            $("#li-div #moreOpp").removeClass("active")
+            $(this).find("#sub-menu-custom i").removeClass("active")
+
+
+        })
     }, [])
+
+
 
 
     // handle edit single item by id and data
@@ -114,9 +125,9 @@ export const Item = ({
     return (
         <div id={"li-div"} className={"mini"}>
             <div className={"row"} style={{padding: '0 20px', position: 'relative'}}>
-                <div className={"col-md-6 col-sm-12"} style={{padding: 13}}>
+                <div className={"col-md-6 col-sm-8"} style={{padding: '10px 0'}}>
                     <fieldset style={{float: "right"}}>
-                        <div className="checkbox" attr-ids={id}>
+                        <div className="checkbox">
                             <input type="checkbox" name={"checkbox_content_" + id}
                                    onChange={e => HandlePushCheck(e, id)}
                                    className="checkbox-input"
@@ -125,25 +136,24 @@ export const Item = ({
                         </div>
                     </fieldset>
                     <span id={"item-tree-show"}>{name}</span>
+                    <div id={"sub-menu-custom"}>
+                        <i className={"bx bx-chevron-down"}></i>
+                    </div>
+                    <div className={"col-12 " + id} id={"moreOpp"}>
+                        <i className={"bx bx-show"}></i>
+                        <i className={"bx bx-trash-alt"} onClick={e => HandleDel(e, id)}></i>
+                        <i className={"bx bx-edit"} onClick={e => HandleEdit(e, "edit")}></i>
+                        <i className={"bx bx-duplicate"} onClick={e => HandleEdit(e, "dup")}></i>
 
-                    <span id={"sub-menu-custom"} >
-                    <i className={"bx bx-chevron-down " + id}></i>
-                </span>
+                        {status == "active" ? (
+                            <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
+                        ) : (
+                            <span className={"badge badge-warning badge-pill ml-50"}>غیرفعال</span>
+                        )}
+                    </div>
+
                 </div>
 
-
-                <div className={"col-12 pageIt " + id} id={"moreOpp"}>
-                    <i className={"bx bx-show"}></i>
-                    <i className={"bx bx-trash-alt"} onClick={e => HandleDel(e, id)}></i>
-                    <i className={"bx bx-edit"} onClick={e => HandleEdit(e, "edit")}></i>
-                    <i className={"bx bx-duplicate"} onClick={e => HandleEdit(e, "dup")}></i>
-
-                    {status == "active" ? (
-                        <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
-                    ) : (
-                        <span className={"badge badge-warning badge-pill ml-50"}>غیرفعال</span>
-                    )}
-                </div>
 
                 <div className={"col-md-6 col-sm-4"} style={{padding: 13}} id={"icon-item-list"}>
                     <div className={"form-check"}>
@@ -151,6 +161,7 @@ export const Item = ({
                         <i className={"bx bx-trash-alt"} onClick={e => HandleDel(e, id)}></i>
                         <i className={"bx bx-edit"} onClick={e => HandleEdit(e, "edit")}></i>
                         <i className={"bx bx-duplicate"} onClick={e => HandleEdit(e, "dup")}></i>
+
                         {status == "active" ? (
                             <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
                         ) : (
@@ -161,25 +172,6 @@ export const Item = ({
 
 
             </div>
-
-
-            {/*<div className={"back-blur"}>*/}
-
-            {/*    <div id={"bottom-chip"}>*/}
-            {/*        <div className={"form-check"}>*/}
-
-            {/*            <ul>*/}
-            {/*                <li onClick={e => HandleEdit(e, "dup")}>کپی صفحه</li>*/}
-            {/*                <li onClick={e => HandleEdit(e, "edit")}>ویرایش صفحه</li>*/}
-            {/*                <li onClick={e => HandleDel(e)}>حذف</li>*/}
-            {/*                <li>مشاهده</li>*/}
-            {/*                <li onClick={e => handleAdding(e)}>افزودن زیر دسته</li>*/}
-            {/*            </ul>*/}
-
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
-
 
         </div>
     )

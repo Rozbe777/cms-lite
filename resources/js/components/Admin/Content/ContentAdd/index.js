@@ -85,9 +85,11 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
                     .then(res => {
                         pushResult(res);
                         $(".pagination li.page-item.numberss").removeClass("active")
-                        $(".pagination li#1.page-item.numberss").addClass("active")
-                        pushCheckChange(true);
+                        $("ul.pagination li").eq(1).addClass("active")
+                        $("li.page-item.next").css("opacity", 1);
+                        $("li.page-item.previous").css("opacity", 0.4);
                         $("span.checkboxeds").removeClass("active");
+                        pushCheckChange(true);
 
                         setClear(true)
                         localStorage.removeItem("is_menu");
@@ -345,6 +347,7 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
         formOldData.is_menu = parseInt(is_menu);
         formOldData.category_list = idSelCat;
         formOldData.tag_list = setChipChange ? chipset : [];
+        console.log("....." , metaDatas , formOldData)
         HandleUpdateForm(formOldData, ids);
     }
 

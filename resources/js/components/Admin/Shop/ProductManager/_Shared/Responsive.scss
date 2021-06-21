@@ -5,15 +5,36 @@
         display: none;
     }
 
+    button{
+        span.align-middle{
+            display: block !important;
+            visibility: visible !important;
+        }
+    }
+
+    .switch-container{
+        ul{
+            li{
+                font-size: 12px;
+                line-height: 3.7;
+            }
+        }
+    }
+
+    .main-options-sel #content{
+        top: -90px !important;
+    }
 
     #li-div {
         &.mini {
             height: auto !important;
 
-            span#sub-menu-custom {
+            div#sub-menu-custom {
                 display: block;
                 visibility: visible;
                 opacity: 1;
+                text-align: center;
+                line-height: 2.4;
                 left: 0;
                 position: absolute;
                 width: 50px;
@@ -40,6 +61,7 @@
         background: none;
         align-items: center;
         height: 0px;
+        z-index: -1;
         opacity: 0;
         justify-content: space-around;
         border-top: 1px solid #eaeaea;
@@ -49,7 +71,10 @@
         -webkit-transition: 0.3s all ease;
 
         &.active {
-            height: 50px;
+            height: 35px;
+            z-index: 1;
+            padding-top: 8px;
+            margin-top: 10px;
             opacity: 1;
         }
     }
@@ -184,8 +209,10 @@
         height: 185px;
     }
 
-    span#sub-menu-custom {
+    div#sub-menu-custom {
         display: none;
+        text-align: center;
+        line-height: 2.4;
         opacity: 0;
         visibility: hidden;
     }
@@ -287,6 +314,7 @@ body.active-darked {
     }
 
     #moreOpp {
+        float: right;
         border-top: $itemBorder !important;
     }
 
@@ -1119,6 +1147,17 @@ body.active-darked {
         a i {
             background: $background !important;
             border: none !important;
+        }
+    }
+
+    .main-options-sel{
+        margin-bottom: unset !important;
+        background: unset !important;
+        border : $itemBorder !important;
+        .option-icon{
+            i{
+                color: $color !important;
+            }
         }
     }
 
