@@ -74,9 +74,9 @@ class PermissionSeeder extends Seeder
                 ],
                 [
                     'weight' => 100,
-                    'icon' => 'flaticon-multiple-users-silhouette',
+                    'icon' => 'bx-cog',
                     'is_menu' => 1,
-                    "name" => "settings.edit",
+                    "name" => "setting.edit",
                     "display_name" => "تنظیمات",
                     "children" => [
                         [
