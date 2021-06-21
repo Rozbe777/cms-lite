@@ -39,7 +39,7 @@ class PermissionSeeder extends Seeder
                         [
                             'icon' => 'bx-sitemap',
                             'is_menu' => 1,
-                            "name" => "category.index",
+                            "name" => "categories.index",
                             "display_name" => "دسته بندی ها"],
                     ]
                 ],
@@ -47,13 +47,13 @@ class PermissionSeeder extends Seeder
                     'weight' => 10,
                     'icon' => 'bx-cart-alt',
                     'is_menu' => 1,
-                    "name" => "product.blade",
+                    "name" => "products.blade",
                     "display_name" => "فروشگاه",
                     "children" => []
                 ],
                 [
                     'weight' => 100,
-                    'icon' => 'flaticon-multiple-users-silhouette',
+                    'icon' => 'bx-square-rounded',
                     'is_menu' => 1,
                     "name" => "pages.blade",
                     "display_name" => "صفحات",
@@ -67,9 +67,9 @@ class PermissionSeeder extends Seeder
                     "display_name" => "کاربران",
                     "children" => [
                         [
-                            'icon' => 'user-plus',
+                            'icon' => 'bx-user-plus',
                             'is_menu' => 1,
-                            "name" => "user.create",
+                            "name" => "users.create",
                             "display_name" => "افزودن کاربر"
                         ],
                         [
@@ -84,7 +84,7 @@ class PermissionSeeder extends Seeder
                     'weight' => 100,
                     'icon' => 'bx-cog',
                     'is_menu' => 1,
-                    "name" => "setting.edit",
+                    "name" => "settings.edit",
                     "display_name" => "تنظیمات",
                     "children" => [
                         [
