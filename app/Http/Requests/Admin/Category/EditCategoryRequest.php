@@ -30,7 +30,7 @@ class EditCategoryRequest extends FormRequest
             'image' => 'string|image|nullable',
             'content' => 'string',
             'fields' => 'string',
-            'parent_id' => 'nullable|numeric',
+            'parent_id' => 'nullable|different:id',
             'is_menu'=>'boolean|nullable',
 //            'layout_id' => '',//not using now FIXME after insert layout and module
 //            'module_id' => '',
