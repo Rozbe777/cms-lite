@@ -3,6 +3,7 @@ import './_Shared/style.scss';
 import {Request} from './../../../../services/AdminService/Api';
 import {CHECK_BOX_CONTENT} from "../../UserList/Helper/Context";
 import $ from "jquery";
+import {ErroHandle} from "../../../../helper";
 
 const dataTransitionKey = "cmsLiteData123548$%";
 // allData => all data for this item BUT dataAlls => is all category data for category selected parent
@@ -48,7 +49,6 @@ export const Item = ({
 
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
 
-    console.log("checcccccc : ", allData)
     // handle delete single item by category id
     const HandleDel = (e, idDel) => {
         e.preventDefault()
@@ -67,22 +67,14 @@ export const Item = ({
                 Request.DeleteCategoryOne(idDel)
                     .then(res => {
                         pushDelClick(res.status)
-                        if (res.status == 200) {
                             Swal.fire({
                                 type: "success",
                                 title: 'با موفقیت حذف شد !',
                                 confirmButtonClass: 'btn btn-success',
                                 confirmButtonText: 'باشه',
                             })
-                        } else {
-                            Swal.fire({
-                                type: "error",
-                                title: 'خطایی رخ داده است !',
-                                cancelButtonClass: 'btn btn-primary',
-                                cancelButtonText: 'تلاش مجدد',
-                            })
-                        }
-                    }).catch(error => console.log("error", error))
+
+                    }).catch(error =>  ErroHandle("خطای غیر منتظره ای رخ داده است"))
             }
         });
 
@@ -112,7 +104,6 @@ export const Item = ({
     }
 
     const HandlePushCheck = (e, idGet) => {
-        console.log(",,,,, id", idGet)
         let checkBoxx = [...checkBox];
         let checkState = e.target.checked;
         var filterRes = checkBoxx.indexOf(idGet);
@@ -171,7 +162,6 @@ export const Item = ({
 
             } else if (allData.children) {
                 allData.children.map(itemChilss => {
-                    console.log("parant miniiiii")
                     var filterChild = checkBoxx.indexOf(itemChilss.id);
                     if (filterChild !== -1) {
                         checkBoxx.splice(filterChild, 1);
@@ -184,7 +174,6 @@ export const Item = ({
                 })
             } else {
                 var filterChild = checkBoxx.indexOf(idGet);
-                console.log("parant gettt", filterChild)
                 if (filterChild !== -1) {
                     checkBoxx.splice(filterChild, 1);
                     setCheckBox(checkBoxx);
@@ -195,7 +184,6 @@ export const Item = ({
 
 
         } else if (filterRes === -1) {
-            console.log("added")
             checkBoxx.push(idGet);
             setCheckBox(checkBoxx);
             if (allData.childern) {

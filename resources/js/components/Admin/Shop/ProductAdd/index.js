@@ -16,7 +16,6 @@ import "swiper/swiper-bundle.css";
 import {Price} from "../../_Micro/ProductMiniComponent/Price";
 import {Limited} from "../../_Micro/ProductMiniComponent/Limited";
 import {Inventory} from "../../_Micro/ProductMiniComponent/Inventoryz";
-import ColorPicker from './../../../HOC/ColorPicker';
 import {NewFeture} from "../../_Micro/ProductMiniComponent/NewFeture";
 import $ from "jquery";
 import {
@@ -24,14 +23,9 @@ import {
     NoralizeFetures,
     NormalAttrOnePro,
     NormalAttrHead,
-    NormalNewEmptyFetures,
-    NormalProductOneItem
 } from "../../Helper/HelperClassFetures";
-import Loading from "../../_Micro/Loading";
-// import HelperClassFetures from  '../../Helper/HelperClassFetures';
 
-
-const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, result: pushResult}) => {
+const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) => {
 
 
     let mins = 10000000000;
@@ -84,7 +78,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
     const [color, setColor] = useState("#aabbcc");
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
-    const [contentNew, setContentNew] = useState({});
+    const [contentNew, setContentNew] = useState('');
     const [statusNew, setStatusNew] = useState();
     const [menuShow, setMenuShow] = useState();
     const [chipset, setChipset] = useState([]);
@@ -110,14 +104,16 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     let titleWrite = $("input[name=title]#pro-title").val();
     const [slugManage, setSlugManage] = useState(true);
-    const [formData, setFormData] = useState(defaultValuePro ? defaultValuePro : {});
+    const [formData, setFormData] = useState(defaultValuePro ? defaultValuePro : {
+        status: "active",
+        content: '',
+        slug: ''
+    });
     let default_value = {
         status: "active",
         content: '',
         slug: ''
     };
-
-    console.log("/////@@@", formData)
 
 
     let randomData = () => {
@@ -242,76 +238,49 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
             case "addNew" :
                 let dataNew = action.data[Object.keys(action.data)[Object.keys(action.data).length - 1]]
                 let now_num = Object.keys(action.data)[Object.keys(action.data).length - 1]
-
-                //  let now_num = Object.keys(action.data)[Object.keys(action.data).length - 1]
-                //  console.log("dataaaaaa num_____" , now_num);
-                //
                 let texts = [];
                 let counterCodess = parseInt(now_num) + 1;
                 let olddata = {...action.data};
                 dataNew.fetures.text.map(itemT => {
                     texts.push({
-                        id : null,
-                        name : itemT.name,
-                        title : itemT.title,
+                        id: null,
+                        name: itemT.name,
+                        title: itemT.title,
                     })
                 })
 
                 let colors = [];
                 dataNew.fetures.color.map(itemT => {
                     colors.push({
-                        id : null,
-                        name : itemT.name,
-                        title : itemT.title,
-                        value : itemT.value,
+                        id: null,
+                        name: itemT.name,
+                        title: itemT.title,
+                        value: itemT.value,
                     })
                 })
                 let attrs = dataNew.attributes;
 
                 let newOut = {
-                    attributes : attrs ,
-                    fetures : {
-                        text : texts,
-                        color : colors
+                    attributes: attrs,
+                    fetures: {
+                        text: texts,
+                        color: colors
                     }
                 }
-
-
-
-                //
                 olddata[counterCodess] = newOut;
                 setCounter(counterCodess);
-                // let dataNormal = NormalNewEmptyFetures(olddata[counterCodess]);
-
-                // console.log("dataaaaaa_____", newOut, counterCodess, olddata);
-
-
-                 setPriceData(olddata)
+                setPriceData(olddata)
                 return olddata;
             default:
                 throw new Error();
         }
-
-
-        // switch (action.type){
-        //     case "price" :
-        //         return {
-        //             ...state ,
-        //             [action.code] : {
-        //                 attributes : {
-        //                     ...attributes,
-        //                     price : action.price
-        //                 }
-        //             }
-        //         }
-        // }
     }
 
 
     const [stateData, dispatchAttr] = useReducer(reducerAttr, priceData);
 
     const CreateNewProduct = (dataed) => {
-        console.log("dataaaaa_____", dataed)
+        console.log("ddddddddddd", dataed)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -326,25 +295,32 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
             if (result.value) {
                 Request.AddNewProduct(dataed)
                     .then(res => {
+                        console.log(res)
                         setClear(true)
-                        pushResult(res);
-                        localStorage.removeItem("status");
-                        localStorage.removeItem("selected");
                         Swal.fire({
                             type: "success",
                             title: 'با موفقیت اضافه شد !',
                             confirmButtonClass: 'btn btn-success',
                             confirmButtonText: 'باشه',
                         })
-                    }).catch(err => {
-                    if (err.response.data.errors) {
-                        ErroHandle(err.response.data.errors);
-                    } else {
-                        //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
-                        ErrorToast("خطای غیر منتظره ای رخ داده است")
-                    }
+                        localStorage.removeItem("status");
+                        localStorage.removeItem("selected");
 
-                })
+                        if (pushResult) {
+                            pushResult("vsd");
+                        }
+
+
+                    }, errors => {
+                        console.log("vsdvsdv")
+                        if (errors) {
+                            if (errors.response.data.errors) {
+                                ErroHandle(errors.response.data.errors);
+                            } else {
+                                ErrorToast("خطای غیر منتظره ای رخ داده است")
+                            }
+                        }
+                    })
             }
         });
     }
@@ -465,7 +441,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                 if (err.response.data.errors) {
                     ErroHandle(err.response.data.errors);
                 } else {
-                    //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
                     $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center ;margin : 10px 0 0 '>خطا در ارتباط با دیتابیس</p><p>مجددا تلاش کنید</p><div>");
                     ErrorToast("خطای غیر منتظره ای رخ داده است")
                 }
@@ -502,7 +477,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
             formNew.metadata = JSON.stringify(metaData);
             if (formData.title && formData.title !== '') {
                 $("input[name=title]#pro-title").removeClass("is-invalid");
-                // console.log("form dataaaaaaaa : ", formNew)
                 CreateNewProduct(formNew);
             } else {
                 $("input[name=title]#pro-title").addClass("is-invalid");
@@ -533,7 +507,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
     }
 
     const HandleUpdateForm = (data, id) => {
-        console.log("data update : ", data)
         swal({
             title: 'ویرایش محصول',
             text: "آیا مطمئنید؟",
@@ -548,7 +521,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
             if (result.value) {
                 Request.UpdateDataProduct(data, id)
                     .then(res => {
-                        pushResult(res);
+                        pushResult(true);
                         localStorage.removeItem("status");
                         localStorage.removeItem("selected");
                         localStorage.removeItem("robots");
@@ -562,7 +535,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                     if (err.response.data.errors) {
                         ErroHandle(err.response.data.errors);
                     } else {
-                        //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
                         ErrorToast("خطای غیر منتظره ای رخ داده است")
                     }
 
@@ -573,7 +545,8 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     const HandleEdit = () => {
         let formOldData = {...formData};
-        formOldData.content = JSON.stringify(contentNew);
+        formOldData.content = contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
+
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
@@ -583,23 +556,17 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
         formOldData.slug = slug;
         formOldData.category_list = idSelCat;
         formOldData.tag_list = chipsetTagsChange ? chipsetTags : [];
-
         let normal = NoralizeFetures(priceData);
         let checkValueFetures = CheckTextFetures(normal)
-        console.log("featuressss : ", normal)
-
         formOldData.metadata = JSON.stringify(metaDatas);
-
         metaDatas.robots = robots;
         formOldData.status = status;
         if (checkValueFetures) {
-
             formOldData.attributes = normal.attributes;
             formOldData.features = normal.fetures;
 
             if (formOldData.title && formOldData.title !== '') {
                 $("input[name=title]#pro-title").removeClass("is-invalid");
-                // console.log("form dataaaaaaaa : ", formNew)
                 HandleUpdateForm(formOldData, formOldData.id);
             } else {
                 $("input[name=title]#pro-title").addClass("is-invalid");
@@ -612,8 +579,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     const HandleDuplicate = () => {
         let formOldData = {...formData};
-        formOldData.content = JSON.stringify(contentNew);
-        // console.log("data category in : ", names);
+        formOldData.content = contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
@@ -627,7 +593,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
         formOldData.category_list = idSelCat;
         formOldData.tag_list = chipsetTagsChange ? chipsetTags : [];
         formOldData.metadata = JSON.stringify(metaDatas);
-
         let normal = NoralizeFetures(priceData);
         let checkValueFetures = CheckTextFetures(normal)
         if (checkValueFetures) {
@@ -635,7 +600,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
             formOldData.features = normal.fetures;
             if (formOldData.title && formOldData.title !== '') {
                 $("input[name=title]#pro-title").removeClass("is-invalid");
-                // console.log("form dataaaaaaaa : ", formNew)
+                console.log("vvv", formOldData)
                 CreateNewProduct(formOldData);
             } else {
                 $("input[name=title]#pro-title").addClass("is-invalid");
@@ -651,8 +616,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
         const min = 1;
         const max = 1000;
         const rand = Number(min + Math.random() * (max - min)).toFixed(0);
-        let names = name + rand + "_کپی";
-        let slugs = name + rand + "_کپی";
         return name + rand + "_کپی";
     }
 
@@ -678,16 +641,12 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     const HandleAddNew = (e) => {
         e.preventDefault();
-
         let checkedFeatures = NoralizeFetures(priceData).fetures.length;
         if (checkedFeatures > 0) {
             setEdit(true)
-
-            // console.log("______________======" , priceData)
             dispatchAttr({type: 'addNew', data: priceData})
         } else {
             ErrorToast("حداقل باید یک ویژگی اضافه کنید")
-
         }
 
     }
@@ -702,19 +661,16 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     const closeFeture = (e) => {
         e.preventDefault();
-
         $("#back-loaderedss").removeClass("active");
         ReactDOM.render('', document.getElementById("back-loaderedss"));
     }
 
     const AddFeture = (item) => {
         let newItemHead = {...defaultTableHead};
-
         let ressss = newItemHead.text.includes(item.name) || newItemHead.color.includes(item.name);
         if (!ressss) {
             if (item.type == "text") {
                 setEdit(true)
-
                 newItemHead.text.push(item.name);
                 setDefaultTableHead(newItemHead);
                 Object.keys(priceData).map((items, index) => {
@@ -740,9 +696,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
             } else {
                 newItemHead.color.push(item.name);
                 setDefaultTableHead(newItemHead)
-
                 setEdit(true)
-
                 Object.keys(priceData).map((items, index) => {
                     if (priceData[items].fetures.color.length > 0) {
                         priceData[items].fetures.color.map(news => {
@@ -775,11 +729,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
     }
 
-    // const handleShowColorPicker = (e , index , id , title) => {
-    //     e.preventDefault();
-    //     $("#back-loaderedss").addClass("active");
-    //     ReactDOM.render(<ColorPicker dataOut={eOut => HandleFetureColorPicker(eOut , index , id , title) }/>, document.getElementById("back-loaderedss"));
-    // }
     const handleShowColorPicker = (e, index, id) => {
         e.preventDefault();
         let data = [...priceData];
@@ -790,7 +739,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
     const HandleFetureText = (e, index, item) => {
         e.preventDefault();
         setEdit(true)
-
         dispatchAttr({type: "text", index, title: e.target.value, data: priceData, code: item})
     }
 
@@ -810,12 +758,11 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
         let data = [...priceData];
         data[id].fetures.color[index].value = hex;
         setPriceData(data)
-        // console.log("////,,,,", "span#color-selected." + id + index)
         $("span#color-selected." + title + "." + id).css({"color": "#000 !important"})
     }
     const renderFitureText = (dataIns, id) => {
         return dataIns.map((item, index) => (
-            <td id={"color-col"}>
+            <td key={index} id={"color-col"}>
                 <input type={"text"} id={"input-code-kala"}
                        placeholder={"مقدار"} className={"form-control productsss"}
                        name={item.name}
@@ -828,7 +775,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
     }
     const renderFitureColor = (dataInss, id) => {
         return dataInss.map((item, index) => (
-            <td id={"color-col"}>
+            <td key={index} id={"color-col"}>
                 <input type={"text"} id={"input-code-kala"}
                        placeholder={"مقدار"} className={"form-control productsss"}
                        name={item.name}
@@ -841,10 +788,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
             </td>
         ))
     }
-
-    // const HandlePickerColor = () => {
-    //     <ColorPicker/>
-    // }
 
     const ChangeHeadTitleText = (e, index) => {
         e.preventDefault();
@@ -931,7 +874,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                            aria-controls="descript"
                            role="tab" aria-selected="false">
                             <span className="align-middle">عنوان و عکس</span>
-                            <i id={"visible-custom"} className={"bx bx-image"}></i>
+                            <i id={"visible-custom"} className={"bx bxs-pencil"}></i>
                         </a>
                     </li>
                     <li className="nav-item col-3 nav-custom">
@@ -995,7 +938,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
                     <div className="tab-pane" id="catdetail" aria-labelledby="catdetail-tab" role="tabpanel">
                         <div className={"row"} style={{padding: '20px'}}>
-                            <div className="col-md-6">
+                            <div className="col-md-6" id={"inAddings"}>
                                 <label>دسته بندی</label>
                                 <MultiSelected name={"categories"} data={categoryData ? categoryData : []}
                                                clear={clear}
@@ -1003,7 +946,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                                                clearNew={cl => setClear(cl)}
                                                selected={item => {
                                                    setEdit(true)
-                                                   item.map(ii => {
+                                                   item.map((ii) => {
                                                        let idsel = idSelCat.indexOf(parseInt(ii.id))
                                                        if (idsel !== -1) {
 
@@ -1030,8 +973,8 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                                             pagination={{clickable: true}}
                                             scrollbar={{draggable: true}}
                                         >
-                                            {chipsetTags ? chipsetTags.map(item => (
-                                                <SwiperSlide key={item.id} virtualIndex={item.id}>
+                                            {chipsetTags ? chipsetTags.map((item, indexxx) => (
+                                                <SwiperSlide key={indexxx} virtualIndex={item.id}>
                                                     <div className="chip mr-1">
                                                         <div className="chip-body">
                                                             <span className="chip-text">{item}</span>
@@ -1055,7 +998,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                                 }}
                                           id={"my-editor"}
                                           type={"small"}
-                                          defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
+                                          defaultVal={defaultValuePro ? JSON.parse(defaultValuePro.content) : ''}
                                 />
                             </div>
                         </div>
@@ -1072,8 +1015,13 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                                     <p>اطلاعات تکمیلی محصول شامل رنگ، سایز، موجودی انبار، قیمت و... را در بخش زیر
                                         وارد
                                         کنید.</p>
-
+                                    <a id={"add-future"} style={{zIndex: 9999}} className={"mr-1 mb-1"}
+                                       onClick={e => HandleFeture(e)}>
+                                        <i className={"bx bx-plus"}></i>&nbsp;&nbsp;ویژگی
+                                        جدید &nbsp;&nbsp;
+                                    </a>
                                     <div className="table-responsive">
+
                                         <table className="table">
                                             <thead>
                                             <tr className={"product-table-head"}>
@@ -1084,7 +1032,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
 
                                                 {defaultTableHead.text.map((items, index) => (
-                                                    <th id={"color-col"}>
+                                                    <th key={index} id={"color-col"}>
                                                         <input className={"top-table-input"} type={"text"}
                                                                onChange={e => ChangeHeadTitleText(e, index)}
                                                                value={items}/>
@@ -1092,7 +1040,7 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                                                 ))}
 
                                                 {defaultTableHead.color.map((items, index) => (
-                                                    <th id={"color-col"}>
+                                                    <th key={index} id={"color-col"}>
                                                         <input className={"top-table-input"} type={"text"}
                                                                onChange={e => ChangeHeadTitleColor(e, index)}
                                                                value={items}/>
@@ -1105,20 +1053,16 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                                                 </th>
                                             </tr>
 
-                                            <a id={"add-future"} style={{zIndex: 9999}} className={"mr-1 mb-1"}
-                                               onClick={e => HandleFeture(e)}>
-                                                <i className={"bx bx-plus"}></i>&nbsp;&nbsp;ویژگی
-                                                جدید &nbsp;&nbsp;
-                                            </a>
 
                                             </thead>
+
                                             <tbody>
 
                                             {
                                                 Object.keys(priceData).length == Object.keys(stateData).length ?
                                                     Object.keys(stateData).map((item, index) => {
                                                         return (
-                                                            <tr>
+                                                            <tr key={index}>
                                                                 <td style={{maxWidth: '120px', padding: '0 10px'}}>
                                                                      <span style={{textAlign: 'center'}}
                                                                            className={"not-alloeds"}>{"RI_" + item}</span>
@@ -1148,9 +1092,8 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
 
                                                         )
                                                     }) : Object.keys(priceData).map((item, index) => {
-                                                        console.log("________________priceDaa");
                                                         return (
-                                                            <tr>
+                                                            <tr key={index}>
                                                                 <td style={{maxWidth: '120px', padding: '0 10px'}}>
                                                                     <a style={{textAlign: 'center'}}
                                                                        className={"not-alloeds"}>{"RI_" + item}</a>
@@ -1180,43 +1123,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                                                         )
                                                     })
                                             }
-
-
-                                            {/*{*/}
-                                            {/*    Object.keys(priceData).map((item, index) => (*/}
-                                            {/*        <tr>*/}
-                                            {/*            <td style={{maxWidth: '120px', padding: '0 10px'}}>*/}
-                                            {/*                <input type={"text"} style={{textAlign: 'center'}}*/}
-                                            {/*                       className={"form-control productsss"}*/}
-                                            {/*                       defaultValue={item.attributes.product_code}*/}
-                                            {/*                       name={"productCode"}*/}
-                                            {/*                       id={"input-code-kala"}/>*/}
-                                            {/*            </td>*/}
-                                            {/*            <td><span*/}
-                                            {/*                onClick={e => HandlePrice(e, item.attributes.price, item.attributes.discount, index ,  item.attributes.product_code)}>{item.attributes.price} تومان</span>*/}
-                                            {/*            </td>*/}
-                                            {/*            <td><span*/}
-                                            {/*                onClick={e => HandleInventory(e, item.attributes.count, index)}>{item.attributes.count === null ? 'نامحدود' : item.attributes.count}</span>*/}
-                                            {/*            </td>*/}
-                                            {/*            <td><span*/}
-                                            {/*                onClick={e => HandleLimited(e, item.attributes.limit, index)}>{item.attributes.limit !== null ? item.attributes.limit : item.attributes.count === null ? 'نامحدود' : item.attributes.count}</span>*/}
-                                            {/*            </td>*/}
-                                            {/*            {renderFitureText(item.fetures.text, index)}*/}
-                                            {/*            {renderFitureColor(item.fetures.color, index)}*/}
-
-                                            {/*            <td id={"actions-item"}>*/}
-                                            {/*        <span>*/}
-                                            {/*            <i className={"bx bx-link"}></i>*/}
-                                            {/*            لینک خرید*/}
-                                            {/*        </span>*/}
-                                            {/*                <a href="#">*/}
-                                            {/*                    <i className="bx bx-trash"></i>*/}
-                                            {/*                </a>*/}
-                                            {/*            </td>*/}
-                                            {/*        </tr>*/}
-                                            {/*    ))*/}
-                                            {/*}*/}
-
 
                                             </tbody>
                                         </table>
@@ -1261,11 +1167,11 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                                     <fieldset className="form-group">
                                         <label htmlFor={"title"}>آدرس صفحه دسته بندی</label>
                                         {slugManage ? changeCheck ? (
-                                            <div className={"fucks"}>
+                                            <div className={"fucks"} style={{overflow: 'hidden'}}>
                                                 {titleWrite}
                                             </div>
                                         ) : (
-                                            <div className={"fucks"}>
+                                            <div className={"fucks"} style={{overflow: 'hidden'}}>
                                                 {formData.slug}
                                             </div>
                                         ) : (
@@ -1319,8 +1225,8 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                                                 <div className={"col-sm-12 col-md-4 col-lg-3"}>
                                                     <ChipsetHandler callback={item => handleAddChip(item)}/>
                                                 </div>
-                                                {chipset.map(item => (
-                                                    <div className="chip mr-1">
+                                                {chipset.map((item, indexed) => (
+                                                    <div key={indexed} className="chip mr-1">
                                                         <div className="chip-body">
                                                             <span className="chip-text">{item}</span>
                                                             <div className="chip-closeable"
@@ -1365,7 +1271,6 @@ const AddProduct = ({defaultValuePro, types, display, dataAll, dataUpdate, resul
                                 <div className={"col-12"}>
                                     <label>تنظیمات Robots</label>
 
-                                    {/*{console.log("robots : " , MetaDataUpdate)}*/}
                                     <BigSwitcher status={states => HandlerBigSwitcher(states)} name={"Robots"}
                                                  defaultStatus={MetaDataUpdate ? MetaDataUpdate.robots : false}
                                                  valueOne={"غیرفعال"} valueTow={"noindex,follow"}

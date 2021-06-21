@@ -10,7 +10,7 @@
                     <h2 class="brand-text mb-0">{{setting("title")}}</h2></a></li>
             <li class="nav-item nav-toggle">
                 <a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse">
-                    <i class="toggle-icon bx bx-disc font-medium-4 d-none d-xl-block collapse-toggle-icon primary"
+                    <i class="toggle-icon bx bx-disc font-medium-4 d-none d-xl-block collapse-toggle-icon primary" style="display: block !important;visibility: visible !important;"
                        data-ticon="bx-disc"></i>
                 </a></li>
         </ul>
@@ -102,7 +102,8 @@
                     @if(auth()->user()->can($menu->name))
                         @php($subMenus=\App\Models\Permission::parentId($menu->id)->isMenu()->get())
                         <li class="nav-item"><a href="{{route($menu->name)}}" style="
-    height: 55px;
+    margin: 5px 0;
+    padding: 10px 10px;
     line-height: 2;"><i class="bx {{$menu->icon}}"></i><span
                                     class="menu-title"
                                 >{{$menu->display_name}}</span></a>

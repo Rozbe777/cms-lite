@@ -29,7 +29,6 @@ export const NoralizeFetures = (data) => {
             })
         })
     })
-    console.log("pricessssss____ : " , attributes , fetures)
 
     return {attributes, fetures};
 }
@@ -182,7 +181,6 @@ export const NormalAttrOnePro = (data , types , counter) => {
 }
 
 export const NormalNewEmptyFetures = data => {
-    console.log("%%%%%%%" , data)
     let dataFetText = [];
     let dataFetColor = [];
     let dataaa = {...data};

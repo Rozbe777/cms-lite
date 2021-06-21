@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {MultiSelected} from "./../ProductManager/HOC/MultiSelected";
 import {MultiOption} from "./../ProductManager/HOC/MultiOption";
 import {MultiSelectedFilterSwitcher} from "../ProductManager/HOC/MultiSelectedFilterSwitcher";
-// import {MultiOption} from '../../../';
 import $ from 'jquery';
 import ReactDOM from "react-dom";
 import {NormalFilter, NormalCategorise} from './../../Helper/HelperClassFetures'
@@ -175,14 +174,14 @@ const SearchComponent = ({sort: pushSort}) => {
             <div className={"filter-content-fix"}>
                 <div className="row col-12" id={"header-card-custom"}>
 
-                    <div className="col-12 col-sm-6 col-lg-3">
+                    <div className="col-12 col-sm-6 col-lg-3" id={"filterPro"}>
                         <label
                             htmlFor="users-list-verified">{size > 0 ? "( " + size + " ) فیلتر اعمال شده " : 'فیلتر'}</label>
 
                         <MultiSelectedFilterSwitcher let={"bottom"} dataRes={dataFilter} selected={sel => handleSelected(sel)}/>
                     </div>
 
-                    <div className="col-12 col-sm-6 col-lg-3">
+                    <div className="col-12 col-sm-6 col-lg-3" id={"productsSort"}>
                         <label htmlFor="users-list-status">مرتب سازی</label>
                         <MultiOption lett={"bottom"} data={dataSort} selected={item => handleOptionSort(item)}/>
                     </div>
@@ -204,9 +203,7 @@ const SearchComponent = ({sort: pushSort}) => {
 
             <div className={"float-btn"}>
                 <ul>
-                    <li onClick={e => HandleResponsiveAdd(e)} style={{background: '#0d47a1'}}>
-                        <i className={"bx bx-plus"}></i>
-                    </li>
+
                     <li onClick={e => handleFadeSearch(e)} style={{background: '#424242'}}>
                         <i className={"bx bx-filter-alt"}></i>
                     </li>
@@ -219,6 +216,9 @@ const SearchComponent = ({sort: pushSort}) => {
                                    type={"text"} placeholder={"جستجو با نام محصول ..."}/>
                         </div>
 
+                    </li>
+                    <li onClick={e => HandleResponsiveAdd(e)} style={{background: '#0d47a1'}}>
+                        <i className={"bx bx-plus"}></i>
                     </li>
                 </ul>
             </div>

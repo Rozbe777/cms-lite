@@ -20,17 +20,18 @@ export const SelectOptions = ({parents,dataAllCat ,  data, selection: pushSelect
 
                 <option id={"optionss"} value={0}>ندارد</option>
 
-                {JSON.parse(dataAllCat) ? JSON.parse(dataAllCat).map(item => (
-                    <>
-                        <option style={{height: '50px'}} value={item.id}>{item.name}</option>
-                        {item.childern.length > 0 ? item.childern.map(itemTow => (
-                            <option style={{height: '50px'}}
+                {JSON.parse(dataAllCat) ? JSON.parse(dataAllCat).map((item , index) => (
+                    <React.Fragment key={index}>
+                        <option key={index} style={{height: '50px'}} value={item.id}>{item.name}</option>
+                        {item.childern.length > 0 ? item.childern.map((itemTow , indexed) => (
+                            <option key={indexed} style={{height: '50px'}}
                                     value={itemTow.id}>&nbsp;&nbsp;{" > " + itemTow.name}&nbsp;</option>
                         )) : (
                             ''
                         )
                         }
-                    </>
+                    </React.Fragment>
+
                 )) : ''}
             </select>
         )

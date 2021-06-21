@@ -36,7 +36,6 @@ export const MultiSelectedFilterSwitcher = ({lett , dataRes, selected: pushSelec
             $("input[name="+id+"]").prop("checked" , false);
             checkBoxCustom.removeClass("active")
             const results = checked.filter(obj => obj.id !== id);
-            // var result = check.filter(obj => console.log("object name : " , parseInt(obj.id) , " / name : " , id));
             setCheckFilter(results)
             pushSelected(results)
         }
@@ -48,7 +47,6 @@ export const MultiSelectedFilterSwitcher = ({lett , dataRes, selected: pushSelec
         e.preventDefault();
         $(".optionBox#selectedFilter").toggleClass("active")
         $(".selectedddFilter i#droper").toggleClass("active");
-        // console.log("click daaaaaa , " , e.currentTarget.getAttribute('data-appmode'))
     }
 
     const RemoveChipset = (id) => {
@@ -72,7 +70,7 @@ export const MultiSelectedFilterSwitcher = ({lett , dataRes, selected: pushSelec
                     >
                         {checkFilter ? checkFilter.map((item, key) => (
                                 <SwiperSlide key={key} virtualIndex={item.id}>
-                                    <div key={key} className={"chip mr-1"} style={{background: '#1976d2', color: '#fff'}}>
+                                    <div className={"chip mr-1"} style={{background: '#1976d2', color: '#fff'}}>
                                         <div className={"chip-body"}>
                                         <span className={"chip-text"}
                                               style={{color: '#fff', marginTop: '-4px'}}>{item.value}</span>
@@ -97,8 +95,8 @@ export const MultiSelectedFilterSwitcher = ({lett , dataRes, selected: pushSelec
 
             <div className={"optionBox"} id={"selectedFilter"}>
                 <ul>
-                    {data ? data.length > 0 ? data.map(item => (
-                        <li>
+                    {data ? data.length > 0 ? data.map((item , index) => (
+                        <li key={index}>
 
                             <div style={{float: 'right'}}
                                  className="custom-control custom-switch custom-switch-success custom-control-inline mb-1">

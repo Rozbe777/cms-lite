@@ -343,6 +343,37 @@ button#clear {
     background: none !important;
 }
 
+#add-future {
+    background: rgb(90, 141, 238);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin: 0px !important;
+    justify-content: center;
+    border-radius: 5px;
+    padding: 10px 10px;
+    position: fixed;
+    top: 85px;
+    left: 45px;
+    @include transition;
+
+    &:hover {
+        color: #fff;
+        background: rgb(90, 141, 238, 0.8);
+        @include transition;
+    }
+
+    i {
+        color: #fff;
+        @include transition;
+    }
+
+    &:hover i {
+        @include transition;
+        color: #fff;
+    }
+}
 .table {
     border-radius: 7px !important;
     border: 1px solid #ccc;
@@ -350,37 +381,7 @@ button#clear {
     thead {
         position: relative;
 
-        #add-future {
-            background: rgb(90, 141, 238);
-            color: #fff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            margin: 0px !important;
-            justify-content: center;
-            border-radius: 5px;
-            padding: 10px 10px;
-            position: fixed;
-            top: 85px;
-            left: 45px;
-            @include transition;
 
-            &:hover {
-                color: #fff;
-                background: rgb(90, 141, 238, 0.8);
-                @include transition;
-            }
-
-            i {
-                color: #fff;
-                @include transition;
-            }
-
-            &:hover i {
-                @include transition;
-                color: #fff;
-            }
-        }
     }
 
     th {
