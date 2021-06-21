@@ -7,7 +7,7 @@ namespace App\Classes\Payment;
 abstract class BaseBank
 {
     protected $name = null;
-    protected $bank, $paymentId, $amount, $authority, $callbackUrl, $url;
+    protected $bank, $paymentId, $amount, $authority, $callbackUrl, $url,$merchantId;
     private $prefixConfigPath = 'bank.type.online';
 
     /**
@@ -61,7 +61,8 @@ abstract class BaseBank
 
     function setMinAmount()
     {
-        return config('bank.type.online.default_min_amount');
+        $this->minAmount = config('bank.type.online.default_min_amount');
+        return $this;
     }
 
     function setRequestUrl()
@@ -83,7 +84,9 @@ abstract class BaseBank
 
     function setMerchantId()
     {
-        return config('bank.type.online.gateways.' . $this->name() . '.merchant_id');
+        $this->merchantId = config('bank.type.online.gateways.' . $this->name() . '.merchant_id');
+        return $this;
+//        return config('bank.type.online.gateways.' . $this->name() . '.merchant_id');
     }
 
 

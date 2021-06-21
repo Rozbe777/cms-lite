@@ -33,7 +33,7 @@ class PermissionSeeder extends Seeder
                     'weight' => 5,
                     'icon' => 'bx-detail',
                     'is_menu' => 1,
-                    "name" => "content.blade",
+                    "name" => "contents.blade",
                     "display_name" => "محتوا ها",
                     "children" => [
                         [
@@ -45,17 +45,25 @@ class PermissionSeeder extends Seeder
                 ],
                 [
                     'weight' => 10,
-                    'icon' => 'bx-square-rounded',
+                    'icon' => 'bx-cart-alt',
                     'is_menu' => 1,
-                    "name" => "page.blade",
+                    "name" => "product.blade",
+                    "display_name" => "فروشگاه",
+                    "children" => []
+                ],
+                [
+                    'weight' => 100,
+                    'icon' => 'flaticon-multiple-users-silhouette',
+                    'is_menu' => 1,
+                    "name" => "pages.blade",
                     "display_name" => "صفحات",
                     "children" => []
                 ],
                 [
-                    'weight' => 50,
                     'icon' => 'bx-group',
+                    'weight' => 500,
                     'is_menu' => 1,
-                    "name" => "user.blade",
+                    "name" => "users.blade",
                     "display_name" => "کاربران",
                     "children" => [
                         [
@@ -80,6 +88,7 @@ class PermissionSeeder extends Seeder
                     "display_name" => "تنظیمات",
                     "children" => [
                         [
+                            'icon' => 'bx-desktop',
                             'is_menu' => 1,
                             "name" => "theme.index",
                             "display_name" => "انتخاب پوسته"
@@ -87,13 +96,14 @@ class PermissionSeeder extends Seeder
                     ]
                 ],
                 [
-                    'weight' => 200,
-                    'icon' => 'flaticon-multiple-users-silhouette',
+                    'weight' => 1500,
+                    'icon' => 'bx-user',
                     'is_menu' => 0,
                     "name" => "profile.edit",
                     "display_name" => "حساب کاربری",
                     "children" => [
                         [
+                            'icon' => 'bx-key',
                             'is_menu' => 1,
                             "name" => "profile.password",
                             "display_name" => "ویرایش رمزعبور"
