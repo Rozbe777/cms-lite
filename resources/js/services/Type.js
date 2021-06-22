@@ -1,4 +1,3 @@
-
 export const BASE_URL = `http://${location.host}/`;
 export const PHONE_REGISTER_URL = "mobile/register";
 export const STORE_USER_INFO_URL = "auth/register";
@@ -14,10 +13,14 @@ import $ from 'jquery'
 // console.log("scrf : " , $('meta[name="csrf-token"]').attr('content'));
 
 export const REQUEST_HEADER_TOKEN = {
+    // 'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Origin': '*',
-    'X-Custom-Header': 'foobar',
-    'is_axios' : true,
-    // 'Content-Type': 'multipart/form-data',
-    'Authentication' : ''
+    'Access-Control-Allow-Methods': 'POST, GET, PUT, OPTIONS, DELETE',
+    'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Origin, Origin, Accept, Content-Type',
+    'Accept': 'application/x-www-form-urlencoded',
+    // 'X-Custom-Header': 'X-CSRFToken',
+    // 'is_axios': true,
+    'Content-Type': 'application/json',
+    // 'Authentication' : ''
 
 }

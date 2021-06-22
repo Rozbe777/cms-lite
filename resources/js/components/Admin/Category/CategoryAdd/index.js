@@ -10,7 +10,7 @@ import {ErroHandle, error as ErrorToast, error} from './../../../../helper'
 import {ChipsetHandler} from './../../../HOC/ChipsetHandler';
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import $ from "jquery";
-import FormDataAdd from "form-data";
+import CatDataAdd from "form-data";
 const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     const [categoryData] = useState({});
     const [loading] = useState(false);
@@ -33,7 +33,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
 
 
     const [slugManage, setSlugManage] = useState(true);
-    const [formData, setFormData] = useState({});
+    const [CatData, setCatData] = useState({});
     let default_value = {
         is_menu: 0,
         status: "active",
@@ -57,6 +57,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
+
                 Request.AddNewCategory(data)
                     .then(res => {
                         pushResult(res);
@@ -83,10 +84,10 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
         });
     }
     useEffect(() => {
-        let formNews = {...formData};
+        let formNews = {...CatData};
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
         setIds(formNews.id)
-        setFormData({
+        setCatData({
             id : formNews.id,
             name : formNews.name,
             slug : formNews.slug,
@@ -104,7 +105,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     }, [])
     const handleClose = () => {
         ReactDOM.render('', document.getElementById("add-datas"));
-        setFormData({
+        setCatData({
             is_menu: 0,
             status: "active",
             content: '',
@@ -119,7 +120,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
 
     const HandleFile = (e) => {
         let files = e.target.files[0];
-        setFile({files});
+        setFile({file : files});
     }
 
     const handleInput = (e) => {
@@ -127,19 +128,19 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
         setEdit(true);
         if (e.target.name == "name") {
             if (slugManage) {
-                let formDataOld = {...formData};
-                formDataOld.name = e.target.value;
-                formDataOld.slug = e.target.value;
-                setFormData(formDataOld);
+                let CatDataOld = {...CatData};
+                CatDataOld.name = e.target.value;
+                CatDataOld.slug = e.target.value;
+                setCatData(CatDataOld);
             } else {
-                let formDataOld = {...formData};
-                formDataOld.name = e.target.value;
-                setFormData(formDataOld);
+                let CatDataOld = {...CatData};
+                CatDataOld.name = e.target.value;
+                setCatData(CatDataOld);
             }
         } else {
-            let formDataOld = {...formData};
-            formDataOld.slug = e.target.value;
-            setFormData(formDataOld);
+            let CatDataOld = {...CatData};
+            CatDataOld.slug = e.target.value;
+            setCatData(CatDataOld);
         }
     }
 
@@ -177,23 +178,25 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     let titleWrite = $("input[name=name]").val();
 
     const HandleForm = (e) => {
-        let formNew = {...formData};
-        let formFiled = new FormData();
-        formFiled.set("image", file);
+        let formNew = {...CatData};
+        let formFiledss = new FormData();
+        formFiledss.append("image", file.file);
+        // formFiledss.append("name", 'vvv');
+        // console.log("*********" , formFiled)
+
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
         let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formNew.parent_id;
         formNew.status = status;
         formNew.parent_id = parseInt(parent_id);
-        formNew.image = file;
-        console.log("*********" , formFiled , "\n" , file)
+        formNew.image = formFiledss;
         formNew.is_menu = parseInt(is_menu);
         if (slugManage == false) {
             formNew.slug = formNew.name;
         } else {
         }
 
-        if (formData.slug == "") {
+        if (CatData.slug == "") {
             formNew.slug = formNew.name
         }
         formNew.content = contentNew;
@@ -201,7 +204,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
 
         metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
         formNew.metadata = JSON.stringify(metaData);
-        if (formData.name && formData.name !== '') {
+        if (CatData.name && CatData.name !== '') {
             $("input[name=name]").removeClass("is-invalid");
             formNew.parent_id = formNew.parent_id ? formNew.parent_id : 0;
             CreateAddCategory(formNew);
@@ -226,8 +229,8 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     const HandleSlug = (e) => {
         e.preventDefault();
         setEdit(true)
-        setFormData({
-            ...formData,
+        setCatData({
+            ...CatData,
             [e.target.name]: e.target.value
         })
     }
@@ -278,11 +281,11 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     }
 
     const HandleEdit = () => {
-        let formOldData = {...formData};
+        let formOldData = {...CatData};
         formOldData.content = contentNew;
-        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
-        let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-        let parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
+        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : CatData.is_menu;
+        let status = localStorage.getItem("status") ? localStorage.getItem("status") : CatData.status;
+        let parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : CatData.parent_id;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
@@ -302,16 +305,16 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     }
 
     const HandleDuplicate = () => {
-        let formOldData = {...formData};
+        let formOldData = {...CatData};
         formOldData.content = contentNew;
         let name = titleWrite;
         let slug = slugManage ? titleWrite : $("input.slugest").val();
         formOldData.name = name;
         formOldData.slug = slug;
-        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
-        let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
+        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : CatData.is_menu;
+        let status = localStorage.getItem("status") ? localStorage.getItem("status") : CatData.status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
-        let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formData.parent_id;
+        let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : CatData.parent_id;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
         delete formOldData.id;
@@ -325,8 +328,8 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
 
     const handleEditorData = (data) => {
         setEdit(true);
-        setFormData({
-            ...formData,
+        setCatData({
+            ...CatData,
             content: data
         })
     }
@@ -368,8 +371,8 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
                 return dataUpdateParse.slug;
             }
         } else {
-            formData.slug = formData.name;
-            return formData.name;
+            CatData.slug = CatData.name;
+            return CatData.name;
         }
     }
 
@@ -381,8 +384,8 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
                 return dataUpdateParse.name;
             }
         } else {
-            formData.slug = formData.name;
-            return formData.name;
+            CatData.slug = CatData.name;
+            return CatData.name;
         }
     }
 
@@ -514,11 +517,11 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
                                         </div>
                                     ) : (
                                         <div className={"fucks"}>
-                                            {formData.slug}
+                                            {CatData.slug}
                                         </div>
                                     ) : (
                                         <input type={"text"}
-                                               defaultValue={formData.slug}
+                                               defaultValue={CatData.slug}
                                                onChange={e => handleInput(e)} name={"slug"} id={"title"}
                                                className={"form-control slugest"}/>
                                     )}
