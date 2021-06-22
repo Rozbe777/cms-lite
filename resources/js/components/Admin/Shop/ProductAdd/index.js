@@ -280,7 +280,6 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
     const [stateData, dispatchAttr] = useReducer(reducerAttr, priceData);
 
     const CreateNewProduct = (dataed) => {
-        console.log("ddddddddddd", dataed)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -295,7 +294,6 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
             if (result.value) {
                 Request.AddNewProduct(dataed)
                     .then(res => {
-                        console.log(res)
                         setClear(true)
                         Swal.fire({
                             type: "success",
@@ -312,7 +310,6 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
 
 
                     }, errors => {
-                        console.log("vsdvsdv")
                         if (errors) {
                             if (errors.response.data.errors) {
                                 ErroHandle(errors.response.data.errors);
@@ -508,7 +505,6 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
 
     const HandleUpdateForm = (data, id) => {
         delete data.id;
-        console.log("____" , data)
 
         swal({
             title: 'ویرایش محصول',
@@ -603,7 +599,6 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
             formOldData.features = normal.fetures;
             if (formOldData.title && formOldData.title !== '') {
                 $("input[name=title]#pro-title").removeClass("is-invalid");
-                console.log("vvv", formOldData)
                 CreateNewProduct(formOldData);
             } else {
                 $("input[name=title]#pro-title").addClass("is-invalid");
