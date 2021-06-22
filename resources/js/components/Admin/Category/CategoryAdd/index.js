@@ -303,6 +303,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     const HandleEdit = () => {
         let formOldData = {...CatData};
         let formDataFit = new FormData();
+        formDataFit.append("image" , file.file)
         formDataFit.append("content", contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : CatData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : CatData.status;
@@ -313,7 +314,6 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
         // delete formOldData.children;
         let name = titleWrite;
         let slug = slugManage ? titleWrite : $("input.slugest").val();
-        console.log("0000000", slug)
         formDataFit.append("name", name);
         formDataFit.append("slug", slug);
 
@@ -495,7 +495,8 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
                                 {!loading ? imageGet.state !== "" ? (
                                     <div className={"mini-img-show-edit"}>
                                         <div className={"img-box"}>
-                                            <img src={BASE_URL_IMG + imageGet.state}/>
+                                            {/*{console.log("sssss" , {`data:image/png;base64,${imageGet.state}`)}*/}
+                                            <img src={`data:image/png;base64,${imageGet.state}`} />
                                             <span onClick={e => handledelImg(e)}><i className={"bx bx-x"}></i> </span>
                                         </div>
                                     </div>

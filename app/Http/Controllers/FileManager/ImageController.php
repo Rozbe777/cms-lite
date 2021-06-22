@@ -10,6 +10,7 @@ class ImageController extends Controller
 {
     public function show($name)
     {
+//        return Storage::url('app/images/'.$name);
         return response()->file(storage_path('app/images/'.$name));
     }
 }

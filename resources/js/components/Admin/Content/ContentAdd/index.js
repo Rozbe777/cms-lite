@@ -27,7 +27,7 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
     const [chipset, setChipset] = useState([]);
     const [chipsetChange, setChipChange] = useState(false)
     const [edit, setEdit] = useState(false);
-    const [file, setFile] = useState();
+    const [file, setFile] = useState({});
     const [metaData, setMetaData] = useState({
         robots: false,
     });
@@ -169,7 +169,8 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
     }
 
     const HandleFile = (e) => {
-        setFile(e.target.files[0]);
+        let files = e.target.files[0];
+        setFile({file: files});
     }
 
     const handleInput = (e) => {
@@ -224,33 +225,43 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
 
     const HandleForm = (e) => {
         let formNew = {...formData};
-        let formFile = new FormData();
-        formFile.append("file", file);
+        let formDataAll = new FormData();
+        formDataAll.append("image" , file.file)
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
         let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formNew.comment_status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
-        formNew.status = status;
-        formNew.comment_status = comment_status;
-        formNew.image = file;
-        formNew.is_menu = parseInt(is_menu);
-        if (slugManage == false) {
-            formNew.slug = formNew.title;
+        formDataAll.append("status" , status)
+        formDataAll.append("comment_status" , comment_status)
+        formDataAll.append("is_menu" , is_menu)
+
+        formDataAll.append("name" , formNew.title)
+        if (slugManage == false)
+        {
+            formDataAll.append("slug" , formNew.title)
         } else {
         }
 
         if (formData.slug == "") {
-            formNew.slug = formNew.title
+            formDataAll.append("slug" , formNew.title)
+
         }
-        formNew.content = JSON.stringify(contentNew);
+        let vcontent = JSON.stringify(contentNew);
+        formDataAll.append("content" , vcontent)
+
         let MetaDaa = {...metaData};
         MetaDaa.robots = robots;
-        formNew.metadata = JSON.stringify(MetaDaa);
-        formNew.category_list = idSelCat;
-        formNew.tag_list = chipsetChange ? chipset : [];
+        let vmetadata = JSON.stringify(MetaDaa);
+        formDataAll.append("metadata" , vmetadata)
+
+        formDataAll.append("category_list" , idSelCat)
+        let vtag_list = chipsetChange ? chipset : [];
+
+        formDataAll.append("tag_list" , vtag_list)
+
         if (formData.title && formData.title !== '') {
             $("input[name=titleContent]").removeClass("is-invalid");
-            CreateAddContent(formNew);
+            CreateAddContent(formDataAll);
         } else {
             $("input[name=titleContent]").addClass("is-invalid");
             error("لطفا فیلد عنوان صفحه را پر کنید !")

@@ -184,6 +184,12 @@
             visibility: visible;
         }
     }
+    .optionBox {
+        visibility: hidden;
+        &.active {
+            visibility: visible;
+        }
+    }
     .optionBox#options {
         visibility: hidden;
 

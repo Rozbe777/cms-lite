@@ -122,6 +122,7 @@ class CategoryController extends Controller
      */
     public function update(EditCategoryRequest $request, Category $category)
     {
+//        dd($request->all());
         $category = $this->categoryRepository->update($request->all(), $category);
 
         return $this->message(__('message.success.200'))->view('pages.admin.category.edit')->data($category)->success();
