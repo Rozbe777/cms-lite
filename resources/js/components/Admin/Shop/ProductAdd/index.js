@@ -507,6 +507,9 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
     }
 
     const HandleUpdateForm = (data, id) => {
+        delete data.id;
+        console.log("____" , data)
+
         swal({
             title: 'ویرایش محصول',
             text: "آیا مطمئنید؟",
@@ -545,7 +548,7 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
 
     const HandleEdit = () => {
         let formOldData = {...formData};
-        formOldData.content = contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
+        formOldData.content = contentNew == "" ? defaultValuePro.content : JSON.stringify(contentNew);
 
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
@@ -579,7 +582,7 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
 
     const HandleDuplicate = () => {
         let formOldData = {...formData};
-        formOldData.content = contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
+        formOldData.content = contentNew == "" ? defaultValuePro.content : JSON.stringify(contentNew);
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
