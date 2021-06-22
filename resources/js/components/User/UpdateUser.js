@@ -169,7 +169,6 @@ const UpdateUser = (props) => {
                                 <input type="email" className="form-control text-left" placeholder="ایمیل"
                                        autoComplete={"off"}
                                        name={"email"}
-                                       defaultValue={state.email ? state.email : ''}
                                        value={state.email ? state.email : ''}
                                        onChange={(e) => {
                                            HandleInput(e)
@@ -196,16 +195,16 @@ const UpdateUser = (props) => {
                                 <div className="form-group col-md-6">
                                     <div className="controls">
                                         <label>دسترسی</label>
-                                        <select name={"role_id"} className="form-control text-left" placeholder="دسترسی"
+                                        <select defaultValue={"0"} name={"role_id"} className="form-control text-left" placeholder="دسترسی"
                                                 style={{height: 50}}
                                                 onChange={(e) => {
                                                     HandleInput(e)
                                                 }}>
-                                            {JSON.parse(roles).map((role) => (
+                                            {JSON.parse(roles).map((role , index) => (
                                                     state.role_id === role.id ? (
-                                                        <option value={role.id} selected>{role.display_name}</option>
+                                                        <option key={index} value={role.id}>{role.display_name}</option>
                                                     ) : (
-                                                        <option value={role.id} >{role.display_name}</option>
+                                                        <option key={index} value={role.id} >{role.display_name}</option>
                                                     )
                                                 )
                                             )}
@@ -216,14 +215,14 @@ const UpdateUser = (props) => {
                                 <div className="form-group col-md-6">
                                     <div className="controls">
                                         <label>وضعیت</label>
-                                        <select name={"status"} className="form-control text-left" placeholder="وضعیت"
+                                        <select defaultValue={"active"} name={"status"} className="form-control text-left" placeholder="وضعیت"
                                                 style={{height: 50}}
                                                 onChange={(e) => {
                                                     HandleInput(e)
                                                 }}>
                                             {state.status === "active" ? (
                                                 <>
-                                                    <option selected value={"active"}>فعال</option>
+                                                    <option  value={"active"}>فعال</option>
                                                     <option  value={"deactivate"}>غیرفعال</option>
                                                 </>
 

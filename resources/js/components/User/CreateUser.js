@@ -164,7 +164,6 @@ const CreateUser = (props) => {
                                 <input type="email" className="form-control text-left" placeholder="ایمیل"
                                        autoComplete={"off"}
                                        name={"email"}
-                                       defaultValue={""}
                                        value={state.email ? state.email : ''}
                                        onChange={(e) => {
                                            HandleInput(e)
@@ -191,7 +190,6 @@ const CreateUser = (props) => {
                                 <input type="password" className="form-control text-left" placeholder="رمزعبور"
                                        autoComplete={"off"}
                                        name={"password"}
-                                       defaultValue={""}
                                        value={state.password ? state.password : ''}
                                        onChange={(e) => {
                                            HandleInput(e)
@@ -207,8 +205,8 @@ const CreateUser = (props) => {
                                         onChange={(e) => {
                                             HandleInput(e)
                                         }}>
-                                    {JSON.parse(roles).map((role) => {
-                                        return (<option value={role.id}>{role.display_name}</option>)
+                                    {JSON.parse(roles).map((role , index) => {
+                                        return (<option key={index} value={role.id}>{role.display_name}</option>)
                                     })}
                                 </select>
                             </div>
