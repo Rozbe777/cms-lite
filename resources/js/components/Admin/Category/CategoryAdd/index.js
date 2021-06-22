@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import ReactDOM from 'react-dom';
-import {BASE_URL} from "../../../../services/Type";
+import {BASE_URL, BASE_URL_IMG} from "../../../../services/Type";
 import {Switcher} from './../../../HOC/Switch'
 import {BigSwitcher} from './../../../HOC/BigSwitcher';
 import './../../_Shared/Style.scss'
@@ -15,7 +15,7 @@ import CatDataAdd from "form-data";
 
 const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     const [categoryData] = useState({});
-    const [loading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [ids, setIds] = useState();
     const [contentNew, setContentNew] = useState('');
     const [chipset, setChipset] = useState([]);
@@ -23,7 +23,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     const [file, setFile] = useState({});
     const [changeCheck, setChangeCheck] = useState(false)
 
-    const [image , setImage] = useState()
+    const [imageGet, setImage] = useState({state: ''})
     const [metaData, setMetaData] = useState({
         robots: false,
     });
@@ -47,7 +47,6 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
 
     // const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
     const CreateAddCategory = (data) => {
-        console.log("++++++++++", data)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -89,23 +88,24 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
 
     const handleGetImg = name => {
         let names = name.split("/")
+        setLoading(true)
         Request.GetImage(names[1])
             .then(rr => {
-        //         console.log("[[[[[[ " ,names)
+                setLoading(false)
+                setImage({state: rr.data})
             })
     }
     useEffect(() => {
         let formNews = {...CatData};
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
-        if (formNews.image)
-        {
+        if (formNews.image) {
 
             let img = formNews.image;
 
             handleGetImg(img)
 
-        }else{
-            setImage(true)
+        } else {
+            setImage({state: ''})
         }
 
         setIds(formNews.id)
@@ -474,13 +474,11 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
                                         valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
                                 </fieldset>
                             </div>
-                            {console.log("===========", dataUpdateParse)}
                             <div className={"col-lg-2 col-md-3 col-sm-12"}>
-                                {dataUpdateParse ? dataUpdateParse.image ? (
+                                {!loading ? imageGet.state !== "" ? (
                                     <div className={"mini-img-show-edit"}>
                                         <div className={"img-box"}>
-                                            {/*<img src={BASE_URL+dataUpdateParse.image} />*/}
-                                            <img src={"https://th.bing.com/th/id/OIP.LZkzxz8ljNjMM_l8deS0mwHaEK?pid=ImgDet&rs=1"} />
+                                            <img src={BASE_URL_IMG + imageGet.state}/>
                                             <span><i className={"bx bx-x"}></i> </span>
                                         </div>
                                     </div>
@@ -505,26 +503,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
 
                                         </div>
                                     </fieldset>
-                                ) : (<fieldset className="form-group">
-                                    <label id={"selectParent"}>افزودن فایل</label>
-                                    <div id={"file"}>
-                                        <input type={"file"} name={"image"}
-                                               multiple="multiple"
-                                               onChange={e => HandleFile(e)}
-                                               style={{
-                                                   opacity: 0,
-                                                   zIndex: 9,
-                                                   height: '100%',
-                                                   position: 'absolute',
-                                                   cursor: 'pointer'
-                                               }}/>
-                                        <button id="select-files" className="btn btn-primary mb-1"><i
-                                            className="icon-file2"></i>
-                                            انتخاب فایل
-                                        </button>
-
-                                    </div>
-                                </fieldset>)}
+                                ) : (<>loading...</>)}
                             </div>
 
                             <div className={"col-12"}>

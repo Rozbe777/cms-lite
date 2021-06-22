@@ -24,6 +24,6 @@ export const Request = {
     UpdateDataPage :  (data , id) =>  request.put("/pages/"+id+"" , data),
     UpdateDataContent :  (data , id) =>  request.put("/contents/"+id+"" , data),
     GetAllContents :  (search) =>  request.get("/contents" ,  search),
-    GetImage :  (search) =>  request.get("/images/"+search),
+    GetImage :  (search) =>  request.get("/image/"+search),
     GetAllProducts :  (search) => request.get("/products", {params: search}),
 }

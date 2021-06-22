@@ -1,5 +1,6 @@
 
 export const BASE_URL = `http://${location.host}/`;
+export const BASE_URL_IMG = `http://${location.host}`;
 export const PHONE_REGISTER_URL = "mobile/register";
 export const STORE_USER_INFO_URL = "auth/register";
 export const VERIFY_MOBILE_URL = "mobile/token";
