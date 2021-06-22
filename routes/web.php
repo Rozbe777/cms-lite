@@ -33,7 +33,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('a', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class,'pay']);
 Route::get('b', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class,'verify']);
 
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -144,6 +143,9 @@ Route::middleware('auth')->group(function () {
     Route::get('product', [ProductController::class, 'blade'])->name('products.blade');
     Route::resource('products', ProductController::class);
     Route::delete('products/multi/destroy', [ProductController::class, 'multipleDestroy'])->name('products.multipleDestroy');
+
+    //-------------------------------Images-----------------------------
+    Route::get('image/{name}',[\App\Http\Controllers\FileManager\ImageController::class,'show']);
 
 
 //-------------------------------------------------------------------------------------------------------------------
