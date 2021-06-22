@@ -260,6 +260,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     }
 
     const HandleUpdateForm = (data, id) => {
+        console.log("+++++++++", data)
         swal({
             title: 'ویرایش دسته بندی',
             text: "آیا مطمئنید؟",
@@ -301,26 +302,33 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
 
     const HandleEdit = () => {
         let formOldData = {...CatData};
-        formOldData.content = contentNew;
+        let formDataFit = new FormData();
+        formDataFit.append("content", contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : CatData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : CatData.status;
         let parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : CatData.parent_id;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
-        delete formOldData.children;
+        // delete formOldData.children;
         let name = titleWrite;
         let slug = slugManage ? titleWrite : $("input.slugest").val();
-        formOldData.name = name;
-        formOldData.slug = slug;
-        delete formOldData.childern;
-        delete formOldData.content_count;
-        delete formOldData.contents;
-        formOldData.status = status;
-        formOldData.metadata = JSON.stringify(metaDatas);
-        formOldData.is_menu = parseInt(is_menu);
-        formOldData.parent_id = parseInt(parent_ids);
-        HandleUpdateForm(formOldData, ids);
+        console.log("0000000", slug)
+        formDataFit.append("name", name);
+        formDataFit.append("slug", slug);
+
+        // delete formOldData.childern;
+        // delete formOldData.content_count;
+        // delete formOldData.contents;
+        formDataFit.append("status", status);
+
+        formDataFit.append("metadata", JSON.stringify(metaDatas));
+
+        // formOldData.is_menu = parseInt(is_menu);
+        formDataFit.append("is_menu", parseInt(is_menu))
+        formDataFit.append("parent_id", parseInt(parent_ids))
+        // formOldData.parent_id = parseInt(parent_ids);
+        HandleUpdateForm(formDataFit, ids);
     }
 
     const HandleDuplicate = () => {
@@ -409,6 +417,14 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     }
 
 
+    const handledelImg = (e) => {
+        e.preventDefault();
+        setEdit(true)
+        let states = {...imageGet};
+        states.state = '';
+        setImage(states)
+    }
+
     return (
         <div id={"category_add_pop_base"}>
             <ul className="nav nav-tabs tab-layout" role="tablist">
@@ -474,16 +490,17 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
                                         valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
                                 </fieldset>
                             </div>
-                            <div className={"col-lg-2 col-md-3 col-sm-12"}>
+                            <div className={"col-lg-2 col-md-3 col-sm-12"}
+                                 style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                                 {!loading ? imageGet.state !== "" ? (
                                     <div className={"mini-img-show-edit"}>
                                         <div className={"img-box"}>
                                             <img src={BASE_URL_IMG + imageGet.state}/>
-                                            <span><i className={"bx bx-x"}></i> </span>
+                                            <span onClick={e => handledelImg(e)}><i className={"bx bx-x"}></i> </span>
                                         </div>
                                     </div>
                                 ) : (
-                                    <fieldset className="form-group">
+                                    <fieldset className="form-group" style={{width: '100%'}}>
                                         <label id={"selectParent"}>افزودن فایل</label>
                                         <div id={"file"}>
                                             <input type={"file"} name={"image"}
@@ -503,7 +520,9 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
 
                                         </div>
                                     </fieldset>
-                                ) : (<>loading...</>)}
+                                ) : (<div className="spinner-border" role="status">
+                                    <span className="sr-only">در حال بارگذاری ...</span>
+                                </div>)}
                             </div>
 
                             <div className={"col-12"}>
