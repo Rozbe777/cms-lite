@@ -10,7 +10,7 @@ import {ErroHandle, error as ErrorToast, error} from './../../../../helper'
 import {ChipsetHandler} from './../../../HOC/ChipsetHandler';
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import $ from "jquery";
-
+import FormDataAdd from "form-data";
 const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     const [categoryData] = useState({});
     const [loading] = useState(false);
@@ -18,7 +18,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     const [contentNew, setContentNew] = useState();
     const [chipset, setChipset] = useState([]);
     const [edit, setEdit] = useState(false);
-    const [file, setFile] = useState();
+    const [file, setFile] = useState({});
     const [changeCheck, setChangeCheck] = useState(false)
 
     const [metaData, setMetaData] = useState({
@@ -44,6 +44,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
 
     // const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
     const CreateAddCategory = (data) => {
+        console.log("++++++++++" , data)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -117,7 +118,8 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     }
 
     const HandleFile = (e) => {
-        setFile(e.target.files[0]);
+        let files = e.target.files[0];
+        setFile({files});
     }
 
     const handleInput = (e) => {
@@ -176,14 +178,15 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
 
     const HandleForm = (e) => {
         let formNew = {...formData};
-        let formFile = new FormData();
-        formFile.append("file", file);
+        let formFiled = new FormData();
+        formFiled.set("image", file);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
         let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formNew.parent_id;
         formNew.status = status;
         formNew.parent_id = parseInt(parent_id);
         formNew.image = file;
+        console.log("*********" , formFiled , "\n" , file)
         formNew.is_menu = parseInt(is_menu);
         if (slugManage == false) {
             formNew.slug = formNew.name;
