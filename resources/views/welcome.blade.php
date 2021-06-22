@@ -20,7 +20,8 @@
             }
         </style>
     </head>
-    <body class="antialiased">
+
+    <body class="antialiased"><img src="<?php $url = Storage::url('public/images/'.$name); echo asset("$url")?>">
 
 
 

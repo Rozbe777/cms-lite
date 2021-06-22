@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Admin\Content\Traits;
 
 
 use App\Models\Content;
+use Illuminate\Support\Facades\Storage;
 
 trait ContentTrait
 {
     public function imageHandler($image)
     {
         $imageName = time() . '.' . $image->getClientOriginalExtension();
+//        return Storage::put($imageName,$image);
         return $image->storeAs('images', $imageName);
     }
 
