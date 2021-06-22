@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import ReactDOM from 'react-dom';
+import {BASE_URL} from "../../../../services/Type";
 import {Switcher} from './../../../HOC/Switch'
 import {BigSwitcher} from './../../../HOC/BigSwitcher';
 import './../../_Shared/Style.scss'
@@ -16,12 +17,13 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     const [categoryData] = useState({});
     const [loading] = useState(false);
     const [ids, setIds] = useState();
-    const [contentNew, setContentNew] = useState();
+    const [contentNew, setContentNew] = useState('');
     const [chipset, setChipset] = useState([]);
     const [edit, setEdit] = useState(false);
     const [file, setFile] = useState({});
     const [changeCheck, setChangeCheck] = useState(false)
 
+    const [image , setImage] = useState()
     const [metaData, setMetaData] = useState({
         robots: false,
     });
@@ -84,9 +86,28 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
             }
         });
     }
+
+    const handleGetImg = name => {
+        let names = name.split("/")
+        Request.GetImage(names[1])
+            .then(rr => {
+        //         console.log("[[[[[[ " ,names)
+            })
+    }
     useEffect(() => {
         let formNews = {...CatData};
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
+        if (formNews.image)
+        {
+
+            let img = formNews.image;
+
+            handleGetImg(img)
+
+        }else{
+            setImage(true)
+        }
+
         setIds(formNews.id)
         setCatData({
             id: formNews.id,
@@ -453,8 +474,38 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
                                         valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
                                 </fieldset>
                             </div>
+                            {console.log("===========", dataUpdateParse)}
                             <div className={"col-lg-2 col-md-3 col-sm-12"}>
-                                <fieldset className="form-group">
+                                {dataUpdateParse ? dataUpdateParse.image ? (
+                                    <div className={"mini-img-show-edit"}>
+                                        <div className={"img-box"}>
+                                            {/*<img src={BASE_URL+dataUpdateParse.image} />*/}
+                                            <img src={"https://th.bing.com/th/id/OIP.LZkzxz8ljNjMM_l8deS0mwHaEK?pid=ImgDet&rs=1"} />
+                                            <span><i className={"bx bx-x"}></i> </span>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <fieldset className="form-group">
+                                        <label id={"selectParent"}>افزودن فایل</label>
+                                        <div id={"file"}>
+                                            <input type={"file"} name={"image"}
+                                                   multiple="multiple"
+                                                   onChange={e => HandleFile(e)}
+                                                   style={{
+                                                       opacity: 0,
+                                                       zIndex: 9,
+                                                       height: '100%',
+                                                       position: 'absolute',
+                                                       cursor: 'pointer'
+                                                   }}/>
+                                            <button id="select-files" className="btn btn-primary mb-1"><i
+                                                className="icon-file2"></i>
+                                                انتخاب فایل
+                                            </button>
+
+                                        </div>
+                                    </fieldset>
+                                ) : (<fieldset className="form-group">
                                     <label id={"selectParent"}>افزودن فایل</label>
                                     <div id={"file"}>
                                         <input type={"file"} name={"image"}
@@ -473,7 +524,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
                                         </button>
 
                                     </div>
-                                </fieldset>
+                                </fieldset>)}
                             </div>
 
                             <div className={"col-12"}>
