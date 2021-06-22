@@ -11,6 +11,7 @@ import {ChipsetHandler} from './../../../HOC/ChipsetHandler';
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import $ from "jquery";
 import CatDataAdd from "form-data";
+
 const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     const [categoryData] = useState({});
     const [loading] = useState(false);
@@ -44,7 +45,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
 
     // const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
     const CreateAddCategory = (data) => {
-        console.log("++++++++++" , data)
+        console.log("++++++++++", data)
         swal({
             title: 'افزودن دسته بندی جدید',
             text: "آیا مطمئنید؟",
@@ -88,15 +89,15 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
         setIds(formNews.id)
         setCatData({
-            id : formNews.id,
-            name : formNews.name,
-            slug : formNews.slug,
-            image : formNews.image,
-            content : formNews.content,
-            metadata : formNews.metadata,
-            is_menu : formNews.is_menu,
-            parent_id : formNews.parent_id,
-            status : formNews.status,
+            id: formNews.id,
+            name: formNews.name,
+            slug: formNews.slug,
+            image: formNews.image,
+            content: formNews.content,
+            metadata: formNews.metadata,
+            is_menu: formNews.is_menu,
+            parent_id: formNews.parent_id,
+            status: formNews.status,
         });
         let metaDataNew = {...metaData};
         metaDataNew = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
@@ -120,7 +121,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
 
     const HandleFile = (e) => {
         let files = e.target.files[0];
-        setFile({file : files});
+        setFile({file: files});
     }
 
     const handleInput = (e) => {
@@ -145,8 +146,6 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     }
 
 
-
-
     const RemoveChipset = (name) => {
         setEdit(true)
         let metaDatas = {...metaData};
@@ -164,9 +163,9 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
         setEdit(true)
         let metaDatas = {...metaData};
         let chipsets = [...chipset];
-        if (item === ""){
+        if (item === "") {
 
-        }else{
+        } else {
             chipsets.push(item);
             setChipset(chipsets);
             metaDatas.tags = chipsets;
@@ -181,33 +180,32 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
         let formNew = {...CatData};
         let formFiledss = new FormData();
         formFiledss.append("image", file.file);
-        // formFiledss.append("name", 'vvv');
-        // console.log("*********" , formFiled)
-
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
         let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formNew.parent_id;
-        formNew.status = status;
-        formNew.parent_id = parseInt(parent_id);
-        formNew.image = formFiledss;
-        formNew.is_menu = parseInt(is_menu);
+        formFiledss.append("status", status);
+        formFiledss.append("parent_id", parent_id);
+        formFiledss.append("is_menu", is_menu);
+        formFiledss.append("name", formNew.name);
+        formFiledss.append("slug", formNew.slug);
         if (slugManage == false) {
-            formNew.slug = formNew.name;
+            formFiledss.append("slug", formNew.name);
         } else {
         }
 
         if (CatData.slug == "") {
-            formNew.slug = formNew.name
+            formFiledss.append("slug", formNew.name);
         }
-        formNew.content = contentNew;
 
+        formFiledss.append("content", contentNew);
 
         metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
-        formNew.metadata = JSON.stringify(metaData);
+        formFiledss.append("metadata", JSON.stringify(metaData));
         if (CatData.name && CatData.name !== '') {
             $("input[name=name]").removeClass("is-invalid");
-            formNew.parent_id = formNew.parent_id ? formNew.parent_id : 0;
-            CreateAddCategory(formNew);
+            formFiledss.append("parent_id", formNew.parent_id ? formNew.parent_id : 0);
+
+            CreateAddCategory(formFiledss);
         } else {
             $("input[name=name]").addClass("is-invalid");
             error("لطفا فیلد نام دسته بندی را پر کنید !")
