@@ -39,21 +39,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-/*Route::get('/react/auth', function () {
-    return adminView('pages.auth.Auth');
-})->name('react.login');
+Route::get('/test', function () {
 
-Route::get('/react/{slug}', function () {
-    return redirect(\route('react.login'));
+    (new \App\Classes\Pay\Pay())->start(1000);
+    dd('mamad');
 });
 
-//Route::get('/react/register', function () {
-//    return adminView('pages.auth.Auth');
-//});
-
-Route::get('/react/register', function () {
-    return redirect(\route('auth.register'));
-});*/
 
 Route::get('csrf', function () {
     echo csrf_token();
