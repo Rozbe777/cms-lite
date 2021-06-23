@@ -9,7 +9,7 @@ trait UserTrait
     public function imageHandler($image)
     {
         $imageName = time() . '.' . $image->getClientOriginalExtension();
-        return $image->storeAs('images', $imageName);
+        return $image->storeAs('public/images', $imageName);
     }
 
 //    /**
