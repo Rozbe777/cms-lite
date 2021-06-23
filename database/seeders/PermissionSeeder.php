@@ -39,7 +39,7 @@ class PermissionSeeder extends Seeder
                         [
                             'icon' => 'bx-sitemap',
                             'is_menu' => 1,
-                            "name" => "categories.index",
+                            "name" => "categories.blade",
                             "display_name" => "دسته بندی ها"],
                     ]
                 ],

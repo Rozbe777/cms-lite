@@ -18,7 +18,8 @@ class CategorySeeder extends Seeder
         Category::create([
             'name'=>'no Name',
             'slug'=> 'no Slug',
-            'user_id'=>1
+            'user_id'=>1,
+            'status'=>'active'
         ]);
         Category::factory()->times(10)->create();
 
