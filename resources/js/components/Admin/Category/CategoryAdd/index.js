@@ -351,23 +351,30 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
 
     const HandleDuplicate = () => {
         let formOldData = {...CatData};
-        formOldData.content = contentNew;
+        let formsNews = new FormData();
+        formsNews.append("content" ,contentNew )
         let name = titleWrite;
         let slug = slugManage ? titleWrite : $("input.slugest").val();
-        formOldData.name = name;
-        formOldData.slug = slug;
+        formsNews.append("name" ,name )
+        formsNews.append("slug" ,slug )
+
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : CatData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : CatData.status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : CatData.parent_id;
+
+        formsNews.append("is_menu" ,parseInt(is_menu) )
+        formsNews.append("status" ,status )
+        formsNews.append("parent_id" ,parseInt(parent_id))
+        formsNews.append("image" , file.file ? file.file : null)
+
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
-        delete formOldData.id;
-        formOldData.status = status;
-        formOldData.metadata = JSON.stringify(metaDatas);
-        formOldData.is_menu = parseInt(is_menu);
-        formOldData.parent_id = parseInt(parent_id);
-        CreateAddCategory(formOldData);
+
+        formsNews.append("status" ,status )
+        formsNews.append("metadata" ,JSON.stringify(metaDatas) )
+
+        CreateAddCategory(formsNews);
     }
 
 
@@ -510,7 +517,7 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
                             </div>
                             <div className={"col-lg-2 col-md-3 col-sm-12"}
                                  style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                                {!loading ? imageGet.state !== "" ? (
+                                {!loading ? imageGet.state !== "" && types !== "dup" ? (
                                     <div className={"mini-img-show-edit"}>
                                         <div className={"img-box"}>
                                             <img src={`${BASE_URL_IMG}${imageGet.state}`} />
