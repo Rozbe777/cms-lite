@@ -13,7 +13,7 @@ import './../../_Micro/TreeShow/_Shared/style.scss';
 import $ from "jquery";
 import CatDataAdd from "form-data";
 
-const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
+const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}) => {
     const [categoryData] = useState({});
     const [loading, setLoading] = useState(false);
     const [ids, setIds] = useState();
@@ -221,6 +221,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
         formFiledss.append("is_menu", is_menu);
         formFiledss.append("name", formNew.name);
         formFiledss.append("slug", formNew.slug);
+        formFiledss.append("_token", token);
         if (slugManage == false) {
             formFiledss.append("slug", formNew.name);
         } else {
@@ -331,7 +332,8 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
         console.log("slug" , slug);
         formDataFit.append("name", name);
         formDataFit.append("slug", slug);
-        formDataFit.append("_method", "put");
+        formDataFit.append("_method", "PUT");
+        formDataFit.append("_token", token);
 
         // delete formOldData.childern;
         // delete formOldData.content_count;

@@ -5,7 +5,7 @@
     <div class="content-wrapper" style="padding: 0px !important;margin: 0px">
 
 
-        <div id="category_box" style="border-top : 1px solid #eee"></div>
+        <div id="category_box" data-token="{{csrf_token()}}" style="border-top : 1px solid #eee"></div>
 
     </div>
 
