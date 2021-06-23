@@ -317,7 +317,6 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
         let formOldData = {...CatData};
         let formDataFit = new FormData();
         let formDataFits = new FormData();
-        formDataFits.append("name" , " sdvsdvsdv")
         formDataFit.append("image" , file.file)
         formDataFit.append("content", contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : CatData.is_menu;
@@ -331,6 +330,7 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
         let slug = slugManage ? titleWrite : $("input.slugest").val();
         console.log("slug" , slug);
         formDataFit.append("name", name);
+        formDataFit.append("id", formOldData.id);
         formDataFit.append("slug", slug);
         // formDataFit.append("_method", "PUT");
         formDataFit.append("_token", token);

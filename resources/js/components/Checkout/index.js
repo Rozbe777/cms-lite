@@ -9,7 +9,7 @@ const Index = () => {
     const [state, setState] = useState();
     return (
         <>
-            <Header />
+            <Header selected={"payType"} />
         </>
     )
 }
