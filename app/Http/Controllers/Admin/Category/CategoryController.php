@@ -16,7 +16,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class CategoryController extends Controller
@@ -81,7 +80,6 @@ class CategoryController extends Controller
      */
     public function store(CreateCategoryRequest $request)
     {
-//        dd($request->all());
        $parent_id = Category::pluck('id');
        if (!in_array($request->parent_id,$parent_id->toArray()) && $request->parent_id != 0){
            return  $this->message(__('message.categories.error.parent_id'))->error();
@@ -122,15 +120,11 @@ class CategoryController extends Controller
      * @param Category $category
      * @return JsonResponse
      */
-    public function update(Request $request, Category $category)
+    public function update(EditCategoryRequest $request, Category $category)
     {
-
-        dd(request()->all());
         $category = $this->categoryRepository->update($request->all(), $category);
-//        dd("12" ,$request->all());
 
-//
-//        return $this->message(__('message.success.200'))->view('pages.admin.category.edit')->data($category)->success();
+        return $this->message(__('message.success.200'))->view('pages.admin.category.edit')->data($category)->success();
     }
 
     /**

@@ -24,21 +24,19 @@ class EditCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-//            'name' => "string|max:255|unique:categories,name,{$this->category->id}",
-//            'name' => "string|max:255",
-//            'slug' => "string|max:255",
-//            'image' => 'string|image|nullable',
-//            'content' => 'string',
-//            'fields' => 'string',
-//            'parent_id' => 'nullable|different:id',
-//            'is_menu'=>'boolean|nullable',
-////            'layout_id' => '',//not using now FIXME after insert layout and module
-////            'module_id' => '',
-//            'status' => 'string|in:active,deactivate' ,
-//            'tag_list_old'=>'array',
-//            'tag_list_new'=>'array',
-//            'metadata'=>'string'
-
+            'name' => "nullable|string|max:255",
+            'slug' => "nullable|string|max:255",
+            'image' => 'string|image|nullable',
+            'content' => 'nullable|string',
+            'fields' => 'nullable|string',
+            'parent_id' => 'nullable|different:id',
+            'is_menu'=>'boolean|nullable',
+//            'layout_id' => '',//not using now FIXME after insert layout and module
+//            'module_id' => '',
+            'status' => 'string|in:active,deactivate' ,
+            'tag_list_old'=>'array',
+            'tag_list_new'=>'array',
+            'metadata'=>'string'
         ];
     }
 }
