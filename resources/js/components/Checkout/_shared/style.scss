@@ -7,6 +7,7 @@
     //flex-direction: row;
 
     ul.checkout-header {
+        padding: 0px 100px;
         list-style: none;
         width: 100%;
         display: flex;
@@ -111,9 +112,14 @@
     .img-item{
         width: 50px;
         float: right;
+        overflow: hidden;
         height: 50px;
         border-radius: 5px;
         background: #eee;
+        img{
+            width: 100%;
+            opacity: 0.1;
+        }
     }
     span#product-name{
         max-width: 230px;
