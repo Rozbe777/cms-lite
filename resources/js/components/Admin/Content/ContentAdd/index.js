@@ -235,7 +235,7 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
         formDataAll.append("comment_status" , comment_status)
         formDataAll.append("is_menu" , is_menu)
 
-        formDataAll.append("name" , formNew.title)
+        formDataAll.append("title" , formNew.title)
         if (slugManage == false)
         {
             formDataAll.append("slug" , formNew.title)
