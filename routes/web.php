@@ -17,6 +17,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\MobileRegisterController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\FileManager\ImageController;
+use App\Http\Controllers\Front\Cart\CheckoutController;
 use App\Http\Controllers\Front\Search\SearchController;
 use Illuminate\Support\Facades\Route;
 
@@ -138,7 +140,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('products/multi/destroy', [ProductController::class, 'multipleDestroy'])->name('products.multipleDestroy');
 
     //-------------------------------Images-----------------------------
-    Route::get('image/{name}',[\App\Http\Controllers\FileManager\ImageController::class,'show']);
+    Route::get('image/{name}',[ImageController::class,'show']);
+
+    Route::get('checkout',[CheckoutController::class,'index'])->name('checkout.index');
 
 
 //-------------------------------------------------------------------------------------------------------------------
