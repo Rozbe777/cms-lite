@@ -27,7 +27,7 @@ class CreateCategoryRequest extends FormRequest
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
             'image' => 'image|nullable',
-            'content' => 'string',
+            'content' => 'string|nullable',
             'fields' => 'string',
             'parent_id' => "nullable|numeric",
             //'layout_id' => '',//not using now FIXME after insert layout and module

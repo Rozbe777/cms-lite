@@ -93,7 +93,13 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
             .then(rr => {
                 setLoading(false)
                 setImage({state: rr.data})
-            })
+            }).catch(err => {
+                ErrorToast("خطایی در دانلود تصویر رخ داده است")
+            setTimeout(()=>{
+                handleClose()
+            },1300)
+
+        })
     }
     useEffect(() => {
         let formNews = {...CatData};
@@ -195,12 +201,19 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
 
     }
 
+    const handleEditor = data => {
+        setEdit(true)
+        setContentNew(JSON.stringify(data))
+    }
+
     let titleWrite = $("input[name=name]").val();
 
     const HandleForm = (e) => {
         let formNew = {...CatData};
         let formFiledss = new FormData();
         formFiledss.append("image", file.file);
+
+        formFiledss.append("content", contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
         let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formNew.parent_id;
@@ -214,11 +227,12 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
         } else {
         }
 
+
         if (CatData.slug == "") {
             formFiledss.append("slug", formNew.name);
         }
 
-        formFiledss.append("content", contentNew);
+
 
         metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
         formFiledss.append("metadata", JSON.stringify(metaData));
@@ -495,7 +509,6 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
                                 {!loading ? imageGet.state !== "" ? (
                                     <div className={"mini-img-show-edit"}>
                                         <div className={"img-box"}>
-                                            {/*{console.log("sssss" , {`data:image/png;base64,${imageGet.state}`)}*/}
                                             <img src={`data:image/png;base64,${imageGet.state}`} />
                                             <span onClick={e => handledelImg(e)}><i className={"bx bx-x"}></i> </span>
                                         </div>
@@ -528,8 +541,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
 
                             <div className={"col-12"}>
                                 <MyEditor editorData={data => {
-                                    setEdit(true)
-                                    setContentNew(JSON.stringify(data))
+                                   handleEditor(data)
                                 }}
                                           id={"my-editor"}
                                           type={"perfect"}
