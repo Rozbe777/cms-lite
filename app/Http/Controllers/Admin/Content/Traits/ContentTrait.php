@@ -13,7 +13,7 @@ trait ContentTrait
     {
         $imageName = time() . '.' . $image->getClientOriginalExtension();
 //        return Storage::put($imageName,$image);
-        return $image->storeAs('images', $imageName);
+        return $image->storeAs('public/images', $imageName);
     }
 
     public function slugHandler($slug)

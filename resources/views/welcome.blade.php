@@ -20,8 +20,8 @@
             }
         </style>
     </head>
-
-    <body class="antialiased"><img src="<?php $url = Storage::url('public/images/'.$name); echo asset("$url")?>">
+{{--@dd($name);--}}
+    <body class="antialiased"><img src="<?php $url = Storage::url($name); echo asset("$url")?>">
 
 
 
