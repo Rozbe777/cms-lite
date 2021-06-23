@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-
+import './../_shared/style.scss'
 export const Header = (props) => {
     useEffect(() => {
     }, [])

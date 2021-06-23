@@ -120,7 +120,7 @@ class CategoryController extends Controller
      * @param Category $category
      * @return JsonResponse
      */
-    public function update(EditCategoryRequest $request, Category $category)
+    public function update(EditCategoryRequest $request)
     {dd(123,$request->all());
         $category = $this->categoryRepository->update($request->all(), $category);
 
