@@ -12,14 +12,15 @@ export const REQUEST_URL = `${BASE_URL}${VERSION}`;
 export const TIMEOUT = 60000;
 import $ from 'jquery'
 
-// console.log("scrf : " , $('meta[name="csrf-token"]').attr('content'));
+let data_token =  $('meta[name="csrf-token"]').attr('content');
 
 export const REQUEST_HEADER_TOKEN = {
     // 'Access-Control-Allow-Origin': '*',
     // 'X-Custom-Header': 'foobar',
-    'is_axios' : true,
-
-    'Content-Type': 'application/json',
+   // 'is_axios' : true,
+    'X-XSRF-TOKEN' : data_token,
+    'Content-Type': '*/*',
+    'Accept': '*/*;',
     // 'Authentication' : ''
 
 }
