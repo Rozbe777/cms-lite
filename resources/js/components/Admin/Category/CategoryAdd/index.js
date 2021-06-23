@@ -332,7 +332,7 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
         console.log("slug" , slug);
         formDataFit.append("name", name);
         formDataFit.append("slug", slug);
-        formDataFit.append("_method", "put");
+        formDataFit.append("_method", "PUT");
         formDataFit.append("_token", token);
 
         // delete formOldData.childern;
