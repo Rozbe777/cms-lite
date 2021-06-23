@@ -45,6 +45,8 @@ class UserRepository implements RepositoryInterface
 
     public function update(array $data, $user)
     {
+        $user = User::find($user);
+
         if (!empty($data['password'])) {
             $data['password'] = bcrypt($data['password']);
             unset($data['password_confirmation']);

@@ -67,6 +67,7 @@ class ContentRepository implements RepositoryInterface
 
     public function update(array $data, $content)
     {
+        $content = Content::find($content);
         $data['slug'] = $this->slugHandler($data['slug']);
 
         $tag_list = $data['tag_list'] ?? [];
@@ -89,6 +90,7 @@ class ContentRepository implements RepositoryInterface
             } else {
                 $content->tags()->sync($tag);
             }
+            return Content::find($content);
         }
         /** modify category relations in database tables */
         foreach ($category_list as $category) {

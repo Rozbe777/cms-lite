@@ -37,14 +37,17 @@ trait ProductTrait
     {
         $attribute_list = [];
         foreach ($attributes as $attribute) {
+            $price = $attribute['price'];
             $count = !empty($attribute['count']) ? (int)$attribute['count'] : ($attribute['count'] == 0 ? 0 : null); //null is unlimited
             $limit = !empty($attribute['limit']) ? (int)$attribute['limit'] : null;
             $discount = (!empty($attribute['discount'])) ? $attribute['discount'] != 0 ? (int)$attribute['discount'] : 0 : 0;
             $discount_status = (!empty($discount)) ? "active" : "deactivate";
 
+            $discount_percentage = !empty($attribute['discount']) ? (($price - $discount)/$price)*100 : 0;
+
             $attribute_list[] = Attribute::updateOrCreate(
                 ["product_id" => $p_id, "product_code" => $attribute['product_code']],
-                ["price" => $attribute['price'], "count" => $count, "limit" => $limit, "discount" => $discount, "discount_status" => $discount_status]
+                ["price" => $attribute['price'], "count" => $count, "limit" => $limit, "discount" => $discount, "discount_status" => $discount_status, "discount_percentage" => $discount_percentage]
             );
         }
         return $attribute_list;

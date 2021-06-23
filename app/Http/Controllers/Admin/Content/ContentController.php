@@ -116,9 +116,9 @@ class ContentController extends Controller
      * @param Content $content
      * @return Factory|JsonResponse|View
      */
-    public function update(EditContentRequest $request, Content $content)
+    public function update(EditContentRequest $request)
     {
-        $this->contentRepository->update($request->all(), $content);
+        $content = $this->contentRepository->update($request->all(), $request->id);
         $content->load('tags')->load('categories')->load('viewCounts');
 
         return $this->message(__('message.success.200'))->view('pages.admin.content.edit')->data($content)->success();

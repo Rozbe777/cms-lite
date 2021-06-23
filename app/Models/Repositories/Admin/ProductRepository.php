@@ -60,7 +60,7 @@ class ProductRepository implements RepositoryInterface
             ->selectRaw('
             products.*,max(attributes.price) as price,
             max(attributes.count) as count,
-            min(attributes.discount) as discount'
+            max(attributes.discount_percentage) as discount'
             )
             ->groupby('attributes.product_id')
             ->when(!empty($discount), function ($query) use ($discount) {
