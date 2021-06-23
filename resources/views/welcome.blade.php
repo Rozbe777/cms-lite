@@ -21,7 +21,7 @@
         </style>
     </head>
 {{--@dd($name);--}}
-    <body class="antialiased"><img src="<?php $url = Storage::url($name); echo asset("$url")?>">
+    <body class="antialiased"><img src="<?php $url = ($name); echo asset("$url")?>">
 
 
 
