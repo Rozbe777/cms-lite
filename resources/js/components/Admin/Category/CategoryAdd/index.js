@@ -317,7 +317,7 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
         let formOldData = {...CatData};
         let formDataFit = new FormData();
         let formDataFits = new FormData();
-        formDataFit.append("image" , file.file)
+        formDataFit.append("image" , file.file ? file.file : '')
         formDataFit.append("content", contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : CatData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : CatData.status;
