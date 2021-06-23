@@ -26,7 +26,7 @@ class EditCategoryRequest extends FormRequest
         return [
             'name' => "nullable|string|max:255",
             'slug' => "nullable|string|max:255",
-            'image' => 'image|nullable',
+//            'image' => "nullable|image",
             'content' => 'nullable|string',
             'fields' => 'nullable|string',
             'parent_id' => 'nullable|different:id',
