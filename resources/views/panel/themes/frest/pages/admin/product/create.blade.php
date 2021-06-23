@@ -3,6 +3,12 @@
 
 @section("content")
 
+    <div class="container-fluid">
+        <div class="row">
+            <div id="checkout"></div>
+        </div>
+    </div>
+
 @endsection
 @section('pageScripts')
 

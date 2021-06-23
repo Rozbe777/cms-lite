@@ -89,7 +89,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     const handleGetImg = name => {
         let names = name.split("/")
         setLoading(true)
-        Request.GetImage(names[1])
+        Request.GetImage(names[2])
             .then(rr => {
                 setLoading(false)
                 setImage({state: rr.data})
@@ -105,7 +105,6 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
         let formNews = {...CatData};
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
         if (formNews.image) {
-
             let img = formNews.image;
 
             handleGetImg(img)
@@ -274,7 +273,6 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     }
 
     const HandleUpdateForm = (data, id) => {
-        console.log("+++++++++", data)
         swal({
             title: 'ویرایش دسته بندی',
             text: "آیا مطمئنید؟",
@@ -317,6 +315,8 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
     const HandleEdit = () => {
         let formOldData = {...CatData};
         let formDataFit = new FormData();
+        let formDataFits = new FormData();
+        formDataFits.append("name" , " sdvsdvsdv")
         formDataFit.append("image" , file.file)
         formDataFit.append("content", contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : CatData.is_menu;
@@ -328,8 +328,10 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
         // delete formOldData.children;
         let name = titleWrite;
         let slug = slugManage ? titleWrite : $("input.slugest").val();
+        console.log("slug" , slug);
         formDataFit.append("name", name);
         formDataFit.append("slug", slug);
+        formDataFit.append("_method", "put");
 
         // delete formOldData.childern;
         // delete formOldData.content_count;
@@ -509,7 +511,7 @@ const AddCategory = ({dataAll, dataUpdate, idParent, result: pushResult}) => {
                                 {!loading ? imageGet.state !== "" ? (
                                     <div className={"mini-img-show-edit"}>
                                         <div className={"img-box"}>
-                                            <img src={`data:image/png;base64,${imageGet.state}`} />
+                                            <img src={`${BASE_URL_IMG}${imageGet.state}`} />
                                             <span onClick={e => handledelImg(e)}><i className={"bx bx-x"}></i> </span>
                                         </div>
                                     </div>

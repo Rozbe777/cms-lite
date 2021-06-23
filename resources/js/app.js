@@ -36,4 +36,7 @@ require("./components/Admin/Shop/ProductAdd");
 require("./components/Admin/Shop/Search");
 require("./components/Admin/FormCreator");
 require("./components/Admin/ThemeSetting");
+require("./components/Checkout");
+require("./components/Checkout/CheckBascket");
+require("./components/Checkout/SendDetail");
 
