@@ -120,8 +120,8 @@ class CategoryController extends Controller
      * @param Category $category
      * @return JsonResponse
      */
-    public function update(EditCategoryRequest $request, Category $category)
-    {dd(123,$request->all());
+    public function update(EditCategoryRequest $request)
+    {
         $category = $this->categoryRepository->update($request->all(), $category);
 
         return $this->message(__('message.success.200'))->view('pages.admin.category.edit')->data($category)->success();
