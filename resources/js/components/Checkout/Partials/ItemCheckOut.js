@@ -8,7 +8,7 @@ export const ItemCheckOut = (props) => {
     return (
         <div id={"iteming"}>
             <div className={"img-item"}>
-
+                <img src={"/images/avatar.jpg"} />
             </div>
             <span id={"product-name"}>این یک محصول تست استتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتتت</span>
             <div className={"detail"}>

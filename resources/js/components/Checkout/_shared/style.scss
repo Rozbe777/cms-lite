@@ -92,12 +92,21 @@
 #iteming{
     padding: 5px;
     width: 100%;
+    display: flex;
     float: right;
     height: 60px;
     background: #fff;
     border-radius: 5px;
     box-shadow: 0 0 5px 2px rgb(0 0 0 / 10%);
     margin-bottom: 10px;
+    transition: 0.3s all ease;
+    -webkit-transition: 0.3s all ease;
+    -moz-transition: 0.3s all ease;
+    &:hover{
+        transform: scale(1.01);
+        box-shadow: 0 0 8px 2px rgb(0 0 0 / 15%);
+
+    }
 
     .img-item{
         width: 50px;
@@ -107,8 +116,23 @@
         background: #eee;
     }
     span#product-name{
-        max-width: 120px;
+        max-width: 230px;
         float: right;
-        height: 40px;
+        height: 100%;
+        font-weight: 100;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        line-height: 3.4;
+        margin-right: 15px;
+        font-size: 14px;
+    }
+    .detail{
+        float: right;
+        flex: 1;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
     }
 }
