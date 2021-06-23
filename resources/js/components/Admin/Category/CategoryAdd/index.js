@@ -366,7 +366,7 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
         formsNews.append("is_menu" ,parseInt(is_menu) )
         formsNews.append("status" ,status )
         formsNews.append("parent_id" ,parseInt(parent_id))
-        formsNews.append("image" , file.file ? file.file : null)
+        formsNews.append("image" , file.file ? file.file : '')
 
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
@@ -515,9 +515,10 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
                                         valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
                                 </fieldset>
                             </div>
+                            {console.log("dataaaaaa" , types)}
                             <div className={"col-lg-2 col-md-3 col-sm-12"}
                                  style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                                {!loading ? imageGet.state !== "" && types !== "dup" ? (
+                                {!loading ? imageGet.state !== "" && types == "edit" ? (
                                     <div className={"mini-img-show-edit"}>
                                         <div className={"img-box"}>
                                             <img src={`${BASE_URL_IMG}${imageGet.state}`} />
