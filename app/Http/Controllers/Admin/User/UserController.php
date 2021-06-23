@@ -117,10 +117,10 @@ class UserController extends Controller
      * @param User $user
      * @return JsonResponse|View
      */
-    public function update(EditUserRequest $request, User $user)
+    public function update(EditUserRequest $request)
     {
         $data = [
-            'user' => $this->userRepository->update($request->all(), $user),
+            'user' => $this->userRepository->update($request->all(), $request->id),
             'roles' => Role::all(),
         ];
 

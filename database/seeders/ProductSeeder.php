@@ -32,6 +32,7 @@ class ProductSeeder extends Seeder
                     'price' => rand(10000,100000),
                     'discount' => rand(100,500),
                     'discount_status' => $status[rand(0,1)],
+                    'discount_percentage' => rand(10,70),
                     'count' => rand(0,14),
                     'limit' => rand(0,2),
                 ]);

@@ -26,17 +26,16 @@ class EditCategoryRequest extends FormRequest
         return [
             'name' => "nullable|string|max:255",
             'slug' => "nullable|string|max:255",
-//            'image' => 'image|nullable',
+            'image' => "nullable|image",
             'content' => 'nullable|string',
             'fields' => 'nullable|string',
             'parent_id' => 'nullable|different:id',
-            'is_menu'=>'boolean|nullable',
+            'is_menu' => 'nullable|boolean',
 //            'layout_id' => '',//not using now FIXME after insert layout and module
 //            'module_id' => '',
-            'status' => 'string|in:active,deactivate' ,
-            'tag_list_old'=>'array',
-            'tag_list_new'=>'array',
-            'metadata'=>'string'
+            'status' => 'nullable|string|in:active,deactivate',
+            'tag_list' => 'nullable|array',
+            'metadata' => 'nullable|string'
         ];
     }
 }

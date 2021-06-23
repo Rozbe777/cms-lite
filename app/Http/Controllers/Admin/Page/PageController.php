@@ -119,9 +119,9 @@ class PageController extends Controller
      * @param Page $page
      * @return JsonResponse
      */
-    public function update(EditPageRequest $request, Page $page)
+    public function update(EditPageRequest $request)
     {
-        $page = $this->pageRepository->update($request->all(), $page);
+        $page = $this->pageRepository->update($request->all(), $request->id);
 
         return $this->message(__('message.success.200'))->view('pages.admin.page.edit')->data($page)->success();
     }

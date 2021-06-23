@@ -118,9 +118,9 @@ class TagController extends Controller
      * @param Tag $tag
      * @return JsonResponse|View
      */
-    public function update(EditTagRequest $request, Tag $tag)
+    public function update(EditTagRequest $request)
     {
-        $tag = $this->tagRepositories->update($request->all(), $tag);
+        $tag = $this->tagRepositories->update($request->all(), $request->id);
 
         return $this->message(__('message.success.200'))->view('pages.admin.tag.edit')->data($tag)->success();
     }
