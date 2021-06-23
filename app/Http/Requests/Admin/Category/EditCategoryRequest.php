@@ -25,11 +25,11 @@ class EditCategoryRequest extends FormRequest
     {
         return [
 //            'name' => "string|max:255|unique:categories,name,{$this->category->id}",
-            'name' => "string|max:255",
-            'slug' => "string|max:255",
+            'name' => "nullable|string|max:255",
+            'slug' => "nullable|string|max:255",
             'image' => 'string|image|nullable',
-            'content' => 'string',
-            'fields' => 'string',
+            'content' => 'nullable|string',
+            'fields' => 'nullable|string',
             'parent_id' => 'nullable|different:id',
             'is_menu'=>'boolean|nullable',
 //            'layout_id' => '',//not using now FIXME after insert layout and module
