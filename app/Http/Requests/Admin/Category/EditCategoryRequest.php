@@ -24,7 +24,6 @@ class EditCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-//            'name' => "string|max:255|unique:categories,name,{$this->category->id}",
             'name' => "nullable|string|max:255",
             'slug' => "nullable|string|max:255",
             'image' => 'string|image|nullable',
@@ -38,7 +37,6 @@ class EditCategoryRequest extends FormRequest
             'tag_list_old'=>'array',
             'tag_list_new'=>'array',
             'metadata'=>'string'
-
         ];
     }
 }
