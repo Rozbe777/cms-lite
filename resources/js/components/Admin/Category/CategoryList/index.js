@@ -16,7 +16,7 @@ import NotFound from "../../_Micro/NotFound";
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
 
-export const CategoryList = () => {
+export const CategoryList = ({token}) => {
     const [checkBox, setCheckBox] = useState([]);
     const [dispaly, setDisplay] = useState(false)
     const [dispalyAdd, setDisplayAdd] = useState({dispaly: false})
@@ -72,7 +72,7 @@ export const CategoryList = () => {
     const handleAddCategory = (e) => {
         e.preventDefault()
         if (!loading) {
-            ReactDom.render(<AddCategory display={true}
+            ReactDom.render(<AddCategory display={true} token={token}
                                          dataAll={JSON.stringify(categoryData)}
                                          result={item => handleBackPage(item)}/>, document.getElementById("add-datas"))
         } else {
@@ -102,6 +102,7 @@ export const CategoryList = () => {
 
     const handleClickItem = (clickId) => {
         ReactDom.render(<AddCategory display={true} idParent={clickId}
+                                     token={token}
                                      dataAll={JSON.stringify(categoryData)}
                                      result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
@@ -119,6 +120,7 @@ export const CategoryList = () => {
         ReactDom.render(<AddCategory display={true} dataUpdate={data}
                                      dataAll={JSON.stringify(categoryData)}
                                      idParent={id_parents}
+                                     token={token}
                                      result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
 
