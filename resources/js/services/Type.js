@@ -15,11 +15,11 @@ import $ from 'jquery'
 let data_token =  $('meta[name="csrf-token"]').attr('content');
 
 export const REQUEST_HEADER_TOKEN = {
-    // 'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': '*',
     // 'X-Custom-Header': 'foobar',
-   // 'is_axios' : true,
-    'X-XSRF-TOKEN' : data_token,
-    'Content-Type': '*/*',
+   'is_axios' : true,
+   //  'X-XSRF-TOKEN' : data_token,
+    'Content-Type': 'application/json',
     'Accept': '*/*;',
     // 'Authentication' : ''
 
