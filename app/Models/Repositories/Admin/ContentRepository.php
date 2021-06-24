@@ -25,7 +25,7 @@ class ContentRepository implements RepositoryInterface
             $categories = array_map('intval', $categories);
 
         return Content::when(!empty($search), function ($query) use ($search) {
-            $query->where(function ($q) use ($search){
+            $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', '%' . $search . '%')
                     ->orWhere('slug', 'like', '%' . $search . '%')
                     ->orWhere('content', 'like', '%' . $search . '%');
@@ -76,8 +76,10 @@ class ContentRepository implements RepositoryInterface
         $category_list = $data['category_list'] ?? [];
         unset($data["category_list"]);
 
-        if (!empty($data['image']))
+        if (!empty($data['image']) && !is_string($data['image']))
             $data['image'] = $this->imageHandler($data['image']);
+        elseif (is_string($data['image']) && $data['image'] == 'true')
+            unset($data['image']);
 
         /** modify tag relations in database tables */
         foreach ($tag_list as $tag) {
@@ -105,14 +107,15 @@ class ContentRepository implements RepositoryInterface
     {
         $data['slug'] = $this->slugHandler($data['slug']);
 
-        $tag_list = $data['tag_list'] ?? null;
+        $tag_list = json_decode($data['tag_list']) ?? null;
         unset($data["tag_list"]);
 
-        $category_list = $data['category_list'] ?? null;
+        $category_list = json_decode($data['category_list']) ?? null;
         unset($data["category_list"]);
 
         $data['user_id'] = Auth::id();
-        if (!empty($data['image']))
+
+        if (!empty($data['image']) && !is_string($data['image']))
             $data['image'] = $this->imageHandler($data['image']);
         else
             unset($data['image']);

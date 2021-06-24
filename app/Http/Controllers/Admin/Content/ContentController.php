@@ -78,7 +78,6 @@ class ContentController extends Controller
      */
     public function store(CreateContentRequest $request)
     {
-
         $content = $this->contentRepository->create($request->all());
 
         return $this->message(__('message.success.200'))->data($content)->view('pages.admin.content.show')->success();

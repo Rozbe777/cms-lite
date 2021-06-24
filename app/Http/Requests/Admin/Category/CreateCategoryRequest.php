@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Category;
 
+use App\Rules\ImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateCategoryRequest extends FormRequest
@@ -26,7 +27,7 @@ class CreateCategoryRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
-            'image' => 'image|nullable',
+            'image' => new ImageRule(),
             'content' => 'string|nullable',
             'fields' => 'string',
             'parent_id' => "nullable|numeric",
@@ -35,7 +36,6 @@ class CreateCategoryRequest extends FormRequest
             'status' => 'required|string|in:active,deactivate',
             'is_menu' => 'boolean|nullable',
             'is_index' => 'integer|nullable',
-//            'tag_list' => 'nullable|array',
             'metadata' => 'nullable|string'
         ];
     }

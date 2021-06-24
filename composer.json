@@ -24,7 +24,8 @@
         "shanmuga/laravel-entrust": "^2.1",
       "ext-json": "*",
       "ext-curl": "*",
-        "ext-soap": "*"
+        "ext-soap": "*",
+      "ext-fileinfo": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
