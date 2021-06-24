@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Content;
 
+use App\Rules\FormDataRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EditContentRequest extends FormRequest
@@ -23,7 +24,6 @@ class EditContentRequest extends FormRequest
      */
     public function rules()
     {
-        dd($this->all());
         return [
             'title' => "string|max:255",
             'owner' => 'in:page,content',
@@ -37,8 +37,8 @@ class EditContentRequest extends FormRequest
             'is_index'=>'boolean|nullable',
             'is_menu'=>'boolean|nullable',
             'metadata'=>'string|nullable',
-            'tag_list_old'=>'array',
-            'tag_list_new'=>'array',
+            'tag_list'=>new FormDataRule(),
+            'category_list' => new FormDataRule()
         ];
     }
 }
