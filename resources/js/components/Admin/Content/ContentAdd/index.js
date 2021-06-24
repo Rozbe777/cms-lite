@@ -555,6 +555,9 @@ const ContentAdd = ({token , checkChange: pushCheckChange, display, dataUpdate, 
         setPreImage(preImages)
     }
 
+
+
+
     return (
         <div id={"category_add_pop_base"}>
             <ul className="nav nav-tabs tab-layout" role="tablist">
@@ -635,7 +638,7 @@ const ContentAdd = ({token , checkChange: pushCheckChange, display, dataUpdate, 
                                                     className={"bx bx-x"}></i> </span></div>
                                             </div>
                                         </div>)
-                                    : !loading ? imageGet.state !== "" ? (
+                                    : !loading ? !loading && imageGet.state !== "" ? (
                                         <div className={"mini-img-show-edit"}>
                                             <div className={"img-box"}>
                                                 <img src={`${BASE_URL_IMG}${imageGet.state}`}/>
