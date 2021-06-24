@@ -37,22 +37,15 @@ trait ResponseTrait
 
     public function success($status = 200)
     {
-        if ($this->isAxios()) {
-            return
                 response()->json([
                     "http_code" => $status,
                     "message" => $this->message,
                     "data" => $this->data
                 ], $status);
-        } else {
-            return adminView($this->view);
-        }
-
     }
 
     public function error($status = 404)
     {
-        if ($this->isAxios()) {
             if (!is_array($this->message)) {
                 $this->message = [$this->message];
             }
@@ -64,9 +57,5 @@ trait ResponseTrait
                         'data' => $this->message
                     ],
                 ], $status);
-        } else {
-            return adminView($this->view);
-        }
-
     }
 }
