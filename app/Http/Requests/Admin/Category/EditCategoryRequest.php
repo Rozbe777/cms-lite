@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Category;
 
+use App\Rules\FormDataRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EditCategoryRequest extends FormRequest
@@ -23,7 +24,6 @@ class EditCategoryRequest extends FormRequest
      */
     public function rules()
     {
-        dd($this->all());
         return [
             'name' => "nullable|string|max:255",
             'slug' => "nullable|string|max:255",
@@ -35,7 +35,8 @@ class EditCategoryRequest extends FormRequest
 //            'layout_id' => '',//not using now FIXME after insert layout and module
 //            'module_id' => '',
             'status' => 'nullable|string|in:active,deactivate',
-            'tag_list' => 'nullable|array',
+            'tag_list'=>new FormDataRule(),
+            'category_list' => new FormDataRule(),
             'metadata' => 'nullable|string'
         ];
     }

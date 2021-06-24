@@ -10,6 +10,7 @@ use App\Models\Content;
 use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ContentRepository implements RepositoryInterface
 {
@@ -115,10 +116,20 @@ class ContentRepository implements RepositoryInterface
 
         $data['user_id'] = Auth::id();
 
-        if (!empty($data['image']) && !is_string($data['image']))
+        if (!empty($data['image']) && !is_string($data['image'])) {
             $data['image'] = $this->imageHandler($data['image']);
-        else
-            unset($data['image']);
+        }
+        elseif (is_string($data['image']) && $data['image'] == 'true') {
+            $path = (Content::find($data['id']))->image;
+            $time = time();
+            $newPath = substr_replace($path,$time,'14',0);
+
+            Storage::copy($path, $newPath);
+            $data['image'] = $newPath;
+        }
+
+        if (!empty('id'))
+            unset($data['id']);
 
         $content = Content::create($data);
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Category;
 
+use App\Rules\FormDataRule;
 use App\Rules\ImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -36,6 +37,7 @@ class CreateCategoryRequest extends FormRequest
             'status' => 'required|string|in:active,deactivate',
             'is_menu' => 'boolean|nullable',
             'is_index' => 'integer|nullable',
+            'tag_list'=>new FormDataRule(),
             'metadata' => 'nullable|string'
         ];
     }

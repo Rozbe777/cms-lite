@@ -9,6 +9,7 @@ use App\Models\Category;
 use \App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryRepository implements RepositoryInterface
 {
@@ -57,7 +58,12 @@ class CategoryRepository implements RepositoryInterface
             $data['image'] = $this->imageHandler($data['image']);
         }
         elseif (is_string($data['image']) && $data['image'] == 'true') {
-            $data['image'] = (Category::find($data['id']))->image;
+            $path = (Category::find($data['id']))->image;
+            $time = time();
+            $newPath = substr_replace($path,$time,'14',0);
+
+            Storage::copy($path, $newPath);
+            $data['image'] = $newPath;
         }
 
         if (!empty('id'))

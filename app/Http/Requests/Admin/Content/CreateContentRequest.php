@@ -41,7 +41,6 @@ class CreateContentRequest extends FormRequest
             'is_menu'=>'boolean|nullable',
             'tag_list'=>new FormDataRule(),
             'category_list' => new FormDataRule()
-
         ];
     }
 
