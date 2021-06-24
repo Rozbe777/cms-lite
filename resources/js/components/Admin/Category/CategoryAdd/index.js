@@ -385,6 +385,7 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
 
         formsNews.append("is_menu", parseInt(is_menu))
         formsNews.append("status", status)
+        formsNews.append("id", formOldData.id)
         formsNews.append("parent_id", parseInt(parent_id))
         formsNews.append("image", file.file ? file.file : '')
 
