@@ -82,6 +82,8 @@ class ContentRepository implements RepositoryInterface
         elseif (is_string($data['image']) && $data['image'] == 'true')
             unset($data['image']);
 
+
+        dd($tag_list,$category_list);
         /** modify tag relations in database tables */
         foreach ($tag_list as $tag) {
             $tag = Tag::firstOrCreate(

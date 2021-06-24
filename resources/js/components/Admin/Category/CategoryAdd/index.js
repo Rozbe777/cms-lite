@@ -21,7 +21,7 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
     const [contentNew, setContentNew] = useState('');
     const [chipset, setChipset] = useState([]);
     const [edit, setEdit] = useState(false);
-    const [file, setFile] = useState({});
+    const [file, setFile] = useState({file : ''});
     const [changeCheck, setChangeCheck] = useState(false)
 
     const [imageGet, setImage] = useState({state: ''})

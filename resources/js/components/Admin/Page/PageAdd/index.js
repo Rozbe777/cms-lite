@@ -9,9 +9,10 @@ import {ErroHandle, error as ErrorToast, error} from './../../../../helper'
 import {ChipsetHandler} from './../../../HOC/ChipsetHandler'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import $ from "jquery";
+import {BASE_URL_IMG} from "../../../../services/Type";
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
-const PageAdd = ({display, dataUpdate, result: pushResult}) => {
+const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
 
 
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
@@ -21,9 +22,12 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
     // console.log("*************", dataGet);
 
     let titleWrite = $("input[name=titlePage]").val();
-    const [comments, setComments] = useState();
+    const [preImage, setPreImage] = useState({uri: ''});
+
     const [changeCheck, setChangeCheck] = useState(false)
     const [categoryData, setCategoryData] = useState({});
+    const [imageGet, setImage] = useState({state: ''})
+
     const [loading, setLoading] = useState(false);
     const [contentNew, setContentNew] = useState('');
     const [statusNew, setStatusNew] = useState();
@@ -33,7 +37,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
     const [chipset, setChipset] = useState([]);
     let tags = [];
     const [edit, setEdit] = useState(false);
-    const [file, setFile] = useState();
+    const [file, setFile] = useState({file : ''});
     const StatusSwitch = useRef(null);
     const [metaData, setMetaData] = useState({
         robots: false,
@@ -103,6 +107,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
 
         setIds(formNews.id);
         setFormData({
+            id: formNews.id,
             content: formNews.content,
             is_index: formNews.is_index,
             is_menu: formNews.is_menu,
@@ -131,10 +136,21 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         $("#my-editor").attr("defaultValue", "");
     }
 
-    const HandleFile = (e) => {
-        setFile(e.target.files[0]);
+    const handlePreShowImage = e => {
+        e.preventDefault();
+        let preImages = {...preImage}
+        if (event.target.files && event.target.files[0]) {
+            preImages.uri = URL.createObjectURL(event.target.files[0])
+            setPreImage(preImages)
+        }
     }
 
+    const HandleFile = (e) => {
+        handlePreShowImage(e)
+        setEdit(true)
+        let files = e.target.files[0];
+        setFile({file: files});
+    }
     const handleInput = (e) => {
         setEdit(true);
 
@@ -183,31 +199,35 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
     const HandleForm = (e) => {
         let formNew = {...formData};
         let formFile = new FormData();
-        formFile.append("file", file);
+        formFile.append("image", file.file ? file.file : '')
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
         let is_index = localStorage.getItem("is_index") ? localStorage.getItem("is_index") : formNew.is_index;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
-        formNew.status = status;
-        formNew.is_index = parseInt(is_index);
-        formNew.image = file;
+        formFile.append("status", status)
+        formFile.append("is_index", parseInt(is_index))
+        formFile.append("is_menu", parseInt(is_menu))
 
-        formNew.is_menu = parseInt(is_menu);
+
         if (slugManage == false) {
-            formNew.slug = formNew.title;
+            formFile.append("is_menu", formNew.title)
         } else {
         }
 
         if (formData.slug == "") {
-            formNew.slug = formNew.title
+            formFile.append("is_menu", formNew.title)
         }
-        formNew.content = JSON.stringify(contentNew);
+        let contents = JSON.stringify(contentNew);
+        formFile.append("content", contents)
+
         let MetaDaa = {...metaData};
         MetaDaa.robots = robots;
-        formNew.metadata = JSON.stringify(MetaDaa);
+        let metadatas = JSON.stringify(MetaDaa);
+        formFile.append("metadata", metadatas)
+
         if (formData.title && formData.title !== '') {
             $("input[name=titlePage]").removeClass("is-invalid");
-            CreateAddPage(formNew);
+            CreateAddPage(formFile);
         } else {
             $("input[name=titlePage]").addClass("is-invalid");
             error("لطفا فیلد عنوان صفحه را پر کنید !")
@@ -291,6 +311,16 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         let formDta = new FormData();
         let slug = slugManage ? titleWrite : $("input.slugest").val();
 
+        if (formOldData.image && imageGet.state == '') {
+            if (file.file) {
+                formDta.append("image", file.file);
+            } else {
+                formDta.append("image", '');
+            }
+        } else {
+
+            formDta.append("image", true);
+        }
 
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
@@ -299,41 +329,43 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
-        let normalCon =  contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
-        formDta.append("metadata" , JSON.stringify(metaDatas))
-        formDta.append("content" , normalCon)
-        formDta.append("status" , status)
-        formDta.append("comment_status" , comment_status)
-        formDta.append("is_index" , parseInt(is_index))
-        formDta.append("is_menu" , parseInt(is_menu))
-        formDta.append("title" , title);
-        formDta.append("slug" , slug);
-        formDta.append("image" , file.file ? file.file : '');
+        let normalCon = contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
+        formDta.append("metadata", JSON.stringify(metaDatas))
+        formDta.append("content", normalCon)
+        formDta.append("status", status)
+        formDta.append("comment_status", comment_status)
+        formDta.append("is_index", parseInt(is_index))
+        formDta.append("is_menu", parseInt(is_menu))
+        formDta.append("title", title);
+        formDta.append("_token", token);
+        formDta.append("id", formOldData.id);
+        formDta.append("slug", slug);
         HandleUpdateForm(formDta, ids);
     }
 
     const HandleDuplicate = () => {
         let formOldData = {...formData};
+        let formDta = new FormData();
         let title = titleWrite;
         let slug = slugManage ? titleWrite : $("input.slugest").val();
-
-        formOldData.content = JSON.stringify(contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let is_index = localStorage.getItem("is_index") ? localStorage.getItem("is_index") : formData.is_index;
-        // console.log("selected : duplicate  : " , localStorage.getItem("selected"));
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
+        let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
-        formOldData.metadata = JSON.stringify(metaDatas);
-        formOldData.status = status;
-        formOldData.title = title;
-        formOldData.slug = slug;
-        formOldData.content =  contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
-        formOldData.is_index = parseInt(is_index);
-        formOldData.is_menu = parseInt(is_menu);
-        // console.log("data duplicate : " , formOldData);
-        CreateAddPage(formOldData);
+        let normalCon = contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
+        formDta.append("metadata", JSON.stringify(metaDatas))
+        formDta.append("content", normalCon)
+        formDta.append("status", status)
+        formDta.append("id", formOldData.id)
+        formDta.append("comment_status", comment_status)
+        formDta.append("is_index", parseInt(is_index))
+        formDta.append("is_menu", parseInt(is_menu))
+        formDta.append("title", title);
+        formDta.append("slug", slug);
+        CreateAddPage(formDta);
     }
 
 
@@ -405,6 +437,18 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         }
     }
 
+    const handledelImg = (e) => {
+        e.preventDefault();
+        setEdit(true)
+        let states = {...imageGet};
+        states.state = '';
+        setImage(states)
+
+        let preImages = {...preImage}
+        preImages.uri = '';
+        setPreImage(preImages)
+    }
+
 
     return (
         <div id={"category_add_pop_base"}>
@@ -429,7 +473,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                     <div className={"content-pages"}>
 
                         <div className={"row"} style={{padding: '20px'}}>
-                            <div className={"col-lg-4 col-md-12 col-sm-12"} style={{paddingTop : 4}}>
+                            <div className={"col-lg-4 col-md-12 col-sm-12"} style={{paddingTop: 4}}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان محتوا</label>
                                     <input type={"text"} defaultValue={HandleMakeName()} onChange={e => handleInput(e)}
@@ -468,26 +512,46 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                                 </fieldset>
                             </div>
                             <div className={"col-lg-2 col-md-3 col-sm-12"}>
-                                <fieldset className="form-group">
-                                    <label id={"selectParent"}>افزودن فایل</label>
-                                    <div id={"file"}>
-                                        <input type={"file"} name={"image"}
-                                               multiple="multiple"
-                                               onChange={e => HandleFile(e)}
-                                               style={{
-                                                   opacity: 0,
-                                                   zIndex: 9,
-                                                   height: '100%',
-                                                   position: 'absolute',
-                                                   cursor: 'pointer'
-                                               }}/>
-                                        <button id="select-files" className="btn btn-primary mb-1"><i
-                                            className="icon-file2"></i>
-                                            انتخاب فایل
-                                        </button>
+                                {preImage.uri ? (
+                                        <div className={"mini-img-show-edit"}>
+                                            <div className={"img-box"}>
+                                                <img src={`${preImage.uri}`}/>
+                                                <div className={"back"}><span onClick={e => handledelImg(e)}><i
+                                                    className={"bx bx-x"}></i> </span></div>
+                                            </div>
+                                        </div>)
+                                    : !loading ? !loading && imageGet.state !== "" ? (
+                                        <div className={"mini-img-show-edit"}>
+                                            <div className={"img-box"}>
+                                                <img src={`${BASE_URL_IMG}${imageGet.state}`}/>
+                                                <div className={"back"}><span onClick={e => handledelImg(e)}><i
+                                                    className={"bx bx-x"}></i> </span></div>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <fieldset className="form-group" style={{width: '100%'}}>
+                                            <label id={"selectParent"}>افزودن فایل</label>
+                                            <div id={"file"}>
+                                                <input type={"file"} name={"image"}
+                                                       multiple="multiple"
+                                                       onChange={e => HandleFile(e)}
+                                                       style={{
+                                                           opacity: 0,
+                                                           zIndex: 9,
+                                                           height: '100%',
+                                                           position: 'absolute',
+                                                           cursor: 'pointer'
+                                                       }}/>
+                                                <button id="select-files" className="btn btn-primary mb-1">
+                                                    <i className="icon-file2"></i>
+                                                    انتخاب فایل
+                                                </button>
 
-                                    </div>
-                                </fieldset>
+                                            </div>
+                                        </fieldset>
+                                    ) : (<div className="spinner-border" role="status">
+                                        <span className="sr-only">در حال بارگذاری ...</span>
+                                    </div>)}
                             </div>
 
                             <div className={"col-12"}>
@@ -580,8 +644,8 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
                                                 <ChipsetHandler callback={item => handleAddChip(item)}/>
                                             </div>
 
-                                            {chipset.map((item , index) => (
-                                                <div  key={index} className="chip mr-1">
+                                            {chipset.map((item, index) => (
+                                                <div key={index} className="chip mr-1">
                                                     <div className="chip-body">
                                                         <span className="chip-text">{item}</span>
                                                         <div className="chip-closeable"

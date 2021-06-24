@@ -72,7 +72,7 @@ export const PageList = (props) => {
     }, [])
 
     const handleAddPage = () => {
-        ReactDom.render(<PageAdd display={true} dataUpdate={''} idParent={0}
+        ReactDom.render(<PageAdd token={token} display={true} dataUpdate={''} idParent={0}
                                  result={item => handleBackPage(item)}/>, document.getElementById("add-datas"))
     }
 
@@ -124,7 +124,7 @@ export const PageList = (props) => {
         }
     }
     const handleClickItemPage = (clickId) => {
-        ReactDom.render(<PageAdd display={true} idParent={clickId}
+        ReactDom.render(<PageAdd token={token} display={true} idParent={clickId}
                                  dataUpdate={''}
                                  result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
@@ -135,7 +135,7 @@ export const PageList = (props) => {
         }
     }
     const HandleBackLoaderPage = (data) => {
-        ReactDom.render(<PageAdd display={true} dataUpdate={data} idParent={0}
+        ReactDom.render(<PageAdd token={token} display={true} dataUpdate={data} idParent={0}
                                  result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
 

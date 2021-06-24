@@ -31,7 +31,7 @@ const ContentAdd = ({token , checkChange: pushCheckChange, display, dataUpdate, 
     const [chipset, setChipset] = useState([]);
     const [chipsetChange, setChipChange] = useState(false)
     const [edit, setEdit] = useState(false);
-    const [file, setFile] = useState({});
+    const [file, setFile] = useState({file : ''});
     const [metaData, setMetaData] = useState({
         robots: false,
     });
@@ -390,7 +390,6 @@ const ContentAdd = ({token , checkChange: pushCheckChange, display, dataUpdate, 
         let formOldData = {...formData};
         let formdts = new FormData();
 
-        console.log(formOldData.image , " / " , imageGet.state , "/" , file.file )
         if (formOldData.image && imageGet.state == '') {
             if (file.file) {
                 formdts.append("image", file.file);
