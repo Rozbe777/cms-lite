@@ -71,10 +71,10 @@ class ContentRepository implements RepositoryInterface
         $content = Content::find($content);
         $data['slug'] = $this->slugHandler($data['slug']);
 
-        $tag_list = $data['tag_list'] ?? [];
+        $tag_list = (array)$data['tag_list'] ?? [];
         unset($data["tag_list"]);
 
-        $category_list = $data['category_list'] ?? [];
+        $category_list = (array)$data['category_list'] ?? [];
         unset($data["category_list"]);
 
         if (!empty($data['image']) && !is_string($data['image']))
@@ -83,22 +83,26 @@ class ContentRepository implements RepositoryInterface
             unset($data['image']);
 
         /** modify tag relations in database tables */
-        foreach ($tag_list as $tag) {
-            $tag = Tag::firstOrCreate(
-                ['name' => $tag],
-                ['user_id' => Auth::id()]
-            );
-            if ($tag->wasRecentlyCreated) {
-                $content->tags()->attach($tag);
-            } else {
-                $content->tags()->sync($tag);
+        if (!empty($tag_list)) {
+            foreach ($tag_list as $tag) {
+                $tag = Tag::firstOrCreate(
+                    ['name' => $tag],
+                    ['user_id' => Auth::id()]
+                );
+                if ($tag->wasRecentlyCreated) {
+                    $content->tags()->attach($tag);
+                } else {
+                    $content->tags()->sync($tag);
+                }
+                return Content::find($content);
             }
-            return Content::find($content);
         }
         /** modify category relations in database tables */
-        foreach ($category_list as $category) {
-            $category = Category::findOrFail((int)$category);
-            $content->categories()->attach($category);
+        if (!empty($category_list)) {
+            foreach ($category_list as $category) {
+                $category = Category::findOrFail((int)$category);
+                $content->categories()->attach($category);
+            }
         }
 
         return $content->update($data);
