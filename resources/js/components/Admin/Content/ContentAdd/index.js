@@ -12,7 +12,7 @@ import {MultiSelected} from "../../Shop/ProductManager/HOC/MultiSelected";
 import $ from "jquery";
 import {BASE_URL_IMG} from "../../../../services/Type";
 
-const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: pushResult}) => {
+const ContentAdd = ({token , checkChange: pushCheckChange, display, dataUpdate, result: pushResult}) => {
 
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? dataGet.allData : '';
@@ -120,10 +120,37 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
         });
     }
 
+    const handleGetImg = name => {
+        let names = name.split("/")
+        setLoading(true)
+        Request.GetImage(names[2])
+            .then(rr => {
+                setLoading(false)
+                setImage({state: rr.data})
+            }).catch(err => {
+            ErrorToast("خطایی در دانلود تصویر رخ داده است")
+            setTimeout(() => {
+                handleClose()
+            }, 1300)
+
+        })
+    }
+
+
     useEffect(() => {
         GetAllCategory();
         let formNews = {...formData};
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
+
+
+        if (formNews.image) {
+            let img = formNews.image;
+
+            handleGetImg(img)
+
+        } else {
+            setImage({state: ''})
+        }
 
         dataUpdateParse ? dataUpdateParse.tags.map(item => {
             chipset.push(item.name);
@@ -134,6 +161,8 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
 
         setIds(formNews.id);
         setFormData({
+            id : formNews.id,
+            image : formNews.image,
             content: formNews.content,
             is_menu: formNews.is_menu,
             status: formNews.status,
@@ -183,6 +212,7 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
 
     const HandleFile = (e) => {
         handlePreShowImage(e)
+        setEdit(true)
         let files = e.target.files[0];
         setFile({file: files});
     }
@@ -359,6 +389,8 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
     const HandleEdit = () => {
         let formOldData = {...formData};
         let formdts = new FormData();
+
+        console.log(formOldData.image , " / " , imageGet.state , "/" , file.file )
         if (formOldData.image && imageGet.state == '') {
             if (file.file) {
                 formdts.append("image", file.file);
@@ -379,6 +411,9 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
         let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
+        formdts.append("_token", token);
+        formdts.append("id", formOldData.id);
+
         metaDatas.robots = robots;
         let metadatas = JSON.stringify(metaDatas);
         formdts.append("metadata", metadatas)
@@ -587,8 +622,8 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
                                         <div className={"mini-img-show-edit"}>
                                             <div className={"img-box"}>
                                                 <img src={`${BASE_URL_IMG}${imageGet.state}`}/>
-                                                <span onClick={e => handledelImg(e)}><i
-                                                    className={"bx bx-x"}></i> </span>
+                                                <div className={"back"}><span onClick={e => handledelImg(e)}><i
+                                                    className={"bx bx-x"}></i> </span></div>
                                             </div>
                                         </div>
                                     ) : (
@@ -605,8 +640,8 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
                                                            position: 'absolute',
                                                            cursor: 'pointer'
                                                        }}/>
-                                                <button id="select-files" className="btn btn-primary mb-1"><i
-                                                    className="icon-file2"></i>
+                                                <button id="select-files" className="btn btn-primary mb-1">
+                                                    <i className="icon-file2"></i>
                                                     انتخاب فایل
                                                 </button>
 

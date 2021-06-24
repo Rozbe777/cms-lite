@@ -23,6 +23,7 @@ class EditContentRequest extends FormRequest
      */
     public function rules()
     {
+        dd($this->all());
         return [
             'title' => "string|max:255",
             'owner' => 'in:page,content',

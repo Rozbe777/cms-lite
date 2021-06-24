@@ -55,8 +55,11 @@ class CategoryRepository implements RepositoryInterface
 
         if (!empty($data['image']) && !is_string($data['image']))
             $data['image'] = $this->imageHandler($data['image']);
-        else
-            unset($data['image']);
+        elseif (is_string($data['image']) && $data['image'] == 'true')
+            $data['image'] == (Category::find($data['id']))->image;
+
+        if (!empty('id'))
+            unset($data['id']);
 
         $category = Category::create($data);
         $category->viewCounts()->create();
