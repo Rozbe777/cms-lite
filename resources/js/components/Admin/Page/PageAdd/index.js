@@ -288,9 +288,10 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
     const HandleEdit = () => {
         let formOldData = {...formData};
         let title = titleWrite;
+        let formDta = new FormData();
         let slug = slugManage ? titleWrite : $("input.slugest").val();
-        formOldData.title = title;
-        formOldData.slug = slug;
+
+
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
@@ -298,15 +299,17 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
-        formOldData.title = titleWrite;
-        formOldData.metadata = JSON.stringify(metaDatas);
-        formOldData.content =  contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
-        formOldData.status = status;
-        formOldData.comment_status = comment_status;
-        formOldData.is_menu = parseInt(is_menu);
-        formOldData.is_index = parseInt(is_index);
-        delete formOldData.tag_list;
-        HandleUpdateForm(formOldData, ids);
+        let normalCon =  contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
+        formDta.append("metadata" , JSON.stringify(metaDatas))
+        formDta.append("content" , normalCon)
+        formDta.append("status" , status)
+        formDta.append("comment_status" , comment_status)
+        formDta.append("is_index" , parseInt(is_index))
+        formDta.append("is_menu" , parseInt(is_menu))
+        formDta.append("title" , title);
+        formDta.append("slug" , slug);
+        formDta.append("image" , file.file ? file.file : '');
+        HandleUpdateForm(formDta, ids);
     }
 
     const HandleDuplicate = () => {

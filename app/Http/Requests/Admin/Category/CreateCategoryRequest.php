@@ -35,7 +35,7 @@ class CreateCategoryRequest extends FormRequest
             'status' => 'required|string|in:active,deactivate',
             'is_menu' => 'boolean|nullable',
             'is_index' => 'integer|nullable',
-            'tag_list' => 'nullable|array',
+//            'tag_list' => 'nullable|array',
             'metadata' => 'nullable|string'
         ];
     }

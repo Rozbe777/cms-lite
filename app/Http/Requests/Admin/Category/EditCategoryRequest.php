@@ -23,10 +23,11 @@ class EditCategoryRequest extends FormRequest
      */
     public function rules()
     {
+        dd($this->all());
         return [
             'name' => "nullable|string|max:255",
             'slug' => "nullable|string|max:255",
-            'image' => "nullable|image",
+            'image' => "nullable|image|boolean",
             'content' => 'nullable|string',
             'fields' => 'nullable|string',
             'parent_id' => 'nullable|different:id',

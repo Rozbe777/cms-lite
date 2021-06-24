@@ -24,6 +24,7 @@ class CreateContentRequest extends FormRequest
     public function rules()
     {
 
+
         return [
             'title' => 'required|string|max:255',
             'owner' => 'in:page,content',
@@ -36,8 +37,8 @@ class CreateContentRequest extends FormRequest
             'image' => 'image|nullable',
             'comment_status' => 'in:active,deactivate',
             'is_menu'=>'boolean|nullable',
-            'tag_list'=>'array',
-            'category_list' => 'array'
+//            'tag_list'=>'array',
+//            'category_list' => 'array'
         ];
     }
 }
