@@ -10,12 +10,15 @@ import {ChipsetHandler} from './../../../HOC/ChipsetHandler'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import {MultiSelected} from "../../Shop/ProductManager/HOC/MultiSelected";
 import $ from "jquery";
+import {BASE_URL_IMG} from "../../../../services/Type";
 
 const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: pushResult}) => {
 
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? dataGet.allData : '';
     const [changeCheck, setChangeCheck] = useState(false)
+    const [preImage, setPreImage] = useState({uri: ''});
+
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
 
     const [clear, setClear] = useState(false)
@@ -24,6 +27,7 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
     const [contentNew, setContentNew] = useState('');
     const [idSelCat, setIdSelCat] = useState([])
     const [ids, setIds] = useState(0)
+    const [imageGet, setImage] = useState({state: ''})
     const [chipset, setChipset] = useState([]);
     const [chipsetChange, setChipChange] = useState(false)
     const [edit, setEdit] = useState(false);
@@ -168,7 +172,17 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
         $("#my-editor").attr("defaultValue", "");
     }
 
+    const handlePreShowImage = e => {
+        e.preventDefault();
+        let preImages = {...preImage}
+        if (event.target.files && event.target.files[0]) {
+            preImages.uri = URL.createObjectURL(event.target.files[0])
+            setPreImage(preImages)
+        }
+    }
+
     const HandleFile = (e) => {
+        handlePreShowImage(e)
         let files = e.target.files[0];
         setFile({file: files});
     }
@@ -226,43 +240,42 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
     const HandleForm = (e) => {
         let formNew = {...formData};
         let formDataAll = new FormData();
-        formDataAll.append("image" , file.file ? file.file : '')
+        formDataAll.append("image", file.file ? file.file : '')
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
         let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formNew.comment_status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
-        formDataAll.append("status" , status)
-        formDataAll.append("comment_status" , comment_status)
-        formDataAll.append("is_menu" , is_menu)
+        formDataAll.append("status", status)
+        formDataAll.append("comment_status", comment_status)
+        formDataAll.append("is_menu", is_menu)
 
         let title = titleWrite;
         let slug = slugManage ? titleWrite : $("input.slugest").val();
 
-        formDataAll.append("title" , title)
-        formDataAll.append("slug" , slug)
-        if (slugManage == false)
-        {
-            formDataAll.append("slug" , title)
+        formDataAll.append("title", title)
+        formDataAll.append("slug", slug)
+        if (slugManage == false) {
+            formDataAll.append("slug", title)
         } else {
         }
 
         if (formData.slug == "") {
-            formDataAll.append("slug" , title)
+            formDataAll.append("slug", title)
 
         }
         let vcontent = JSON.stringify(contentNew);
-        formDataAll.append("content" , vcontent)
+        formDataAll.append("content", vcontent)
 
         let MetaDaa = {...metaData};
         MetaDaa.robots = robots;
         let vmetadata = JSON.stringify(MetaDaa);
-        formDataAll.append("metadata" , vmetadata)
+        formDataAll.append("metadata", vmetadata)
 
-        formDataAll.append("category_list" , JSON.stringify(idSelCat))
+        formDataAll.append("category_list", JSON.stringify(idSelCat))
         let vtag_list = chipsetChange ? chipset : [];
 
-        console.log("tag" , vtag_list , idSelCat);
-        formDataAll.append("tag_list" , JSON.stringify(vtag_list))
+        console.log("tag", vtag_list, idSelCat);
+        formDataAll.append("tag_list", JSON.stringify(vtag_list))
 
         if (formData.title && formData.title !== '') {
             $("input[name=titleContent]").removeClass("is-invalid");
@@ -345,25 +358,43 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
 
     const HandleEdit = () => {
         let formOldData = {...formData};
+        let formdts = new FormData();
+        if (formOldData.image && imageGet.state == '') {
+            if (file.file) {
+                formdts.append("image", file.file);
+            } else {
+                formdts.append("image", '');
+            }
+        } else {
+
+            formdts.append("image", true);
+        }
         let title = titleWrite;
         let slug = slugManage ? titleWrite : $("input.slugest").val();
-        formOldData.title = title;
-        formOldData.slug = slug;
+        formdts.append("title", title)
+        formdts.append("slug", slug)
+
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
-        formOldData.title = titleWrite;
-        formOldData.metadata = JSON.stringify(metaDatas);
-        formOldData.content =  contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
-        formOldData.status = status;
-        formOldData.comment_status = comment_status;
-        formOldData.is_menu = parseInt(is_menu);
-        formOldData.category_list = idSelCat;
-        formOldData.tag_list = setChipChange ? chipset : [];
-        HandleUpdateForm(formOldData, ids);
+        let metadatas = JSON.stringify(metaDatas);
+        formdts.append("metadata", metadatas)
+        let contents = contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
+        formdts.append("content", contents)
+
+        formdts.append("status", status)
+
+        formdts.append("is_menu", parseInt(is_menu))
+        formdts.append("comment_status", comment_status)
+        formdts.append("category_list", JSON.stringify(idSelCat))
+        let tagLL = setChipChange ? chipset : [];
+
+        formdts.append("tag_list", JSON.stringify(tagLL))
+
+        HandleUpdateForm(formdts, ids);
     }
 
     const HandleDuplicate = () => {
@@ -382,7 +413,7 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
         formOldData.category_list = idSelCat;
         formOldData.tag_list = chipset;
         formOldData.title = title;
-        formOldData.content =  contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
+        formOldData.content = contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
         formOldData.slug = slug;
         formOldData.comment_status = comment_status;
         formOldData.is_menu = parseInt(is_menu);
@@ -460,6 +491,18 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
     }
 
 
+    const handledelImg = (e) => {
+        e.preventDefault();
+        setEdit(true)
+        let states = {...imageGet};
+        states.state = '';
+        setImage(states)
+
+        let preImages = {...preImage}
+        preImages.uri = '';
+        setPreImage(preImages)
+    }
+
     return (
         <div id={"category_add_pop_base"}>
             <ul className="nav nav-tabs tab-layout" role="tablist">
@@ -531,27 +574,47 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
                             {/*            valueDeActive={"غیرفعال"}/>*/}
                             {/*    </fieldset>*/}
                             {/*</div>*/}
-                            <div className={"col-lg-2 col-md-3 col-sm-12"}>
-                                <fieldset className="form-group">
-                                    <label id={"selectParent"}>افزودن فایل</label>
-                                    <div id={"file"}>
-                                        <input type={"file"} name={"image"}
-                                               multiple="multiple"
-                                               onChange={e => HandleFile(e)}
-                                               style={{
-                                                   opacity: 0,
-                                                   zIndex: 9,
-                                                   height: '100%',
-                                                   position: 'absolute',
-                                                   cursor: 'pointer'
-                                               }}/>
-                                        <button id="select-files" className="btn btn-primary mb-1"><i
-                                            className="icon-file2"></i>
-                                            انتخاب فایل
-                                        </button>
+                            <div className={"col-lg-2 col-md-3 col-sm-12"} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                {preImage.uri ? (
+                                        <div className={"mini-img-show-edit"}>
+                                            <div className={"img-box"}>
+                                                <img src={`${preImage.uri}`}/>
+                                                <div className={"back"}><span onClick={e => handledelImg(e)}><i
+                                                    className={"bx bx-x"}></i> </span></div>
+                                            </div>
+                                        </div>)
+                                    : !loading ? imageGet.state !== "" ? (
+                                        <div className={"mini-img-show-edit"}>
+                                            <div className={"img-box"}>
+                                                <img src={`${BASE_URL_IMG}${imageGet.state}`}/>
+                                                <span onClick={e => handledelImg(e)}><i
+                                                    className={"bx bx-x"}></i> </span>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <fieldset className="form-group" style={{width: '100%'}}>
+                                            <label id={"selectParent"}>افزودن فایل</label>
+                                            <div id={"file"}>
+                                                <input type={"file"} name={"image"}
+                                                       multiple="multiple"
+                                                       onChange={e => HandleFile(e)}
+                                                       style={{
+                                                           opacity: 0,
+                                                           zIndex: 9,
+                                                           height: '100%',
+                                                           position: 'absolute',
+                                                           cursor: 'pointer'
+                                                       }}/>
+                                                <button id="select-files" className="btn btn-primary mb-1"><i
+                                                    className="icon-file2"></i>
+                                                    انتخاب فایل
+                                                </button>
 
-                                    </div>
-                                </fieldset>
+                                            </div>
+                                        </fieldset>
+                                    ) : (<div className="spinner-border" role="status">
+                                        <span className="sr-only">در حال بارگذاری ...</span>
+                                    </div>)}
                             </div>
 
                             <div className={"col-lg-6 col-md-12 col-sm-12"}>

@@ -37,11 +37,11 @@ class CategoryRepository implements RepositoryInterface
     public function update(array $data, $category)
     {
         $category = Category::find($category);
-        $data['slug'] = ($data['slug'] != $category->slug) ? $this->slugHandler($data['slug']): $category->slug;
+        $data['slug'] = ($data['slug'] != $category->slug) ? $this->slugHandler($data['slug']) : $category->slug;
 
-        if (! empty($data['image']))
+        if (!empty($data['image']) && !is_string($data['image']))
             $data['image'] = $this->imageHandler($data['image']);
-        else
+        elseif (is_string($data['image']) && $data['image'] == 'true')
             unset($data['image']);
 
         return $category->update($data);
@@ -53,8 +53,10 @@ class CategoryRepository implements RepositoryInterface
 
         $data['user_id'] = Auth::id();
 
-        if (!empty($data['image']))
+        if (!empty($data['image']) && !is_string($data['image']))
             $data['image'] = $this->imageHandler($data['image']);
+        else
+            unset($data['image']);
 
         $category = Category::create($data);
         $category->viewCounts()->create();

@@ -27,12 +27,12 @@ class ImageRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        if(!empty($value) && !is_bool($value)){
+        if(!empty($value) && !is_string($value)){
             $mimeTypes = ["image/jpeg","image/jpg","image/png"];
             $mime = (array_values((array)$value))[2];
             return in_array($mime,$mimeTypes);
         }
-        return is_bool($value) && $value == true;
+        return is_string($value) && $value == "true";
     }
 
     /**

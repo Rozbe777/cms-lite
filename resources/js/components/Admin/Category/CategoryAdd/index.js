@@ -13,8 +13,9 @@ import './../../_Micro/TreeShow/_Shared/style.scss';
 import $ from "jquery";
 import CatDataAdd from "form-data";
 
-const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}) => {
+const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult}) => {
     const [categoryData] = useState({});
+    const [preImage, setPreImage] = useState({uri: ''});
     const [loading, setLoading] = useState(false);
     const [ids, setIds] = useState();
     const [contentNew, setContentNew] = useState('');
@@ -94,10 +95,10 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
                 setLoading(false)
                 setImage({state: rr.data})
             }).catch(err => {
-                ErrorToast("خطایی در دانلود تصویر رخ داده است")
-            setTimeout(()=>{
+            ErrorToast("خطایی در دانلود تصویر رخ داده است")
+            setTimeout(() => {
                 handleClose()
-            },1300)
+            }, 1300)
 
         })
     }
@@ -145,7 +146,17 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
         $("#my-editor").attr("defaultValue", "");
     }
 
+
+    const handlePreShowImage = e => {
+        e.preventDefault();
+        let preImages = {...preImage}
+        if (event.target.files && event.target.files[0]) {
+            preImages.uri = URL.createObjectURL(event.target.files[0])
+            setPreImage(preImages)
+        }
+    }
     const HandleFile = (e) => {
+        handlePreShowImage(e)
         let files = e.target.files[0];
         setFile({file: files});
     }
@@ -210,7 +221,9 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
     const HandleForm = (e) => {
         let formNew = {...CatData};
         let formFiledss = new FormData();
-        formFiledss.append("image", file.file);
+
+        formFiledss.append("image", file.file ? file.file : '');
+
 
         formFiledss.append("content", contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
@@ -231,7 +244,6 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
         if (CatData.slug == "") {
             formFiledss.append("slug", formNew.name);
         }
-
 
 
         metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
@@ -317,7 +329,17 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
         let formOldData = {...CatData};
         let formDataFit = new FormData();
         let formDataFits = new FormData();
-        formDataFit.append("image" , file.file ? file.file : '')
+        if (formOldData.image && imageGet.state == '') {
+            if (file.file) {
+                formDataFit.append("image", file.file);
+            } else {
+                formDataFit.append("image", '');
+            }
+        } else {
+
+            formDataFit.append("image", true);
+        }
+        // formDataFit.append("image" , file.file ? file.file : '')
         formDataFit.append("content", contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : CatData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : CatData.status;
@@ -328,7 +350,6 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
         // delete formOldData.children;
         let name = titleWrite;
         let slug = slugManage ? titleWrite : $("input.slugest").val();
-        console.log("slug" , slug);
         formDataFit.append("name", name);
         formDataFit.append("id", formOldData.id);
         formDataFit.append("slug", slug);
@@ -352,27 +373,39 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
     const HandleDuplicate = () => {
         let formOldData = {...CatData};
         let formsNews = new FormData();
-        formsNews.append("content" ,contentNew )
+        formsNews.append("content", contentNew)
         let name = titleWrite;
         let slug = slugManage ? titleWrite : $("input.slugest").val();
-        formsNews.append("name" ,name )
-        formsNews.append("slug" ,slug )
+        formsNews.append("name", name)
+        formsNews.append("slug", slug)
 
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : CatData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : CatData.status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : CatData.parent_id;
 
-        formsNews.append("is_menu" ,parseInt(is_menu) )
-        formsNews.append("status" ,status )
-        formsNews.append("parent_id" ,parseInt(parent_id))
-        formsNews.append("image" , file.file ? file.file : '')
+        formsNews.append("is_menu", parseInt(is_menu))
+        formsNews.append("status", status)
+        formsNews.append("parent_id", parseInt(parent_id))
+        formsNews.append("image", file.file ? file.file : '')
+
+        if (formOldData.image && imageGet.state == '') {
+            if (file.file) {
+                formsNews.append("image", file.file);
+            } else {
+                formsNews.append("image", '');
+            }
+        } else {
+
+            formsNews.append("image", true);
+        }
+
 
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
 
-        formsNews.append("status" ,status )
-        formsNews.append("metadata" ,JSON.stringify(metaDatas) )
+        formsNews.append("status", status)
+        formsNews.append("metadata", JSON.stringify(metaDatas))
 
         CreateAddCategory(formsNews);
     }
@@ -448,6 +481,10 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
         let states = {...imageGet};
         states.state = '';
         setImage(states)
+
+        let preImages = {...preImage}
+        preImages.uri = '';
+        setPreImage(preImages)
     }
 
     return (
@@ -515,13 +552,18 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
                                         valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
                                 </fieldset>
                             </div>
-                            {console.log("dataaaaaa" , types)}
                             <div className={"col-lg-2 col-md-3 col-sm-12"}
                                  style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                                {!loading ? imageGet.state !== "" && types == "edit" ? (
+                                {preImage.uri ? (<div className={"mini-img-show-edit"}>
+                                        <div className={"img-box"}>
+                                            <img src={`${preImage.uri}`}/>
+                                            <div className={"back"}><span onClick={e => handledelImg(e)}><i className={"bx bx-x"}></i> </span></div>
+                                        </div>
+                                    </div>)
+                                 : !loading ?  imageGet.state !== "" ? (
                                     <div className={"mini-img-show-edit"}>
                                         <div className={"img-box"}>
-                                            <img src={`${BASE_URL_IMG}${imageGet.state}`} />
+                                            <img src={`${BASE_URL_IMG}${imageGet.state}`}/>
                                             <span onClick={e => handledelImg(e)}><i className={"bx bx-x"}></i> </span>
                                         </div>
                                     </div>
@@ -553,7 +595,7 @@ const AddCategory = ({token , dataAll, dataUpdate, idParent, result: pushResult}
 
                             <div className={"col-12"}>
                                 <MyEditor editorData={data => {
-                                   handleEditor(data)
+                                    handleEditor(data)
                                 }}
                                           id={"my-editor"}
                                           type={"perfect"}

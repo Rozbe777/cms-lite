@@ -38,8 +38,8 @@ class CreateContentRequest extends FormRequest
             'image' => new ImageRule(),
             'comment_status' => 'in:active,deactivate',
             'is_menu'=>'boolean|nullable',
-            'tag_list'=>new FormDataRule(),
-            'category_list' => new FormDataRule()
+//            'tag_list'=>new FormDataRule(),
+//            'category_list' => new FormDataRule()
         ];
     }
 
