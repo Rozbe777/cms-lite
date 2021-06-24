@@ -53,10 +53,12 @@ class CategoryRepository implements RepositoryInterface
 
         $data['user_id'] = Auth::id();
 
-        if (!empty($data['image']) && !is_string($data['image']))
+        if (!empty($data['image']) && !is_string($data['image'])) {
             $data['image'] = $this->imageHandler($data['image']);
-        elseif (is_string($data['image']) && $data['image'] == 'true')
-            $data['image'] == (Category::find($data['id']))->image;
+        }
+        elseif (is_string($data['image']) && $data['image'] == 'true') {
+            $data['image'] = (Category::find($data['id']))->image;
+        }
 
         if (!empty('id'))
             unset($data['id']);
