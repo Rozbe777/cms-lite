@@ -434,8 +434,23 @@ const ContentAdd = ({token , checkChange: pushCheckChange, display, dataUpdate, 
 
     const HandleDuplicate = () => {
         let formOldData = {...formData};
+        let formsData = new FormData();
         let title = titleWrite;
         let slug = slugManage ? titleWrite : $("input.slugest").val();
+
+        formsData.append("title" , title);
+        formsData.append("slug" , slug);
+
+        if (formOldData.image && imageGet.state == '') {
+            if (file.file) {
+                formsData.append("image", file.file);
+            } else {
+                formsData.append("image", '');
+            }
+        } else {
+
+            formsData.append("image", true);
+        }
 
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
@@ -443,15 +458,17 @@ const ContentAdd = ({token , checkChange: pushCheckChange, display, dataUpdate, 
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
-        formOldData.metadata = JSON.stringify(metaDatas);
-        formOldData.status = status;
-        formOldData.category_list = idSelCat;
-        formOldData.tag_list = chipset;
-        formOldData.title = title;
-        formOldData.content = contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
-        formOldData.slug = slug;
-        formOldData.comment_status = comment_status;
-        formOldData.is_menu = parseInt(is_menu);
+        let metadatas = JSON.stringify(metaDatas);
+        let contents = contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
+        formsData.append("metadata" , metadatas)
+        formsData.append("tag_list" , JSON.stringify(chipset))
+        formsData.append("id" , formOldData.id);
+        formsData.append("status" , status)
+        formsData.append("category_list" , JSON.stringify(idSelCat))
+        formsData.append("content" , contents)
+        formsData.append("is_menu" , parseInt(is_menu))
+        formsData.append("comment_status" , comment_status)
+
         CreateAddContent(formOldData);
     }
 
