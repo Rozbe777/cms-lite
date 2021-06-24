@@ -24,19 +24,19 @@ class CreateContentRequest extends FormRequest
     public function rules()
     {
 
-
+        dd($this->all());
         return [
             'title' => 'required|string|max:255',
             'owner' => 'in:page,content',
             'slug' => 'required|string|max:255',
             'content' => 'string|nullable',
             'status' => 'in:active,pending,deactivate',
-            'metadata'=>'json|nullable',
+            'metadata' => 'json|nullable',
             'user_id' => 'integer|exists:users,id',
 //            'layout_id' => 'integer|exists:layouts,id',//FIXME after insert layouts table
             'image' => 'image|nullable',
             'comment_status' => 'in:active,deactivate',
-            'is_menu'=>'boolean|nullable',
+            'is_menu' => 'boolean|nullable',
 //            'tag_list'=>'array',
 //            'category_list' => 'array'
         ];

@@ -328,7 +328,6 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
     const HandleEdit = () => {
         let formOldData = {...CatData};
         let formDataFit = new FormData();
-        let formDataFits = new FormData();
         if (formOldData.image && imageGet.state == '') {
             if (file.file) {
                 formDataFit.append("image", file.file);
@@ -564,7 +563,7 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
                                     <div className={"mini-img-show-edit"}>
                                         <div className={"img-box"}>
                                             <img src={`${BASE_URL_IMG}${imageGet.state}`}/>
-                                            <span onClick={e => handledelImg(e)}><i className={"bx bx-x"}></i> </span>
+                                            <div className={"back"}><span onClick={e => handledelImg(e)}><i className={"bx bx-x"}></i> </span></div>
                                         </div>
                                     </div>
                                 ) : (

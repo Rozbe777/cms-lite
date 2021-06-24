@@ -18,7 +18,7 @@ import SearchComponent from "./../Search";
 
 const LOCAL_CAT = "localcat-zerone-cmslite";
 
-export const ContentList = () => {
+export const ContentList = ({token}) => {
     const [checkBox, setCheckBox] = useState([]);
     const [loading, setLoading] = useState(false);
     const [categoryData, setCategoryData] = useState()
@@ -78,7 +78,7 @@ export const ContentList = () => {
     }, [])
 
     const handleAddContent = () => {
-        ReactDom.render(<ContentAdd display={true} dataUpdate={''} idParent={0} checkChange={item => setReloadTag(true)}
+        ReactDom.render(<ContentAdd token={token} display={true} dataUpdate={''} idParent={0} checkChange={item => setReloadTag(true)}
                                     result={item => handleBackContent(item)}/>, document.getElementById("add-datas"))
     }
 
@@ -131,7 +131,7 @@ export const ContentList = () => {
         }
     }
     const handleClickItemContent = (clickId) => {
-        ReactDom.render(<ContentAdd display={true} idParent={clickId}
+        ReactDom.render(<ContentAdd token={token} display={true} idParent={clickId}
                                     dataUpdate={''}
                                     result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
@@ -150,7 +150,7 @@ export const ContentList = () => {
         }
     }
     const HandleBackLoaderContent = (data) => {
-        ReactDom.render(<ContentAdd display={true} dataUpdate={data} idParent={0}
+        ReactDom.render(<ContentAdd token={token} display={true} dataUpdate={data} idParent={0}
                                     result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
 

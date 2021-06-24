@@ -4,7 +4,7 @@
 
     <div class="content-wrapper" style="padding: 0px !important;margin: 0px">
 
-        <div id="content-manager" style="border-top : 1px solid #eee"></div>
+        <div id="content-manager" data-token="{{csrf_token()}}" style="border-top : 1px solid #eee"></div>
 
     </div>
 
