@@ -226,7 +226,7 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
     const HandleForm = (e) => {
         let formNew = {...formData};
         let formDataAll = new FormData();
-        formDataAll.append("image" , file.file)
+        formDataAll.append("image" , file.file ? file.file : '')
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
         let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formNew.comment_status;

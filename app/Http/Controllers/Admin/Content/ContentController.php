@@ -77,7 +77,7 @@ class ContentController extends Controller
      * @return Factory|View|JsonResponse
      */
     public function store(CreateContentRequest $request)
-    {
+    {dd($request->all());
         $content = $this->contentRepository->create($request->all());
 
         return $this->message(__('message.success.200'))->data($content)->view('pages.admin.content.show')->success();

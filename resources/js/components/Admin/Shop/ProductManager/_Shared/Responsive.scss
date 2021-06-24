@@ -325,6 +325,12 @@ $itemDarkLigth: #2e3652;
 body.active-darked {
     background: $background !important;
 
+
+    a.menu-toggle{
+        i{
+            color: $color !important;
+        }
+    }
     #back-loaderedss {
         .col-lg-4.col-sm-12.col-md-8 {
             background: $background !important;
@@ -1654,4 +1660,10 @@ div#sub-menu-custom {
         }
     }
 
+}
+
+a.menu-toggle{
+    i{
+        color: #99a2af;
+    }
 }
