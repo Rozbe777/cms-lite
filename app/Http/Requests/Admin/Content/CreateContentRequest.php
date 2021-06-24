@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests\Admin\Content;
 
+use App\Http\Controllers\FileManager\ImageController;
+use App\Rules\FormDataRule;
+use App\Rules\ImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateContentRequest extends FormRequest
@@ -23,7 +26,6 @@ class CreateContentRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
             'title' => 'required|string|max:255',
             'owner' => 'in:page,content',
@@ -33,11 +35,12 @@ class CreateContentRequest extends FormRequest
             'metadata'=>'json|nullable',
             'user_id' => 'integer|exists:users,id',
 //            'layout_id' => 'integer|exists:layouts,id',//FIXME after insert layouts table
-            'image' => 'image|nullable',
+            'image' => new ImageRule(),
             'comment_status' => 'in:active,deactivate',
             'is_menu'=>'boolean|nullable',
-            'tag_list'=>'array',
-            'category_list' => 'array'
+            'tag_list'=>new FormDataRule(),
+            'category_list' => new FormDataRule()
         ];
     }
+
 }

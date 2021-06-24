@@ -105,13 +105,14 @@ class ContentRepository implements RepositoryInterface
     {
         $data['slug'] = $this->slugHandler($data['slug']);
 
-        $tag_list = $data['tag_list'] ?? null;
+        $tag_list = json_decode($data['tag_list']) ?? null;
         unset($data["tag_list"]);
 
-        $category_list = $data['category_list'] ?? null;
+        $category_list = json_decode($data['category_list']) ?? null;
         unset($data["category_list"]);
 
         $data['user_id'] = Auth::id();
+
         if (!empty($data['image']))
             $data['image'] = $this->imageHandler($data['image']);
         else
