@@ -191,6 +191,7 @@ const PageAdd = ({display, dataUpdate, result: pushResult}) => {
         formNew.status = status;
         formNew.is_index = parseInt(is_index);
         formNew.image = file;
+
         formNew.is_menu = parseInt(is_menu);
         if (slugManage == false) {
             formNew.slug = formNew.title;

@@ -23,6 +23,7 @@ class CreateContentRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
             'title' => 'required|string|max:255',
             'owner' => 'in:page,content',

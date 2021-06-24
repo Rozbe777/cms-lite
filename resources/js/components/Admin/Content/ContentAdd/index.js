@@ -235,15 +235,19 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
         formDataAll.append("comment_status" , comment_status)
         formDataAll.append("is_menu" , is_menu)
 
-        formDataAll.append("title" , formNew.title)
+        let title = titleWrite;
+        let slug = slugManage ? titleWrite : $("input.slugest").val();
+
+        formDataAll.append("title" , title)
+        formDataAll.append("slug" , slug)
         if (slugManage == false)
         {
-            formDataAll.append("slug" , formNew.title)
+            formDataAll.append("slug" , title)
         } else {
         }
 
         if (formData.slug == "") {
-            formDataAll.append("slug" , formNew.title)
+            formDataAll.append("slug" , title)
 
         }
         let vcontent = JSON.stringify(contentNew);
@@ -254,10 +258,11 @@ const ContentAdd = ({checkChange: pushCheckChange, display, dataUpdate, result: 
         let vmetadata = JSON.stringify(MetaDaa);
         formDataAll.append("metadata" , vmetadata)
 
-        formDataAll.append("category_list" , idSelCat)
+        formDataAll.append("category_list" , JSON.stringify(idSelCat))
         let vtag_list = chipsetChange ? chipset : [];
 
-        formDataAll.append("tag_list" , vtag_list)
+        console.log("tag" , vtag_list , idSelCat);
+        formDataAll.append("tag_list" , JSON.stringify(vtag_list))
 
         if (formData.title && formData.title !== '') {
             $("input[name=titleContent]").removeClass("is-invalid");
