@@ -33,9 +33,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('a', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class,'pay']);
-Route::get('b', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class,'verify']);
-
+Route::get('a', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class, 'pay']);
+Route::get('b', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class, 'verify']);
 
 
 Route::get('/', function () {
@@ -43,6 +42,15 @@ Route::get('/', function () {
 });
 
 Route::get('/test', function () {
+
+    //amount , bank_id ,user_id
+
+    $result = (new \App\Classes\Pay\Pay());
+    $result = $result->userId(1)->gatewayId(1)->start(10000);
+
+    return $result;
+
+
 });
 
 
@@ -85,32 +93,32 @@ Route::middleware('auth')->group(function () {
     //------------------------------User----------------------------
     Route::get('user', [UserController::class, 'blade'])->name('users.blade');
     Route::resource('users', UserController::class)->except('update');
-    Route::post('users/update',[UserController::class,'update'])->name('users.update');
+    Route::post('users/update', [UserController::class, 'update'])->name('users.update');
     Route::delete('users/multi/destroy', [UserController::class, 'multipleDestroy'])->name('users.multipleDestroy');
 
     //----------------------------Contents---------------------------
 
     Route::get('content', [ContentController::class, 'blade'])->name('contents.blade');
     Route::resource('contents', ContentController::class)->except('update');
-    Route::post('contents/update',[ContentController::class,'update'])->name('contents.update');
+    Route::post('contents/update', [ContentController::class, 'update'])->name('contents.update');
     Route::delete('contents/multi/destroy', [ContentController::class, 'multipleDestroy'])->name('contents.multipleDestroy');
 
     //---------------------------Categories--------------------------
     Route::get('category', [CategoryController::class, 'blade'])->name('categories.blade');
     Route::resource('categories', CategoryController::class)->except('update');
-    Route::post('categories/update',[CategoryController::class,'update'])->name('categories.update');
+    Route::post('categories/update', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy'])->name('categories.multipleDestroy');
 
     //------------------------------Tags-----------------------------
     Route::get('tag', [TagController::class, 'blade'])->name('tags.blade');
     Route::resource('tags', TagController::class)->except('update');
-    Route::post('tags/update',[TagController::class,'update'])->name('tags.update');
+    Route::post('tags/update', [TagController::class, 'update'])->name('tags.update');
     Route::delete('tags/multi/destroy', [TagController::class, 'multipleDestroy'])->name('tags.multipleDestroy');
 
     //------------------------------Pages----------------------------
     Route::get('page', [PageController::class, 'blade'])->name('pages.blade');
     Route::resource('pages', PageController::class)->except('update');
-    Route::post('pages/update',[PageController::class,'update'])->name('pages.update');
+    Route::post('pages/update', [PageController::class, 'update'])->name('pages.update');
     Route::delete('pages/multi/destroy', [PageController::class, 'multipleDestroy'])->name('pages.multipleDestroy');
 
     //------------------------------Profile----------------------------
@@ -140,13 +148,13 @@ Route::middleware('auth')->group(function () {
     //------------------------------Settings----------------------------
     Route::get('product', [ProductController::class, 'blade'])->name('products.blade');
     Route::resource('products', ProductController::class)->except('update');
-    Route::post('products/update',[ProductController::class,'update'])->name('products.update');
+    Route::post('products/update', [ProductController::class, 'update'])->name('products.update');
     Route::delete('products/multi/destroy', [ProductController::class, 'multipleDestroy'])->name('products.multipleDestroy');
 
     //-------------------------------Images-----------------------------
-    Route::get('image/{name}',[ImageController::class,'show']);
+    Route::get('image/{name}', [ImageController::class, 'show']);
 
-    Route::get('checkout',[CheckoutController::class,'index'])->name('checkout.index');
+    Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -159,7 +167,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::name('front.')->group(function () {
-        Route::get('shop',[\App\Http\Controllers\Front\Shop\ShopController::class,'index'])->name('shop.blade');
+        Route::get('shop', [\App\Http\Controllers\Front\Shop\ShopController::class, 'index'])->name('shop.blade');
 
         Route::get('category/{slug}', [\App\Http\Controllers\Front\Category\CategoryController::class, 'search'])->name('categories');
 

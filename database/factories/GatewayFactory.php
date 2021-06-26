@@ -2,18 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\GatewayesInfo;
-use App\Models\Model;
+use App\Models\Gateway;
+
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class GatewayesInfoFactory extends Factory
+class GatewayFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = GatewayesInfo::class;
+    protected $model = Gateway::class;
 
     /**
      * Define the model's default state.
@@ -23,9 +23,9 @@ class GatewayesInfoFactory extends Factory
     public function definition()
     {
         return [
-            'user_id'   => rand(1,3),
-            'user_name' => $this->faker->name,
-            'bank'      => 'zarinpal'//$this->faker->randomElement(['zarinpal','mellat','parsian']),
+            'status' => 'disable',
+            'class'      => $this->faker->randomElement(['Zarinpal','Mellat','Parsian']),
+            'bank_id'      => rand(1,3)//$this->faker->randomElement(['zarinpal','mellat','parsian']),
         ];
     }
 }
