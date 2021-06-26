@@ -22,11 +22,11 @@ trait ProductTrait
 
     public function slugHandler($slug)
     {
-        if (Product::where('slug', '=', $slug)->exists()) {
+        if (Product::where('slug', '=', $slug)->withTrashed()->get()) {
             $i = 1;
             do {
                 $item = $slug . '_' . $i++;
-            } while ((Product::where('slug', "=", $item)->count()) != 0);
+            } while ((Product::where('slug', "=", $item)->withTrashed()->count()) != 0);
             return $item;
         } else {
             return $slug;

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Category;
 
 use App\Rules\FormDataRule;
+use App\Rules\ImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EditCategoryRequest extends FormRequest
@@ -27,7 +28,7 @@ class EditCategoryRequest extends FormRequest
         return [
             'name' => "nullable|string|max:255",
             'slug' => "nullable|string|max:255",
-            'image' => "nullable|image|boolean",
+            'image' => new ImageRule(),
             'content' => 'nullable|string',
             'fields' => 'nullable|string',
             'parent_id' => 'nullable|different:id',

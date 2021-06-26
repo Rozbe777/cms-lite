@@ -21,18 +21,26 @@ class ImageRule implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
     {
-        if(!empty($value) && !is_string($value)){
-            $mimeTypes = ["image/jpeg","image/jpg","image/png"];
+        /** in duplicate when user does not change the image
+         *  the image value is "true"
+         *  if user changes the image the image value is an image.
+         */
+        if (!empty($value) && !is_string($value)) {
+            $mimeTypes = ["image/jpeg", "image/jpg", "image/png"];
             $mime = (array_values((array)$value))[2];
-            return in_array($mime,$mimeTypes);
+            return in_array($mime, $mimeTypes);
+        } elseif ((is_string($value) && $value == "true") || $value == null) {
+            return true;
+        } else{
+            return false;
         }
-        return is_string($value) && $value == "true";
+
     }
 
     /**
@@ -42,6 +50,6 @@ class ImageRule implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return __("validation.image");
     }
 }

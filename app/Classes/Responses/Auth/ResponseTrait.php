@@ -37,7 +37,7 @@ trait ResponseTrait
 
     public function success($status = 200)
     {
-                response()->json([
+               return response()->json([
                     "http_code" => $status,
                     "message" => $this->message,
                     "data" => $this->data
