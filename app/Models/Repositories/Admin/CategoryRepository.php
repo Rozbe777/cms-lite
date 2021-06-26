@@ -52,17 +52,18 @@ class CategoryRepository implements RepositoryInterface
 
     public function create(array $data)
     {
+        $data['parent_id'] = !empty($data['parent_id']) ? (int)$data['parent_id'] : 0 ;
+
         $data['slug'] = $this->slugHandler($data['slug']);
 
         $data['user_id'] = Auth::id();
 
         if (!empty($data['image']) && !is_string($data['image'])) {
             $data['image'] = $this->imageHandler($data['image']);
-        }
-        elseif (is_string($data['image']) && $data['image'] == 'true') {
+        } elseif (is_string($data['image']) && $data['image'] == 'true') {
             $path = (Category::find($data['id']))->image;
             $time = time();
-            $newPath = substr_replace($path,$time,'14',0);
+            $newPath = substr_replace($path, $time, '14', 0);
 
             Storage::copy($path, $newPath);
             $data['image'] = $newPath;
