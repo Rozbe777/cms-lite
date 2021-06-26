@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Admin\Product;
 
+use App\Rules\FormDataRule;
+use App\Rules\ImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 
@@ -30,7 +32,7 @@ class CreateProductRequest extends FormRequest
             "slug" => "required|string",
             "metadata" => "nullable|string",
             "status" => "in:active,deactivate",
-            "image" => "nullable|image",
+            "image" => new ImageRule(),
             "attributes.*.price" => "required|integer",
 //            "attributes.*.product_code" => "required|string|unique:attributes,product_code",
             "attributes.*.product_code" => "required|string",
@@ -40,8 +42,8 @@ class CreateProductRequest extends FormRequest
             "features.*.color" => "string|required_if:features.*.name,رنگ",
             "features.*.title" => "required_with:features.*.name|string",
             "features.*.value" => "required_with:features.*.name|string",
-            "tag_list" => "array",
-            "category_list" => "array|exists:categories,id",
+            "tag_list" => new FormDataRule(),
+            "category_list" => new FormDataRule(),
         ];
     }
 }

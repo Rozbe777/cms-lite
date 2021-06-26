@@ -66,9 +66,9 @@ class ContentRepository implements RepositoryInterface
         return $content->delete();
     }
 
-    public function update(array $data, $content)
+    public function update(array $data, $contentId)
     {
-        $content = Content::find($content);
+        $content = Content::find($contentId);
         $data['slug'] = $this->slugHandler($data['slug']);
 
         $tag_list = (array)$data['tag_list'] ?? [];
@@ -81,11 +81,13 @@ class ContentRepository implements RepositoryInterface
             $data['image'] = $this->imageHandler($data['image']);
         elseif (is_string($data['image']) && $data['image'] == 'true')
             unset($data['image']);
+        else
+            $data['image'] = null;
 
 
-        dd($tag_list,$category_list);
+        $content->update($data);
+
         /** modify tag relations in database tables */
-        if (!empty($tag_list)) {
             foreach ($tag_list as $tag) {
                 $tag = Tag::firstOrCreate(
                     ['name' => $tag],
@@ -98,16 +100,14 @@ class ContentRepository implements RepositoryInterface
                 }
                 return Content::find($content);
             }
-        }
         /** modify category relations in database tables */
-        if (!empty($category_list)) {
+
             foreach ($category_list as $category) {
                 $category = Category::findOrFail((int)$category);
                 $content->categories()->attach($category);
             }
-        }
 
-        return $content->update($data);
+        return Content::find($contentId);
     }
 
     public function create(array $data)
@@ -124,11 +124,10 @@ class ContentRepository implements RepositoryInterface
 
         if (!empty($data['image']) && !is_string($data['image'])) {
             $data['image'] = $this->imageHandler($data['image']);
-        }
-        elseif (is_string($data['image']) && $data['image'] == 'true') {
+        } elseif (is_string($data['image']) && $data['image'] == 'true') {
             $path = (Content::find($data['id']))->image;
             $time = time();
-            $newPath = substr_replace($path,$time,'14',0);
+            $newPath = substr_replace($path, $time, '14', 0);
 
             Storage::copy($path, $newPath);
             $data['image'] = $newPath;

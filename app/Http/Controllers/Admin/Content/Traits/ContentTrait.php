@@ -17,11 +17,11 @@ trait ContentTrait
 
     public function slugHandler($slug)
     {
-        if (Content::where('slug', '=', $slug)->exists()) {
+        if (Content::where('slug', '=', $slug)->withTrashed()->get()) {
             $i = 1;
             do {
                 $item = $slug . '_' . $i++;
-            } while ((Content::where('slug', "=", $item)->count()) != 0);
+            } while ((Content::where('slug', "=", $item)->withTrashed()->count()) != 0);
             return $item;
         } else {
             return $slug;

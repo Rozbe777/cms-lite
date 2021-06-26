@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Product;
 
 use App\Rules\FeaturesTitleCheck;
+use App\Rules\ImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EditProductRequest extends FormRequest
@@ -30,7 +31,7 @@ class EditProductRequest extends FormRequest
             "slug" => "string|nullable",
             "metadata" => "string|nullable",
             "status" => "in:active,deactivate",
-            "image" => "image|nullable",
+            "image" => new ImageRule(),
             "attributes.*.price" => "integer",
             "attributes.*.product_code" => "required|string",
             "attributes.*.count" => "nullable|numeric",

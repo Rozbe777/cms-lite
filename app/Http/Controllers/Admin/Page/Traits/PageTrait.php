@@ -16,11 +16,11 @@ trait PageTrait
 
     public function slugHandler($slug)
     {
-        if (Page::where('slug', '=', $slug)->exists()) {
+        if (Page::where('slug', '=', $slug)->withTrashed()->get()) {
             $i = 1;
             do {
                 $item = $slug . '_' . $i++;
-            } while ((Page::where('slug', "=", $item)->count()) != 0);
+            } while ((Page::where('slug', "=", $item)->withTrashed()->count()) != 0);
             return $item;
 
         } else {

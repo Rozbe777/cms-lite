@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Content;
 
 use App\Rules\FormDataRule;
+use App\Rules\ImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EditContentRequest extends FormRequest
@@ -32,7 +33,7 @@ class EditContentRequest extends FormRequest
             'status' => 'in:active,pending,deactivate',
             'user_id' => 'integer|exists:users,id|nullable',
 //            'layout_id' => 'integer|exists:layouts,id',//FIXME after insert layouts table
-            'image' => 'image|nullable',
+            'image' => new ImageRule(),
             'comment_status' => 'in:active,deactivate',
             'is_index'=>'boolean|nullable',
             'is_menu'=>'boolean|nullable',

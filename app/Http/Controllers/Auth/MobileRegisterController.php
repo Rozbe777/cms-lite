@@ -102,8 +102,8 @@ class MobileRegisterController extends Controller
 
         return ($response) ?
             ($response->wasRecentlyCreated) ?
-                $this->view("pages.auth.register")->message(__("message.auth.register.mobileVerified"))->data($response)->success():
-                $this->view("pages.auth.update")->message(__("message.auth.register.mobileVerified"))->data($response)->success():
+                $this->view("pages.auth.register")->message(__("message.auth.register.mobileVerified"))->data($response)->success() :
+                $this->view("pages.auth.update")->message(__("message.auth.register.mobileVerified"))->data($response)->success() :
             $this->message(__('message.auth.register.wrongToken'))->error(401);
     }
 

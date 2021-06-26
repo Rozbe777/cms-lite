@@ -11,6 +11,7 @@ use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductRepository implements RepositoryInterface
 {
@@ -124,10 +125,17 @@ class ProductRepository implements RepositoryInterface
         unset($data['attributes']);
 
         $data['user_id'] = Auth::id();
-        if (!empty($data['image']))
+        if (!empty($data['image']) && !is_string($data['image'])) {
             $data['image'] = $this->imageHandler($data['image']);
-        else
-            unset($data['image']);
+        }
+        elseif (is_string($data['image']) && $data['image'] == 'true') {
+            $path = (Product::find($data['id']))->image;
+            $time = time();
+            $newPath = substr_replace($path,$time,'14',0);
+
+            Storage::copy($path, $newPath);
+            $data['image'] = $newPath;
+        }
 
         if (!empty($attributes))
             $att = $this->attributeUpdateHandler($attributes, $product->id);
@@ -172,10 +180,18 @@ class ProductRepository implements RepositoryInterface
         unset($data['attributes']);
 
         $data['user_id'] = Auth::id();
-        if (!empty($data['image']))
+
+        if (!empty($data['image']) && !is_string($data['image'])) {
             $data['image'] = $this->imageHandler($data['image']);
-        else
-            unset($data['image']);
+        }
+        elseif (is_string($data['image']) && $data['image'] == 'true') {
+            $path = (Product::find($data['id']))->image;
+            $time = time();
+            $newPath = substr_replace($path,$time,'14',0);
+
+            Storage::copy($path, $newPath);
+            $data['image'] = $newPath;
+        }
 
         $product = Product::create($data);
 

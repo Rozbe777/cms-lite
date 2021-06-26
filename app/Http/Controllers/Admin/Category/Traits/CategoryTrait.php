@@ -19,11 +19,11 @@ trait CategoryTrait
 
     public function slugHandler($slug)
     {
-        if (Category::where('slug', '=', $slug)->exists()) {
+        if (Category::where('slug', '=', $slug)->withTrashed()->get()) {
             $i = 0;
             do {
                 $item = $slug . '_' . $i++;
-            } while ((Category::where('slug', "=", $item)->count()) != 0);
+            } while ((Category::where('slug', "=", $item)->withTrashed()->count()) != 0);
             return $item;
 
         } else {

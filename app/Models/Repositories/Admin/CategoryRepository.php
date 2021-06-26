@@ -44,6 +44,8 @@ class CategoryRepository implements RepositoryInterface
             $data['image'] = $this->imageHandler($data['image']);
         elseif (is_string($data['image']) && $data['image'] == 'true')
             unset($data['image']);
+        else
+            $data['image'] = null;
 
         return $category->update($data);
     }
