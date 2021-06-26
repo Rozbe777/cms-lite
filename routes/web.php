@@ -20,6 +20,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FileManager\ImageController;
 use App\Http\Controllers\Front\Cart\CheckoutController;
 use App\Http\Controllers\Front\Search\SearchController;
+use App\Models\Page;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,9 +43,6 @@ Route::get('/', function () {
 });
 
 Route::get('/test', function () {
-
-    (new \App\Classes\Pay\Pay())->start(1000);
-    dd('mamad');
 });
 
 

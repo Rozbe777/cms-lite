@@ -5,10 +5,12 @@ namespace App\Models\Repositories\Admin;
 
 
 use App\Http\Controllers\Admin\Page\Traits\PageTrait;
+use App\Models\Content;
 use App\Models\Page;
 use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PageRepository implements RepositoryInterface
 {
@@ -54,14 +56,19 @@ class PageRepository implements RepositoryInterface
         if ($data['is_index'] == 1)
             $this->indexHandler();
 
-        if (!empty($data['image']))
+        if (!empty($data['image']) && !is_string($data['image']))
             $data['image'] = $this->imageHandler($data['image']);
+        elseif (is_string($data['image']) && $data['image'] == 'true')
+            unset($data['image']);
+        else
+            $data['image'] = null;
 
         return $page->update($data);
     }
 
     public function create(array $data)
     {
+        $data['owner'] = "page";
 //        $data['metadata'] = !empty($data['metadata']) ? json_encode($data['metadata']) : null;
 
         if ($data['is_index'] == 1)
@@ -70,6 +77,19 @@ class PageRepository implements RepositoryInterface
         $data['user_id'] = Auth::id();
         $data['owner'] = 'page';
         $data['slug'] = $this->slugHandler($data['slug']);
+
+        if (!empty($data['image']) && !is_string($data['image'])) {
+            $data['image'] = $this->imageHandler($data['image']);
+        } elseif (is_string($data['image']) && $data['image'] == 'true') {
+            $path = (Page::find($data['id']))->image;
+            $time = time();
+            $newPath = substr_replace($path, $time, '14', 0);
+
+            Storage::copy($path, $newPath);
+            $data['image'] = $newPath;
+        } else {
+            $data['image'] = null;
+        }
 
         $page = Page::create($data);
         $page->viewCounts()->create();

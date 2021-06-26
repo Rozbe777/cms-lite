@@ -31,7 +31,7 @@ class CreateCategoryRequest extends FormRequest
             'image' => new ImageRule(),
             'content' => 'string|nullable',
             'fields' => 'string',
-            'parent_id' => "nullable|numeric",
+            'parent_id' => "nullable|string",
             //'layout_id' => '',//not using now FIXME after insert layout and module
             //'module_id' => '',
             'status' => 'required|string|in:active,deactivate',
