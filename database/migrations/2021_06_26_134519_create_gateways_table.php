@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGatewayesInfosTable extends Migration
+class CreateGatewaysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateGatewayesInfosTable extends Migration
      */
     public function up()
     {
-        Schema::create('gatewayes_infos', function (Blueprint $table) {
+        Schema::create('gateways', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('bank_id')->default('1');
-            $table->string('user_name')->nullable();
+            $table->string('display_name');
+            $table->integer('bank_id');
+            $table->boolean('is_default')->default(0);
+            $table->enum('status', ['enable', 'disable'])->default('disable');
             $table->string('merchantId')->default('00000000-0000-0000-0000-000000000000');
+            $table->text('class');
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ class CreateGatewayesInfosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gatewayes_infos');
+        Schema::dropIfExists('gateways');
     }
 }

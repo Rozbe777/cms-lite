@@ -13,18 +13,34 @@ class SmsRepository
      */
     public function createToken($mobile)
     {
-        $sms = VerifyMobile::orderBy('id','desc')->where('mobile',mobile($mobile))->first();
-
-        if ($sms){
-            $sms->token = rand(1000, 9999);
+        $mobile = mobile($mobile);
+        $sms = VerifyMobile::orderBy('id', 'desc')->where('mobile', $mobile)->first();
+        //developer mobile numbers
+        $developers = config('notifier.developers');
+        if ($this->isDeveloper($mobile, $developers)) {
+            $code = config('notifier.developer_code');
+        } else {
+            $code = rand(1000, 9999);
+        }
+        if ($sms) {
+            $sms->token = $code;
             $sms->save();
-        }else{
+        } else {
             $sms = new VerifyMobile();
             $sms->mobile = mobile($mobile);
-            $sms->token = rand(1000, 9999);
+            $sms->token = $code;
             $sms->save();
         }
 
         return $sms;
+    }
+
+    function isDeveloper($currentMobile, $developersMobile)
+    {
+        if (in_array($currentMobile, $developersMobile)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -1,6 +1,8 @@
 <?php
 return [
     'default_provider' => 'sms',
+    'developers' => ['9120053069', '9124702987'],
+    'developer_code' => 8585,
     'providers' => [
         'sms' => [
             'default_gateway' => 'kavenegar',
