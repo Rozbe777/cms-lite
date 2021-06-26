@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\GatewayesInfo;
+use App\Models\Gateway;
+
 use Illuminate\Database\Seeder;
 
-class GatewayeSeeder extends Seeder
+class GatewaySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +15,6 @@ class GatewayeSeeder extends Seeder
      */
     public function run()
     {
-        GatewayesInfo::factory()->times(10)->create();
+        Gateway::factory()->times(1)->create();
     }
 }

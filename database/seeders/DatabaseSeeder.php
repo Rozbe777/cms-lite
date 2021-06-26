@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PageSeeder::class);
         $this->call(ThemeSeeder::class);
         $this->call(ProductSeeder::class);
-        $this->call(GatewayeSeeder::class);
+        $this->call(GatewaySeeder::class);
+        $this->call(BankSeeder::class);
     }
 }
