@@ -1,6 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import './_Shared/style.scss'
+import {FilesShopContext} from "../Admin/Shop/Helper/Context";
+
 const thumbsContainer = {
     display: 'flex',
     flexDirection: 'row',
@@ -33,15 +35,18 @@ const img = {
 };
 
 
-function Previews(props , {data : pushData}) {
+function Previews(props , {handleFiles}) {
     const [files, setFiles] = useState([]);
+    const {setAllFiles} = useContext(FilesShopContext);
     const {getRootProps, getInputProps} = useDropzone({
         accept: 'image/*',
         onDrop: acceptedFiles => {
             setFiles(acceptedFiles.map(file => Object.assign(file, {
                 preview: URL.createObjectURL(file)
             })));
-            pushData(files)
+            setAllFiles(acceptedFiles.map(file => Object.assign(file, {
+                preview: URL.createObjectURL(file)
+            })));
         }
     });
 

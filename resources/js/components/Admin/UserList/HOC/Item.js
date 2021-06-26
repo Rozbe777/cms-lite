@@ -79,21 +79,18 @@ export const Item = (props) => {
                             <label htmlFor={id}></label>
                         </div>
                     </fieldset>
-                    <span id={"inRespo"}>
-                <a className={"role"}>{name + " " + last_name}</a>
+                    <span id={"inRespo"} style={{width: '180px'}}>
+                <a className={"role"} style={{float: 'right'}}>{name + " " + last_name}</a>
             </span>
 
-                    <span className={"d-none d-lg-block"}>
-                {persianStatus == "فعال" ? (<a className={"activeUser"}>فعال</a>) : (
-                    <a className={"deactiveUser"}>غیرفعال</a>)} &nbsp;&nbsp;    وضعیت :&nbsp;&nbsp;
-            </span>
 
-                    <span className={"d-none d-lg-block"}>
-              <a className={"role"}>{userRole == "admin" ? "مدیر" : "کاربر"}</a> &nbsp;&nbsp;    نقش :&nbsp;&nbsp;
+
+                    <span className={"d-none d-lg-block"} id={"stateActive"}>
+                        &nbsp;&nbsp;<i className={"bx bx-user"}></i>&nbsp;&nbsp;<a className={"role"}>{userRole == "admin" ? "مدیر" : "کاربر"}</a>
             </span>
 
                     <span className={"final"} className={"d-none d-lg-block"}>
-              <a className={"role"}> {mobile ? mobile : "ندارد"} </a>  <p id={"labels"}>تلفن : </p>
+              <a className={"role"}> {mobile ? mobile : "ندارد"} </a>&nbsp;&nbsp;  <i style={{height : '40px',lineHeight : '1.5'}} className={"bx bx-phone"}></i>
             </span>
 
 
@@ -109,7 +106,18 @@ export const Item = (props) => {
                             </a>
 
                         </ul>
+
+
                     </div>
+
+
+                    <span className={"d-none d-lg-block"} id={"checkActive"}  style={{float : 'left'}}>
+                {persianStatus == "فعال" ? (<a className={"activeUser"}>فعال</a>) : (
+                    // <a className={"deactiveUser"}>غیرفعال</a>)} &nbsp;&nbsp;    وضعیت :&nbsp;&nbsp;
+                    <a className={"deactiveUser"}>غیرفعال</a>)}
+            </span>
+
+
                     <a className={"more-details"} onClick={e => openMoreDet(e)}>
                         <i className={"bx bxs-show"}></i>
                     </a>

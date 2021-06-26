@@ -93,6 +93,12 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
                         $("li.page-item.next").css("opacity", 1);
                         $("li.page-item.previous").css("opacity", 0.4);
                         $("span.checkboxeds").removeClass("active");
+                        Swal.fire({
+                            type: "success",
+                            title: 'با موفقیت اضافه شد !',
+                            confirmButtonClass: 'btn btn-success',
+                            confirmButtonText: 'باشه',
+                        })
                         pushCheckChange(true);
 
                         setClear(true)
@@ -101,12 +107,7 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
                         localStorage.removeItem("selected");
                         localStorage.removeItem("comment_status");
                         localStorage.removeItem("robots");
-                        Swal.fire({
-                            type: "success",
-                            title: 'با موفقیت اضافه شد !',
-                            confirmButtonClass: 'btn btn-success',
-                            confirmButtonText: 'باشه',
-                        })
+
                     }).catch(err => {
                     if (err.response) {
                         if (err.response.data.errors) {
@@ -155,6 +156,11 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
         dataUpdateParse ? dataUpdateParse.tags.map(item => {
             chipset.push(item.name);
             setChipset(chipset);
+        }) : '';
+
+        dataUpdateParse ? dataUpdateParse.categories.map(item => {
+            idSelCat.push(item.id);
+            setIdSelCat(idSelCat);
         }) : '';
 
         setMetaData(MetaDataUpdate)
@@ -301,10 +307,9 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
         let vmetadata = JSON.stringify(MetaDaa);
         formDataAll.append("metadata", vmetadata)
 
-        formDataAll.append("category_list", JSON.stringify(idSelCat))
+        formDataAll.append("category_list", JSON.stringify(idSelCat) )
         let vtag_list = chipsetChange ? chipset : [];
 
-        console.log("tag", vtag_list, idSelCat);
         formDataAll.append("tag_list", JSON.stringify(vtag_list))
 
         if (formData.title && formData.title !== '') {
@@ -474,8 +479,7 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
         formsData.append("content", contents)
         formsData.append("is_menu", parseInt(is_menu))
         formsData.append("comment_status", comment_status)
-
-        CreateAddContent(formOldData);
+        CreateAddContent(formsData);
     }
 
 

@@ -74,7 +74,9 @@ class CategoryRepository implements RepositoryInterface
         if (!empty('id'))
             unset($data['id']);
 
-        $category = Category::create($data);
+        $data['is_menu'] = (int)$data['is_menu'];
+
+        $category = Category::create($data);dd($category);
         $category->viewCounts()->create();
         return $category;
     }

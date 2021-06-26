@@ -46,6 +46,8 @@ class ProductController extends Controller
 
         $products = $this->repository->all($status, $request->search , $entity, $request->categorise , $request->sort, $discount);
 
+
+
         return (!$products) ?
             $this->message(__('message.content.search.notSuccess'))->view("pages.admin.product.index")->error() :
             $this->data($products)->message(__('message.success.200'))->view("pages.admin.product.index")->success();

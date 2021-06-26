@@ -5141,3 +5141,22 @@ input::placeholder {
     margin-top: 2px !important;
     margin-left: 1px !important;
 }
+
+
+#choise-img{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    right: -75px;
+    left: 0;
+    top: 0;
+    bottom: -90px;
+    margin: auto;
+    background: #fff;
+    border-radius: 100%;
+    overflow: hidden;
+    text-align: center;
+    line-height: 3.1;
+    box-shadow: 0 0 3px 2px rgb(0 0 0 / 30%);
+    cursor: pointer;
+}
