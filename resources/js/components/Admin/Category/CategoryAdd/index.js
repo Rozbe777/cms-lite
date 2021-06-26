@@ -234,7 +234,7 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
         formFiledss.append("is_menu", is_menu);
         formFiledss.append("name", formNew.name);
         formFiledss.append("slug", formNew.slug);
-        formFiledss.append("_token", token);
+        // formFiledss.append("_token", token);
         if (slugManage == false) {
             formFiledss.append("slug", formNew.name);
         } else {
@@ -328,15 +328,18 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
     const HandleEdit = () => {
         let formOldData = {...CatData};
         let formDataFit = new FormData();
-        if (formOldData.image && imageGet.state == '') {
-            if (file.file) {
+        if (file.file) {
+            if (imageGet.state == "") {
                 formDataFit.append("image", file.file);
             } else {
-                formDataFit.append("image", '');
+                formDataFit.append("image", true);
             }
         } else {
-
-            formDataFit.append("image", true);
+            if (imageGet.state == '') {
+                formDataFit.append("image", '');
+            } else {
+                formDataFit.append("image", true);
+            }
         }
         // formDataFit.append("image" , file.file ? file.file : '')
         formDataFit.append("content", contentNew);
@@ -389,15 +392,18 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
         formsNews.append("parent_id", parseInt(parent_id))
         formsNews.append("image", file.file ? file.file : '')
 
-        if (formOldData.image && imageGet.state == '') {
-            if (file.file) {
+        if (file.file) {
+            if (imageGet.state == "") {
                 formsNews.append("image", file.file);
             } else {
-                formsNews.append("image", '');
+                formsNews.append("image", true);
             }
         } else {
-
-            formsNews.append("image", true);
+            if (imageGet.state == '') {
+                formsNews.append("image", '');
+            } else {
+                formsNews.append("image", true);
+            }
         }
 
 
