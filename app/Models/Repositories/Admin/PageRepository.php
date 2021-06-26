@@ -71,8 +71,10 @@ class PageRepository implements RepositoryInterface
         $data['owner'] = "page";
 //        $data['metadata'] = !empty($data['metadata']) ? json_encode($data['metadata']) : null;
 
-        if ($data['is_index'] == 1)
+        if ((int)$data['is_index'] == 1)
             $this->indexHandler();
+
+        $data['is_menu'] = (int)$data['is_menu'];
 
         $data['user_id'] = Auth::id();
         $data['owner'] = 'page';

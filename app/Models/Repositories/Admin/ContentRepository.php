@@ -68,6 +68,7 @@ class ContentRepository implements RepositoryInterface
 
     public function update(array $data, $contentId)
     {
+        $oldTagList = [];
         $content = Content::find($contentId);
         $data['slug'] = $this->slugHandler($data['slug']);
 
@@ -97,10 +98,13 @@ class ContentRepository implements RepositoryInterface
         }
 
         $oldTags = $content->tags;
+
+
         foreach ($oldTags as $tag) {
-            while (in_array($tag,$tag_list)){
-             $tagList = $tag;
+            if (in_array($tag->name,$tag_list)){
+             $oldTagList[] = $tag;
             }
+            dd($oldTagList);
         }
 
 

@@ -75,7 +75,7 @@ class PermissionSeeder extends Seeder
                         [
                             'icon' => 'bx-directions',
                             'is_menu' => 1,
-                            "name" => "roles.index",
+                            "name" => "roles.blade",
                             "display_name" => "دسترسی"
                         ],
                     ],
