@@ -924,7 +924,7 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
                                     </fieldset>
                                 </div>
                                 <div className={"col-12"}>
-                                    <Doka/>
+                                    <Doka />
 
                                 </div>
                             </div>

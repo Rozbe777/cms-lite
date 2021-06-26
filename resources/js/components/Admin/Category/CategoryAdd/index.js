@@ -250,7 +250,7 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
         formFiledss.append("metadata", JSON.stringify(metaData));
         if (CatData.name && CatData.name !== '') {
             $("input[name=name]").removeClass("is-invalid");
-            formFiledss.append("parent_id", formNew.parent_id ? formNew.parent_id : 0);
+            // formFiledss.append("parent_id", formNew.parent_id ? formNew.parent_id : 0);
 
             CreateAddCategory(formFiledss);
         } else {

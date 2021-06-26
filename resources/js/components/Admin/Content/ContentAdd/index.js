@@ -390,6 +390,8 @@ const ContentAdd = ({token , checkChange: pushCheckChange, display, dataUpdate, 
         let formOldData = {...formData};
         let formdts = new FormData();
 
+        console.log(formOldData.image , " / " , imageGet.state)
+
         if (formOldData.image && imageGet.state == '') {
             if (file.file) {
                 formdts.append("image", file.file);
@@ -440,6 +442,7 @@ const ContentAdd = ({token , checkChange: pushCheckChange, display, dataUpdate, 
         formsData.append("title" , title);
         formsData.append("slug" , slug);
 
+        console.log(formOldData.image , " / " , imageGet.state)
         if (formOldData.image && imageGet.state == '') {
             if (file.file) {
                 formsData.append("image", file.file);

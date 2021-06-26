@@ -60,6 +60,7 @@ function Previews(props) {
         files.forEach(file => URL.revokeObjectURL(file.preview));
     }, [files]);
 
+    console.log("______" , files)
     return (
         <section className="container dropzones">
             <div {...getRootProps({className: 'dropzone'})}>

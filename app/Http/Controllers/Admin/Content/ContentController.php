@@ -78,6 +78,7 @@ class ContentController extends Controller
      */
     public function store(CreateContentRequest $request)
     {
+        dd($request->all());
         $content = $this->contentRepository->create($request->all());
 
         return $this->message(__('message.success.200'))->data($content)->view('pages.admin.content.show')->success();
@@ -118,6 +119,7 @@ class ContentController extends Controller
      */
     public function update(EditContentRequest $request)
     {
+        dd($request->all());
         $content = $this->contentRepository->update($request->all(), $request->id);
         $content->load('tags')->load('categories')->load('viewCounts');
 

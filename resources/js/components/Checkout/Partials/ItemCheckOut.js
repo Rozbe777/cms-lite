@@ -15,6 +15,12 @@ export const ItemCheckOut = (props) => {
                 <span>0  تومان</span>
                 <div id={"count-control"}>
 
+                    <div id={"reducer"}>
+                        <i className={"bx bx-plus"}></i>
+                        <input type={"number"} name={"counters"} />
+                        <i className={"bx bx-minus"}></i>
+                    </div>
+
                 </div>
                 <span>
                     0 تومان
