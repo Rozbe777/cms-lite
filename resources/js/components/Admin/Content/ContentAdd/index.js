@@ -12,7 +12,7 @@ import {MultiSelected} from "../../Shop/ProductManager/HOC/MultiSelected";
 import $ from "jquery";
 import {BASE_URL_IMG} from "../../../../services/Type";
 
-const ContentAdd = ({token , checkChange: pushCheckChange, display, dataUpdate, result: pushResult}) => {
+const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, result: pushResult}) => {
 
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? dataGet.allData : '';
@@ -31,7 +31,7 @@ const ContentAdd = ({token , checkChange: pushCheckChange, display, dataUpdate, 
     const [chipset, setChipset] = useState([]);
     const [chipsetChange, setChipChange] = useState(false)
     const [edit, setEdit] = useState(false);
-    const [file, setFile] = useState({file : ''});
+    const [file, setFile] = useState({file: ''});
     const [metaData, setMetaData] = useState({
         robots: false,
     });
@@ -161,8 +161,8 @@ const ContentAdd = ({token , checkChange: pushCheckChange, display, dataUpdate, 
 
         setIds(formNews.id);
         setFormData({
-            id : formNews.id,
-            image : formNews.image,
+            id: formNews.id,
+            image: formNews.image,
             content: formNews.content,
             is_menu: formNews.is_menu,
             status: formNews.status,
@@ -390,18 +390,20 @@ const ContentAdd = ({token , checkChange: pushCheckChange, display, dataUpdate, 
         let formOldData = {...formData};
         let formdts = new FormData();
 
-        console.log(formOldData.image , " / " , imageGet.state)
-
-        if (formOldData.image && imageGet.state == '') {
-            if (file.file) {
+        if (file.file) {
+            if (imageGet.state == "") {
                 formdts.append("image", file.file);
             } else {
-                formdts.append("image", '');
+                formdts.append("image", true);
             }
         } else {
-
-            formdts.append("image", true);
+            if (imageGet.state == '') {
+                formdts.append("image", '');
+            } else {
+                formdts.append("image", true);
+            }
         }
+
         let title = titleWrite;
         let slug = slugManage ? titleWrite : $("input.slugest").val();
         formdts.append("title", title)
@@ -439,19 +441,21 @@ const ContentAdd = ({token , checkChange: pushCheckChange, display, dataUpdate, 
         let title = titleWrite;
         let slug = slugManage ? titleWrite : $("input.slugest").val();
 
-        formsData.append("title" , title);
-        formsData.append("slug" , slug);
+        formsData.append("title", title);
+        formsData.append("slug", slug);
 
-        console.log(formOldData.image , " / " , imageGet.state)
-        if (formOldData.image && imageGet.state == '') {
-            if (file.file) {
+        if (file.file) {
+            if (imageGet.state == "") {
                 formsData.append("image", file.file);
             } else {
-                formsData.append("image", '');
+                formsData.append("image", true);
             }
         } else {
-
-            formsData.append("image", true);
+            if (imageGet.state == '') {
+                formsData.append("image", '');
+            } else {
+                formsData.append("image", true);
+            }
         }
 
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
@@ -462,14 +466,14 @@ const ContentAdd = ({token , checkChange: pushCheckChange, display, dataUpdate, 
         metaDatas.robots = robots;
         let metadatas = JSON.stringify(metaDatas);
         let contents = contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
-        formsData.append("metadata" , metadatas)
-        formsData.append("tag_list" , JSON.stringify(chipset))
-        formsData.append("id" , formOldData.id);
-        formsData.append("status" , status)
-        formsData.append("category_list" , JSON.stringify(idSelCat))
-        formsData.append("content" , contents)
-        formsData.append("is_menu" , parseInt(is_menu))
-        formsData.append("comment_status" , comment_status)
+        formsData.append("metadata", metadatas)
+        formsData.append("tag_list", JSON.stringify(chipset))
+        formsData.append("id", formOldData.id);
+        formsData.append("status", status)
+        formsData.append("category_list", JSON.stringify(idSelCat))
+        formsData.append("content", contents)
+        formsData.append("is_menu", parseInt(is_menu))
+        formsData.append("comment_status", comment_status)
 
         CreateAddContent(formOldData);
     }
@@ -558,8 +562,6 @@ const ContentAdd = ({token , checkChange: pushCheckChange, display, dataUpdate, 
     }
 
 
-
-
     return (
         <div id={"category_add_pop_base"}>
             <ul className="nav nav-tabs tab-layout" role="tablist">
@@ -631,7 +633,8 @@ const ContentAdd = ({token , checkChange: pushCheckChange, display, dataUpdate, 
                             {/*            valueDeActive={"غیرفعال"}/>*/}
                             {/*    </fieldset>*/}
                             {/*</div>*/}
-                            <div className={"col-lg-2 col-md-3 col-sm-12"} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                            <div className={"col-lg-2 col-md-3 col-sm-12"}
+                                 style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                                 {preImage.uri ? (
                                         <div className={"mini-img-show-edit"}>
                                             <div className={"img-box"}>
