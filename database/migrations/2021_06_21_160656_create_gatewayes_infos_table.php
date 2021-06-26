@@ -16,8 +16,8 @@ class CreateGatewayesInfosTable extends Migration
         Schema::create('gatewayes_infos', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
+            $table->integer('bank_id')->default('1');
             $table->string('user_name')->nullable();
-            $table->string('bank')->default('zarinpal');
             $table->string('merchantId')->default('00000000-0000-0000-0000-000000000000');
             $table->timestamps();
         });
