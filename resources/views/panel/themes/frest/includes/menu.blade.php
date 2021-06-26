@@ -101,7 +101,7 @@
 
                     @if(auth()->user()->can($menu->name))
                         @php($subMenus=\App\Models\Permission::parentId($menu->id)->isMenu()->get())
-                        <li class="nav-item"><a href="{{route($menu->name)}}" style="
+                        <li class="nav-item"><a onclick="activeLi(this,{{route($menu->name)}})" href="{{route($menu->name)}}" style="
     margin: 5px 0;
     padding: 10px 10px;
     line-height: 2;"><i class="bx {{$menu->icon}}"></i><span
@@ -139,4 +139,5 @@
             </ul>
     </div>
 </div>
+
 <!-- END: Main Menu-->

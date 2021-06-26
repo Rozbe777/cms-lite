@@ -157,6 +157,7 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
     }
     const HandleFile = (e) => {
         handlePreShowImage(e)
+        setEdit(true)
         let files = e.target.files[0];
         setFile({file: files});
     }
@@ -221,10 +222,7 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
     const HandleForm = (e) => {
         let formNew = {...CatData};
         let formFiledss = new FormData();
-
         formFiledss.append("image", file.file ? file.file : '');
-
-
         formFiledss.append("content", contentNew);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;

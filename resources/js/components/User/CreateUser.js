@@ -106,23 +106,16 @@ const CreateUser = (props) => {
 
     return (
         <div>
-            <div className="media mb-2" style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
-                <a className="mr-2">
-                    <img src={url('images/avatar.jpg')} alt={''}
-                         className="users-avatar-shadow rounded-circle" height="64" width="64"/>
-                </a>
-                <div className="media-body">
-                    <div className={'row justify-content-between align-items-center pr-2 pl-1'}>
+            <div className="media mb-2" style={{display: 'flex', alignItems: 'center', flexDirection: 'row' , position : 'relative' , justifyContent : 'center'}}>
+                    <img  src={url('images/avatar.jpg')} alt={''}
+                         className="users-avatar-shadow rounded-circle" height="120" width="120"/>
+                <span id={"choise-img"}>
+                    <i className={"bx bx-camera"}></i>
 
-                    </div>
-                    <div className="col-12 px-0 d-flex">
-                        <a onClick={() => {
-                            imagePicker();
-                        }} className="btn btn-sm btn-primary mr-25 text-white cursor-pointer">انتخاب تصویر
-                            آواتار</a>
-                        {/*<a href="#" className="btn btn-sm btn-light-secondary">بازنشانی</a>*/}
-                    </div>
-                </div>
+                    <input type={"file"} style={{opacity : 0 , position : 'absolute' , right : 0 , cursor : 'pointer'}}
+                    />
+                </span>
+
             </div>
 
             <form onSubmit={e => {
