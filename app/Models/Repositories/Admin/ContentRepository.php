@@ -84,7 +84,6 @@ class ContentRepository implements RepositoryInterface
         else
             $data['image'] = null;
 
-
         $content->update($data);
 
         /** modify tag relations in database tables */
@@ -131,6 +130,8 @@ class ContentRepository implements RepositoryInterface
 
             Storage::copy($path, $newPath);
             $data['image'] = $newPath;
+        } else {
+            $data['image'] = null;
         }
 
         if (!empty('id'))
