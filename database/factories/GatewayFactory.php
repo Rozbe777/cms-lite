@@ -23,9 +23,8 @@ class GatewayFactory extends Factory
     public function definition()
     {
         return [
-            'status' => 'disable',
-            'class'      => $this->faker->randomElement(['Zarinpal','Mellat','Parsian']),
-            'bank_id'      => rand(1,3)//$this->faker->randomElement(['zarinpal','mellat','parsian']),
+            'status' => 'sandbox',
+            'bank_id' => 1/* rand(1/*, 3)*///$this->faker->randomElement(['zarinpal','mellat','parsian']),
         ];
     }
 }
