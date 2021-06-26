@@ -41,6 +41,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('test2', function (){
+    $content = \App\Models\Content::find(35);
+    $oldTags = $content->tags;
+    foreach ($oldTags as $tag){
+        dd($tag->name);
+    }
+});
+
 Route::get('/test', function () {
 
     //amount , bank_id ,user_id

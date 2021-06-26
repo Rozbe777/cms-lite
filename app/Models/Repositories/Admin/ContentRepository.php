@@ -87,24 +87,29 @@ class ContentRepository implements RepositoryInterface
         $content->update($data);
 
         /** modify tag relations in database tables */
-            foreach ($tag_list as $tag) {
-                $tag = Tag::firstOrCreate(
-                    ['name' => $tag],
-                    ['user_id' => Auth::id()]
-                );
-                if ($tag->wasRecentlyCreated) {
-                    $content->tags()->attach($tag);
-                } else {
-                    $content->tags()->sync($tag);
-                }
-                return Content::find($content);
+        foreach ($tag_list as $tag) {
+
+            $tag = Tag::firstOrCreate(
+                ['name' => $tag],
+                ['user_id' => Auth::id()]
+            );
+            $content->tags()->syncWithoutDetaching($tag);
+        }
+
+        $oldTags = $content->tags;
+        foreach ($oldTags as $tag) {
+            while (in_array($tag,$tag_list)){
+             $tagList = $tag;
             }
+        }
+
+
         /** modify category relations in database tables */
 
-            foreach ($category_list as $category) {
-                $category = Category::findOrFail((int)$category);
-                $content->categories()->attach($category);
-            }
+        foreach ($category_list as $category) {
+            $category = Category::findOrFail((int)$category);
+            $content->categories()->syncWithoutDetaching($category);
+        }
 
         return Content::find($contentId);
     }
