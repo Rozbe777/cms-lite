@@ -17,6 +17,7 @@ import {Price} from "../../_Micro/ProductMiniComponent/Price";
 import {Limited} from "../../_Micro/ProductMiniComponent/Limited";
 import {Inventory} from "../../_Micro/ProductMiniComponent/Inventoryz";
 import {NewFeture} from "../../_Micro/ProductMiniComponent/NewFeture";
+import {FilesShopContext} from "../Helper/Context";
 import $ from "jquery";
 import {
     CheckTextFetures,
@@ -33,6 +34,8 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
     let firstRand = Math.round(mins + Math.random() * (maxs - mins));
 
     let defCounters = {num: firstRand};
+
+    const [allFiles  , setAllFiles]  = useState([]);
 
     if (defaultValuePro && types !== "duplicate") {
         defCounters = defaultValuePro.attributes[defaultValuePro.attributes.length - 1].product_code
@@ -448,7 +451,9 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
     const HandleForm = (e) => {
         let formNew = {...formData};
         let formFile = new FormData();
-        formFile.append("file", file);
+        formFile.append("image", allFiles);
+
+        console.log("////" , allFiles);
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
         formNew.status = status;
         formNew.image = file;
@@ -863,6 +868,8 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
             ErrorToast("محصول حداقل باید یک تنوع محصولی داشته باشد")
         }
     }
+
+
     return (
         <>
             <div id={"category_add_pop_base"}>
@@ -924,7 +931,9 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
                                     </fieldset>
                                 </div>
                                 <div className={"col-12"}>
-                                    <Doka data={item => console0log("////" , item)} />
+                                    <FilesShopContext.Provider value={{allFiles  , setAllFiles}}>
+                                        <Doka />
+                                    </FilesShopContext.Provider>
 
                                 </div>
                             </div>
