@@ -189,6 +189,7 @@ class ProductRepository implements RepositoryInterface
         } else {
             $data['image'] = null;
         }
+
         $product = Product::create($data);
 
         if (!empty($attributes))

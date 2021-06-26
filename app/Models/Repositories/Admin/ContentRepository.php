@@ -111,6 +111,7 @@ class ContentRepository implements RepositoryInterface
 
     public function create(array $data)
     {
+        $data['owner'] = "content";
         $data['slug'] = $this->slugHandler($data['slug']);
 
         $tag_list = json_decode($data['tag_list']) ?? null;
