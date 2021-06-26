@@ -71,10 +71,10 @@ class ContentRepository implements RepositoryInterface
         $content = Content::find($contentId);
         $data['slug'] = $this->slugHandler($data['slug']);
 
-        $tag_list = (array)$data['tag_list'] ?? [];
+        $tag_list = json_decode($data['tag_list']) ?? [];
         unset($data["tag_list"]);
 
-        $category_list = (array)$data['category_list'] ?? [];
+        $category_list = json_decode($data['category_list']) ?? [];
         unset($data["category_list"]);
 
         if (!empty($data['image']) && !is_string($data['image']))
@@ -148,12 +148,13 @@ class ContentRepository implements RepositoryInterface
                 ['name' => $tag],
                 ['user_id' => Auth::id()]
             );
-            $content->tags()->attach($tag);
+            $content->tags()->syncWithoutDetaching($tag);
 
         }
+
         foreach ($category_list as $category) {
             $category = Category::findOrFail((int)$category);
-            $content->categories()->sync($category);
+            $content->categories()->syncWithoutDetaching($category);
         }
 
         return $content;
