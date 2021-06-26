@@ -230,7 +230,7 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
         let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formNew.parent_id;
         formFiledss.append("status", status);
-        formFiledss.append("parent_id", parent_id);
+        formFiledss.append("parent_id", parent_id ? parseInt(parent_id) : '');
         formFiledss.append("is_menu", is_menu);
         formFiledss.append("name", formNew.name);
         formFiledss.append("slug", formNew.slug);

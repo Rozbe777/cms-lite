@@ -33,7 +33,7 @@ const img = {
 };
 
 
-function Previews(props) {
+function Previews(props , {data : pushData}) {
     const [files, setFiles] = useState([]);
     const {getRootProps, getInputProps} = useDropzone({
         accept: 'image/*',
@@ -41,6 +41,7 @@ function Previews(props) {
             setFiles(acceptedFiles.map(file => Object.assign(file, {
                 preview: URL.createObjectURL(file)
             })));
+            pushData(files)
         }
     });
 
