@@ -125,17 +125,13 @@ class ProductRepository implements RepositoryInterface
         unset($data['attributes']);
 
         $data['user_id'] = Auth::id();
-        if (!empty($data['image']) && !is_string($data['image'])) {
-            $data['image'] = $this->imageHandler($data['image']);
-        }
-        elseif (is_string($data['image']) && $data['image'] == 'true') {
-            $path = (Product::find($data['id']))->image;
-            $time = time();
-            $newPath = substr_replace($path,$time,'14',0);
 
-            Storage::copy($path, $newPath);
-            $data['image'] = $newPath;
-        }
+        if (!empty($data['image']) && !is_string($data['image']))
+            $data['image'] = $this->imageHandler($data['image']);
+        elseif (is_string($data['image']) && $data['image'] == 'true')
+            unset($data['image']);
+        else
+            $data['image'] = null;
 
         if (!empty($attributes))
             $att = $this->attributeUpdateHandler($attributes, $product->id);
@@ -183,16 +179,16 @@ class ProductRepository implements RepositoryInterface
 
         if (!empty($data['image']) && !is_string($data['image'])) {
             $data['image'] = $this->imageHandler($data['image']);
-        }
-        elseif (is_string($data['image']) && $data['image'] == 'true') {
+        } elseif (is_string($data['image']) && $data['image'] == 'true') {
             $path = (Product::find($data['id']))->image;
             $time = time();
-            $newPath = substr_replace($path,$time,'14',0);
+            $newPath = substr_replace($path, $time, '14', 0);
 
             Storage::copy($path, $newPath);
             $data['image'] = $newPath;
+        } else {
+            $data['image'] = null;
         }
-
         $product = Product::create($data);
 
         if (!empty($attributes))

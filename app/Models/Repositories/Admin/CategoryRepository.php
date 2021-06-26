@@ -66,6 +66,8 @@ class CategoryRepository implements RepositoryInterface
 
             Storage::copy($path, $newPath);
             $data['image'] = $newPath;
+        } else {
+            $data['image'] = null;
         }
 
         if (!empty('id'))
