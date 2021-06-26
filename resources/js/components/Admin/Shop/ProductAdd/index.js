@@ -451,35 +451,44 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
     const HandleForm = (e) => {
         let formNew = {...formData};
         let formFile = new FormData();
-        formFile.append("image", allFiles);
+        formFile.append("image", JSON.stringify(allFiles));
 
-        console.log("////" , allFiles);
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
-        formNew.status = status;
-        formNew.image = file;
+        formFile.append("status", status);
+
         if (slugManage == false) {
-            formNew.slug = formNew.name;
+            formFile.append("slug", formNew.title);
+
         } else {
         }
 
         if (formData.slug == "") {
-            formNew.slug = formNew.title
+            formFile.append("slug", formNew.title);
         }
-        formNew.content = JSON.stringify(contentNew);
+        formFile.append("content", JSON.stringify(contentNew));
 
         let normal = NoralizeFetures(priceData);
         let checkValueFetures = CheckTextFetures(normal)
 
         if (checkValueFetures) {
-            formNew.attributes = normal.attributes;
-            formNew.features = normal.fetures;
-            formNew.category_list = idSelCat;
-            formNew.tag_list = chipsetTagsChange ? chipsetTags : [];
+            formFile.append("attributes", JSON.stringify(normal.attributes));
+            formFile.append("features", JSON.stringify(normal.fetures));
+            formFile.append("category_list", JSON.stringify(category_list));
+            formFile.append("tag_list", JSON.stringify(chipsetTagsChange ? chipsetTags : []));
+
+            // formNew.attributes = normal.attributes;
+            // formNew.features = normal.fetures;
+            // formNew.category_list = idSelCat;
+            // formNew.tag_list = chipsetTagsChange ? chipsetTags : [];
             metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
-            formNew.metadata = JSON.stringify(metaData);
+
+            let metadatas = JSON.stringify(metaData);
+
+            formFile.append("metadata", metadatas);
+
             if (formData.title && formData.title !== '') {
                 $("input[name=title]#pro-title").removeClass("is-invalid");
-                CreateNewProduct(formNew);
+                CreateNewProduct(formFile);
             } else {
                 $("input[name=title]#pro-title").addClass("is-invalid");
                 error("لطفا فیلد عنوان محصول را پر کنید !")
