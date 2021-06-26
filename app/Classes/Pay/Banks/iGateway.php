@@ -8,6 +8,6 @@ interface iGateway
 {
     function callback($invoiceId);
 
-    function start($amount);
+    function handle($invoice);
 
 }

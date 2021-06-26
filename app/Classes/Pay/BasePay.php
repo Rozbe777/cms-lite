@@ -36,18 +36,19 @@ abstract class BasePay
             $this->userId = auth()->id();
         }
 
+        $gatewayModel = $this->getGateway($this->gatewayId);
+        throw_if(!$gatewayModel, new \Exception("Gateway not found"));
+
         if (method_exists(Pay::class, 'createInvoice')) {
-            $this->invoice = $this->createInvoice($amount, $this->userId);
+            $this->invoice = $this->createInvoice($amount, $this->userId, $gatewayModel->id);
         }
 
-        $gatewayModel = $this->getGateway($this->gatewayId);
-        throw_if(!$gatewayModel, new \Exception("Gateway not found "));
 
         $gatewayClass = $gatewayModel->class;
         $gatewayClass = GATEWAY_NAME_SPACE . $gatewayClass;
         $gatewayClass = new $gatewayClass();
         $this->handle($gatewayClass, $this->invoice);
-        $result = $gatewayClass->handle();
+        $result = $gatewayClass->handle(empty($this->invoice) ? $amount : $this->invoice);
         return $result;
     }
 

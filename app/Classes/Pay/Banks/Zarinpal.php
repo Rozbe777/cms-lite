@@ -12,8 +12,8 @@ class Zarinpal implements iGateway
 
     }
 
-    function start($amount)
+    function handle($invoice)
     {
-
+        return ['hi'];
     }
 }
