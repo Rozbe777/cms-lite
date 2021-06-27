@@ -58,10 +58,10 @@ class UserRepository implements RepositoryInterface
             $user->attachRole($role);
             unset($data['role_id']);
         }
-        if (!empty($data['avatar']))
-            $data['avatar'] = $this->imageHandler($data['avatar']);
+        if (!empty($data['image']))
+            $data['image'] = $this->imageHandler($data['image']);
         else
-            unset($data['avatar']);
+            unset($data['image']);
 
         $user->update($data);
         return $user;
@@ -78,10 +78,10 @@ class UserRepository implements RepositoryInterface
         }
         unset($data['role_id'], $data['password_confirmation']);
 
-        if (!empty($data['avatar']))
-            $data['avatar'] = $this->imageHandler($data['avatar']);
+        if (!empty($data['image']))
+            $data['image'] = $this->imageHandler($data['image']);
         else
-            unset($data['avatar']);
+            unset($data['image']);
 
         $user = User::create($data);
         $user->attachRole($role);
