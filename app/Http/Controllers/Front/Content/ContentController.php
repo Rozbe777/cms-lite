@@ -20,6 +20,7 @@ class ContentController extends Controller
 
     public function search($slug = null)
     {
+
         $contents = $this->repository->search($slug);
 
         return !empty($contents) ?
