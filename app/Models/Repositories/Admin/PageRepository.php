@@ -70,7 +70,7 @@ class PageRepository implements RepositoryInterface
     public function create(array $data)
     {
         $data['owner'] = "page";
-//        $data['metadata'] = !empty($data['metadata']) ? json_encode($data['metadata']) : null;
+        $data['metadata'] = !empty($data['metadata']) ? json_encode($data['metadata']) : null;
 
         if ((int)$data['is_index'] == 1)
             $this->indexHandler();
