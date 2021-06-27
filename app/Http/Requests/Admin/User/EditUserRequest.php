@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\User;
 
+use App\Rules\ImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
 
@@ -39,7 +40,6 @@ class EditUserRequest extends FormRequest
      */
     public function rules()
     {
-        dd($this->all());
         return [
             'name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
@@ -48,7 +48,7 @@ class EditUserRequest extends FormRequest
             'password' => 'nullable|string|min:4|confirmed',
             'status' => 'nullable|in:active,deactivate',
             'role' => 'nullable|exists:roles,id',
-
+            'image' => new ImageRule()
         ];
     }
 }
