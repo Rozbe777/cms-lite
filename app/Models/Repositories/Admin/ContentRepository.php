@@ -10,6 +10,7 @@ use App\Models\Content;
 use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ContentRepository implements RepositoryInterface
@@ -68,7 +69,7 @@ class ContentRepository implements RepositoryInterface
 
     public function update(array $data, $contentId)
     {
-        $oldTagList = [];
+        $tags = [];
         $content = Content::find($contentId);
         $data['slug'] = $this->slugHandler($data['slug']);
 
@@ -88,31 +89,22 @@ class ContentRepository implements RepositoryInterface
         $content->update($data);
 
         /** modify tag relations in database tables */
-        foreach ($tag_list as $tag) {
+        DB::table('content_tag')->where('content_id', $content->id)->delete();
 
-            $tag = Tag::firstOrCreate(
+        foreach ($tag_list as $tag) {
+            $newTag = Tag::firstOrCreate(
                 ['name' => $tag],
                 ['user_id' => Auth::id()]
             );
-            $content->tags()->syncWithoutDetaching($tag);
+            $content->tags()->attach($newTag);
         }
-
-        $oldTags = $content->tags;
-
-
-        foreach ($oldTags as $tag) {
-            if (in_array($tag->name,$tag_list)){
-             $oldTagList[] = $tag;
-            }
-            dd($oldTagList);
-        }
-
 
         /** modify category relations in database tables */
+        DB::table('category_content')->where('content_id', $content->id)->delete();
 
         foreach ($category_list as $category) {
-            $category = Category::findOrFail((int)$category);
-            $content->categories()->syncWithoutDetaching($category);
+            $category = Category::findOrFail($category);
+            $content->categories()->attach($category);
         }
 
         return Content::find($contentId);
