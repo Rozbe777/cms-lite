@@ -45,7 +45,7 @@ class EditUserRequest extends FormRequest
             'last_name' => 'nullable|string|max:255',
             'email' => 'nullable|string|email|unique:users,email,'.(int)($this->id),
             'mobile' => 'nullable|unique:users,mobile,'.(int)($this->id),
-            'password' => 'nullable|string|min:4|confirmed',
+            'password' => 'nullable|string|min:4',
             'status' => 'nullable|in:active,deactivate',
             'role' => 'nullable|exists:roles,id',
             'image' => new ImageRule()
