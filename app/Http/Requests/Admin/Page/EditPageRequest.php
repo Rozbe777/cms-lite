@@ -25,7 +25,7 @@ class EditPageRequest extends EditContentRequest
      */
     public function rules()
     {
-        dd($this->all());
+//        dd($this->all());
         return [
 //            'title' => "string|max:255|unique:contents,name,{$this->page->id}",
             'title' => "string|max:255",
