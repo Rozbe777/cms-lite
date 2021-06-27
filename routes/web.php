@@ -138,10 +138,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('profile/delete', [ProfileController::class, 'delete'])->name('profile.delete');
 
     //------------------------------Settings----------------------------
-    /*  Route::name('settings.')->group(function () {
+      Route::name('settings.')->prefix('setting/')->group(function () {
           Route::get('/', [SettingController::class, 'index'])->name('edit');
           Route::put('/', [SettingController::class, 'update'])->name('update');
-      });*/
+      });
 
 
     //------------------------------Settings----------------------------
