@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests\Admin\Content;
 
+use App\Http\Requests\BaseRequest;
 use App\Rules\FormDataRule;
 use App\Rules\ImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditContentRequest extends FormRequest
+class EditContentRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
