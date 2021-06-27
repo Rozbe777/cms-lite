@@ -421,6 +421,7 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
         formDta.append("metadata", JSON.stringify(metaDatas))
         formDta.append("content", normalCon)
         formDta.append("status", status)
+        formDta.append("id", formOldData.id)
         // formDta.append("comment_status", comment_status)
         formDta.append("is_index", parseInt(is_index))
         formDta.append("is_menu", parseInt(is_menu))

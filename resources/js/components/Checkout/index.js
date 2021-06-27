@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import './_shared/style.scss'
 import CheckBasket from './CheckBascket'
+import SendDetail from './SendDetail'
 
 const Index = () => {
     useEffect(() => {
@@ -10,9 +11,7 @@ const Index = () => {
     const [state, setState] = useState();
     return (
         <div classNme={"row"} style={{padding: '20px'}}>
-            <CheckBasket/>
-
-
+            <SendDetail />
 
             <div className={"col-12"} style={{marginTop : '30px' , padding : 0}}>
                 <button style={{float : 'left' , fontSize : '16px' , fontWeight : 100}} className={"btn btn-primary"}> ثبت سفارش  <i className={"bx bx-chevron-left"}></i>  </button>
