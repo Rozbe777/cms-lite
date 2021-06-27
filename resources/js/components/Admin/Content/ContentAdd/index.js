@@ -224,8 +224,6 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
     }
 
     const handleInput = (e) => {
-
-
         setChangeCheck(true)
         setEdit(true);
         if (e.target.name == "titleContent") {

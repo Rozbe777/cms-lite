@@ -10,8 +10,13 @@ const UpdateUser = (props) => {
 
     // let {name, last_name, email, phone, role_id, password, roles} = state;
 
+    let defaultImg = 'images/avatar.jpg'
     const {token, roles, is_admin, user} = props;
     let userData = JSON.parse(user);
+    const [imageGet, setImage] = useState({state: ''})
+    const [preImage , setPreImage] = useState({uri : defaultImg})
+    const [pre , setPre] = useState(false)
+    const [file , setFile] = useState({files : ''})
     const [state, setState] = useState({
         id: userData.id,
         name: userData.name,
@@ -46,6 +51,7 @@ const UpdateUser = (props) => {
     const submitForm = () => {
 
 
+        let forms = new FormData();
         var pattern = /^0?9{1}([0-9]{9})$/;
         let {id, name, last_name, email, mobile, password, role_id} = state;
         if (empty(name)) {
@@ -64,15 +70,39 @@ const UpdateUser = (props) => {
         }
         state._token = token;
 
+        if (file.file) {
+            if (imageGet.state == "") {
+                forms.append("image", file.file);
+            } else {
+                forms.append("image", true);
+            }
+        } else {
+            if (imageGet.state == '') {
+                forms.append("image", '');
+            } else {
+                forms.append("image", true);
+            }
+        }
+
+        forms.append("_token" , token);
+
+        forms.append("name" , state.name);
+        forms.append("id" , id);
+        forms.append("last_name" , state.last_name);
+        forms.append("email" , state.email);
+        forms.append("password" , state.password);
+        forms.append("role_id" , state.role_id);
+        forms.append("status" , state.status);
         // delete 0 from first mobile number
         let mobiles = Array.from(mobile);
         let FirstNumber = mobiles[0]
         if (FirstNumber === 0 || FirstNumber === "0") {
             mobiles.shift();
             let newMobile = mobiles.join('');
-            state.mobile = newMobile;
+            forms.append("mobile" , newMobile);
+
             $("#loading-show").addClass("activeLoadingLogin");
-            Request.UpdateUserDetail(state, id)
+            Request.UpdateUserDetail(forms, id)
                 .then(res => {
                     $("#loading-show").removeClass("activeLoadingLogin");
                     success("اطلاعات ویرایش شد");
@@ -88,8 +118,10 @@ const UpdateUser = (props) => {
                 }
             })
         } else {
+            forms.append("mobile" , state.mobile);
+
             $("#loading-show").addClass("activeLoadingLogin");
-            Request.UpdateUserDetail(state, id)
+            Request.UpdateUserDetail(forms, id)
                 .then(res => {
                     $("#loading-show").removeClass("activeLoadingLogin");
                     success("اطلاعات ویرایش شد");
@@ -109,26 +141,66 @@ const UpdateUser = (props) => {
 
     }
 
+    const handlePreShowImage = e => {
+        e.preventDefault();
+        let preImages = {...preImage}
+        if (event.target.files && event.target.files[0]) {
+            preImages.uri = URL.createObjectURL(event.target.files[0])
+            setPreImage(preImages)
+        }
+    }
+
+    const handleFile = e => {
+        e.preventDefault();
+        handlePreShowImage(e);
+        let filed = {...file};
+        filed.files = e.target.files[0];
+        setFile(filed);
+        setPre(true)
+
+
+    }
+
+
+    const handledelImg = (e) => {
+        e.preventDefault();
+
+        let preImages = {...preImage}
+        preImages.uri = defaultImg;
+        setPreImage(preImages)
+        setPre(false)
+    }
+
+
     return (
         <div>
-            <div className="media mb-2" style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
-                <a className="mr-2">
-                    <img src={url('images/avatar.jpg')} alt={''}
-                         className="users-avatar-shadow rounded-circle" height="64" width="64"/>
-                </a>
-                <div className="media-body">
-                    <div className={'row justify-content-between align-items-center pr-2 pl-1'}>
 
-                    </div>
-                    <div className="col-12 px-0 d-flex">
-                        <a onClick={() => {
-                            imagePicker();
-                        }} className="btn btn-sm btn-primary mr-25 text-white cursor-pointer">انتخاب تصویر
-                            آواتار</a>
-                        {/*<a href="#" className="btn btn-sm btn-light-secondary">بازنشانی</a>*/}
-                    </div>
-                </div>
+
+
+            <div className="media mb-2" style={{display: 'flex', alignItems: 'center', flexDirection: 'row' , position : 'relative' , justifyContent : 'center'}}>
+                {pre ? (
+                    <img  src={preImage.uri} alt={''}
+                          className="users-avatar-shadow rounded-circle" height="120" width="120"/>
+                ):(
+                    <img  src={url(preImage.uri)} alt={''}
+                          className="users-avatar-shadow rounded-circle" height="120" width="120"/>
+                )}
+
+                <span id={"choise-img"}>
+                    <i className={"bx bx-camera"}></i>
+
+                    <input type={"file"} onChange={e => handleFile(e)} style={{opacity : 0 , position : 'absolute' , right : 0 , cursor : 'pointer'}}
+                    />
+                </span>
+
+                <span id={"choise-img"} onClick={e => handledelImg(e)} style={{right : 0 , left : '-75px'}} >
+                    <i className={"bx bx-trash-alt"}></i>
+
+                </span>
+
             </div>
+
+
 
             <form onSubmit={e => {
                 e.preventDefault();

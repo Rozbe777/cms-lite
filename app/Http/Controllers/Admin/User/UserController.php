@@ -120,6 +120,7 @@ class UserController extends Controller
      */
     public function update(EditUserRequest $request)
     {
+        dd($request->all());
         $data = [
             'user' => $this->userRepository->update($request->all(), $request->id),
             'roles' => Role::all(),

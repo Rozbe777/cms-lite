@@ -9,7 +9,10 @@ const CreateUser = (props) => {
 
     // let {name, last_name, email, phone, role_id, password, roles} = state;
 
+    let defaultImg = 'images/avatar.jpg'
     const {token , roles} = props;
+    const [preImage , setPreImage] = useState({uri : defaultImg})
+    const [pre , setPre] = useState(false)
     const [file , setFile] = useState({files : ''})
     const [state, setState] = useState({
         name: '',
@@ -21,9 +24,7 @@ const CreateUser = (props) => {
         status : 'active'
     })
 
-    const imagePicker = () => {
-        warning('در نسخه فعلی انتخاب تصویر آواتار امکان پذیر نیست')
-    }
+
 
     const HandleInput = e => {
         e.preventDefault()
@@ -99,6 +100,8 @@ const CreateUser = (props) => {
             })
         }else{
             $("#loading-show").addClass("activeLoadingLogin");
+            formDatas.append("mobile" , mobile);
+
             Request.CreateUserNew(formDatas)
                 .then(res => {
                     $("#loading-show").removeClass("activeLoadingLogin");
@@ -119,18 +122,49 @@ const CreateUser = (props) => {
 
     }
 
+    const handlePreShowImage = e => {
+        e.preventDefault();
+        let preImages = {...preImage}
+        if (event.target.files && event.target.files[0]) {
+            preImages.uri = URL.createObjectURL(event.target.files[0])
+            setPreImage(preImages)
+        }
+    }
+
     const handleFile = e => {
         e.preventDefault();
+        handlePreShowImage(e);
         let filed = {...file};
         filed.files = e.target.files[0];
         setFile(filed);
+        setPre(true)
+
+
     }
+
+
+    const handledelImg = (e) => {
+        e.preventDefault();
+
+        let preImages = {...preImage}
+        preImages.uri = defaultImg;
+        setPreImage(preImages)
+        setPre(false)
+    }
+
+
 
     return (
         <div>
             <div className="media mb-2" style={{display: 'flex', alignItems: 'center', flexDirection: 'row' , position : 'relative' , justifyContent : 'center'}}>
-                    <img  src={url('images/avatar.jpg')} alt={''}
-                         className="users-avatar-shadow rounded-circle" height="120" width="120"/>
+                {pre ? (
+                    <img  src={preImage.uri} alt={''}
+                          className="users-avatar-shadow rounded-circle" height="120" width="120"/>
+                ):(
+                    <img  src={url(preImage.uri)} alt={''}
+                          className="users-avatar-shadow rounded-circle" height="120" width="120"/>
+                )}
+
                 <span id={"choise-img"}>
                     <i className={"bx bx-camera"}></i>
 
@@ -138,7 +172,7 @@ const CreateUser = (props) => {
                     />
                 </span>
 
-                <span id={"choise-img"} style={{right : 0 , left : '-75px'}}>
+                <span id={"choise-img"} onClick={e => handledelImg(e)} style={{right : 0 , left : '-75px'}} >
                     <i className={"bx bx-trash-alt"}></i>
 
                 </span>
