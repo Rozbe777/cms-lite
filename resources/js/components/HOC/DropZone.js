@@ -44,9 +44,9 @@ function Previews(props , {handleFiles}) {
             setFiles(acceptedFiles.map(file => Object.assign(file, {
                 preview: URL.createObjectURL(file)
             })));
-            setAllFiles(acceptedFiles.map(file => Object.assign(file, {
-                preview: URL.createObjectURL(file)
-            })));
+            setAllFiles(acceptedFiles);
+
+            // console.log("____" , acceptedFiles)
         }
     });
 
@@ -66,7 +66,7 @@ function Previews(props , {handleFiles}) {
         files.forEach(file => URL.revokeObjectURL(file.preview));
     }, [files]);
 
-    console.log("______" , files)
+    // console.log("______" , files)
     return (
         <section className="container dropzones">
             <div {...getRootProps({className: 'dropzone'})}>

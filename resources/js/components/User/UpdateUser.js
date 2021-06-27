@@ -129,12 +129,14 @@ const UpdateUser = (props) => {
             $("#loading-show").addClass("activeLoadingLogin");
             Request.UpdateUserDetail(forms, id)
                 .then(res => {
+                    console.log("vvvvvvvvvvvvvvv" , res)
                     $("#loading-show").removeClass("activeLoadingLogin");
                     success("اطلاعات ویرایش شد");
                     setTimeout(() => {
                         // window.location.reload();
                     }, 400)
                 }).catch(error => {
+                    console.log("-------" , error)
                 $("#loading-show").removeClass("activeLoadingLogin");
                 if (error.response.data.errors) {
                     ErroHandle(error.response.data.errors)
@@ -148,6 +150,8 @@ const UpdateUser = (props) => {
             $("#loading-show").addClass("activeLoadingLogin");
             Request.UpdateUserDetail(forms, id)
                 .then(res => {
+                    console.log("vvvvvvvvvvvvvvv" , res)
+
                     $("#loading-show").removeClass("activeLoadingLogin");
                     success("اطلاعات ویرایش شد");
                     setTimeout(() => {
