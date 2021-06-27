@@ -83,7 +83,6 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
-        dd($request->all());
         $user = $this->userRepository->create($request->all());
 
         return $this->message(__('message.success.200'))->data($user)->view('pages.admin.user.show')->success();
@@ -120,7 +119,6 @@ class UserController extends Controller
      */
     public function update(EditUserRequest $request)
     {
-        dd($request->all());
         $data = [
             'user' => $this->userRepository->update($request->all(), $request->id),
             'roles' => Role::all(),
