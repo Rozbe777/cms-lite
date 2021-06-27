@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests\Admin\Product;
 
+use App\Models\Attribute;
+use App\Rules\AttributeCheck;
+use App\Rules\FeaturesCheck;
 use App\Rules\FormDataRule;
 use App\Rules\ImageRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -32,15 +35,16 @@ class CreateProductRequest extends FormRequest
             "slug" => "required|string",
             "metadata" => "nullable|string",
             "status" => "in:active,deactivate",
-            "image" => new ImageRule(),
-            "attributes.*.price" => "required|integer",
-            "attributes.*.product_code" => "required|string|unique:attributes,product_code",
-            "attributes.*.count" => "nullable|integer",
-            "attributes.*.limit" => "nullable|integer|gt:0|lt:attributes.*.count",
-            "features.*.name" => "string",
-            "features.*.color" => "string|required_if:features.*.name,رنگ",
-            "features.*.title" => "required_with:features.*.name|string",
-            "features.*.value" => "required_with:features.*.name|string",
+            "attributes" => new AttributeCheck(),
+            "features" => new FeaturesCheck(),
+//            "attributes.*.price" => "required|integer",
+//            "attributes.*.product_code" => "required|string|unique:attributes,product_code",
+//            "attributes.*.count" => "nullable|integer",
+//            "attributes.*.limit" => "nullable|integer|gt:0|lt:attributes.*.count",
+//            "features.*.name" => "string",
+//            "features.*.color" => "string|required_if:features.*.name,رنگ",
+//            "features.*.title" => "required_with:features.*.name|string",
+//            "features.*.value" => "required_with:features.*.name|string",
             "tag_list" => new FormDataRule(),
             "category_list" => new FormDataRule(),
         ];

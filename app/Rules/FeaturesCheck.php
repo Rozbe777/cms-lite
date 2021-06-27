@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class FormDataRule implements Rule
+class FeaturesCheck implements Rule
 {
     /**
      * Create a new rule instance.
@@ -25,11 +25,7 @@ class FormDataRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (!empty($value)) {
-            $data = json_decode($value);
-            return is_array($data) ? true : false;
-        }
-        return true;
+        //
     }
 
     /**
@@ -39,6 +35,6 @@ class FormDataRule implements Rule
      */
     public function message()
     {
-        return __("message.content.search.notSuccess");
+        return 'The validation error message.';
     }
 }

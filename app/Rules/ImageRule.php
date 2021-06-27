@@ -26,7 +26,7 @@ class ImageRule implements Rule
      * @return bool
      */
     public function passes($attribute, $value)
-    {
+    {dd(123);
         /** in duplicate when user does not change the image
          *  the image value is "true"
          *  if user changes the image the image value is an image.
