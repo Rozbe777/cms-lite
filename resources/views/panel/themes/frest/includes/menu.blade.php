@@ -31,9 +31,6 @@
 
                     @if(auth()->user()->can($menu->name))
                         @php($subMenus=\App\Models\Permission::parentId($menu->id)->isMenu()->get())
-<<<<<<< HEAD
-                        <li class="nav-item"><a onclick="activeLi(this,{{route($menu->name)}})" href="{{route($menu->name)}}" style="
-=======
                         <li class="nav-item {{activeAdminMenu($menu->name)}}"><a href="{{route($menu->name)}}" style="
 >>>>>>> 1f6874c7d8d5783088f7f5d6b66a3d460a327ccf
     margin: 5px 0;
