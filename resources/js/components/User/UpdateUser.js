@@ -10,6 +10,7 @@ const UpdateUser = (props) => {
 
     // let {name, last_name, email, phone, role_id, password, roles} = state;
 
+    console.log("cccc" , props)
     let defaultImg = 'images/avatar.jpg'
     const {token, roles, is_admin, user} = props;
     let userData = JSON.parse(user);

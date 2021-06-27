@@ -88,7 +88,7 @@ const CreateUser = (props) => {
                     $("#loading-show").removeClass("activeLoadingLogin");
                     success("کاربر جدید با موفقیت اضافه شد");
                     setTimeout(()=>{
-                        // window.location.reload();
+                        window.location.reload();
                     } , 400)
                 }).catch(error => {
                 $("#loading-show").removeClass("activeLoadingLogin");
@@ -107,7 +107,7 @@ const CreateUser = (props) => {
                     $("#loading-show").removeClass("activeLoadingLogin");
                     success("کاربر جدید با موفقیت اضافه شد");
                     setTimeout(()=>{
-                        // window.location.reload();
+                        window.location.reload();
                     } , 400)
                 }).catch(error => {
                 $("#loading-show").removeClass("activeLoadingLogin");
