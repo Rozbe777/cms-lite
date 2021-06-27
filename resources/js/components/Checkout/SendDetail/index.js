@@ -23,25 +23,28 @@ const index = (props) => {
                     </div>
 
 
-                    <div className={"col-8"}>
-                        <div className={"cart"}>
+                    <div className={"col-8"} style={{padding : 0}}>
+                        <div className={"cart"} style={{background : '#fff' , borderRadius : '15px' , padding : '10px'}} >
                             <div className={"cart-content"}>
-                                <div className="col-md-6 col-sm-12">
-                                    <div className="form-group">
-                                        <label htmlFor="first-name-vertical">نام</label>
-                                        <input type="text" id="first-name-vertical" className="form-control"
-                                               name="fname"
-                                               placeholder="نام"/>
+                                <div className={"row"}>
+                                    <div className="col-md-6 col-sm-12">
+                                        <div className="form-group">
+                                            <label htmlFor="first-name-vertical">نام</label>
+                                            <input type="text" id="first-name-vertical" className="form-control"
+                                                   name="fname"
+                                                   placeholder="نام"/>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6 col-sm-12">
+                                        <div className="form-group">
+                                            <label htmlFor="first-name-vertical">نام خانوادگی</label>
+                                            <input type="text" id="first-name-vertical" className="form-control"
+                                                   name="fname"
+                                                   placeholder="نام"/>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="col-md-6 col-sm-12">
-                                    <div className="form-group">
-                                        <label htmlFor="first-name-vertical">نام خانوادگی</label>
-                                        <input type="text" id="first-name-vertical" className="form-control"
-                                               name="fname"
-                                               placeholder="نام"/>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
