@@ -12,11 +12,11 @@ class Pay extends BasePay
     use Invoicable;
 
 
-
     /**
+     * @param $invoiceId
      * @return mixed
      */
-    function callback()
+    function callback($invoiceId)
     {
         // TODO: Implement callback() method.
     }
