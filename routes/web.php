@@ -19,6 +19,8 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FileManager\ImageController;
 use App\Http\Controllers\Front\Cart\CheckoutController;
+use App\Http\Controllers\Front\InvoiceController;
+use App\Http\Controllers\Front\Page\FrontPageController;
 use App\Http\Controllers\Front\Search\SearchController;
 use App\Models\Page;
 use Illuminate\Support\Facades\Route;
@@ -36,15 +38,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('a', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class, 'pay']);
 Route::get('b', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class, 'verify']);
 
-
+/*
 Route::get('/', function () {
     return view('welcome');
-});
+});*/
 
-Route::get('test2', function (){
+Route::get('test2', function () {
     $content = \App\Models\Content::find(35);
     $oldTags = $content->tags;
-    foreach ($oldTags as $tag){
+    foreach ($oldTags as $tag) {
         dd($tag->name);
     }
 });
@@ -136,10 +138,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('profile/delete', [ProfileController::class, 'delete'])->name('profile.delete');
 
     //------------------------------Settings----------------------------
-    Route::name('settings.')->group(function () {
-        Route::get('/', [SettingController::class, 'index'])->name('edit');
-        Route::put('/', [SettingController::class, 'update'])->name('update');
-    });
+    /*  Route::name('settings.')->group(function () {
+          Route::get('/', [SettingController::class, 'index'])->name('edit');
+          Route::put('/', [SettingController::class, 'update'])->name('update');
+      });*/
 
 
     //------------------------------Settings----------------------------
@@ -151,7 +153,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/{roleId}/update', [RoleController::class, 'update'])->name('update');
         Route::delete('/{roleId}/destroy', [RoleController::class, 'multipleDestroy'])->name('destroy');
     });
-    Route::get('role',[RoleController::class,'index'])->name('roles.blade');
+    Route::get('role', [RoleController::class, 'index'])->name('roles.blade');
 
     //------------------------------Settings----------------------------
     Route::get('product', [ProductController::class, 'blade'])->name('products.blade');
@@ -174,22 +176,22 @@ Route::middleware('auth')->group(function () {
     Route::get('themes/{themeId}/select', [ThemeController::class, 'select'])->name('theme.select');
 
 
-    Route::name('front.')->group(function () {
-        Route::get('shop', [\App\Http\Controllers\Front\Shop\ShopController::class, 'index'])->name('shop.blade');
-
-        Route::get('category/{slug}', [\App\Http\Controllers\Front\Category\CategoryController::class, 'search'])->name('categories');
-
-        Route::get('tag/{name}', [\App\Http\Controllers\Front\Tag\TagController::class, 'search'])->name('tags');
-
-        Route::post('search', [SearchController::class, 'search'])->name('search');
-
-        Route::get('page/{slug}', [\App\Http\Controllers\Front\Page\FrontPageController::class, 'search'])->name('pages');
-        Route::get('callback/{invoice_id}', [\App\Http\Controllers\Front\InvoiceController::class, 'callback'])->name('callback');;
-
-
-        Route::get('{slug}', [\App\Http\Controllers\Front\Content\ContentController::class, 'search'])->name('contents');
-
-    });
 });
 //-----------------------Mehrshad End----------------------
+Route::name('front.')->group(function () {
+    Route::get('/', [FrontPageController::class, 'search'])->name('index');
+    Route::get('shop', [\App\Http\Controllers\Front\Shop\ShopController::class, 'index'])->name('shop.blade');
 
+    Route::get('category/{slug}', [\App\Http\Controllers\Front\Category\CategoryController::class, 'search'])->name('categories');
+
+    Route::get('tag/{name}', [\App\Http\Controllers\Front\Tag\TagController::class, 'search'])->name('tags');
+
+    Route::post('search', [SearchController::class, 'search'])->name('search');
+
+    Route::get('page/{slug}', [FrontPageController::class, 'search'])->name('pages');
+    Route::get('callback/{invoice_id}', [InvoiceController::class, 'callback'])->name('callback');;
+
+
+    Route::get('{slug}', [\App\Http\Controllers\Front\Content\ContentController::class, 'search'])->name('contents');
+
+});
