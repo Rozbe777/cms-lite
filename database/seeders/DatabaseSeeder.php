@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -24,5 +25,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductSeeder::class);
         $this->call(GatewaySeeder::class);
         $this->call(BankSeeder::class);
+        $this->call(TransactionTypeSeeder::class);
     }
 }
