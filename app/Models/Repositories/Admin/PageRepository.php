@@ -51,6 +51,7 @@ class PageRepository implements RepositoryInterface
 
     public function update(array $data, $page)
     {
+        $page = Page::find($page);
         $data['slug'] = $this->slugHandler($data['slug']);
 
         if ($data['is_index'] == 1)

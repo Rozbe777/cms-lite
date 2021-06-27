@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests\Admin\Category;
 
+use App\Http\Requests\BaseRequest;
 use App\Rules\FormDataRule;
 use App\Rules\ImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditCategoryRequest extends FormRequest
+class EditCategoryRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.

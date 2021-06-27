@@ -29,14 +29,13 @@ class BaseRequest extends FormRequest
 
     protected function failedValidation(Validator $validator)
     {
-
         $errors = $validator->errors()->messages();
 
         $message = null;
         foreach ($errors as $item) {
             $message = $item[0];
         }
-        throw new HttpResponseException(response()->json(error($message, $errors)));
+        throw new HttpResponseException(response(json_encode(error($message, $errors)),422));
     }
 
 }

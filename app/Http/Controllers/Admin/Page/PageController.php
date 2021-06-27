@@ -83,7 +83,6 @@ class PageController extends Controller
      */
     public function store(CreatePageRequest $request)
     {
-//        dd($request->all());
         $page = $this->pageRepository->create($request->all());
 
         return $this->message(__('message.success.200'))->data($page)->view('pages.admin.page.show')->success();

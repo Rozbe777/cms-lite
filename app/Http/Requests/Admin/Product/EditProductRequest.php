@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests\Admin\Product;
 
+use App\Http\Requests\BaseRequest;
 use App\Rules\FeaturesTitleCheck;
 use App\Rules\ImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditProductRequest extends FormRequest
+class EditProductRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
