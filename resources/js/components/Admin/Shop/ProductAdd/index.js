@@ -448,10 +448,18 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
             })
     }
 
+    const [formf , setFormf] = useState({})
+
     const HandleForm = (e) => {
         let formNew = {...formData};
         let formFile = new FormData();
-        formFile.append("image", JSON.stringify(allFiles));
+
+        // forms = allFiles;
+        // console.log("vvvv"   , allFiles)
+        allFiles.map((items , index) => {
+            formFile.append("image_"+index, items);
+
+        })
 
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
         formFile.append("status", status);
