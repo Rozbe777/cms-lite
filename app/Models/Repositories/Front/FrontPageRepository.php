@@ -21,8 +21,10 @@ class FrontPageRepository implements Interfaces\FrontInterface
             ->when(empty($slug), function ($query) use ($slug) {
                 $query->where(function ($q) use ($slug) {
                     $q->Where('is_index', 1);
-                })->where('owner', 'page');
-            })->with('user')
+                });
+            })
+            ->where('owner', 'page')
+            ->with('user')
             ->with('viewCounts')
             ->orderByDesc('id')->firstOrFail();
 

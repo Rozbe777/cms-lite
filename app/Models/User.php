@@ -86,7 +86,7 @@ class User extends Authenticatable implements iUser
 
     public function themes()
     {
-        return $this->hasMany(Theme::class,'user_id', 'id');
+        return $this->hasMany(Theme::class, 'user_id', 'id');
     }
 
     public function contents()
