@@ -31,7 +31,7 @@ class CreatePageRequest extends FormRequest
             'content' => 'string|nullable',
             'status' => 'in:active,pending,deactivate|nullable',
             'metadata'=>'string|nullable',
-            'user_id' => 'integer|exists:users,id',
+//            'user_id' => 'integer|exists:users,id',
 //            'layout_id' => 'integer|exists:layouts,id',//FIXME after insert layouts table
             'image' => 'image|nullable',
             'comment_status' => 'in:active,deactivate|nullable',

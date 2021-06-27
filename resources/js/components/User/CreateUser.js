@@ -40,7 +40,7 @@ const CreateUser = (props) => {
         let formDatas = new FormData();
         formDatas.append("name" , state.name);
         formDatas.append("last_name" , state.last_name);
-        formDatas.append("email" , state.email);
+        formDatas.append("email" , state.email ? state.email : '');
         formDatas.append("mobile" , state.mobile);
         formDatas.append("password" , state.password);
         formDatas.append("role_id" , state.role_id);
@@ -88,7 +88,7 @@ const CreateUser = (props) => {
                     $("#loading-show").removeClass("activeLoadingLogin");
                     success("کاربر جدید با موفقیت اضافه شد");
                     setTimeout(()=>{
-                        // window.location.reload();
+                        window.location.reload();
                     } , 400)
                 }).catch(error => {
                 $("#loading-show").removeClass("activeLoadingLogin");
@@ -107,7 +107,7 @@ const CreateUser = (props) => {
                     $("#loading-show").removeClass("activeLoadingLogin");
                     success("کاربر جدید با موفقیت اضافه شد");
                     setTimeout(()=>{
-                        // window.location.reload();
+                        window.location.reload();
                     } , 400)
                 }).catch(error => {
                 $("#loading-show").removeClass("activeLoadingLogin");
@@ -221,7 +221,7 @@ const CreateUser = (props) => {
                                        value={state.email ? state.email : ''}
                                        onChange={(e) => {
                                            HandleInput(e)
-                                       }} required
+                                       }}
                                        dir="ltr"/>
                             </div>
                         </div>
