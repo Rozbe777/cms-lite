@@ -24,7 +24,7 @@ class CreatePageRequest extends FormRequest
      */
     public function rules()
     {
-        dd($this->all());
+//        dd($this->all());
         return [
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
