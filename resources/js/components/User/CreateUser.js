@@ -10,6 +10,7 @@ const CreateUser = (props) => {
     // let {name, last_name, email, phone, role_id, password, roles} = state;
 
     const {token , roles} = props;
+    const [file , setFile] = useState({files : ''})
     const [state, setState] = useState({
         name: '',
         last_name: '',
@@ -35,6 +36,14 @@ const CreateUser = (props) => {
     const submitForm = () => {
 
 
+        let formDatas = new FormData();
+        formDatas.append("name" , state.name);
+        formDatas.append("last_name" , state.last_name);
+        formDatas.append("email" , state.email);
+        formDatas.append("mobile" , state.mobile);
+        formDatas.append("password" , state.password);
+        formDatas.append("role_id" , state.role_id);
+        formDatas.append("status" , state.status);
         var pattern = /^0?9{1}([0-9]{9})$/;
         let {name, last_name, email, mobile, password, role_id} = state;
         if (empty(name)) {
@@ -56,7 +65,10 @@ const CreateUser = (props) => {
         if (!pattern.test((mobile))) {
             return error('فرمت شماره تلفن اشتباه است.')
         }
-        state._token = token;
+        // state._token = token;
+        formDatas.append("_token" , token);
+        formDatas.append("image" , file.files ? file.files : '');
+
 
         // delete 0 from first mobile number
         let mobiles = Array.from(mobile);
@@ -64,15 +76,18 @@ const CreateUser = (props) => {
         if (FirstNumber === 0 || FirstNumber === "0")
         {
             mobiles.shift();
+
+
             let newMobile = mobiles.join('');
-            state.mobile = newMobile;
+            // state.mobile = newMobile;
+            formDatas.append("mobile" , newMobile);
             $("#loading-show").addClass("activeLoadingLogin");
-            Request.CreateUserNew(state)
+            Request.CreateUserNew(formDatas)
                 .then(res => {
                     $("#loading-show").removeClass("activeLoadingLogin");
                     success("کاربر جدید با موفقیت اضافه شد");
                     setTimeout(()=>{
-                        window.location.reload();
+                        // window.location.reload();
                     } , 400)
                 }).catch(error => {
                 $("#loading-show").removeClass("activeLoadingLogin");
@@ -84,12 +99,12 @@ const CreateUser = (props) => {
             })
         }else{
             $("#loading-show").addClass("activeLoadingLogin");
-            Request.CreateUserNew(state)
+            Request.CreateUserNew(formDatas)
                 .then(res => {
                     $("#loading-show").removeClass("activeLoadingLogin");
                     success("کاربر جدید با موفقیت اضافه شد");
                     setTimeout(()=>{
-                        window.location.reload();
+                        // window.location.reload();
                     } , 400)
                 }).catch(error => {
                 $("#loading-show").removeClass("activeLoadingLogin");
@@ -104,6 +119,13 @@ const CreateUser = (props) => {
 
     }
 
+    const handleFile = e => {
+        e.preventDefault();
+        let filed = {...file};
+        filed.files = e.target.files[0];
+        setFile(filed);
+    }
+
     return (
         <div>
             <div className="media mb-2" style={{display: 'flex', alignItems: 'center', flexDirection: 'row' , position : 'relative' , justifyContent : 'center'}}>
@@ -112,8 +134,13 @@ const CreateUser = (props) => {
                 <span id={"choise-img"}>
                     <i className={"bx bx-camera"}></i>
 
-                    <input type={"file"} style={{opacity : 0 , position : 'absolute' , right : 0 , cursor : 'pointer'}}
+                    <input type={"file"} onChange={e => handleFile(e)} style={{opacity : 0 , position : 'absolute' , right : 0 , cursor : 'pointer'}}
                     />
+                </span>
+
+                <span id={"choise-img"} style={{right : 0 , left : '-75px'}}>
+                    <i className={"bx bx-trash-alt"}></i>
+
                 </span>
 
             </div>
