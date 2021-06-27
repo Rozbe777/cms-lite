@@ -27,10 +27,6 @@ class EditPageRequest extends BaseRequest
      */
     public function rules()
     {
-<<<<<<< HEAD
-//        dd($this->all());
-=======
->>>>>>> 027b772c7c56dc120439a65fa946c6ce8f9abbf4
         return [
 //            'title' => "string|max:255|unique:contents,name,{$this->page->id}",
             'title' => "string|max:255",

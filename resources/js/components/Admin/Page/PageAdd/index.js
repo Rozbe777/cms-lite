@@ -372,7 +372,8 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
 
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
-        let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
+        // console.log("____=====" , formData.comment_status , " /// " ,  localStorage.getItem("comment_status") )
+        // let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
         let is_index = localStorage.getItem("is_index") ? localStorage.getItem("is_index") : formData.is_index;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
@@ -381,7 +382,7 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
         formDta.append("metadata", JSON.stringify(metaDatas))
         formDta.append("content", normalCon)
         formDta.append("status", status ? status : 'active')
-        formDta.append("comment_status", comment_status)
+        // formDta.append("comment_status", comment_status)
         formDta.append("is_index", parseInt(is_index))
         formDta.append("is_menu", parseInt(is_menu))
         formDta.append("title", title);
