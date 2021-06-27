@@ -470,10 +470,11 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
         let normal = NoralizeFetures(priceData);
         let checkValueFetures = CheckTextFetures(normal)
 
+
         if (checkValueFetures) {
             formFile.append("attributes", JSON.stringify(normal.attributes));
             formFile.append("features", JSON.stringify(normal.fetures));
-            formFile.append("category_list", JSON.stringify(category_list));
+            formFile.append("category_list", JSON.stringify(idSelCat));
             formFile.append("tag_list", JSON.stringify(chipsetTagsChange ? chipsetTags : []));
 
             // formNew.attributes = normal.attributes;

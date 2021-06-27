@@ -2,7 +2,8 @@
 @php($title = "داشبورد")
 @section("content")
 
-<div class="content-wrapper">
+
+    <div class="content-wrapper">
     <div id="main-dashboard"></div>
 
 </div>

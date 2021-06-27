@@ -284,6 +284,8 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
     const HandleForm = (e) => {
         let formNew = {...formData};
         let formDataAll = new FormData();
+
+        // console.log("img" , file.file);
         formDataAll.append("image", file.file ? file.file : '')
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;

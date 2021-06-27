@@ -1691,3 +1691,21 @@ a.menu-toggle {
         color: #99a2af;
     }
 }
+
+.preloaderss{
+    /*
+    Making the preloader floating over other elements.
+    The preloader is visible by default.
+    */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #00b0ff;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
