@@ -24,6 +24,7 @@ class CreatePageRequest extends FormRequest
      */
     public function rules()
     {
+        dd($this->all());
         return [
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
@@ -34,8 +35,8 @@ class CreatePageRequest extends FormRequest
 //            'layout_id' => 'integer|exists:layouts,id',//FIXME after insert layouts table
             'image' => 'image|nullable',
             'comment_status' => 'in:active,deactivate|nullable',
-            'is_index'=>'boolean|nullable',
-            'is_menu'=>'boolean|nullable',
+            'is_index'=>'string|nullable',
+            'is_menu'=>'string|nullable',
         ];
     }
 }

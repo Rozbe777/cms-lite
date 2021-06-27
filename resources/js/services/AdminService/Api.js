@@ -8,7 +8,7 @@ export const Request = {
     GroupDelPage : (pageIds) =>  request.delete("/pages/multi/destroy" , {params : pageIds}),
     GroupDelProduct : (pageIds) =>  request.delete("/products/multi/destroy" , {params : pageIds}),
     CreateUserNew : (data) =>  request.post("/users" , data),
-    UpdateUserDetail : (data , id) =>  request.put("/users/"+id , data),
+    UpdateUserDetail : (data , id) =>  request.post("/users/update" , data),
     GetAllCategory : () =>  request.get("/categories?page=1"),
     GetAllTags : () =>  request.get("/tags"),
     GetAllPages : () =>  request.get("/pages"),

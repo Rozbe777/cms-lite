@@ -41,6 +41,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('test2', function (){
+    $content = \App\Models\Content::find(35);
+    $oldTags = $content->tags;
+    foreach ($oldTags as $tag){
+        dd($tag->name);
+    }
+});
+
 Route::get('/test', function () {
 
     //amount , bank_id ,user_id
@@ -143,6 +151,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/{roleId}/update', [RoleController::class, 'update'])->name('update');
         Route::delete('/{roleId}/destroy', [RoleController::class, 'multipleDestroy'])->name('destroy');
     });
+    Route::get('role',[RoleController::class,'index'])->name('roles.blade');
 
     //------------------------------Settings----------------------------
     Route::get('product', [ProductController::class, 'blade'])->name('products.blade');

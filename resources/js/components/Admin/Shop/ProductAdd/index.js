@@ -17,6 +17,7 @@ import {Price} from "../../_Micro/ProductMiniComponent/Price";
 import {Limited} from "../../_Micro/ProductMiniComponent/Limited";
 import {Inventory} from "../../_Micro/ProductMiniComponent/Inventoryz";
 import {NewFeture} from "../../_Micro/ProductMiniComponent/NewFeture";
+import {FilesShopContext} from "../Helper/Context";
 import $ from "jquery";
 import {
     CheckTextFetures,
@@ -33,6 +34,8 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
     let firstRand = Math.round(mins + Math.random() * (maxs - mins));
 
     let defCounters = {num: firstRand};
+
+    const [allFiles  , setAllFiles]  = useState([]);
 
     if (defaultValuePro && types !== "duplicate") {
         defCounters = defaultValuePro.attributes[defaultValuePro.attributes.length - 1].product_code
@@ -448,33 +451,44 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
     const HandleForm = (e) => {
         let formNew = {...formData};
         let formFile = new FormData();
-        formFile.append("file", file);
+        formFile.append("image", JSON.stringify(allFiles));
+
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
-        formNew.status = status;
-        formNew.image = file;
+        formFile.append("status", status);
+
         if (slugManage == false) {
-            formNew.slug = formNew.name;
+            formFile.append("slug", formNew.title);
+
         } else {
         }
 
         if (formData.slug == "") {
-            formNew.slug = formNew.title
+            formFile.append("slug", formNew.title);
         }
-        formNew.content = JSON.stringify(contentNew);
+        formFile.append("content", JSON.stringify(contentNew));
 
         let normal = NoralizeFetures(priceData);
         let checkValueFetures = CheckTextFetures(normal)
 
         if (checkValueFetures) {
-            formNew.attributes = normal.attributes;
-            formNew.features = normal.fetures;
-            formNew.category_list = idSelCat;
-            formNew.tag_list = chipsetTagsChange ? chipsetTags : [];
+            formFile.append("attributes", JSON.stringify(normal.attributes));
+            formFile.append("features", JSON.stringify(normal.fetures));
+            formFile.append("category_list", JSON.stringify(category_list));
+            formFile.append("tag_list", JSON.stringify(chipsetTagsChange ? chipsetTags : []));
+
+            // formNew.attributes = normal.attributes;
+            // formNew.features = normal.fetures;
+            // formNew.category_list = idSelCat;
+            // formNew.tag_list = chipsetTagsChange ? chipsetTags : [];
             metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
-            formNew.metadata = JSON.stringify(metaData);
+
+            let metadatas = JSON.stringify(metaData);
+
+            formFile.append("metadata", metadatas);
+
             if (formData.title && formData.title !== '') {
                 $("input[name=title]#pro-title").removeClass("is-invalid");
-                CreateNewProduct(formNew);
+                CreateNewProduct(formFile);
             } else {
                 $("input[name=title]#pro-title").addClass("is-invalid");
                 error("لطفا فیلد عنوان محصول را پر کنید !")
@@ -863,6 +877,8 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
             ErrorToast("محصول حداقل باید یک تنوع محصولی داشته باشد")
         }
     }
+
+
     return (
         <>
             <div id={"category_add_pop_base"}>
@@ -924,7 +940,9 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
                                     </fieldset>
                                 </div>
                                 <div className={"col-12"}>
-                                    <Doka data={item => console0log("////" , item)} />
+                                    <FilesShopContext.Provider value={{allFiles  , setAllFiles}}>
+                                        <Doka />
+                                    </FilesShopContext.Provider>
 
                                 </div>
                             </div>

@@ -10,6 +10,7 @@ use App\Models\Content;
 use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ContentRepository implements RepositoryInterface
@@ -68,6 +69,7 @@ class ContentRepository implements RepositoryInterface
 
     public function update(array $data, $contentId)
     {
+        $tags = [];
         $content = Content::find($contentId);
         $data['slug'] = $this->slugHandler($data['slug']);
 
@@ -87,24 +89,23 @@ class ContentRepository implements RepositoryInterface
         $content->update($data);
 
         /** modify tag relations in database tables */
-            foreach ($tag_list as $tag) {
-                $tag = Tag::firstOrCreate(
-                    ['name' => $tag],
-                    ['user_id' => Auth::id()]
-                );
-                if ($tag->wasRecentlyCreated) {
-                    $content->tags()->attach($tag);
-                } else {
-                    $content->tags()->sync($tag);
-                }
-                return Content::find($content);
-            }
-        /** modify category relations in database tables */
+        DB::table('content_tag')->where('content_id', $content->id)->delete();
 
-            foreach ($category_list as $category) {
-                $category = Category::findOrFail((int)$category);
-                $content->categories()->attach($category);
-            }
+        foreach ($tag_list as $tag) {
+            $newTag = Tag::firstOrCreate(
+                ['name' => $tag],
+                ['user_id' => Auth::id()]
+            );
+            $content->tags()->attach($newTag);
+        }
+
+        /** modify category relations in database tables */
+        DB::table('category_content')->where('content_id', $content->id)->delete();
+
+        foreach ($category_list as $category) {
+            $category = Category::findOrFail($category);
+            $content->categories()->attach($category);
+        }
 
         return Content::find($contentId);
     }
@@ -113,6 +114,7 @@ class ContentRepository implements RepositoryInterface
     {
         $data['owner'] = "content";
         $data['slug'] = $this->slugHandler($data['slug']);
+        $data['content'] = (!empty($data['content'])) ? !empty(json_decode($data['content'])) ? json_decode($data['content']) : null : null;
 
         $tag_list = json_decode($data['tag_list']) ?? null;
         unset($data["tag_list"]);

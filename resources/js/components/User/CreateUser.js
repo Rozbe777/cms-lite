@@ -9,7 +9,11 @@ const CreateUser = (props) => {
 
     // let {name, last_name, email, phone, role_id, password, roles} = state;
 
+    let defaultImg = 'images/avatar.jpg'
     const {token , roles} = props;
+    const [preImage , setPreImage] = useState({uri : defaultImg})
+    const [pre , setPre] = useState(false)
+    const [file , setFile] = useState({files : ''})
     const [state, setState] = useState({
         name: '',
         last_name: '',
@@ -20,9 +24,7 @@ const CreateUser = (props) => {
         status : 'active'
     })
 
-    const imagePicker = () => {
-        warning('در نسخه فعلی انتخاب تصویر آواتار امکان پذیر نیست')
-    }
+
 
     const HandleInput = e => {
         e.preventDefault()
@@ -35,6 +37,14 @@ const CreateUser = (props) => {
     const submitForm = () => {
 
 
+        let formDatas = new FormData();
+        formDatas.append("name" , state.name);
+        formDatas.append("last_name" , state.last_name);
+        formDatas.append("email" , state.email);
+        formDatas.append("mobile" , state.mobile);
+        formDatas.append("password" , state.password);
+        formDatas.append("role_id" , state.role_id);
+        formDatas.append("status" , state.status);
         var pattern = /^0?9{1}([0-9]{9})$/;
         let {name, last_name, email, mobile, password, role_id} = state;
         if (empty(name)) {
@@ -56,7 +66,10 @@ const CreateUser = (props) => {
         if (!pattern.test((mobile))) {
             return error('فرمت شماره تلفن اشتباه است.')
         }
-        state._token = token;
+        // state._token = token;
+        formDatas.append("_token" , token);
+        formDatas.append("image" , file.files ? file.files : '');
+
 
         // delete 0 from first mobile number
         let mobiles = Array.from(mobile);
@@ -64,15 +77,18 @@ const CreateUser = (props) => {
         if (FirstNumber === 0 || FirstNumber === "0")
         {
             mobiles.shift();
+
+
             let newMobile = mobiles.join('');
-            state.mobile = newMobile;
+            // state.mobile = newMobile;
+            formDatas.append("mobile" , newMobile);
             $("#loading-show").addClass("activeLoadingLogin");
-            Request.CreateUserNew(state)
+            Request.CreateUserNew(formDatas)
                 .then(res => {
                     $("#loading-show").removeClass("activeLoadingLogin");
                     success("کاربر جدید با موفقیت اضافه شد");
                     setTimeout(()=>{
-                        window.location.reload();
+                        // window.location.reload();
                     } , 400)
                 }).catch(error => {
                 $("#loading-show").removeClass("activeLoadingLogin");
@@ -84,12 +100,14 @@ const CreateUser = (props) => {
             })
         }else{
             $("#loading-show").addClass("activeLoadingLogin");
-            Request.CreateUserNew(state)
+            formDatas.append("mobile" , mobile);
+
+            Request.CreateUserNew(formDatas)
                 .then(res => {
                     $("#loading-show").removeClass("activeLoadingLogin");
                     success("کاربر جدید با موفقیت اضافه شد");
                     setTimeout(()=>{
-                        window.location.reload();
+                        // window.location.reload();
                     } , 400)
                 }).catch(error => {
                 $("#loading-show").removeClass("activeLoadingLogin");
@@ -104,25 +122,61 @@ const CreateUser = (props) => {
 
     }
 
+    const handlePreShowImage = e => {
+        e.preventDefault();
+        let preImages = {...preImage}
+        if (event.target.files && event.target.files[0]) {
+            preImages.uri = URL.createObjectURL(event.target.files[0])
+            setPreImage(preImages)
+        }
+    }
+
+    const handleFile = e => {
+        e.preventDefault();
+        handlePreShowImage(e);
+        let filed = {...file};
+        filed.files = e.target.files[0];
+        setFile(filed);
+        setPre(true)
+
+
+    }
+
+
+    const handledelImg = (e) => {
+        e.preventDefault();
+
+        let preImages = {...preImage}
+        preImages.uri = defaultImg;
+        setPreImage(preImages)
+        setPre(false)
+    }
+
+
+
     return (
         <div>
-            <div className="media mb-2" style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
-                <a className="mr-2">
-                    <img src={url('images/avatar.jpg')} alt={''}
-                         className="users-avatar-shadow rounded-circle" height="64" width="64"/>
-                </a>
-                <div className="media-body">
-                    <div className={'row justify-content-between align-items-center pr-2 pl-1'}>
+            <div className="media mb-2" style={{display: 'flex', alignItems: 'center', flexDirection: 'row' , position : 'relative' , justifyContent : 'center'}}>
+                {pre ? (
+                    <img  src={preImage.uri} alt={''}
+                          className="users-avatar-shadow rounded-circle" height="120" width="120"/>
+                ):(
+                    <img  src={url(preImage.uri)} alt={''}
+                          className="users-avatar-shadow rounded-circle" height="120" width="120"/>
+                )}
 
-                    </div>
-                    <div className="col-12 px-0 d-flex">
-                        <a onClick={() => {
-                            imagePicker();
-                        }} className="btn btn-sm btn-primary mr-25 text-white cursor-pointer">انتخاب تصویر
-                            آواتار</a>
-                        {/*<a href="#" className="btn btn-sm btn-light-secondary">بازنشانی</a>*/}
-                    </div>
-                </div>
+                <span id={"choise-img"}>
+                    <i className={"bx bx-camera"}></i>
+
+                    <input type={"file"} onChange={e => handleFile(e)} style={{opacity : 0 , position : 'absolute' , right : 0 , cursor : 'pointer'}}
+                    />
+                </span>
+
+                <span id={"choise-img"} onClick={e => handledelImg(e)} style={{right : 0 , left : '-75px'}} >
+                    <i className={"bx bx-trash-alt"}></i>
+
+                </span>
+
             </div>
 
             <form onSubmit={e => {

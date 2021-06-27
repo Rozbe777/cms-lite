@@ -212,6 +212,8 @@ export const ContentList = ({token}) => {
 
 
     const paginate = (pageNumber) => {
+        console.log("vsdvsdv" , pageNumber)
+
         stringSearchs.params.page = pageNumber;
         setStringSearch({
             params: {
@@ -221,6 +223,8 @@ export const ContentList = ({token}) => {
         $(".backLoadings").fadeIn();
         GetAllContents(stringSearchs);
         if (pageNumber == Math.ceil(total / perPage)) {
+            $("li.page-item.numberss").removeClass("active");
+            $("li.page-item.numberss."+pageNumber).addClass("active");
             $("li.page-item.next").css("opacity", 0.4);
             $("li.page-item.previous").css("opacity", 1);
         } else if (pageNumber == 1) {
@@ -229,6 +233,8 @@ export const ContentList = ({token}) => {
             $("li.page-item.next").css("opacity", 1);
             $("li.page-item.previous").css("opacity", 0.4);
         } else {
+            $("li.page-item.numberss").removeClass("active");
+            $("li.page-item.numberss."+pageNumber).addClass("active");
             $("li.page-item.next").css("opacity", 2);
             $("li.page-item.previous").css("opacity", 2);
         }
