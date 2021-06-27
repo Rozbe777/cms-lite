@@ -45,7 +45,7 @@
                              style="margin: 0px !important; padding : 0px !important">
                             <input type="checkbox" class="custom-control-input" id="customSwitch10">
                             <label class="custom-control-label" for="customSwitch10">
-                                <span class="switch-icon-left"><i class="bx bxs-moon"></i></span>
+                                <span class="switch-icon-left"><i style="transform: rotate(180deg)" class="bx bxs-moon"></i></span>
                                 <span class="switch-icon-right"><i class="bx bxs-sun"></i></span>
                             </label>
                         </div>

@@ -124,9 +124,9 @@ export const Item = ({
     return (
         <div id={"li-div"} className={"mini"}>
             <div className={"row"} style={{padding: '0 20px', position: 'relative'}}>
-                <div className={"col-md-6 col-sm-8"} style={{padding: '10px 0'}}>
+                <div className={"col-md-6 col-sm-8"} style={{padding: '12px 12px'}}>
                     <fieldset style={{float: "right"}}>
-                        <div className="checkbox">
+                        <div className="checkbox" >
                             <input type="checkbox" name={"checkbox_content_" + id}
                                    onChange={e => HandlePushCheck(e, id)}
                                    className="checkbox-input"
