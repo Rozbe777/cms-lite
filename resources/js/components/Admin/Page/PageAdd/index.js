@@ -395,13 +395,26 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
     const HandleDuplicate = () => {
         let formOldData = {...formData};
         let formDta = new FormData();
+        if (file.file) {
+            if (imageGet.state == "") {
+                formDta.append("image", file.file);
+            } else {
+                formDta.append("image", true);
+            }
+        } else {
+            if (imageGet.state == '') {
+                formDta.append("image", '');
+            } else {
+                formDta.append("image", true);
+            }
+        }
         let title = titleWrite;
         let slug = slugManage ? titleWrite : $("input.slugest").val();
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let is_index = localStorage.getItem("is_index") ? localStorage.getItem("is_index") : formData.is_index;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
-        let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
+        // let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
         let normalCon = contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
@@ -409,7 +422,7 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
         formDta.append("content", normalCon)
         formDta.append("status", status)
         formDta.append("id", formOldData.id)
-        formDta.append("comment_status", comment_status)
+        // formDta.append("comment_status", comment_status)
         formDta.append("is_index", parseInt(is_index))
         formDta.append("is_menu", parseInt(is_menu))
         formDta.append("title", title);
