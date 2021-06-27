@@ -77,7 +77,7 @@ class Category extends Model
         return $this->belongsToMany(Content::class);
     }
 
- 
+
 
     public function products()
     {

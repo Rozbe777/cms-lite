@@ -38,17 +38,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('a', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class, 'pay']);
 Route::get('b', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class, 'verify']);
 
-/*
-Route::get('/', function () {
-    return view('welcome');
-});*/
+
 
 Route::get('test2', function () {
-    $content = \App\Models\Content::find(35);
-    $oldTags = $content->tags;
-    foreach ($oldTags as $tag) {
-        dd($tag->name);
-    }
+
 });
 
 Route::get('/test', function () {

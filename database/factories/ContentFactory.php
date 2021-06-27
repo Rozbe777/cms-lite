@@ -23,12 +23,11 @@ class ContentFactory extends Factory
     public function definition()
     {
         return [
-            "owner"=>$this->faker->randomElement(["page", "content"]),
+            "owner"=>$this->faker->randomElement(["content"]),
             "title"=>$this->faker->title,
             "slug"=>$this->faker->slug,
             "content"=>$this->faker->text,
             "user_id"=>rand(1,18),
-            "page_id"=>rand(1,10),
             'published_at'=>Carbon::now()
         ];
     }
