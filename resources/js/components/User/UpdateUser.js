@@ -115,7 +115,7 @@ const UpdateUser = (props) => {
         forms.append("id", id);
         forms.append("last_name", state.last_name);
         forms.append("email", state.email ? state.email : '');
-        forms.append("password", state.password);
+        // forms.append("password", state.password);
         forms.append("role_id", state.role_id);
         forms.append("status", state.status);
         // delete 0 from first mobile number
@@ -194,6 +194,9 @@ const UpdateUser = (props) => {
         preImages.uri = defaultImg;
         setPreImage(preImages)
         setPre(false)
+        let states = {...imageGet};
+        states.state = '';
+        setImage(states)
     }
 
 
@@ -210,11 +213,17 @@ const UpdateUser = (props) => {
             }}>
                 {
                     loading ? (
-                        <div className={"loadingsss"}>
-                            <div className="spinner-border" role="status">
-                                <span className="sr-only">در حال بارگذاری ...</span>
+                        <>
+                            <img src={url(preImage.uri)} alt={''}
+                                 className="users-avatar-shadow rounded-circle" height="120"
+                                 width="120"/>
+                            <div className={"loadingsss"}>
+                                <div className="spinner-border" role="status">
+                                    <span className="sr-only">در حال بارگذاری ...</span>
+                                </div>
                             </div>
-                        </div>
+                        </>
+
                     ) : pre ? (<img src={preImage.uri} alt={''}
                                     className="users-avatar-shadow rounded-circle" height="120"
                                     width="120"/>) : imageGet.state ?

@@ -5171,9 +5171,10 @@ input::placeholder {
     right: 0px;
     bottom: 0px;
     margin: auto;
-    background: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.8);
     border-radius: 100%;
     display: flex;
     align-content: center;
     justify-content: center;
+    align-items: center;
 }

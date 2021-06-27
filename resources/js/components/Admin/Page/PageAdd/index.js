@@ -15,11 +15,12 @@ const LOCAL_CAT = "localcat-zerone-cmslite";
 const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
 
 
+
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? dataGet.allData : '';
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
 
-    // console.log("*************", dataGet);
+    console.log("*************", dataUpdateParse);
 
     let titleWrite = $("input[name=titlePage]").val();
     const [preImage, setPreImage] = useState({uri: ''});
@@ -98,6 +99,24 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
         });
     }
 
+    const handleGetImg = name => {
+        let names = name.split("/")
+        setLoading(true)
+        Request.GetImage(names[2])
+            .then(rr => {
+                setLoading(false)
+                setImage({state: rr.data})
+            }).catch(err => {
+            ErrorToast("خطایی در دانلود تصویر رخ داده است")
+            setTimeout(() => {
+                handleClose()
+            }, 1300)
+
+        })
+    }
+
+
+
     useEffect(() => {
 
 
@@ -105,6 +124,17 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
 
         setMetaData(MetaDataUpdate)
+
+
+        if (formNews.image) {
+            let img = formNews.image;
+
+            handleGetImg(img)
+
+        } else {
+            setImage({state: ''})
+        }
+
 
         setIds(formNews.id);
         setFormData({
@@ -323,16 +353,20 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
         let formDta = new FormData();
         let slug = slugManage ? titleWrite : $("input.slugest").val();
 
-        if (formOldData.image && imageGet.state == '') {
-            if (file.file) {
+        if (file.file) {
+            if (imageGet.state == "") {
                 formDta.append("image", file.file);
             } else {
-                formDta.append("image", '');
+                formDta.append("image", true);
             }
         } else {
-
-            formDta.append("image", true);
+            if (imageGet.state == '') {
+                formDta.append("image", '');
+            } else {
+                formDta.append("image", true);
+            }
         }
+
 
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formData.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
@@ -344,7 +378,7 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
         let normalCon = contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
         formDta.append("metadata", JSON.stringify(metaDatas))
         formDta.append("content", normalCon)
-        formDta.append("status", status)
+        formDta.append("status", status ? status : 'active')
         formDta.append("comment_status", comment_status)
         formDta.append("is_index", parseInt(is_index))
         formDta.append("is_menu", parseInt(is_menu))
@@ -523,7 +557,7 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
                                         valueDeActive={"خیر"}/>
                                 </fieldset>
                             </div>
-                            <div className={"col-lg-2 col-md-3 col-sm-12"}>
+                            <div className={"col-lg-2 col-md-3 col-sm-12"}   style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                                 {preImage.uri ? (
                                         <div className={"mini-img-show-edit"}>
                                             <div className={"img-box"}>
