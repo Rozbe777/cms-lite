@@ -89,7 +89,7 @@ const UpdateUser = (props) => {
         forms.append("name" , state.name);
         forms.append("id" , id);
         forms.append("last_name" , state.last_name);
-        forms.append("email" , state.email);
+        forms.append("email" , state.email ? state.email : '');
         forms.append("password" , state.password);
         forms.append("role_id" , state.role_id);
         forms.append("status" , state.status);

@@ -46,9 +46,7 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
 
     const type = dataGet ? dataGet.type : '';
 
-    const [slugManage, setSlugManage] = useState(true);
-    const [formData, setFormData] = useState({});
-
+    const [slugManage, setSlugManage] = useState(true)
     let default_value = {
         is_menu: 0,
         is_index: 0,
@@ -56,6 +54,9 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
         content: '',
         slug: ''
     };
+    const [formData, setFormData] = useState(default_value);
+
+
 
     const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
     const CreateAddPage = (data) => {
@@ -201,10 +202,10 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
         let formFile = new FormData();
         formFile.append("image", file.file ? file.file : '')
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
-        let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
+        let statusa = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
         let is_index = localStorage.getItem("is_index") ? localStorage.getItem("is_index") : formNew.is_index;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
-        formFile.append("status", status)
+        formFile.append("status", statusa ? statusa : "active");
         formFile.append("is_index", parseInt(is_index))
         formFile.append("is_menu", parseInt(is_menu))
 
@@ -214,8 +215,19 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
         } else {
         }
 
+        let title = titleWrite;
+        let slug = slugManage ? titleWrite : $("input.slugest").val();
+
+        formFile.append("title", title)
+        formFile.append("slug", slug)
+        if (slugManage == false) {
+            formFile.append("slug", title)
+        } else {
+        }
+
         if (formData.slug == "") {
-            formFile.append("is_menu", formNew.title)
+            formFile.append("slug", title)
+
         }
         let contents = JSON.stringify(contentNew);
         formFile.append("content", contents)

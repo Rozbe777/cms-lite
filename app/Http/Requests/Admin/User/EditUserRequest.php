@@ -39,7 +39,6 @@ class EditUserRequest extends FormRequest
      */
     public function rules()
     {
-        dd($this->all());
         return [
             'name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',

@@ -17,6 +17,7 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? dataGet.allData : '';
     const [changeCheck, setChangeCheck] = useState(false)
+    const [updateId, setUpdateId] = useState([]);
     const [preImage, setPreImage] = useState({uri: ''});
 
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
@@ -25,7 +26,6 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
     const [contentNew, setContentNew] = useState('');
-    const [idSelCat, setIdSelCat] = useState([])
     const [ids, setIds] = useState(0)
     const [imageGet, setImage] = useState({state: ''})
     const [chipset, setChipset] = useState([]);
@@ -137,11 +137,19 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
         })
     }
 
+    let formNews = {...formData};
+
+    formNews = dataUpdateParse ? dataUpdateParse : default_value;
+
+    let selecteds = [];
+    dataUpdateParse ? dataUpdateParse.categories.map(item => {
+        selecteds.push(item.id);
+    }) : '';
+    const [idSelCat, setIdSelCat] = useState(selecteds)
+
 
     useEffect(() => {
         GetAllCategory();
-        let formNews = {...formData};
-        formNews = dataUpdateParse ? dataUpdateParse : default_value;
 
 
         if (formNews.image) {
@@ -158,10 +166,10 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
             setChipset(chipset);
         }) : '';
 
-        dataUpdateParse ? dataUpdateParse.categories.map(item => {
-            idSelCat.push(item.id);
-            setIdSelCat(idSelCat);
-        }) : '';
+        // dataUpdateParse ? dataUpdateParse.categories.map(item => {
+        //     idSelCat.push(item.id);
+        //     setIdSelCat(idSelCat);
+        // }) : '';
 
         setMetaData(MetaDataUpdate)
 
@@ -305,7 +313,7 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
         let vmetadata = JSON.stringify(MetaDaa);
         formDataAll.append("metadata", vmetadata)
 
-        formDataAll.append("category_list", JSON.stringify(idSelCat) )
+        formDataAll.append("category_list", JSON.stringify(idSelCat))
         let vtag_list = chipsetChange ? chipset : [];
 
         formDataAll.append("tag_list", JSON.stringify(vtag_list))
@@ -687,16 +695,13 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
                                                defSelected={dataUpdateParse.categories ? dataUpdateParse.categories : []}
                                                clearNew={cl => setClear(cl)}
                                                selected={item => {
+                                                   let datame =  [];
+                                                   setIdSelCat([]);
                                                    setEdit(true)
-                                                   item.map(ii => {
+                                                   item.map((ii, index) => {
                                                        let idsel = idSelCat.indexOf(parseInt(ii.id))
-                                                       if (idsel !== -1) {
-
-                                                       } else {
-                                                           idSelCat.push(parseInt(ii.id));
-                                                           setIdSelCat(idSelCat);
-                                                       }
-
+                                                       datame.push(parseInt(ii.id))
+                                                       setIdSelCat(datame);
                                                    })
                                                }}
 
