@@ -36,7 +36,6 @@ class EditPageRequest extends BaseRequest
             'user_id' => 'integer|exists:users,id|nullable',
 //            'layout_id' => 'integer|exists:layouts,id',//FIXME after insert layouts table
             'image' => new ImageRule(),
-//            'comment_status' => 'in:active,deactivate',
             'is_index'=>'boolean|nullable',
             'is_menu'=>'boolean|nullable',
             'metadata'=>'string|nullable',
