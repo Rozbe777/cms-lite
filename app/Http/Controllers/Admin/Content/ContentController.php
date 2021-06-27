@@ -29,7 +29,7 @@ class ContentController extends Controller
     public function __construct(ContentRepository $contentRepository)
     {
         $this->contentRepository = $contentRepository;
-//        $this->middleware(middleware'user_permission');
+//        $this->middleware('user_permission');
     }
 
     /**

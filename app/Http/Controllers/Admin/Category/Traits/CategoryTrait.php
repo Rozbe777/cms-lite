@@ -19,7 +19,7 @@ trait CategoryTrait
 
     public function slugHandler($slug)
     {
-        if (Category::where('slug', '=', $slug)->withTrashed()->get()) {
+        if (Category::where('slug', '=', $slug)->withTrashed()->exists()) {
             $i = 0;
             do {
                 $item = $slug . '_' . $i++;

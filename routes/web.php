@@ -22,6 +22,7 @@ use App\Http\Controllers\Front\Cart\CheckoutController;
 use App\Http\Controllers\Front\InvoiceController;
 use App\Http\Controllers\Front\Page\FrontPageController;
 use App\Http\Controllers\Front\Search\SearchController;
+use App\Models\Content;
 use App\Models\Page;
 use Illuminate\Support\Facades\Route;
 
@@ -44,11 +45,6 @@ Route::get('/', function () {
 });*/
 
 Route::get('test2', function () {
-    $content = \App\Models\Content::find(35);
-    $oldTags = $content->tags;
-    foreach ($oldTags as $tag) {
-        dd($tag->name);
-    }
 });
 
 Route::get('/test', function () {

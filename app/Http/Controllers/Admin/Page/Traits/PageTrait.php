@@ -16,7 +16,7 @@ trait PageTrait
 
     public function slugHandler($slug)
     {
-        if (Page::where('owner','page')->where('slug', '=', $slug)->withTrashed()->get()) {
+        if (Page::where('owner','page')->where('slug', '=', $slug)->withTrashed()->exists()) {
             $i = 1;
             do {
                 $item = $slug . '_' . $i++;

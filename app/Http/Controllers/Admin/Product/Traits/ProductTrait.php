@@ -22,7 +22,7 @@ trait ProductTrait
 
     public function slugHandler($slug)
     {
-        if (Product::where('slug', '=', $slug)->withTrashed()->get()) {
+        if (Product::where('slug', '=', $slug)->withTrashed()->exists()) {
             $i = 1;
             do {
                 $item = $slug . '_' . $i++;
