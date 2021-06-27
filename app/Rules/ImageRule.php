@@ -31,6 +31,11 @@ class ImageRule implements Rule
          *  the image value is "true"
          *  if user changes the image the image value is an image.
          */
+    if (is_string($value) && sizeof(json_decode($value))>1){
+     foreach (json_decode($value) as $data){
+         dd($data);
+     }
+    }
         if (!empty($value) && !is_string($value)) {
             $mimeTypes = ["image/jpeg", "image/jpg", "image/png"];
             $mime = (array_values((array)$value))[2];

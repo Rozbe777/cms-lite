@@ -26,7 +26,6 @@ class CreateProductRequest extends FormRequest
      */
     public function rules()
     {
-        dd($this->all());
         return [
             "content" => "nullable|string",
             "title" => "nullable|string",
