@@ -94,6 +94,9 @@ class PageRepository implements RepositoryInterface
             $data['image'] = null;
         }
 
+        if (!empty('id'))
+            unset($data['id']);
+
         $page = Page::create($data);
         $page->viewCounts()->create();
         return $page;

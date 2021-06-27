@@ -9,6 +9,6 @@ class CheckoutController extends Controller
 {
     public function index()
     {
-        return frontView('basic.checkout');
+        return adminView('pages.admin.checkout');
     }
 }
