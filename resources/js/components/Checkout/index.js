@@ -12,7 +12,6 @@ const Index = () => {
     return (
         <div classNme={"row"} style={{padding: '20px'}}>
             <SendDetail />
-
             <div className={"col-12"} style={{marginTop : '30px' , padding : 0}}>
                 <button style={{float : 'left' , fontSize : '16px' , fontWeight : 100}} className={"btn btn-primary"}> ثبت سفارش  <i className={"bx bx-chevron-left"}></i>  </button>
                 <button  style={{float : 'right' , background : '#fff' ,  fontSize : '16px' , fontWeight : 100}} className={"btn"}><i className={"bx bx-chevron-right"}></i> بازگشت  </button>
