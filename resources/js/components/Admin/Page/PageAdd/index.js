@@ -141,6 +141,8 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
             id: formNews.id,
             content: formNews.content,
             is_index: formNews.is_index,
+            comment_status : formNews.comment_status,
+            status : formNews.status,
             is_menu: formNews.is_menu,
             metadata: formNews.metadata,
             slug: formNews.slug,
