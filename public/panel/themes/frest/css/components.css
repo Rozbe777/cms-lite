@@ -529,15 +529,18 @@ body.footer-hidden footer {
     margin: 0 11px 0;
     padding: 9px 0;
 }
+
 .main-menu.menu-light .navigation li.has-sub > a::after {
-    top : 3px !important;
+    top: 3px !important;
 }
+
 .main-menu.menu-light .navigation li.has-sub > a span {
     float: right;
     margin-top: -5px;
 }
+
 .main-menu.menu-light .navigation li.has-sub > a i {
-   /*float: right;*/
+    /*float: right;*/
     /*margin-top: 10px;*/
 }
 
@@ -5105,9 +5108,6 @@ input::placeholder {
 }
 
 
-
-
-
 .itemUserShow span:nth-child(5) {
     border-left: unset !important;
 }
@@ -5143,7 +5143,7 @@ input::placeholder {
 }
 
 
-#choise-img{
+#choise-img {
     width: 40px;
     height: 40px;
     position: absolute;
@@ -5159,4 +5159,21 @@ input::placeholder {
     line-height: 3.1;
     box-shadow: 0 0 3px 2px rgb(0 0 0 / 30%);
     cursor: pointer;
+}
+
+
+.loadingsss {
+    width: 120px;
+    height: 120px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    margin: auto;
+    background: rgba(255,255,255,0.3);
+    border-radius: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
 }

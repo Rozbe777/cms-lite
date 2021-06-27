@@ -1,4 +1,4 @@
-import React, {useState , useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import {convertDigit, empty, ErroHandle, error as ErrorToast, error, success, url, warning} from "../../helper";
 import {Request} from "../../services/AdminService/Api";
 import Loading from "../Auth/Loading";
@@ -10,14 +10,42 @@ const UpdateUser = (props) => {
 
     // let {name, last_name, email, phone, role_id, password, roles} = state;
 
-    console.log("cccc" , props)
     let defaultImg = 'images/avatar.jpg'
     const {token, roles, is_admin, user} = props;
-    let userData = JSON.parse(user);
+    console.log("cccc", JSON.parse(user))
+
     const [imageGet, setImage] = useState({state: ''})
-    const [preImage , setPreImage] = useState({uri : defaultImg})
-    const [pre , setPre] = useState(false)
-    const [file , setFile] = useState({files : ''})
+
+    const [loading, setLoading] = useState(false)
+
+
+    const handleGetImg = name => {
+        let names = name.split("/")
+        setLoading(true)
+        Request.GetImage(names[2])
+            .then(rr => {
+                setLoading(false)
+                setImage({state: rr.data})
+            }).catch(err => {
+            ErrorToast("خطایی در دانلود تصویر رخ داده است")
+        })
+    }
+
+    useEffect(() => {
+        if (JSON.parse(user).image) {
+            let img = JSON.parse(user).image;
+
+            handleGetImg(img)
+
+        } else {
+            setImage({state: ''})
+        }
+    }, [])
+
+    let userData = JSON.parse(user);
+    const [preImage, setPreImage] = useState({uri: defaultImg})
+    const [pre, setPre] = useState(false)
+    const [file, setFile] = useState({file: ''})
     const [state, setState] = useState({
         id: userData.id,
         name: userData.name,
@@ -46,9 +74,9 @@ const UpdateUser = (props) => {
         desc: 'ویرایش اطلاعات و پسورد کاربر'
     };
 
-    useEffect(()=>{
-        ReactDOM.render(<BreadCrumbs fixed={true} data={breadData} /> , document.getElementById("bradcrummmm"))
-    },[])
+    useEffect(() => {
+        ReactDOM.render(<BreadCrumbs fixed={true} data={breadData}/>, document.getElementById("bradcrummmm"))
+    }, [])
     const submitForm = () => {
 
 
@@ -72,11 +100,7 @@ const UpdateUser = (props) => {
         state._token = token;
 
         if (file.file) {
-            if (imageGet.state == "") {
-                forms.append("image", file.file);
-            } else {
-                forms.append("image", true);
-            }
+            forms.append("image", file.file);
         } else {
             if (imageGet.state == '') {
                 forms.append("image", '');
@@ -85,22 +109,22 @@ const UpdateUser = (props) => {
             }
         }
 
-        forms.append("_token" , token);
+        forms.append("_token", token);
 
-        forms.append("name" , state.name);
-        forms.append("id" , id);
-        forms.append("last_name" , state.last_name);
-        forms.append("email" , state.email ? state.email : '');
-        forms.append("password" , state.password);
-        forms.append("role_id" , state.role_id);
-        forms.append("status" , state.status);
+        forms.append("name", state.name);
+        forms.append("id", id);
+        forms.append("last_name", state.last_name);
+        forms.append("email", state.email ? state.email : '');
+        forms.append("password", state.password);
+        forms.append("role_id", state.role_id);
+        forms.append("status", state.status);
         // delete 0 from first mobile number
         let mobiles = Array.from(mobile);
         let FirstNumber = mobiles[0]
         if (FirstNumber === 0 || FirstNumber === "0") {
             mobiles.shift();
             let newMobile = mobiles.join('');
-            forms.append("mobile" , newMobile);
+            forms.append("mobile", newMobile);
 
             $("#loading-show").addClass("activeLoadingLogin");
             Request.UpdateUserDetail(forms, id)
@@ -119,7 +143,7 @@ const UpdateUser = (props) => {
                 }
             })
         } else {
-            forms.append("mobile" , state.mobile);
+            forms.append("mobile", state.mobile);
 
             $("#loading-show").addClass("activeLoadingLogin");
             Request.UpdateUserDetail(forms, id)
@@ -155,7 +179,7 @@ const UpdateUser = (props) => {
         e.preventDefault();
         handlePreShowImage(e);
         let filed = {...file};
-        filed.files = e.target.files[0];
+        filed.file = e.target.files[0];
         setFile(filed);
         setPre(true)
 
@@ -177,30 +201,47 @@ const UpdateUser = (props) => {
         <div>
 
 
+            <div className="media mb-2" style={{
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'row',
+                position: 'relative',
+                justifyContent: 'center'
+            }}>
+                {
+                    loading ? (
+                        <div className={"loadingsss"}>
+                            <div className="spinner-border" role="status">
+                                <span className="sr-only">در حال بارگذاری ...</span>
+                            </div>
+                        </div>
+                    ) : pre ? (<img src={preImage.uri} alt={''}
+                                    className="users-avatar-shadow rounded-circle" height="120"
+                                    width="120"/>) : imageGet.state ?
+                        (
+                            <img src={imageGet.state} alt={''}
+                                 className="users-avatar-shadow rounded-circle" height="120" width="120"/>
+                        ) : (
+                            <img src={url(preImage.uri)} alt={''}
+                                 className="users-avatar-shadow rounded-circle" height="120" width="120"/>
+                        )
+                }
 
-            <div className="media mb-2" style={{display: 'flex', alignItems: 'center', flexDirection: 'row' , position : 'relative' , justifyContent : 'center'}}>
-                {pre ? (
-                    <img  src={preImage.uri} alt={''}
-                          className="users-avatar-shadow rounded-circle" height="120" width="120"/>
-                ):(
-                    <img  src={url(preImage.uri)} alt={''}
-                          className="users-avatar-shadow rounded-circle" height="120" width="120"/>
-                )}
 
                 <span id={"choise-img"}>
                     <i className={"bx bx-camera"}></i>
 
-                    <input type={"file"} onChange={e => handleFile(e)} style={{opacity : 0 , position : 'absolute' , right : 0 , cursor : 'pointer'}}
+                    <input type={"file"} onChange={e => handleFile(e)}
+                           style={{opacity: 0, position: 'absolute', right: 0, cursor: 'pointer'}}
                     />
                 </span>
 
-                <span id={"choise-img"} onClick={e => handledelImg(e)} style={{right : 0 , left : '-75px'}} >
+                <span id={"choise-img"} onClick={e => handledelImg(e)} style={{right: 0, left: '-75px'}}>
                     <i className={"bx bx-trash-alt"}></i>
 
                 </span>
 
             </div>
-
 
 
             <form onSubmit={e => {
@@ -268,16 +309,17 @@ const UpdateUser = (props) => {
                                 <div className="form-group col-md-6">
                                     <div className="controls">
                                         <label>دسترسی</label>
-                                        <select defaultValue={"0"} name={"role_id"} className="form-control text-left" placeholder="دسترسی"
+                                        <select defaultValue={"0"} name={"role_id"} className="form-control text-left"
+                                                placeholder="دسترسی"
                                                 style={{height: 50}}
                                                 onChange={(e) => {
                                                     HandleInput(e)
                                                 }}>
-                                            {JSON.parse(roles).map((role , index) => (
+                                            {JSON.parse(roles).map((role, index) => (
                                                     state.role_id === role.id ? (
                                                         <option key={index} value={role.id}>{role.display_name}</option>
                                                     ) : (
-                                                        <option key={index} value={role.id} >{role.display_name}</option>
+                                                        <option key={index} value={role.id}>{role.display_name}</option>
                                                     )
                                                 )
                                             )}
@@ -288,21 +330,22 @@ const UpdateUser = (props) => {
                                 <div className="form-group col-md-6">
                                     <div className="controls">
                                         <label>وضعیت</label>
-                                        <select defaultValue={"active"} name={"status"} className="form-control text-left" placeholder="وضعیت"
+                                        <select defaultValue={"active"} name={"status"}
+                                                className="form-control text-left" placeholder="وضعیت"
                                                 style={{height: 50}}
                                                 onChange={(e) => {
                                                     HandleInput(e)
                                                 }}>
                                             {state.status === "active" ? (
                                                 <>
-                                                    <option  value={"active"}>فعال</option>
-                                                    <option  value={"deactivate"}>غیرفعال</option>
+                                                    <option value={"active"}>فعال</option>
+                                                    <option value={"deactivate"}>غیرفعال</option>
                                                 </>
 
                                             ) : (
                                                 <>
-                                                    <option  value={"active"}>فعال</option>
-                                                    <option selected  value={"deactivate"}>غیرفعال</option>
+                                                    <option value={"active"}>فعال</option>
+                                                    <option selected value={"deactivate"}>غیرفعال</option>
                                                 </>
                                             )}
                                         </select>

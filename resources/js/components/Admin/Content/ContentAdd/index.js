@@ -229,6 +229,8 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
         setEdit(true)
         let files = e.target.files[0];
         setFile({file: files});
+        imageGet.state = '';
+        setImage(imageGet);
     }
 
     const handleInput = (e) => {
