@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Page;
 
+use App\Rules\ImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 use phpDocumentor\Reflection\Types\Nullable;
 
@@ -24,7 +25,6 @@ class CreatePageRequest extends FormRequest
      */
     public function rules()
     {
-//        dd($this->all());
         return [
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
@@ -33,8 +33,7 @@ class CreatePageRequest extends FormRequest
             'metadata'=>'string|nullable',
 //            'user_id' => 'integer|exists:users,id',
 //            'layout_id' => 'integer|exists:layouts,id',//FIXME after insert layouts table
-            'image' => 'image|nullable',
-            'comment_status' => 'in:active,deactivate|nullable',
+            'image' => new ImageRule(),
             'is_index'=>'string|nullable',
             'is_menu'=>'string|nullable',
         ];
