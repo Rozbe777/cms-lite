@@ -39,4 +39,6 @@ require("./components/Admin/ThemeSetting");
 require("./components/Checkout");
 require("./components/Checkout/CheckBascket");
 require("./components/Checkout/SendDetail");
+require("./components/Admin/Discount/AddDiscount");
+require("./components/Admin/Discount/ShowDiscount");
 

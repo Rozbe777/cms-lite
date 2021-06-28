@@ -22,10 +22,10 @@
         "maatwebsite/excel": "^3.1",
         "morilog/jalali": "3.*",
         "shanmuga/laravel-entrust": "^2.1",
-      "ext-json": "*",
-      "ext-curl": "*",
+        "ext-json": "*",
+        "ext-curl": "*",
         "ext-soap": "*",
-      "ext-fileinfo": "*"
+        "ext-fileinfo": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -52,12 +52,12 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-          "app/Classes/Themes/Helper/admin.php",
+            "app/Classes/Themes/Helper/admin.php",
+            "app/Classes/Themes/Helper/theme.php",
             "app/Http/Helper/backoffice.php",
             "app/Http/Helper/response.php",
             "app/Http/Helper/common.php",
-            "app/Http/Helper/functions.php",
-            "app/Classes/Front/Themes/Helper/themes.php"
+            "app/Http/Helper/functions.php"
         ]
     },
     "autoload-dev": {

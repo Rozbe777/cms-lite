@@ -5,7 +5,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div id="checkout"></div>
+            <div id="discount-page" style="width: 100% ; border-top: 1px solid #eee;"></div>
         </div>
     </div>
 
