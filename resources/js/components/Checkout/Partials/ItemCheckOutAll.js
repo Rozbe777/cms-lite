@@ -1,8 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import './../_shared/style.scss'
+import {Swiper, SwiperSlide} from 'swiper/react';
+import "swiper/swiper-bundle.css";
 export const ItemCheckOutAll = (props) => {
     useEffect(() => {
     }, [])
+    let tags = [
+        "برچسپ یک",
+        "برچسپ یک",
+        "برچسپ یک",
+        "برچسپ یک",
+        "برچسپ یک",
+        "برچسپ یک",
+    ];
     // const {mini} = props;
     const [state, setState] = useState();
     return (
@@ -14,11 +24,22 @@ export const ItemCheckOutAll = (props) => {
            </div>
            <div id={"titles"}>
                <p >ssssssssssssssssssssssssssssssssssssssssssss</p>
+
                <div id={"main"}>
-                   <span>vsdvsdv</span>
-                   <span>vsdvsdv</span>
-                   <span>vsdvsdv</span>
-                   <span>vsdvsdv</span>
+               <Swiper
+                   slidesPerView={4}
+                   pagination={{clickable: true}}
+                   scrollbar={{draggable: true}}
+                   // onSlideChange={(e) => CheckWidth(e)}
+               >
+                   {tags ? tags.map((item , index) => (
+                           <SwiperSlide key={index} virtualIndex={index}>
+                               <span>{item}</span>
+                           </SwiperSlide>
+                       )
+                   ) : ''}
+               </Swiper>
+
                </div>
 
            </div>

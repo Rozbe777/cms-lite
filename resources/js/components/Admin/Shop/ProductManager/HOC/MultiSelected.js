@@ -121,7 +121,6 @@ export const MultiSelected = ({
                         pagination={{clickable: true}}
                         scrollbar={{draggable: true}}
                         // onSlideChange={(e) => CheckWidth(e)}
-
                     >
                         {check ? check.map((item , index) => (
                                 <SwiperSlide key={index} virtualIndex={item.id}>

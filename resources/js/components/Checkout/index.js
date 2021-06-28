@@ -10,7 +10,7 @@ const Index = () => {
     // const {mini} = props;
     const [state, setState] = useState();
     return (
-        <div classNme={"row"} style={{padding: '20px'}}>
+        <div className={"row"} style={{padding: '20px' , margin : '0px'}}>
             <SendDetail />
             <div className={"col-12"} style={{marginTop : '30px' , padding : 0}}>
                 <button style={{float : 'left' , fontSize : '16px' , fontWeight : 100}} className={"btn btn-primary"}> ثبت سفارش  <i className={"bx bx-chevron-left"}></i>  </button>
