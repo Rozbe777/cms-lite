@@ -22,19 +22,20 @@ class FrontPageController extends Controller
     public function search($slug = null)
     {
         $page = $this->repository->search($slug);
-        if ($page->isIndex) {
+        if ($page->is_index) {
             if (!empty($page->layout_id)) {
                 $layout = Layout::find($page->layout_id);
-                return $this->view('themes.parsa.' . $layout->view)->message(__('message.success.200'))->data($page)->success();
+                return page($layout->view);
             } else {
-                return $this->view('themes.parsa.index')->message(__('message.success.200'))->data($page)->success();
+                return page('index');
+
             }
 
         } elseif (!empty($page->layout_id)) {
             $layout = Layout::find($page->layout_id);
-            return $this->view('themes.parsa.' . $layout->view)->message(__('message.success.200'))->data($page)->success();
+            return page($layout->view);
         } else {
-            return $this->view('themes.parsa.page')->message(__('message.success.200'))->data($page)->success();
+            return page('page');
         }
 
 
