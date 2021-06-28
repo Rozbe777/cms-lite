@@ -54,6 +54,10 @@ class ContentRepository implements RepositoryInterface
             ->orderByDesc('id')->paginate(config('view.pagination'));
     }
 
+    /**
+     * @param $content
+     * for count number of visits
+     */
     public function get($content)
     {
         $instance = $content->viewCounts;

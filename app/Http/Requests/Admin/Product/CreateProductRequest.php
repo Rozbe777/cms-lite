@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Product;
 
+use App\Http\Requests\BaseRequest;
 use App\Models\Attribute;
 use App\Rules\AttributeCheck;
 use App\Rules\FeaturesCheck;
@@ -10,7 +11,7 @@ use App\Rules\ImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 
-class CreateProductRequest extends FormRequest
+class CreateProductRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.

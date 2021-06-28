@@ -13,6 +13,8 @@ return array(
     |
     */
 
+    "product_attributes" => "خطا در وارد کردن ویژگیهای محصول تعداد و محدودیت خرید." ,
+    "product_features" => "خطا در وارد کردن مشخصات محصول" ,
     "accepted" => ":attribute باید پذیرفته شده باشد.",
     "active_url" => "آدرس :attribute معتبر نیست",
     "after" => ":attribute باید تاریخی بعد از :date باشد.",

@@ -11,4 +11,9 @@ class Coupon extends Model
     use HasFactory,SoftDeletes;
 
     protected $guarded = [];
+
+    public function coupon_settings()
+    {
+        return $this->hasOne(CouponSetting::class);
+    }
 }
