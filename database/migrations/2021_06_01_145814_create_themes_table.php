@@ -15,9 +15,13 @@ class CreateThemesTable extends Migration
     {
         Schema::create('themes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
             $table->bigInteger('user_id');
-            $table->enum('status',['active','deactivate'])->default('deactivate');
+            $table->string('name');
+            $table->string('display_name');
+            $table->string('developer');
+            $table->string('developer_link');
+            $table->string('description');
+            $table->enum('status', ['active', 'deactivate'])->default('deactivate');
             $table->timestamps();
         });
     }

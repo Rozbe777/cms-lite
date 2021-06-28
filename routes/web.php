@@ -39,12 +39,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('a', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class, 'pay']);
 Route::get('b', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class, 'verify']);
 
-/*
-Route::get('/', function () {
-    return view('welcome');
-});*/
+
 
 Route::get('test2', function () {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 469bd4df992e0145b0c691da15c013a6de5026ed
 });
 
 Route::get('/test', function () {
