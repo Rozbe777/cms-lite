@@ -22,6 +22,7 @@ use App\Http\Controllers\Front\Cart\CheckoutController;
 use App\Http\Controllers\Front\InvoiceController;
 use App\Http\Controllers\Front\Page\FrontPageController;
 use App\Http\Controllers\Front\Search\SearchController;
+use App\Models\Content;
 use App\Models\Page;
 use Illuminate\Support\Facades\Route;
 

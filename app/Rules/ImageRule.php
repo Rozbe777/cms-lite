@@ -26,18 +26,30 @@ class ImageRule implements Rule
      * @return bool
      */
     public function passes($attribute, $value)
-    {
+    {dd(123);
         /** in duplicate when user does not change the image
          *  the image value is "true"
          *  if user changes the image the image value is an image.
          */
-        if (!empty($value) && !is_string($value)) {
-            $mimeTypes = ["image/jpeg", "image/jpg", "image/png"];
+        $mimeTypes = ["image/jpeg", "image/jpg", "image/png"];
+
+        if (is_object($value)) {
             $mime = (array_values((array)$value))[2];
             return in_array($mime, $mimeTypes);
+
+        } elseif (is_string($value) && $value != "true") {
+            $images = json_decode($value);
+
+            foreach ($images as $image) {
+                $mime = (array_values((array)$image))[2];
+
+                if (!in_array($mime, $mimeTypes))
+                    return false;
+            }
+
         } elseif ((is_string($value) && $value == "true") || $value == null) {
             return true;
-        } else{
+        } else {
             return false;
         }
 

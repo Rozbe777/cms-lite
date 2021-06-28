@@ -17,7 +17,6 @@ class UserPermission
      */
     public function handle(Request $request, Closure $next)
     {
-
         if (auth()->guest())
             return redirect()->route('show.login');
 

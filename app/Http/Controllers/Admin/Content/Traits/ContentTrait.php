@@ -17,7 +17,7 @@ trait ContentTrait
 
     public function slugHandler($slug)
     {
-        if (Content::where('owner','content')->where('slug', '=', $slug)->withTrashed()->get()) {
+        if (Content::where('owner','content')->where('slug', '=', $slug)->withTrashed()->exists()) {
             $i = 1;
             do {
                 $item = $slug . '_' . $i++;
