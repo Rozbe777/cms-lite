@@ -455,6 +455,12 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
         let formFile = new FormData();
 
         // forms = allFiles;
+
+        let name = titleWrite;
+        let slug = slugManage ? titleWrite : $("input.slugest").val();
+
+        formFile.append("title", title)
+        formFile.append("slug", slug)
         // console.log("vvvv"   , allFiles)
         allFiles.map((items , index) => {
             formFile.append("image_"+index, items);
@@ -527,7 +533,7 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
     }
 
     const HandleUpdateForm = (data, id) => {
-        delete data.id;
+        // delete data.id;
 
         swal({
             title: 'ویرایش محصول',
