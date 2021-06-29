@@ -160,7 +160,6 @@ class ProductRepository implements RepositoryInterface
 
     public function create(array $data)
     {
-        dd($data);
         unset($data['_token']);
         $data['slug'] = $this->slugHandler($data['slug']);
 

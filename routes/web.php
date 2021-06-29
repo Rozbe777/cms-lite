@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Category\CategoryController;
 use App\Http\Controllers\Admin\Content\ContentController;
+use App\Http\Controllers\Admin\Coupon\CouponController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\Layout\LayoutController;
 use App\Http\Controllers\Admin\Page\PageController;
@@ -36,15 +37,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('a', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class, 'pay']);
-Route::get('b', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class, 'verify']);
-
-
-
-Route::get('test2', function () {
-
-});
-
 Route::get('/test', function () {
 
     //amount , bank_id ,user_id
@@ -125,11 +117,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('pages/multi/destroy', [PageController::class, 'multipleDestroy'])->name('pages.multipleDestroy');
 
     //------------------------------Profile----------------------------
-
     Route::get('profile/{userId}/edit', [ProfileController::class, 'index'])->name('profile.edit');
     Route::post('profile/{userId}/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('profile/password', [ProfileController::class, 'changePassword'])->name('profile.password');
     Route::delete('profile/delete', [ProfileController::class, 'delete'])->name('profile.delete');
+
+    //-------------------------------Coupon-----------------------------
+    Route::get('coupon', [CouponController::class, 'blade'])->name('coupons.blade');
+    Route::post('coupon/{userId}/update', [CouponController::class, 'update'])->name('coupons.update');
+    Route::post('coupon/password', [CouponController::class, 'changePassword'])->name('coupons.password');
+    Route::delete('coupon/delete', [CouponController::class, 'delete'])->name('coupons.delete');
 
     //------------------------------Settings----------------------------
       Route::name('settings.')->prefix('setting/')->group(function () {
