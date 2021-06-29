@@ -124,8 +124,8 @@ Route::middleware('auth')->group(function () {
 
     //-------------------------------Coupon-----------------------------
     Route::get('coupon', [CouponController::class, 'blade'])->name('coupons.blade');
-    Route::post('coupon/{userId}/update', [CouponController::class, 'update'])->name('coupons.update');
-    Route::post('coupon/password', [CouponController::class, 'changePassword'])->name('coupons.password');
+    Route::post('coupons/update', [CouponController::class, 'update'])->name('coupons.update');
+    Route::resource('coupons', CouponController::class)->except('update');
     Route::delete('coupon/delete', [CouponController::class, 'delete'])->name('coupons.delete');
 
     //------------------------------Settings----------------------------

@@ -24,7 +24,9 @@ class CreateCouponRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+//            "code"
+//            "start"
+//            "pageSize" => "nullable|integer"
         ];
     }
 }
