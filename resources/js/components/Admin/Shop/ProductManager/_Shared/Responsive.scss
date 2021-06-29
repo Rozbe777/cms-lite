@@ -7,6 +7,16 @@
     .mini-img-show-edit {
         height: 140px !important;
     }
+    .content-pages{
+        padding: 30px !important;
+    }
+    input#make-discounts{
+        width: 50% !important;
+    }
+
+    .discount-rows{
+        padding: 10px !important;
+    }
 
     div.row#chipset-container {
         height: auto !important;
@@ -238,6 +248,10 @@
 @media screen and (max-width: 1024px) {
     #shop_product_search {
         height: 185px;
+    }
+
+    .content-pages{
+        padding: 30px !important;
     }
 
     div#sub-menu-custom {

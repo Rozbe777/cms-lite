@@ -6,6 +6,7 @@ import {Searchs} from "./Context";
 
 
 export const MultiSelected = ({
+                                  loadings,
                                   defSelected,
                                   clear,
                                   name,
@@ -13,12 +14,14 @@ export const MultiSelected = ({
                                   data,
                                   selected: pushSelected,
                                   check: pushIdCheck,
+                                  me: setMe
                               }) => {
 
 
     const [check, setCheck] = useState([])
 
 
+    console.log("data get", data)
     const {searchs, setSearchs} = useContext(Searchs);
 
     // const [data, setData] = useState()
@@ -66,13 +69,21 @@ export const MultiSelected = ({
     }, [])
 
 
+
+    $(function (){
+        $(".input-searchsss").mouseout(function (){
+            $(this).removeClass("active");
+        })
+    })
     const handleSearchs = e => {
         e.preventDefault();
         let search = {...searchs};
         search.search = e.target.value;
-        setSearchs(search);
+        search.type = "product"
+        setMe(e.target.value);
     }
     const HandleChange = (e, id) => {
+
         let checkBoxCustom = $("span." + name + ".checkboxeds." + id);
         let checked = [...check];
         if (e.target.checked) {
@@ -81,8 +92,14 @@ export const MultiSelected = ({
                 id: e.target.name,
                 name: e.target.value
             })
+
+            console.log(checked)
             setCheck(checked)
-            pushSelected(checked)
+            if (pushSelected){
+                pushSelected(checked)
+            }else{
+                setSearchs(checked)
+            }
         } else {
             checkBoxCustom.removeClass("active")
             const results = check.filter(obj => {
@@ -93,7 +110,12 @@ export const MultiSelected = ({
                 }
             });
             setCheck(results)
-            pushSelected(results)
+            if (pushSelected){
+                pushSelected(results)
+            }else{
+                setSearchs(results)
+            }
+
         }
 
     }
@@ -104,8 +126,14 @@ export const MultiSelected = ({
         $("input[name=" + id + "]").prop("checked", false);
         var result = check.filter(obj => obj.id !== id);
         setCheck(result)
-        console.log("====" , result);
-        pushSelected(result)
+        console.log("====", result);
+        if (pushSelected)
+        {
+            pushSelected(result)
+
+        }else{
+            setSearchs(result)
+        }
     }
 
 
@@ -121,7 +149,7 @@ export const MultiSelected = ({
         <div className={"main-selected"}>
 
             <div className={"input-searchsss"}>
-                <input type={"type"} onChange={e => handleSearchs(e)} placeholder={"برای جستجو تایپ کنید"}  />
+                <input type={"type"} onChange={e => handleSearchs(e)} placeholder={"برای جستجو تایپ کنید"}/>
             </div>
 
             <div className={"show-chipset-multi"} id={name}>
@@ -131,7 +159,7 @@ export const MultiSelected = ({
                         pagination={{clickable: true}}
                         scrollbar={{draggable: true}}
                     >
-                        {check ? check.map((item , index) => (
+                        {check ? check.map((item, index) => (
                                 <SwiperSlide key={index} virtualIndex={item.id}>
                                     <div className={"chip mr-1"} style={{background: '#1976d2', color: '#fff'}}>
                                         <div className={"chip-body"}>
@@ -158,27 +186,39 @@ export const MultiSelected = ({
 
             <div className={"optionBox float_on"} id={"selected"}>
                 <ul id={name}>
-                    {data.length > 0 ? data.map((item , index) => (
+                    {loadings ? (<div style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        display: 'flex',
+                        width: '100%',
+                        height: '70px'
+                    }}>
+                        <div className="spinner-border text-primary"
+                             role="status">
+                            <span className="sr-only">در حال بارگذاری ...</span>
+                        </div>
+                    </div>) : data.length > 0 ? data.map((item, index) => (
                         <li key={index}>
                             <fieldset>
-                                <span className={"checkboxeds " + item.id+" "+name} style={{color: '#fff'}}>
+                                <span className={"checkboxeds " + item.id + " " + name} style={{color: '#fff'}}>
                                     <i className={"bx bx-check"}></i>
                                 </span>
                                 <input type="checkbox"
                                        onChange={e => HandleChange(e, item.id)}
                                        name={item.id}
                                        style={{background: 'green !important'}}
-                                       value={item.name} id="checkbox1"/>
-                                <span id={"labels"} htmlFor="checkbox1">{item.name}</span>
+                                       value={item.name ? item.name : item.title ? item.title : ''} id="checkbox1"/>
+                                <span id={"labels"}
+                                      htmlFor="checkbox1">{item.name ? item.name : item.title ? item.title : ''}</span>
                             </fieldset>
 
                             {item.childern ? item.childern.length > 0 ? (
                                 <ul style={{padding: '10px 10px 0 0'}}>
-                                    {item.childern.map((child2 , index2) => (
+                                    {item.childern.map((child2, index2) => (
                                         <li key={index2}>
                                             <fieldset>
                                                 <span style={{float: 'right'}}>></span>
-                                                <span className={"checkboxeds " + child2.id+" "+name} id={"child2"}
+                                                <span className={"checkboxeds " + child2.id + " " + name} id={"child2"}
                                                       style={{color: '#fff'}}>
                                                    <i className={"bx bx-check"}></i>
                                                </span>
@@ -192,13 +232,14 @@ export const MultiSelected = ({
 
                                             {child2.children.length > 0 ? (
                                                 <ul style={{padding: '5px 10px 0 0'}}>
-                                                    {child2.children.map((child3 , index3) => (
+                                                    {child2.children.map((child3, index3) => (
                                                         <li key={index3}>
                                                             <fieldset>
                                                                 <span style={{float: 'right'}}>>></span>
 
-                                                                <span className={"checkboxeds " + child3.id+" "+name}
-                                                                      id={"child3"} style={{color: '#fff'}}>
+                                                                <span
+                                                                    className={"checkboxeds " + child3.id + " " + name}
+                                                                    id={"child3"} style={{color: '#fff'}}>
                                                                     <i className={"bx bx-check"}></i>
                                                                 </span>
 

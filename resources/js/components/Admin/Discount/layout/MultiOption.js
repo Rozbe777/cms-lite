@@ -23,6 +23,8 @@ export const MultiOption = ({name, data, selected: pushSelected}) => {
             thisis.find(".option-icon i").removeClass("active")
             thisis.find("#content").removeClass("active")
         })
+
+
     }, [])
 
     const selectedOpt = (e, name, id) => {
@@ -34,6 +36,8 @@ export const MultiOption = ({name, data, selected: pushSelected}) => {
             pushSelected(id)
 
         }
+
+        $(".input-searchsss").removeClass("active");
     }
     const delSel = (e, name) => {
         e.preventDefault();
@@ -59,7 +63,7 @@ export const MultiOption = ({name, data, selected: pushSelected}) => {
                 </span>
             </li>
             <li id={"content"}>
-                <ul id={"main-child-sels"}>
+                <ul id={"main-child-sels"} className={name}>
                     {data ? data.map((item, index) => (
                         <li key={index} onClick={e => selectedOpt(e, item.name, item.id)}>{item.name}</li>
                     )) : (<li disabled>موردی یافت نشد</li>)}
