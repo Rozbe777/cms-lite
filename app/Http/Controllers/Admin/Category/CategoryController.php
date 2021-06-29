@@ -121,7 +121,7 @@ class CategoryController extends Controller
      * @return JsonResponse
      */
     public function update(EditCategoryRequest $request)
-    {
+    {dd($request->all());
         $category = $this->categoryRepository->update($request->all(),$request->id);
         return $this->message(__('message.success.200'))->view('pages.admin.category.edit')->data($category)->success();
     }

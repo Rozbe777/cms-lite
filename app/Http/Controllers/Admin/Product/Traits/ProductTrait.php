@@ -36,18 +36,18 @@ trait ProductTrait
     public function attributeHandler($attributes, $p_id)
     {
         $attribute_list = [];
-        foreach ($attributes as $attribute) {
-            $price = $attribute['price'];
-            $count = !empty($attribute['count']) ? (int)$attribute['count'] : ($attribute['count'] == 0 ? 0 : null); //null is unlimited
-            $limit = !empty($attribute['limit']) ? (int)$attribute['limit'] : null;
-            $discount = (!empty($attribute['discount'])) ? $attribute['discount'] != 0 ? (int)$attribute['discount'] : 0 : 0;
+        foreach (json_decode($attributes) as $attribute) {
+            $price = $attribute->price;
+            $count = !empty($attribute->count) ? (int)$attribute->count : ($attribute->count === 0 ? 0 : null); //null is unlimited
+            $limit = !empty($attribute->limit) ? (int)$attribute->limit : null;
+            $discount = (!empty($attribute->discount)) ? $attribute->discount != 0 ? (int)$attribute->discount : 0 : 0;
             $discount_status = (!empty($discount)) ? "active" : "deactivate";
 
-            $discount_percentage = !empty($attribute['discount']) ? (($price - $discount)/$price)*100 : 0;
+            $discount_percentage = !empty($attribute->discount) ? (($price - $discount)/$price)*100 : 0;
 
             $attribute_list[] = Attribute::updateOrCreate(
-                ["product_id" => $p_id, "product_code" => $attribute['product_code']],
-                ["price" => $attribute['price'], "count" => $count, "limit" => $limit, "discount" => $discount, "discount_status" => $discount_status, "discount_percentage" => $discount_percentage]
+                ["product_id" => $p_id, "product_code" => $attribute->product_code],
+                ["price" => $attribute->price, "count" => $count, "limit" => $limit, "discount" => $discount, "discount_status" => $discount_status, "discount_percentage" => $discount_percentage]
             );
         }
         return $attribute_list;
@@ -55,15 +55,15 @@ trait ProductTrait
 
     public function featureHandler($features)
     {
-        foreach ($features as $item) {
-            $attr = Attribute::where('product_code', $item['code'])->first();
+        foreach (json_decode($features) as $item) {
+            $attr = Attribute::where('product_code', $item->code)->first();
             $data = Type::firstOrCreate(
-                ['name' => $item['name'], "attribute_id" => $attr->id]
+                ['name' => $item->name, "attribute_id" => $attr->id]
             );
 
-            $title = !empty($item['title']) ? $item['title'] : null;
-            $value = !empty($item['value']) ? $item['value'] : null;
-            $color = ($item['name'] === "رنگ") ? $item['color'] : null;
+            $title = !empty($item->title) ? $item->title : null;
+            $value = !empty($item->value) ? $item->value : null;
+            $color = ($item->name === "رنگ") ? $item->color : null;
 
             $feature = TypeFeature::firstOrCreate(
                 ["type_id" => $data->id, "attribute_id" => $attr->id, "title" => $title, "color" => $color, "value" => $value],
@@ -73,17 +73,17 @@ trait ProductTrait
 
     public function attributeUpdateHandler($attributes, $p_id)
     {
-        foreach ($attributes as $attribute) {
+        foreach (json_decode($attributes) as $attribute) {
             $data = Attribute::firstOrCreate(
-                ['product_id' => $p_id, 'product_code' => $attribute['product_code']]
+                ['product_id' => $p_id, 'product_code' => $attribute->product_code]
             );
 
-            $data->price = !empty($attribute['price']) ? (int)$attribute['price'] : $data->price;
-            $data->count = !empty($attribute['count']) ? (int)$attribute['count'] : ((array_key_exists('count', $attribute) && $attribute['count'] == 0) ? 0 : $data->count);
-            $data->limit = !empty($attribute['limit']) ? (int)$attribute['limit'] : $data->limit;
+            $data->price = !empty($attribute->price) ? (int)$attribute->price : $data->price;
+            $data->count = !empty($attribute->count) ? (int)$attribute->count : ((array_key_exists('count', $attribute) && $attribute->count == 0) ? 0 : $data->count);
+            $data->limit = !empty($attribute->limit) ? (int)$attribute->limit : $data->limit;
 
-            if (!empty($attribute['discount'])) {
-                $data->discount = (int)$attribute['discount'];
+            if (!empty($attribute->discount)) {
+                $data->discount = (int)$attribute->discount;
                 $data->discount_status = 'active';
             } else {
                 $data->discount = 0;
@@ -98,23 +98,23 @@ trait ProductTrait
 
     public function featureUpdateHandler($features)
     {
-        foreach ($features as $feature) {
+        foreach (json_decode($features) as $feature) {
 
-            $attr = Attribute::where('product_code', $feature['code'])->first();
+            $attr = Attribute::where('product_code', $feature->code)->first();
 
             $data = Type::firstOrCreate(
-                ['name' => $feature['name'], "attribute_id" => $attr->id]
+                ['name' => $feature->name, "attribute_id" => $attr->id]
             );
 
-            if (!empty($feature['id'])) {
-                $typeFeature = TypeFeature::find($feature['id']);
+            if (!empty($feature->id)) {
+                $typeFeature = TypeFeature::find($feature->id);
             } else {
                 $typeFeature = TypeFeature::create(["type_id" => $data->id, "attribute_id" => $attr->id]);
             }
 
-            $typeFeature->title = !empty($feature['title']) ? $feature['title'] : $typeFeature->title;
-            $typeFeature->value = !empty($feature['value']) ? $feature['value'] : $typeFeature->value;
-            $typeFeature->color = !empty($feature['color']) ? $feature['color'] : $typeFeature->color;
+            $typeFeature->title = !empty($feature->title) ? $feature->title : $typeFeature->title;
+            $typeFeature->value = !empty($feature->value) ? $feature->value : $typeFeature->value;
+            $typeFeature->color = !empty($feature->color) ? $feature->color : $typeFeature->color;
 
             $typeFeature->save();
         }

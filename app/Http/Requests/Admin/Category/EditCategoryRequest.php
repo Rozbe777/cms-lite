@@ -27,7 +27,7 @@ class EditCategoryRequest extends BaseRequest
     public function rules()
     {
         return [
-            'name' => "nullable|string|max:255",
+            'title' => "nullable|string|max:255",
             'slug' => "nullable|string|max:255",
             'image' => new ImageRule(),
             'content' => 'nullable|string',

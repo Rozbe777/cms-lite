@@ -21,8 +21,8 @@ class CreateCouponSettingsTable extends Migration
             $table->integer('card_conditions_amount')->nullable();
             $table->enum('user_status',['all','special_users','group_of_users'])->default('all');
             $table->integer('user_group')->default(-1); /** -1 is all | (-2,-5) specially group | positive numbers are user_id */
-            $table->integer('number_times_allowed')->default(10);
-            $table->integer('number_of_users_allowed')->default(1);
+            $table->integer('number_of_times_allowed_to_use')->default(10);
+            $table->integer('number_of_use_allowed_per_user')->default(1);
             $table->timestamp('start_date')->default(now());
             $table->timestamp('end_date')->nullable();
             $table->timestamps();

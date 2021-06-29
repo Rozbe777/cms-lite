@@ -36,7 +36,7 @@ class CategoryRepository implements RepositoryInterface
     }
 
     public function update(array $data, $category)
-    {
+    {dd($data);
         $category = Category::find($category);
         $data['slug'] = ($data['slug'] != $category->slug) ? $this->slugHandler($data['slug']) : $category->slug;
 
@@ -76,7 +76,7 @@ class CategoryRepository implements RepositoryInterface
 
         $data['is_menu'] = (int)$data['is_menu'];
 
-        $category = Category::create($data);dd($category);
+        $category = Category::create($data);
         $category->viewCounts()->create();
         return $category;
     }

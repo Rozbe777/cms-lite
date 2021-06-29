@@ -32,13 +32,15 @@ class CouponController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return JsonResponse
      */
     public function index(SearchCouponRequest $request)
     {
         $coupon = $this->repository->all($request->code, $request->start_date, $request->end_date, $request->status);
 
-        dd($coupon);
+        return (!$coupon) ?
+            $this->message(__('message.coupon.search.notSuccess'))->view("pages.admin.coupon.index")->error() :
+            $this->data($coupon)->message(__('message.success.200'))->view("pages.admin.coupon.index")->success();
     }
 
     /**
@@ -48,7 +50,10 @@ class CouponController extends Controller
     {
         $coupon = $this->repository->all($request->code, $request->start_date, $request->end_date, $request->status);
 
-        dd($coupon);
+        if (!$coupon)
+            return redirect()->back()->with('error', __("message.coupon.search.notSuccess"));
+
+        return adminView('pages.admin.coupon.index', compact('coupon'));
     }
 
     /**
@@ -65,12 +70,12 @@ class CouponController extends Controller
      * Store a newly created resource in storage.
      *
      * @param CreateCouponRequest $request
-     * @return Response
+     * @return JsonResponse
      */
     public function store(CreateCouponRequest $request)
     {
         $coupon = $this->repository->create($request->all());
-        dd($coupon);
+        return $this->message(__('message.success.200'))->data($coupon)->view('pages.admin.coupon.show')->success();
     }
 
     /**
