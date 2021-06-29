@@ -4,6 +4,12 @@
         clear: both;
         display: none;
     }
+
+    .discound-setting {
+        .select-item{
+            padding: 25px ;
+        }
+    }
     .mini-img-show-edit {
         height: 140px !important;
     }
@@ -248,6 +254,12 @@
 @media screen and (max-width: 1024px) {
     #shop_product_search {
         height: 185px;
+    }
+
+    .discound-setting {
+        .select-item{
+            padding: 25px ;
+        }
     }
 
     .content-pages{
