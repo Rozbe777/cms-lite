@@ -13,6 +13,7 @@ import {Switcher} from "../../../HOC/Switch";
 import {NewFeture} from "../../_Micro/ProductMiniComponent/NewFeture";
 import {TopPrice} from "../layout/TopPrice";
 import {CartAction} from "../layout/CartAction";
+import {UserSetting} from "../layout/UserSetting";
 
 export const AddDiscount = ({type}) => {
 
@@ -338,6 +339,12 @@ export const AddDiscount = ({type}) => {
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<CartAction />, document.getElementById("back-loaderedss"));
     }
+
+    const handleShowUserSetting = e => {
+        e.preventDefault();
+        $("#back-loaderedss").addClass("active");
+        ReactDOM.render(<UserSetting />, document.getElementById("back-loaderedss"));
+    }
     return (
         <div id={"category_add_pop_base"}>
             <ul className="nav nav-tabs tab-layout" role="tablist">
@@ -494,7 +501,7 @@ export const AddDiscount = ({type}) => {
                                         <i className={"bx bx-cog absol"}></i>
 
                                     </li>
-                                    <li id={"itemss"}>
+                                    <li id={"itemss"} onClick={e => handleShowUserSetting(e)}>
                                         <i className={"bx bx-user"}></i>
 
                                         <div id={"details-items"}>
