@@ -162,7 +162,7 @@ class ProductRepository implements RepositoryInterface
     }
 
     public function create(array $data)
-    {
+    {dd($data);
         $i = 0;
         $items= [];
         foreach ($data as $key => $value) {

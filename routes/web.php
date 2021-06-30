@@ -4,7 +4,6 @@ use App\Http\Controllers\Admin\Category\CategoryController;
 use App\Http\Controllers\Admin\Content\ContentController;
 use App\Http\Controllers\Admin\Coupon\CouponController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
-use App\Http\Controllers\Admin\Layout\LayoutController;
 use App\Http\Controllers\Admin\Page\PageController;
 use App\Http\Controllers\Admin\Product\ProductController;
 use App\Http\Controllers\Admin\Profile\ProfileController;
@@ -13,7 +12,6 @@ use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\Tag\TagController;
 use App\Http\Controllers\Admin\Theme\ThemeController;
 use App\Http\Controllers\Admin\User\UserController;
-use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\MobileRegisterController;
 use App\Http\Controllers\Auth\PasswordController;
@@ -23,8 +21,6 @@ use App\Http\Controllers\Front\Cart\CheckoutController;
 use App\Http\Controllers\Front\InvoiceController;
 use App\Http\Controllers\Front\Page\FrontPageController;
 use App\Http\Controllers\Front\Search\SearchController;
-use App\Models\Content;
-use App\Models\Page;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,7 +36,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/test', function () {
     $result = (new \App\Classes\Pay\Pay());
-    $result = $result->userId()->gatewayId(1)->start(10000);
+    $result = $result->userId()->gatewayId(2)->start(10000);
     return $result;
 
 });
@@ -106,7 +102,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', CategoryController::class)->except('update');
     Route::post('categories/update', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy'])->name('categories.multipleDestroy');
-
 
     //------------------------------Tags-----------------------------
     Route::get('tag', [TagController::class, 'blade'])->name('tags.blade');
