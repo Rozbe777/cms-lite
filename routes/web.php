@@ -40,17 +40,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/test', function () {
     $result = (new \App\Classes\Pay\Pay());
-    $result = $result->userId()->gatewayId(1)->start(10000);dd($result);
-    return \Illuminate\Support\Facades\Redirect::route('test2',$result);
-
-});
-
-Route::get('/test2', function () {
-    $result = (new \App\Classes\Pay\Pay());
-    $result = $result->end(1);
+    $result = $result->userId()->gatewayId(1)->start(10000);
     return $result;
 
 });
+
+Route::get('/test2/{result}', function () {
+    $result = (new \App\Classes\Pay\Pay());
+    $result = $result->end(1);
+    return $result;
+})->name('callback');
 
 
 Route::get('csrf', function () {

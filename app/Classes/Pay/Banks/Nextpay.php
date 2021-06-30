@@ -4,6 +4,7 @@
 namespace App\Classes\Pay\Banks;
 
 
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Support\Facades\Redirect;
 
@@ -42,11 +43,11 @@ class Nextpay extends BaseGateway
         $response = curl_exec($curl);
 
         curl_close($curl);
-        Redirect::to('http://127.0.0.1:8000/test2');dd(Redirect::to('http://127.0.0.1:8000/test2'));
-        if (json_decode($response)->code == -1){
-            Redirect::to('https://nextpay.org/nx/gateway/payment/'.json_decode($response)->trans_id);
 
+        if (json_decode($response)->code == -1){
+            $result = Redirect::to('https://nextpay.org/nx/gateway/payment/'.json_decode($response)->trans_id);
         }
+
     }
 
     function callback($invoiceId)
