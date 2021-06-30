@@ -68,7 +68,7 @@ abstract class BasePay
         throw_if(!$gatewayModel, new \Exception("Exception: Gateway not found"));
 
         if (method_exists(Pay::class, 'createInvoice')) {
-            $this->invoice = $this->createInvoice($amount, $this->userId, $gatewayModel->id, $this->getCallbackUrl());
+            $this->invoice = $this->createInvoice($amount,$gatewayModel->id, $this->userId, $this->getCallbackUrl());
         }
         $bank = $this->getBank();
 

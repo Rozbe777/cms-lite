@@ -7,7 +7,7 @@ use App\Models\Gateway as GatewayModel;
 trait Gateway
 {
 
-    private function getGatewayById($gatewayId = null)
+    private function getGatewayById($gatewayId)
     {
         return GatewayModel::find($gatewayId);
     }
