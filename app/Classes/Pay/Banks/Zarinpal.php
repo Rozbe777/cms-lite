@@ -180,8 +180,8 @@ class Zarinpal extends BaseGateway
             "status" => $Status == 100,
             "status_code" => $Status,
             "message" => $Message,
-            'data' => ["startPay" => $StartPayUrl,
-                "authority" => $Authority]
+            "data" => ["startPay" => $StartPayUrl,
+            "authority" => $Authority]
         );
         $invoice->payload = json_encode($result);
         $invoice->bank_result = $Message;
