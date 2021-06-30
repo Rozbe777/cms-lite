@@ -35,17 +35,19 @@ class EditProductRequest extends BaseRequest
             "metadata" => "string|nullable",
             "status" => "in:active,deactivate",
             "image" => new ImageRule(),
-            "attributes" =>new AttributeCheck(),
+            //FIXME must check with front dont delete The following rows
+//            "attributes" =>new AttributeCheck(),
 //            "attributes.*.price" => "integer",
 //            "attributes.*.product_code" => "required|string",
 //            "attributes.*.count" => "nullable|numeric",
 //            "attributes.*.limit" => "nullable|numeric",
-            "features" => new FeaturesTitleCheck(),
-            "features" => new FeaturesCheck(),
+//            "features" => new FeaturesTitleCheck(),
+//            "features" => new FeaturesCheck(),
 //            "features.*.name" => "string",
 //            "features.*.color" => "string|required_if:features.*.name,رنگ",
 //            "features.*.title" => "required_with:features.name|string",
 //            "features.*.value" => "required_with:features.name|string",
+            //FIXME must check with front dont delete The top rows
             "tag_list" => "array",
             "category_list" => "array|exists:categories,id",
         ];

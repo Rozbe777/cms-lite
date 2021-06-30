@@ -9,15 +9,7 @@ trait Gateway
 
     private function getGatewayById($gatewayId = null)
     {
-        if (empty($gatewayId)) {
-            return $this->getDefaultGateway();
-        }
-        $gateway = GatewayModel::find($gatewayId);
-        if (!empty($gateway)) {
-            return $gateway;
-        } else {
-            return $this->getDefaultGateway();
-        }
+        return GatewayModel::find($gatewayId);
     }
 
     private function getDefaultGateway()

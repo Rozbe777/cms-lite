@@ -36,7 +36,7 @@ class CategoryRepository implements RepositoryInterface
     }
 
     public function update(array $data, $category)
-    {dd($data);
+    {
         $category = Category::find($category);
         $data['slug'] = ($data['slug'] != $category->slug) ? $this->slugHandler($data['slug']) : $category->slug;
 

@@ -37,19 +37,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('a',function (){
-    $x = null;
-    if ($x === 0){
-        dd(1);
-    }dd(2);
-});
 
 Route::get('/test', function () {
 
-
     $result = (new \App\Classes\Pay\Pay());
-    $result = $result->userId(1)
-        ->gatewayId(1)->start(10000);
+    $result = $result->userId()->gatewayId(3)->start(10000);
     return $result;
 
 });
