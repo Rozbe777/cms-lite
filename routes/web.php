@@ -98,15 +98,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('users/multi/destroy', [UserController::class, 'multipleDestroy'])->name('users.multipleDestroy');
 
     //----------------------------Contents---------------------------
-
     Route::get('content', [ContentController::class, 'blade'])->name('contents.blade');
     Route::resource('contents', ContentController::class)->except('update');
     Route::post('contents/update', [ContentController::class, 'update'])->name('contents.update');
     Route::delete('contents/multi/destroy', [ContentController::class, 'multipleDestroy'])->name('contents.multipleDestroy');
 
     //---------------------------Categories--------------------------
+    Route::get('categories/getAll',[CategoryController::class,'getAll'])->name('categories.getAll');
     Route::get('category', [CategoryController::class, 'blade'])->name('categories.blade');
-    Route::get('categories/all',[CategoryController::class,'all'])->name('categories.getAll');
+//    Route::get('categories/all',[CategoryController::class,'all'])->name('categories.getAll');
     Route::resource('categories', CategoryController::class)->except('update');
     Route::post('categories/update', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy'])->name('categories.multipleDestroy');

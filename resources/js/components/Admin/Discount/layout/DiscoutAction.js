@@ -60,12 +60,15 @@ export const DiscoutAction = ({limit, out: setOut}) => {
             setLoading(true);
             Request.GetAllCategorySearch(searchdata).then(res => {
                 setLoading(false);
+                console.log("_____" , res)
                 setCategoryData(res.data.data.data);
             })
         } else {
             setLoading(true);
             Request.GetAllCategorySearch(searchdata).then(res => {
-                setLoading(false);
+                setLoading(false)
+                console.log("======" , res)
+
                 setCategoryData(res.data.data.data);
             })
         }

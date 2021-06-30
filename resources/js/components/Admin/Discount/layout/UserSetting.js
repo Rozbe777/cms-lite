@@ -159,20 +159,17 @@ export const UserSetting = ({limit, out: setOut}) => {
 
                         <div className={"content-select firstes"}>
 
-                            <p style={{textAlign: 'center'}}>تخفیف اعمال شود روی</p>
+                            <p style={{textAlign: 'center'}}> اعمال شود روی</p>
 
                             <MultiOption name={"status"} handleChoise={handleChoise} data={[{
-                                id: 'کل مبلغ سبد خرید',
-                                name: 'کل مبلغ سبد خرید'
+                                id: 'همه کاربران',
+                                name: 'همه کاربران'
                             }, {
-                                id: 'مبلغ سبد خرید بدون هزینه ارسال',
-                                name: 'مبلغ سبد خرید بدون هزینه ارسال'
+                                id: 'گروهی از کاربران',
+                                name: 'گروهی از کاربران'
                             }, {
-                                id: 'محصولات خاص بدون هزینه ارسال',
-                                name: 'محصولات خاص بدون هزینه ارسال'
-                            }, {
-                                id: 'دسته بندی خاص بدون هزینه ارسال',
-                                name: 'دسته بندی خاص بدون هزینه ارسال'
+                                id: 'کاربران خاص',
+                                name: 'کاربران خاص'
                             }]}
                                 // selected={item => handleCloseFirst(item)}
 
