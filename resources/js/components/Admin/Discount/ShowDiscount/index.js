@@ -26,7 +26,6 @@ const Show = (props) => {
         $("ul#menueeee li").mouseover(function(){
             $(this).find("ul").addClass("active");
         })
-
         $("ul#menueeee li").mouseout(function(){
             $(this).find("ul").removeClass("active");
         })
