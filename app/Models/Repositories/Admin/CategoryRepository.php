@@ -20,9 +20,10 @@ class CategoryRepository implements RepositoryInterface
         return $this->listHandler($status);
     }
 
-    public function retrieveAll($status = 'active', $search = null, $pageSize = null)
+    public function retrieveAll($status = null, $search = null, $pageSize = null)
     {
         $pageSize = empty($pageSize) ? config('view.pagination') : $pageSize;
+        $status = empty($status) ? 'active' : $status;
 
         return Category::when(!empty($search), function ($query) use ($search) {
             $query->where(function ($query) use ($search) {
