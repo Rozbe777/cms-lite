@@ -41,7 +41,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/test', function () {
 
     $result = (new \App\Classes\Pay\Pay());
-    $result = $result->userId()->gatewayId()->start(10000);
+    $result = $result->userId()->gatewayId(2)->start(10000);
+    return $result;
+
+});
+
+Route::get('/test2', function () {
+dd(123);
+    $result = (new \App\Classes\Pay\Pay());
+    $result = $result->end(1);
     return $result;
 
 });

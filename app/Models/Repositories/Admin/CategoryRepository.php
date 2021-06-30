@@ -15,9 +15,22 @@ class CategoryRepository implements RepositoryInterface
 {
     use CategoryTrait;
 
-    public function all($status = null, $search = null, $pageSize = null)
+    public function all($status = 'active', $search = null, $pageSize = null)
     {
         return $this->listHandler($status);
+    }
+
+    public function retrieveAll($status = 'active', $search = null, $pageSize = null)
+    {
+        $pageSize = empty($pageSize) ? config('view.pagination') : $pageSize;
+
+        return Category::when(!empty($search), function ($query) use ($search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('slug', 'like', '%' . $search . '%')
+                    ->orWhere('content', 'like', '%' . $search . '%');
+            });
+        })->where('status', $status)->orderByDesc('id')->paginate($pageSize);
     }
 
     public function get($category)
@@ -52,7 +65,7 @@ class CategoryRepository implements RepositoryInterface
 
     public function create(array $data)
     {
-        $data['parent_id'] = !empty($data['parent_id']) ? (int)$data['parent_id'] : 0 ;
+        $data['parent_id'] = !empty($data['parent_id']) ? (int)$data['parent_id'] : 0;
 
         $data['slug'] = $this->slugHandler($data['slug']);
 

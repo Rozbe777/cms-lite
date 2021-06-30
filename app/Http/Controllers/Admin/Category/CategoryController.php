@@ -48,6 +48,19 @@ class CategoryController extends Controller
     }
 
     /**
+     * @param SearchCategoryRequest $request
+     * @return JsonResponse
+     */
+    public function all(SearchCategoryRequest $request)
+    {
+        $categories = $this->categoryRepository->retrieveAll($request->status, $request->search, $request->pageSize);
+
+        return (!$categories) ?
+            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.category.index")->error() :
+            $this->data($categories)->message(__('message.success.200'))->view("pages.admin.category.index")->success();
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return Factory|RedirectResponse|View
