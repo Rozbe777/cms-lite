@@ -27,7 +27,7 @@ class CategoryRepository implements RepositoryInterface
 
         return Category::when(!empty($search), function ($query) use ($search) {
             $query->where(function ($query) use ($search) {
-                $query->where('title', 'like', '%' . $search . '%')
+                $query->where('name', 'like', '%' . $search . '%')
                     ->orWhere('slug', 'like', '%' . $search . '%')
                     ->orWhere('content', 'like', '%' . $search . '%');
             });
