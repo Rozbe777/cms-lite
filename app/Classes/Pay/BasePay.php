@@ -13,7 +13,7 @@ abstract class BasePay
 {
     use Gateway;
 
-    public $userId, $gatewayId, $callbackUrl = 'callback';
+    public $userId, $gatewayId, $callbackUrl = 'http://127.0.0.1:8000/test2';
     private $invoice;
 
     abstract function handle($gateway, $invoice);
