@@ -39,15 +39,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/test', function () {
-
     $result = (new \App\Classes\Pay\Pay());
-    $result = $result->userId()->gatewayId(1)->start(10000);
-    return $result;
+    $result = $result->userId()->gatewayId(1)->start(10000);dd($result);
+    return \Illuminate\Support\Facades\Redirect::route('test2',$result);
 
 });
 
 Route::get('/test2', function () {
-dd(123);
     $result = (new \App\Classes\Pay\Pay());
     $result = $result->end(1);
     return $result;
