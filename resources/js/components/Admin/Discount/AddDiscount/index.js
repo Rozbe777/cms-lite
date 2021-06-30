@@ -6,6 +6,7 @@ import {MultiOption} from "./../layout/MultiOption";
 import $ from "jquery";
 import {success} from "../../../../helper";
 import {useQuery} from "react-query";
+import {DiscoutAction} from "../layout/DiscoutAction";
 import {MultiSelected} from "../layout/MultiSelected";
 import {Searchs} from "../layout/Context";
 import {Switcher} from "../../../HOC/Switch";
@@ -185,7 +186,6 @@ export const AddDiscount = ({type}) => {
         })
 
 
-
         $("ul#main-child-sels.groupUserSO li").click(function () {
             let indexes = $(this).index();
             if (indexes === 0) {
@@ -325,6 +325,12 @@ export const AddDiscount = ({type}) => {
             setDisTypesDis('')
         }
     }
+
+    const handleShowTypeDiscount = e => {
+        e.preventDefault();
+        $("#back-loaderedss").addClass("active");
+        ReactDOM.render(<DiscoutAction />, document.getElementById("back-loaderedss"));
+    }
     return (
         <div id={"category_add_pop_base"}>
             <ul className="nav nav-tabs tab-layout" role="tablist">
@@ -345,7 +351,7 @@ export const AddDiscount = ({type}) => {
             </ul>
             <div className="tab-content" style={{padding: 0, position: 'relative', marginTop: '-15px'}}>
                 <div className="tab-pane show-det-discount active" id="cat" aria-labelledby="cat-tab" role="tabpanel">
-                    <div className={"row discount-rows"} style={{marginTop: '30px', padding: '30px 140px'}}>
+                    <div className={"row discount-rows"} style={{marginTop: '30px', padding: '30px 200px'}}>
 
 
                         <div className={"col-12"}>
@@ -431,19 +437,26 @@ export const AddDiscount = ({type}) => {
                         </div>
 
 
-                        <div className={"col-md-4 col-sm-12"} style={{paddingTop : '2px'}}>
-                            <fieldset className="form-group"><label htmlFor="title"> مقدار
-                                تخفیف {disTypesDis ? " ( " + disTypesDis + " ) " : ''} </label><input
-                                type="text" name="titleContent" id="title" className="form-control" />
+                        <div className={"col-md-4 col-sm-12"} style={{paddingTop: '2px'}}>
+                            <fieldset className="form-group" style={{marginTop: '-2px'}}><label htmlFor="title"> مقدار
+                                تخفیف {disTypesDis ? " ( " + disTypesDis + " ) " : ''} </label>
+
+                                <div className={disTypesDis ? "custom-in-show" : "custom-in-show active"}>
+                                    <input
+                                        type="text" id="moutDis"/>
+
+                                </div>
                             </fieldset>
                         </div>
                         <div className={"col-md-4 col-sm-12"}>
 
                             <fieldset className="form-group">
                                 <label htmlFor="title">سقف مبلغ تخفیف</label>
-                                <div className={"custom-in-show"} onClick={e => HandleTopPrice(e)}>
+                                <div className={disTypesDis !== "درصد" ? "custom-in-show active" : "custom-in-show"}
+                                     onClick={e => HandleTopPrice(e)}>
 
                                     <i className={"bx bx-pencil"}></i>
+                                    <span>بدون محدودیت</span>
 
                                 </div>
                             </fieldset>
@@ -458,34 +471,81 @@ export const AddDiscount = ({type}) => {
 
                         <div className={"discound-setting"}>
                             <div className={"row"}>
-                                <div className={"col-lg-3 col-md-4"}>
-                                    <ul id={"select-item"}>
-                                        <li id={"itemss"} className={"active"}>
-                                            <span><i className={"bx bx-purchase-tag"}></i> &nbsp;&nbsp; نوع عملکرد تخفیف </span>
-                                        </li>
-                                        <li id={"itemss"}>
-                                            <span><i className={"bx bx-user"}></i> &nbsp;&nbsp; تنظیمات کاربران </span>
-                                        </li>
-                                        <li id={"itemss"}>
-                                    <span><i
-                                        className={"bx bxs-calendar-alt"}></i> &nbsp;&nbsp; تاریخ شروع تخفیفات</span>
-                                        </li>
-                                        <li id={"itemss"}>
-                                            <span><i className={"bx bx-shopping-bag"}></i> &nbsp;&nbsp; شرایط سبد خرید </span>
-                                        </li>
-                                        <li id={"itemss"}>
-                                            <span><i
-                                                className={"bx bx-slider"}></i> &nbsp;&nbsp; محدودیت استفاده </span>
-                                        </li>
-                                        <li id={"itemss"}>
-                                            <span><i className={"bx bxs-calendar-alt"}></i> &nbsp;&nbsp; تاریخ پایان تخفیف </span>
-                                        </li>
 
-                                    </ul>
-                                </div>
+
+                                <ul id={"select-item"}>
+                                    <li id={"itemss"} onClick={e => handleShowTypeDiscount(e)}>
+
+                                        <i className={"bx bx-purchase-tag"}></i>
+
+                                        <div id={"details-items"}>
+                                            <p>
+                                                نوع عملکرد
+                                            </p>
+                                            <p>قابل استفاده روی کل خرید</p>
+                                        </div>
+                                        <i className={"bx bx-cog absol"}></i>
+
+                                    </li>
+                                    <li id={"itemss"}>
+                                        <i className={"bx bx-user"}></i>
+
+                                        <div id={"details-items"}>
+                                            <p>
+                                                تنظیمات کاربران
+                                            </p>
+                                            <p>برای همه کاربران</p>
+                                        </div>
+                                        <i className={"bx bx-cog absol"}></i>
+                                    </li><li id={"itemss"}>
+                                        <i className={"bx bx-calendar-alt"}></i>
+
+                                        <div id={"details-items"}>
+                                            <p>
+                                                تاریخ شروع تخفیفات
+                                            </p>
+                                            <p>8 تیر 1400 ساعت 10:00</p>
+                                        </div>
+                                        <i className={"bx bx-cog absol"}></i>
+                                    </li><li id={"itemss"}>
+                                        <i className={"bx bx-shopping-bag"}></i>
+
+                                        <div id={"details-items"}>
+                                            <p>
+                                                شرایط سبد خرید
+                                            </p>
+                                            <p>بدون محدودیت</p>
+                                        </div>
+                                        <i className={"bx bx-cog absol"}></i>
+                                    </li><li id={"itemss"}>
+                                        <i className={"bx bx-calendar-alt"}></i>
+
+                                        <div id={"details-items"}>
+                                            <p>
+                                                تاریخ پایان تخفیفات
+                                            </p>
+                                            <p>9 مهر 1401 ساعت 12:00</p>
+                                        </div>
+                                        <i className={"bx bx-cog absol"}></i>
+                                    </li>
+<li id={"itemss"}>
+                                        <i className={"bx bx-slider"}></i>
+
+                                        <div id={"details-items"}>
+                                            <p>
+                                                محدودیت استفاده
+                                            </p>
+                                            <p>بدون محدودیت</p>
+                                        </div>
+                                        <i className={"bx bx-cog absol"}></i>
+                                    </li>
+
+
+                                </ul>
+
 
                                 <div className={"col-lg-9 col-md-8"}
-                                     style={{position: 'relative', paddingLeft: '30px'}}>
+                                     style={{position: 'relative', paddingLeft: '30px', display: 'none'}}>
                                     <ul className={"contentsssc"}>
 
 
