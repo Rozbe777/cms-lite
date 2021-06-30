@@ -18,6 +18,7 @@ class FeaturesTitleCheck implements Rule
 
     /**
      * Determine if the validation rule passes.
+     * check if the title like color is duplicate
      *
      * @param string $attribute
      * @param mixed $value
@@ -25,6 +26,8 @@ class FeaturesTitleCheck implements Rule
      */
     public function passes($attribute, $value)
     {
+        $value = json_decode($value);
+
         if (!empty($value)) {
             $i = 0;
             $code = $value[0]['code'];

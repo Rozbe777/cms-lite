@@ -41,6 +41,7 @@ class FeaturesCheck implements Rule
                 }
             }
         }
+        return true;
 
     }
 
@@ -51,6 +52,6 @@ class FeaturesCheck implements Rule
      */
     public function message()
     {
-        return __('message.validation.product_features');
+        return __("validation.product_features");
     }
 }

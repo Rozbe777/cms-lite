@@ -10,7 +10,11 @@ use App\Http\Requests\Admin\Coupon\MultipleDestroyRequest;
 use App\Http\Requests\Admin\Coupon\SearchCouponRequest;
 use App\Models\Coupon;
 use App\Models\Repositories\Admin\CouponRepository;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CouponController extends Controller
 {
@@ -28,13 +32,15 @@ class CouponController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index(SearchCouponRequest $request)
     {
         $coupon = $this->repository->all($request->code, $request->start_date, $request->end_date, $request->status);
 
-        dd($coupon);
+        return (!$coupon) ?
+            $this->message(__('message.coupon.search.notSuccess'))->view("pages.admin.coupon.index")->error() :
+            $this->data($coupon)->message(__('message.success.200'))->view("pages.admin.coupon.index")->success();
     }
 
     /**
@@ -44,13 +50,16 @@ class CouponController extends Controller
     {
         $coupon = $this->repository->all($request->code, $request->start_date, $request->end_date, $request->status);
 
-        dd($coupon);
+        if (!$coupon)
+            return redirect()->back()->with('error', __("message.coupon.search.notSuccess"));
+
+        return adminView('pages.admin.coupon.index', compact('coupon'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return Factory|View|Response
      */
     public function create()
     {
@@ -61,56 +70,60 @@ class CouponController extends Controller
      * Store a newly created resource in storage.
      *
      * @param CreateCouponRequest $request
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function store(CreateCouponRequest $request)
     {
         $coupon = $this->repository->create($request->all());
-        dd($coupon);
+        return $this->message(__('message.success.200'))->data($coupon)->view('pages.admin.coupon.show')->success();
     }
 
     /**
      * Display the specified resource.
      *
      * @param Coupon $coupon
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function show(Coupon $coupon)
     {
-        //
+        $coupon->load('coupon_settings');
+        return $this->message(__('message.success.200'))->data($coupon)->view('pages.admin.coupon.show')->success();
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param Coupon $coupon
-     * @return \Illuminate\Http\Response
+     * @return Factory|View
      */
     public function edit(Coupon $coupon)
     {
-        //
+        $coupon->load('coupon_settings');
+        return adminView("pages.admin.coupon.edit", compact('coupon'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param EditCouponRequest $request
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function update(EditCouponRequest $request)
     {
-        //
+        $coupon = $this->repository->update($request->all(),$request->id);
+        return $this->message(__('message.success.200'))->data($coupon)->view('pages.admin.coupon.show')->success();
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Coupon $coupon
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function destroy(Coupon $coupon)
     {
-        //
+        $this->repository->delete($coupon);
+        return $this->message(__('message.success.200'))->view('pages.admin.coupon.show')->success();
     }
 
     /**
@@ -118,6 +131,7 @@ class CouponController extends Controller
      */
     public function multipleDestroy(MultipleDestroyRequest $request)
     {
-        //
+        $this->repository->multipleDestroy($request->all());
+        return $this->message(__('message.success.200'))->view('pages.admin.coupon.show')->success();
     }
 }

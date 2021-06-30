@@ -130,9 +130,9 @@ class ProductController extends Controller
      * @param Product $product
      * @return Factory|JsonResponse|View
      */
-    public function update(EditProductRequest $request, Product $product)
+    public function update(EditProductRequest $request)
     {
-        $this->repository->update($request->all(), $product);
+        $product = $this->repository->update($request->all(), $request->id);
         $product->load('tags')->load('categories')->load('viewCounts');
 
         return $this->message(__('message.success.200'))->view('pages.admin.content.edit')->data($product)->success();

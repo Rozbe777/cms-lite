@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBanksTable extends Migration
+class CreateGaleriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateBanksTable extends Migration
      */
     public function up()
     {
-        Schema::create('banks', function (Blueprint $table) {
+        Schema::create('galeries', function (Blueprint $table) {
             $table->id();
-            $table->char('name');
-            $table->enum('status', ['enable', 'disable','sandbox'])->default('disable');
-            $table->json('payload')->nullable();
-            $table->text('class');
+            $table->integer('product_id');
+            $table->string('path');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateBanksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('banks');
+        Schema::dropIfExists('galeries');
     }
 }

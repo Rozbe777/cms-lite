@@ -8,7 +8,7 @@ use App\Models\Invoice;
 
 trait Invoicable
 {
-    function createInvoice($amount, $gatewayId, $userId = null, $callbackUrl = null)
+    function createInvoice($amount, $gatewayId, $userId, $callbackUrl = null)
     {
 
         if (empty($userId))

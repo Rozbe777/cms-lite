@@ -46,13 +46,12 @@ class CouponRepository implements RepositoryInterface
         return $coupon->delete();
     }
 
-    public function update(array $data, $couponId)
+    public function update(array $data,$coupon)
     {
         $setting_data = [];
         $data = [];
 
-        $coupon = Coupon::find($couponId);
-        $coupon_setting = CouponSetting::where('coupon_id',$couponId);
+        $coupon_setting = CouponSetting::where('coupon_id',$coupon->id);
 
         $setting_data['functionality'] = !empty($data['functionality']) ?
             $data['functionality'] :
@@ -110,8 +109,9 @@ class CouponRepository implements RepositoryInterface
             $data['max_limit'] :
             $coupon->max_limit;
 
-        $coupon->update($data);
+        $coupon = $coupon->update($data);
         $coupon_setting->update($setting_data);
+        return $coupon->load('coupon_settings');
     }
 
     public function create(array $data)

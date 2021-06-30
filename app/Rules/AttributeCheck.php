@@ -24,11 +24,11 @@ class AttributeCheck implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $values)
     {
-        if (!empty($values)){
-            $values = json_decode($value);
+        $values = json_decode($values);
 
+        if (!empty($values)){
             foreach ($values as $value){
                 if (!is_numeric($value->price) || empty($value->product_code) || DB::table('attributes')->where('product_code',$value->product_code)->exists()){
                     return false;
@@ -37,6 +37,7 @@ class AttributeCheck implements Rule
                     return false;
                 }
             }
+            return true;
         }
     }
 
@@ -47,6 +48,6 @@ class AttributeCheck implements Rule
      */
     public function message()
     {
-        return __('message.validation.product_attributes');
+        return __('validation.product_attributes');
     }
 }
