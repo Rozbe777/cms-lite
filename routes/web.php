@@ -41,7 +41,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/test', function () {
 
     $result = (new \App\Classes\Pay\Pay());
-    $result = $result->userId()->gatewayId(2)->start(10000);
+    $result = $result->userId()->gatewayId(1)->start(10000);
     return $result;
 
 });
@@ -109,6 +109,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', CategoryController::class)->except('update');
     Route::post('categories/update', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy'])->name('categories.multipleDestroy');
+    Route::get('categories/all',[CategoryController::class,'all'])->name('categories.getAll');
 
     //------------------------------Tags-----------------------------
     Route::get('tag', [TagController::class, 'blade'])->name('tags.blade');
