@@ -22,6 +22,16 @@ const Show = (props) => {
     });
 
 
+    $(function (){
+        $("ul#menueeee li").mouseover(function(){
+            $(this).find("ul").addClass("active");
+        })
+
+        $("ul#menueeee li").mouseout(function(){
+            $(this).find("ul").removeClass("active");
+        })
+    })
+
 
     const handleAddDisc = e => {
         e.preventDefault();
@@ -39,7 +49,29 @@ const Show = (props) => {
             </div>
 
             <div className={"container-fluid"}>
-scsdcsdvsv
+<ul id={"menueeee"}>
+    <li>
+        <span>منو یک</span>
+        <ul>
+            <li>منو یک</li>
+            <li>منو یک</li>
+            <li>منو یک</li>
+            <li>منو یک</li>
+            <li>منو یک</li>
+        </ul>
+    </li>
+
+    <li>
+        <span>menu22</span>
+        <ul>
+            <li>منو یک</li>
+            <li>منو یک</li>
+            <li>منو یک</li>
+            <li>منو یک</li>
+            <li>منو یک</li>
+        </ul>
+    </li>
+</ul>
             </div>
             <div id={"add-datas"}></div>
         </>
