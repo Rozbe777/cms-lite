@@ -58,7 +58,7 @@ export const MultiOption = ({handleChoise , name, data, selected: pushSelected})
                 </div>
                 <span id={"selected"}>
                     {selectedO.item !== "" ? (
-                        <a onClick={e => delSel(e)}><i className='bx bx-x'></i><span>{selectedO.item}</span></a>
+                        <a onClick={e => delSel(e)}><i className='bx bx-x'></i><span className={name}>{selectedO.item}</span></a>
                     ) : 'انتخاب کنید'}
                 </span>
             </li>

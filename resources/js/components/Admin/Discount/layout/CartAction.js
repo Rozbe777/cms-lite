@@ -189,14 +189,14 @@ export const CartAction = ({limit, out: setOut}) => {
                     {typeSel.types ? typeSel.types == "miniPrice" ? (
                         <div className={"col-12"}>
                             <p style={{textAlign : 'center'}}>مبلغ خرید </p>
-                            <input type="text" name="title" id="title" className="form-control" value=""/>
+                            <input type="number" name="title" id="title" className="form-control" value=""/>
 
                         </div>
 
                     ) : typeSel.types == "maxPrice" ? (
                         <div className={"col-12"}>
                             <p style={{textAlign : 'center'}}>مبلغ خرید </p>
-                            <input type="text" name="title" id="title" className="form-control" value=""/>
+                            <input type="number" name="title" id="title" className="form-control" value=""/>
 
                         </div>
 
@@ -204,7 +204,7 @@ export const CartAction = ({limit, out: setOut}) => {
                     ) : typeSel.types == "miniCount" ? (
                         <div className={"col-12"}>
                             <p style={{textAlign : 'center'}}>تعداد محصولات سبد خرید</p>
-                            <input type="text" name="title" id="title" className="form-control" value=""/>
+                            <input type="number" name="title" id="title" className="form-control" value=""/>
 
                         </div>
 

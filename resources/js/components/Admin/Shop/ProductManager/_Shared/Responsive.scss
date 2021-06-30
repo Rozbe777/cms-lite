@@ -1740,3 +1740,20 @@ a.menu-toggle {
 input[type=file]{
     cursor: pointer !important;
 }
+
+ul.time-roles{
+    li{
+        text-align: left !important;
+        direction: ltr !important;
+        font-size: 19px !important;
+        font-weight: 100 !important;
+    }
+}
+
+.main-options-sel a{
+    span.time-roles {
+        direction: ltr !important;
+        text-align: left;
+        float: left;
+    }
+}

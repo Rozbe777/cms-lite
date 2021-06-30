@@ -38,13 +38,13 @@ export const UserSetting = ({limit, out: setOut}) => {
         if (e) {
             searchdata.search = e;
             setLoading(true);
-            Request.GetAllUserApi(searchdata).then(res => {
+            Request.GetAllUserApi({params : searchdata}).then(res => {
                 setLoading(false);
                 setUserData(res.data.data.data);
             })
         } else {
             setLoading(true);
-            Request.GetAllUserApi(searchdata).then(res => {
+            Request.GetAllUserApi({params : searchdata}).then(res => {
                 setLoading(false);
                 setUserData(res.data.data.data);
             })
@@ -108,7 +108,7 @@ export const UserSetting = ({limit, out: setOut}) => {
             let typpps = {...typeSel};
             typpps.types = "sepcial";
             setTypeSel(typpps);
-            handleSearchProducts();
+            handleSearchUser();
 
         } else {
 
@@ -180,12 +180,12 @@ export const UserSetting = ({limit, out: setOut}) => {
                             <p>کاربر</p>
 
 
-                            <MultiSelected name={"cat-show"} data={categoryData}
+                            <MultiSelected name={"cat-show"} data={userData}
                                            loadings={loading}
                                            selected={handleSelecete}
-                                           searchs={handleSearchCategore}
+                                           searchs={handleSearchUser}
 
-                                           me={e => handleSearchCategory(e)}
+                                           // me={e => handleSearchCategory(e)}
                             />
                         </div>
 
