@@ -212,12 +212,15 @@
     }
 
     input {
-        width: 98%;
+        width: 99%;
         border: unset;
-        height: 40px !important;
+        border-radius: 5px;
+        margin-top: -5px;
+        height: 45px !important;
 
         &::placeholder {
             text-align: right;
+            margin-right: 10px;
         }
     }
 }
@@ -412,4 +415,9 @@
         font-size: 21px;
         line-height: 1.9;
     }
+}
+
+.customPrice{
+    height: auto !important;
+    padding-bottom: 75px;
 }

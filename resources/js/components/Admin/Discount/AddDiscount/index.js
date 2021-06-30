@@ -12,6 +12,7 @@ import {Searchs} from "../layout/Context";
 import {Switcher} from "../../../HOC/Switch";
 import {NewFeture} from "../../_Micro/ProductMiniComponent/NewFeture";
 import {TopPrice} from "../layout/TopPrice";
+import {CartAction} from "../layout/CartAction";
 
 export const AddDiscount = ({type}) => {
 
@@ -259,7 +260,7 @@ export const AddDiscount = ({type}) => {
 
 
     const handleSearchCategory = e => {
-        let searchdata = {search: ''}
+        let searchdata = {search: '' , pageSize : 10}
         searchdata.search = e;
         setLoading(true);
         Request.GetAllProducts(searchdata).then(res => {
@@ -330,6 +331,12 @@ export const AddDiscount = ({type}) => {
         e.preventDefault();
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<DiscoutAction />, document.getElementById("back-loaderedss"));
+    }
+
+    const handleShowCartRoles = e => {
+        e.preventDefault();
+        $("#back-loaderedss").addClass("active");
+        ReactDOM.render(<CartAction />, document.getElementById("back-loaderedss"));
     }
     return (
         <div id={"category_add_pop_base"}>
@@ -507,7 +514,7 @@ export const AddDiscount = ({type}) => {
                                             <p>8 تیر 1400 ساعت 10:00</p>
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
-                                    </li><li id={"itemss"}>
+                                    </li><li id={"itemss"} onClick={e => handleShowCartRoles(e)}>
                                         <i className={"bx bx-shopping-bag"}></i>
 
                                         <div id={"details-items"}>

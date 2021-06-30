@@ -5,7 +5,7 @@ import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
 
-export const DiscoutAction = ({limit, out: setOut}) => {
+export const CartAction = ({limit, out: setOut}) => {
 
     const [status, setStatus] = useState(true);
     const [data, setData] = useState({limit: limit ? limit : null})
@@ -53,7 +53,7 @@ export const DiscoutAction = ({limit, out: setOut}) => {
 
     }
 
- const handleSearchCategore = e => {
+    const handleSearchCategore = e => {
         let searchdata = {search: '', pageSize: 10}
         if (e) {
             searchdata.search = e;
@@ -121,21 +121,18 @@ export const DiscoutAction = ({limit, out: setOut}) => {
             setTypeSel(typp);
         } else if (id == 1) {
             let typpp = {...typeSel};
-            typpp.types = "cartPrice";
+            typpp.types = "miniPrice";
             setTypeSel(typpp);
 
         } else if (id == 2) {
             let typpps = {...typeSel};
-            typpps.types = "products";
+            typpps.types = "miniCount";
             setTypeSel(typpps);
-            handleSearchProducts();
 
         } else if (id == 3) {
             let typppb = {...typeSel};
-            typppb.types = "category";
+            typppb.types = "maxPrice";
             setTypeSel(typppb);
-            handleSearchCategore();
-
         } else {
 
         }
@@ -165,20 +162,20 @@ export const DiscoutAction = ({limit, out: setOut}) => {
 
                         <div className={"content-select firstes"}>
 
-                            <p style={{textAlign: 'center'}}>تخفیف اعمال شود روی</p>
+                            <p style={{textAlign: 'center'}}>حداقل شرایط سبد خرید</p>
 
-                            <MultiOption name={"status"} handleChoise={handleChoise} data={[{
-                                id: 'کل مبلغ سبد خرید',
-                                name: 'کل مبلغ سبد خرید'
+                            <MultiOption name={"cart-roles"} handleChoise={handleChoise} data={[{
+                                id: 'بدون محدودیت',
+                                name: 'بدون محدودیت'
                             }, {
-                                id: 'مبلغ سبد خرید بدون هزینه ارسال',
-                                name: 'مبلغ سبد خرید بدون هزینه ارسال'
+                                id: 'حداقل مبلغ سبد خرید',
+                                name: 'حداقل مبلغ سبد خرید'
                             }, {
-                                id: 'محصولات خاص بدون هزینه ارسال',
-                                name: 'محصولات خاص بدون هزینه ارسال'
+                                id: 'حداقل تعداد محصولات در سبد خرید',
+                                name: 'حداقل تعداد محصولات در سبد خرید'
                             }, {
-                                id: 'دسته بندی خاص بدون هزینه ارسال',
-                                name: 'دسته بندی خاص بدون هزینه ارسال'
+                                id: 'حداکثر مبلغ سبد خرید',
+                                name: 'حداکثر مبلغ سبد خرید'
                             }]}
                                 // selected={item => handleCloseFirst(item)}
 
@@ -189,34 +186,30 @@ export const DiscoutAction = ({limit, out: setOut}) => {
                     </div>
 
 
-                    {typeSel.types ? typeSel.types == "products" ? (
+                    {typeSel.types ? typeSel.types == "miniPrice" ? (
                         <div className={"col-12"}>
-                            <p>لیست محصولات</p>
+                            <p style={{textAlign : 'center'}}>مبلغ خرید </p>
+                            <input type="text" name="title" id="title" className="form-control" value=""/>
 
-
-                            <MultiSelected name={"cat-show"} data={productData}
-                                           loadings={loading}
-                                           searchs={handleSearchProducts}
-                                           selected={handleSelecete}
-                                // selected={e => setCatSel(e)}
-                            />
                         </div>
 
-                    ) : typeSel.types == "category" ? (
+                    ) : typeSel.types == "maxPrice" ? (
                         <div className={"col-12"}>
-                            <p>لیست دسته بندی ها</p>
+                            <p style={{textAlign : 'center'}}>مبلغ خرید </p>
+                            <input type="text" name="title" id="title" className="form-control" value=""/>
 
-
-                            <MultiSelected name={"cat-show"} data={categoryData}
-                                           loadings={loading}
-                                           selected={handleSelecete}
-                                           searchs={handleSearchCategore}
-
-                                           me={e => handleSearchCategory(e)}
-                            />
                         </div>
 
-                    ) : '' : ''}
+
+                    ) : typeSel.types == "miniCount" ? (
+                        <div className={"col-12"}>
+                            <p style={{textAlign : 'center'}}>تعداد محصولات سبد خرید</p>
+                            <input type="text" name="title" id="title" className="form-control" value=""/>
+
+                        </div>
+
+
+                    ) : ''  : ''}
 
 
                 </div>
