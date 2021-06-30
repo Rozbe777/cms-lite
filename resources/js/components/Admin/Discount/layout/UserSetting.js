@@ -10,7 +10,7 @@ export const UserSetting = ({limit, out: setOut}) => {
     const [status, setStatus] = useState(true);
     const [data, setData] = useState({limit: limit ? limit : null})
     const [productData, setProductData] = useState([]);
-    const [categoryData, setCategoryData] = useState([]);
+    const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(false)
     const [typeSel, setTypeSel] = useState({types: ''});
     const [catSel, setCatSel] = useState([]);
@@ -32,41 +32,21 @@ export const UserSetting = ({limit, out: setOut}) => {
 
     }
 
-    const handleSearchProducts = e => {
-        let searchdata = {search: '', pageSize: 10}
-        console.log(e);
 
-        if (e) {
-            searchdata.search = e;
-            setLoading(true);
-            Request.GetAllProducts(searchdata).then(res => {
-                setLoading(false);
-                setProductData(res.data.data.data);
-            })
-        } else {
-            setLoading(true);
-            Request.GetAllProducts(searchdata).then(res => {
-                setLoading(false);
-                setProductData(res.data.data.data);
-            })
-        }
-
-    }
-
- const handleSearchCategore = e => {
+ const handleSearchUser = e => {
         let searchdata = {search: '', pageSize: 10}
         if (e) {
             searchdata.search = e;
             setLoading(true);
-            Request.GetAllCategory(searchdata).then(res => {
+            Request.GetAllUserApi(searchdata).then(res => {
                 setLoading(false);
-                setCategoryData(res.data.data.data);
+                setUserData(res.data.data.data);
             })
         } else {
             setLoading(true);
-            Request.GetAllProducts(searchdata).then(res => {
+            Request.GetAllUserApi(searchdata).then(res => {
                 setLoading(false);
-                setCategoryData(res.data.data.data);
+                setUserData(res.data.data.data);
             })
         }
 
@@ -182,8 +162,8 @@ export const UserSetting = ({limit, out: setOut}) => {
 
                     {typeSel.types ? typeSel.types == "group" ? (
                         <div className={"col-12"}>
-                            <p>کاربرانی که</p>
-                            <MultiOption name={"status"} handleChoise={handleChoise} data={[{
+                            <p style={{textAlign : 'center'}}>کاربرانی که</p>
+                            <MultiOption name={"status"}  data={[{
                                 id: 'کاربرانی که قبلا خرید کرده اند',
                                 name: 'کاربرانی که قبلا خرید کرده اند'
                             }, {
@@ -195,9 +175,9 @@ export const UserSetting = ({limit, out: setOut}) => {
                             />
                         </div>
 
-                    ) : typeSel.types == "category" ? (
+                    ) : typeSel.types == "sepcial" ? (
                         <div className={"col-12"}>
-                            <p>لیست دسته بندی ها</p>
+                            <p>کاربر</p>
 
 
                             <MultiSelected name={"cat-show"} data={categoryData}
