@@ -121,20 +121,14 @@ export const UserSetting = ({limit, out: setOut}) => {
             setTypeSel(typp);
         } else if (id == 1) {
             let typpp = {...typeSel};
-            typpp.types = "cartPrice";
+            typpp.types = "group";
             setTypeSel(typpp);
 
         } else if (id == 2) {
             let typpps = {...typeSel};
-            typpps.types = "products";
+            typpps.types = "sepcial";
             setTypeSel(typpps);
             handleSearchProducts();
-
-        } else if (id == 3) {
-            let typppb = {...typeSel};
-            typppb.types = "category";
-            setTypeSel(typppb);
-            handleSearchCategore();
 
         } else {
 
@@ -189,16 +183,18 @@ export const UserSetting = ({limit, out: setOut}) => {
                     </div>
 
 
-                    {typeSel.types ? typeSel.types == "products" ? (
+                    {typeSel.types ? typeSel.types == "group" ? (
                         <div className={"col-12"}>
-                            <p>لیست محصولات</p>
+                            <p>کاربرانی که</p>
+                            <MultiOption name={"status"} handleChoise={handleChoise} data={[{
+                                id: 'کاربرانی که قبلا خرید کرده اند',
+                                name: 'کاربرانی که قبلا خرید کرده اند'
+                            }, {
+                                id: 'کاربرانی که خرید نکرده اند',
+                                name: 'کاربرانی که خرید نکرده اند'
+                            }]}
+                                // selected={item => handleCloseFirst(item)}
 
-
-                            <MultiSelected name={"cat-show"} data={productData}
-                                           loadings={loading}
-                                           searchs={handleSearchProducts}
-                                           selected={handleSelecete}
-                                // selected={e => setCatSel(e)}
                             />
                         </div>
 

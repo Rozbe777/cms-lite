@@ -106,10 +106,10 @@ Route::middleware('auth')->group(function () {
 
     //---------------------------Categories--------------------------
     Route::get('category', [CategoryController::class, 'blade'])->name('categories.blade');
+    Route::get('categories/all',[CategoryController::class,'all'])->name('categories.getAll');
     Route::resource('categories', CategoryController::class)->except('update');
     Route::post('categories/update', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy'])->name('categories.multipleDestroy');
-    Route::get('categories/all',[CategoryController::class,'all'])->name('categories.getAll');
 
     //------------------------------Tags-----------------------------
     Route::get('tag', [TagController::class, 'blade'])->name('tags.blade');

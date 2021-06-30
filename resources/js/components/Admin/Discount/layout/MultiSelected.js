@@ -156,6 +156,7 @@ export const MultiSelected = ({
 
 
         $(".input-searchsss.active input").focus(function (){
+            console.leg("check multi selecte")
         }).blur(function () {
             $(".input-searchsss").removeClass("active")
             clearInterval(interValOptionsss)

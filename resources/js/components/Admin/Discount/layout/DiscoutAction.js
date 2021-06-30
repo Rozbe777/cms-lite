@@ -58,13 +58,13 @@ export const DiscoutAction = ({limit, out: setOut}) => {
         if (e) {
             searchdata.search = e;
             setLoading(true);
-            Request.GetAllCategory(searchdata).then(res => {
+            Request.GetAllCategorySearch(searchdata).then(res => {
                 setLoading(false);
                 setCategoryData(res.data.data.data);
             })
         } else {
             setLoading(true);
-            Request.GetAllProducts(searchdata).then(res => {
+            Request.GetAllCategorySearch(searchdata).then(res => {
                 setLoading(false);
                 setCategoryData(res.data.data.data);
             })
@@ -212,7 +212,7 @@ export const DiscoutAction = ({limit, out: setOut}) => {
                                            selected={handleSelecete}
                                            searchs={handleSearchCategore}
 
-                                           me={e => handleSearchCategory(e)}
+                                           // me={e => handleSearchCategory(e)}
                             />
                         </div>
 
