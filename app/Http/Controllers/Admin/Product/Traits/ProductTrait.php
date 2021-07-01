@@ -16,7 +16,9 @@ trait ProductTrait
 {
     public function imageHandler($image)
     {
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $name = microtime(true);
+        $name = str_replace('.','',$name);
+        $imageName =$name . '.' . $image->getClientOriginalExtension();
         return $image->storeAs('public/images', $imageName);
     }
 

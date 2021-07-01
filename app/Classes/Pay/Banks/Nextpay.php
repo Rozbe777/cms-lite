@@ -41,10 +41,18 @@ class Nextpay extends BaseGateway
         ));
 
         $response = curl_exec($curl);
-
         curl_close($curl);
 
         if (json_decode($response)->code == -1){
+
+            $transaction = new Transaction();
+            $transaction->user_id = $invoice->user_id;
+            $transaction->response_code = json_decode($response)->code;
+            $transaction->trans_id = json_decode($response)->trans_id;
+            $transaction->transaction_type_id =1;
+            $transaction->amount = $invoice->amount;
+//            $transaction->description =
+
             $result = Redirect::to('https://nextpay.org/nx/gateway/payment/'.json_decode($response)->trans_id);
         }
 
