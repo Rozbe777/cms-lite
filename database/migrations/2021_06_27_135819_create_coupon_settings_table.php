@@ -17,6 +17,7 @@ class CreateCouponSettingsTable extends Migration
             $table->id();
             $table->string('coupon_id');
             $table->enum('functionality',['total_items_price','total_card_price','special_products','special_categories'])->default('total_card_price');
+            $table->json('functionality_amount')->nullable();
             $table->enum('card_conditions',['unlimited','min_price','min_purchase_number','max_card_price','max_purchase_number'])->default('unlimited');
             $table->integer('card_conditions_amount')->nullable();
             $table->enum('user_status',['all','special_users','group_of_users'])->default('all');

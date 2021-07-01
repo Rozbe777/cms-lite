@@ -51,7 +51,7 @@ class Nextpay extends BaseGateway
             $transaction->trans_id = json_decode($response)->trans_id;
             $transaction->transaction_type_id =1;
             $transaction->amount = $invoice->amount;
-            $transaction->description =
+//            $transaction->description =
 
             $result = Redirect::to('https://nextpay.org/nx/gateway/payment/'.json_decode($response)->trans_id);
         }
