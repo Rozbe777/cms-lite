@@ -67,7 +67,7 @@ export const MultiOption = ({handleChoise , name, data, selected: pushSelected})
                     {data ? data.map((item, index) => (
                         <li key={index} onClick={e => {
                             selectedOpt(e, item.name, item.id);
-                            handleChoise(e, index)
+                            handleChoise(e, index , item.name , item.id)
                         }}>{item.name}</li>
                     )) : (<li disabled>موردی یافت نشد</li>)}
 

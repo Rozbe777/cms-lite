@@ -20,61 +20,42 @@ import {StartDiscount} from "../layout/StartDiscount";
 export const AddDiscount = ({type}) => {
 
 
+    const [allData, setAllData] = useState({
+        code: '',
+        status: "active",
+        type: 'percentage',
+        max_limit: null,
+        functionality: 'total_card_price',
+        user_status : 'all',
+        functionality_amount : null,
 
-    const [allData , setAllData] = useState({
-        code : '',
-        status : "active",
-        discountType : {
-            percent : null,
-            price : null,
-            topPrice : null // na mahdoud
-        },
-        actionType : {
-            type : '',
-            productList : [],
-            categoryList : []
-        },
-        userSetting : {
-            all : false,
-            typeOf : 'active',  // karbarini ke kharid kardeand
-            special : []
-        },
-        dateStart : {
-            time : 12,
-            date : 1540145,
-        },
-        dateEnd : {
-            time : 16,
-            date : 168421321
-        },
-        cartStatus : {
-            limit : null,
-            minPrice : null,
-            maxPrice : null,
-            countPrice : 1500
-        },
-        limitUse : {
-            countUse : null,
-            countUseForUser : 15
-        }
+
     })
 
 
     const [edit, setEdit] = useState(false);
+    const [status, setStatus] = useState("active");
+    const [prevCalSel, setPrevCatSel] = useState({})
     const [timeShow, setTimeShow] = useState([]);
+    const [functionality, setFunctionality] = useState({id: 'total_card_price', name: 'کل مبلغ سبد خرید'});
+    const [functionality_amount, setFunctionality_amount] = useState([]);
     const [timeCheck, setTimeCheck] = useState([]);
     const [discountCode, setDiscountCode] = useState('');
-
+    const [value, setValue] = useState('');
+    const [maxLimit, setMaxLimit] = useState(null);
     const [searchs, setSearchs] = useState([]);
-    const [formData, setFormData] = useState({});
+    const [userStatus , setUserStatus] = useState('all');
+    const [userGroup , setUserGroup] = useState([-1]);
     const [productData, setProductData] = useState({});
-    const [disTypesDis, setDisTypesDis] = useState('')
+    const [disTypesDis, setDisTypesDis] = useState('total_card_price')
+    const [disTypesUser, setDisTypesUser] = useState('all')
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(false);
     const [catData, setCatData] = useState({});
     const [catSel, setCatSel] = useState([]);
     const [userSelectList, setUserSelectList] = useState([]);
     const [proSel, setProSel] = useState([]);
+    const [start_time , setStart_time] = useState({});
     const [typeAct, setTypeAct] = useState('')
     const [typeUser, setTypeUser] = useState('')
     const [userGroups, setUserGroups] = useState('');
@@ -89,7 +70,7 @@ export const AddDiscount = ({type}) => {
         GetAllProducts();
         GetAllUser();
         handleTimeCheck()
-        if (!discountCode){
+        if (!discountCode) {
             let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let str2 = Math.random().toString(16).substr(2, 8);
             let str = '';
@@ -195,7 +176,6 @@ export const AddDiscount = ({type}) => {
                 $(".seconds.category").addClass("active");
             } else if (indexes === 0) {
                 setTypeAct("allPriceCart")
-
                 setDis(false)
                 $(".seconds.product").removeClass("active");
                 $(".seconds.category").removeClass("active");
@@ -263,6 +243,26 @@ export const AddDiscount = ({type}) => {
 
     const HandleForm = e => {
         e.preventDefault();
+        let data = {...allData};
+        data.code = discountCode;
+        data.status = status;
+        data.type = disTypesDis;
+        data.value = value;
+        data.max_limit = maxLimit ? parseInt(maxLimit) : null;
+        data.user_status = disTypesUser;
+        data.functionality = disTypesDis;
+        data.functionality_amount = functionality_amount;
+        data.user_status = userStatus;
+        data.user_group = userGroup;
+        data.start_date = start_date;
+        data.end_date = start_date;
+        data.number_of_times_allowed_to_use = 1;
+        data.number_of_use_allowed_per_user = 10;
+
+
+        console.log("_____", data);
+
+
     }
 
     const handleTopDiscount = e => {
@@ -279,12 +279,18 @@ export const AddDiscount = ({type}) => {
 
     }
 
+    const handleMaxPrice = (data, e) => {
+        e.preventDefault();
+        setMaxLimit(data.limit)
+    }
+
     const HandleTopPrice = e => {
         e.preventDefault();
         setEdit(true)
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<TopPrice close={e => closeFeture(e)}
-            // dataOut={}
+                                  handleOut={handleMaxPrice}
+                                  limit={maxLimit}
         />, document.getElementById("back-loaderedss"));
     }
 
@@ -365,26 +371,62 @@ export const AddDiscount = ({type}) => {
     }
     const handleSwitchStatus = state => {
         setEdit(true)
-        localStorage.setItem("status", status ? "active" : "deactivate");
+        setStatus(state ? "active" : "deactivate");
+        // localStorage.setItem("status", status ? "active" : "deactivate");
     }
 
-    const handleTypeDiscount = e => {
+    const handleTypeDiscount = (e, index) => {
 
-        if (e == 'مبلغ ثابت') {
+        e.preventDefault();
 
-            setDisTypesDis('تومان');
-        } else if (e == 'درصد') {
+        if (index == 1) {
 
-            setDisTypesDis('درصد')
+            setDisTypesDis('fixed_price');
+        } else if (index == 0) {
+
+            setDisTypesDis('percentage')
         } else {
-            setDisTypesDis('')
+            setDisTypesDis('free_delivery')
+        }
+    }
+    const handleTypeUser = (e, index) => {
+
+        e.preventDefault();
+
+        if (index == 1) {
+
+            setDisTypesUser('group_of_users');
+        } else if (index == 0) {
+
+            setDisTypesUser('all')
+        } else {
+            setDisTypesUser('special_users')
         }
     }
 
+
+    const handleFunctionality = data => {
+        delete data.data.limit;
+
+        if (data.data.name) {
+            setFunctionality({
+                id: data.data.index,
+                name: data.data.name
+            })
+        }
+        setPrevCatSel(data.catSel);
+        setFunctionality_amount([]);
+        data.catSel.map(item => {
+            functionality_amount.push(parseInt(item.id));
+            setFunctionality_amount(functionality_amount)
+        })
+
+    }
     const handleShowTypeDiscount = e => {
         e.preventDefault();
         $("#back-loaderedss").addClass("active");
-        ReactDOM.render(<DiscoutAction/>, document.getElementById("back-loaderedss"));
+        ReactDOM.render(<DiscoutAction defaultValue={{catSel, functionality}}
+                                       dataOut={handleFunctionality}/>, document.getElementById("back-loaderedss"));
     }
 
     const handleShowCartRoles = e => {
@@ -393,10 +435,24 @@ export const AddDiscount = ({type}) => {
         ReactDOM.render(<CartAction/>, document.getElementById("back-loaderedss"));
     }
 
+
+    const handleUserSetting = e => {
+
+        setUserStatus(e.user_status);
+        e.userGroup.length > 0 ? setUserGroup(e.userGroup) : null;
+        if(e.userSelecet.length > 0){
+            let users = [];
+            e.userSelecet.map(item => {
+                users.push(parseInt(item.id));
+                setUserGroup(users);
+            })
+        }else{
+        }
+    }
     const handleShowUserSetting = e => {
         e.preventDefault();
         $("#back-loaderedss").addClass("active");
-        ReactDOM.render(<UserSetting/>, document.getElementById("back-loaderedss"));
+        ReactDOM.render(<UserSetting dataOut={handleUserSetting}/>, document.getElementById("back-loaderedss"));
     }
 
     const handleShowLimitedUse = e => {
@@ -404,13 +460,19 @@ export const AddDiscount = ({type}) => {
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<LimitedUse/>, document.getElementById("back-loaderedss"));
     }
+
+    const handleStartDis = e => {
+        console.log(e , "date")
+    }
     const handleShowStartDate = e => {
         e.preventDefault();
         $("#back-loaderedss").addClass("active");
-        ReactDOM.render(<StartDiscount timers={timeCheck} timeShows={timeShow}/>, document.getElementById("back-loaderedss"));
+        ReactDOM.render(<StartDiscount timers={timeCheck}
+                                       dataOut={handleStartDis}
+                                       timeShows={timeShow}/>, document.getElementById("back-loaderedss"));
     }
 
-    const  handleTimeCheck = () => {
+    const handleTimeCheck = () => {
         let i = 0;
         for (i; i < 24; i++) {
             if (i < 10) {
@@ -421,8 +483,8 @@ export const AddDiscount = ({type}) => {
                 })
                 let strs = "0" + i + " : 00"
                 timeShow.push(({
-                    id : strs,
-                    name : strs
+                    id: strs,
+                    name: strs
                 }))
 
                 timeCheck.push({
@@ -432,16 +494,15 @@ export const AddDiscount = ({type}) => {
 
                 let strs2 = "0" + i + " : 30"
                 timeShow.push(({
-                    id : strs2,
-                    name : strs2
+                    id: strs2,
+                    name: strs2
                 }))
 
                 setTimeShow(timeShow);
                 setTimeCheck(timeCheck)
-            }  else {
+            } else {
 
                 if (i !== 24) {
-
 
 
                     timeCheck.push({
@@ -451,8 +512,8 @@ export const AddDiscount = ({type}) => {
 
                     let strs = i + " : 00"
                     timeShow.push(({
-                        id : strs,
-                        name : strs
+                        id: strs,
+                        name: strs
                     }))
 
                     timeCheck.push({
@@ -462,13 +523,13 @@ export const AddDiscount = ({type}) => {
 
                     let strs2 = i + " : 30"
                     timeShow.push(({
-                        id : strs2,
-                        name : strs2
+                        id: strs2,
+                        name: strs2
                     }))
 
                     setTimeShow(timeShow)
                     setTimeCheck(timeCheck)
-                }else{
+                } else {
 
                     timeCheck.push({
                         h: "00",
@@ -477,8 +538,8 @@ export const AddDiscount = ({type}) => {
 
                     let strs = "00 : 30"
                     timeShow.push(({
-                        id : strs,
-                        name : strs
+                        id: strs,
+                        name: strs
                     }))
 
 
@@ -489,8 +550,8 @@ export const AddDiscount = ({type}) => {
 
                     let strs2 = "00 : 30"
                     timeShow.push(({
-                        id : strs2,
-                        name : strs2
+                        id: strs2,
+                        name: strs2
                     }))
 
                     setTimeShow(timeShow)
@@ -505,7 +566,7 @@ export const AddDiscount = ({type}) => {
     }
 
 
-    const randoms = (e , length = 8) => {
+    const randoms = (e, length = 8) => {
         e.preventDefault();
         let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let str2 = Math.random().toString(16).substr(2, length);
@@ -516,6 +577,12 @@ export const AddDiscount = ({type}) => {
         setDiscountCode(str + str2)
     };
 
+
+    const handleValue = e => {
+        e.preventDefault();
+        setValue(e.target.value)
+
+    }
 
     return (
         <div id={"category_add_pop_base"}>
@@ -581,9 +648,10 @@ export const AddDiscount = ({type}) => {
                             <p>کد تخفیف</p>
                             <div className={"discounts active"}>
 
-                                <input type={"text"} value={discountCode} id={"make-discounts"} onChange={e => handleDis(e)}
+                                <input type={"text"} value={discountCode} id={"make-discounts"}
+                                       onChange={e => handleDis(e)}
                                        style={{float: 'left', textAlign: 'left'}}/>
-                                <div className={"btn btn-primary"} onClick={e => randoms(e , 8)}
+                                <div className={"btn btn-primary"} onClick={e => randoms(e, 8)}
                                      style={{float: 'right', height: '100%', cursor: 'pointer'}}><i
                                     className={"bx bx-rotate-right"}></i> تولید کد تصادفی
                                 </div>
@@ -598,7 +666,9 @@ export const AddDiscount = ({type}) => {
                                 <Switcher
                                     defaultState={true}
                                     // defaultState={dataUpdateParse ? dataUpdateParse.status == "active" ? true : false : true}
-                                    status={(state) => handleSwitchStatus(state)} name={"showState"}
+                                    // status={(state) => handleSwitchStatus(state)}
+                                    name={"showState"}
+                                    handleSwitchStatus={handleSwitchStatus}
                                     valueActive={"فعال"}
                                     valueDeActive={"غیرفعال"}/>
                             </fieldset>
@@ -609,27 +679,32 @@ export const AddDiscount = ({type}) => {
                             <label>نوع تخفیف</label>
                             <MultiOption name={"type-disc"} data={[
                                 {
-                                    id: 'درصد',
+                                    id: 'fixed_price',
                                     name: 'درصد'
                                 }, {
-                                    id: 'مبلغ ثابت',
+                                    id: 'percentage',
                                     name: 'مبلغ ثابت'
                                 }, {
-                                    id: 'ارسال رایگان',
+                                    id: 'free_delivery',
                                     name: 'ارسال رایگان'
                                 },
-                            ]} selected={e => handleTypeDiscount(e)}/>
+                            ]}
+
+                                         handleChoise={handleTypeDiscount}
+
+                            />
 
                         </div>
 
 
                         <div className={"col-md-4 col-sm-12"} style={{paddingTop: '2px'}}>
                             <fieldset className="form-group" style={{marginTop: '-2px'}}><label htmlFor="title"> مقدار
-                                تخفیف {disTypesDis ? " ( " + disTypesDis + " ) " : ''} </label>
+                                تخفیف {disTypesDis ? " ( " + (disTypesDis == "percentage" ? 'درصد' : 'تومان') + " ) " : ''} </label>
 
                                 <div className={disTypesDis ? "custom-in-show" : "custom-in-show active"}>
                                     <input disabled={disTypesDis ? false : true}
-                                        type="text" id="moutDis"/>
+                                           onChange={e => handleValue(e)}
+                                           type="number" id="moutDis"/>
 
                                 </div>
                             </fieldset>
@@ -638,7 +713,7 @@ export const AddDiscount = ({type}) => {
 
                             <fieldset className="form-group">
                                 <label htmlFor="title">سقف مبلغ تخفیف</label>
-                                {disTypesDis !== "درصد"  ? (
+                                {disTypesDis !== "percentage" ? (
                                     <div className={"custom-in-show active"}>
 
                                         <i className={"bx bx-pencil"}></i>
@@ -650,7 +725,7 @@ export const AddDiscount = ({type}) => {
                                          onClick={e => HandleTopPrice(e)}>
 
                                         <i className={"bx bx-pencil"}></i>
-                                        <span>بدون محدودیت</span>
+                                        <span>{maxLimit ? maxLimit + " تومان " : 'بدون محدودیت'}</span>
 
                                     </div>
                                 )}
@@ -678,7 +753,7 @@ export const AddDiscount = ({type}) => {
                                             <p>
                                                 نوع عملکرد
                                             </p>
-                                            <p>قابل استفاده روی کل خرید</p>
+                                            <p> قابل استفاده در {functionality.name} </p>
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
 
@@ -873,16 +948,16 @@ export const AddDiscount = ({type}) => {
                                                         <p>تخفیف اعمال شود روی</p>
 
                                                         <MultiOption name={"userDis"} data={[{
-                                                            id: 'همه کاربران',
+                                                            id: 'all',
                                                             name: 'همه کاربران'
                                                         }, {
-                                                            id: 'گروهی از کاربران',
+                                                            id: 'group_of_users',
                                                             name: 'گروهی از کاربران'
                                                         }, {
-                                                            id: 'کاربران خاص',
+                                                            id: 'special_users',
                                                             name: 'کاربران خاص'
                                                         }]}
-                                                                     selected={item => handleSetUser(item)}
+                                                                     handleChoise={handleTypeUser}
 
                                                         />
 

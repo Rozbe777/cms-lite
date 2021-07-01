@@ -5,7 +5,7 @@ import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
 
-export const StartDiscount = ({timeShows , timers, limit, out: setOut}) => {
+export const StartDiscount = ({dataOut, timeShows, timers, limit, out: setOut}) => {
 
     const [status, setStatus] = useState(true);
     const [data, setData] = useState({limit: limit ? limit : null})
@@ -14,7 +14,12 @@ export const StartDiscount = ({timeShows , timers, limit, out: setOut}) => {
     const [loading, setLoading] = useState(false)
     const [typeSel, setTypeSel] = useState({types: ''});
     const [catSel, setCatSel] = useState([]);
-    const [time, setTime] = useState([]);
+    const [time, setTime] = useState({
+        h: '00',
+        m: '00',
+        s: '00'
+    });
+    const [date, setDate] = useState(new Date());
     const [timeShow, setTimeShow] = useState([]);
 
     const handleClose = e => {
@@ -25,8 +30,7 @@ export const StartDiscount = ({timeShows , timers, limit, out: setOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        console.log("dataaa :", data)
-        setOut(data);
+        dataOut({date , time})
         handleClose(e);
     }
 
@@ -36,7 +40,6 @@ export const StartDiscount = ({timeShows , timers, limit, out: setOut}) => {
 
     const handleSearchProducts = e => {
         let searchdata = {search: '', pageSize: 10}
-        console.log(e);
 
         if (e) {
             searchdata.search = e;
@@ -164,7 +167,18 @@ export const StartDiscount = ({timeShows , timers, limit, out: setOut}) => {
 
     }
 
+    const handleChoiseTime = (e, index, name, id) => {
 
+
+        let timmme = [];
+        timmme = name.split(":");
+        setTime({
+            h : timmme[0],
+            m : timmme[1],
+            s : '00'
+        })
+
+    }
 
 
     return (
@@ -201,7 +215,7 @@ export const StartDiscount = ({timeShows , timers, limit, out: setOut}) => {
 
                             <MultiOption name={"time-roles"}
 
-                                // handleChoise={handleChoise}
+                                         handleChoise={handleChoiseTime}
                                          data={timeShows}
                                 // selected={item => handleCloseFirst(item)}
 

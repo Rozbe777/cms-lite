@@ -20,14 +20,9 @@ export const MultiSelected = ({
                               }) => {
 
 
+    console.log(defSelected)
     const [check, setCheck] = useState([])
 
-
-    console.log("data get", data)
-    // const {searchs, setSearchs} = useContext(Searchs);
-
-    // const [data, setData] = useState()
-    // const [paginateThumbs, setPaginateThumbs] = useState();
     const [load, setLoad] = useState(false);
     let selectCheckBox = new Set();
     let interValOptionsss = 0;
@@ -65,18 +60,8 @@ export const MultiSelected = ({
 
     }, [])
 
-
-    // $(function () {
-    //     $(".input-searchsss").mouseout(function () {
-    //         $(this).removeClass("active");
-    //     })
-    // })
     const handleSearchs = e => {
         e.preventDefault();
-        // let search = {...searchs};
-        // search.search = e.target.value;
-        // search.type = "product"
-        // setMe(e.target.value);
         searchs(e.target.value);
     }
     const HandleChange = (e, id) => {
@@ -90,7 +75,8 @@ export const MultiSelected = ({
                 name: e.target.value
             })
 
-            console.log(checked)
+
+
             setCheck(checked)
 
             if (pushSelected) {
@@ -109,6 +95,8 @@ export const MultiSelected = ({
                     return parseInt(obj.id) !== id;
                 }
             });
+
+
             setCheck(results)
             if (pushSelected) {
                 pushSelected(checked)
@@ -123,27 +111,19 @@ export const MultiSelected = ({
     }
 
 
-    // var mainSels = $(".main-selected");
-    //
-    // $(document.body).click(function (){
-    //     if(!mainSels.has(this).length){
-    //         mainSels.find(".optionBox").removeClass("active")
-    //         mainSels.find("#box-droper i").removeClass("active");
-    //     }
-    // })
-
     const RemoveChipset = (id) => {
         $("span." + name + ".checkboxeds." + id).removeClass("active");
         $("input[name=" + id + "]").prop("checked", false);
         var result = check.filter(obj => obj.id !== id);
         setCheck(result)
-        console.log("====", result);
         if (pushSelected) {
             pushSelected(checked)
 
         } else {
             handleSelecete(checked)
         }
+
+
 
     }
 
@@ -155,21 +135,24 @@ export const MultiSelected = ({
         })
 
 
-        $(".input-searchsss.active input").focus(function (){
-            console.leg("check multi selecte")
-        }).blur(function () {
-            $(".input-searchsss").removeClass("active")
-            clearInterval(interValOptionsss)
-            $(".main-selected .optionBox").removeClass("active")
-            $(".main-selected #box-droper i").removeClass("active");
-        })
+
+
     })
+
+    const closeSearch = e => {
+        e.preventDefault();
+
+        $(".input-searchsss").removeClass("active")
+        $(".main-selected .optionBox").removeClass("active")
+        $(".main-selected #box-droper i").removeClass("active");
+    }
 
 
     return (
         <div className={"main-selected"}>
 
             <div className={"input-searchsss"}>
+                <i className={"bx bx-x"} id={"close"} onClick={e => closeSearch(e)}></i>
                 <input type={"type"} onChange={e => handleSearchs(e)} placeholder={"برای جستجو تایپ کنید"}/>
             </div>
 

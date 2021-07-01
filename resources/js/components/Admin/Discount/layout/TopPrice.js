@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from "react";
 import ReactDOM from 'react-dom';
 
-export const TopPrice = ({limit, out: setOut}) => {
+export const TopPrice = ({handleOut , limit, out: setOut}) => {
 
-    const [status, setStatus] = useState(true);
+    console.log(limit)
+    const [status, setStatus] = useState(limit ? false : true);
     const [data, setData] = useState({limit: limit ? limit : null})
 
     const handleClose = e => {
@@ -14,8 +15,11 @@ export const TopPrice = ({limit, out: setOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        console.log("dataaa :" , data)
-        setOut(data);
+        if (setOut){
+            setOut(data);
+
+        }
+        handleOut(data ,e);
         handleClose(e);
     }
 

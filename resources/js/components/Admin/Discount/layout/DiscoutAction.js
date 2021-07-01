@@ -5,16 +5,22 @@ import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
 
-export const DiscoutAction = ({limit, out: setOut}) => {
+export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
+
+    const {functionality} = defaultValue;
 
     const [status, setStatus] = useState(true);
     const [data, setData] = useState({limit: limit ? limit : null})
     const [productData, setProductData] = useState([]);
     const [categoryData, setCategoryData] = useState([]);
     const [loading, setLoading] = useState(false)
-    const [typeSel, setTypeSel] = useState({types: ''});
-    const [catSel, setCatSel] = useState([]);
+    const [typeSel, setTypeSel] = useState({types: functionality.id ? functionality.id : ''});
 
+    const [catSel, setCatSel] = useState(defaultValue ? defaultValue.catSel : []);
+
+
+
+    console.log(functionality)
     const handleClose = e => {
         e.preventDefault();
         $("#back-loaderedss").removeClass("active");
@@ -23,8 +29,8 @@ export const DiscoutAction = ({limit, out: setOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        console.log("dataaa :", data)
-        setOut(data);
+        dataOut({data , catSel})
+        console.log(catSel , "mmmm")
         handleClose(e);
     }
 
@@ -112,30 +118,37 @@ export const DiscoutAction = ({limit, out: setOut}) => {
     }
 
 
-    const handleChoise = (e, id) => {
+    const handleChoise = (e, id , name , index) => {
         e.preventDefault();
+
+        setData({
+            ...data,
+            name,
+            index
+        })
+
+        setCatSel([])
 
         if (id == 0) {
             let typp = {...typeSel};
-            typp.types = "all";
+            typp.types = "total_card_price";
             setTypeSel(typp);
         } else if (id == 1) {
             let typpp = {...typeSel};
-            typpp.types = "cartPrice";
+            typpp.types = "total_items_price";
             setTypeSel(typpp);
 
         } else if (id == 2) {
             let typpps = {...typeSel};
-            typpps.types = "products";
+            typpps.types = "special_products";
             setTypeSel(typpps);
             handleSearchProducts();
 
         } else if (id == 3) {
             let typppb = {...typeSel};
-            typppb.types = "category";
+            typppb.types = "special_categories";
             setTypeSel(typppb);
             handleSearchCategore();
-
         } else {
 
         }
@@ -153,7 +166,6 @@ export const DiscoutAction = ({limit, out: setOut}) => {
         setCatSel(e);
 
     }
-    console.log("vsdvsdv", typeSel)
 
 
     return (
@@ -168,16 +180,16 @@ export const DiscoutAction = ({limit, out: setOut}) => {
                             <p style={{textAlign: 'center'}}>تخفیف اعمال شود روی</p>
 
                             <MultiOption name={"status"} handleChoise={handleChoise} data={[{
-                                id: 'کل مبلغ سبد خرید',
+                                id: 'total_card_price',
                                 name: 'کل مبلغ سبد خرید'
                             }, {
-                                id: 'مبلغ سبد خرید بدون هزینه ارسال',
+                                id: 'total_items_price',
                                 name: 'مبلغ سبد خرید بدون هزینه ارسال'
                             }, {
-                                id: 'محصولات خاص بدون هزینه ارسال',
+                                id: 'special_products',
                                 name: 'محصولات خاص بدون هزینه ارسال'
                             }, {
-                                id: 'دسته بندی خاص بدون هزینه ارسال',
+                                id: 'special_categories',
                                 name: 'دسته بندی خاص بدون هزینه ارسال'
                             }]}
                                 // selected={item => handleCloseFirst(item)}
@@ -189,7 +201,7 @@ export const DiscoutAction = ({limit, out: setOut}) => {
                     </div>
 
 
-                    {typeSel.types ? typeSel.types == "products" ? (
+                    {typeSel.types ? typeSel.types == "special_products" ? (
                         <div className={"col-12"}>
                             <p>لیست محصولات</p>
 
@@ -202,16 +214,15 @@ export const DiscoutAction = ({limit, out: setOut}) => {
                             />
                         </div>
 
-                    ) : typeSel.types == "category" ? (
+                    ) : typeSel.types == "special_categories" ? (
                         <div className={"col-12"}>
                             <p>لیست دسته بندی ها</p>
 
-
                             <MultiSelected name={"cat-show"} data={categoryData}
                                            loadings={loading}
+                                           // defSelected={catSel ? catSel : null}
                                            selected={handleSelecete}
                                            searchs={handleSearchCategore}
-
                                            // me={e => handleSearchCategory(e)}
                             />
                         </div>

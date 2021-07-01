@@ -2,11 +2,14 @@ import React from 'react';
 import './_Shared/style.scss'
 import $ from 'jquery';
 
-export const Switcher = ({defaultState, name, valueActive, valueDeActive, status: pushState}) => {
+export const Switcher = ({handleSwitchStatus , defaultState, name, valueActive, valueDeActive, status: pushState}) => {
     $(function () {
         $("input[name=" + name + "]").on("change", function (e) {
             let status = $(this).prop("checked");
-            pushState(status)
+            if (pushState){
+                pushState(status)
+            }
+            handleSwitchStatus(status);
             if (status) {
                 $("li." + name + ".active").addClass("act");
                 $("li." + name + ".deactive").removeClass("act");

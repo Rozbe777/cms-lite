@@ -5,13 +5,14 @@ import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
 
-export const UserSetting = ({limit, out: setOut}) => {
+export const UserSetting = ({dataOut, limit, out: setOut}) => {
 
     const [status, setStatus] = useState(true);
     const [data, setData] = useState({limit: limit ? limit : null})
     const [productData, setProductData] = useState([]);
     const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(false)
+    const [userGroup , setUserGroup] = useState([])
     const [typeSel, setTypeSel] = useState({types: ''});
     const [catSel, setCatSel] = useState([]);
 
@@ -23,28 +24,24 @@ export const UserSetting = ({limit, out: setOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        console.log("dataaa :", data)
-        setOut(data);
+        dataOut({user_status: typeSel.types, userGroup ,userSelecet : catSel});
         handleClose(e);
     }
 
-    const CategoryGet = async () => {
-
-    }
 
 
- const handleSearchUser = e => {
+    const handleSearchUser = e => {
         let searchdata = {search: '', pageSize: 10}
         if (e) {
             searchdata.search = e;
             setLoading(true);
-            Request.GetAllUserApi({params : searchdata}).then(res => {
+            Request.GetAllUserApi({params: searchdata}).then(res => {
                 setLoading(false);
                 setUserData(res.data.data.data);
             })
         } else {
             setLoading(true);
-            Request.GetAllUserApi({params : searchdata}).then(res => {
+            Request.GetAllUserApi({params: searchdata}).then(res => {
                 setLoading(false);
                 setUserData(res.data.data.data);
             })
@@ -53,45 +50,13 @@ export const UserSetting = ({limit, out: setOut}) => {
     }
 
 
-    const HandleChange = (e) => {
-        let checkBoxCustom = $("span.checkboxed.limi");
-        if (e.target.checked) {
-            checkBoxCustom.addClass("active")
-            setStatus(true)
-            setData({limit: null})
-        } else {
-            setData({limit: ''})
-            checkBoxCustom.removeClass("active")
-            setStatus(false)
-        }
-    }
-
-    useEffect(() => {
-        if (status) {
-            $("span.checkboxed.limi").addClass("active");
-        } else {
-            $("span.checkboxed.limi").removeClass("active");
-        }
-    }, [])
-
-
-    const HandleChangeLimit = e => {
+    const handleChoiseGroup = (e , index , name , id) => {
         e.preventDefault();
-        if (e.target.value < 1) {
-            setData({
-                ...data,
-                [e.target.name]: 1
-            })
-        } else {
-            setData({
-                ...data,
-                [e.target.name]: e.target.value
-            })
-        }
-
+        let userGroups = [];
+        setCatSel([]);
+        userGroups.push([id])
+        setUserGroup(userGroups);
     }
-
-
     const handleChoise = (e, id) => {
         e.preventDefault();
 
@@ -101,12 +66,12 @@ export const UserSetting = ({limit, out: setOut}) => {
             setTypeSel(typp);
         } else if (id == 1) {
             let typpp = {...typeSel};
-            typpp.types = "group";
+            typpp.types = "group_of_users";
             setTypeSel(typpp);
 
         } else if (id == 2) {
             let typpps = {...typeSel};
-            typpps.types = "sepcial";
+            typpps.types = "special_users";
             setTypeSel(typpps);
             handleSearchUser();
 
@@ -124,10 +89,11 @@ export const UserSetting = ({limit, out: setOut}) => {
 
     const handleSelecete = e => {
 
+        let UserGroups = [];
+        setUserGroup(UserGroups)
         setCatSel(e);
 
     }
-    console.log("vsdvsdv", typeSel)
 
 
     return (
@@ -142,13 +108,13 @@ export const UserSetting = ({limit, out: setOut}) => {
                             <p style={{textAlign: 'center'}}> اعمال شود روی</p>
 
                             <MultiOption name={"status"} handleChoise={handleChoise} data={[{
-                                id: 'همه کاربران',
+                                id: 'all',
                                 name: 'همه کاربران'
                             }, {
-                                id: 'گروهی از کاربران',
+                                id: 'group_of_users',
                                 name: 'گروهی از کاربران'
                             }, {
-                                id: 'کاربران خاص',
+                                id: 'special_users',
                                 name: 'کاربران خاص'
                             }]}
                                 // selected={item => handleCloseFirst(item)}
@@ -160,22 +126,23 @@ export const UserSetting = ({limit, out: setOut}) => {
                     </div>
 
 
-                    {typeSel.types ? typeSel.types == "group" ? (
+                    {typeSel.types ? typeSel.types == "group_of_users" ? (
                         <div className={"col-12"}>
-                            <p style={{textAlign : 'center'}}>کاربرانی که</p>
-                            <MultiOption name={"status"}  data={[{
-                                id: 'کاربرانی که قبلا خرید کرده اند',
+                            <p style={{textAlign: 'center'}}>کاربرانی که</p>
+                            <MultiOption name={"user_group"} data={[{
+                                id: '-2',
                                 name: 'کاربرانی که قبلا خرید کرده اند'
                             }, {
-                                id: 'کاربرانی که خرید نکرده اند',
+                                id: '-3',
                                 name: 'کاربرانی که خرید نکرده اند'
                             }]}
+                                         handleChoise={handleChoiseGroup}
                                 // selected={item => handleCloseFirst(item)}
 
                             />
                         </div>
 
-                    ) : typeSel.types == "sepcial" ? (
+                    ) : typeSel.types == "special_users" ? (
                         <div className={"col-12"}>
                             <p>کاربر</p>
 
@@ -185,7 +152,7 @@ export const UserSetting = ({limit, out: setOut}) => {
                                            selected={handleSelecete}
                                            searchs={handleSearchUser}
 
-                                           // me={e => handleSearchCategory(e)}
+                                // me={e => handleSearchCategory(e)}
                             />
                         </div>
 

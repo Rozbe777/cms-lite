@@ -211,8 +211,21 @@
         display: flex;
     }
 
+    i#close{
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        border-radius: 50px;
+        left: 15px;
+        top: 0px;
+        bottom: 0px;
+        margin: auto;
+        text-align: center;
+        line-height: 1.4;
+        cursor: pointer;
+    }
     input {
-        width: 99%;
+        width: 100%;
         border: unset;
         border-radius: 5px;
         margin-top: -5px;

@@ -34,7 +34,7 @@ const Show = (props) => {
 
     const handleAddDisc = e => {
         e.preventDefault();
-        ReactDOM.render(<AddDiscount type={"edit"} /> , document.getElementById("add-datas") );
+        ReactDOM.render(<AddDiscount  /> , document.getElementById("add-datas") );
     }
 
 

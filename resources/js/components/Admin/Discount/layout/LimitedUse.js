@@ -25,7 +25,6 @@ export const LimitedUse = ({limit, out: setOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        console.log("dataaa :", data)
         setOut(data);
         handleClose(e);
     }
@@ -36,7 +35,6 @@ export const LimitedUse = ({limit, out: setOut}) => {
 
     const handleSearchProducts = e => {
         let searchdata = {search: '', pageSize: 10}
-        console.log(e);
 
         if (e) {
             searchdata.search = e;
@@ -152,8 +150,6 @@ export const LimitedUse = ({limit, out: setOut}) => {
         setCatSel(e);
 
     }
-    console.log("vsdvsdv", typeSel)
-
     const handleChangeCheckCode = (e, type) => {
         if (e.target.checked) {
             setCheckCode(true)
