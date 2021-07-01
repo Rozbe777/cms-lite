@@ -34,7 +34,7 @@ class GatewaySeeder extends Seeder
                         'bank_id' => 2,
                         'is_default' => 0,
                         'status' => 'disable',
-                        'merchant_id' => 'b11ee9c3-d23d-414e-8b6e-f2370baac97b',
+                        'merchant_id' => 'ad357e30-07f0-4919-a864-61dd39b02c7d',
                     ]
             ];
 
