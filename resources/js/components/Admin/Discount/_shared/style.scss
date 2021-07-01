@@ -212,12 +212,15 @@
     }
 
     input {
-        width: 98%;
+        width: 99%;
         border: unset;
-        height: 40px !important;
+        border-radius: 5px;
+        margin-top: -5px;
+        height: 45px !important;
 
         &::placeholder {
             text-align: right;
+            margin-right: 10px;
         }
     }
 }
@@ -311,8 +314,9 @@
             text-align: left !important;
             border: unset !important;
             background: #fff;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 100;
+            width: 65%;
             margin-top: -2px;
         }
 
@@ -413,3 +417,17 @@
         line-height: 1.9;
     }
 }
+
+.customPrice{
+    height: auto !important;
+    padding-bottom: 75px;
+}
+
+//li#content.type-disc{
+//    transform: translateY(-110px);
+//    bottom : 115px;
+//    &.active{
+//        transform: translateY(-85px);
+//        bottom: 85px;
+//    }
+//}

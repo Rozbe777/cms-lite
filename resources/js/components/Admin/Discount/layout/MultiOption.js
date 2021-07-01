@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import $ from 'jquery'
 import "swiper/swiper-bundle.css";
 
-export const MultiOption = ({name, data, selected: pushSelected}) => {
+export const MultiOption = ({handleChoise , name, data, selected: pushSelected}) => {
 
     const [selectedO, setSelectedO] = useState({
         item: ''
@@ -58,14 +58,17 @@ export const MultiOption = ({name, data, selected: pushSelected}) => {
                 </div>
                 <span id={"selected"}>
                     {selectedO.item !== "" ? (
-                        <a onClick={e => delSel(e)}><i className='bx bx-x'></i><span>{selectedO.item}</span></a>
+                        <a onClick={e => delSel(e)}><i className='bx bx-x'></i><span className={name}>{selectedO.item}</span></a>
                     ) : 'انتخاب کنید'}
                 </span>
             </li>
-            <li id={"content"}>
+            <li id={"content"} className={name}>
                 <ul id={"main-child-sels"} className={name}>
                     {data ? data.map((item, index) => (
-                        <li key={index} onClick={e => selectedOpt(e, item.name, item.id)}>{item.name}</li>
+                        <li key={index} onClick={e => {
+                            selectedOpt(e, item.name, item.id);
+                            handleChoise(e, index)
+                        }}>{item.name}</li>
                     )) : (<li disabled>موردی یافت نشد</li>)}
 
                 </ul>

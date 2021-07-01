@@ -10,6 +10,7 @@ export const Request = {
     CreateUserNew : (data) =>  request.post("/users" , data),
     UpdateUserDetail : (data , id) =>  request.post("/users/update" , data),
     GetAllCategory : () =>  request.get("/categories?page=1"),
+    GetAllCategorySearch : (data) =>  request.get("categories/getAll" , {params : data}),
     GetAllTags : () =>  request.get("/tags"),
     GetAllPages : () =>  request.get("/pages"),
     AddNewCategory : (data) =>  request.post("/categories" ,  data),

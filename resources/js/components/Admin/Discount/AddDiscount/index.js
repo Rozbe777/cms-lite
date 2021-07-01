@@ -12,11 +12,58 @@ import {Searchs} from "../layout/Context";
 import {Switcher} from "../../../HOC/Switch";
 import {NewFeture} from "../../_Micro/ProductMiniComponent/NewFeture";
 import {TopPrice} from "../layout/TopPrice";
+import {CartAction} from "../layout/CartAction";
+import {UserSetting} from "../layout/UserSetting";
+import {LimitedUse} from "../layout/LimitedUse";
+import {StartDiscount} from "../layout/StartDiscount";
 
 export const AddDiscount = ({type}) => {
 
 
+
+    const [allData , setAllData] = useState({
+        code : '',
+        status : "active",
+        discountType : {
+            percent : null,
+            price : null,
+            topPrice : null // na mahdoud
+        },
+        actionType : {
+            type : '',
+            productList : [],
+            categoryList : []
+        },
+        userSetting : {
+            all : false,
+            typeOf : 'active',  // karbarini ke kharid kardeand
+            special : []
+        },
+        dateStart : {
+            time : 12,
+            date : 1540145,
+        },
+        dateEnd : {
+            time : 16,
+            date : 168421321
+        },
+        cartStatus : {
+            limit : null,
+            minPrice : null,
+            maxPrice : null,
+            countPrice : 1500
+        },
+        limitUse : {
+            countUse : null,
+            countUseForUser : 15
+        }
+    })
+
+
     const [edit, setEdit] = useState(false);
+    const [timeShow, setTimeShow] = useState([]);
+    const [timeCheck, setTimeCheck] = useState([]);
+    const [discountCode, setDiscountCode] = useState('');
 
     const [searchs, setSearchs] = useState([]);
     const [formData, setFormData] = useState({});
@@ -36,28 +83,33 @@ export const AddDiscount = ({type}) => {
     const [productTotal, setProductTotal] = useState(0);
     const [userTotal, setUserTotal] = useState(0);
 
-    useEffect(() => {
+
+    useEffect((e) => {
         GetAllCategory();
         GetAllProducts();
         GetAllUser();
+        handleTimeCheck()
+        if (!discountCode){
+            let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let str2 = Math.random().toString(16).substr(2, 8);
+            let str = '';
+            for (let i = 0; i < 8; i++) {
+                str += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            setDiscountCode(str + str2)
+        }
     }, [])
-
 
     const handleClose = (e) => {
         e.preventDefault()
         $("span.checkboxeds").removeClass("active");
         ReactDOM.render('', document.getElementById("add-datas"));
-
         localStorage.removeItem("is_menu");
         localStorage.removeItem("status");
         localStorage.removeItem("selected");
         localStorage.removeItem("comment_status");
         localStorage.removeItem("robots");
-
     }
-
-    console.log("cat sel => ", catSel)
-    console.log("pro sel => ", proSel)
 
     const GetAllCategory = () => {
         setLoading(true);
@@ -75,8 +127,6 @@ export const AddDiscount = ({type}) => {
     const GetAllUser = () => {
         Request.GetAllUserApi().then(res => {
             setLoading(false);
-            console.log("vvvvvv", res.data.data.total, res.data.data)
-            // setUserData(res.data.data.data);
             setUserTotal(res.data.data.total);
         })
     }
@@ -215,6 +265,10 @@ export const AddDiscount = ({type}) => {
         e.preventDefault();
     }
 
+    const handleTopDiscount = e => {
+        e.preventDefault();
+    }
+
 
     const HandleEdit = e => {
         e.preventDefault();
@@ -259,7 +313,7 @@ export const AddDiscount = ({type}) => {
 
 
     const handleSearchCategory = e => {
-        let searchdata = {search: ''}
+        let searchdata = {search: '', pageSize: 10}
         searchdata.search = e;
         setLoading(true);
         Request.GetAllProducts(searchdata).then(res => {
@@ -307,6 +361,7 @@ export const AddDiscount = ({type}) => {
 
     const handleDis = e => {
         e.preventDefault();
+        setDiscountCode(e.target.value)
     }
     const handleSwitchStatus = state => {
         setEdit(true)
@@ -329,8 +384,139 @@ export const AddDiscount = ({type}) => {
     const handleShowTypeDiscount = e => {
         e.preventDefault();
         $("#back-loaderedss").addClass("active");
-        ReactDOM.render(<DiscoutAction />, document.getElementById("back-loaderedss"));
+        ReactDOM.render(<DiscoutAction/>, document.getElementById("back-loaderedss"));
     }
+
+    const handleShowCartRoles = e => {
+        e.preventDefault();
+        $("#back-loaderedss").addClass("active");
+        ReactDOM.render(<CartAction/>, document.getElementById("back-loaderedss"));
+    }
+
+    const handleShowUserSetting = e => {
+        e.preventDefault();
+        $("#back-loaderedss").addClass("active");
+        ReactDOM.render(<UserSetting/>, document.getElementById("back-loaderedss"));
+    }
+
+    const handleShowLimitedUse = e => {
+        e.preventDefault();
+        $("#back-loaderedss").addClass("active");
+        ReactDOM.render(<LimitedUse/>, document.getElementById("back-loaderedss"));
+    }
+    const handleShowStartDate = e => {
+        e.preventDefault();
+        $("#back-loaderedss").addClass("active");
+        ReactDOM.render(<StartDiscount timers={timeCheck} timeShows={timeShow}/>, document.getElementById("back-loaderedss"));
+    }
+
+    const  handleTimeCheck = () => {
+        let i = 0;
+        for (i; i < 24; i++) {
+            if (i < 10) {
+
+                timeCheck.push({
+                    h: "0" + i,
+                    m: '00'
+                })
+                let strs = "0" + i + " : 00"
+                timeShow.push(({
+                    id : strs,
+                    name : strs
+                }))
+
+                timeCheck.push({
+                    h: "0" + i,
+                    m: '30'
+                })
+
+                let strs2 = "0" + i + " : 30"
+                timeShow.push(({
+                    id : strs2,
+                    name : strs2
+                }))
+
+                setTimeShow(timeShow);
+                setTimeCheck(timeCheck)
+            }  else {
+
+                if (i !== 24) {
+
+
+
+                    timeCheck.push({
+                        h: i,
+                        m: '00'
+                    })
+
+                    let strs = i + " : 00"
+                    timeShow.push(({
+                        id : strs,
+                        name : strs
+                    }))
+
+                    timeCheck.push({
+                        h: i,
+                        m: '30'
+                    })
+
+                    let strs2 = i + " : 30"
+                    timeShow.push(({
+                        id : strs2,
+                        name : strs2
+                    }))
+
+                    setTimeShow(timeShow)
+                    setTimeCheck(timeCheck)
+                }else{
+
+                    timeCheck.push({
+                        h: "00",
+                        m: '30'
+                    })
+
+                    let strs = "00 : 30"
+                    timeShow.push(({
+                        id : strs,
+                        name : strs
+                    }))
+
+
+                    timeCheck.push({
+                        h: "00",
+                        m: '00'
+                    })
+
+                    let strs2 = "00 : 30"
+                    timeShow.push(({
+                        id : strs2,
+                        name : strs2
+                    }))
+
+                    setTimeShow(timeShow)
+                    setTimeCheck(timeCheck)
+                }
+
+
+            }
+        }
+
+
+    }
+
+
+    const randoms = (e , length = 8) => {
+        e.preventDefault();
+        let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let str2 = Math.random().toString(16).substr(2, length);
+        let str = '';
+        for (let i = 0; i < length; i++) {
+            str += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        setDiscountCode(str + str2)
+    };
+
+
     return (
         <div id={"category_add_pop_base"}>
             <ul className="nav nav-tabs tab-layout" role="tablist">
@@ -376,7 +562,7 @@ export const AddDiscount = ({type}) => {
                                         <p>
                                             <i className={"bx bx-copy-alt"}
                                                onClick={e => handleCopy(e, "discount-code")}></i>
-                                            <input id={"discount-code"} value={"vsdvsdvsdvsdvsdv"}/>
+                                            <input id={"discount-code"} value={discountCode}/>
                                         </p>
                                         <p>
                                             <i className={"bx bx-copy-alt"}></i>
@@ -395,9 +581,9 @@ export const AddDiscount = ({type}) => {
                             <p>کد تخفیف</p>
                             <div className={"discounts active"}>
 
-                                <input type={"text"} id={"make-discounts"} onChange={e => handleDis(e)}
+                                <input type={"text"} value={discountCode} id={"make-discounts"} onChange={e => handleDis(e)}
                                        style={{float: 'left', textAlign: 'left'}}/>
-                                <div className={"btn btn-primary"}
+                                <div className={"btn btn-primary"} onClick={e => randoms(e , 8)}
                                      style={{float: 'right', height: '100%', cursor: 'pointer'}}><i
                                     className={"bx bx-rotate-right"}></i> تولید کد تصادفی
                                 </div>
@@ -442,7 +628,7 @@ export const AddDiscount = ({type}) => {
                                 تخفیف {disTypesDis ? " ( " + disTypesDis + " ) " : ''} </label>
 
                                 <div className={disTypesDis ? "custom-in-show" : "custom-in-show active"}>
-                                    <input
+                                    <input disabled={disTypesDis ? false : true}
                                         type="text" id="moutDis"/>
 
                                 </div>
@@ -452,13 +638,23 @@ export const AddDiscount = ({type}) => {
 
                             <fieldset className="form-group">
                                 <label htmlFor="title">سقف مبلغ تخفیف</label>
-                                <div className={disTypesDis !== "درصد" ? "custom-in-show active" : "custom-in-show"}
-                                     onClick={e => HandleTopPrice(e)}>
+                                {disTypesDis !== "درصد"  ? (
+                                    <div className={"custom-in-show active"}>
 
-                                    <i className={"bx bx-pencil"}></i>
-                                    <span>بدون محدودیت</span>
+                                        <i className={"bx bx-pencil"}></i>
+                                        <span>بدون محدودیت</span>
 
-                                </div>
+                                    </div>
+                                ) : (
+                                    <div className={"custom-in-show"}
+                                         onClick={e => HandleTopPrice(e)}>
+
+                                        <i className={"bx bx-pencil"}></i>
+                                        <span>بدون محدودیت</span>
+
+                                    </div>
+                                )}
+
                             </fieldset>
 
                         </div>
@@ -487,7 +683,7 @@ export const AddDiscount = ({type}) => {
                                         <i className={"bx bx-cog absol"}></i>
 
                                     </li>
-                                    <li id={"itemss"}>
+                                    <li id={"itemss"} onClick={e => handleShowUserSetting(e)}>
                                         <i className={"bx bx-user"}></i>
 
                                         <div id={"details-items"}>
@@ -497,7 +693,8 @@ export const AddDiscount = ({type}) => {
                                             <p>برای همه کاربران</p>
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
-                                    </li><li id={"itemss"}>
+                                    </li>
+                                    <li id={"itemss"} onClick={e => handleShowStartDate(e)}>
                                         <i className={"bx bx-calendar-alt"}></i>
 
                                         <div id={"details-items"}>
@@ -507,7 +704,8 @@ export const AddDiscount = ({type}) => {
                                             <p>8 تیر 1400 ساعت 10:00</p>
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
-                                    </li><li id={"itemss"}>
+                                    </li>
+                                    <li id={"itemss"} onClick={e => handleShowCartRoles(e)}>
                                         <i className={"bx bx-shopping-bag"}></i>
 
                                         <div id={"details-items"}>
@@ -517,7 +715,8 @@ export const AddDiscount = ({type}) => {
                                             <p>بدون محدودیت</p>
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
-                                    </li><li id={"itemss"}>
+                                    </li>
+                                    <li id={"itemss"}>
                                         <i className={"bx bx-calendar-alt"}></i>
 
                                         <div id={"details-items"}>
@@ -528,7 +727,7 @@ export const AddDiscount = ({type}) => {
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
                                     </li>
-<li id={"itemss"}>
+                                    <li id={"itemss"} onClick={e => handleShowLimitedUse(e)}>
                                         <i className={"bx bx-slider"}></i>
 
                                         <div id={"details-items"}>
@@ -603,10 +802,7 @@ export const AddDiscount = ({type}) => {
 
                                                     <div className={"col-md-6 col-sm-12 seconds product"}>
                                                         <div className={"content-select"}>
-
-
                                                             <p>لیست محصولات</p>
-
 
                                                             <MultiSelected name={"product-show"}
                                                                            loadings={loading}

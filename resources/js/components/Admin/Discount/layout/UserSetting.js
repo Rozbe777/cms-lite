@@ -5,12 +5,12 @@ import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
 
-export const DiscoutAction = ({limit, out: setOut}) => {
+export const UserSetting = ({limit, out: setOut}) => {
 
     const [status, setStatus] = useState(true);
     const [data, setData] = useState({limit: limit ? limit : null})
     const [productData, setProductData] = useState([]);
-    const [categoryData, setCategoryData] = useState([]);
+    const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(false)
     const [typeSel, setTypeSel] = useState({types: ''});
     const [catSel, setCatSel] = useState([]);
@@ -32,41 +32,21 @@ export const DiscoutAction = ({limit, out: setOut}) => {
 
     }
 
-    const handleSearchProducts = e => {
-        let searchdata = {search: '', pageSize: 10}
-        console.log(e);
 
-        if (e) {
-            searchdata.search = e;
-            setLoading(true);
-            Request.GetAllProducts(searchdata).then(res => {
-                setLoading(false);
-                setProductData(res.data.data.data);
-            })
-        } else {
-            setLoading(true);
-            Request.GetAllProducts(searchdata).then(res => {
-                setLoading(false);
-                setProductData(res.data.data.data);
-            })
-        }
-
-    }
-
- const handleSearchCategore = e => {
+ const handleSearchUser = e => {
         let searchdata = {search: '', pageSize: 10}
         if (e) {
             searchdata.search = e;
             setLoading(true);
-            Request.GetAllCategorySearch(searchdata).then(res => {
+            Request.GetAllUserApi({params : searchdata}).then(res => {
                 setLoading(false);
-                setCategoryData(res.data.data.data);
+                setUserData(res.data.data.data);
             })
         } else {
             setLoading(true);
-            Request.GetAllCategorySearch(searchdata).then(res => {
-                setLoading(false)
-                setCategoryData(res.data.data.data);
+            Request.GetAllUserApi({params : searchdata}).then(res => {
+                setLoading(false);
+                setUserData(res.data.data.data);
             })
         }
 
@@ -121,20 +101,14 @@ export const DiscoutAction = ({limit, out: setOut}) => {
             setTypeSel(typp);
         } else if (id == 1) {
             let typpp = {...typeSel};
-            typpp.types = "cartPrice";
+            typpp.types = "group";
             setTypeSel(typpp);
 
         } else if (id == 2) {
             let typpps = {...typeSel};
-            typpps.types = "products";
+            typpps.types = "sepcial";
             setTypeSel(typpps);
-            handleSearchProducts();
-
-        } else if (id == 3) {
-            let typppb = {...typeSel};
-            typppb.types = "category";
-            setTypeSel(typppb);
-            handleSearchCategore();
+            handleSearchUser();
 
         } else {
 
@@ -165,20 +139,17 @@ export const DiscoutAction = ({limit, out: setOut}) => {
 
                         <div className={"content-select firstes"}>
 
-                            <p style={{textAlign: 'center'}}>تخفیف اعمال شود روی</p>
+                            <p style={{textAlign: 'center'}}> اعمال شود روی</p>
 
                             <MultiOption name={"status"} handleChoise={handleChoise} data={[{
-                                id: 'کل مبلغ سبد خرید',
-                                name: 'کل مبلغ سبد خرید'
+                                id: 'همه کاربران',
+                                name: 'همه کاربران'
                             }, {
-                                id: 'مبلغ سبد خرید بدون هزینه ارسال',
-                                name: 'مبلغ سبد خرید بدون هزینه ارسال'
+                                id: 'گروهی از کاربران',
+                                name: 'گروهی از کاربران'
                             }, {
-                                id: 'محصولات خاص بدون هزینه ارسال',
-                                name: 'محصولات خاص بدون هزینه ارسال'
-                            }, {
-                                id: 'دسته بندی خاص بدون هزینه ارسال',
-                                name: 'دسته بندی خاص بدون هزینه ارسال'
+                                id: 'کاربران خاص',
+                                name: 'کاربران خاص'
                             }]}
                                 // selected={item => handleCloseFirst(item)}
 
@@ -189,28 +160,30 @@ export const DiscoutAction = ({limit, out: setOut}) => {
                     </div>
 
 
-                    {typeSel.types ? typeSel.types == "products" ? (
+                    {typeSel.types ? typeSel.types == "group" ? (
                         <div className={"col-12"}>
-                            <p>لیست محصولات</p>
+                            <p style={{textAlign : 'center'}}>کاربرانی که</p>
+                            <MultiOption name={"status"}  data={[{
+                                id: 'کاربرانی که قبلا خرید کرده اند',
+                                name: 'کاربرانی که قبلا خرید کرده اند'
+                            }, {
+                                id: 'کاربرانی که خرید نکرده اند',
+                                name: 'کاربرانی که خرید نکرده اند'
+                            }]}
+                                // selected={item => handleCloseFirst(item)}
 
-
-                            <MultiSelected name={"cat-show"} data={productData}
-                                           loadings={loading}
-                                           searchs={handleSearchProducts}
-                                           selected={handleSelecete}
-                                // selected={e => setCatSel(e)}
                             />
                         </div>
 
-                    ) : typeSel.types == "category" ? (
+                    ) : typeSel.types == "sepcial" ? (
                         <div className={"col-12"}>
-                            <p>لیست دسته بندی ها</p>
+                            <p>کاربر</p>
 
 
-                            <MultiSelected name={"cat-show"} data={categoryData}
+                            <MultiSelected name={"cat-show"} data={userData}
                                            loadings={loading}
                                            selected={handleSelecete}
-                                           searchs={handleSearchCategore}
+                                           searchs={handleSearchUser}
 
                                            // me={e => handleSearchCategory(e)}
                             />

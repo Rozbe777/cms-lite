@@ -6,6 +6,8 @@ import {Searchs} from "./Context";
 
 
 export const MultiSelected = ({
+                                  handleSelecete,
+                                  searchs,
                                   loadings,
                                   defSelected,
                                   clear,
@@ -22,10 +24,10 @@ export const MultiSelected = ({
 
 
     console.log("data get", data)
-    const {searchs, setSearchs} = useContext(Searchs);
+    // const {searchs, setSearchs} = useContext(Searchs);
 
     // const [data, setData] = useState()
-    const [paginateThumbs, setPaginateThumbs] = useState();
+    // const [paginateThumbs, setPaginateThumbs] = useState();
     const [load, setLoad] = useState(false);
     let selectCheckBox = new Set();
     let interValOptionsss = 0;
@@ -33,19 +35,14 @@ export const MultiSelected = ({
     useEffect(() => {
 
 
-        $(".main-selected").mouseover(function () {
+        $(".main-selected").click(function () {
             var thisisss = $(this);
             clearInterval(interValOptionsss)
             thisisss.find(".optionBox").addClass("active")
             thisisss.find("#box-droper i").addClass("active");
 
         })
-        $(".main-selected").mouseout(function () {
-            var thisisss = $(this);
-            clearInterval(interValOptionsss)
-            thisisss.find(".optionBox").removeClass("active")
-            thisisss.find("#box-droper i").removeClass("active");
-        })
+
 
 
         let checkkks = [...check];
@@ -69,18 +66,18 @@ export const MultiSelected = ({
     }, [])
 
 
-
-    $(function (){
-        $(".input-searchsss").mouseout(function (){
-            $(this).removeClass("active");
-        })
-    })
+    // $(function () {
+    //     $(".input-searchsss").mouseout(function () {
+    //         $(this).removeClass("active");
+    //     })
+    // })
     const handleSearchs = e => {
         e.preventDefault();
-        let search = {...searchs};
-        search.search = e.target.value;
-        search.type = "product"
-        setMe(e.target.value);
+        // let search = {...searchs};
+        // search.search = e.target.value;
+        // search.type = "product"
+        // setMe(e.target.value);
+        searchs(e.target.value);
     }
     const HandleChange = (e, id) => {
 
@@ -95,11 +92,14 @@ export const MultiSelected = ({
 
             console.log(checked)
             setCheck(checked)
-            if (pushSelected){
+
+            if (pushSelected) {
                 pushSelected(checked)
-            }else{
-                setSearchs(checked)
+
+            } else {
+                handleSelecete(checked)
             }
+
         } else {
             checkBoxCustom.removeClass("active")
             const results = check.filter(obj => {
@@ -110,16 +110,27 @@ export const MultiSelected = ({
                 }
             });
             setCheck(results)
-            if (pushSelected){
-                pushSelected(results)
-            }else{
-                setSearchs(results)
+            if (pushSelected) {
+                pushSelected(checked)
+
+            } else {
+                handleSelecete(checked)
             }
+
 
         }
 
     }
 
+
+    // var mainSels = $(".main-selected");
+    //
+    // $(document.body).click(function (){
+    //     if(!mainSels.has(this).length){
+    //         mainSels.find(".optionBox").removeClass("active")
+    //         mainSels.find("#box-droper i").removeClass("active");
+    //     }
+    // })
 
     const RemoveChipset = (id) => {
         $("span." + name + ".checkboxeds." + id).removeClass("active");
@@ -127,13 +138,13 @@ export const MultiSelected = ({
         var result = check.filter(obj => obj.id !== id);
         setCheck(result)
         console.log("====", result);
-        if (pushSelected)
-        {
-            pushSelected(result)
+        if (pushSelected) {
+            pushSelected(checked)
 
-        }else{
-            setSearchs(result)
+        } else {
+            handleSelecete(checked)
         }
+
     }
 
 
@@ -141,6 +152,16 @@ export const MultiSelected = ({
         check.map(item => {
             $("input[name=" + item.id + "]").prop("checked", true);
             $("span.checkboxeds." + item.id + "." + name).addClass("active");
+        })
+
+
+        $(".input-searchsss.active input").focus(function (){
+            console.leg("check multi selecte")
+        }).blur(function () {
+            $(".input-searchsss").removeClass("active")
+            clearInterval(interValOptionsss)
+            $(".main-selected .optionBox").removeClass("active")
+            $(".main-selected #box-droper i").removeClass("active");
         })
     })
 
@@ -155,7 +176,7 @@ export const MultiSelected = ({
             <div className={"show-chipset-multi"} id={name}>
                 {check.length > 0 ? (
                     <Swiper
-                        slidesPerView={1}
+                        slidesPerView={2}
                         pagination={{clickable: true}}
                         scrollbar={{draggable: true}}
                     >

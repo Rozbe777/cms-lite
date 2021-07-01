@@ -5,13 +5,15 @@ import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
 
-export const DiscoutAction = ({limit, out: setOut}) => {
+export const LimitedUse = ({limit, out: setOut}) => {
 
     const [status, setStatus] = useState(true);
     const [data, setData] = useState({limit: limit ? limit : null})
     const [productData, setProductData] = useState([]);
     const [categoryData, setCategoryData] = useState([]);
     const [loading, setLoading] = useState(false)
+    const [checkCode, setCheckCode] = useState(false)
+    const [checkUser, setCkeckUser] = useState(false)
     const [typeSel, setTypeSel] = useState({types: ''});
     const [catSel, setCatSel] = useState([]);
 
@@ -53,19 +55,19 @@ export const DiscoutAction = ({limit, out: setOut}) => {
 
     }
 
- const handleSearchCategore = e => {
+    const handleSearchCategore = e => {
         let searchdata = {search: '', pageSize: 10}
         if (e) {
             searchdata.search = e;
             setLoading(true);
-            Request.GetAllCategorySearch(searchdata).then(res => {
+            Request.GetAllCategory(searchdata).then(res => {
                 setLoading(false);
                 setCategoryData(res.data.data.data);
             })
         } else {
             setLoading(true);
-            Request.GetAllCategorySearch(searchdata).then(res => {
-                setLoading(false)
+            Request.GetAllProducts(searchdata).then(res => {
+                setLoading(false);
                 setCategoryData(res.data.data.data);
             })
         }
@@ -121,21 +123,18 @@ export const DiscoutAction = ({limit, out: setOut}) => {
             setTypeSel(typp);
         } else if (id == 1) {
             let typpp = {...typeSel};
-            typpp.types = "cartPrice";
+            typpp.types = "miniPrice";
             setTypeSel(typpp);
 
         } else if (id == 2) {
             let typpps = {...typeSel};
-            typpps.types = "products";
+            typpps.types = "miniCount";
             setTypeSel(typpps);
-            handleSearchProducts();
 
         } else if (id == 3) {
             let typppb = {...typeSel};
-            typppb.types = "category";
+            typppb.types = "maxPrice";
             setTypeSel(typppb);
-            handleSearchCategore();
-
         } else {
 
         }
@@ -155,6 +154,21 @@ export const DiscoutAction = ({limit, out: setOut}) => {
     }
     console.log("vsdvsdv", typeSel)
 
+    const handleChangeCheckCode = (e, type) => {
+        if (e.target.checked) {
+            setCheckCode(true)
+        } else {
+            setCheckCode(false)
+        }
+    }
+
+    const handleChangeCheckUser = (e, type) => {
+        if (e.target.checked) {
+            setCkeckUser(true)
+        } else {
+            setCkeckUser(false)
+        }
+    }
 
     return (
         <div className={"col-lg-4 col-sm-12 col-md-8 customPrice"} id={"prices"} style={{overflow: 'inherit'}}>
@@ -163,60 +177,51 @@ export const DiscoutAction = ({limit, out: setOut}) => {
                 <div className={"row"} style={{marginTop: '15px'}}>
                     <div className={"col-12"}>
 
-                        <div className={"content-select firstes"}>
+                        <div className={"content-select firstes"} style={{marginBottom : 20}}>
 
-                            <p style={{textAlign: 'center'}}>تخفیف اعمال شود روی</p>
-
-                            <MultiOption name={"status"} handleChoise={handleChoise} data={[{
-                                id: 'کل مبلغ سبد خرید',
-                                name: 'کل مبلغ سبد خرید'
-                            }, {
-                                id: 'مبلغ سبد خرید بدون هزینه ارسال',
-                                name: 'مبلغ سبد خرید بدون هزینه ارسال'
-                            }, {
-                                id: 'محصولات خاص بدون هزینه ارسال',
-                                name: 'محصولات خاص بدون هزینه ارسال'
-                            }, {
-                                id: 'دسته بندی خاص بدون هزینه ارسال',
-                                name: 'دسته بندی خاص بدون هزینه ارسال'
-                            }]}
-                                // selected={item => handleCloseFirst(item)}
-
-                            />
+                            <fieldset>
+                                <div className="checkbox">
+                                    <input type="checkbox" onChange={e => handleChangeCheckCode(e)}
+                                           className="checkbox-input" id="checkbox2"/>
+                                    <label style={{fontSize : '16px' , fontWeight : 100}} htmlFor="checkbox2">محدود کردن تعداد استفاده از این کد تخفیف</label>
+                                </div>
+                            </fieldset>
 
                         </div>
+
 
                     </div>
 
+                    {checkCode ? (
+                        <div className={"col-12"} style={{marginBottom : 20}}>
+                            <input type="number" name="title" id="title" className="form-control" placeholder={"تعداد قابل استفاده"}/>
+                        </div>
+                    ) : ''}
 
-                    {typeSel.types ? typeSel.types == "products" ? (
-                        <div className={"col-12"}>
-                            <p>لیست محصولات</p>
+                    <div className={"col-12"}>
 
+                        <div className={"content-select firstes"} style={{marginBottom : 20}}>
 
-                            <MultiSelected name={"cat-show"} data={productData}
-                                           loadings={loading}
-                                           searchs={handleSearchProducts}
-                                           selected={handleSelecete}
-                                // selected={e => setCatSel(e)}
-                            />
+                            <fieldset>
+                                <div className="checkbox">
+                                    <input type="checkbox" onChange={e => handleChangeCheckUser(e)}
+                                           className="checkbox-input" id="checkboxUser"/>
+                                    <label style={{fontSize : '16px' , fontWeight : 100}} htmlFor="checkboxUser">محدود کردن تعداد استفاده برای هر کاربر</label>
+                                </div>
+                            </fieldset>
+
                         </div>
 
-                    ) : typeSel.types == "category" ? (
-                        <div className={"col-12"}>
-                            <p>لیست دسته بندی ها</p>
 
+                    </div>
 
-                            <MultiSelected name={"cat-show"} data={categoryData}
-                                           loadings={loading}
-                                           selected={handleSelecete}
-                                           searchs={handleSearchCategore}
-
-                                           // me={e => handleSearchCategory(e)}
-                            />
+                    {checkUser ? (
+                        <div className={"col-12"} style={{marginBottom : 20}}>
+                            <input type="number" name="title" id="title" className="form-control" placeholder={"تعداد قابل استفاده برای هر کاربر"}/>
                         </div>
+                    ) : ''}
 
-                    ) : '' : ''}
+
 
 
                 </div>

@@ -5,7 +5,7 @@ import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
 
-export const DiscoutAction = ({limit, out: setOut}) => {
+export const StartDiscount = ({timeShows , timers, limit, out: setOut}) => {
 
     const [status, setStatus] = useState(true);
     const [data, setData] = useState({limit: limit ? limit : null})
@@ -14,6 +14,8 @@ export const DiscoutAction = ({limit, out: setOut}) => {
     const [loading, setLoading] = useState(false)
     const [typeSel, setTypeSel] = useState({types: ''});
     const [catSel, setCatSel] = useState([]);
+    const [time, setTime] = useState([]);
+    const [timeShow, setTimeShow] = useState([]);
 
     const handleClose = e => {
         e.preventDefault();
@@ -53,19 +55,19 @@ export const DiscoutAction = ({limit, out: setOut}) => {
 
     }
 
- const handleSearchCategore = e => {
+    const handleSearchCategore = e => {
         let searchdata = {search: '', pageSize: 10}
         if (e) {
             searchdata.search = e;
             setLoading(true);
-            Request.GetAllCategorySearch(searchdata).then(res => {
+            Request.GetAllCategory(searchdata).then(res => {
                 setLoading(false);
                 setCategoryData(res.data.data.data);
             })
         } else {
             setLoading(true);
-            Request.GetAllCategorySearch(searchdata).then(res => {
-                setLoading(false)
+            Request.GetAllProducts(searchdata).then(res => {
+                setLoading(false);
                 setCategoryData(res.data.data.data);
             })
         }
@@ -92,6 +94,17 @@ export const DiscoutAction = ({limit, out: setOut}) => {
         } else {
             $("span.checkboxed.limi").removeClass("active");
         }
+
+        timers.map(item => {
+            let strings = item.h + " : " + item.m;
+            timeShow.push({
+                id: strings,
+                name: strings
+            })
+            setTimeShow(timeShow)
+        })
+
+        // handleTime();
     }, [])
 
 
@@ -112,35 +125,32 @@ export const DiscoutAction = ({limit, out: setOut}) => {
     }
 
 
-    const handleChoise = (e, id) => {
-        e.preventDefault();
-
-        if (id == 0) {
-            let typp = {...typeSel};
-            typp.types = "all";
-            setTypeSel(typp);
-        } else if (id == 1) {
-            let typpp = {...typeSel};
-            typpp.types = "cartPrice";
-            setTypeSel(typpp);
-
-        } else if (id == 2) {
-            let typpps = {...typeSel};
-            typpps.types = "products";
-            setTypeSel(typpps);
-            handleSearchProducts();
-
-        } else if (id == 3) {
-            let typppb = {...typeSel};
-            typppb.types = "category";
-            setTypeSel(typppb);
-            handleSearchCategore();
-
-        } else {
-
-        }
-
-    }
+    // const handleChoise = (e, id) => {
+    //     e.preventDefault();
+    //
+    //     if (id == 0) {
+    //         let typp = {...typeSel};
+    //         typp.types = "all";
+    //         setTypeSel(typp);
+    //     } else if (id == 1) {
+    //         let typpp = {...typeSel};
+    //         typpp.types = "miniPrice";
+    //         setTypeSel(typpp);
+    //
+    //     } else if (id == 2) {
+    //         let typpps = {...typeSel};
+    //         typpps.types = "miniCount";
+    //         setTypeSel(typpps);
+    //
+    //     } else if (id == 3) {
+    //         let typppb = {...typeSel};
+    //         typppb.types = "maxPrice";
+    //         setTypeSel(typppb);
+    //     } else {
+    //
+    //     }
+    //
+    // }
 
     $(".main-selected").click(function () {
         $(".input-searchsss").addClass("active");
@@ -153,7 +163,8 @@ export const DiscoutAction = ({limit, out: setOut}) => {
         setCatSel(e);
 
     }
-    console.log("vsdvsdv", typeSel)
+
+
 
 
     return (
@@ -161,25 +172,18 @@ export const DiscoutAction = ({limit, out: setOut}) => {
 
             <div className={"col-12"}>
                 <div className={"row"} style={{marginTop: '15px'}}>
-                    <div className={"col-12"}>
+
+
+                    <div className={"col-md-6 col-sm-12"}>
 
                         <div className={"content-select firstes"}>
 
-                            <p style={{textAlign: 'center'}}>تخفیف اعمال شود روی</p>
+                            <p>تاریخ شروع</p>
 
-                            <MultiOption name={"status"} handleChoise={handleChoise} data={[{
-                                id: 'کل مبلغ سبد خرید',
-                                name: 'کل مبلغ سبد خرید'
-                            }, {
-                                id: 'مبلغ سبد خرید بدون هزینه ارسال',
-                                name: 'مبلغ سبد خرید بدون هزینه ارسال'
-                            }, {
-                                id: 'محصولات خاص بدون هزینه ارسال',
-                                name: 'محصولات خاص بدون هزینه ارسال'
-                            }, {
-                                id: 'دسته بندی خاص بدون هزینه ارسال',
-                                name: 'دسته بندی خاص بدون هزینه ارسال'
-                            }]}
+                            <MultiOption name={"time-roles"}
+
+                                // handleChoise={handleChoise}
+                                         data={timeShows}
                                 // selected={item => handleCloseFirst(item)}
 
                             />
@@ -189,35 +193,23 @@ export const DiscoutAction = ({limit, out: setOut}) => {
                     </div>
 
 
-                    {typeSel.types ? typeSel.types == "products" ? (
-                        <div className={"col-12"}>
-                            <p>لیست محصولات</p>
+                    <div className={"col-md-6 col-sm-12"}>
 
+                        <div className={"content-select firstes"}>
 
-                            <MultiSelected name={"cat-show"} data={productData}
-                                           loadings={loading}
-                                           searchs={handleSearchProducts}
-                                           selected={handleSelecete}
-                                // selected={e => setCatSel(e)}
+                            <p>ساعت</p>
+
+                            <MultiOption name={"time-roles"}
+
+                                // handleChoise={handleChoise}
+                                         data={timeShows}
+                                // selected={item => handleCloseFirst(item)}
+
                             />
+
                         </div>
 
-                    ) : typeSel.types == "category" ? (
-                        <div className={"col-12"}>
-                            <p>لیست دسته بندی ها</p>
-
-
-                            <MultiSelected name={"cat-show"} data={categoryData}
-                                           loadings={loading}
-                                           selected={handleSelecete}
-                                           searchs={handleSearchCategore}
-
-                                           // me={e => handleSearchCategory(e)}
-                            />
-                        </div>
-
-                    ) : '' : ''}
-
+                    </div>
 
                 </div>
             </div>
