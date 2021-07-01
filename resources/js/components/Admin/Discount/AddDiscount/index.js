@@ -20,6 +20,46 @@ import {StartDiscount} from "../layout/StartDiscount";
 export const AddDiscount = ({type}) => {
 
 
+
+    const [allData , setAllData] = useState({
+        code : '',
+        status : "active",
+        discountType : {
+            percent : null,
+            price : null,
+            topPrice : null // na mahdoud
+        },
+        actionType : {
+            type : '',
+            productList : [],
+            categoryList : []
+        },
+        userSetting : {
+            all : false,
+            typeOf : 'active',  // karbarini ke kharid kardeand
+            special : []
+        },
+        dateStart : {
+            time : 12,
+            date : 1540145,
+        },
+        dateEnd : {
+            time : 16,
+            date : 168421321
+        },
+        cartStatus : {
+            limit : null,
+            minPrice : null,
+            maxPrice : null,
+            countPrice : 1500
+        },
+        limitUse : {
+            countUse : null,
+            countUseForUser : 15
+        }
+    })
+
+
     const [edit, setEdit] = useState(false);
     const [timeShow, setTimeShow] = useState([]);
     const [timeCheck, setTimeCheck] = useState([]);
@@ -49,7 +89,15 @@ export const AddDiscount = ({type}) => {
         GetAllProducts();
         GetAllUser();
         handleTimeCheck()
-        // randoms(e,12);
+        if (!discountCode){
+            let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let str2 = Math.random().toString(16).substr(2, 8);
+            let str = '';
+            for (let i = 0; i < 8; i++) {
+                str += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            setDiscountCode(str + str2)
+        }
     }, [])
 
     const handleClose = (e) => {
@@ -214,6 +262,10 @@ export const AddDiscount = ({type}) => {
 
 
     const HandleForm = e => {
+        e.preventDefault();
+    }
+
+    const handleTopDiscount = e => {
         e.preventDefault();
     }
 

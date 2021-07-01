@@ -62,7 +62,7 @@ export const MultiOption = ({handleChoise , name, data, selected: pushSelected})
                     ) : 'انتخاب کنید'}
                 </span>
             </li>
-            <li id={"content"}>
+            <li id={"content"} className={name}>
                 <ul id={"main-child-sels"} className={name}>
                     {data ? data.map((item, index) => (
                         <li key={index} onClick={e => {
