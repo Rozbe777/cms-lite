@@ -42,18 +42,28 @@ class Nextpay extends BaseGateway
 
         $response = curl_exec($curl);
         curl_close($curl);
+        $response = json_decode($response);
 
-        if (json_decode($response)->code == -1){
+        if ($response->code != -1 || $response->code != 0) {
+            $error = $this->error_message($response->code);
+            return $error;
+        }
 
-            $transaction = new Transaction();
-            $transaction->user_id = $invoice->user_id;
-            $transaction->response_code = json_decode($response)->code;
-            $transaction->trans_id = json_decode($response)->trans_id;
-            $transaction->transaction_type_id =1;
-            $transaction->amount = $invoice->amount;
-//            $transaction->description =
+        $Status = $this->error_message($response->code);
 
-            $result = Redirect::to('https://nextpay.org/nx/gateway/payment/'.json_decode($response)->trans_id);
+        $result = [
+            "status" => $Status['error_message'],
+            "status_code" => $Status['error_code'],
+            "message" => $Status['error_message'],
+            "data" => []
+        ];
+
+        $invoice->payload = json_encode($result);
+        $invoice->bank_result = $Status['error_message'];
+        $invoice->save();
+
+        if ($response->code == -1) {
+            $data = Redirect::to('https://nextpay.org/nx/gateway/payment/' . $response->trans_id);
         }
 
     }
@@ -78,5 +88,53 @@ class Nextpay extends BaseGateway
 
         curl_close($curl);
         echo $response;
+    }
+
+    private function error_message($code)
+    {
+        $error = array(
+            '0' => 'پرداخت موفق',
+            '-1' => 'تراکنش در وضعیت آماده برای ارسال به بانک است',
+            '-2' => 'تراکنش به بانک ارسال شده و درحال پرداخت توسط خریدار است',
+            '-3' => 'هنوز پاسخی در خصوص نتیجه تراکنش از بانک دریافت نشده است',
+            '-4' => 'تراکنش توسط پرداخت کننده کنسل شده است',
+            '-20' => 'کلید مجوزدهی ) key_api ) ارسال نشده است )یا مقدار پارامتر مورد نظر خالی است(',
+            '-21' => "شماره تراکنش ) id_trans ) ارسال نشده یا خالی ارسال شده است",
+            '-22' => 'مبلغ ) amount ) ارسال نشده است',
+            '-23' => 'مسیر بازگشت ) uri_callback ) ارسال نشده است',
+            '-24' => 'مقدار عددی مبلغ صحیح نیست',
+            '-25' => 'شماره تراکنش )id_trans )دوباره ارسال شده یا قابل پرداخت نیست',
+            '-26' => 'شماره تراکنش ) id_trans ) ارسال نشده است',
+            '-30' => 'مبلغ کمتر از 100ناموت است',
+            '-32' => 'ساختار مسیر بازگشت صحیح نیست',
+            '-33' => 'کلید مجوزدهی ) key_api ) صحیح نیست',
+            '-34' => 'شماره ترا کنش )id_trans )صحیح نیست',
+            '-35' => 'نوع کلید مجوزدهی )مانند لینک، مستقیم و ...(صحیح نیست',
+            '-36' => 'شماره سفارش ) id_order ) ارسال نشده یا بیش از 32 کاراکتر است',
+            '-37' => 'تراکنش موجود نیست',
+            '-38' => 'شماره توکن یافت نشد',
+            '-39' => 'کلید مجوزدهی یافت نشد',
+            '-40' => 'کلید مجوزدهی مسدود شده است',
+            '-41' => 'پارامتر های ارسالی از طرف بانک صحیح نیست',
+            '-42' => 'سیستم پرداخت در نکست پی دچار مشکل شده است',
+            '-43' => 'درگاه پرداختی برای انجام روال بانکی یافت نشده است',
+            '-44' => 'بانک عامل پاسخگو نبوده است',
+            '-45' => 'سیستم پرداخت در نکست پی غیر فعال شده است',
+            '-46' => 'درخواست ارسالی اشتباه است یا در نکست پی تعریف نشده است',
+            '-48' => 'نرخ کمیسیون تعیین نشده است',
+            '-49' => 'تراکنش یکبار انجام شده و دوباره قابل انجام نیست',
+            '-50' => 'حساب کاربری یافت نشد',
+            '-51' => 'کاربری در سیستم یافت نشد',
+        );
+
+        if (array_key_exists("$code", $error)) {
+            return [
+                "error_code" => $code,
+                "error_message" => $error["$code"]
+            ];
+        } else {
+            return "خطای نامشخص هنگام اتصال به درگاه زرین پال";
+        }
+
     }
 }
