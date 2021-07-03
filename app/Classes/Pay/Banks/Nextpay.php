@@ -4,9 +4,12 @@
 namespace App\Classes\Pay\Banks;
 
 
+use App\Models\Invoice;
 use App\Models\Transaction;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Nyholm\Psr7\Request;
 
 class Nextpay extends BaseGateway
 {
@@ -15,6 +18,7 @@ class Nextpay extends BaseGateway
     {
         $gateway = $this->getGateway($invoice->gateway_id);
         $bank = $this->getBank();
+        $bankPayload = json_decode($bank->payload);
 
         $query_param = [
             "api_key" => $gateway->merchant_id,
@@ -29,7 +33,7 @@ class Nextpay extends BaseGateway
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://nextpay.org/nx/gateway/token',
+            CURLOPT_URL => $bankPayload->request_url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -44,36 +48,61 @@ class Nextpay extends BaseGateway
         curl_close($curl);
         $response = json_decode($response);
 
-        if ($response->code != -1 || $response->code != 0) {
-            $error = $this->error_message($response->code);
-            return $error;
+        if (!in_array($response->code,[-1,0])) { //we have faced error
+            $Status = $this->check_status($response->code);
+
+            $result = array(
+                "status" => $Status['message'],
+                "status_code" => $Status['code'],
+                "message" => $Status['message'],
+                "data" => [
+                    "startPay" => '',
+                    "authority" => ''
+                ]
+            );
+            return $result;
         }
 
-        $Status = $this->error_message($response->code);
+        $Status = $this->check_status($response->code);
+        $StartPayUrl = $bankPayload->pay_url . $response->trans_id;
 
-        $result = [
-            "status" => $Status['error_message'],
-            "status_code" => $Status['error_code'],
-            "message" => $Status['error_message'],
-            "data" => []
-        ];
+        $result = array(
+            "status" => $Status['message'],
+            "status_code" => $Status['code'],
+            "message" => $Status['message'],
+            "data" => [
+                "startPay" => $StartPayUrl,
+                "authority" => $response->trans_id
+            ]
+        );
 
         $invoice->payload = json_encode($result);
-        $invoice->bank_result = $Status['error_message'];
+        $invoice->bank_result = $Status['message'];
         $invoice->save();
 
-        if ($response->code == -1) {
-            $data = Redirect::to('https://nextpay.org/nx/gateway/payment/' . $response->trans_id);
-        }
-
+        return $result;
     }
 
     function callback($invoiceId)
     {
+        $invoice = Invoice::find($invoiceId);
+        $gateway = $this->getGateway($invoice->gateway_id);
+        $bank = $this->getBank();
+        $bankPayload = json_decode($bank->payload);
+        $authority = request('trans_id');
+
+        $query_param = [
+            'api_key'  => $gateway->merchant_id,
+            'amount'   => $invoice->amount,
+            'trans_id' => $authority,
+        ];
+
+        $query_param = http_build_query($query_param);
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://nextpay.org/nx/gateway/verify',
+            CURLOPT_URL => $bankPayload->verify_url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -81,16 +110,43 @@ class Nextpay extends BaseGateway
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => 'api_key=b11ee9c3-d23d-414e-8b6e-f2370baac97b&amount=74250&trans_id=f7c07568-c6d1-4bee-87b1-4a9e5ed2e4c1',
+            CURLOPT_POSTFIELDS => $query_param,
         ));
 
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+
+        $this->verify($response);
+
+        return $response;
     }
 
-    private function error_message($code)
+    public function verify($response)
+    {
+        $response = json_decode($response);
+        $invoice = Invoice::find($response->order_id);
+
+        $status = $this->check_status($response->code);
+        $result = [
+            'user_id'=> $invoice->user_id,
+            'transaction_type_id' => 1,
+            'amount' => $response->amount,
+            'description' => $status->message,
+            'payload' => json_encode([
+                'card_holder' => $response->card_holder,
+                'customer_phone' => $response->customer_phone,
+                'Shaparak_Ref_Id' => $response-Shaparak_Ref_Id,
+                'custom' => $response->custom
+            ])
+        ];
+
+        $transaction = Transaction::create($result);
+
+        return $result;
+    }
+
+    private function check_status($code) //error_message
     {
         $error = array(
             '0' => 'پرداخت موفق',
@@ -129,12 +185,13 @@ class Nextpay extends BaseGateway
 
         if (array_key_exists("$code", $error)) {
             return [
-                "error_code" => $code,
-                "error_message" => $error["$code"]
+                "code" => $code,
+                "message" => $error["$code"]
             ];
         } else {
             return "خطای نامشخص هنگام اتصال به درگاه زرین پال";
         }
-
     }
+
+
 }

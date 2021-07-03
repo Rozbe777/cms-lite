@@ -19,6 +19,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FileManager\ImageController;
 use App\Http\Controllers\Front\Cart\CheckoutController;
 use App\Http\Controllers\Front\InvoiceController;
+use App\Http\Controllers\Front\Order\OrderController;
 use App\Http\Controllers\Front\Page\FrontPageController;
 use App\Http\Controllers\Front\Search\SearchController;
 use Illuminate\Support\Facades\Route;
@@ -36,16 +37,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/test', function () {
     $result = (new \App\Classes\Pay\Pay());
-    $result = $result->userId()->gatewayId(2)->start(10000);
+    $result = $result->userId()->gatewayId(2)->start(1000);
     return $result;
 
 });
 
-Route::get('/test2', function () {
-   return theme_setting('general', 'work_time', 'title')->content();
+Route::get('test2',function (\Illuminate\Http\Request $request){
 
-})->name('callback');
-
+   (new \App\Classes\Pay\Banks\Nextpay())->callback($request->order_id);
+});
 
 Route::get('csrf', function () {
     echo csrf_token();
@@ -96,7 +96,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('contents/multi/destroy', [ContentController::class, 'multipleDestroy'])->name('contents.multipleDestroy');
 
     //---------------------------Categories--------------------------
-    Route::get('categories/getAll', [CategoryController::class, 'getAll'])->name('categories.getAll');
+    Route::get('categories/getAll',[CategoryController::class,'getAll'])->name('categories.getAll');
     Route::get('category', [CategoryController::class, 'blade'])->name('categories.blade');
 //    Route::get('categories/all',[CategoryController::class,'all'])->name('categories.getAll');
     Route::resource('categories', CategoryController::class)->except('update');
@@ -128,10 +128,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('coupon/delete', [CouponController::class, 'delete'])->name('coupons.delete');
 
     //------------------------------Settings----------------------------
-    Route::name('settings.')->prefix('setting/')->group(function () {
-        Route::get('/', [SettingController::class, 'index'])->name('edit');
-        Route::put('/', [SettingController::class, 'update'])->name('update');
-    });
+      Route::name('settings.')->prefix('setting/')->group(function () {
+          Route::get('/', [SettingController::class, 'index'])->name('edit');
+          Route::put('/', [SettingController::class, 'update'])->name('update');
+      });
 
 
     //------------------------------Settings----------------------------
@@ -161,6 +161,9 @@ Route::middleware('auth')->group(function () {
 //#####################################------------FRONT Routes------------##########################################
 //-------------------------------------------------------------------------------------------------------------------
 
+    //------------------------------Order-------------------------------
+    Route::resource('orders',OrderController::class);
+
     //------------------------------Theme-------------------------------
     Route::get('themes/index', [ThemeController::class, 'index'])->name('theme.index');
     Route::get('themes/{themeId}/select', [ThemeController::class, 'select'])->name('theme.select');
@@ -183,5 +186,4 @@ Route::name('front.')->group(function () {
 
 
     Route::get('{slug}', [\App\Http\Controllers\Front\Content\ContentController::class, 'search'])->name('contents');
-
 });
