@@ -24,6 +24,7 @@ class CreateInvoicesTable extends Migration
             $table->integer('amount')->default(0);
             $table->enum('status', ['paid', 'unpaid', 'fail'])->default('unpaid');
             $table->string('bank_result')->nullable();
+            $table->integer('order_id');
             $table->timestamp('paid_at')->nullable();
             $table->timestamps();
         });
