@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateThemeSettingsTable extends Migration
+class CreateComponentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateThemeSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('theme_settings', function (Blueprint $table) {
+        Schema::create('components', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('theme_id')->unsigned();
+            $table->string('image');
             $table->string('name');
             $table->string('display_name');
-            $table->json('value');
-            $table->enum('status', ['active', 'deactivate'])->default('active');
-            $table->enum('type', ['private', 'public'])->default('public');
+            $table->json('initial_payload')->nullable();
+            $table->json('initial_item_payload')->nullable();
+
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ class CreateThemeSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('theme_settings');
+        Schema::dropIfExists('components');
     }
 }

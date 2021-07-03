@@ -181,6 +181,9 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ValidatorServiceProvider::class,
 
+        //cms providers
+        App\Providers\BladeServiceProvider::class,
+
     ],
 
     /*

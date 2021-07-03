@@ -41,10 +41,9 @@ Route::get('/test', function () {
 
 });
 
-Route::get('/test2/{result}', function () {
-    $result = (new \App\Classes\Pay\Pay());
-    $result = $result->end(1);
-    return $result;
+Route::get('/test2', function () {
+   return theme_setting('general', 'work_time', 'title')->content();
+
 })->name('callback');
 
 
@@ -97,7 +96,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('contents/multi/destroy', [ContentController::class, 'multipleDestroy'])->name('contents.multipleDestroy');
 
     //---------------------------Categories--------------------------
-    Route::get('categories/getAll',[CategoryController::class,'getAll'])->name('categories.getAll');
+    Route::get('categories/getAll', [CategoryController::class, 'getAll'])->name('categories.getAll');
     Route::get('category', [CategoryController::class, 'blade'])->name('categories.blade');
 //    Route::get('categories/all',[CategoryController::class,'all'])->name('categories.getAll');
     Route::resource('categories', CategoryController::class)->except('update');
@@ -129,10 +128,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('coupon/delete', [CouponController::class, 'delete'])->name('coupons.delete');
 
     //------------------------------Settings----------------------------
-      Route::name('settings.')->prefix('setting/')->group(function () {
-          Route::get('/', [SettingController::class, 'index'])->name('edit');
-          Route::put('/', [SettingController::class, 'update'])->name('update');
-      });
+    Route::name('settings.')->prefix('setting/')->group(function () {
+        Route::get('/', [SettingController::class, 'index'])->name('edit');
+        Route::put('/', [SettingController::class, 'update'])->name('update');
+    });
 
 
     //------------------------------Settings----------------------------
