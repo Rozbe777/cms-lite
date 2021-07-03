@@ -42,6 +42,11 @@ class Product extends Model
         return $this->morphOne(ViewCount::class, 'viewcountable');
     }
 
+    public function galeries()
+    {
+        return $this->hasMany(Galery::class, 'product_id','id');
+    }
+
     public function getJalaliCreatedAtAttribute()
     {
         switch (setting("date_time")) {

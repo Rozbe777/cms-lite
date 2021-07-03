@@ -6,13 +6,14 @@ namespace App\Classes\Pay;
 
 use App\Classes\Pay\Banks\Gateway;
 use App\Models\Bank;
+use Illuminate\Support\Facades\Auth;
 
 const GATEWAY_NAME_SPACE = __NAMESPACE__ . '\Banks\\';
 abstract class BasePay
 {
     use Gateway;
 
-    public $userId, $gatewayId, $callbackUrl = 'callback';
+    public $userId, $gatewayId, $callbackUrl = 'http://127.0.0.1:8000/test2';
     private $invoice;
 
     abstract function handle($gateway, $invoice);
@@ -31,15 +32,23 @@ abstract class BasePay
         return $this->callbackUrl;
     }
 
-    function userId($userId)
+    function userId($userId = null)
     {
-        $this->userId = $userId;
+        if (empty($userId))
+            $this->userId = Auth::id();
+        else
+            $this->userId = $userId;
+
         return $this;
     }
 
-    function gatewayId($gatewayId)
+    function gatewayId($gatewayId = null)
     {
-        $this->gatewayId = $gatewayId;
+        if (empty($gatewayId))
+            $this->gatewayId = $this->getDefaultGateway()->id;
+        else
+            $this->gatewayId = $gatewayId;
+
         return $this;
     }
 
@@ -55,15 +64,11 @@ abstract class BasePay
 
     public function start($amount)
     {
-        if (empty($this->userId)) {
-            $this->userId = auth()->id();
-        }
-
         $gatewayModel = $this->getGateway();
-        throw_if(!$gatewayModel, new \Exception("Gateway not found"));
+        throw_if(!$gatewayModel, new \Exception("Exception: Gateway not found"));
 
         if (method_exists(Pay::class, 'createInvoice')) {
-            $this->invoice = $this->createInvoice($amount, $this->userId, $gatewayModel->id, $this->getCallbackUrl());
+            $this->invoice = $this->createInvoice($amount,$gatewayModel->id, $this->userId, $this->getCallbackUrl());
         }
         $bank = $this->getBank();
 

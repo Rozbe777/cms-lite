@@ -46,8 +46,8 @@ class ProductController extends Controller
 
         $products = $this->repository->all($status, $request->search , $entity, $request->categorise , $request->sort, $discount);
 
-
-
+        $products = $products->load('galeries');
+        dd($products);
         return (!$products) ?
             $this->message(__('message.content.search.notSuccess'))->view("pages.admin.product.index")->error() :
             $this->data($products)->message(__('message.success.200'))->view("pages.admin.product.index")->success();
@@ -130,9 +130,9 @@ class ProductController extends Controller
      * @param Product $product
      * @return Factory|JsonResponse|View
      */
-    public function update(EditProductRequest $request, Product $product)
+    public function update(EditProductRequest $request)
     {
-        $this->repository->update($request->all(), $product);
+        $product = $this->repository->update($request->all(), $request->id);
         $product->load('tags')->load('categories')->load('viewCounts');
 
         return $this->message(__('message.success.200'))->view('pages.admin.content.edit')->data($product)->success();

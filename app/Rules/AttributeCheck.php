@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class AttributeCheck implements Rule
 {
@@ -23,16 +24,21 @@ class AttributeCheck implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $values)
     {
-        $values = json_decode($value);
+        $values = json_decode($values);
 
-        foreach ($values as $value){
-            if (!is_numeric($value->price) || empty($value->product_code)){
-                return false;
+        if (!empty($values)){
+            foreach ($values as $value){
+                if (!is_numeric($value->price) || empty($value->product_code) || DB::table('attributes')->where('product_code',$value->product_code)->exists()){
+                    return false;
+                }
+                if ($value->count < $value->limit || $value->count < 0 ){
+                    return false;
+                }
             }
+            return true;
         }
-
     }
 
     /**
@@ -42,6 +48,6 @@ class AttributeCheck implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return __('validation.product_attributes');
     }
 }

@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Admin\Category\CategoryController;
 use App\Http\Controllers\Admin\Content\ContentController;
+use App\Http\Controllers\Admin\Coupon\CouponController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
-use App\Http\Controllers\Admin\Layout\LayoutController;
 use App\Http\Controllers\Admin\Page\PageController;
 use App\Http\Controllers\Admin\Product\ProductController;
 use App\Http\Controllers\Admin\Profile\ProfileController;
@@ -12,7 +12,6 @@ use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\Tag\TagController;
 use App\Http\Controllers\Admin\Theme\ThemeController;
 use App\Http\Controllers\Admin\User\UserController;
-use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\MobileRegisterController;
 use App\Http\Controllers\Auth\PasswordController;
@@ -22,8 +21,6 @@ use App\Http\Controllers\Front\Cart\CheckoutController;
 use App\Http\Controllers\Front\InvoiceController;
 use App\Http\Controllers\Front\Page\FrontPageController;
 use App\Http\Controllers\Front\Search\SearchController;
-use App\Models\Content;
-use App\Models\Page;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,25 +33,19 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('a', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class, 'pay']);
-Route::get('b', [\App\Classes\Payment\Classes\PaymentCenterTrigger::class, 'verify']);
-
-
-
-Route::get('test2', function () {
-
-});
 
 Route::get('/test', function () {
-
-    //amount , bank_id ,user_id
-
     $result = (new \App\Classes\Pay\Pay());
-    $result = $result->userId(1)
-        ->gatewayId(1)->start(10000);
+    $result = $result->userId()->gatewayId(2)->start(10000);
     return $result;
 
 });
+
+Route::get('/test2/{result}', function () {
+    $result = (new \App\Classes\Pay\Pay());
+    $result = $result->end(1);
+    return $result;
+})->name('callback');
 
 
 Route::get('csrf', function () {
@@ -100,14 +91,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('users/multi/destroy', [UserController::class, 'multipleDestroy'])->name('users.multipleDestroy');
 
     //----------------------------Contents---------------------------
-
     Route::get('content', [ContentController::class, 'blade'])->name('contents.blade');
     Route::resource('contents', ContentController::class)->except('update');
     Route::post('contents/update', [ContentController::class, 'update'])->name('contents.update');
     Route::delete('contents/multi/destroy', [ContentController::class, 'multipleDestroy'])->name('contents.multipleDestroy');
 
     //---------------------------Categories--------------------------
+    Route::get('categories/getAll',[CategoryController::class,'getAll'])->name('categories.getAll');
     Route::get('category', [CategoryController::class, 'blade'])->name('categories.blade');
+//    Route::get('categories/all',[CategoryController::class,'all'])->name('categories.getAll');
     Route::resource('categories', CategoryController::class)->except('update');
     Route::post('categories/update', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy'])->name('categories.multipleDestroy');
@@ -125,11 +117,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('pages/multi/destroy', [PageController::class, 'multipleDestroy'])->name('pages.multipleDestroy');
 
     //------------------------------Profile----------------------------
-
     Route::get('profile/{userId}/edit', [ProfileController::class, 'index'])->name('profile.edit');
     Route::post('profile/{userId}/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('profile/password', [ProfileController::class, 'changePassword'])->name('profile.password');
     Route::delete('profile/delete', [ProfileController::class, 'delete'])->name('profile.delete');
+
+    //-------------------------------Coupon-----------------------------
+    Route::get('coupon', [CouponController::class, 'blade'])->name('coupons.blade');
+    Route::post('coupons/update', [CouponController::class, 'update'])->name('coupons.update');
+    Route::resource('coupons', CouponController::class)->except('update');
+    Route::delete('coupon/delete', [CouponController::class, 'delete'])->name('coupons.delete');
 
     //------------------------------Settings----------------------------
       Route::name('settings.')->prefix('setting/')->group(function () {

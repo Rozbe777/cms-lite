@@ -18,7 +18,7 @@ class CreateGatewaysTable extends Migration
             $table->string('display_name');
             $table->integer('bank_id');
             $table->boolean('is_default')->default(0);
-            $table->enum('status', ['enable', 'disable','sandbox'])->default('sandbox');
+            $table->enum('status', ['enable', 'disable','sandbox'])->default('disable');
             $table->string('merchant_id')->default('00000000-0000-0000-0000-000000000000');
             $table->timestamps();
         });

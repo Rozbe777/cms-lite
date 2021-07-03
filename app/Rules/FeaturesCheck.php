@@ -19,13 +19,30 @@ class FeaturesCheck implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $values)
     {
-        //
+        if (!empty($values)) {
+            $values = json_decode($values);
+
+            foreach ($values as $value) {
+                if (isset($value->name)) {
+                    if (!isset($value->title) && !isset($value->value)) {
+                        return false;
+                    }
+                    if ($value->name == "رنگ") {
+                        if (!isset($value->color)) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+
     }
 
     /**
@@ -35,6 +52,6 @@ class FeaturesCheck implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return __("validation.product_features");
     }
 }

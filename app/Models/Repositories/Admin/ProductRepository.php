@@ -6,6 +6,7 @@ namespace App\Models\Repositories\Admin;
 
 use App\Http\Controllers\Admin\Product\Traits\ProductTrait;
 use App\Models\Category;
+use App\Models\Galery;
 use App\Models\Product;
 use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 use App\Models\Tag;
@@ -106,16 +107,18 @@ class ProductRepository implements RepositoryInterface
      * @param $product
      * @return mixed
      */
-    public function update(array $data, $product)
+    public function update(array $data, $productId)
     {
+        $product = Product::find($productId);
+
         unset($data['_token']);
 
         $data['slug'] = (!empty($data['slug'])) ? ($data['slug'] != $product->slug) ? $this->slugHandler($data['slug']) : $product->slug : $product->slug;
 
-        $tag_list = $data['tag_list'] ?? null;
+        $tag_list = json_decode($data['tag_list']) ?? null;
         unset($data["tag_list"]);
 
-        $categoryIds = $data['category_list'] ?? null;
+        $categoryIds = json_decode($data['category_list']) ?? null;
         unset($data["category_list"]);
 
         $features = $data['features'] ?? null;
@@ -159,10 +162,19 @@ class ProductRepository implements RepositoryInterface
     }
 
     public function create(array $data)
-    {
-        dd($data);
+    {dd($data);
+        $i = 0;
+        $items= [];
+        foreach ($data as $key => $value) {
+            if (substr($key, 0, 5) == 'image') {
+                $items[$i] = $value;
+                $i++;
+                unset($data[$key]);
+            }
+        }
+
         unset($data['_token']);
-        $data['slug'] = $this->slugHandler($data['slug']);
+//        $data['slug'] = $this->slugHandler($data['slug']);
 
         $tag_list = $data['tag_list'] ?? null;
         unset($data["tag_list"]);
@@ -178,20 +190,25 @@ class ProductRepository implements RepositoryInterface
 
         $data['user_id'] = Auth::id();
 
-        if (!empty($data['image']) && !is_string($data['image'])) {
-            $data['image'] = $this->imageHandler($data['image']);
-        } elseif (is_string($data['image']) && $data['image'] == 'true') {
-            $path = (Product::find($data['id']))->image;
-            $time = time();
-            $newPath = substr_replace($path, $time, '14', 0);
-
-            Storage::copy($path, $newPath);
-            $data['image'] = $newPath;
-        } else {
-            $data['image'] = null;
-        }
-
         $product = Product::create($data);
+
+        foreach ($items as $value) {
+            if (!empty($value) && !is_string($value)) {
+                $item['path'] = $this->imageHandler($value);
+                $item['product_id'] = $product->id;
+                Galery::create($item);
+
+            } elseif (is_string($value) && $value == 'true') { //FIXME in duplicate
+                $path = (Product::find($data['id']))->image;
+                $time = time();
+                $newPath = substr_replace($path, $time, '14', 0);
+
+                Storage::copy($path, $newPath);
+                $data['image'] = $newPath;
+            } else {
+                $data['image'] = null;
+            }
+        }
 
         if (!empty($attributes))
             $att = $this->attributeHandler($attributes, $product->id);
@@ -201,7 +218,7 @@ class ProductRepository implements RepositoryInterface
 
         $product->viewCounts()->create();
 
-        if (!empty($tag_list)) {
+        if (!empty(json_decode($tag_list))) {
             foreach ($tag_list as $tag) {
                 $tag = Tag::firstOrCreate(
                     ['name' => $tag],
@@ -211,7 +228,7 @@ class ProductRepository implements RepositoryInterface
             }
         }
 
-        if (!empty($categoryIds)) {
+        if (!empty(json_decode($categoryIds))) {
             foreach ($categoryIds as $category) {
                 $category = Category::findOrFail((int)$category);
                 $product->categories()->syncWithoutDetaching($category);

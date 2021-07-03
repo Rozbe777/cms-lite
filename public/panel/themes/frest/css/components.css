@@ -5178,3 +5178,33 @@ input::placeholder {
     justify-content: center;
     align-items: center;
 }
+
+ul#menueeee{
+    width: 220px;
+    padding: 0px;
+    list-style: none;
+}
+ul#menueeee li  ul{
+    width: 220px;
+    padding: 0px;
+    list-style: none;}
+ul#menueeee li span{
+    width: 100%;
+    border-bottom: 1px solid #000;
+    height: 40px;
+    float: right;
+}
+ul#menueeee li ul {
+    height: 0;
+    opacity: 0;
+    transition: 0.3s all ease-in-out;
+    -webkit-transition: 0.3s all ease-in-out;
+    -moz-transition: 0.3s all ease-in-out;
+}
+ul#menueeee li ul.active {
+    height: auto !important;
+    opacity: 1;
+    transition: 0.3s all ease-in-out;
+    -webkit-transition: 0.3s all ease-in-out;
+    -moz-transition: 0.3s all ease-in-out;
+}

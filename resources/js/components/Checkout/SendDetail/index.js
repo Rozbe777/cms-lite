@@ -4,16 +4,27 @@ import './../_shared/style.scss'
 import './../Partials/city';
 import {ItemCheckOutAll} from "../Partials/ItemCheckOutAll";
 import {City} from "../Partials/city";
+import ReactDOM from "react-dom";
+import CheckBascket from "../CheckBascket";
 
-const index = (props) => {
+const SendDetail = (props) => {
     useEffect(() => {
     }, [])
     // const {mini} = props;
     const [state, setState] = useState();
-    const [discount , setDiscount] = useState()
+    const [discount, setDiscount] = useState()
     const handleDis = e => {
         e.preventDefault();
         setDiscount(e.target.value)
+    }
+
+    const handleNext = e => {
+        e.preventDefault();
+        ReactDOM.render(<SendDetail/>, document.getElementById("mains-content"));
+    }
+    const handlePrev = e => {
+        e.preventDefault();
+        ReactDOM.render(<CheckBascket/>, document.getElementById("mains-content"));
     }
     return (
         <>
@@ -21,10 +32,16 @@ const index = (props) => {
             <div className={"container-fluid"}>
                 <div className={"row"}>
                     <div className={"col-lg-4 col-md-6 col-sm-12 right-sides"} style={{padding: 5}}>
-                        <div className={"cart"} style={{flex : '1 1 auto'}}>
+                        <div className={"cart"} style={{flex: '1 1 auto'}}>
                             <div className={"cart-content"}>
                                 <div className={"row"}>
-                                    <div className="col-12">
+                                    <div className="col-12" style={{marginBottom: 15}}>
+                                        <ItemCheckOutAll/>
+                                    </div>
+                                    <div className="col-12" style={{marginBottom: 15}}>
+                                        <ItemCheckOutAll/>
+                                    </div>
+                                    <div className="col-12" style={{marginBottom: 15}}>
                                         <ItemCheckOutAll/>
                                     </div>
                                 </div>
@@ -32,10 +49,10 @@ const index = (props) => {
                             </div>
                         </div>
 
-                        <div style={{width : '100%'}}>
+                        <div style={{width: '100%'}}>
                             <div className={discount ? "discounts active" : 'discounts'}>
 
-                                <input type={"text"} onChange={e => handleDis(e)} />
+                                <input type={"text"} onChange={e => handleDis(e)}/>
                                 <div className={discount ? "btn-dis active" : 'btn-dis'}>اعمال تخفیف</div>
 
                             </div>
@@ -44,20 +61,20 @@ const index = (props) => {
                             <ul className={"show-det-carta"}>
                                 <li>
                                     <ul>
-                                        <li>مبلغ کل سبد خرید : </li>
+                                        <li>مبلغ کل سبد خرید :</li>
                                         <li>10000000 تومان</li>
                                     </ul>
                                 </li>
                                 <li>
                                     <ul>
-                                        <li>هزینه ارسال : </li>
+                                        <li>هزینه ارسال :</li>
                                         <li>12000 تومان</li>
                                     </ul>
                                 </li>
                                 <li>
                                     <ul>
-                                        <li>مبلغ قابل پرداخت : </li>
-                                        <li style={{color : '#000' , fontWeight : 'bold'}}>1200000212 تومان</li>
+                                        <li>مبلغ قابل پرداخت :</li>
+                                        <li style={{color: '#000', fontWeight: 'bold'}}>1200000212 تومان</li>
                                     </ul>
                                 </li>
                             </ul>
@@ -99,7 +116,7 @@ const index = (props) => {
                                         </div>
                                     </div>
                                     <div className="col-md-8 col-sm-12">
-                                        <City />
+                                        <City/>
                                     </div>
                                     <div className={"col-md-4 col-sm-12"}>
                                         <div className="form-group">
@@ -161,8 +178,17 @@ const index = (props) => {
                 </div>
             </div>
 
+            <div className={"col-12"} style={{marginTop: '30px', padding: 0}}>
+                <button onClick={e => handleNext(e)} style={{float: 'left', fontSize: '16px', fontWeight: 100}}
+                        className={"btn btn-primary"}> نحوه پرداخت <i className={"bx bx-chevron-left"}></i></button>
+                <button onClick={e => handlePrev(e)}
+                        style={{float: 'right', background: '#fff', fontSize: '16px', fontWeight: 100}}
+                        className={"btn"}><i className={"bx bx-chevron-right"}></i> بررسی سبد خرید
+                </button>
+            </div>
+
         </>
     )
 }
 
-export default index;
+export default SendDetail;
