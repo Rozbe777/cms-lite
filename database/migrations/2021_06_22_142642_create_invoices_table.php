@@ -26,6 +26,7 @@ class CreateInvoicesTable extends Migration
             $table->string('bank_result')->nullable();
             $table->integer('order_id');
             $table->timestamp('paid_at')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

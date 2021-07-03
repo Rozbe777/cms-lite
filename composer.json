@@ -54,6 +54,7 @@
         "files": [
             "app/Classes/Themes/Helper/admin.php",
             "app/Classes/Themes/Helper/theme.php",
+            "app/Classes/Themes/Helper/front.php",
             "app/Http/Helper/backoffice.php",
             "app/Http/Helper/response.php",
             "app/Http/Helper/common.php",

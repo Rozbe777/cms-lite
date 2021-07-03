@@ -12,8 +12,8 @@ class OrderProducts extends Model
 
     protected $guarded = [];
 
-    public function orders()
+    public function invoices()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Invoice::class);
     }
 }

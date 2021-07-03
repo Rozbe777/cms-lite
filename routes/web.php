@@ -125,7 +125,7 @@ Route::middleware('auth')->group(function () {
     Route::get('coupon', [CouponController::class, 'blade'])->name('coupons.blade');
     Route::post('coupons/update', [CouponController::class, 'update'])->name('coupons.update');
     Route::resource('coupons', CouponController::class)->except('update');
-    Route::delete('coupon/delete', [CouponController::class, 'delete'])->name('coupons.delete');
+    Route::delete('coupons/multi/destroy', [CouponController::class, 'multipleDestroy'])->name('coupons.multipleDestroy');
 
     //------------------------------Settings----------------------------
       Route::name('settings.')->prefix('setting/')->group(function () {
@@ -162,7 +162,9 @@ Route::middleware('auth')->group(function () {
 //-------------------------------------------------------------------------------------------------------------------
 
     //------------------------------Order-------------------------------
+    Route::get('order', [OrderController::class, 'blade'])->name('orders.blade');
     Route::resource('orders',OrderController::class);
+    Route::delete('orders/multi/destroy', [OrderController::class, 'multipleDestroy'])->name('orders.multipleDestroy');
 
     //------------------------------Theme-------------------------------
     Route::get('themes/index', [ThemeController::class, 'index'])->name('theme.index');
