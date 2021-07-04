@@ -55,7 +55,11 @@ export const AddDiscount = ({type , result , token}) => {
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(false);
     const [cartStatus , setCartStatus] = useState({
-        typesNn : 'بدون محدودیت'
+        card_conditions_amount: null,
+        typeSel : {
+            types: "unlimited"
+        },
+        typesNn: "بدون محدودیت"
     })
     const [catData, setCatData] = useState({});
     const [catSel, setCatSel] = useState([]);
@@ -258,16 +262,16 @@ export const AddDiscount = ({type , result , token}) => {
         data.value = value;
         data.max_limit = maxLimit ? parseInt(maxLimit) : null;
         data.user_status = disTypesUser;
-        data.functionality = disTypesDis;
+        data.functionality = functionality;
         data.functionality_amount = functionality_amount;
-        data.user_status = userStatus;
-        data.user_group = userGroup;
+        data.user_status = userStatus ? userStatus : [];
+        data.user_group = userGroup ? userGroup : [];
         data.start_date = dateStart;
         data.cart_conditions = cartStatus.typeSel.types;
-        data.card_conditions_amount = cartStatus.card_conditions_amount;
-        data.end_date = dateEnd;
-        data.number_of_times_allowed_to_use = limitUse.codeVal;
-        data.number_of_use_allowed_per_user = limitUse.userVal;
+        data.cart_conditions_amount = cartStatus.card_conditions_amount;
+        data.end_date = dateEnd ? dateEnd : null;
+        data.number_of_times_allowed_to_use = limitUse.codeVal ?  limitUse.codeVal : null;
+        data.number_of_use_allowed_per_user = limitUse.userVal ? limitUse.userVal : null;
 
         console.log("88888" , data)
         AddNewDiscount(data)
