@@ -116,7 +116,7 @@ class CouponRepository implements RepositoryInterface
     }
 
     public function create(array $data)
-    {
+    {unset($data['start_date'], $data['end_date']);
         $setting_data = [];
         $coupon_data = [];
 

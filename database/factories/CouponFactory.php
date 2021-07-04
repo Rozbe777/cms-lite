@@ -22,9 +22,11 @@ class CouponFactory extends Factory
     public function definition()
     {
         $type = $this->faker->randomElement(['fixed_price','percentage','free_delivery']);
+        $user_id = rand(1,5);
 
         return [
             'code' => rand(111111, 999999),
+            'user_id' => $user_id,
             'status' => $this->faker->randomElement(['active', 'deactivate']),
             'type' => $type,
             'value' => $type == 'fixed_price' ? 10000 : ('percentage' ? 20 : null),
