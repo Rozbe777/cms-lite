@@ -7,6 +7,7 @@ namespace App\Models\Repositories\Admin;
 use App\Models\Coupon;
 use App\Models\CouponSetting;
 use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class CouponRepository implements RepositoryInterface
 {
@@ -123,6 +124,12 @@ class CouponRepository implements RepositoryInterface
             $data['functionality'] :
             'total_card_price';
 
+        if (!in_array($setting_data['functionality'],['total_items_price','total_card_price'])){
+            $setting_data['functionality_amount'] = $data['functionality_amount'];
+        }else{
+            $setting_data['functionality_amount'] = $data['functionality_amount'];
+        }
+
         $setting_data['card_conditions'] = !empty($data['card_conditions']) ?
             $data['card_conditions'] :
             'unlimited';
@@ -155,7 +162,17 @@ class CouponRepository implements RepositoryInterface
             $data['end_date'] :
             null;
 
+        $codes = Coupon::where('user_id', Auth::id())->get();
+
+        foreach ($codes as $code){
+            if ($data['code'] == $code){
+                return "code is duplicate";
+            }
+        }
+
         $coupon_data['code'] = $data['code'];
+
+
 
         $coupon_data['status'] = !empty($data['status']) ?
             $data['status'] :
@@ -176,6 +193,7 @@ class CouponRepository implements RepositoryInterface
         $coupon = Coupon::create($coupon_data);
 
         $setting_data['coupon_id'] = $coupon->id;
+
         CouponSetting::create($setting_data);
 
         return $coupon->with('coupon_settings');

@@ -6,13 +6,7 @@ namespace App\Classes\Responses\Front;
 
 trait ResponseTrait
 {
-    private $view, $message = "", $data = [];
-
-    function view($view)
-    {
-        $this->view = $view;
-        return $this;
-    }
+    private $message = "", $data = [];
 
     function message($message)
     {
@@ -34,7 +28,7 @@ trait ResponseTrait
                 response()->json([
                     "http_code" => $status,
                     "message" => $this->message,
-                    "data" => $this->data
+                    "data" => $data
                 ], $status);
     }
 

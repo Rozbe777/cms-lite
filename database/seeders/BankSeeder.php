@@ -28,7 +28,7 @@ class BankSeeder extends Seeder
                 'nextpay' =>
                     [
                         'class' => 'Nextpay',
-                        'payload' => null,
+                        'payload' => json_encode(['request_url' => "https://nextpay.org/nx/gateway/token", 'pay_url' => "https://nextpay.org/nx/gateway/payment/", 'verify_url' => 'https://nextpay.org/nx/gateway/verify']),
                         'name' => 'نکست پی',
                         'status' => 'disable',
                     ]

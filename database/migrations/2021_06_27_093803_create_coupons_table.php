@@ -15,6 +15,7 @@ class CreateCouponsTable extends Migration
     {
         Schema::create('coupons', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
             $table->string('code');
             $table->enum('status',['active','deactivate'])->default('deactivate');
             $table->enum('type',['fixed_price','percentage','free_delivery'])->default('percentage');

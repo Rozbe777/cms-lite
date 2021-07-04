@@ -74,6 +74,11 @@ class User extends Authenticatable implements iUser
         return $this->hasMany(Category::class, 'user_id', 'id');
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id');
+    }
+
     public function tags()
     {
         return $this->hasMany(Tag::class, 'user_id', 'id');
@@ -97,6 +102,11 @@ class User extends Authenticatable implements iUser
     public function products()
     {
         return $this->hasMany(Product::class, 'user_id', 'id');
+    }
+
+    public function coupons()
+    {
+        return $this->hasMany(Coupon::class, 'user_id', 'id');
     }
 
     public function getFullnameAttribute()

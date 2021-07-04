@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Coupon extends Model
+class Order extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
-    protected $guarded = [];
+    protected $guarded =[];
 
-    public function coupon_settings()
+    public function invoices()
     {
-        return $this->hasOne(CouponSetting::class);
+        return $this->hasMany(Invoice::class, 'order_id','id');
     }
 
     public function user()
@@ -22,8 +22,8 @@ class Coupon extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function orders()
+    public function coupons()
     {
-        return $this->hasMany(Order::class, 'coupon_id', 'id');
+        return $this->belongsTo(Coupon::class);
     }
 }

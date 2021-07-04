@@ -67,3 +67,23 @@ if (!function_exists('layout')) {
         return 'themes/' . $themeName . "/layouts." . $path;
     }
 }
+
+if (!function_exists('components')) {
+    /**
+     * Get current theme path.
+     * @param $path string
+     * @return string $path
+     */
+    function components($path)
+    {
+        $themeName = theme()->name;
+        return 'themes/' . $themeName . "/components." . $path;
+    }
+}
+
+if (!function_exists('theme_setting')) {
+    function theme_setting($parentName, $value, $childValue = null)
+    {
+        return new \App\Classes\Themes\ThemeSettingClass($parentName, $value, $childValue);
+    }
+}

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Coupon;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CreateCouponRequest extends FormRequest
 {
@@ -24,7 +25,7 @@ class CreateCouponRequest extends FormRequest
     public function rules()
     {
         return [
-//            "code"
+            "code" => 'required|unique:coupons,code,'.Auth::id(),
 //            "start"
 //            "pageSize" => "nullable|integer"
         ];
