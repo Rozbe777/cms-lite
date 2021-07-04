@@ -41,6 +41,7 @@ export const AddDiscount = ({type}) => {
     const [status, setStatus] = useState("active");
     const [prevCalSel, setPrevCatSel] = useState({})
     const [timeShow, setTimeShow] = useState([]);
+    const [limitUse , setLimitUse] = useState({});
     const [functionality, setFunctionality] = useState({id: 'total_card_price', name: 'کل مبلغ سبد خرید'});
     const [functionality_amount, setFunctionality_amount] = useState([]);
     const [timeCheck, setTimeCheck] = useState([]);
@@ -50,11 +51,14 @@ export const AddDiscount = ({type}) => {
     const [searchs, setSearchs] = useState([]);
     const [userStatus , setUserStatus] = useState('all');
     const [userGroup , setUserGroup] = useState([-1]);
-    const [productData, setProductData] = useState({});
+    const [productData, setProductData] = useState([]);
     const [disTypesDis, setDisTypesDis] = useState('total_card_price')
     const [disTypesUser, setDisTypesUser] = useState('all')
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(false);
+    const [cartStatus , setCartStatus] = useState({
+        typesNn : 'بدون محدودیت'
+    })
     const [catData, setCatData] = useState({});
     const [catSel, setCatSel] = useState([]);
     const [userSelectList, setUserSelectList] = useState([]);
@@ -247,6 +251,7 @@ export const AddDiscount = ({type}) => {
 
     const HandleForm = e => {
         e.preventDefault();
+        // console.log(cartStatus)
         let data = {...allData};
         data.code = discountCode;
         data.status = status;
@@ -259,9 +264,11 @@ export const AddDiscount = ({type}) => {
         data.user_status = userStatus;
         data.user_group = userGroup;
         data.start_date = dateStart;
+        data.cart_conditions = cartStatus.typeSel.types;
+        data.card_conditions_amount = cartStatus.card_conditions_amount;
         data.end_date = dateEnd;
-        data.number_of_times_allowed_to_use = 1;
-        data.number_of_use_allowed_per_user = 10;
+        data.number_of_times_allowed_to_use = limitUse.codeVal;
+        data.number_of_use_allowed_per_user = limitUse.userVal;
 
 
         console.log("_____", data);
@@ -433,10 +440,15 @@ export const AddDiscount = ({type}) => {
                                        dataOut={handleFunctionality}/>, document.getElementById("back-loaderedss"));
     }
 
+    const handleCartStatus = e => {
+        console.log("dddd" , e)
+        setCartStatus(e)
+    }
+
     const handleShowCartRoles = e => {
         e.preventDefault();
         $("#back-loaderedss").addClass("active");
-        ReactDOM.render(<CartAction/>, document.getElementById("back-loaderedss"));
+        ReactDOM.render(<CartAction dataOut={handleCartStatus}/>, document.getElementById("back-loaderedss"));
     }
 
 
@@ -459,10 +471,14 @@ export const AddDiscount = ({type}) => {
         ReactDOM.render(<UserSetting dataOut={handleUserSetting}/>, document.getElementById("back-loaderedss"));
     }
 
+
+    const handleLimitUse = data => {
+        setLimitUse(data);
+    }
     const handleShowLimitedUse = e => {
         e.preventDefault();
         $("#back-loaderedss").addClass("active");
-        ReactDOM.render(<LimitedUse/>, document.getElementById("back-loaderedss"));
+        ReactDOM.render(<LimitedUse dataOut={handleLimitUse}/>, document.getElementById("back-loaderedss"));
     }
 
     const handleStartDis = e => {
@@ -592,7 +608,6 @@ export const AddDiscount = ({type}) => {
     };
 
 
-    console.log("++++++++++++" , dateStart)
 
 
 
@@ -806,7 +821,7 @@ export const AddDiscount = ({type}) => {
                                             <p>
                                                 شرایط سبد خرید
                                             </p>
-                                            <p>بدون محدودیت</p>
+                                            <p>{cartStatus.typesNn}</p>
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
                                     </li>

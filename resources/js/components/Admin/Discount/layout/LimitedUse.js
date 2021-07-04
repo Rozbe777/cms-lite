@@ -5,17 +5,14 @@ import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
 
-export const LimitedUse = ({limit, out: setOut}) => {
+export const LimitedUse = ({dataOut}) => {
 
-    const [status, setStatus] = useState(true);
-    const [data, setData] = useState({limit: limit ? limit : null})
-    const [productData, setProductData] = useState([]);
-    const [categoryData, setCategoryData] = useState([]);
-    const [loading, setLoading] = useState(false)
+
     const [checkCode, setCheckCode] = useState(false)
     const [checkUser, setCkeckUser] = useState(false)
-    const [typeSel, setTypeSel] = useState({types: ''});
-    const [catSel, setCatSel] = useState([]);
+
+    const [dataDis , setDis] = useState('');
+    const [dataUser , setUser] = useState('');
 
     const handleClose = e => {
         e.preventDefault();
@@ -25,66 +22,15 @@ export const LimitedUse = ({limit, out: setOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        setOut(data);
+        let codeVal = checkCode ? dataDis : null;
+        let userVal = checkUser ? dataUser : null;
+        dataOut({
+            codeVal,
+            userVal
+        })
         handleClose(e);
     }
 
-    const CategoryGet = async () => {
-
-    }
-
-    const handleSearchProducts = e => {
-        let searchdata = {search: '', pageSize: 10}
-
-        if (e) {
-            searchdata.search = e;
-            setLoading(true);
-            Request.GetAllProducts(searchdata).then(res => {
-                setLoading(false);
-                setProductData(res.data.data.data);
-            })
-        } else {
-            setLoading(true);
-            Request.GetAllProducts(searchdata).then(res => {
-                setLoading(false);
-                setProductData(res.data.data.data);
-            })
-        }
-
-    }
-
-    const handleSearchCategore = e => {
-        let searchdata = {search: '', pageSize: 10}
-        if (e) {
-            searchdata.search = e;
-            setLoading(true);
-            Request.GetAllCategory(searchdata).then(res => {
-                setLoading(false);
-                setCategoryData(res.data.data.data);
-            })
-        } else {
-            setLoading(true);
-            Request.GetAllProducts(searchdata).then(res => {
-                setLoading(false);
-                setCategoryData(res.data.data.data);
-            })
-        }
-
-    }
-
-
-    const HandleChange = (e) => {
-        let checkBoxCustom = $("span.checkboxed.limi");
-        if (e.target.checked) {
-            checkBoxCustom.addClass("active")
-            setStatus(true)
-            setData({limit: null})
-        } else {
-            setData({limit: ''})
-            checkBoxCustom.removeClass("active")
-            setStatus(false)
-        }
-    }
 
     useEffect(() => {
         if (status) {
@@ -95,49 +41,9 @@ export const LimitedUse = ({limit, out: setOut}) => {
     }, [])
 
 
-    const HandleChangeLimit = e => {
-        e.preventDefault();
-        if (e.target.value < 1) {
-            setData({
-                ...data,
-                [e.target.name]: 1
-            })
-        } else {
-            setData({
-                ...data,
-                [e.target.name]: e.target.value
-            })
-        }
-
-    }
 
 
-    const handleChoise = (e, id) => {
-        e.preventDefault();
 
-        if (id == 0) {
-            let typp = {...typeSel};
-            typp.types = "all";
-            setTypeSel(typp);
-        } else if (id == 1) {
-            let typpp = {...typeSel};
-            typpp.types = "miniPrice";
-            setTypeSel(typpp);
-
-        } else if (id == 2) {
-            let typpps = {...typeSel};
-            typpps.types = "miniCount";
-            setTypeSel(typpps);
-
-        } else if (id == 3) {
-            let typppb = {...typeSel};
-            typppb.types = "maxPrice";
-            setTypeSel(typppb);
-        } else {
-
-        }
-
-    }
 
     $(".main-selected").click(function () {
         $(".input-searchsss").addClass("active");
@@ -145,11 +51,6 @@ export const LimitedUse = ({limit, out: setOut}) => {
     })
 
 
-    const handleSelecete = e => {
-
-        setCatSel(e);
-
-    }
     const handleChangeCheckCode = (e, type) => {
         if (e.target.checked) {
             setCheckCode(true)
@@ -190,7 +91,7 @@ export const LimitedUse = ({limit, out: setOut}) => {
 
                     {checkCode ? (
                         <div className={"col-12"} style={{marginBottom : 20}}>
-                            <input type="number" name="title" id="title" className="form-control" placeholder={"تعداد قابل استفاده"}/>
+                            <input type="number" onChange={e => setUser(e.target.value)} id="title" className="form-control" placeholder={"تعداد قابل استفاده"}/>
                         </div>
                     ) : ''}
 
@@ -213,7 +114,7 @@ export const LimitedUse = ({limit, out: setOut}) => {
 
                     {checkUser ? (
                         <div className={"col-12"} style={{marginBottom : 20}}>
-                            <input type="number" name="title" id="title" className="form-control" placeholder={"تعداد قابل استفاده برای هر کاربر"}/>
+                            <input type="number"onChange={e => setDis(e.target.value)} id="title" className="form-control" placeholder={"تعداد قابل استفاده برای هر کاربر"}/>
                         </div>
                     ) : ''}
 
