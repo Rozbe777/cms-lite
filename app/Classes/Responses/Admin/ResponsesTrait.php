@@ -6,13 +6,7 @@ namespace App\Classes\Responses\Admin;
 
 trait ResponsesTrait
 {
-    private $view, $message = "", $data = [];
-
-    function view($view)
-    {
-        $this->view = $view;
-        return $this;
-    }
+    private $message = "", $data = [];
 
     function message($message)
     {

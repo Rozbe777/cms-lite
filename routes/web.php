@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Role\RoleController;
 use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\Tag\TagController;
 use App\Http\Controllers\Admin\Theme\ThemeController;
+use App\Http\Controllers\Admin\User\AddressController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\MobileRegisterController;
@@ -160,6 +161,11 @@ Route::middleware('auth')->group(function () {
 //-------------------------------------------------------------------------------------------------------------------
 //#####################################------------FRONT Routes------------##########################################
 //-------------------------------------------------------------------------------------------------------------------
+
+    //------------------------------Order-------------------------------
+    Route::get('address', [AddressController::class, 'blade'])->name('addresses.blade');
+    Route::resource('addresses',AddressController::class);
+    Route::delete('addresses/multi/destroy', [AddressController::class, 'multipleDestroy'])->name('addresses.multipleDestroy');
 
     //------------------------------Order-------------------------------
     Route::get('order', [OrderController::class, 'blade'])->name('orders.blade');
