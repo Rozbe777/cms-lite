@@ -7,24 +7,31 @@ import {ItemDis} from "../layout/ItemDis";
 import $ from "jquery";
 import {Request} from "../../../../services/AdminService/Api";
 import ReactDom from "react-dom";
+import Loading from "../../_Micro/Loading";
 
 const Show = (props) => {
     let targetElem = document.getElementById("add-datas");
     const {token} = props;
+    const [loading , setLoading] = useState(false)
     const [state, setState] = useState();
     const [allCoupon , setAllCoupon] = useState([]);
     const [checkBox, setCheckBox] = useState([]);
     useEffect(() => {
-        Request.GetAllCoupon()
-            .then(res => {
-                setAllCoupon(res.data.data)
-            })
+        getAllCoupons();
         $("#breadCrumb").addClass("activeCrumb");
     }, [])
 
     console.log("data coupon" , allCoupon)
 
 
+    const getAllCoupons = () => {
+        setLoading(true)
+        Request.GetAllCoupon()
+            .then(res => {
+                setLoading(false)
+                setAllCoupon(res.data.data)
+            })
+    }
 
     const [breadData] = useState({
         title: 'کد تخفیف',
@@ -66,9 +73,12 @@ const Show = (props) => {
             <div className={"container-fluid"}>
 
                 <div className={"row"} style={{padding : '15px'}}>
-                    <div className={"col-lg-3 col-md-4 col-sm-6"} style={{padding : '5px'}}>
-                        <ItemDis />
-                    </div>
+                    {loading ? (<Loading />) : allCoupon.map((item , index) => (
+                        <div className={"col-lg-4 col-md-6 col-sm-12"} key={index} style={{padding : '5px'}}>
+                            <ItemDis data={item} />
+                        </div>
+                    ))}
+
                 </div>
 
             </div>
