@@ -5,18 +5,25 @@ import {BreadCrumbs} from "../../UserList/HOC/BreadCrumbs";
 import {AddDiscount} from './../AddDiscount';
 import {ItemDis} from "../layout/ItemDis";
 import $ from "jquery";
+import {Request} from "../../../../services/AdminService/Api";
 import ReactDom from "react-dom";
 
 const Show = (props) => {
     let targetElem = document.getElementById("add-datas");
-
+    const {token} = props;
+    const [state, setState] = useState();
+    const [allCoupon , setAllCoupon] = useState([]);
+    const [checkBox, setCheckBox] = useState([]);
     useEffect(() => {
+        Request.GetAllCoupon()
+            .then(res => {
+                setAllCoupon(res.data.data)
+            })
         $("#breadCrumb").addClass("activeCrumb");
     }, [])
-    const {token} = props;
-    console.log(props , "propsss")
-    const [state, setState] = useState();
-    const [checkBox, setCheckBox] = useState([]);
+
+    console.log("data coupon" , allCoupon)
+
 
 
     const [breadData] = useState({
