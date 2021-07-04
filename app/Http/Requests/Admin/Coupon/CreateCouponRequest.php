@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Coupon;
 
+use App\Rules\CouponCodeCheck;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +26,7 @@ class CreateCouponRequest extends FormRequest
     public function rules()
     {
         return [
-            "code" => 'required|unique:coupons,code,'.Auth::id(),
+            "code" => new CouponCodeCheck(),
 //            "start"
 //            "pageSize" => "nullable|integer"
         ];

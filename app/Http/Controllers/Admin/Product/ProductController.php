@@ -49,8 +49,8 @@ class ProductController extends Controller
         $products = $products->load('galeries');
 
         return (!$products) ?
-            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.product.index")->error() :
-            $this->data($products)->message(__('message.success.200'))->view("pages.admin.product.index")->success();
+            $this->message(__('message.content.search.notSuccess'))->error() :
+            $this->data($products)->message(__('message.success.200'))->success();
     }
 
     /**
@@ -93,8 +93,8 @@ class ProductController extends Controller
         $product = $this->repository->create($request->all());
 
         return (!$product) ?
-            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.product.index")->error() :
-            $this->data($product)->message(__('message.success.200'))->view("pages.admin.product.index")->success();
+            $this->message(__('message.content.search.notSuccess'))->error() :
+            $this->data($product)->message(__('message.success.200'))->success();
     }
 
     /**
@@ -108,7 +108,7 @@ class ProductController extends Controller
         $this->repository->get($product);
         $product = $product->load('tags')->load('categories')->load('attributes')->load('viewCounts');
 
-        return $this->message(__('message.success.200'))->data($product)->view('pages.admin.product.show')->success();
+        return $this->message(__('message.success.200'))->data($product)->success();
     }
 
     /**
@@ -135,7 +135,7 @@ class ProductController extends Controller
         $product = $this->repository->update($request->all(), $request->id);
         $product->load('tags')->load('categories')->load('viewCounts');
 
-        return $this->message(__('message.success.200'))->view('pages.admin.content.edit')->data($product)->success();
+        return $this->message(__('message.success.200'))->data($product)->success();
     }
 
     /**
@@ -148,7 +148,7 @@ class ProductController extends Controller
     {
         $this->repository->delete($product);
 
-        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.product.index')->success();
+        return $this->message(__('message.content.destroy.successful'))->success();
     }
 
     /**
@@ -159,6 +159,6 @@ class ProductController extends Controller
     {
         $this->repository->multipleDestroy($request->all());
 
-        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.product.index')->success();
+        return $this->message(__('message.content.destroy.successful'))->success();
     }
 }
