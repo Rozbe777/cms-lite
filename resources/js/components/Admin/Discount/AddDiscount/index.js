@@ -515,11 +515,12 @@ export const AddDiscount = ({type , result , token}) => {
     const handleShowUserSetting = e => {
         e.preventDefault();
         $("#back-loaderedss").addClass("active");
-        ReactDOM.render(<UserSetting dataOut={handleUserSetting}/>, document.getElementById("back-loaderedss"));
+        ReactDOM.render(<UserSetting dataOut={handleUserSetting} oldData={{userStatus , userTypeName , userGroup}}/>, document.getElementById("back-loaderedss"));
     }
 
 
     const handleLimitUse = data => {
+        console.log("++++++" , data)
         setLimitUse(data);
     }
     const handleShowLimitedUse = e => {

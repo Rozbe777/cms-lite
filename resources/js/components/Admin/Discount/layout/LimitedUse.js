@@ -26,20 +26,37 @@ export const LimitedUse = ({dataOut}) => {
         let codeVal = checkCode ? dataDis : null;
         let userVal = checkUser ? dataUser : null;
         let striShow = '';
+        console.log("____" , checkCode , checkUser)
         if (checkCode && checkUser){
-            striShow = `محدودیت ${codeVal} استفاده  و محدودیت ${userVal} استفاده برای هر کاربر`
+            striShow = `محدودیت ${codeVal} استفاده  و محدودیت ${userVal} استفاده برای هر کاربر`;
+            dataOut({
+                codeVal,
+                userVal,
+                striShow
+            })
         }else if (checkCode && !checkUser){
             striShow = `محدودیت ${codeVal} استفاده`
+            dataOut({
+                codeVal,
+                userVal,
+                striShow
+            })
         }else if (!checkCode && checkUser){
             striShow = `محدودیت ${userVal} استفاده برای هر کاربر`
+            dataOut({
+                codeVal,
+                userVal,
+                striShow
+            })
         }else{
             striShow = "بدون محدودیت";
+            dataOut({
+                codeVal,
+                userVal,
+                striShow
+            })
         }
-        dataOut({
-            codeVal,
-            userVal,
-            striShow
-        })
+
         handleClose(e);
     }
 
