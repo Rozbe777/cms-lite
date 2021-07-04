@@ -19,9 +19,8 @@ export const MultiSelected = ({
                               }) => {
 
 
-    console.log(defSelected)
+    console.log(name , data)
     const [check, setCheck] = useState([])
-
     const [load, setLoad] = useState(false);
     let selectCheckBox = new Set();
     let interValOptionsss = 0;
@@ -200,7 +199,7 @@ export const MultiSelected = ({
                              role="status">
                             <span className="sr-only">در حال بارگذاری ...</span>
                         </div>
-                    </div>) : data.length > 0 ? data.map((item, index) => (
+                    </div>) : data ? data.length > 0 ? data.map((item, index) => (
                         <li key={index}>
                             <fieldset>
                                 <span className={"checkboxeds " + item.id + " " + name} style={{color: '#fff'}}>
@@ -215,60 +214,12 @@ export const MultiSelected = ({
                                       htmlFor="checkbox1">{item.name ? item.name : item.title ? item.title : ''}</span>
                             </fieldset>
 
-                            {item.childern ? item.childern.length > 0 ? (
-                                <ul style={{padding: '10px 10px 0 0'}}>
-                                    {item.childern.map((child2, index2) => (
-                                        <li key={index2}>
-                                            <fieldset>
-                                                <span style={{float: 'right'}}>></span>
-                                                <span className={"checkboxeds " + child2.id + " " + name} id={"child2"}
-                                                      style={{color: '#fff'}}>
-                                                   <i className={"bx bx-check"}></i>
-                                               </span>
-                                                <input type="checkbox"
-                                                       style={{float: 'right'}}
-                                                       onChange={e => HandleChange(e, child2.id)}
-                                                       name={child2.id}
-                                                       value={child2.name} id="checkbox1"/>
-                                                <span id={"labels"} htmlFor="checkbox1">{child2.name}</span>
-                                            </fieldset>
-
-                                            {child2.children.length > 0 ? (
-                                                <ul style={{padding: '5px 10px 0 0'}}>
-                                                    {child2.children.map((child3, index3) => (
-                                                        <li key={index3}>
-                                                            <fieldset>
-                                                                <span style={{float: 'right'}}>>></span>
-
-                                                                <span
-                                                                    className={"checkboxeds " + child3.id + " " + name}
-                                                                    id={"child3"} style={{color: '#fff'}}>
-                                                                    <i className={"bx bx-check"}></i>
-                                                                </span>
-
-                                                                <input type="checkbox"
-                                                                       onChange={e => HandleChange(e, child3.id)}
-                                                                       name={child3.id}
-                                                                       style={{marginRight: '5px', width: '90px'}}
-                                                                       value={child3.name} id="checkbox1"/>
-                                                                <span id={"labels"}
-                                                                      htmlFor="checkbox1">{child3.name}</span>
-                                                            </fieldset>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            ) : ''}
-                                        </li>
-                                    ))}
-                                </ul>
-                            ) : '' : ''}
-
 
                         </li>
 
                     )) : (
                         "موردی برای انتخاب وجود ندارد"
-                    )}
+                    ) : 'موردی برای انتخاب وجود ندارد'}
 
 
                 </ul>

@@ -5,16 +5,12 @@ import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
 
-export const CartAction = ({limit, out: setOut}) => {
+export const CartAction = ({dataOut}) => {
 
-    const [status, setStatus] = useState(true);
-    const [data, setData] = useState({limit: limit ? limit : null})
-    const [productData, setProductData] = useState([]);
-    const [categoryData, setCategoryData] = useState([]);
-    const [loading, setLoading] = useState(false)
-    const [typeSel, setTypeSel] = useState({types: ''});
-    const [catSel, setCatSel] = useState([]);
 
+    const [typeSel , setTypeSel] = useState({types : 'unlimited'});
+    const [typeName , setTypeName] = useState({text : "بدون محدودیت" , type : null});
+    const [card_conditions_amount , setCard_conditions_amount] = useState(null);
     const handleClose = e => {
         e.preventDefault();
         $("#back-loaderedss").removeClass("active");
@@ -23,93 +19,28 @@ export const CartAction = ({limit, out: setOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        console.log("dataaa :", data)
-        setOut(data);
+
+
+        let typesNn = typeName.type ? typeName.type == "price" ? typeName.text + " " + card_conditions_amount + " تومان " : typeName.text + " " + card_conditions_amount:typeName.text;
+
+        dataOut({
+            card_conditions_amount,
+            typeSel,
+            typesNn
+        });
         handleClose(e);
     }
 
-    const CategoryGet = async () => {
-
-    }
-
-    const handleSearchProducts = e => {
-        let searchdata = {search: '', pageSize: 10}
-        console.log(e);
-
-        if (e) {
-            searchdata.search = e;
-            setLoading(true);
-            Request.GetAllProducts(searchdata).then(res => {
-                setLoading(false);
-                setProductData(res.data.data.data);
-            })
-        } else {
-            setLoading(true);
-            Request.GetAllProducts(searchdata).then(res => {
-                setLoading(false);
-                setProductData(res.data.data.data);
-            })
-        }
-
-    }
-
-    const handleSearchCategore = e => {
-        let searchdata = {search: '', pageSize: 10}
-        if (e) {
-            searchdata.search = e;
-            setLoading(true);
-            Request.GetAllCategory(searchdata).then(res => {
-                setLoading(false);
-                setCategoryData(res.data.data.data);
-            })
-        } else {
-            setLoading(true);
-            Request.GetAllProducts(searchdata).then(res => {
-                setLoading(false);
-                setCategoryData(res.data.data.data);
-            })
-        }
-
-    }
 
 
-    const HandleChange = (e) => {
-        let checkBoxCustom = $("span.checkboxed.limi");
-        if (e.target.checked) {
-            checkBoxCustom.addClass("active")
-            setStatus(true)
-            setData({limit: null})
-        } else {
-            setData({limit: ''})
-            checkBoxCustom.removeClass("active")
-            setStatus(false)
-        }
-    }
+
+
 
     useEffect(() => {
-        if (status) {
-            $("span.checkboxed.limi").addClass("active");
-        } else {
-            $("span.checkboxed.limi").removeClass("active");
-        }
+
     }, [])
 
 
-    const HandleChangeLimit = e => {
-        e.preventDefault();
-        if (e.target.value < 1) {
-            setData({
-                ...data,
-                [e.target.name]: 1
-            })
-        } else {
-            setData({
-                ...data,
-                [e.target.name]: e.target.value
-            })
-        }
-
-    }
 
 
     const handleChoise = (e, id) => {
@@ -117,40 +48,37 @@ export const CartAction = ({limit, out: setOut}) => {
 
         if (id == 0) {
             let typp = {...typeSel};
-            typp.types = "all";
+            typp.types = "unlimited";
             setTypeSel(typp);
+            setTypeName({text : "بدون محدودیت" , type : null})
         } else if (id == 1) {
             let typpp = {...typeSel};
-            typpp.types = "miniPrice";
+            typpp.types = "min_purchase_number";
             setTypeSel(typpp);
-
+            setTypeName({text : "با محدودیت حداقل مبلغ خرید" , type : 'price'});
         } else if (id == 2) {
             let typpps = {...typeSel};
-            typpps.types = "miniCount";
+            typpps.types = "max_purchase_number";
             setTypeSel(typpps);
+            setTypeName({text : "با محدودیت حداقل تعداد محصولات" , type : 'num'});
 
         } else if (id == 3) {
             let typppb = {...typeSel};
-            typppb.types = "maxPrice";
+            typppb.types = "max_card_price";
             setTypeSel(typppb);
+            setTypeName({text : "با محدودیت حداکثر مبلغ خرید " , type: 'price'});
+
         } else {
 
         }
 
     }
 
-    $(".main-selected").click(function () {
-        $(".input-searchsss").addClass("active");
-        $(".input-searchsss input").focus();
-    })
 
-
-    const handleSelecete = e => {
-
-        setCatSel(e);
-
+    const handleCartValue = e => {
+        e.preventDefault();
+        setCard_conditions_amount(e.target.value);
     }
-    console.log("vsdvsdv", typeSel)
 
 
     return (
@@ -186,25 +114,25 @@ export const CartAction = ({limit, out: setOut}) => {
                     </div>
 
 
-                    {typeSel.types ? typeSel.types == "miniPrice" ? (
+                    {typeSel.types ? typeSel.types == "min_purchase_number" ? (
                         <div className={"col-12"}>
                             <p style={{textAlign : 'center'}}>مبلغ خرید </p>
-                            <input type="number" name="title" id="title" className="form-control" value=""/>
+                            <input onChange={e => handleCartValue(e)} type="number" value={card_conditions_amount ? card_conditions_amount : ''} id="title" className="form-control" />
 
                         </div>
 
-                    ) : typeSel.types == "maxPrice" ? (
+                    ) : typeSel.types == "max_card_price" ? (
                         <div className={"col-12"}>
                             <p style={{textAlign : 'center'}}>مبلغ خرید </p>
-                            <input type="number" name="title" id="title" className="form-control" value=""/>
+                            <input onChange={e => handleCartValue(e)} type="number" value={card_conditions_amount ? card_conditions_amount : ''} id="title" className="form-control" />
 
                         </div>
 
 
-                    ) : typeSel.types == "miniCount" ? (
+                    ) : typeSel.types == "max_purchase_number" ? (
                         <div className={"col-12"}>
                             <p style={{textAlign : 'center'}}>تعداد محصولات سبد خرید</p>
-                            <input type="number" name="title" id="title" className="form-control" value=""/>
+                            <input onChange={e => handleCartValue(e)} type="number" value={card_conditions_amount ? card_conditions_amount : ''} id="title" className="form-control" />
 
                         </div>
 
