@@ -39,8 +39,8 @@ class CouponController extends Controller
         $coupon = $this->repository->all($request->code, $request->start_date, $request->end_date, $request->status);
 
         return (!$coupon) ?
-            $this->message(__('message.coupon.search.notSuccess'))->view("pages.admin.coupon.index")->error() :
-            $this->data($coupon)->message(__('message.success.200'))->view("pages.admin.coupon.index")->success();
+            $this->message(__('message.coupon.search.notSuccess'))->error() :
+            $this->data($coupon)->message(__('message.success.200'))->success();
     }
 
     /**
@@ -75,7 +75,7 @@ class CouponController extends Controller
     public function store(CreateCouponRequest $request)
     {
         $coupon = $this->repository->create($request->all());
-        return $this->message(__('message.success.200'))->data($coupon)->view('pages.admin.coupon.show')->success();
+        return $this->message(__('message.success.200'))->data($coupon)->success();
     }
 
     /**
@@ -87,7 +87,7 @@ class CouponController extends Controller
     public function show(Coupon $coupon)
     {
         $coupon->load('coupon_settings');
-        return $this->message(__('message.success.200'))->data($coupon)->view('pages.admin.coupon.show')->success();
+        return $this->message(__('message.success.200'))->data($coupon)->success();
     }
 
     /**
@@ -111,7 +111,7 @@ class CouponController extends Controller
     public function update(EditCouponRequest $request)
     {
         $coupon = $this->repository->update($request->all(),$request->id);
-        return $this->message(__('message.success.200'))->data($coupon)->view('pages.admin.coupon.show')->success();
+        return $this->message(__('message.success.200'))->data($coupon)->success();
     }
 
     /**
@@ -123,7 +123,7 @@ class CouponController extends Controller
     public function destroy(Coupon $coupon)
     {
         $this->repository->delete($coupon);
-        return $this->message(__('message.success.200'))->view('pages.admin.coupon.show')->success();
+        return $this->message(__('message.success.200'))->success();
     }
 
     /**
@@ -132,6 +132,6 @@ class CouponController extends Controller
     public function multipleDestroy(MultipleDestroyRequest $request)
     {
         $this->repository->multipleDestroy($request->all());
-        return $this->message(__('message.success.200'))->view('pages.admin.coupon.show')->success();
+        return $this->message(__('message.success.200'))->success();
     }
 }

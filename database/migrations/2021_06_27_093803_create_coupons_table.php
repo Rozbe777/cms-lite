@@ -21,6 +21,7 @@ class CreateCouponsTable extends Migration
             $table->enum('type',['fixed_price','percentage','free_delivery'])->default('percentage');
             $table->string('value')->nullable();
             $table->integer('max_limit')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

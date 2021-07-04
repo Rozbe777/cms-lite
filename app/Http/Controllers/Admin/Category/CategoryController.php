@@ -43,8 +43,8 @@ class CategoryController extends Controller
         $categories = $this->categoryRepository->all($request->status, $request->search, $request->pageSize);
 
         return (!$categories) ?
-            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.category.index")->error() :
-            $this->data($categories)->message(__('message.success.200'))->view("pages.admin.category.index")->success();
+            $this->message(__('message.content.search.notSuccess'))->error() :
+            $this->data($categories)->message(__('message.success.200'))->success();
     }
 
     /**
@@ -56,8 +56,8 @@ class CategoryController extends Controller
         $categories = $this->categoryRepository->retrieveAll($request->status, $request->search, $request->pageSize);
 
         return (!$categories) ?
-            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.category.index")->error() :
-            $this->data($categories)->message(__('message.success.200'))->view("pages.admin.category.index")->success();
+            $this->message(__('message.content.search.notSuccess'))->error() :
+            $this->data($categories)->message(__('message.success.200'))->success();
     }
 
     /**
@@ -99,7 +99,7 @@ class CategoryController extends Controller
        }
         $category = $this->categoryRepository->create($request->all());
 
-        return $this->message(__('message.success.200'))->data($category)->view('pages.admin.category.show')->success();
+        return $this->message(__('message.success.200'))->data($category)->success();
     }
 
     /**
@@ -112,7 +112,7 @@ class CategoryController extends Controller
     {
         $this->categoryRepository->get($category);
 
-        return $this->message(__('message.success.200'))->data($category)->view('pages.admin.category.show')->success();
+        return $this->message(__('message.success.200'))->data($category)->success();
     }
 
     /**
@@ -136,7 +136,7 @@ class CategoryController extends Controller
     public function update(EditCategoryRequest $request)
     {
         $category = $this->categoryRepository->update($request->all(),$request->id);
-        return $this->message(__('message.success.200'))->view('pages.admin.category.edit')->data($category)->success();
+        return $this->message(__('message.success.200'))->data($category)->success();
     }
 
     /**
@@ -149,7 +149,7 @@ class CategoryController extends Controller
     {
         $this->categoryRepository->delete($category);
 
-        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.category.index')->success();
+        return $this->message(__('message.content.destroy.successful'))->success();
     }
 
     /**
@@ -162,6 +162,6 @@ class CategoryController extends Controller
     {
         $this->categoryRepository->multipleDestroy($request);
 
-        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.category.index')->success();
+        return $this->message(__('message.content.destroy.successful'))->success();
     }
 }
