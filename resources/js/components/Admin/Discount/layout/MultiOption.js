@@ -22,6 +22,7 @@ export const MultiOption = ({handleChoise , name, data, selected: pushSelected})
             $(".main-options-sel #content").removeClass("active")
             thisis.find(".option-icon i").removeClass("active")
             thisis.find("#content").removeClass("active")
+
         })
 
 
@@ -37,6 +38,7 @@ export const MultiOption = ({handleChoise , name, data, selected: pushSelected})
 
         }
 
+        $("li#content").removeClass("active");
         $(".input-searchsss").removeClass("active");
     }
     const delSel = (e, name) => {

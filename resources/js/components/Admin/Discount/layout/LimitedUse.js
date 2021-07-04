@@ -14,6 +14,7 @@ export const LimitedUse = ({dataOut}) => {
     const [dataDis , setDis] = useState('');
     const [dataUser , setUser] = useState('');
 
+
     const handleClose = e => {
         e.preventDefault();
         $("#back-loaderedss").removeClass("active");
@@ -24,9 +25,20 @@ export const LimitedUse = ({dataOut}) => {
         e.preventDefault();
         let codeVal = checkCode ? dataDis : null;
         let userVal = checkUser ? dataUser : null;
+        let striShow = '';
+        if (checkCode && checkUser){
+            striShow = `محدودیت ${codeVal} استفاده  و محدودیت ${userVal} استفاده برای هر کاربر`
+        }else if (checkCode && !checkUser){
+            striShow = `محدودیت ${codeVal} استفاده`
+        }else if (!checkCode && checkUser){
+            striShow = `محدودیت ${userVal} استفاده برای هر کاربر`
+        }else{
+            striShow = "بدون محدودیت";
+        }
         dataOut({
             codeVal,
-            userVal
+            userVal,
+            striShow
         })
         handleClose(e);
     }

@@ -38,13 +38,14 @@ export const AddDiscount = ({type , result , token}) => {
     const [status, setStatus] = useState("active");
     const [prevCalSel, setPrevCatSel] = useState({})
     const [timeShow, setTimeShow] = useState([]);
-    const [limitUse , setLimitUse] = useState({});
+    const [limitUse , setLimitUse] = useState({striShow : 'بدون محدودیت'});
     const [functionality, setFunctionality] = useState({id: 'total_card_price', name: 'کل مبلغ سبد خرید'});
     const [functionality_amount, setFunctionality_amount] = useState([]);
     const [timeCheck, setTimeCheck] = useState([]);
     const [discountCode, setDiscountCode] = useState('');
     const [value, setValue] = useState('');
     const [maxLimit, setMaxLimit] = useState(null);
+    const [userTypeName , setUserTypeName] = useState("برای همه کاربران")
     const [searchs, setSearchs] = useState([]);
     const [userStatus , setUserStatus] = useState('all');
     const [userGroup , setUserGroup] = useState([-1]);
@@ -248,7 +249,7 @@ export const AddDiscount = ({type , result , token}) => {
 
     const HandleForm = e => {
         e.preventDefault();
-        // console.log(cartStatus)
+        console.log(cartStatus)
         let data = {...allData};
         data.code = discountCode;
         data.status = status;
@@ -268,6 +269,7 @@ export const AddDiscount = ({type , result , token}) => {
         data.number_of_times_allowed_to_use = limitUse.codeVal;
         data.number_of_use_allowed_per_user = limitUse.userVal;
 
+        console.log("88888" , data)
         AddNewDiscount(data)
 
 
@@ -492,7 +494,10 @@ export const AddDiscount = ({type , result , token}) => {
 
     const handleUserSetting = e => {
 
-        setUserStatus(e.user_status);
+        // console.log(e , "i userss")
+
+        setUserStatus(e.user_status.types);
+        setUserTypeName(e.user_status.name);
         e.userGroup.length > 0 ? setUserGroup(e.userGroup) : null;
         if(e.userSelecet.length > 0){
             let users = [];
@@ -837,7 +842,7 @@ export const AddDiscount = ({type , result , token}) => {
                                             <p>
                                                 تنظیمات کاربران
                                             </p>
-                                            <p>برای همه کاربران</p>
+                                            <p>{userTypeName}</p>
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
                                     </li>
@@ -881,7 +886,7 @@ export const AddDiscount = ({type , result , token}) => {
                                             <p>
                                                 محدودیت استفاده
                                             </p>
-                                            <p>بدون محدودیت</p>
+                                            <p>{limitUse.striShow}</p>
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
                                     </li>

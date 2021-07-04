@@ -13,7 +13,7 @@ export const UserSetting = ({dataOut, limit, out: setOut}) => {
     const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(false)
     const [userGroup , setUserGroup] = useState([])
-    const [typeSel, setTypeSel] = useState({types: ''});
+    const [typeSel, setTypeSel] = useState({types: '' , name : ''});
     const [catSel, setCatSel] = useState([]);
 
     const handleClose = e => {
@@ -24,7 +24,7 @@ export const UserSetting = ({dataOut, limit, out: setOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        dataOut({user_status: typeSel.types, userGroup ,userSelecet : catSel});
+        dataOut({user_status: typeSel, userGroup ,userSelecet : catSel});
         handleClose(e);
     }
 
@@ -63,15 +63,19 @@ export const UserSetting = ({dataOut, limit, out: setOut}) => {
         if (id == 0) {
             let typp = {...typeSel};
             typp.types = "all";
+            typp.name = "برای همه کاربران";
             setTypeSel(typp);
         } else if (id == 1) {
             let typpp = {...typeSel};
             typpp.types = "group_of_users";
+            typpp.name = "برای گروهی از کاربران";
             setTypeSel(typpp);
 
         } else if (id == 2) {
             let typpps = {...typeSel};
             typpps.types = "special_users";
+            typpps.name = "برای کاربران خاص";
+
             setTypeSel(typpps);
             handleSearchUser();
 
