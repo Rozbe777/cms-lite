@@ -5,6 +5,7 @@ import {BreadCrumbs} from "../../UserList/HOC/BreadCrumbs";
 import {AddDiscount} from './../AddDiscount';
 import {ItemDis} from "../layout/ItemDis";
 import $ from "jquery";
+import ReactDom from "react-dom";
 
 const Show = (props) => {
     let targetElem = document.getElementById("add-datas");
@@ -12,7 +13,8 @@ const Show = (props) => {
     useEffect(() => {
         $("#breadCrumb").addClass("activeCrumb");
     }, [])
-    const {mini} = props;
+    const {token} = props;
+    console.log(props , "propsss")
     const [state, setState] = useState();
     const [checkBox, setCheckBox] = useState([]);
 
@@ -32,10 +34,16 @@ const Show = (props) => {
         })
     })
 
+    const handleBack = (item) => {
+        if (item.status == 200) {
+            // get();
+            ReactDom.render('', document.getElementById('add-datas'))
+        }
+    }
 
     const handleAddDisc = e => {
         e.preventDefault();
-        ReactDOM.render(<AddDiscount/>, document.getElementById("add-datas"));
+        ReactDOM.render(<AddDiscount token={token} result={handleBack(e)}/>, document.getElementById("add-datas"));
     }
 
 
@@ -67,5 +75,6 @@ export default Show;
 
 let elem = document.getElementById("discount-page");
 if (elem) {
-    ReactDOM.render(<Show/>, elem)
+    const props = Object.assign({}, elem.dataset);
+    ReactDOM.render(<Show {...props} />, elem)
 }

@@ -4,22 +4,19 @@ import {Request} from "../../../../services/AdminService/Api";
 import './../_shared/style.scss';
 import {MultiOption} from "./../layout/MultiOption";
 import $ from "jquery";
-import {success} from "../../../../helper";
-import {useQuery} from "react-query";
+import {ErroHandle, error as ErrorToast, success} from "../../../../helper";
 import {DiscoutAction} from "../layout/DiscoutAction";
 import {MultiSelected} from "../layout/MultiSelected";
 import {Searchs} from "../layout/Context";
 import {Switcher} from "../../../HOC/Switch";
-import {NewFeture} from "../../_Micro/ProductMiniComponent/NewFeture";
 import {TopPrice} from "../layout/TopPrice";
 import {CartAction} from "../layout/CartAction";
-// import Calender from "beautiful-reactjs-persian-calender/index";
 import {UserSetting} from "../layout/UserSetting";
 import {LimitedUse} from "../layout/LimitedUse";
 import {StartDiscount} from "../layout/StartDiscount";
 import {EndDiscount} from "../layout/EndDiscount";
 
-export const AddDiscount = ({type}) => {
+export const AddDiscount = ({type , result , token}) => {
 
 
     const [allData, setAllData] = useState({
@@ -255,6 +252,7 @@ export const AddDiscount = ({type}) => {
         let data = {...allData};
         data.code = discountCode;
         data.status = status;
+        data._token = token;
         data.type = disTypesDis;
         data.value = value;
         data.max_limit = maxLimit ? parseInt(maxLimit) : null;
@@ -270,10 +268,50 @@ export const AddDiscount = ({type}) => {
         data.number_of_times_allowed_to_use = limitUse.codeVal;
         data.number_of_use_allowed_per_user = limitUse.userVal;
 
+        AddNewDiscount(data)
 
-        console.log("_____", data);
+
+    }
 
 
+    const AddNewDiscount = data => {
+        swal({
+            title: 'افزودن کد تخفیف جدید',
+            text: "آیا مطمئنید؟",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'تایید',
+            confirmButtonClass: 'btn btn-primary',
+            cancelButtonClass: 'btn btn-danger ml-1',
+            cancelButtonText: 'انصراف',
+            buttonsStyling: false,
+        }).then(function (result) {
+            if (result.value) {
+
+                Request.AddNewCoupen(data)
+                    .then(res => {
+                        result(res);
+                        localStorage.removeItem("is_menu");
+                        localStorage.removeItem("status");
+                        localStorage.removeItem("selected");
+                        Swal.fire({
+                            type: "success",
+                            title: 'با موفقیت اضافه شد !',
+                            confirmButtonClass: 'btn btn-success',
+                            confirmButtonText: 'باشه',
+                        })
+
+                    }).catch(err => {
+                    if (err.response.data.errors) {
+                        ErroHandle(err.response.data.errors);
+                    } else {
+                        //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
+                        ErrorToast("خطای غیر منتظره ای رخ داده است")
+                    }
+
+                })
+            }
+        });
     }
 
     const handleTopDiscount = e => {
