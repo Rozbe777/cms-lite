@@ -17,11 +17,12 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->enum('status',['done','pending_pay','pending_operator','pending_delivery','process', 'rejected','failed'])->default('pending_pay');
-            $table->integer('total_price');
-            $table->integer('coupon_id');
-            $table->integer('tax');
-            $table->string('description');
-            $table->integer('transport_id');
+            $table->integer('total_price')->nullable();
+            $table->integer('coupon_id')->nullable();
+            $table->integer('tax')->nullable();
+            $table->string('description')->nullable();
+            $table->integer('bank_id');
+            $table->integer('transport_id')->nullable();
             $table->integer('address_id');
             $table->softDeletes();
             $table->timestamps();

@@ -4,7 +4,10 @@ namespace App\Models;
 
 use App\Classes\Notifier\iUser;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -65,46 +68,77 @@ class User extends Authenticatable implements iUser
         'email_verified_at' => 'datetime',
     ];
 
+
     /**
-     * @var mixed|string
+     * @return HasMany
+     */
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class, 'user_id','id');
+    }
+
+    /**
+     *
+     * @return HasMany
      */
 
-    public function categories()
+    public function categories(): HasMany
     {
         return $this->hasMany(Category::class, 'user_id', 'id');
     }
 
-    public function orders()
+    /**
+     * @return HasMany
+     */
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class, 'user_id', 'id');
     }
 
-    public function tags()
+    /**
+     * @return HasMany
+     */
+    public function tags(): HasMany
     {
         return $this->hasMany(Tag::class, 'user_id', 'id');
     }
 
-    public function pages()
+    /**
+     * @return HasMany
+     */
+    public function pages(): HasMany
     {
         return $this->hasMany(Page::class, 'user_id', 'id');
     }
 
-    public function themes()
+    /**
+     * @return HasMany
+     */
+    public function themes(): HasMany
     {
         return $this->hasMany(Theme::class, 'user_id', 'id');
     }
 
-    public function contents()
+    /**
+     * @return HasMany
+     */
+    public function contents(): HasMany
     {
         return $this->hasMany(Content::class, 'user_id', 'id');
     }
 
-    public function products()
+    /**
+     * @return HasMany
+     */
+    public function products(): HasMany
     {
         return $this->hasMany(Product::class, 'user_id', 'id');
     }
 
-    public function coupons()
+    /**
+     * @return HasMany
+     */
+    public function coupons(): HasMany
     {
         return $this->hasMany(Coupon::class, 'user_id', 'id');
     }
@@ -117,12 +151,18 @@ class User extends Authenticatable implements iUser
         return $this->attributes['name'] . ' ' . $this->attributes['last_name'];
     }
 
-    public function getAvatarAttribute()
+    /**
+     * @return string
+     */
+    public function getAvatarAttribute(): string
     {
         return asset('images/avatar.jpg');
     }
 
-    public function getPersianStatusAttribute()
+    /**
+     * @return string
+     */
+    public function getPersianStatusAttribute(): string
     {
         return $this->attributes['status'] == 'active' ? 'فعال' : 'بسته شده';
     }
@@ -132,6 +172,9 @@ class User extends Authenticatable implements iUser
         return $this->roles()->first()->name;
     }
 
+    /**
+     * @return array|Application|Translator|string|null
+     */
     public function getUserRoleNameAttribute()
     {
         $role = $this->roles()->first();

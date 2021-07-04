@@ -119,7 +119,7 @@ class ContentController extends Controller
     public function update(EditContentRequest $request)
     {
         $content = $this->contentRepository->update($request->all(), $request->id);
-        $content->load('tags')->load('categories')->load('viewCounts');
+        $content = $content->load('tags')->load('categories')->load('viewCounts');
 
         return $this->message(__('message.success.200'))->view('pages.admin.content.edit')->data($content)->success();
     }

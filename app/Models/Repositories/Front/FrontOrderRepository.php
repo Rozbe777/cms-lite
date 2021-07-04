@@ -4,6 +4,8 @@
 namespace App\Models\Repositories\Front;
 
 
+use App\Models\Coupon;
+use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 
@@ -55,6 +57,9 @@ class FrontOrderRepository implements RepositoryInterface
      */
     public function create(array $data)
     {
+        $order = Order::create($data);
+        $coupon = Coupon::find($data['coupon_id']);
+
         return Order::create($data);
     }
 
