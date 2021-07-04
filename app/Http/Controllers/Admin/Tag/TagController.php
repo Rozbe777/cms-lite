@@ -45,8 +45,8 @@ class TagController extends Controller
         $tag = $this->tagRepositories->all($request->status, $request->search, $request->pageSize);
 
         return (!$tag) ?
-            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.tag.index")->error() :
-            $this->data($tag)->message(__('message.success.200'))->view("pages.admin.tag.index")->success();
+            $this->message(__('message.content.search.notSuccess'))->error() :
+            $this->data($tag)->message(__('message.success.200'))->success();
     }
 
     /**
@@ -84,7 +84,7 @@ class TagController extends Controller
     {
         $tags = $this->tagRepositories->create($request->all());
 
-        return $this->message(__('message.success.200'))->data($tags)->view('pages.admin.tag.show')->success();
+        return $this->message(__('message.success.200'))->data($tags)->success();
     }
 
     /**
@@ -97,7 +97,7 @@ class TagController extends Controller
     {
         $this->tagRepositories->get($tag);
 
-        return $this->message(__('message.success.200'))->data($tag)->view('pages.admin.tag.show')->success();
+        return $this->message(__('message.success.200'))->data($tag)->success();
     }
 
     /**
@@ -122,7 +122,7 @@ class TagController extends Controller
     {
         $tag = $this->tagRepositories->update($request->all(), $request->id);
 
-        return $this->message(__('message.success.200'))->view('pages.admin.tag.edit')->data($tag)->success();
+        return $this->message(__('message.success.200'))->data($tag)->success();
     }
 
     /**
@@ -135,7 +135,7 @@ class TagController extends Controller
     {
         $this->tagRepositories->delete($tag);
 
-        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.tag.index')->success();
+        return $this->message(__('message.content.destroy.successful'))->success();
     }
 
     /**
@@ -148,6 +148,6 @@ class TagController extends Controller
     {
         $this->tagRepositories->multipleDestroy($request);
 
-        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.tag.index')->success();
+        return $this->message(__('message.content.destroy.successful'))->success();
     }
 }

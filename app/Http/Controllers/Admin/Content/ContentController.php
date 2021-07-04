@@ -42,8 +42,8 @@ class ContentController extends Controller
         $contents = $this->contentRepository->all($request->status, $request->search, $request->tags, $request->categories);
 
         return (!$contents) ?
-            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.content.index")->error() :
-            $this->data($contents)->message(__('message.success.200'))->view("pages.admin.content.index")->success();
+            $this->message(__('message.content.search.notSuccess'))->error() :
+            $this->data($contents)->message(__('message.success.200'))->success();
     }
 
     /**
@@ -80,7 +80,7 @@ class ContentController extends Controller
     {
         $content = $this->contentRepository->create($request->all());
 
-        return $this->message(__('message.success.200'))->data($content)->view('pages.admin.content.show')->success();
+        return $this->message(__('message.success.200'))->data($content)->success();
     }
 
     /**
@@ -94,7 +94,7 @@ class ContentController extends Controller
         $this->contentRepository->get($content);
         $content = $content->load('tags')->load('categories');
 
-        return $this->message(__('message.success.200'))->data($content)->view('pages.admin.content.show')->success();
+        return $this->message(__('message.success.200'))->data($content)->success();
     }
 
     /**
@@ -121,7 +121,7 @@ class ContentController extends Controller
         $content = $this->contentRepository->update($request->all(), $request->id);
         $content = $content->load('tags')->load('categories')->load('viewCounts');
 
-        return $this->message(__('message.success.200'))->view('pages.admin.content.edit')->data($content)->success();
+        return $this->message(__('message.success.200'))->data($content)->success();
     }
 
     /**
@@ -134,7 +134,7 @@ class ContentController extends Controller
     {
         $this->contentRepository->delete($content);
 
-        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.content.index')->success();
+        return $this->message(__('message.content.destroy.successful'))->success();
     }
 
     /**
@@ -147,6 +147,6 @@ class ContentController extends Controller
     {
         $this->contentRepository->multipleDestroy($request->all());
 
-        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.content.index')->success();
+        return $this->message(__('message.content.destroy.successful'))->success();
     }
 }

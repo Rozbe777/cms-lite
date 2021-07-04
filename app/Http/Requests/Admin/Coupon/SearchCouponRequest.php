@@ -24,7 +24,10 @@ class SearchCouponRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'code' => 'nullable|string',
+            'start_date' => 'nullable',
+            'end_date' => 'nullable',
+            'status' => 'nullable|in:in:active,deactivate',
         ];
     }
 }

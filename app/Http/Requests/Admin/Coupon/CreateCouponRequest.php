@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Coupon;
 
+use App\Rules\CouponCodeCheck;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,9 +26,22 @@ class CreateCouponRequest extends FormRequest
     public function rules()
     {
         return [
-            "code" => 'required|unique:coupons,code,'.Auth::id(),
-//            "start"
-//            "pageSize" => "nullable|integer"
+            "code" => new CouponCodeCheck(),
+            "status" => "required|in:active,deactivate",
+            "type" => "required|in:fixed_price,percentage,free_delivery",
+            'value' => "required|string",
+            'max_limit' => 'nullable|integer',
+            'use_number' => 'nullable|integer',
+//            'functionality' => 'nullable|in:total_items_price,total_card_price,special_products,special_categories',
+//            'functionality_amount' => 'nullable|array|required_with:functionality',
+            'card_conditions' => 'nullable|in:unlimited,min_price,min_purchase_number,max_card_price,max_purchase_number',
+            'card_conditions_amount' => 'nullable|integer|required_with:card_conditions',
+            'user_status' => 'in:all,special_users,group_of_users',
+            'user_group' => 'array|required_with:user_status',
+            'number_of_times_allowed_to_use' => 'nullable|integer',
+            'number_of_use_allowed_per_user' => 'nullable|integer',
+            'start_date' => 'nullable',
+            'end_date' => 'nullable',
         ];
     }
 }

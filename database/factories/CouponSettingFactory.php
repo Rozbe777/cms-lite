@@ -21,7 +21,6 @@ class CouponSettingFactory extends Factory
      */
     public function definition()
     {
-        for ($i = 0; $i < 10; $i++) {
             $card_conditions = $this->faker->randomElement(['unlimited', 'min_price', 'min_purchase_number', 'max_card_price', 'max_purchase_number']);
             if ($card_conditions == 'unlimited')
                 $card_conditions_amount = null;
@@ -49,5 +48,4 @@ class CouponSettingFactory extends Factory
                 'end_date' => null,
             ];
         }
-    }
 }
