@@ -13,9 +13,11 @@ import {Switcher} from "../../../HOC/Switch";
 import {NewFeture} from "../../_Micro/ProductMiniComponent/NewFeture";
 import {TopPrice} from "../layout/TopPrice";
 import {CartAction} from "../layout/CartAction";
+// import Calender from "beautiful-reactjs-persian-calender/index";
 import {UserSetting} from "../layout/UserSetting";
 import {LimitedUse} from "../layout/LimitedUse";
 import {StartDiscount} from "../layout/StartDiscount";
+import {EndDiscount} from "../layout/EndDiscount";
 
 export const AddDiscount = ({type}) => {
 
@@ -34,6 +36,8 @@ export const AddDiscount = ({type}) => {
 
 
     const [edit, setEdit] = useState(false);
+    const [dateStart , setDateStart] = useState({})
+    const [dateEnd , setDateEnd] = useState({})
     const [status, setStatus] = useState("active");
     const [prevCalSel, setPrevCatSel] = useState({})
     const [timeShow, setTimeShow] = useState([]);
@@ -254,8 +258,8 @@ export const AddDiscount = ({type}) => {
         data.functionality_amount = functionality_amount;
         data.user_status = userStatus;
         data.user_group = userGroup;
-        data.start_date = start_date;
-        data.end_date = start_date;
+        data.start_date = dateStart;
+        data.end_date = dateEnd;
         data.number_of_times_allowed_to_use = 1;
         data.number_of_use_allowed_per_user = 10;
 
@@ -462,13 +466,23 @@ export const AddDiscount = ({type}) => {
     }
 
     const handleStartDis = e => {
-        console.log(e , "date")
+        setDateStart(e)
+    }
+    const handleEndDis = e => {
+        setDateEnd(e)
     }
     const handleShowStartDate = e => {
         e.preventDefault();
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<StartDiscount timers={timeCheck}
                                        dataOut={handleStartDis}
+                                       timeShows={timeShow}/>, document.getElementById("back-loaderedss"));
+    }
+    const handleShowEndDate = e => {
+        e.preventDefault();
+        $("#back-loaderedss").addClass("active");
+        ReactDOM.render(<EndDiscount timers={timeCheck}
+                                       dataOut={handleEndDis}
                                        timeShows={timeShow}/>, document.getElementById("back-loaderedss"));
     }
 
@@ -578,6 +592,11 @@ export const AddDiscount = ({type}) => {
     };
 
 
+    console.log("++++++++++++" , dateStart)
+
+
+
+
     const handleValue = e => {
         e.preventDefault();
         setValue(e.target.value)
@@ -614,7 +633,7 @@ export const AddDiscount = ({type}) => {
                                         <p>
                                             <i className={"bx bx-calendar"}></i>
                                             <span>شروع : </span>
-                                            <p>8 تیر 1400 ساعت 10:00</p>
+                                            <p>{dateStart.date ? dateStart.date.date.day + " " + dateStart.date.date.month + " " + dateStart.date.date.year + " ساعت : " + dateStart.time.m + " : " + dateStart.time.h : 'تاریخی ثبت نشده است'}</p>
                                         </p>
                                         <p>
                                             <i className={"bx bx-basket"}></i>
@@ -776,7 +795,7 @@ export const AddDiscount = ({type}) => {
                                             <p>
                                                 تاریخ شروع تخفیفات
                                             </p>
-                                            <p>8 تیر 1400 ساعت 10:00</p>
+                                            <p>{dateStart.date ? dateStart.date.date.day + " " + dateStart.date.date.month + " " + dateStart.date.date.year + " ساعت : " + dateStart.time.m + " : " + dateStart.time.h : 'تاریخی ثبت نشده است'}</p>
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
                                     </li>
@@ -791,14 +810,14 @@ export const AddDiscount = ({type}) => {
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
                                     </li>
-                                    <li id={"itemss"}>
+                                    <li id={"itemss"} onClick={e => handleShowEndDate(e)}>
                                         <i className={"bx bx-calendar-alt"}></i>
 
                                         <div id={"details-items"}>
                                             <p>
                                                 تاریخ پایان تخفیفات
                                             </p>
-                                            <p>9 مهر 1401 ساعت 12:00</p>
+                                            <p>{dateEnd.date ? dateEnd.date.date.day + " " + dateEnd.date.date.month + " " + dateEnd.date.date.year + " ساعت : " + dateEnd.time.m + " : " + dateEnd.time.h : 'تاریخی ثبت نشده است'}</p>
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
                                     </li>

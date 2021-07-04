@@ -25,19 +25,21 @@ class FrontPageController extends Controller
         if ($page->is_index) {
             if (!empty($page->layout_id)) {
                 $layout = Layout::find($page->layout_id);
-                return page($layout->view);
+//                return page($layout->view);
             } else {
-                return page('index');
+//                return page('index');
 
             }
 
         } elseif (!empty($page->layout_id)) {
             $layout = Layout::find($page->layout_id);
-            return page($layout->view);
+//            return page($layout->view);
         } else {
-            return page('page');
+//            return page('page');
         }
 
 
     }
+
+
 }

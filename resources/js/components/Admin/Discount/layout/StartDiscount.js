@@ -1,25 +1,34 @@
 import React, {useState, useEffect} from "react";
 import ReactDOM from 'react-dom';
+import moment from "jalali-moment";
 import {Request} from "../../../../services/AdminService/Api";
 import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
+// import Calender from "react-persian-calendar";
+import {MainRate} from "@emran-rastadi/reactjs-persian-calender-beauty";
 import $ from "jquery";
+
 
 export const StartDiscount = ({dataOut, timeShows, timers, limit, out: setOut}) => {
 
-    const [status, setStatus] = useState(true);
-    const [data, setData] = useState({limit: limit ? limit : null})
-    const [productData, setProductData] = useState([]);
-    const [categoryData, setCategoryData] = useState([]);
-    const [loading, setLoading] = useState(false)
     const [typeSel, setTypeSel] = useState({types: ''});
-    const [catSel, setCatSel] = useState([]);
     const [time, setTime] = useState({
         h: '00',
         m: '00',
         s: '00'
     });
-    const [date, setDate] = useState(new Date());
+
+    let dateNow = {
+        year : moment(new Date()).locale('fa').format('YYYY'),
+        month : moment(new Date()).locale('fa').format('MMMM'),
+        monthNum : moment(new Date()).locale('fa').format('M'),
+        day : moment(new Date()).locale('fa').format('D')
+    }
+    let timestam = Date.parse(moment(new Date()).locale('fa'));
+    const [date, setDate] = useState({
+        date : dateNow,
+        timestamp : timestam
+    });
     const [timeShow, setTimeShow] = useState([]);
 
     const handleClose = e => {
@@ -34,69 +43,11 @@ export const StartDiscount = ({dataOut, timeShows, timers, limit, out: setOut}) 
         handleClose(e);
     }
 
-    const CategoryGet = async () => {
-
-    }
-
-    const handleSearchProducts = e => {
-        let searchdata = {search: '', pageSize: 10}
-
-        if (e) {
-            searchdata.search = e;
-            setLoading(true);
-            Request.GetAllProducts(searchdata).then(res => {
-                setLoading(false);
-                setProductData(res.data.data.data);
-            })
-        } else {
-            setLoading(true);
-            Request.GetAllProducts(searchdata).then(res => {
-                setLoading(false);
-                setProductData(res.data.data.data);
-            })
-        }
-
-    }
-
-    const handleSearchCategore = e => {
-        let searchdata = {search: '', pageSize: 10}
-        if (e) {
-            searchdata.search = e;
-            setLoading(true);
-            Request.GetAllCategory(searchdata).then(res => {
-                setLoading(false);
-                setCategoryData(res.data.data.data);
-            })
-        } else {
-            setLoading(true);
-            Request.GetAllProducts(searchdata).then(res => {
-                setLoading(false);
-                setCategoryData(res.data.data.data);
-            })
-        }
-
-    }
 
 
-    const HandleChange = (e) => {
-        let checkBoxCustom = $("span.checkboxed.limi");
-        if (e.target.checked) {
-            checkBoxCustom.addClass("active")
-            setStatus(true)
-            setData({limit: null})
-        } else {
-            setData({limit: ''})
-            checkBoxCustom.removeClass("active")
-            setStatus(false)
-        }
-    }
 
     useEffect(() => {
-        if (status) {
-            $("span.checkboxed.limi").addClass("active");
-        } else {
-            $("span.checkboxed.limi").removeClass("active");
-        }
+
 
         timers.map(item => {
             let strings = item.h + " : " + item.m;
@@ -107,68 +58,11 @@ export const StartDiscount = ({dataOut, timeShows, timers, limit, out: setOut}) 
             setTimeShow(timeShow)
         })
 
-        // handleTime();
     }, [])
 
 
-    const HandleChangeLimit = e => {
-        e.preventDefault();
-        if (e.target.value < 1) {
-            setData({
-                ...data,
-                [e.target.name]: 1
-            })
-        } else {
-            setData({
-                ...data,
-                [e.target.name]: e.target.value
-            })
-        }
-
-    }
-
-
-    // const handleChoise = (e, id) => {
-    //     e.preventDefault();
-    //
-    //     if (id == 0) {
-    //         let typp = {...typeSel};
-    //         typp.types = "all";
-    //         setTypeSel(typp);
-    //     } else if (id == 1) {
-    //         let typpp = {...typeSel};
-    //         typpp.types = "miniPrice";
-    //         setTypeSel(typpp);
-    //
-    //     } else if (id == 2) {
-    //         let typpps = {...typeSel};
-    //         typpps.types = "miniCount";
-    //         setTypeSel(typpps);
-    //
-    //     } else if (id == 3) {
-    //         let typppb = {...typeSel};
-    //         typppb.types = "maxPrice";
-    //         setTypeSel(typppb);
-    //     } else {
-    //
-    //     }
-    //
-    // }
-
-    $(".main-selected").click(function () {
-        $(".input-searchsss").addClass("active");
-        $(".input-searchsss input").focus();
-    })
-
-
-    const handleSelecete = e => {
-
-        setCatSel(e);
-
-    }
 
     const handleChoiseTime = (e, index, name, id) => {
-
 
         let timmme = [];
         timmme = name.split(":");
@@ -180,6 +74,10 @@ export const StartDiscount = ({dataOut, timeShows, timers, limit, out: setOut}) 
 
     }
 
+
+    function handleChangeDate(date){
+        setDate(date);
+    }
 
     return (
         <div className={"col-lg-4 col-sm-12 col-md-8 customPrice"} id={"prices"} style={{overflow: 'inherit'}}>
@@ -194,13 +92,16 @@ export const StartDiscount = ({dataOut, timeShows, timers, limit, out: setOut}) 
 
                             <p>تاریخ شروع</p>
 
-                            <MultiOption name={"time-roles"}
 
-                                // handleChoise={handleChoise}
-                                         data={timeShows}
-                                // selected={item => handleCloseFirst(item)}
+                            {/*<Calender onChange={handleDate} Icon={<i className="bx bxs-calender"></i>} />*/}
 
-                            />
+                            {/*<mainRa onChange={handleChangeDate} displayed={false} newDisplay={false} />*/}
+
+                            <div style={{width : '100%',height : '50px'}}>
+                                <MainRate onChange={handleChangeDate} Icon={<i className="bx bx-calendar-alt"></i>} />
+
+                            </div>
+                            {/*<Calender onChange={e => handleChangeDate(e)} />*/}
 
                         </div>
 

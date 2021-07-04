@@ -4,7 +4,6 @@ import "swiper/swiper-bundle.css";
 import $ from "jquery";
 import {Searchs} from "./Context";
 
-
 export const MultiSelected = ({
                                   handleSelecete,
                                   searchs,

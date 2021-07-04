@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {TotalActions} from "../../UserList/HOC/TotalActions";
 import {BreadCrumbs} from "../../UserList/HOC/BreadCrumbs";
 import {AddDiscount} from './../AddDiscount';
+import {ItemDis} from "../layout/ItemDis";
 import $ from "jquery";
 
 const Show = (props) => {
@@ -22,11 +23,11 @@ const Show = (props) => {
     });
 
 
-    $(function (){
-        $("ul#menueeee li").mouseover(function(){
+    $(function () {
+        $("ul#menueeee li").mouseover(function () {
             $(this).find("ul").addClass("active");
         })
-        $("ul#menueeee li").mouseout(function(){
+        $("ul#menueeee li").mouseout(function () {
             $(this).find("ul").removeClass("active");
         })
     })
@@ -34,7 +35,7 @@ const Show = (props) => {
 
     const handleAddDisc = e => {
         e.preventDefault();
-        ReactDOM.render(<AddDiscount  /> , document.getElementById("add-datas") );
+        ReactDOM.render(<AddDiscount/>, document.getElementById("add-datas"));
     }
 
 
@@ -48,30 +49,15 @@ const Show = (props) => {
             </div>
 
             <div className={"container-fluid"}>
-<ul id={"menueeee"}>
-    <li>
-        <span>منو یک</span>
-        <ul>
-            <li>منو یک</li>
-            <li>منو یک</li>
-            <li>منو یک</li>
-            <li>منو یک</li>
-            <li>منو یک</li>
-        </ul>
-    </li>
 
-    <li>
-        <span>menu22</span>
-        <ul>
-            <li>منو یک</li>
-            <li>منو یک</li>
-            <li>منو یک</li>
-            <li>منو یک</li>
-            <li>منو یک</li>
-        </ul>
-    </li>
-</ul>
+                <div className={"row"} style={{padding : '15px'}}>
+                    <div className={"col-lg-3 col-md-4 col-sm-6"} style={{padding : '5px'}}>
+                        <ItemDis />
+                    </div>
+                </div>
+
             </div>
+
             <div id={"add-datas"}></div>
         </>
     )
