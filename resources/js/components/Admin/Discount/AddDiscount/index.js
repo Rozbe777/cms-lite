@@ -287,7 +287,6 @@ export const AddDiscount = ({type, result, token, dataDefaul}) => {
         data.user_group = userGroup ? userGroup : [];
         data.cart_conditions = cartStatus.typeSel.types;
 
-        console.log("%%%%%%%%%" , cartStatus)
         data.cart_conditions_amount = cartStatus.cart_conditions_amount;
         if (dateEnd.date) {
             let timeEdns = dateEnd.date.timestamp.toString();
@@ -315,8 +314,8 @@ export const AddDiscount = ({type, result, token, dataDefaul}) => {
             data.start_date = null;
         }
 
-        data.number_of_times_allowed_to_use = limitUse.codeVal ? limitUse.codeVal : null;
-        data.number_of_use_allowed_per_user = limitUse.userVal ? limitUse.userVal : null;
+        data.number_of_times_allowed_to_use = limitUse.codeVal ? parseInt(limitUse.codeVal) : null;
+        data.number_of_use_allowed_per_user = limitUse.userVal ? parseInt(limitUse.userVal) : null;
 
         console.log(data)
         AddNewDiscount(data)
