@@ -24,7 +24,6 @@ class ContentController extends Controller
 
     public function search($slug = null)
     {
-
         $content = $this->repository->search($slug);
 
         if ($content->owner == 'content') {

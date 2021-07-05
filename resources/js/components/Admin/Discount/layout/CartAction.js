@@ -5,12 +5,30 @@ import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
 
-export const CartAction = ({dataOut}) => {
+export const CartAction = ({defData, dataOut}) => {
 
 
-    const [typeSel , setTypeSel] = useState({types : 'unlimited'});
-    const [typeName , setTypeName] = useState({text : "بدون محدودیت" , type : null});
-    const [card_conditions_amount , setCard_conditions_amount] = useState(null);
+    function handleCondName(id) {
+        switch (id.typeSel.types) {
+            case  'unlimited' :
+                return 'بدون محدودیت';
+            case 'min_purchase_number' :
+                return 'حداقل مبلغ سبد خرید';
+            case 'max_card_price' :
+                return `حداقل تعداد محصولات در سبد`;
+            case "max_purchase_number" :
+                return `حداکثر مبلغ سبد خرید`;
+            default :
+                return 'بدون محدودیت';
+        }
+    }
+
+    const [typeSel, setTypeSel] = useState({types: defData ? defData.typeSel.types : 'unlimited'});
+    const [typeName, setTypeName] = useState({
+        text: defData ? handleCondName(defData) : '',
+        type: defData ? defData.typeSel.types : null
+    });
+    const [card_conditions_amount, setCard_conditions_amount] = useState(defData ? defData.cart_conditions_amount : null);
     const handleClose = e => {
         e.preventDefault();
         $("#back-loaderedss").removeClass("active");
@@ -19,28 +37,24 @@ export const CartAction = ({dataOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-
-
-        let typesNn = typeName.type ? typeName.type == "price" ? typeName.text + " " + card_conditions_amount + " تومان " : typeName.text + " " + card_conditions_amount:typeName.text;
-
+        let typesNn = typeName.type ? typeName.type == "price" ? typeName.text + " " + card_conditions_amount + " تومان " : typeName.text + " " + card_conditions_amount : typeName.text;
         dataOut({
-            card_conditions_amount,
+            cart_conditions_amount : card_conditions_amount,
             typeSel,
             typesNn
         });
+        // console.log("/////" ,{
+        //     card_conditions_amount,
+        //     typeSel,
+        //     typesNn
+        // } )
         handleClose(e);
     }
-
-
-
-
 
 
     useEffect(() => {
 
     }, [])
-
-
 
 
     const handleChoise = (e, id) => {
@@ -50,23 +64,23 @@ export const CartAction = ({dataOut}) => {
             let typp = {...typeSel};
             typp.types = "unlimited";
             setTypeSel(typp);
-            setTypeName({text : "بدون محدودیت" , type : null})
+            setTypeName({text: "بدون محدودیت", type: null})
         } else if (id == 1) {
             let typpp = {...typeSel};
             typpp.types = "min_purchase_number";
             setTypeSel(typpp);
-            setTypeName({text : "با محدودیت حداقل مبلغ خرید" , type : 'price'});
+            setTypeName({text: "با محدودیت حداقل مبلغ خرید", type: 'price'});
         } else if (id == 2) {
             let typpps = {...typeSel};
             typpps.types = "max_purchase_number";
             setTypeSel(typpps);
-            setTypeName({text : "با محدودیت حداقل تعداد محصولات" , type : 'num'});
+            setTypeName({text: "با محدودیت حداقل تعداد محصولات", type: 'num'});
 
         } else if (id == 3) {
             let typppb = {...typeSel};
             typppb.types = "max_cart_price";
             setTypeSel(typppb);
-            setTypeName({text : "با محدودیت حداکثر مبلغ خرید " , type: 'price'});
+            setTypeName({text: "با محدودیت حداکثر مبلغ خرید ", type: 'price'});
 
         } else {
 
@@ -92,19 +106,20 @@ export const CartAction = ({dataOut}) => {
 
                             <p style={{textAlign: 'center'}}>حداقل شرایط سبد خرید</p>
 
-                            <MultiOption name={"cart-roles"} handleChoise={handleChoise} data={[{
-                                id: 'بدون محدودیت',
-                                name: 'بدون محدودیت'
-                            }, {
-                                id: 'حداقل مبلغ سبد خرید',
-                                name: 'حداقل مبلغ سبد خرید'
-                            }, {
-                                id: 'حداقل تعداد محصولات در سبد خرید',
-                                name: 'حداقل تعداد محصولات در سبد خرید'
-                            }, {
-                                id: 'حداکثر مبلغ سبد خرید',
-                                name: 'حداکثر مبلغ سبد خرید'
-                            }]}
+                            <MultiOption defData={typeName.text} name={"cart-roles"} handleChoise={handleChoise}
+                                         data={[{
+                                             id: 'بدون محدودیت',
+                                             name: 'بدون محدودیت'
+                                         }, {
+                                             id: 'حداقل مبلغ سبد خرید',
+                                             name: 'حداقل مبلغ سبد خرید'
+                                         }, {
+                                             id: 'حداقل تعداد محصولات در سبد خرید',
+                                             name: 'حداقل تعداد محصولات در سبد خرید'
+                                         }, {
+                                             id: 'حداکثر مبلغ سبد خرید',
+                                             name: 'حداکثر مبلغ سبد خرید'
+                                         }]}
                                 // selected={item => handleCloseFirst(item)}
 
                             />
@@ -114,30 +129,36 @@ export const CartAction = ({dataOut}) => {
                     </div>
 
 
-                    {typeSel.types ? typeSel.types == "min_purchase_number" ? (
+                    {1 ? typeSel.types == "min_purchase_number" ? (
                         <div className={"col-12"}>
-                            <p style={{textAlign : 'center'}}>مبلغ خرید </p>
-                            <input onChange={e => handleCartValue(e)} type="number" value={card_conditions_amount ? card_conditions_amount : ''} id="title" className="form-control" />
+                            <p style={{textAlign: 'center'}}>مبلغ خرید </p>
+                            <input style={{textAlign: 'center'}} onChange={e => handleCartValue(e)} type="number"
+                                   value={card_conditions_amount ? card_conditions_amount : ''} id="title"
+                                   className="form-control"/>
 
                         </div>
 
                     ) : typeSel.types == "max_cart_price" ? (
                         <div className={"col-12"}>
-                            <p style={{textAlign : 'center'}}>مبلغ خرید </p>
-                            <input onChange={e => handleCartValue(e)} type="number" value={card_conditions_amount ? card_conditions_amount : ''} id="title" className="form-control" />
+                            <p style={{textAlign: 'center'}}>مبلغ خرید </p>
+                            <input style={{textAlign: 'center'}} onChange={e => handleCartValue(e)} type="number"
+                                   value={card_conditions_amount ? card_conditions_amount : ''} id="title"
+                                   className="form-control"/>
 
                         </div>
 
 
                     ) : typeSel.types == "max_purchase_number" ? (
                         <div className={"col-12"}>
-                            <p style={{textAlign : 'center'}}>تعداد محصولات سبد خرید</p>
-                            <input onChange={e => handleCartValue(e)} type="number" value={card_conditions_amount ? card_conditions_amount : ''} id="title" className="form-control" />
+                            <p style={{textAlign: 'center'}}>تعداد محصولات سبد خرید</p>
+                            <input style={{textAlign: 'center'}} onChange={e => handleCartValue(e)} type="number"
+                                   value={card_conditions_amount ? card_conditions_amount : ''} id="title"
+                                   className="form-control"/>
 
                         </div>
 
 
-                    ) : ''  : ''}
+                    ) : '' : ''}
 
 
                 </div>

@@ -35,7 +35,7 @@ class CreateCouponRequest extends FormRequest
             'functionality' => 'nullable|in:total_items_price,total_cart_price,special_products,special_categories',
             'functionality_amount' => 'nullable|array|required_if:functionality,special_products,special_categories',
             'cart_conditions' => 'nullable|in:unlimited,min_price,min_purchase_number,max_cart_price,max_purchase_number',
-//            'cart_conditions_amount' => 'nullable|integer|required_if:cart_conditions,min_price,min_purchase_number,max_cart_price,max_purchase_number',
+            'cart_conditions_amount' => 'nullable|integer|required_if:cart_conditions,min_price,min_purchase_number,max_cart_price,max_purchase_number',
             'user_status' => 'in:all,special_users,group_of_users',
             'user_group' => 'array|required_if:user_status,special_users,group_of_users',
             'number_of_times_allowed_to_use' => 'nullable|integer',

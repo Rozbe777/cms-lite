@@ -76,6 +76,24 @@ class Content extends Model
         }
     }
 
+    public function getJalaliCreatedAtAttribute()
+    {
+        switch (setting("date_time")) {
+            case "ago":
+                return Jalalian::forge($this->attributes['created_at'])->ago();
+                break;
+            case "normal":
+                return $this->attributes['created_at'];
+            case "normal_format":
+                return Carbon::make($this->attributes['created_at'])->format('d/m/Y');
+            case "off":
+                return '';
+                break;
+            default:
+                return Jalalian::forge($this->attributes['created_at'])->format(setting("date_time"));
+        }
+    }
+
     public function getCreatedAtAttribute()
     {
         switch (setting("date_time")) {

@@ -153,14 +153,14 @@ class CouponRepository implements RepositoryInterface
 
         $setting_data['user_group'] = !empty($data['user_group'][0]) ?
             json_encode($data['user_group']) :
-            ['-1'];
+            json_encode(-1);
 
         $setting_data['number_of_times_allowed_to_use'] = !empty($data['number_of_times_allowed_to_use']) ?
-            $data['number_times_allowed'] :
+            $data['number_of_times_allowed_to_use'] :
             10;
 
         $setting_data['number_of_use_allowed_per_user'] = !empty($data['number_of_use_allowed_per_user']) ?
-            $data['number_of_users_allowed'] :
+            $data['number_of_use_allowed_per_user'] :
             1;
 
         $coupon_data['code'] = $data['code'];
