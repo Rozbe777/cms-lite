@@ -44,7 +44,8 @@ if (!function_exists('image')) {
             return  adminTheme('placeholder.jpg');
         }
 
-        return url('uploads/' . $image);
+        //return url('uploads/' . $image);
+        return themeAsset($image);
     }
 }
 if (!function_exists('uploadRoot')) {

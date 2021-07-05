@@ -20,11 +20,8 @@ class CategoryController extends Controller
 
     public function search($slug = null)
     {
-        $categories = $this->repository->search($slug);
-        $contents = $categories->contents()->orderByDesc('id')->paginate(config('view.pagination'));
-
-        return !empty($categories) ?
-            $this->view('basic.category')->message(__('message.success.200'))->data([$categories,$contents])->success() :
-            $this->view('index')->message(__('message.content.search.notSuccess'))->error();
+        $category = $this->repository->search($slug);
+        $contents = $category->contents()->orderByDesc('id')->paginate(1);
+        return page('category', compact('category', 'contents'));
     }
 }

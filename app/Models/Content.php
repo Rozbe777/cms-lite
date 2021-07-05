@@ -29,7 +29,7 @@ class Content extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
-    protected $appends = ['jalali_created_at', 'url', 'related_contents'
+    protected $appends = [ 'url', 'related_contents'
 //        'related_content'
     ];
 
@@ -68,16 +68,36 @@ class Content extends Model
     public function getRelatedContentsAttribute()
     {
         if ($this->attributes['owner'] == 'content') {
-            $categoriesIds = CategoryContent::where('content_id', $this->attributes['id'])->pluck('category_id')->unique()->toArray();
-            $contentIds = CategoryContent::whereIn('category_id', $categoriesIds)->pluck('content_id')->unique()->toArray();
-            return Content::whereIn('id', $contentIds)->content()->where('id','!=',$this->attributes['id'])->limit(5)->get();
+          //  $categoriesIds = CategoryContent::where('content_id', $this->attributes['id'])->pluck('category_id')->unique()->toArray();
+           // $contentIds = CategoryContent::whereIn('category_id', $categoriesIds)->pluck('content_id')->unique()->toArray();
+           // return Content::whereIn('id', $contentIds)->content()->where('id','!=',$this->attributes['id'])->limit(5)->get();
+            return [];
         } else {
             return [];
         }
     }
 
+ /*   public function getJalaliCreatedAtAttribute()
+    {
+        switch (setting("date_time")) {
+            case "ago":
+                return Jalalian::forge($this->attributes['created_at'])->ago();
+                break;
+            case "normal":
+                return $this->attributes['created_at'];
+            case "normal_format":
+                return Carbon::make($this->attributes['created_at'])->format('d/m/Y');
+            case "off":
+                return '';
+                break;
+            default:
+                return Jalalian::forge($this->attributes['created_at'])->format(setting("date_time"));
+        }
+    }*/
+
     public function getCreatedAtAttribute()
     {
+
         switch (setting("date_time")) {
             case "ago":
                 return Jalalian::forge($this->attributes['created_at'])->ago();

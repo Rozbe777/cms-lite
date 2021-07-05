@@ -67,7 +67,7 @@ class CategoryController extends Controller
      */
     public function blade(SearchCategoryRequest $request)
     {
-        $categories = $this->categoryRepository->all($request->status, $request->search, $request->pageSize);
+        $categories = $this->categoryRepository->retrieveAll($request->status, $request->search, $request->pageSize);
 
         if (!$categories)
             return redirect()->back()->with('error', __("message.content.search.notSuccess"));
