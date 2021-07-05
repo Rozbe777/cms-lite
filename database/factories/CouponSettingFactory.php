@@ -21,25 +21,25 @@ class CouponSettingFactory extends Factory
      */
     public function definition()
     {
-            $card_conditions = $this->faker->randomElement(['unlimited', 'min_price', 'min_purchase_number', 'max_card_price', 'max_purchase_number']);
-            if ($card_conditions == 'unlimited')
-                $card_conditions_amount = null;
-            elseif ($card_conditions == 'min_price')
-                $card_conditions_amount = 1000;
-            elseif ($card_conditions == 'min_purchase_number')
-                $card_conditions_amount = 2;
-            elseif ($card_conditions == 'max_card_price')
-                $card_conditions_amount = 10000;
-            elseif ($card_conditions == 'max_purchase_number')
-                $card_conditions_amount = 10;
+            $cart_conditions = $this->faker->randomElement(['unlimited', 'min_price', 'min_purchase_number', 'max_cart_price', 'max_purchase_number']);
+            if ($cart_conditions == 'unlimited')
+                $cart_conditions_amount = null;
+            elseif ($cart_conditions == 'min_price')
+                $cart_conditions_amount = 1000;
+            elseif ($cart_conditions == 'min_purchase_number')
+                $cart_conditions_amount = 2;
+            elseif ($cart_conditions == 'max_cart_price')
+                $cart_conditions_amount = 10000;
+            elseif ($cart_conditions == 'max_purchase_number')
+                $cart_conditions_amount = 10;
             else
-                $card_conditions_amount = null;
+                $cart_conditions_amount = null;
 
             return [
-                'functionality' => $this->faker->randomElement(['total_items_price', 'total_card_price', 'special_products', 'special_categories']),
+                'functionality' => $this->faker->randomElement(['total_items_price', 'total_cart_price', 'special_products', 'special_categories']),
                 'coupon_id' => $i,
-                'card_conditions' => $card_conditions,
-                'card_conditions_amount' => $card_conditions_amount,
+                'cart_conditions' => $cart_conditions,
+                'cart_conditions_amount' => $cart_conditions_amount,
                 'user_status' => $this->faker->randomElement(['all', 'special_users', 'group_of_users']),
                 'user_group' => $this->faker->randomElement([-1, -2, -3, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
                 'number_of_times_allowed_to_use' => 3,

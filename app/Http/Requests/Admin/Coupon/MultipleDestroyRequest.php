@@ -24,7 +24,7 @@ class MultipleDestroyRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'couponIds' => "array",
         ];
     }
 }
