@@ -24,8 +24,8 @@ class CreateCouponSettingsTable extends Migration
             $table->string('user_group')->default("-1"); /** -1 is all | (-2,-5) specially group | positive numbers are user_id */
             $table->integer('number_of_times_allowed_to_use')->default(10);
             $table->integer('number_of_use_allowed_per_user')->default(1);
-            $table->timestamp('start_date')->default(now());
-            $table->timestamp('end_date')->nullable();
+            $table->double('start_date')->nullable();
+            $table->double('end_date')->nullable();
             $table->string('start_time')->nullable();
             $table->string('end_time')->nullable();
             $table->softDeletes();

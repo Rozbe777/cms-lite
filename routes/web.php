@@ -44,8 +44,8 @@ Route::get('/test', function () {
 });
 
 Route::get('test2',function (\Illuminate\Http\Request $request){
-
-   (new \App\Classes\Pay\Banks\Nextpay())->callback($request->order_id);
+dd(jdate()->getTimestamp());
+//   (new \App\Classes\Pay\Banks\Nextpay())->callback($request->order_id);
 });
 
 Route::get('csrf', function () {
@@ -179,6 +179,7 @@ Route::middleware('auth')->group(function () {
 
 });
 //-----------------------Mehrshad End----------------------
+
 Route::name('front.')->group(function () {
     Route::get('/', [FrontPageController::class, 'search'])->name('index');
     Route::get('shop', [\App\Http\Controllers\Front\Shop\ShopController::class, 'index'])->name('shop.blade');

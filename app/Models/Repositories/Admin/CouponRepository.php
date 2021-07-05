@@ -20,7 +20,7 @@ class CouponRepository implements RepositoryInterface
      * @param null $status
      * @return mixed
      */
-    public function all($code = null, $startTime = null, $endTime = null, $status = null)
+    public function all($code = null, $startTime = null, $endTime = null, $status = null, $expired = null)
     {
         return Coupon::when(!empty($status), function ($query) use ($code) {
             $query->where('code', $code);
@@ -30,6 +30,10 @@ class CouponRepository implements RepositoryInterface
             $query->where('start_date' > $startTime);
         })->when(!empty($endTime), function ($query) use ($endTime) {
             $query->where('end_date' > $endTime);
+        })->when(!empty($expired), function ($query) use ($expired) {
+            $query->with(['coupon_settings' => function ($q) use ($expired) {
+                $q->where("end_date", '<', jdate()->getTimestamp());
+            }])->has("coupon_settings");
         })->orderByDesc('id')
             ->paginate(config('view.pagination'));
     }
@@ -117,7 +121,7 @@ class CouponRepository implements RepositoryInterface
     }
 
     public function create(array $data)
-    {dd($data);
+    {
         $start_date = $data['start_date'];
         $end_date = $data['end_date'];
         unset($data['start_date'], $data['end_date']);
@@ -149,7 +153,7 @@ class CouponRepository implements RepositoryInterface
 
         $setting_data['user_group'] = !empty($data['user_group'][0]) ?
             json_encode($data['user_group']) :
-            '-1';
+            ['-1'];
 
         $setting_data['number_of_times_allowed_to_use'] = !empty($data['number_of_times_allowed_to_use']) ?
             $data['number_times_allowed'] :

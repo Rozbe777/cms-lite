@@ -53,7 +53,7 @@
             <div class="container">
                 <div class="enry-responsive-menu">
                     <div class="logo">
-                        <a href="index.html"><img src="{{themeAsset('img/logo.png')}}" alt="logo"></a>
+                        <a href="{{url('/')}}"><img src="{{themeAsset('img/logo.png')}}" alt="logo"></a>
                     </div>
                 </div>
             </div>
@@ -61,12 +61,12 @@
         <div class="enry-nav">
             <div class="container-fluid">
                 <nav class="navbar navbar-expand-md navbar-light">
-                    <a class="navbar-brand" href="index.html"><img src="{{themeAsset('img/logo.png')}}" alt="logo"></a>
+                    <a class="navbar-brand" href="{{url('/')}}"><img src="{{themeAsset('img/logo.png')}}" alt="logo"></a>
                     <div class="collapse navbar-collapse mean-menu">
                         <ul class="navbar-nav">
                             <li class="nav-item"><a href="#" class="dropdown-toggle nav-link active">خانه</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a href="index.html" class="nav-link active">صفحه اصلی - 1</a>
+                                    <li class="nav-item"><a href="{{url('/')}}" class="nav-link active">صفحه اصلی - 1</a>
                                     </li>
                                     <li class="nav-item"><a href="index-2.html" class="nav-link">صفحه اصلی - 2</a></li>
                                     <li class="nav-item"><a href="index-3.html" class="nav-link">صفحه اصلی - 3</a></li>

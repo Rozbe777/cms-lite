@@ -5082,7 +5082,7 @@ blockquote::after, .blockquote::after {
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	padding-top: 100px;
+	padding-top: 200px;
 	padding-bottom: 100px
 }
 .page-title-area.page-title-style-two {

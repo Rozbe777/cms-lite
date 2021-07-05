@@ -16,20 +16,16 @@ trait PageTrait
 
     public function slugHandler($slug)
     {
-        if (Page::where('owner','page')->where('slug', '=', $slug)->withTrashed()->exists()) {
-            $i = 1;
-            do {
-                $item = $slug . '_' . $i++;
-            } while ((Page::where('owner','page')->where('slug', "=", $item)->withTrashed()->count()) != 0);
-            return $item;
-
-        } else {
-            return $slug;
+    /*    $slug = str_replace(' ', '-', $slug);*/
+        if (Page::where('slug', $slug)->withTrashed()->first()) {
+            $slug .= $slug . "-1";
+            return $this->slugHandler($slug);
         }
+        return $slug;
     }
 
     public function indexHandler()
     {
-        Page::where('is_index',1)->update(['is_index' => 0]);
+        Page::where('is_index', 1)->update(['is_index' => 0]);
     }
 }

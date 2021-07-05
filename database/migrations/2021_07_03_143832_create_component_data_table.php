@@ -18,6 +18,7 @@ class CreateComponentDataTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('content_id')->unsigned();
             $table->bigInteger('component_id')->unsigned();
+            $table->bigInteger('type_id')->default(0);
             $table->json('payload')->nullable();
             $table->bigInteger('wight')->default(0);
             $table->enum('status', ['active', 'deactivate'])->default('active');
