@@ -60,11 +60,11 @@ class UserModelRepository
             /** check submit the registration form with or without an image */
             if ($request->avatar) {
                 $data = $request->only(['name', 'last_name', 'email']);
-                $data['avatar'] = $request->file('img')->store('public/images');
+                $data['image'] = $request->file('image')->store('public/images');
 
             } else {
                 $data = $request->only(['name', 'last_name', 'email']);
-                $data['avatar'] = 'public/defaultIMG.png';
+                $data['image'] = 'public/images/defaultIMG.png';
             }
             $data['password'] = bcrypt($request->password);
 
