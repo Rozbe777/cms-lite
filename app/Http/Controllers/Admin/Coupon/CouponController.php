@@ -73,7 +73,7 @@ class CouponController extends Controller
      * @return JsonResponse
      */
     public function store(CreateCouponRequest $request)
-    {dd($request->all());
+    {
         $coupon = $this->repository->create($request->all());
         return $this->message(__('message.success.200'))->data($coupon)->success();
     }
