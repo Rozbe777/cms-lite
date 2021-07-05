@@ -22,8 +22,8 @@ class CouponRepository implements RepositoryInterface
      */
     public function all($code = null, $startTime = null, $endTime = null, $status = null, $expired = null)
     {
-        return Coupon::when(!empty($status), function ($query) use ($code) {
-            $query->where('code', $code);
+        return  Coupon::when(!empty($code), function ($query) use ($code) {
+            $query->where('code', 'like', '%' . $code . '%');
         })->when(!empty($status), function ($query) use ($status) {
             $query->where("status", $status);
         })->when(!empty($startTime), function ($query) use ($startTime) {
@@ -207,7 +207,7 @@ class CouponRepository implements RepositoryInterface
 
     public function multipleDestroy($data)
     {
-        CouponSetting::whereIn('coupon_id', $data['contentIds'])->delete();
-        return Coupon::whereIn('id', $data['contentIds'])->delete();
+        CouponSetting::whereIn('coupon_id', $data['couponIds'])->delete();
+        return Coupon::whereIn('id', $data['couponIds'])->delete();
     }
 }
