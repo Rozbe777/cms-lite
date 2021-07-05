@@ -62,7 +62,7 @@ const FinalDataRegister = ({token, id}) => {
                         $("#loading-show").removeClass("activeLoadingLogin");
                         SuccessToast("اطلاعات شما با موفقیت ثبت شد. کمی صبر کنید...")
                         setTimeout(() => {
-                            window.location.pathname = "/dashboard"
+                            // window.location.pathname = "/dashboard"
                         }, 600)
                     }).catch(error => {
                     $("#loading-show").removeClass("activeLoadingLogin");

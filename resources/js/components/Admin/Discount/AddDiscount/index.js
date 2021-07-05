@@ -253,7 +253,7 @@ export const AddDiscount = ({type, result, token}) => {
 
     const HandleForm = e => {
         e.preventDefault();
-        console.log(cartStatus)
+        console.log(limitUse)
         let data = {...allData};
         data.code = discountCode;
         data.status = status;
@@ -262,7 +262,7 @@ export const AddDiscount = ({type, result, token}) => {
         data.value = value;
         data.max_limit = maxLimit ? parseInt(maxLimit) : null;
         data.user_status = disTypesUser;
-        data.functionality = functionality;
+        data.functionality = functionality.id;
         data.functionality_amount = functionality_amount;
         data.user_status = userStatus ? userStatus : [];
         data.user_group = userGroup ? userGroup : [];
@@ -273,7 +273,6 @@ export const AddDiscount = ({type, result, token}) => {
         data.number_of_times_allowed_to_use = limitUse.codeVal ? limitUse.codeVal : null;
         data.number_of_use_allowed_per_user = limitUse.userVal ? limitUse.userVal : null;
 
-        console.log("88888", data)
         AddNewDiscount(data)
 
 
