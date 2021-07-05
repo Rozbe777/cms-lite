@@ -8,6 +8,7 @@ use App\Models\Coupon;
 use App\Models\CouponSetting;
 use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 use Illuminate\Support\Facades\Auth;
+use Morilog\Jalali\Jalalian;
 
 class CouponRepository implements RepositoryInterface
 {
@@ -116,7 +117,11 @@ class CouponRepository implements RepositoryInterface
     }
 
     public function create(array $data)
-    {unset($data['start_date'], $data['end_date']);
+    {
+        $start_date = $data['start_date'];
+        $end_date = $data['end_date'];
+        unset($data['start_date'], $data['end_date']);
+
         $setting_data = [];
         $coupon_data = [];
 
@@ -162,17 +167,7 @@ class CouponRepository implements RepositoryInterface
             $data['end_date'] :
             null;
 
-        $codes = Coupon::where('user_id', Auth::id())->get();
-
-        foreach ($codes as $code){
-            if ($data['code'] == $code){
-                return "code is duplicate";
-            }
-        }
-
         $coupon_data['code'] = $data['code'];
-
-
 
         $coupon_data['status'] = !empty($data['status']) ?
             $data['status'] :
@@ -190,12 +185,26 @@ class CouponRepository implements RepositoryInterface
             $data['max_limit'] :
            null;
 
+//        $x = substr($start_date['date']['timestamp'], 0, -3);
+        $Hstart = $start_date['time']['h'];
+        $Mstart = $start_date['time']['m'];
+        $Sstart = $start_date['time']['s'];
+
+        $Hend = $end_date['time']['h'];
+        $Mend = $end_date['time']['m'];
+        $Send = $end_date['time']['s'];
+        $start_time = "$Hstart:$Mstart:$Sstart";
+        $end_time = "$Hend:$Mend:$Send";
+
+    $start_date = $start_date['date']['timestamp'];
+    $end_date = $end_date['date']['timestamp'];
+dd($coupon_data,$setting_data);
         $coupon = Coupon::create($coupon_data);
 
         $setting_data['coupon_id'] = $coupon->id;
 
         CouponSetting::create($setting_data);
-
+dd(123);
         return $coupon->with('coupon_settings');
     }
 

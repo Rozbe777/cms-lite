@@ -26,6 +26,8 @@ class CreateCouponSettingsTable extends Migration
             $table->integer('number_of_use_allowed_per_user')->default(1);
             $table->timestamp('start_date')->default(now());
             $table->timestamp('end_date')->nullable();
+            $table->string('start_time')->nullable();
+            $table->string('end_time')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -144,7 +144,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/{roleId}/update', [RoleController::class, 'update'])->name('update');
         Route::delete('/{roleId}/destroy', [RoleController::class, 'multipleDestroy'])->name('destroy');
     });
-    Route::get('role', [RoleController::class, 'index'])->name('roles.blade');
+    Route::get('role', [RoleController::class, 'blade'])->name('roles.blade');
 
     //------------------------------Settings----------------------------
     Route::get('product', [ProductController::class, 'blade'])->name('products.blade');
