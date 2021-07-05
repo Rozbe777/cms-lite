@@ -47,7 +47,7 @@ class CouponSeeder extends Seeder
                 'user_group' => $user_group,
                 'number_of_times_allowed_to_use' => 3,
                 'number_of_use_allowed_per_user' => 1,
-                'start_date' => now(),
+                'start_date' => null,
                 'end_date' => null,
             ]);
         }
