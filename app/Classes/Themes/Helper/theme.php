@@ -87,3 +87,11 @@ if (!function_exists('theme_setting')) {
         return new \App\Classes\Themes\ThemeSettingClass($parentName, $value, $childValue);
     }
 }
+
+if (!function_exists('p')) {
+    function p($payload, $name, $subName = null)
+    {
+        return (new \App\Classes\Themes\PayloadHandler($payload, $name, $subName));
+
+    }
+}

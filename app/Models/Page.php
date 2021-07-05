@@ -24,4 +24,9 @@ class Page extends Model
     {
         return $this->morphOne(ViewCount::class,'viewcountable');
     }
+
+    function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
 }

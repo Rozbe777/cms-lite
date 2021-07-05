@@ -1,73 +1,34 @@
 <div class="home-slides owl-carousel owl-theme">
-    <div class="single-banner-item bg1">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 col-md-12">
-                    <div class="banner-item-content">
-                        <h1>مشاور بازرگانی و خط شبکه برای شما</h1>
-                        <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم
-                            ایپسوم ساختار چاپ و متن را در بر می گیرد.</p>
-                        <div class="btn-box">
-                            <a href="contact.html" class="default-btn">تماس با ما <i class="ri-arrow-left-line"></i></a>
-                            <a href="contact.html" class="default-btn">شروع کار <i
-                                    class="ri-arrow-left-line"></i></a>
+    @foreach($component->items as $item)
+        <div class="single-banner-item "
+             style="background-image: url('{{themeAsset(p($item->payload,'background')->content())}}');">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-12">
+                        <div class="banner-item-content">
+                            <h1>{{$item->title}}</h1>
+                            <p>{!! $item->content !!}</p>
+                            <div class="btn-box">
+                                @if(p($item->payload,'first_button')->isVisible())
+                                    <a href="{{p($item->payload,'first_button','link')->content()}}"
+                                       class="default-btn">{{p($item->payload,'first_button','title')->content()}}<i
+                                            class="{{p($item->payload,'first_button','icon')->content()}}"></i></a>
+                                @endif
+                                @if(p($item->payload,'second_button')->isVisible())
+                                    <a href="{{p($item->payload,'second_button','link')->content()}}"
+                                       class="default-btn">{{p($item->payload,'second_button','title')->content()}}<i
+                                            class="{{p($item->payload,'second_button','icon')->content()}}"></i></a>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <div class="banner-item-image">
-                        <img src="{{themeAsset('img/banner/banner2.png')}}" alt="image">
+                    <div class="col-lg-6 col-md-12">
+                        <div class="banner-item-image">
+                            <img src="{{themeAsset($item->image)}}" alt="image">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="single-banner-item bg2">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 col-md-12">
-                    <div class="banner-item-content">
-                        <span class="sub-title">خوش آمدید</span>
-                        <h1>مشاور بازرگانی و خط شبکه برای شما</h1>
-                        <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم
-                            ایپسوم ساختار چاپ و متن را در بر می گیرد.</p>
-                        <div class="btn-box">
-                            <a href="contact.html" class="default-btn">تماس با ما <i class="ri-arrow-left-line"></i></a>
-                            <a href="contact.html" class="default-btn">شروع کار <i
-                                    class="ri-arrow-left-line"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <div class="banner-item-image">
-                        <img src="{{themeAsset('img/banner/banner3.png')}}" alt="image">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="single-banner-item bg3">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 col-md-12">
-                    <div class="banner-item-content">
-                        <span class="sub-title">خوش آمدید</span>
-                        <h1>مشاور بازرگانی و خط شبکه برای شما</h1>
-                        <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم
-                            ایپسوم ساختار چاپ و متن را در بر می گیرد.</p>
-                        <div class="btn-box">
-                            <a href="contact.html" class="default-btn">تماس با ما <i class="ri-arrow-left-line"></i></a>
-                            <a href="contact.html" class="default-btn">شروع کار <i
-                                    class="ri-arrow-left-line"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <div class="banner-item-image">
-                        <img src="{{themeAsset('img/banner/banner4.png')}}" alt="image">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @endforeach
 </div>

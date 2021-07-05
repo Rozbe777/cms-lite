@@ -14,7 +14,7 @@ class FrontContentRepository implements Interfaces\FrontInterface
         $content = Content::when(!empty($slug), function ($query) use ($slug) {
             $query->where(function ($q) use ($slug) {
                 $q->Where('slug',$slug);
-            })->where('owner', 'content');
+            })->active();
         })->with('tags')
             ->with('categories')
             ->with('user')

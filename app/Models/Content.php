@@ -29,7 +29,7 @@ class Content extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
-    protected $appends = ['jalali_created_at', 'url',
+    protected $appends = ['jalali_created_at', 'url', 'related_contents'
 //        'related_content'
     ];
 
@@ -37,6 +37,7 @@ class Content extends Model
     {
         return $this->belongsToMany(Category::class, 'category_content', 'content_id', 'category_id');
     }
+
 
     public function tags()
     {
@@ -64,7 +65,18 @@ class Content extends Model
         return route('front.contents', $this->attributes['slug']);
     }
 
-    public function getJalaliCreatedAtAttribute()
+    public function getRelatedContentsAttribute()
+    {
+        if ($this->attributes['owner'] == 'content') {
+            $categoriesIds = CategoryContent::where('content_id', $this->attributes['id'])->pluck('category_id')->unique()->toArray();
+            $contentIds = CategoryContent::whereIn('category_id', $categoriesIds)->pluck('content_id')->unique()->toArray();
+            return Content::whereIn('id', $contentIds)->content()->where('id','!=',$this->attributes['id'])->limit(5)->get();
+        } else {
+            return [];
+        }
+    }
+
+    public function getCreatedAtAttribute()
     {
         switch (setting("date_time")) {
             case "ago":
@@ -80,6 +92,16 @@ class Content extends Model
             default:
                 return Jalalian::forge($this->attributes['created_at'])->format(setting("date_time"));
         }
+    }
+
+    function scopeContent($q)
+    {
+        return $q->where('owner', 'content');
+    }
+
+    function scopePage($q)
+    {
+        return $q->where('owner', 'page');
     }
 
 //    public function getRelatedContentAttribute()

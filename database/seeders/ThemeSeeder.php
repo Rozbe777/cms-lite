@@ -31,6 +31,9 @@ class ThemeSeeder extends Seeder
             if (!empty($theme['pages'])) {
                 $this->createPage($theme['pages']);
             }
+            if (!empty($theme['contents'])) {
+                $this->createContent($theme['contents']);
+            }
             if (!empty($theme['settings'])) {
                 $this->createSettings($theme['settings']);
             }
