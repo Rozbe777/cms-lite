@@ -9,7 +9,6 @@ export const CartAction = ({defData, dataOut}) => {
 
 
     function handleCondName(id) {
-        console.log(id, ">>>>")
         switch (id.typeSel.types) {
             case  'unlimited' :
                 return 'بدون محدودیت';
@@ -23,8 +22,6 @@ export const CartAction = ({defData, dataOut}) => {
                 return 'بدون محدودیت';
         }
     }
-
-    console.log(defData, "_________")
 
     const [typeSel, setTypeSel] = useState({types: defData ? defData.typeSel.types : 'unlimited'});
     const [typeName, setTypeName] = useState({
@@ -42,11 +39,15 @@ export const CartAction = ({defData, dataOut}) => {
         e.preventDefault();
         let typesNn = typeName.type ? typeName.type == "price" ? typeName.text + " " + card_conditions_amount + " تومان " : typeName.text + " " + card_conditions_amount : typeName.text;
         dataOut({
-            card_conditions_amount,
+            cart_conditions_amount : card_conditions_amount,
             typeSel,
             typesNn
         });
-        // console.log("/////" ,card_conditions_amount )
+        // console.log("/////" ,{
+        //     card_conditions_amount,
+        //     typeSel,
+        //     typesNn
+        // } )
         handleClose(e);
     }
 

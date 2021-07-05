@@ -26,7 +26,7 @@ export const LimitedUse = ({dataOut}) => {
         let codeVal = checkCode ? dataDis : null;
         let userVal = checkUser ? dataUser : null;
         let striShow = '';
-        console.log("____" , checkCode , checkUser)
+        console.log("____" , codeVal , userVal)
         if (checkCode && checkUser){
             striShow = `محدودیت ${codeVal} استفاده  و محدودیت ${userVal} استفاده برای هر کاربر`;
             dataOut({
@@ -96,6 +96,15 @@ export const LimitedUse = ({dataOut}) => {
         }
     }
 
+    const handleUser = e => {
+        e.preventDefault();
+        setUser(e.target.value)
+    }
+ const handleCode = e => {
+        e.preventDefault();
+        setDis(e.target.value)
+    }
+
     return (
         <div className={"col-lg-4 col-sm-12 col-md-8 customPrice"} id={"prices"} style={{overflow: 'inherit'}}>
 
@@ -120,7 +129,7 @@ export const LimitedUse = ({dataOut}) => {
 
                     {checkCode ? (
                         <div className={"col-12"} style={{marginBottom : 20}}>
-                            <input type="number" onChange={e => setUser(e.target.value)} id="title" className="form-control" placeholder={"تعداد قابل استفاده"}/>
+                            <input type="number" onChange={e => handleCode(e)} id="title" className="form-control" placeholder={"تعداد قابل استفاده"}/>
                         </div>
                     ) : ''}
 
@@ -143,7 +152,7 @@ export const LimitedUse = ({dataOut}) => {
 
                     {checkUser ? (
                         <div className={"col-12"} style={{marginBottom : 20}}>
-                            <input type="number"onChange={e => setDis(e.target.value)} id="title" className="form-control" placeholder={"تعداد قابل استفاده برای هر کاربر"}/>
+                            <input type="number" onChange={e => handleUser(e)} id="title" className="form-control" placeholder={"تعداد قابل استفاده برای هر کاربر"}/>
                         </div>
                     ) : ''}
 

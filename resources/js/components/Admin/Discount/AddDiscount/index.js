@@ -20,18 +20,19 @@ export const AddDiscount = ({type, result, token, dataDefaul}) => {
 
 
     function handleCondName(id){
-        switch (id.coupon_settings.card_conditions) {
-            case  'unlimited' :
-                return 'بدون محدودیت';
-            case 'min_purchase_number' :
-                return 'با محدودیت حداقل مبلغ خرید ${id.coupon_settings.card_conditions_amount} تومان';
-            case 'max_card_price' :
-                return `با محدودیت حداکثر مبلغ خرید ${id.coupon_settings.card_conditions_amount} تومان`;
-            case "max_purchase_number" :
-                return `با محدودیت حداقل تعداد محصولات ${id.coupon_settings.card_conditions_amount}`;
-            default :
-                return 'بدون محدودیت';
-        }
+        console.log(id , "#########")
+        // switch (id.coupon_settings.cart_conditions) {
+        //     case  'unlimited' :
+        //         return 'بدون محدودیت';
+        //     case 'min_purchase_number' :
+        //         return `با محدودیت حداقل مبلغ خرید ${id.coupon_settings.cart_conditions_amount} تومان`;
+        //     case 'max_card_price' :
+        //         return `با محدودیت حداکثر مبلغ خرید ${id.coupon_settings.cart_conditions_amount} تومان`;
+        //     case "max_purchase_number" :
+        //         return `با محدودیت حداقل تعداد محصولات ${id.coupon_settings.cart_conditions_amount}`;
+        //     default :
+        //         return 'بدون محدودیت';
+        // }
     }
 
 
@@ -57,28 +58,28 @@ export const AddDiscount = ({type, result, token, dataDefaul}) => {
     const [prevCalSel, setPrevCatSel] = useState({})
     const [timeShow, setTimeShow] = useState([]);
     const [limitUse, setLimitUse] = useState({striShow: 'بدون محدودیت'});
-    const [functionality, setFunctionality] = useState(allData ? allData.coupon_settings.functionality : 'total_cart_price');
+    const [functionality, setFunctionality] = useState(dataDefaul ? dataDefaul.coupon_settings.functionality : 'total_cart_price');
     const [functionality_amount, setFunctionality_amount] = useState([]);
     const [timeCheck, setTimeCheck] = useState([]);
     const [discountCode, setDiscountCode] = useState(dataDefaul ? allData.code ? allData.code : '' : '');
-    const [value, setValue] = useState(allData ? allData.value : '');
-    const [maxLimit, setMaxLimit] = useState(allData ? allData.max_limit : null);
+    const [value, setValue] = useState(dataDefaul ? dataDefaul.value : '');
+    const [maxLimit, setMaxLimit] = useState(dataDefaul ? dataDefaul.max_limit : null);
     const [userTypeName, setUserTypeName] = useState("برای همه کاربران")
     const [searchs, setSearchs] = useState([]);
     const [userStatus, setUserStatus] = useState('all');
     const [userGroup, setUserGroup] = useState([-1]);
     const [productData, setProductData] = useState([]);
-    const [disTypesDis, setDisTypesDis] = useState(allData ? allData.type : 'total_cart_price');
+    const [disTypesDis, setDisTypesDis] = useState(dataDefaul ? dataDefaul.type : 'total_cart_price');
     const [disTypesUser, setDisTypesUser] = useState('all')
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(false);
 
     const [cartStatus, setCartStatus] = useState({
-        cart_conditions_amount: allData ? allData.coupon_settings.card_conditions_amount : null,
+        cart_conditions_amount: dataDefaul ? dataDefaul.coupon_settings.card_conditions_amount : null,
         typeSel: {
-            types: allData ? allData.coupon_settings.card_conditions : "unlimited"
+            types: dataDefaul ? dataDefaul.coupon_settings.card_conditions : "unlimited"
         },
-        typesNn: handleCondName(allData ? allData : "unlimited")
+        typesNn: handleCondName(dataDefaul ? dataDefaul.coupon_settings.card_conditions : "unlimited")
     })
     const [catData, setCatData] = useState({});
     const [catSel, setCatSel] = useState([]);
@@ -280,13 +281,15 @@ export const AddDiscount = ({type, result, token, dataDefaul}) => {
         data.value = value;
         data.max_limit = maxLimit ? parseInt(maxLimit) : null;
         data.user_status = disTypesUser;
-        data.functionality = functionality.id;
+        data.functionality = functionality;
         data.functionality_amount = functionality_amount;
-        data.user_status = userStatus ? userStatus : [];
+        // data.user_status = userStatus ? userStatus : [];
         data.user_group = userGroup ? userGroup : [];
         data.cart_conditions = cartStatus.typeSel.types;
-        data.cart_conditions_amount = cartStatus.card_conditions_amount ? cartStatus.card_conditions_amount : null;
-        if (dateEnd.date.timestamp) {
+
+        console.log("%%%%%%%%%" , cartStatus)
+        data.cart_conditions_amount = cartStatus.cart_conditions_amount;
+        if (dateEnd.date) {
             let timeEdns = dateEnd.date.timestamp.toString();
             let newDateEnd = timeEdns.split("");
             delete newDateEnd[newDateEnd.length - 1];
@@ -300,7 +303,7 @@ export const AddDiscount = ({type, result, token, dataDefaul}) => {
         }
 
 
-        if (dateStart.date.timestamp) {
+        if (dateStart.date) {
             let timeStart = dateStart.date.timestamp.toString();
             let newDateStart = timeStart.split("");
             delete newDateStart[newDateStart.length - 1];
@@ -478,11 +481,14 @@ export const AddDiscount = ({type, result, token, dataDefaul}) => {
 
         if (index == 1) {
 
+            setMaxLimit(null)
             setDisTypesDis('fixed_price');
         } else if (index == 0) {
 
             setDisTypesDis('percentage')
         } else {
+            setMaxLimit(null)
+
             setDisTypesDis('free_delivery')
         }
     }
@@ -505,7 +511,7 @@ export const AddDiscount = ({type, result, token, dataDefaul}) => {
     const handleFunctionality = data => {
         delete data.data.limit;
 
-        console.log(data)
+        console.log(data , "*************************")
         if (data.data) {
             setFunctionality(data.data)
         }
@@ -525,7 +531,6 @@ export const AddDiscount = ({type, result, token, dataDefaul}) => {
     }
 
     const handleCartStatus = e => {
-        console.log(e , "++++++++++++++")
         setCartStatus(e)
     }
 
@@ -564,7 +569,6 @@ export const AddDiscount = ({type, result, token, dataDefaul}) => {
 
 
     const handleLimitUse = data => {
-        console.log("++++++", data)
         setLimitUse(data);
     }
     const handleShowLimitedUse = e => {
@@ -706,7 +710,6 @@ export const AddDiscount = ({type, result, token, dataDefaul}) => {
     }
 
     const handleFuncName = id => {
-        console.log(id);
         switch (id) {
             case  'total_cart_price' :
                 return 'کل مبلغ سبد خرید';
