@@ -15,7 +15,6 @@ export const ItemDis = ({
 
 
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
-
     useEffect(() => {
         checkTest();
         checkBox.map(item => {

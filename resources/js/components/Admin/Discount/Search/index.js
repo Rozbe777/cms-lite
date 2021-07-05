@@ -18,14 +18,22 @@ const SearchComponent = ({token, sort: pushSort}) => {
 
 
     const handleSelected = (select) => {
-        let normalizes = NormalFilter(select);
+        console.log(select)
+        let dataSe = [];
         let sortings = {...sorting};
-        sortings.status = normalizes["status"] ? normalizes["status"] : false;
-        sortings.entity = normalizes["entity"] ? normalizes["entity"] : false;
-        sortings.discount = normalizes["discount"] ? normalizes["discount"] : false;
-        setSorting(sortings);
+        // let normalizes = NormalFilter(select);
+        select.map(item => {
+            if (item.id == "activeed"){
+                dataSe.push("active")
+            }else if (item.id == "deactivateded"){
+                dataSe.push("deactivated")
+            }else{
+                dataSe.push("expaierd")
+            }
+        })
+        sortings.status = dataSe;
         pushSort(sortings);
-        setSize(select.length)
+        // setSize(select.length)
     }
 
 
@@ -61,7 +69,7 @@ const SearchComponent = ({token, sort: pushSort}) => {
             id: "activeed",
             name: ' فعال ها'
         }, {
-            id: 'deactivateed',
+            id: 'deactivateded',
             name: 'غیر فعال ها'
         }, {
             id: 'expireded',
@@ -95,7 +103,7 @@ const SearchComponent = ({token, sort: pushSort}) => {
                             <input type="text" className="form-control"
                                    id={"search_input"}
                                    onChange={e => HandleSearchInput(e)}
-                                   placeholder="جستجو با نام محصول ..." name="search"/>
+                                   placeholder="جستجو با کد تخفیف ..." name="code"/>
 
                         </div>
                         <div className="col-12 col-sm-6 col-lg-3">
@@ -122,6 +130,8 @@ const SearchComponent = ({token, sort: pushSort}) => {
                             <label
                                 htmlFor="users-list-role">بر اساس وضعیت</label>
                             <MultiSelected data={dataFilter}
+                                           handleSelecete={handleSelected}
+                                           name={"option-searc"}
                                 // selected={itemsSel => handleCategory(itemsSel)}
 
                             />
@@ -165,6 +175,7 @@ const SearchComponent = ({token, sort: pushSort}) => {
                         <label
                             htmlFor="users-list-role">بر اساس وضعیت</label>
                         <MultiSelected let={"bottom"}
+                                       handleSelecete={handleSelected}
                                        data={dataFilter}
                         />
                     </div>
@@ -189,8 +200,8 @@ const SearchComponent = ({token, sort: pushSort}) => {
                            onClick={e => handleFadeSearchInput(e)}></i>
                         <div className={"search-input-float"}>
                             <input onChange={e => HandleSearchInput(e)}
-                                   name="search"
-                                   type={"text"} placeholder={"جستجو با نام محصول ..."}/>
+                                   name="code"
+                                   type={"text"} placeholder={"جستجو با کد تخفیف ..."}/>
                         </div>
 
                     </li>

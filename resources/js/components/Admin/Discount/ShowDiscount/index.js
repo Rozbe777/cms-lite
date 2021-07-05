@@ -11,13 +11,16 @@ import Loading from "../../_Micro/Loading";
 import {CHECK_BOX_CONTENT} from './../../UserList/Helper/Context'
 import {ErroHandle, error as ErrorToast} from "../../../../helper";
 import SearchComponent from "./../Search";
+import {Pagination} from "../../_Micro/Pagination";
 
 const Show = (props) => {
     let targetElem = document.getElementById("add-datas");
     const {token} = props;
     const [loading , setLoading] = useState(false)
     const [state, setState] = useState();
+    const [perPage , setPerPage] = useState();
     const [allCoupon , setAllCoupon] = useState([]);
+    const [total, setTotal] = useState();
     const [checkBox, setCheckBox] = useState([]);
     const [stringSearchs, setStringSearch] = useState({
         page : 1
@@ -43,6 +46,8 @@ const Show = (props) => {
             .then(res => {
                 setLoading(false)
                 setAllCoupon(res.data)
+                setPerPage(res.data.per_page);
+                setTotal(res.data.total)
             })
     }
 
@@ -62,6 +67,7 @@ const Show = (props) => {
     })
 
     const handleBack = (item) => {
+
         if (item.status == 200) {
             getAllCoupons();
             ReactDom.render('', document.getElementById('add-datas'))
@@ -70,7 +76,7 @@ const Show = (props) => {
 
     const handleAddDisc = e => {
         e.preventDefault();
-        ReactDOM.render(<AddDiscount token={token} result={handleBack}/>, document.getElementById("add-datas"));
+        ReactDOM.render(<AddDiscount token={token} results={handleBack}/>, document.getElementById("add-datas"));
     }
 
     const handleDeleteCoupon = (e , id) => {
@@ -179,8 +185,6 @@ const Show = (props) => {
                 Object.keys(items).map(ii => {
                     stringed[ii] = items[ii];
                 })
-                paginate(1)
-                stringed.page = 1;
                 setStringSearch(stringed)
 
                 getAllCoupons(stringed)
@@ -196,6 +200,8 @@ const Show = (props) => {
                             <ItemDis handleCheck={HandleChecked} sizeOf={allCoupon.data.length} checkStateOfOut={checked}  deleteCoupon={handleDeleteCoupon} handleEdit={handleEditDis} data={item} />
                         </div>
                     ))}
+
+
 
                 </div>
 

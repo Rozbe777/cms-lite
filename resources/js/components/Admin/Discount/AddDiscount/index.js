@@ -16,7 +16,7 @@ import {LimitedUse} from "../layout/LimitedUse";
 import {StartDiscount} from "../layout/StartDiscount";
 import {EndDiscount} from "../layout/EndDiscount";
 
-export const AddDiscount = ({type, result, token, dataDefaul}) => {
+export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
 
     function handleCondName(id , value){
@@ -340,10 +340,7 @@ export const AddDiscount = ({type, result, token, dataDefaul}) => {
 
                 Request.AddNewCoupen(data)
                     .then(res => {
-                        result(res);
-                        localStorage.removeItem("is_menu");
-                        localStorage.removeItem("status");
-                        localStorage.removeItem("selected");
+                        results(res);
                         Swal.fire({
                             type: "success",
                             title: 'با موفقیت اضافه شد !',
