@@ -45,14 +45,14 @@ export const AddDiscount = ({type, result, token , dataDefaul}) => {
     const [functionality_amount, setFunctionality_amount] = useState([]);
     const [timeCheck, setTimeCheck] = useState([]);
     const [discountCode, setDiscountCode] = useState(dataDefaul ? allData.code ? allData.code : '' : '');
-    const [value, setValue] = useState('');
-    const [maxLimit, setMaxLimit] = useState(null);
+    const [value, setValue] = useState(allData ? allData.value : '');
+    const [maxLimit, setMaxLimit] = useState(allData ? allData.max_limit : null);
     const [userTypeName, setUserTypeName] = useState("برای همه کاربران")
     const [searchs, setSearchs] = useState([]);
     const [userStatus, setUserStatus] = useState('all');
     const [userGroup, setUserGroup] = useState([-1]);
     const [productData, setProductData] = useState([]);
-    const [disTypesDis, setDisTypesDis] = useState('total_cart_price')
+    const [disTypesDis, setDisTypesDis] = useState(allData ? allData.type : 'total_cart_price');
     const [disTypesUser, setDisTypesUser] = useState('all')
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(false);
@@ -291,9 +291,9 @@ export const AddDiscount = ({type, result, token , dataDefaul}) => {
             delete newDateStart[newDateStart.length-2];
             delete newDateStart[newDateStart.length-3];
             dateStart.date.timestamp =  newDateStart.join("");
-            data.end_start =dateStart;
+            data.start_date =dateStart;
         }else{
-            data.end_start = null;
+            data.start_date = null;
         }
 
         data.number_of_times_allowed_to_use = limitUse.codeVal ? limitUse.codeVal : null;
@@ -812,6 +812,7 @@ export const AddDiscount = ({type, result, token , dataDefaul}) => {
                                 <div className={disTypesDis ? "custom-in-show" : "custom-in-show active"}>
                                     <input disabled={disTypesDis ? false : true}
                                            onChange={e => handleValue(e)}
+                                           value={value}
                                            type="number" id="moutDis"/>
 
                                 </div>
