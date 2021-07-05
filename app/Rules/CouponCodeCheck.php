@@ -34,8 +34,6 @@ class CouponCodeCheck implements Rule
         }else{
             return true;
         }
-        return true;
-
     }
 
     /**

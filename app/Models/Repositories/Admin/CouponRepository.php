@@ -35,7 +35,7 @@ class CouponRepository implements RepositoryInterface
                 $q->where("end_date", '<', jdate()->getTimestamp());
             }])->has("coupon_settings");
         })->orderByDesc('id')
-            ->paginate(config('view.pagination'));
+            ->get();
     }
 
     /**
