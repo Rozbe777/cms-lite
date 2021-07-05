@@ -99,7 +99,7 @@ Route::middleware('auth')->group(function () {
     //---------------------------Categories--------------------------
     Route::get('categories/getAll',[CategoryController::class,'getAll'])->name('categories.getAll');
     Route::get('category', [CategoryController::class, 'blade'])->name('categories.blade');
-//    Route::get('categories/all',[CategoryController::class,'all'])->name('categories.getAll');
+    Route::get('categories/all',[CategoryController::class,'all'])->name('categories.getAll');
     Route::resource('categories', CategoryController::class)->except('update');
     Route::post('categories/update', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy'])->name('categories.multipleDestroy');
