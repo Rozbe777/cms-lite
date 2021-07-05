@@ -2,10 +2,11 @@ import React, {useEffect, useState} from 'react';
 import $ from 'jquery'
 import "swiper/swiper-bundle.css";
 
-export const MultiOption = ({handleChoise , name, data, selected: pushSelected}) => {
+export const MultiOption = ({defData , handleChoise , name, data, selected: pushSelected}) => {
 
+    console.log("................" , defData)
     const [selectedO, setSelectedO] = useState({
-        item: ''
+        item: defData ? defData : ''
     });
     useEffect(() => {
         var interValOption;
@@ -59,8 +60,9 @@ export const MultiOption = ({handleChoise , name, data, selected: pushSelected})
                     <i className={"bx bx-chevron-down"}></i>
                 </div>
                 <span id={"selected"}>
-                    {selectedO.item !== "" ? (
-                        <a onClick={e => delSel(e)}><i className='bx bx-x'></i><span className={name}>{selectedO.item}</span></a>
+                    {console.log("??????" , selectedO.item , defData)}
+                    {defData || selectedO.item !== "" ? (
+                        <a onClick={e => delSel(e)}><i className='bx bx-x'></i><span className={name}>{defData ? defData : selectedO.item}</span></a>
                     ) : 'انتخاب کنید'}
                 </span>
             </li>
