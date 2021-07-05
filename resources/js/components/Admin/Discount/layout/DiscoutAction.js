@@ -30,7 +30,6 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
     const handleAdd = e => {
         e.preventDefault();
         dataOut({data , catSel})
-        console.log(catSel , "mmmm")
         handleClose(e);
     }
 
@@ -121,11 +120,7 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
     const handleChoise = (e, id , name , index) => {
         e.preventDefault();
 
-        setData({
-            ...data,
-            name,
-            index
-        })
+        setData(index)
 
         setCatSel([])
 

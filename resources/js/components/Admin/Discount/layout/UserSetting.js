@@ -56,7 +56,7 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
         e.preventDefault();
         let userGroups = [];
         setCatSel([]);
-        userGroups.push([id])
+        userGroups.push(id)
         setUserGroup(userGroups);
     }
     const handleChoise = (e, id) => {

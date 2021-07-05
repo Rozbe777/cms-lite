@@ -16,9 +16,26 @@ import {LimitedUse} from "../layout/LimitedUse";
 import {StartDiscount} from "../layout/StartDiscount";
 import {EndDiscount} from "../layout/EndDiscount";
 
-export const AddDiscount = ({type, result, token , dataDefaul}) => {
+export const AddDiscount = ({type, result, token, dataDefaul}) => {
 
-    console.log(dataDefaul , "jjjjjj")
+
+    function handleCondName(id){
+        console.log(id , "#########")
+        // switch (id.coupon_settings.cart_conditions) {
+        //     case  'unlimited' :
+        //         return 'بدون محدودیت';
+        //     case 'min_purchase_number' :
+        //         return `با محدودیت حداقل مبلغ خرید ${id.coupon_settings.cart_conditions_amount} تومان`;
+        //     case 'max_card_price' :
+        //         return `با محدودیت حداکثر مبلغ خرید ${id.coupon_settings.cart_conditions_amount} تومان`;
+        //     case "max_purchase_number" :
+        //         return `با محدودیت حداقل تعداد محصولات ${id.coupon_settings.cart_conditions_amount}`;
+        //     default :
+        //         return 'بدون محدودیت';
+        // }
+    }
+
+
 
     let def = {
         code: '',
@@ -37,32 +54,32 @@ export const AddDiscount = ({type, result, token , dataDefaul}) => {
     const [edit, setEdit] = useState(false);
     const [dateStart, setDateStart] = useState({})
     const [dateEnd, setDateEnd] = useState({})
-    const [status, setStatus] = useState(dataDefaul ? allData.status ? allData.status : "active" : "active" );
+    const [status, setStatus] = useState(dataDefaul ? allData.status ? allData.status : "active" : "active");
     const [prevCalSel, setPrevCatSel] = useState({})
     const [timeShow, setTimeShow] = useState([]);
     const [limitUse, setLimitUse] = useState({striShow: 'بدون محدودیت'});
-    const [functionality, setFunctionality] = useState({id: 'total_cart_price', name: 'کل مبلغ سبد خرید'});
+    const [functionality, setFunctionality] = useState(dataDefaul ? dataDefaul.coupon_settings.functionality : 'total_cart_price');
     const [functionality_amount, setFunctionality_amount] = useState([]);
     const [timeCheck, setTimeCheck] = useState([]);
     const [discountCode, setDiscountCode] = useState(dataDefaul ? allData.code ? allData.code : '' : '');
-    const [value, setValue] = useState(allData ? allData.value : '');
-    const [maxLimit, setMaxLimit] = useState(allData ? allData.max_limit : null);
+    const [value, setValue] = useState(dataDefaul ? dataDefaul.value : '');
+    const [maxLimit, setMaxLimit] = useState(dataDefaul ? dataDefaul.max_limit : null);
     const [userTypeName, setUserTypeName] = useState("برای همه کاربران")
     const [searchs, setSearchs] = useState([]);
     const [userStatus, setUserStatus] = useState('all');
     const [userGroup, setUserGroup] = useState([-1]);
     const [productData, setProductData] = useState([]);
-    const [disTypesDis, setDisTypesDis] = useState(allData ? allData.type : 'total_cart_price');
+    const [disTypesDis, setDisTypesDis] = useState(dataDefaul ? dataDefaul.type : 'total_cart_price');
     const [disTypesUser, setDisTypesUser] = useState('all')
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(false);
 
     const [cartStatus, setCartStatus] = useState({
-        cart_conditions_amount: null,
+        cart_conditions_amount: dataDefaul ? dataDefaul.coupon_settings.card_conditions_amount : null,
         typeSel: {
-            types: "unlimited"
+            types: dataDefaul ? dataDefaul.coupon_settings.card_conditions : "unlimited"
         },
-        typesNn: "بدون محدودیت"
+        typesNn: handleCondName(dataDefaul ? dataDefaul.coupon_settings.card_conditions : "unlimited")
     })
     const [catData, setCatData] = useState({});
     const [catSel, setCatSel] = useState([]);
@@ -264,35 +281,37 @@ export const AddDiscount = ({type, result, token , dataDefaul}) => {
         data.value = value;
         data.max_limit = maxLimit ? parseInt(maxLimit) : null;
         data.user_status = disTypesUser;
-        data.functionality = functionality.id;
+        data.functionality = functionality;
         data.functionality_amount = functionality_amount;
-        data.user_status = userStatus ? userStatus : [];
+        // data.user_status = userStatus ? userStatus : [];
         data.user_group = userGroup ? userGroup : [];
         data.cart_conditions = cartStatus.typeSel.types;
-        data.cart_conditions_amount = cartStatus.card_conditions_amount ? cartStatus.card_conditions_amount : null;
-        if (dateEnd.date.timestamp){
+
+        console.log("%%%%%%%%%" , cartStatus)
+        data.cart_conditions_amount = cartStatus.cart_conditions_amount;
+        if (dateEnd.date) {
             let timeEdns = dateEnd.date.timestamp.toString();
             let newDateEnd = timeEdns.split("");
-            delete newDateEnd[newDateEnd.length-1];
-            delete newDateEnd[newDateEnd.length-2];
-            delete newDateEnd[newDateEnd.length-3];
+            delete newDateEnd[newDateEnd.length - 1];
+            delete newDateEnd[newDateEnd.length - 2];
+            delete newDateEnd[newDateEnd.length - 3];
             dateEnd.date.timestamp = newDateEnd.join("");
             data.end_date = dateEnd;
-        }else{
+        } else {
             data.end_date = null;
 
         }
 
 
-        if (dateStart.date.timestamp){
+        if (dateStart.date) {
             let timeStart = dateStart.date.timestamp.toString();
             let newDateStart = timeStart.split("");
-            delete newDateStart[newDateStart.length-1];
-            delete newDateStart[newDateStart.length-2];
-            delete newDateStart[newDateStart.length-3];
-            dateStart.date.timestamp =  newDateStart.join("");
-            data.start_date =dateStart;
-        }else{
+            delete newDateStart[newDateStart.length - 1];
+            delete newDateStart[newDateStart.length - 2];
+            delete newDateStart[newDateStart.length - 3];
+            dateStart.date.timestamp = newDateStart.join("");
+            data.start_date = dateStart;
+        } else {
             data.start_date = null;
         }
 
@@ -462,11 +481,14 @@ export const AddDiscount = ({type, result, token , dataDefaul}) => {
 
         if (index == 1) {
 
+            setMaxLimit(null)
             setDisTypesDis('fixed_price');
         } else if (index == 0) {
 
             setDisTypesDis('percentage')
         } else {
+            setMaxLimit(null)
+
             setDisTypesDis('free_delivery')
         }
     }
@@ -489,11 +511,9 @@ export const AddDiscount = ({type, result, token , dataDefaul}) => {
     const handleFunctionality = data => {
         delete data.data.limit;
 
-        if (data.data.name) {
-            setFunctionality({
-                id: data.data.index,
-                name: data.data.name
-            })
+        console.log(data , "*************************")
+        if (data.data) {
+            setFunctionality(data.data)
         }
         setPrevCatSel(data.catSel);
         setFunctionality_amount([]);
@@ -511,14 +531,13 @@ export const AddDiscount = ({type, result, token , dataDefaul}) => {
     }
 
     const handleCartStatus = e => {
-        console.log("dddd", e)
         setCartStatus(e)
     }
 
     const handleShowCartRoles = e => {
         e.preventDefault();
         $("#back-loaderedss").addClass("active");
-        ReactDOM.render(<CartAction dataOut={handleCartStatus}/>, document.getElementById("back-loaderedss"));
+        ReactDOM.render(<CartAction defData={cartStatus} dataOut={handleCartStatus}/>, document.getElementById("back-loaderedss"));
     }
 
 
@@ -550,7 +569,6 @@ export const AddDiscount = ({type, result, token , dataDefaul}) => {
 
 
     const handleLimitUse = data => {
-        console.log("++++++", data)
         setLimitUse(data);
     }
     const handleShowLimitedUse = e => {
@@ -689,348 +707,371 @@ export const AddDiscount = ({type, result, token , dataDefaul}) => {
     const handleValue = e => {
         e.preventDefault();
         setValue(e.target.value)
-
     }
 
-    return (
-        <div id={"category_add_pop_base"}>
-            <ul className="nav nav-tabs tab-layout" role="tablist">
-                <li className="nEav-item col-6 nav-custom">
-                    <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
-                       role="tab" aria-selected="true">
-                        <span className="align-middle">ایجاد کد تخفیف</span>
-                        <i id={"visible-custom"} className={"bx bxs-pencil"}></i>
-                    </a>
-                </li>
-                <li className="nav-item col-6 nav-custom ">
-                    <a className="nav-link" id="seo-tab" data-toggle="tab" href="#seo" aria-controls="seos"
-                       role="tab" aria-selected="false">
-                        <span className="align-middle">تنظیمات پیشرفته</span>
-                        <i id={"visible-custom"} className={"bx bxl-internet-explorer"}></i>
-                    </a>
-                </li>
-            </ul>
-            <div className="tab-content" style={{padding: 0, position: 'relative', marginTop: '-15px'}}>
-                <div className="tab-pane show-det-discount active" id="cat" aria-labelledby="cat-tab" role="tabpanel">
-                    <div className={"row discount-rows"} style={{marginTop: '30px', padding: '30px 200px'}}>
+    const handleFuncName = id => {
+        switch (id) {
+            case  'total_cart_price' :
+                return 'کل مبلغ سبد خرید';
+            case 'total_items_price' :
+                return 'مبلغ سبد خرید بدون هزینه ارسال';
+            case 'special_products' :
+                return 'محصولات خاص بدون هزینه ارسال';
+            case 'special_categories' :
+                return 'دسته بندی خاص بدون هزینه ارسال';
+            default :
+                return 'کل مبلغ سبد خرید';
+        }
+    }
 
 
-                        <div className={"col-12"}>
-                            <div className={"discount-detail"}>
-                                <div className={"row"}>
-                                    <div className={"col-md-6 col-sm-12 discount-det"}>
-                                        <p>
-                                            <i className={"bx bx-calendar"}></i>
-                                            <span>شروع : </span>
-                                            <p>{dateStart.date ? dateStart.date.date.day + " " + dateStart.date.date.month + " " + dateStart.date.date.year + " ساعت : " + dateStart.time.m + " : " + dateStart.time.h : 'تاریخی ثبت نشده است'}</p>
-                                        </p>
-                                        <p>
-                                            <i className={"bx bx-basket"}></i>
-                                            <span>استفاده : </span>
-                                            <p>0 بار</p>
-                                        </p>
-                                        <p>
-                                            <a id={"dis-badge"}>0 درصد</a>
-                                        </p>
+        return (
+            <div id={"category_add_pop_base"}>
+                <ul className="nav nav-tabs tab-layout" role="tablist">
+                    <li className="nEav-item col-6 nav-custom">
+                        <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
+                           role="tab" aria-selected="true">
+                            <span className="align-middle">ایجاد کد تخفیف</span>
+                            <i id={"visible-custom"} className={"bx bxs-pencil"}></i>
+                        </a>
+                    </li>
+                    <li className="nav-item col-6 nav-custom ">
+                        <a className="nav-link" id="seo-tab" data-toggle="tab" href="#seo" aria-controls="seos"
+                           role="tab" aria-selected="false">
+                            <span className="align-middle">تنظیمات پیشرفته</span>
+                            <i id={"visible-custom"} className={"bx bxl-internet-explorer"}></i>
+                        </a>
+                    </li>
+                </ul>
+                <div className="tab-content" style={{padding: 0, position: 'relative', marginTop: '-15px'}}>
+                    <div className="tab-pane show-det-discount active" id="cat" aria-labelledby="cat-tab"
+                         role="tabpanel">
+                        <div className={"row discount-rows"} style={{marginTop: '30px', padding: '30px 200px'}}>
+
+
+                            <div className={"col-12"}>
+                                <div className={"discount-detail"}>
+                                    <div className={"row"}>
+                                        <div className={"col-md-6 col-sm-12 discount-det"}>
+                                            <p>
+                                                <i className={"bx bx-calendar"}></i>
+                                                <span>شروع : </span>
+                                                <p>{dateStart.date ? dateStart.date.date.day + " " + dateStart.date.date.month + " " + dateStart.date.date.year + " ساعت : " + dateStart.time.m + " : " + dateStart.time.h : 'تاریخی ثبت نشده است'}</p>
+                                            </p>
+                                            <p>
+                                                <i className={"bx bx-basket"}></i>
+                                                <span>استفاده : </span>
+                                                <p>0 بار</p>
+                                            </p>
+                                            <p>
+                                                <a id={"dis-badge"}>0 درصد</a>
+                                            </p>
+                                        </div>
+                                        <div className={"col-md-6 col-sm-12 discount-code"}>
+                                            <p>
+                                                <i className={"bx bx-copy-alt"}
+                                                   onClick={e => handleCopy(e, "discount-code")}></i>
+                                                <input id={"discount-code"} value={discountCode}/>
+                                            </p>
+                                            <p>
+                                                <i className={"bx bx-copy-alt"}></i>
+                                                <span id={"discount-link"}>لینک های تخفیف (برای اشتراک گذاری)</span>
+                                            </p>
+                                            <p style={{textAlign: 'left'}}>قابل استفاده روی کل خرید ، بدون محدودیت ،
+                                                برای
+                                                همه
+                                                کاربران</p>
+                                        </div>
                                     </div>
-                                    <div className={"col-md-6 col-sm-12 discount-code"}>
-                                        <p>
-                                            <i className={"bx bx-copy-alt"}
-                                               onClick={e => handleCopy(e, "discount-code")}></i>
-                                            <input id={"discount-code"} value={discountCode}/>
-                                        </p>
-                                        <p>
-                                            <i className={"bx bx-copy-alt"}></i>
-                                            <span id={"discount-link"}>لینک های تخفیف (برای اشتراک گذاری)</span>
-                                        </p>
-                                        <p style={{textAlign: 'left'}}>قابل استفاده روی کل خرید ، بدون محدودیت ، برای
-                                            همه
-                                            کاربران</p>
+                                </div>
+
+                            </div>
+
+                            <div className={"col-lg-9 col-md-8 col-sm-12"} style={{paddingTop: '14px'}}>
+                                <p>کد تخفیف</p>
+                                <div className={"discounts active"}>
+
+                                    <input type={"text"} value={discountCode} id={"make-discounts"}
+                                           onChange={e => handleDis(e)}
+                                           style={{float: 'left', textAlign: 'left'}}/>
+                                    <div className={"btn btn-primary"} onClick={e => randoms(e, 8)}
+                                         style={{float: 'right', height: '100%', cursor: 'pointer'}}><i
+                                        className={"bx bx-rotate-right"}></i> تولید کد تصادفی
                                     </div>
+
                                 </div>
                             </div>
 
+                            <div className={"col-lg-3 col-md-4 col-sm-12"}>
+
+                                <fieldset className="form-group " style={{marginTop: '13px', padding: '15px'}}>
+                                    <label id={"selectParent"}>وضعیت کد تخفیف</label>
+                                    <Switcher
+                                        defaultState={status == "active" ? true : false}
+                                        // defaultState={dataUpdateParse ? dataUpdateParse.status == "active" ? true : false : true}
+                                        // status={(state) => handleSwitchStatus(state)}
+                                        name={"showState"}
+                                        handleSwitchStatus={handleSwitchStatus}
+                                        valueActive={"فعال"}
+                                        valueDeActive={"غیرفعال"}/>
+                                </fieldset>
+                            </div>
+
+                            <div className={"col-md-4 col-sm-12"}>
+
+                                <label>نوع تخفیف</label>
+                                <MultiOption name={"type-disc"} data={[
+                                    {
+                                        id: 'fixed_price',
+                                        name: 'درصد'
+                                    }, {
+                                        id: 'percentage',
+                                        name: 'مبلغ ثابت'
+                                    }, {
+                                        id: 'free_delivery',
+                                        name: 'ارسال رایگان'
+                                    },
+                                ]}
+
+                                             handleChoise={handleTypeDiscount}
+
+                                />
+
+                            </div>
+
+
+                            <div className={"col-md-4 col-sm-12"} style={{paddingTop: '2px'}}>
+                                <fieldset className="form-group" style={{marginTop: '-2px'}}><label
+                                    htmlFor="title"> مقدار
+                                    تخفیف {disTypesDis ? " ( " + (disTypesDis == "percentage" ? 'درصد' : 'تومان') + " ) " : ''} </label>
+
+                                    <div className={disTypesDis ? "custom-in-show" : "custom-in-show active"}>
+                                        <input disabled={disTypesDis ? false : true}
+                                               onChange={e => handleValue(e)}
+                                               value={value}
+                                               type="number" id="moutDis"/>
+
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div className={"col-md-4 col-sm-12"}>
+
+                                <fieldset className="form-group">
+                                    <label htmlFor="title">سقف مبلغ تخفیف</label>
+                                    {disTypesDis !== "percentage" ? (
+                                        <div className={"custom-in-show active"}>
+
+                                            <i className={"bx bx-pencil"}></i>
+                                            <span>بدون محدودیت</span>
+
+                                        </div>
+                                    ) : (
+                                        <div className={"custom-in-show"}
+                                             onClick={e => HandleTopPrice(e)}>
+
+                                            <i className={"bx bx-pencil"}></i>
+                                            <span>{maxLimit ? maxLimit + " تومان " : 'بدون محدودیت'}</span>
+
+                                        </div>
+                                    )}
+
+                                </fieldset>
+
+                            </div>
+
+                            <div style={{width: '100%', height: '70px'}}></div>
                         </div>
+                    </div>
+                    <div className="tab-pane " id="seo" aria-labelledby="seo-tab" role="tabpanel">
+                        <div className={"content-pages"}>
 
-                        <div className={"col-lg-9 col-md-8 col-sm-12"} style={{paddingTop: '14px'}}>
-                            <p>کد تخفیف</p>
-                            <div className={"discounts active"}>
+                            <div className={"discound-setting"}>
+                                <div className={"row"} style={{padding: '60px 200px'}}>
 
-                                <input type={"text"} value={discountCode} id={"make-discounts"}
-                                       onChange={e => handleDis(e)}
-                                       style={{float: 'left', textAlign: 'left'}}/>
-                                <div className={"btn btn-primary"} onClick={e => randoms(e, 8)}
-                                     style={{float: 'right', height: '100%', cursor: 'pointer'}}><i
-                                    className={"bx bx-rotate-right"}></i> تولید کد تصادفی
+
+                                    <div className={"col-md-6 col-sm-12"} style={{marginBottom: 25}}>
+                                        <div id={"itemss"}
+                                             onClick={e => handleShowTypeDiscount(e)}>
+
+                                            <i className={"bx bx-purchase-tag"}></i>
+
+                                            <div id={"details-items"}>
+                                                <p>
+                                                    نوع عملکرد
+                                                </p>
+                                                <p> قابل استفاده در {handleFuncName(functionality)} </p>
+                                            </div>
+                                            <i className={"bx bx-cog absol"}></i>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div className={"col-md-6 col-sm-12"} style={{marginBottom: 25}}>
+                                        <div id={"itemss"}
+                                             onClick={e => handleShowUserSetting(e)}>
+                                            <i className={"bx bx-user"}></i>
+
+                                            <div id={"details-items"}>
+                                                <p>
+                                                    تنظیمات کاربران
+                                                </p>
+                                                <p>{userTypeName}</p>
+                                            </div>
+                                            <i className={"bx bx-cog absol"}></i>
+                                        </div>
+                                    </div>
+
+
+                                    <div className={"col-md-6 col-sm-12"} style={{marginBottom: 25}}>
+
+                                        <div id={"itemss"}
+                                             onClick={e => handleShowStartDate(e)}>
+                                            <i className={"bx bx-calendar-alt"}></i>
+
+                                            <div id={"details-items"}>
+                                                <p>
+                                                    تاریخ شروع تخفیفات
+                                                </p>
+                                                <p>{dateStart.date ? dateStart.date.date.day + " " + dateStart.date.date.month + " " + dateStart.date.date.year + " ساعت : " + dateStart.time.m + " : " + dateStart.time.h : 'تاریخی ثبت نشده است'}</p>
+                                            </div>
+                                            <i className={"bx bx-cog absol"}></i>
+                                        </div>
+                                    </div>
+
+
+                                    <div className={"col-md-6 col-sm-12"} style={{marginBottom: 25}}>
+                                        <div id={"itemss"}
+                                             onClick={e => handleShowCartRoles(e)}>
+                                            <i className={"bx bx-shopping-bag"}></i>
+
+                                            <div id={"details-items"}>
+                                                <p>
+                                                    شرایط سبد خرید
+                                                </p>
+                                                <p>{cartStatus.typesNn}</p>
+                                            </div>
+                                            <i className={"bx bx-cog absol"}></i>
+                                        </div>
+                                    </div>
+                                    <div className={"col-md-6 col-sm-12"} style={{marginBottom: 25}}>
+                                        <div id={"itemss"} onClick={e => handleShowEndDate(e)}>
+                                            <i className={"bx bx-calendar-alt"}></i>
+
+                                            <div id={"details-items"}>
+                                                <p>
+                                                    تاریخ پایان تخفیفات
+                                                </p>
+                                                <p>{dateEnd.date ? dateEnd.date.date.day + " " + dateEnd.date.date.month + " " + dateEnd.date.date.year + " ساعت : " + dateEnd.time.m + " : " + dateEnd.time.h : 'تاریخی ثبت نشده است'}</p>
+                                            </div>
+                                            <i className={"bx bx-cog absol"}></i>
+                                        </div>
+                                    </div>
+                                    <div className={"col-md-6 col-sm-12"} style={{marginBottom: 25}}>
+                                        <div id={"itemss"}
+                                             onClick={e => handleShowLimitedUse(e)}>
+                                            <i className={"bx bx-slider"}></i>
+
+                                            <div id={"details-items"}>
+                                                <p>
+                                                    محدودیت استفاده
+                                                </p>
+                                                <p>{limitUse.striShow}</p>
+                                            </div>
+                                            <i className={"bx bx-cog absol"}></i>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
-                        </div>
-
-                        <div className={"col-lg-3 col-md-4 col-sm-12"}>
-
-                            <fieldset className="form-group " style={{marginTop: '13px', padding: '15px'}}>
-                                <label id={"selectParent"}>وضعیت کد تخفیف</label>
-                                <Switcher
-                                    defaultState={status == "active" ? true : false}
-                                    // defaultState={dataUpdateParse ? dataUpdateParse.status == "active" ? true : false : true}
-                                    // status={(state) => handleSwitchStatus(state)}
-                                    name={"showState"}
-                                    handleSwitchStatus={handleSwitchStatus}
-                                    valueActive={"فعال"}
-                                    valueDeActive={"غیرفعال"}/>
-                            </fieldset>
-                        </div>
-
-                        <div className={"col-md-4 col-sm-12"}>
-
-                            <label>نوع تخفیف</label>
-                            <MultiOption name={"type-disc"} data={[
-                                {
-                                    id: 'fixed_price',
-                                    name: 'درصد'
-                                }, {
-                                    id: 'percentage',
-                                    name: 'مبلغ ثابت'
-                                }, {
-                                    id: 'free_delivery',
-                                    name: 'ارسال رایگان'
-                                },
-                            ]}
-
-                                         handleChoise={handleTypeDiscount}
-
-                            />
 
                         </div>
+                    </div>
 
+                    <div className={"col-12 bottom-footer"}>
+                        <div className={"row"}>
 
-                        <div className={"col-md-4 col-sm-12"} style={{paddingTop: '2px'}}>
-                            <fieldset className="form-group" style={{marginTop: '-2px'}}><label htmlFor="title"> مقدار
-                                تخفیف {disTypesDis ? " ( " + (disTypesDis == "percentage" ? 'درصد' : 'تومان') + " ) " : ''} </label>
+                            <div className={"col-6"} onClick={e => handleClose(e)}
+                                 style={{
+                                     cursor: 'pointer',
+                                     textAlign: 'center',
+                                     borderLeft: '1px solid #a9a9a9'
+                                 }}>
 
-                                <div className={disTypesDis ? "custom-in-show" : "custom-in-show active"}>
-                                    <input disabled={disTypesDis ? false : true}
-                                           onChange={e => handleValue(e)}
-                                           value={value}
-                                           type="number" id="moutDis"/>
+                                {/*  this is a button  */}
+                                <span type={"reset"} id={"clear"}>
+                                انصراف
+                            </span>
+                            </div>
 
-                                </div>
-                            </fieldset>
-                        </div>
-                        <div className={"col-md-4 col-sm-12"}>
-
-                            <fieldset className="form-group">
-                                <label htmlFor="title">سقف مبلغ تخفیف</label>
-                                {disTypesDis !== "percentage" ? (
-                                    <div className={"custom-in-show active"}>
-
-                                        <i className={"bx bx-pencil"}></i>
-                                        <span>بدون محدودیت</span>
-
+                            {type ? type == 'edit' ? edit ? (
+                                    <div onClick={(e) => HandleEdit(e)}
+                                         className={"col-6"}
+                                         style={{
+                                             textAlign: 'center',
+                                             cursor: 'pointer',
+                                             background: "#5a8dee",
+                                             color: '#fff'
+                                         }}>
+                                        <span>ویرایش</span>
                                     </div>
-                                ) : (
-                                    <div className={"custom-in-show"}
-                                         onClick={e => HandleTopPrice(e)}>
+                                )
+                                : (
+                                    <div
+                                        id={"disable-div"}
+                                        className={"col-6"}
+                                        style={{
+                                            textAlign: 'center',
+                                            cursor: 'pointer',
+                                            background: "#5a8dee",
+                                            color: '#fff'
+                                        }}>
+                                        <span style={{color: '#fff !important'}}>ویرایش</span>
+                                    </div>
+                                )
+                                : (
+                                    <div onClick={(e) => HandleDuplicate(e)}
+                                         className={"col-6"}
+                                         style={{
+                                             textAlign: 'center',
+                                             cursor: 'pointer',
+                                             background: "#5a8dee",
+                                             color: '#fff'
+                                         }}>
+                                        <span style={{color: '#fff !important'}}>ذخیره کپی</span>
+                                    </div>
+                                ) :
 
-                                        <i className={"bx bx-pencil"}></i>
-                                        <span>{maxLimit ? maxLimit + " تومان " : 'بدون محدودیت'}</span>
-
+                                (
+                                    <div onClick={(e) => HandleForm(e)} className={"col-6"}
+                                         style={{
+                                             textAlign: 'center',
+                                             cursor: 'pointer',
+                                             background: "#5a8dee",
+                                             color: '#fff'
+                                         }}>
+                                        <span style={{color: '#fff !important'}}>ذخیره</span>
                                     </div>
                                 )}
 
-                            </fieldset>
-
-                        </div>
-
-                        <div style={{width: '100%', height: '70px'}}></div>
-                    </div>
-                </div>
-                <div className="tab-pane " id="seo" aria-labelledby="seo-tab" role="tabpanel">
-                    <div className={"content-pages"}>
-
-                        <div className={"discound-setting"}>
-                            <div className={"row"} style={{padding: '60px 200px'}}>
-
-
-                                <div className={"col-md-6 col-sm-12"} style={{marginBottom: 25}}>
-                                    <div id={"itemss"}
-                                         onClick={e => handleShowTypeDiscount(e)}>
-
-                                        <i className={"bx bx-purchase-tag"}></i>
-
-                                        <div id={"details-items"}>
-                                            <p>
-                                                نوع عملکرد
-                                            </p>
-                                            <p> قابل استفاده در {functionality.name} </p>
-                                        </div>
-                                        <i className={"bx bx-cog absol"}></i>
-
-                                    </div>
-                                </div>
-
-
-                                <div className={"col-md-6 col-sm-12"} style={{marginBottom: 25}}>
-                                    <div id={"itemss"}
-                                         onClick={e => handleShowUserSetting(e)}>
-                                        <i className={"bx bx-user"}></i>
-
-                                        <div id={"details-items"}>
-                                            <p>
-                                                تنظیمات کاربران
-                                            </p>
-                                            <p>{userTypeName}</p>
-                                        </div>
-                                        <i className={"bx bx-cog absol"}></i>
-                                    </div>
-                                </div>
-
-
-                                <div className={"col-md-6 col-sm-12"} style={{marginBottom: 25}}>
-
-                                    <div id={"itemss"}
-                                         onClick={e => handleShowStartDate(e)}>
-                                        <i className={"bx bx-calendar-alt"}></i>
-
-                                        <div id={"details-items"}>
-                                            <p>
-                                                تاریخ شروع تخفیفات
-                                            </p>
-                                            <p>{dateStart.date ? dateStart.date.date.day + " " + dateStart.date.date.month + " " + dateStart.date.date.year + " ساعت : " + dateStart.time.m + " : " + dateStart.time.h : 'تاریخی ثبت نشده است'}</p>
-                                        </div>
-                                        <i className={"bx bx-cog absol"}></i>
-                                    </div>
-                                </div>
-
-
-                                <div className={"col-md-6 col-sm-12"} style={{marginBottom : 25}}>
-                                    <div id={"itemss"}
-                                         onClick={e => handleShowCartRoles(e)}>
-                                        <i className={"bx bx-shopping-bag"}></i>
-
-                                        <div id={"details-items"}>
-                                            <p>
-                                                شرایط سبد خرید
-                                            </p>
-                                            <p>{cartStatus.typesNn}</p>
-                                        </div>
-                                        <i className={"bx bx-cog absol"}></i>
-                                    </div>
-                                </div>
-                                <div className={"col-md-6 col-sm-12"} style={{marginBottom : 25}}>
-                                    <div id={"itemss"} onClick={e => handleShowEndDate(e)}>
-                                        <i className={"bx bx-calendar-alt"}></i>
-
-                                        <div id={"details-items"}>
-                                            <p>
-                                                تاریخ پایان تخفیفات
-                                            </p>
-                                            <p>{dateEnd.date ? dateEnd.date.date.day + " " + dateEnd.date.date.month + " " + dateEnd.date.date.year + " ساعت : " + dateEnd.time.m + " : " + dateEnd.time.h : 'تاریخی ثبت نشده است'}</p>
-                                        </div>
-                                        <i className={"bx bx-cog absol"}></i>
-                                    </div>
-                                </div>
-                                <div className={"col-md-6 col-sm-12"} style={{marginBottom : 25}}>
-                                    <div id={"itemss"}
-                                         onClick={e => handleShowLimitedUse(e)}>
-                                        <i className={"bx bx-slider"}></i>
-
-                                        <div id={"details-items"}>
-                                            <p>
-                                                محدودیت استفاده
-                                            </p>
-                                            <p>{limitUse.striShow}</p>
-                                        </div>
-                                        <i className={"bx bx-cog absol"}></i>
-                                    </div>
-                                </div>
-                            </div>
 
                         </div>
 
                     </div>
                 </div>
 
-                <div className={"col-12 bottom-footer"}>
-                    <div className={"row"}>
-
-                        <div className={"col-6"} onClick={e => handleClose(e)}
-                             style={{
-                                 cursor: 'pointer',
-                                 textAlign: 'center',
-                                 borderLeft: '1px solid #a9a9a9'
-                             }}>
-
-                            {/*  this is a button  */}
-                            <span type={"reset"} id={"clear"}>
-                                انصراف
-                            </span>
-                        </div>
-
-                        {type ? type == 'edit' ? edit ? (
-                                <div onClick={(e) => HandleEdit(e)}
-                                     className={"col-6"}
-                                     style={{textAlign: 'center', cursor: 'pointer', background: "#5a8dee", color: '#fff'}}>
-                                    <span>ویرایش</span>
-                                </div>
-                            )
-                            : (
-                                <div
-                                    id={"disable-div"}
-                                    className={"col-6"}
-                                    style={{
-                                        textAlign: 'center',
-                                        cursor: 'pointer',
-                                        background: "#5a8dee",
-                                        color: '#fff'
-                                    }}>
-                                    <span style={{color: '#fff !important'}}>ویرایش</span>
-                                </div>
-                            )
-                            : (
-                                <div onClick={(e) => HandleDuplicate(e)}
-                                     className={"col-6"}
-                                     style={{
-                                         textAlign: 'center',
-                                         cursor: 'pointer',
-                                         background: "#5a8dee",
-                                         color: '#fff'
-                                     }}>
-                                    <span style={{color: '#fff !important'}}>ذخیره کپی</span>
-                                </div>
-                            ) :
-
-                            (
-                                <div onClick={(e) => HandleForm(e)} className={"col-6"}
-                                     style={{
-                                         textAlign: 'center',
-                                         cursor: 'pointer',
-                                         background: "#5a8dee",
-                                         color: '#fff'
-                                     }}>
-                                    <span style={{color: '#fff !important'}}>ذخیره</span>
-                                </div>
-                            )}
-
-
+                <div id={"back-loaderedss"}>
+                    <div style={{
+                        width: '100%',
+                        height: '100%',
+                        position: 'fixed',
+                        background: 'rgba(0,0,0,0.3)',
+                        top: 0,
+                        right: 0
+                    }}>
                     </div>
-
                 </div>
+
             </div>
-
-            <div id={"back-loaderedss"}>
-                <div style={{
-                    width: '100%',
-                    height: '100%',
-                    position: 'fixed',
-                    background: 'rgba(0,0,0,0.3)',
-                    top: 0,
-                    right: 0
-                }}>
-                </div>
-            </div>
-
-        </div>
-    )
-}
+        )
+    }
