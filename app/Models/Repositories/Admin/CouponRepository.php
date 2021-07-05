@@ -164,6 +164,7 @@ class CouponRepository implements RepositoryInterface
             1;
 
         $coupon_data['code'] = $data['code'];
+        $coupon_data['user_id'] = Auth::id();
 
         $coupon_data['status'] = !empty($data['status']) ?
             $data['status'] :
