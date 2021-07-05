@@ -46,8 +46,8 @@ class PageController extends Controller
         $page = $this->pageRepository->all($request->status, $request->search, $request->owner, $request->pageSize);
 
         return (!$page) ?
-            $this->message( __('message.content.search.notSuccess'))->view("pages.admin.page.index")->error():
-            $this->data($page)->message(__('message.success.200'))->view("pages.admin.page.index")->success();
+            $this->message( __('message.content.search.notSuccess'))->error():
+            $this->data($page)->message(__('message.success.200'))->success();
     }
 
     /**
@@ -85,7 +85,7 @@ class PageController extends Controller
     {
         $page = $this->pageRepository->create($request->all());
 
-        return $this->message(__('message.success.200'))->data($page)->view('pages.admin.page.show')->success();
+        return $this->message(__('message.success.200'))->data($page)->success();
     }
 
     /**
@@ -98,7 +98,7 @@ class PageController extends Controller
     {
         $this->pageRepository->get($page);
 
-        return $this->message(__('message.success.200'))->data($page)->view('pages.admin.page.show')->success();
+        return $this->message(__('message.success.200'))->data($page)->success();
     }
 
     /**
@@ -123,7 +123,7 @@ class PageController extends Controller
     {
         $page = $this->pageRepository->update($request->all(), $request->id);
 
-        return $this->message(__('message.success.200'))->view('pages.admin.page.edit')->data($page)->success();
+        return $this->message(__('message.success.200'))->data($page)->success();
     }
 
     /**
@@ -136,7 +136,7 @@ class PageController extends Controller
     {
         $this->pageRepository->delete($page);
 
-        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.page.index')->success();
+        return $this->message(__('message.content.destroy.successful'))->success();
     }
 
     /**
@@ -149,6 +149,6 @@ class PageController extends Controller
     {
         $this->pageRepository->multipleDestroy($request->all());
 
-        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.page.index')->success();
+        return $this->message(__('message.content.destroy.successful'))->success();
     }
 }
