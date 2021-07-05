@@ -64,7 +64,7 @@ export const CartAction = ({dataOut}) => {
 
         } else if (id == 3) {
             let typppb = {...typeSel};
-            typppb.types = "max_card_price";
+            typppb.types = "max_cart_price";
             setTypeSel(typppb);
             setTypeName({text : "با محدودیت حداکثر مبلغ خرید " , type: 'price'});
 
@@ -121,7 +121,7 @@ export const CartAction = ({dataOut}) => {
 
                         </div>
 
-                    ) : typeSel.types == "max_card_price" ? (
+                    ) : typeSel.types == "max_cart_price" ? (
                         <div className={"col-12"}>
                             <p style={{textAlign : 'center'}}>مبلغ خرید </p>
                             <input onChange={e => handleCartValue(e)} type="number" value={card_conditions_amount ? card_conditions_amount : ''} id="title" className="form-control" />
