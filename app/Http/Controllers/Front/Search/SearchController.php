@@ -20,13 +20,13 @@ class SearchController extends Controller
         $this->repository = $repository;
     }
 
-    public function search(SearchRequest $request)
+    public function search(Request $request)
     {
-        $data = $this->repository->search($request->slug);
-
-        return !empty($data) ?
-            $this->view('basic.index')->message(__('message.success.200'))->data($data)->success() :
-            $this->view('index')->message(__('message.content.search.notSuccess'))->error();
+        $query = $request->input('query', "");
+        if (empty($query))
+            $query = "";
+        $contents = $this->repository->search($query);
+        return page('search', compact('contents', 'query'));
     }
 
 }

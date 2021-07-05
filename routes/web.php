@@ -43,8 +43,8 @@ Route::get('/test', function () {
 
 });
 
-Route::get('test2',function (\Illuminate\Http\Request $request){
-dd(jdate()->getTimestamp());
+Route::get('test2', function (\Illuminate\Http\Request $request) {
+    dd(jdate()->getTimestamp());
 //   (new \App\Classes\Pay\Banks\Nextpay())->callback($request->order_id);
 });
 
@@ -97,9 +97,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('contents/multi/destroy', [ContentController::class, 'multipleDestroy'])->name('contents.multipleDestroy');
 
     //---------------------------Categories--------------------------
-    Route::get('categories/getAll',[CategoryController::class,'getAll'])->name('categories.getAll');
+    Route::get('categories/getAll', [CategoryController::class, 'getAll'])->name('categories.getAll');
     Route::get('category', [CategoryController::class, 'blade'])->name('categories.blade');
-    Route::get('categories/all',[CategoryController::class,'all'])->name('categories.getAll');
+    Route::get('categories/all', [CategoryController::class, 'all'])->name('categories.getAll');
     Route::resource('categories', CategoryController::class)->except('update');
     Route::post('categories/update', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy'])->name('categories.multipleDestroy');
@@ -129,10 +129,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('coupons/multi/destroy', [CouponController::class, 'multipleDestroy'])->name('coupons.multipleDestroy');
 
     //------------------------------Settings----------------------------
-      Route::name('settings.')->prefix('setting/')->group(function () {
-          Route::get('/', [SettingController::class, 'index'])->name('edit');
-          Route::put('/', [SettingController::class, 'update'])->name('update');
-      });
+    Route::name('settings.')->prefix('setting/')->group(function () {
+        Route::get('/', [SettingController::class, 'index'])->name('edit');
+        Route::put('/', [SettingController::class, 'update'])->name('update');
+    });
 
 
     //------------------------------Settings----------------------------
@@ -164,12 +164,12 @@ Route::middleware('auth')->group(function () {
 
     //------------------------------Order-------------------------------
     Route::get('address', [AddressController::class, 'blade'])->name('addresses.blade');
-    Route::resource('addresses',AddressController::class);
+    Route::resource('addresses', AddressController::class);
     Route::delete('addresses/multi/destroy', [AddressController::class, 'multipleDestroy'])->name('addresses.multipleDestroy');
 
     //------------------------------Order-------------------------------
     Route::get('order', [OrderController::class, 'blade'])->name('orders.blade');
-    Route::resource('orders',OrderController::class);
+    Route::resource('orders', OrderController::class);
     Route::delete('orders/multi/destroy', [OrderController::class, 'multipleDestroy'])->name('orders.multipleDestroy');
 
     //------------------------------Theme-------------------------------
@@ -187,9 +187,8 @@ Route::name('front.')->group(function () {
 
     Route::get('tag/{name}', [\App\Http\Controllers\Front\Tag\TagController::class, 'search'])->name('tags');
 
-    Route::post('search', [SearchController::class, 'search'])->name('search');
+    Route::any('search', [SearchController::class, 'search'])->name('search');
 
-    Route::get('page/{slug}', [FrontPageController::class, 'search'])->name('pages');
     Route::get('callback/{invoice_id}', [InvoiceController::class, 'callback'])->name('callback');;
 
 

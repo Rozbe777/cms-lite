@@ -39,7 +39,9 @@
                             <li><i class="@themeSetting('general', 'work_time', 'icon')"></i><span>@themeSetting('general', 'work_time', 'title')</span>
                                 @themeSetting('general', 'work_time', 'description')
                             </li>
-                            <li><i class="@themeSetting('general', 'address', 'icon')"></i><span>@themeSetting('general', 'address', 'title')</span>@themeSetting('general', 'address', 'description')</li>
+                            <li><i class="@themeSetting('general', 'address', 'icon')"></i><span>@themeSetting('general', 'address', 'title')</span>@themeSetting('general',
+                                'address', 'description')
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -61,12 +63,14 @@
         <div class="enry-nav">
             <div class="container-fluid">
                 <nav class="navbar navbar-expand-md navbar-light">
-                    <a class="navbar-brand" href="{{url('/')}}"><img src="{{themeAsset('img/logo.png')}}" alt="logo"></a>
+                    <a class="navbar-brand" href="{{url('/')}}"><img src="{{themeAsset('img/logo.png')}}"
+                                                                     alt="logo"></a>
                     <div class="collapse navbar-collapse mean-menu">
                         <ul class="navbar-nav">
                             <li class="nav-item"><a href="#" class="dropdown-toggle nav-link active">خانه</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a href="{{url('/')}}" class="nav-link active">صفحه اصلی - 1</a>
+                                    <li class="nav-item"><a href="{{url('/')}}" class="nav-link active">صفحه اصلی -
+                                            1</a>
                                     </li>
                                     <li class="nav-item"><a href="index-2.html" class="nav-link">صفحه اصلی - 2</a></li>
                                     <li class="nav-item"><a href="index-3.html" class="nav-link">صفحه اصلی - 3</a></li>
@@ -180,8 +184,8 @@
                 <span class="search-overlay-close-line"></span>
             </div>
             <div class="search-overlay-form">
-                <form>
-                    <input type="text" class="input-search" placeholder="کلمات کلیدی را وارد کنید...">
+                <form action="{{url('search/')}}">
+                    <input name="query" type="text" class="input-search" placeholder="کلمات کلیدی را وارد کنید...">
                     <button type="submit"><i class="ri-search-line"></i></button>
                 </form>
             </div>

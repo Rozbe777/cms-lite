@@ -20,8 +20,8 @@ class FrontSearchRepository implements Interfaces\FrontInterface
                     $q->where('title', 'like', '%' . $slug . '%')
                         ->orWhere('slug', 'like', '%' . $slug . '%')
                         ->orWhere('content', 'like', '%' . $slug . '%');
-                })->where('owner','content');
-            })
+                });
+            })->active()->content()
             ->orderByDesc('id')->paginate(config('view.pagination'));
 
     }
