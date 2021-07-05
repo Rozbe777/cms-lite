@@ -16,10 +16,11 @@ import {LimitedUse} from "../layout/LimitedUse";
 import {StartDiscount} from "../layout/StartDiscount";
 import {EndDiscount} from "../layout/EndDiscount";
 
-export const AddDiscount = ({type, result, token}) => {
+export const AddDiscount = ({type, result, token , dataDefaul}) => {
 
+    console.log(dataDefaul , "jjjjjj")
 
-    const [allData, setAllData] = useState({
+    let def = {
         code: '',
         status: "active",
         type: 'percentage',
@@ -27,22 +28,23 @@ export const AddDiscount = ({type, result, token}) => {
         functionality: 'total_cart_price',
         user_status: 'all',
         functionality_amount: null,
+    }
 
 
-    })
+    const [allData, setAllData] = useState(dataDefaul ? dataDefaul : def)
 
 
     const [edit, setEdit] = useState(false);
     const [dateStart, setDateStart] = useState({})
     const [dateEnd, setDateEnd] = useState({})
-    const [status, setStatus] = useState("active");
+    const [status, setStatus] = useState(dataDefaul ? allData.status ? allData.status : "active" : "active" );
     const [prevCalSel, setPrevCatSel] = useState({})
     const [timeShow, setTimeShow] = useState([]);
     const [limitUse, setLimitUse] = useState({striShow: 'بدون محدودیت'});
     const [functionality, setFunctionality] = useState({id: 'total_cart_price', name: 'کل مبلغ سبد خرید'});
     const [functionality_amount, setFunctionality_amount] = useState([]);
     const [timeCheck, setTimeCheck] = useState([]);
-    const [discountCode, setDiscountCode] = useState('');
+    const [discountCode, setDiscountCode] = useState(dataDefaul ? allData.code ? allData.code : '' : '');
     const [value, setValue] = useState('');
     const [maxLimit, setMaxLimit] = useState(null);
     const [userTypeName, setUserTypeName] = useState("برای همه کاربران")
@@ -54,6 +56,7 @@ export const AddDiscount = ({type, result, token}) => {
     const [disTypesUser, setDisTypesUser] = useState('all')
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(false);
+
     const [cartStatus, setCartStatus] = useState({
         cart_conditions_amount: null,
         typeSel: {
@@ -266,19 +269,33 @@ export const AddDiscount = ({type, result, token}) => {
         data.user_status = userStatus ? userStatus : [];
         data.user_group = userGroup ? userGroup : [];
         data.cart_conditions = cartStatus.typeSel.types;
-        data.cart_conditions_amount = cartStatus.card_conditions_amount;
-        let timeEdns = dateEnd.date.timestamp.toString();
-        let newDateEnd = timeEdns.split("");
-        delete newDateEnd[newDateEnd.length-1];
-        delete newDateEnd[newDateEnd.length-2];
-        delete newDateEnd[newDateEnd.length-3];
-        data.end_date = dateEnd ? newDateEnd.join("") : null;
-        let timeStart = dateStart.date.timestamp.toString();
-        let newDateStart = timeStart.split("");
-        delete newDateStart[newDateStart.length-1];
-        delete newDateStart[newDateStart.length-2];
-        delete newDateStart[newDateStart.length-3];
-        data.end_start = dateStart ? newDateStart.join("") : null;
+        data.cart_conditions_amount = cartStatus.card_conditions_amount ? cartStatus.card_conditions_amount : null;
+        if (dateEnd.date.timestamp){
+            let timeEdns = dateEnd.date.timestamp.toString();
+            let newDateEnd = timeEdns.split("");
+            delete newDateEnd[newDateEnd.length-1];
+            delete newDateEnd[newDateEnd.length-2];
+            delete newDateEnd[newDateEnd.length-3];
+            dateEnd.date.timestamp = newDateEnd.join("");
+            data.end_date = dateEnd;
+        }else{
+            data.end_date = null;
+
+        }
+
+
+        if (dateStart.date.timestamp){
+            let timeStart = dateStart.date.timestamp.toString();
+            let newDateStart = timeStart.split("");
+            delete newDateStart[newDateStart.length-1];
+            delete newDateStart[newDateStart.length-2];
+            delete newDateStart[newDateStart.length-3];
+            dateStart.date.timestamp =  newDateStart.join("");
+            data.end_start =dateStart;
+        }else{
+            data.end_start = null;
+        }
+
         data.number_of_times_allowed_to_use = limitUse.codeVal ? limitUse.codeVal : null;
         data.number_of_use_allowed_per_user = limitUse.userVal ? limitUse.userVal : null;
 
@@ -755,7 +772,7 @@ export const AddDiscount = ({type, result, token}) => {
                             <fieldset className="form-group " style={{marginTop: '13px', padding: '15px'}}>
                                 <label id={"selectParent"}>وضعیت کد تخفیف</label>
                                 <Switcher
-                                    defaultState={true}
+                                    defaultState={status == "active" ? true : false}
                                     // defaultState={dataUpdateParse ? dataUpdateParse.status == "active" ? true : false : true}
                                     // status={(state) => handleSwitchStatus(state)}
                                     name={"showState"}
