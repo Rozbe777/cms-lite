@@ -29,6 +29,11 @@ const Show = (props) => {
     }, [])
 
 
+    const handleEditDis = (e , data) => {
+        e.preventDefault();
+        console.log(data , "########")
+        ReactDOM.render(<AddDiscount token={token} result={handleBack} dataDefaul={data}/>, document.getElementById("add-datas"));
+    }
 
     const getAllCoupons = (searchses) => {
         setLoading(true)
@@ -63,7 +68,7 @@ const Show = (props) => {
 
     const handleAddDisc = e => {
         e.preventDefault();
-        ReactDOM.render(<AddDiscount token={token} result={handleBack(e)}/>, document.getElementById("add-datas"));
+        ReactDOM.render(<AddDiscount token={token} result={handleBack}/>, document.getElementById("add-datas"));
     }
 
     const handleDeleteCoupon = (e , id) => {
@@ -164,7 +169,7 @@ const Show = (props) => {
                 <div className={"row"} style={{padding : '15px'}}>
                     {loading || !allCoupon.data ? (<Loading />) : allCoupon.data.map((item , index) => (
                         <div className={"col-lg-4 col-md-6 col-sm-12"} key={index} style={{padding : '5px'}}>
-                            <ItemDis deleteCoupon={handleDeleteCoupon} data={item} />
+                            <ItemDis deleteCoupon={handleDeleteCoupon} handleEdit={handleEditDis} data={item} />
                         </div>
                     ))}
 

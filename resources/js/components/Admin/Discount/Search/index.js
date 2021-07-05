@@ -143,12 +143,22 @@ const SearchComponent = ({token, sort: pushSort}) => {
 
                     <div className="col-12 col-sm-6 col-lg-3" id={"filterPro"}>
                         <label
-                            htmlFor="users-list-verified">فیلتر</label>
+                            htmlFor="users-list-verified">از تاریخ</label>
+                        <div style={{width: '100%', height: '50px', background: '#fff', borderRadius: 5}}>
+                            <MainRate onChange={handleChangeDateStart}
+                                      Icon={<i className="bx bx-calendar-alt"></i>}/>
+
+                        </div>
                     </div>
 
                     <div className="col-12 col-sm-6 col-lg-3" id={"productsSort"}>
-                        <label htmlFor="users-list-status">مرتب سازی</label>
-                        {/*<MultiOption lett={"bottom"} data={dataSort} selected={item => handleOptionSort(item)}/>*/}
+                        <label
+                            htmlFor="users-list-verified">تا تاریخ</label>
+                        <div style={{width: '100%', height: '50px', background: '#fff', borderRadius: 5}}>
+                            <MainRate onChange={handleChangeDateStart}
+                                      Icon={<i className="bx bx-calendar-alt"></i>}/>
+
+                        </div>
                     </div>
 
                     <div className="col-12 col-sm-6 col-lg-3">
