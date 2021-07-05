@@ -16,23 +16,23 @@ import {LimitedUse} from "../layout/LimitedUse";
 import {StartDiscount} from "../layout/StartDiscount";
 import {EndDiscount} from "../layout/EndDiscount";
 
-export const AddDiscount = ({type, result, token, dataDefaul}) => {
+export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
 
-    function handleCondName(id){
-        console.log(id , "#########")
-        // switch (id.coupon_settings.cart_conditions) {
-        //     case  'unlimited' :
-        //         return 'بدون محدودیت';
-        //     case 'min_purchase_number' :
-        //         return `با محدودیت حداقل مبلغ خرید ${id.coupon_settings.cart_conditions_amount} تومان`;
-        //     case 'max_card_price' :
-        //         return `با محدودیت حداکثر مبلغ خرید ${id.coupon_settings.cart_conditions_amount} تومان`;
-        //     case "max_purchase_number" :
-        //         return `با محدودیت حداقل تعداد محصولات ${id.coupon_settings.cart_conditions_amount}`;
-        //     default :
-        //         return 'بدون محدودیت';
-        // }
+    function handleCondName(id , value){
+        console.log(id , value)
+        switch (id) {
+            case  'unlimited' :
+                return 'بدون محدودیت';
+            case 'min_purchase_number' :
+                return `با محدودیت حداقل مبلغ خرید ${value} تومان`;
+            case 'max_card_price' :
+                return `با محدودیت حداکثر مبلغ خرید ${value} تومان`;
+            case "max_purchase_number" :
+                return `با محدودیت حداقل تعداد محصولات ${value}`;
+            default :
+                return 'بدون محدودیت';
+        }
     }
 
 
@@ -79,7 +79,7 @@ export const AddDiscount = ({type, result, token, dataDefaul}) => {
         typeSel: {
             types: dataDefaul ? dataDefaul.coupon_settings.card_conditions : "unlimited"
         },
-        typesNn: handleCondName(dataDefaul ? dataDefaul.coupon_settings.card_conditions : "unlimited")
+        typesNn: dataDefaul ? handleCondName(dataDefaul.coupon_settings.card_conditions , dataDefaul.coupon_settings.card_conditions_amount) : handleCondName("unlimited")
     })
     const [catData, setCatData] = useState({});
     const [catSel, setCatSel] = useState([]);
@@ -287,7 +287,6 @@ export const AddDiscount = ({type, result, token, dataDefaul}) => {
         data.user_group = userGroup ? userGroup : [];
         data.cart_conditions = cartStatus.typeSel.types;
 
-        console.log("%%%%%%%%%" , cartStatus)
         data.cart_conditions_amount = cartStatus.cart_conditions_amount;
         if (dateEnd.date) {
             let timeEdns = dateEnd.date.timestamp.toString();
@@ -315,8 +314,8 @@ export const AddDiscount = ({type, result, token, dataDefaul}) => {
             data.start_date = null;
         }
 
-        data.number_of_times_allowed_to_use = limitUse.codeVal ? limitUse.codeVal : null;
-        data.number_of_use_allowed_per_user = limitUse.userVal ? limitUse.userVal : null;
+        data.number_of_times_allowed_to_use = limitUse.codeVal ? parseInt(limitUse.codeVal) : null;
+        data.number_of_use_allowed_per_user = limitUse.userVal ? parseInt(limitUse.userVal) : null;
 
         console.log(data)
         AddNewDiscount(data)
@@ -341,10 +340,7 @@ export const AddDiscount = ({type, result, token, dataDefaul}) => {
 
                 Request.AddNewCoupen(data)
                     .then(res => {
-                        result(res);
-                        localStorage.removeItem("is_menu");
-                        localStorage.removeItem("status");
-                        localStorage.removeItem("selected");
+                        results(res);
                         Swal.fire({
                             type: "success",
                             title: 'با موفقیت اضافه شد !',

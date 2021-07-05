@@ -11,17 +11,22 @@ import Loading from "../../_Micro/Loading";
 import {CHECK_BOX_CONTENT} from './../../UserList/Helper/Context'
 import {ErroHandle, error as ErrorToast} from "../../../../helper";
 import SearchComponent from "./../Search";
+import {Pagination} from "../../_Micro/Pagination";
 
 const Show = (props) => {
     let targetElem = document.getElementById("add-datas");
     const {token} = props;
     const [loading , setLoading] = useState(false)
     const [state, setState] = useState();
+    const [perPage , setPerPage] = useState();
     const [allCoupon , setAllCoupon] = useState([]);
+    const [total, setTotal] = useState();
     const [checkBox, setCheckBox] = useState([]);
     const [stringSearchs, setStringSearch] = useState({
         page : 1
     });
+    const [checked, setChecked] = useState([]);
+
 
     useEffect(() => {
         getAllCoupons();
@@ -41,6 +46,8 @@ const Show = (props) => {
             .then(res => {
                 setLoading(false)
                 setAllCoupon(res.data)
+                setPerPage(res.data.per_page);
+                setTotal(res.data.total)
             })
     }
 
@@ -60,6 +67,7 @@ const Show = (props) => {
     })
 
     const handleBack = (item) => {
+
         if (item.status == 200) {
             getAllCoupons();
             ReactDom.render('', document.getElementById('add-datas'))
@@ -68,7 +76,7 @@ const Show = (props) => {
 
     const handleAddDisc = e => {
         e.preventDefault();
-        ReactDOM.render(<AddDiscount token={token} result={handleBack}/>, document.getElementById("add-datas"));
+        ReactDOM.render(<AddDiscount token={token} results={handleBack}/>, document.getElementById("add-datas"));
     }
 
     const handleDeleteCoupon = (e , id) => {
@@ -112,7 +120,29 @@ const Show = (props) => {
         });
     }
 
+    const HandleChecked = (data) => {
 
+        let checkedNew = [...checked];
+        if (data.type == "added") {
+            checkedNew.push(data.id);
+        } else {
+            var index = checkedNew.indexOf(data.id);
+            checkedNew.splice(index, 1);
+        }
+        setChecked(checkedNew);
+
+    }
+
+
+
+
+    if (checkBox.length > 0) {
+        $("#totalAction").addClass("activeAction");
+        $("#breadCrumb").removeClass("activeCrumb");
+    } else {
+        $("#totalAction").removeClass("activeAction");
+        $("#breadCrumb").addClass("activeCrumb");
+    }
 
 
     const paginate = (pageNumber) => {
@@ -155,8 +185,6 @@ const Show = (props) => {
                 Object.keys(items).map(ii => {
                     stringed[ii] = items[ii];
                 })
-                paginate(1)
-                stringed.page = 1;
                 setStringSearch(stringed)
 
                 getAllCoupons(stringed)
@@ -168,10 +196,12 @@ const Show = (props) => {
 
                 <div className={"row"} style={{padding : '15px'}}>
                     {loading || !allCoupon.data ? (<Loading />) : allCoupon.data.map((item , index) => (
-                        <div className={"col-lg-4 col-md-6 col-sm-12"} key={index} style={{padding : '5px'}}>
-                            <ItemDis deleteCoupon={handleDeleteCoupon} handleEdit={handleEditDis} data={item} />
+                        <div className={"col-lg-3 col-md-4 col-sm-12"} key={index} style={{padding : '5px'}}>
+                            <ItemDis handleCheck={HandleChecked} sizeOf={allCoupon.data.length} checkStateOfOut={checked}  deleteCoupon={handleDeleteCoupon} handleEdit={handleEditDis} data={item} />
                         </div>
                     ))}
+
+
 
                 </div>
 
