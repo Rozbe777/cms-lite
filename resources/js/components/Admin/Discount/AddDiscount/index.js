@@ -19,20 +19,20 @@ import {EndDiscount} from "../layout/EndDiscount";
 export const AddDiscount = ({type, result, token, dataDefaul}) => {
 
 
-    function handleCondName(id){
-        console.log(id , "#########")
-        // switch (id.coupon_settings.cart_conditions) {
-        //     case  'unlimited' :
-        //         return 'بدون محدودیت';
-        //     case 'min_purchase_number' :
-        //         return `با محدودیت حداقل مبلغ خرید ${id.coupon_settings.cart_conditions_amount} تومان`;
-        //     case 'max_card_price' :
-        //         return `با محدودیت حداکثر مبلغ خرید ${id.coupon_settings.cart_conditions_amount} تومان`;
-        //     case "max_purchase_number" :
-        //         return `با محدودیت حداقل تعداد محصولات ${id.coupon_settings.cart_conditions_amount}`;
-        //     default :
-        //         return 'بدون محدودیت';
-        // }
+    function handleCondName(id , value){
+        console.log(id , value)
+        switch (id) {
+            case  'unlimited' :
+                return 'بدون محدودیت';
+            case 'min_purchase_number' :
+                return `با محدودیت حداقل مبلغ خرید ${value} تومان`;
+            case 'max_card_price' :
+                return `با محدودیت حداکثر مبلغ خرید ${value} تومان`;
+            case "max_purchase_number" :
+                return `با محدودیت حداقل تعداد محصولات ${value}`;
+            default :
+                return 'بدون محدودیت';
+        }
     }
 
 
@@ -79,7 +79,7 @@ export const AddDiscount = ({type, result, token, dataDefaul}) => {
         typeSel: {
             types: dataDefaul ? dataDefaul.coupon_settings.card_conditions : "unlimited"
         },
-        typesNn: handleCondName(dataDefaul ? dataDefaul.coupon_settings.card_conditions : "unlimited")
+        typesNn: dataDefaul ? handleCondName(dataDefaul.coupon_settings.card_conditions , dataDefaul.coupon_settings.card_conditions_amount) : handleCondName("unlimited")
     })
     const [catData, setCatData] = useState({});
     const [catSel, setCatSel] = useState([]);
