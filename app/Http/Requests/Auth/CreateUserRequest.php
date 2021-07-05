@@ -34,7 +34,7 @@ class CreateUserRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {
+    {dd($this->all());
         return [
             'name' => 'required|string|max:255',
             'last_name' => 'string|max:255',
