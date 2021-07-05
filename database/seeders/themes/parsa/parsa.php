@@ -168,9 +168,30 @@ return [
         ]
 
     ],
+    'contents' => [
+        [
+            'title' => 'راز موفقیت کسب و کار خود را به سرعت پیدا کنید',
+            'content' => '<p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد.</p>',
+            'published_at' => now(),
+            'image'=>'img/blog/blog1.jpg'
+        ],
+        [
+            'title' => 'راز موفقیت کسب و کار خود را به سرعت پیدا کنید',
+            'content' => '<p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد.</p>',
+            'published_at' => now(),
+            'image'=>'img/blog/blog2.jpg'
+        ],
+        [
+            'title' => 'راز موفقیت کسب و کار خود را به سرعت پیدا کنید',
+            'content' => '<p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد.</p>',
+            'published_at' => now(),
+            'image'=>'img/blog/blog3.jpg'
+        ],
+    ],
     'components' => [
         [
             'name' => 'slider',
+            'type' => 'component',
             'image' => 'slider.png',
             'display_name' => 'اسلایدر تمام صفحه',
             'initial_payload' => [
@@ -306,7 +327,7 @@ return [
                             'name' => 'background',
                             'display_name' => 'تصویر زمینه',
                             'type' => 'image',
-                            'value' => 'img/banner/banner-bg1.jpg',
+                            'value' => 'img/banner/banner-bg4.jpg',
                             'visible' => 1,
                         ]
                     ]
@@ -445,8 +466,36 @@ return [
                         ]
                     ]
                 ],
-
             ]
+        ],
+        [
+            'name' => 'blog',
+            'type' => 'category',
+            'type_id' => 0,
+            'image' => 'blog.png',
+            'display_name' => 'وبلاگ',
+            'initial_payload' => [
+                [
+                    'name' => 'title',
+                    'display_name' => 'عنوان',
+                    'type' => 'text',
+                    'visible' => 1,
+                    'value' => 'با وبلاگ های ما آشنا شوید'
+                ],
+                [
+                    'name' => 'description',
+                    'display_name' => 'توضیحات',
+                    'type' => 'text',
+                    'visible' => 1,
+                    'value' => 'لورم ایپسوم متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد.'
+                ],
+                [
+                    'name' => 'limit',
+                    'display_name' => 'محدودیت نمایش',
+                    'type' => 'text',
+                    'value' => 3
+                ]
+            ],
         ]
     ],
 ];

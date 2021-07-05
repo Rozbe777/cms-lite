@@ -131,3 +131,11 @@ if (!function_exists('convertDigit')) {
     }
 }
 
+if (!function_exists('shorter')) {
+    function shorter($text, $chars_limit)
+    {
+        if (strlen($text) > $chars_limit)
+            return substr($text, 0, strrpos(substr($text, 0, $chars_limit), " ")) . '...';
+        else return $text;
+    }
+}

@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ComponentItem extends Model
 {
     use HasFactory;
+
+    public function getPayloadAttribute($value)
+    {
+        return json_decode($value);
+    }
 }

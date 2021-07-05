@@ -1,10 +1,13 @@
 @extends(layout('layout'))
 @section('content')
 
-    @include(components('slider'))
+    @foreach($components as $component)
+        @include(components($component->component->name),['component'=>$component])
+    @endforeach
 
 
-    {{--   <div class="about-area pt-100">
+{{--
+<div class="about-area pt-100">
            <div class="container">
                <div class="row m-0">
                    <div class="col-lg-6 col-md-12 p-0">
@@ -56,8 +59,6 @@
                </div>
            </div>
        </div>
-
-
        <div class="services-area pt-100 pb-70">
            <div class="container">
                <div class="section-title">
@@ -479,80 +480,8 @@
            </div>
        </div>
 
+--}}
 
-       <div class="blog-area pt-100 pb-70">
-           <div class="container">
-               <div class="section-title">
-                   <span class="sub-title">وبلاگ ما</span>
-                   <h2>با وبلاگ های ما آشنا شوید</h2>
-               </div>
-               <div class="row justify-content-center">
-                   <div class="col-lg-4 col-md-6">
-                       <div class="single-blog-post">
-                           <div class="post-image">
-                               <a href="blog-details.html" class="d-block">
-                                   <img src="{{themeAsset('img/blog/blog1.jpg')}}" alt="image">
-                               </a>
-                           </div>
-                           <div class="post-content">
-                               <ul class="meta">
-                                   <li><i class="ri-calendar-2-line"></i> 22 دی 1399</li>
-                                   <li><i class="ri-user-voice-line"></i> <a href="blog-right-sidebar.html">لرد ایوانز</a>
-                                   </li>
-                               </ul>
-                               <h3><a href="blog-details.html">راز موفقیت کسب و کار خود را به سرعت پیدا کنید</a></h3>
-                               <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم
-                                   ایپسوم ساختار چاپ و متن را در بر می گیرد.</p>
-                               <a href="blog-details.html" class="default-btn">ادامه خواندن <i
-                                       class="ri-arrow-left-line"></i></a>
-                           </div>
-                       </div>
-                   </div>
-                   <div class="col-lg-4 col-md-6">
-                       <div class="single-blog-post">
-                           <div class="post-image">
-                               <a href="blog-details.html" class="d-block">
-                                   <img src="{{themeAsset('img/blog/blog2.jpg')}}" alt="image">
-                               </a>
-                           </div>
-                           <div class="post-content">
-                               <ul class="meta">
-                                   <li><i class="ri-calendar-2-line"></i> 22 دی 1399</li>
-                                   <li><i class="ri-user-voice-line"></i> <a href="blog-right-sidebar.html">لرد ایوانز</a>
-                                   </li>
-                               </ul>
-                               <h3><a href="blog-details.html">راز موفقیت کسب و کار خود را به سرعت پیدا کنید</a></h3>
-                               <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم
-                                   ایپسوم ساختار چاپ و متن را در بر می گیرد.</p>
-                               <a href="blog-details.html" class="default-btn">ادامه خواندن <i
-                                       class="ri-arrow-left-line"></i></a>
-                           </div>
-                       </div>
-                   </div>
-                   <div class="col-lg-4 col-md-6">
-                       <div class="single-blog-post">
-                           <div class="post-image">
-                               <a href="blog-details.html" class="d-block">
-                                   <img src="{{themeAsset('img/blog/blog3.jpg')}}" alt="image">
-                               </a>
-                           </div>
-                           <div class="post-content">
-                               <ul class="meta">
-                                   <li><i class="ri-calendar-2-line"></i> 22 دی 1399</li>
-                                   <li><i class="ri-user-voice-line"></i> <a href="blog-right-sidebar.html">لرد ایوانز</a>
-                                   </li>
-                               </ul>
-                               <h3><a href="blog-details.html">راز موفقیت کسب و کار خود را به سرعت پیدا کنید</a></h3>
-                               <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم
-                                   ایپسوم ساختار چاپ و متن را در بر می گیرد.</p>
-                               <a href="blog-details.html" class="default-btn">ادامه خواندن <i
-                                       class="ri-arrow-left-line"></i></a>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-           </div>
-       </div>
 
-   --}}
+
 @endsection

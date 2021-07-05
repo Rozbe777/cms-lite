@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Front\Page;
 
 use App\Classes\Responses\Front\ResponseTrait;
 use App\Http\Controllers\Controller;
+use App\Models\Component;
+use App\Models\ComponentData;
 use App\Models\Layout;
 use App\Models\Repositories\Front\FrontContentRepository;
 use App\Models\Repositories\Front\FrontPageRepository;
@@ -22,20 +24,25 @@ class FrontPageController extends Controller
     public function search($slug = null)
     {
         $page = $this->repository->search($slug);
+
+        $components = ComponentData::where('content_id', $page->id)->active()
+            ->with('component')
+            ->with('items')
+            ->get();
         if ($page->is_index) {
             if (!empty($page->layout_id)) {
                 $layout = Layout::find($page->layout_id);
-//                return page($layout->view);
+                return page($layout->view, compact('components'));
             } else {
-//                return page('index');
+                return page('index', compact('components'));
 
             }
 
         } elseif (!empty($page->layout_id)) {
             $layout = Layout::find($page->layout_id);
-//            return page($layout->view);
+            return page($layout->view, compact('components'));
         } else {
-//            return page('page');
+            return page('page', compact('components'));
         }
 
 

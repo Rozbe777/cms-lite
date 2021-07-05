@@ -78,7 +78,6 @@ class Category extends Model
     }
 
 
-
     public function products()
     {
         return $this->belongsToMany(Product::class);
@@ -91,7 +90,7 @@ class Category extends Model
 
     public function viewCounts()
     {
-        return $this->morphOne(ViewCount::class,'viewcountable');
+        return $this->morphOne(ViewCount::class, 'viewcountable');
     }
 
     public function scopeActive($query)
@@ -104,4 +103,8 @@ class Category extends Model
         return route('front.categories', $this->attributes['slug']);
     }
 
+    function scopeModuleId($query, $id)
+    {
+        return $query->where('module_id', $id);
+    }
 }

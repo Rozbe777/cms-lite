@@ -15,9 +15,9 @@ class FrontPageRepository implements Interfaces\FrontInterface
         $page = Page::when(!empty($slug), function ($query) use ($slug) {
             $query->where(function ($q) use ($slug) {
                 $q->Where('slug', $slug);
-
             });
-        })
+
+        })->active()
             ->when(empty($slug), function ($query) use ($slug) {
                 $query->where(function ($q) use ($slug) {
                     $q->Where('is_index', 1);
