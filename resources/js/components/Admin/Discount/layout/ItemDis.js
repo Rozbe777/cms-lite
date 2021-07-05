@@ -3,19 +3,42 @@ import {CHECK_BOX_CONTENT} from "../../UserList/Helper/Context";
 import $ from "jquery";
 
 
-export const ItemDis = ({data , handleDelete , handleEdit, selected: pushSelected }) => {
+export const ItemDis = ({
+                            data,
+                            checkStateOfOut,
+                            sizeOf,
+                            handleDelete,
+                            handleCheck,
+                            handleEdit,
+                            selected: pushSelected
+                        }) => {
 
 
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
 
     useEffect(() => {
+        checkTest();
         checkBox.map(item => {
-            $(".item-product.id_"+item).addClass("activeCheck");
             $("input#checkbox_" + item).prop("checked", true);
         })
-
     })
 
+
+    function checkTest() {
+        if (checkStateOfOut.length == sizeOf) {
+            checkStateOfOut.map(item => {
+                $(".item-product.id_" + item).addClass("activeCheck");
+                $("input[name=product_" + item + "]").prop("checked", true);
+            })
+        } else if (checkStateOfOut.length == 0) {
+            $(".item-product").removeClass("activeCheck");
+            $(".itemcheckboxed").prop("checked", false);
+        }
+    }
+
+    checkBox.map(item => {
+        $("input#checkbox_" + item).prop("checked", true);
+    })
 
     const HandlePushCheck = (check, idGet) => {
         let checkBoxx = [...checkBox];
@@ -38,7 +61,7 @@ export const ItemDis = ({data , handleDelete , handleEdit, selected: pushSelecte
             HandlePushCheck(true, id)
         } else {
             $(".item-product.id_" + id).removeClass("activeCheck");
-            pushSelected({type: "removed", id});
+            handleCheck({type: "removed", id})
             HandlePushCheck(false, id)
 
         }
@@ -54,14 +77,15 @@ export const ItemDis = ({data , handleDelete , handleEdit, selected: pushSelecte
 
                     <fieldset>
                         <div className={"checkbox"}>
-                            <input type={"checkbox"} className={"checkbox-input itemcheckboxed"} name={"product_" + data.id}
+                            <input type={"checkbox"} className={"checkbox-input itemcheckboxed"}
+                                   name={"product_" + data.id}
                                    id={"checkbox_" + data.id} onChange={e => HandleChange(e, data.id)}/>
                             <label htmlFor={"checkbox_" + data.id}></label>
                         </div>
                     </fieldset>
 
                     <i className={"bx bxs-trash"}></i>
-                    <i className={"bx bxs-pencil"} onClick={e => handleEdit(e , data)}></i>
+                    <i className={"bx bxs-pencil"} onClick={e => handleEdit(e, data)}></i>
 
 
                 </div>

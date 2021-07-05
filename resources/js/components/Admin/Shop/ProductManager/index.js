@@ -250,7 +250,7 @@ const Index = () => {
 
             <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
                 <div className={"row col-12"} id={"headerContent"}>
-                    <TotalActions text={" محصول انتخاب شده است "} deleteUsers={e => handleDeleteGroup(e)}
+                    <TotalActions text={" محصول انتخاب شده است"} deleteUsers={e => handleDeleteGroup(e)}
                                   allData={Products ? Products : []} data={checkBox}/>
                     <BreadCrumbs titleBtn={"افزودن"} clicked={e => HandlePopUpAddProduct(e)} icon={"bx-plus"}
                                  data={breadData}/>
