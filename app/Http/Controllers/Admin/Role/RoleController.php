@@ -12,6 +12,7 @@ use App\Models\Repositories\Admin\RoleRepository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 
 class RoleController extends Controller
@@ -32,21 +33,36 @@ class RoleController extends Controller
     /**
      * Display a listing of the Roles resource.
      *
-     * @return Factory|View
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        return (!$role = $this->roleRepository->all()) ?
-            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.role.index")->error() :
-            $this->data($role)->message(__('message.success.200'))->view("pages.admin.role.index")->success();
+        $roles = $this->roleRepository->all();
+        return (!$roles) ?
+            $this->message(__('message.content.search.notSuccess'))->error() :
+            $this->data($roles)->message(__('message.success.200'))->success();
+    }
+
+    /**
+     * Display a listing of the Roles resource.
+     *
+     * @return Factory|View|RedirectResponse
+     */
+    public function blade()
+    {
+        $data = $this->roleRepository->all();
+        if (!$data)
+            return redirect()->back()->with('error', __("message.content.search.notSuccess"));
+
+        return adminView('pages.admin.role.index', compact('data'));
     }
 
     /**
      * Show the form for creating a new resource Roles with Permissions.
      *
-     * @return Factory|View
+     * @return JsonResponse
      */
-    public function create()
+    public function create(): JsonResponse
     {
         $permissions = Permission::isParent()->get();
         foreach ($permissions as $p) {
@@ -54,8 +70,8 @@ class RoleController extends Controller
             $p->children = $children;
         }
         return (!$permissions) ?
-            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.role.create")->error() :
-            $this->data($permissions)->message(__('message.success.200'))->view("pages.admin.role.create")->success();
+            $this->message(__('message.content.search.notSuccess'))->error() :
+            $this->data($permissions)->message(__('message.success.200'))->success();
     }
 
     /**
@@ -69,8 +85,8 @@ class RoleController extends Controller
         $role = $this->roleRepository->create($request->all());
 
         return (!$role) ?
-            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.role.index")->error() :
-            $this->data($role)->message(__('message.success.200'))->view("pages.admin.role.index")->success();
+            $this->message(__('message.content.search.notSuccess'))->error() :
+            $this->data($role)->message(__('message.success.200'))->success();
     }
 
     /**
@@ -83,8 +99,8 @@ class RoleController extends Controller
     {
         $role = $this->roleRepository->edit($id);
         return (!$role) ?
-            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.role.edit")->error() :
-            $this->data($role)->message(__('message.success.200'))->view("pages.admin.role.edit")->success();
+            $this->message(__('message.content.search.notSuccess'))->error() :
+            $this->data($role)->message(__('message.success.200'))->success();
     }
 
     /**
@@ -98,8 +114,8 @@ class RoleController extends Controller
     {
         $response = $this->roleRepository->update($request->all(),$id);
         return (!$response) ?
-            $this->message(__('message.content.search.notSuccess'))->view("pages.admin.role.index")->error() :
-            $this->data($this->roleRepository->all())->message(__('message.success.200'))->view("pages.admin.role.index")->success();
+            $this->message(__('message.content.search.notSuccess'))->error() :
+            $this->data($this->roleRepository->all())->message(__('message.success.200'))->success();
     }
 
     /**
@@ -111,6 +127,6 @@ class RoleController extends Controller
     public function multipleDestroy($id)
     {
         $this->roleRepository->multipleDestroy($id);
-        return $this->message(__('message.content.destroy.successful'))->view('pages.admin.role.index')->success();
+        return $this->message(__('message.content.destroy.successful'))->success();
     }
 }
