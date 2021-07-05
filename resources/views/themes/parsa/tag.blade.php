@@ -4,10 +4,10 @@
     <div class="page-title-area">
         <div class="container">
             <div class="page-title-content">
-                <h2>{{$category->name}}</h2>
+                <h2>{{$tag->name}}</h2>
                 <ul>
                     <li><a href="{{url('/')}}">خانه</a></li>
-                    <li>{{$category->name}}</li>
+                    <li>{{$tag->name}}</li>
                 </ul>
             </div>
         </div>
