@@ -21,7 +21,7 @@ class CategoryController extends Controller
     public function search($slug = null)
     {
         $category = $this->repository->search($slug);
-        $contents = $category->contents()->orderByDesc('id')->paginate(1);
+        $contents = $category->contents()->orderByDesc('id')->paginate(config('view.pagination'));
         return page('category', compact('category', 'contents'));
     }
 }
