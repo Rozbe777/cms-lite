@@ -198,13 +198,13 @@ class CouponRepository implements RepositoryInterface
 
     $start_date = $start_date['date']['timestamp'];
     $end_date = $end_date['date']['timestamp'];
-dd($coupon_data,$setting_data);
+//dd($coupon_data,$setting_data);
         $coupon = Coupon::create($coupon_data);
 
         $setting_data['coupon_id'] = $coupon->id;
 
         CouponSetting::create($setting_data);
-dd(123);
+//dd(123);
         return $coupon->with('coupon_settings');
     }
 
