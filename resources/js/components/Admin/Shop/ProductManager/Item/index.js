@@ -12,7 +12,6 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected ,duplicate
             $(".item-product.id_"+item).addClass("activeCheck");
             $("input#checkbox_" + item).prop("checked", true);
         })
-
     })
 
     function checkTest() {
@@ -24,10 +23,8 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected ,duplicate
         } else if (checkStateOfOut.length == 0) {
             $(".item-product").removeClass("activeCheck");
             $(".itemcheckboxed").prop("checked", false);
-
         }
     }
-
 
 
     const HandlePushCheck = (check, idGet) => {
@@ -47,7 +44,7 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected ,duplicate
 
         if (e.target.checked) {
             $("html, body").animate({scrollTop: 0}, 700);
-            $(".item-product.id_" + id).addClass("activeCheck");
+            // $(".item-product.id_" + id).addClass("activeCheck");
             HandlePushCheck(true, id)
         } else {
             $(".item-product.id_" + id).removeClass("activeCheck");

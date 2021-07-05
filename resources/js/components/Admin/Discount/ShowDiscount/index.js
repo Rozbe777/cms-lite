@@ -8,6 +8,9 @@ import $ from "jquery";
 import {Request} from "../../../../services/AdminService/Api";
 import ReactDom from "react-dom";
 import Loading from "../../_Micro/Loading";
+import {CHECK_BOX_CONTENT} from './../../UserList/Helper/Context'
+import {ErroHandle, error as ErrorToast} from "../../../../helper";
+import SearchComponent from "./../Search";
 
 const Show = (props) => {
     let targetElem = document.getElementById("add-datas");
@@ -16,20 +19,28 @@ const Show = (props) => {
     const [state, setState] = useState();
     const [allCoupon , setAllCoupon] = useState([]);
     const [checkBox, setCheckBox] = useState([]);
+    const [stringSearchs, setStringSearch] = useState({
+        page : 1
+    });
+
     useEffect(() => {
         getAllCoupons();
         $("#breadCrumb").addClass("activeCrumb");
     }, [])
 
-    console.log("data coupon" , allCoupon)
 
+    const handleEditDis = (e , data) => {
+        e.preventDefault();
+        console.log(data , "########")
+        ReactDOM.render(<AddDiscount token={token} result={handleBack} dataDefaul={data}/>, document.getElementById("add-datas"));
+    }
 
-    const getAllCoupons = () => {
+    const getAllCoupons = (searchses) => {
         setLoading(true)
-        Request.GetAllCoupon()
+        Request.GetAllCoupon(searchses ? searchses : stringSearchs)
             .then(res => {
                 setLoading(false)
-                setAllCoupon(res.data.data)
+                setAllCoupon(res.data)
             })
     }
 
@@ -57,25 +68,108 @@ const Show = (props) => {
 
     const handleAddDisc = e => {
         e.preventDefault();
-        ReactDOM.render(<AddDiscount token={token} result={handleBack(e)}/>, document.getElementById("add-datas"));
+        ReactDOM.render(<AddDiscount token={token} result={handleBack}/>, document.getElementById("add-datas"));
+    }
+
+    const handleDeleteCoupon = (e , id) => {
+        let finalAllIds = {};
+        finalAllIds._token = token;
+        finalAllIds.couponIds = checkBox;
+        e.preventDefault();
+        swal({
+            title: 'حذف دسته بندی',
+            text: "آیا مطمئنید؟",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'تایید',
+            confirmButtonClass: 'btn btn-primary',
+            cancelButtonClass: 'btn btn-danger ml-1',
+            cancelButtonText: 'انصراف',
+            buttonsStyling: false,
+        }).then(function (result) {
+            if (result.value) {
+                Request.DeleteCoupon(finalAllIds)
+                    .then(res => {
+                        setCheckBox([])
+                        Swal.fire({
+                            type: "success",
+                            title: 'حذف شد!',
+                            text: 'دسته بندی مورد نظر حذف شد',
+                            confirmButtonClass: 'btn btn-success',
+                            confirmButtonText: 'باشه',
+                        })
+
+
+                        getAllCoupons();
+                    }).catch(error => {
+                    if (error.response.data.errors) {
+                        ErroHandle(error.response.data.errors)
+                    } else {
+                        ErrorToast("خطای غیر منتظره ای رخ داده است")
+                    }
+                })
+            }
+        });
     }
 
 
+
+
+    const paginate = (pageNumber) => {
+        stringSearchs.page = pageNumber;
+        setStringSearch({
+            page: pageNumber
+
+        });
+
+
+        getAllCoupons(setStringSearch)
+
+        $("li.page-item").removeClass("active");
+        if (pageNumber == Math.ceil(total / perPage)) {
+            $("li.page-item.next").css("opacity", 0.4);
+            $("li.page-item.previous").css("opacity", 1);
+        } else if (pageNumber == 1) {
+            $("li.page-item.next").css("opacity", 1);
+            $("li.page-item.previous").css("opacity", 0.4);
+        } else {
+            $("li.page-item.next").css("opacity", 2);
+            $("li.page-item.previous").css("opacity", 2);
+        }
+        $("li#" + pageNumber).addClass("active");
+    };
+
     return (
-        <>
+        <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
             <div className={"row col-12"} id={"headerContent"}>
-                {/*<TotalActions text={" مورد انتخاب شده است "} deleteUsers={e => handleDeleteGroup(e)}*/}
-                {/*              allData={contentData.data ? contentData : []} data={checkBox}/>*/}
-                <BreadCrumbs titleBtn={"ساخت کد تخفیف"} icon={"bx bx-plus"} data={breadData}
+                <TotalActions text={" مورد انتخاب شده است "} deleteUsers={e => handleDeleteCoupon(e)}
+                              allData={allCoupon} data={checkBox}/>
+                <BreadCrumbs data={breadData} titleBtn={"ساخت کد تخفیف"} icon={"bx bx-plus"}
                              clicked={e => handleAddDisc(e)}/>
             </div>
+
+
+            <SearchComponent sort={items => {
+                setStringSearch(items)
+                let stringed = {...stringSearchs};
+                Object.keys(items).map(ii => {
+                    stringed[ii] = items[ii];
+                })
+                paginate(1)
+                stringed.page = 1;
+                setStringSearch(stringed)
+
+                getAllCoupons(stringed)
+            }}
+            />
+
 
             <div className={"container-fluid"}>
 
                 <div className={"row"} style={{padding : '15px'}}>
-                    {loading ? (<Loading />) : allCoupon.map((item , index) => (
+                    {loading || !allCoupon.data ? (<Loading />) : allCoupon.data.map((item , index) => (
                         <div className={"col-lg-4 col-md-6 col-sm-12"} key={index} style={{padding : '5px'}}>
-                            <ItemDis data={item} />
+                            <ItemDis deleteCoupon={handleDeleteCoupon} handleEdit={handleEditDis} data={item} />
                         </div>
                     ))}
 
@@ -84,7 +178,7 @@ const Show = (props) => {
             </div>
 
             <div id={"add-datas"}></div>
-        </>
+        </CHECK_BOX_CONTENT.Provider>
     )
 }
 

@@ -8,6 +8,7 @@ use App\Models\Coupon;
 use App\Models\CouponSetting;
 use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 use Illuminate\Support\Facades\Auth;
+use Morilog\Jalali\Jalalian;
 
 class CouponRepository implements RepositoryInterface
 {
@@ -47,24 +48,24 @@ class CouponRepository implements RepositoryInterface
         return $coupon->delete();
     }
 
-    public function update(array $data,$coupon)
+    public function update(array $data, $coupon)
     {
         $setting_data = [];
         $data = [];
 
-        $coupon_setting = CouponSetting::where('coupon_id',$coupon->id);
+        $coupon_setting = CouponSetting::where('coupon_id', $coupon->id);
 
         $setting_data['functionality'] = !empty($data['functionality']) ?
             $data['functionality'] :
             $coupon->coupon_settings->functionality;
 
-        $setting_data['card_conditions'] = !empty($data['card_conditions']) ?
-            $data['card_conditions'] :
-            $coupon->coupon_settings->card_conditions;
+        $setting_data['cart_conditions'] = !empty($data['cart_conditions']) ?
+            $data['cart_conditions'] :
+            $coupon->coupon_settings->cart_conditions;
 
-        $setting_data['card_conditions_amount'] = !empty($data['card_conditions_amount']) ?
-            $data['card_conditions_amount'] :
-            $coupon->coupon_settings->card_conditions_amount;
+        $setting_data['cart_conditions_amount'] = !empty($data['cart_conditions_amount']) ?
+            $data['cart_conditions_amount'] :
+            $coupon->coupon_settings->cart_conditions_amount;
 
         $setting_data['user_status'] = !empty($data['user_status']) ?
             $data['user_status'] :
@@ -116,63 +117,49 @@ class CouponRepository implements RepositoryInterface
     }
 
     public function create(array $data)
-    {unset($data['start_date'], $data['end_date']);
+    {dd($data);
+        $start_date = $data['start_date'];
+        $end_date = $data['end_date'];
+        unset($data['start_date'], $data['end_date']);
+
         $setting_data = [];
         $coupon_data = [];
 
         $setting_data['functionality'] = !empty($data['functionality']) ?
             $data['functionality'] :
-            'total_card_price';
+            'total_cart_price';
 
-        if (!in_array($setting_data['functionality'],['total_items_price','total_card_price'])){
-            $setting_data['functionality_amount'] = $data['functionality_amount'];
-        }else{
-            $setting_data['functionality_amount'] = $data['functionality_amount'];
+        if (!in_array($setting_data['functionality'], ['total_items_price', 'total_cart_price'])) {
+            $setting_data['functionality_amount'] = json_encode($data['functionality_amount']);
+        } else {
+            $setting_data['functionality_amount'] = json_encode($data['functionality_amount']);
         }
 
-        $setting_data['card_conditions'] = !empty($data['card_conditions']) ?
-            $data['card_conditions'] :
+        $setting_data['cart_conditions'] = !empty($data['cart_conditions']) ?
+            $data['cart_conditions'] :
             'unlimited';
 
-        $setting_data['card_conditions_amount'] = !empty($data['card_conditions_amount']) ?
-            $data['card_conditions_amount'] :
+        $setting_data['cart_conditions_amount'] = !empty($data['cart_conditions_amount']) ?
+            $data['cart_conditions_amount'] :
             null;
 
         $setting_data['user_status'] = !empty($data['user_status']) ?
             $data['user_status'] :
             'all';
 
-        $setting_data['user_group'] = !empty($data['user_group']) ?
-            $data['user_group'] :
-            -1;
+        $setting_data['user_group'] = !empty($data['user_group'][0]) ?
+            json_encode($data['user_group']) :
+            '-1';
 
-        $setting_data['number_times_allowed'] = !empty($data['number_times_allowed']) ?
+        $setting_data['number_of_times_allowed_to_use'] = !empty($data['number_of_times_allowed_to_use']) ?
             $data['number_times_allowed'] :
             10;
 
-        $setting_data['number_of_users_allowed'] = !empty($data['number_of_users_allowed']) ?
+        $setting_data['number_of_use_allowed_per_user'] = !empty($data['number_of_use_allowed_per_user']) ?
             $data['number_of_users_allowed'] :
             1;
 
-        $setting_data['start_date'] = !empty($data['start_date']) ?
-            $data['start_date'] :
-            now();
-
-        $setting_data['end_date'] = !empty($data['end_date']) ?
-            $data['end_date'] :
-            null;
-
-        $codes = Coupon::where('user_id', Auth::id())->get();
-
-        foreach ($codes as $code){
-            if ($data['code'] == $code){
-                return "code is duplicate";
-            }
-        }
-
         $coupon_data['code'] = $data['code'];
-
-
 
         $coupon_data['status'] = !empty($data['status']) ?
             $data['status'] :
@@ -188,11 +175,25 @@ class CouponRepository implements RepositoryInterface
 
         $coupon_data['max_limit'] = !empty($data['max_limit']) ?
             $data['max_limit'] :
-           null;
+            null;
+
+//        $x = substr($start_date['date']['timestamp'], 0, -3);
+        $Hstart = $start_date['time']['h'];
+        $Mstart = $start_date['time']['m'];
+        $Sstart = $start_date['time']['s'];
+
+        $Hend = $end_date['time']['h'];
+        $Mend = $end_date['time']['m'];
+        $Send = $end_date['time']['s'];
 
         $coupon = Coupon::create($coupon_data);
 
         $setting_data['coupon_id'] = $coupon->id;
+
+        $setting_data['start_date'] = $start_date['date']['timestamp'];
+        $setting_data['start_time'] = "$Hstart:$Mstart:$Sstart";
+        $setting_data['end_date'] = $end_date['date']['timestamp'];
+        $setting_data['end_time'] = "$Hend:$Mend:$Send";
 
         CouponSetting::create($setting_data);
 
@@ -201,7 +202,7 @@ class CouponRepository implements RepositoryInterface
 
     public function multipleDestroy($data)
     {
-        CouponSetting::whereIn('coupon_id' , $data['contentIds'])->delete();
+        CouponSetting::whereIn('coupon_id', $data['contentIds'])->delete();
         return Coupon::whereIn('id', $data['contentIds'])->delete();
     }
 }

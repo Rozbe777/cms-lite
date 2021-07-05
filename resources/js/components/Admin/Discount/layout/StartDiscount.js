@@ -4,7 +4,6 @@ import moment from "jalali-moment";
 import {Request} from "../../../../services/AdminService/Api";
 import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
-// import Calender from "react-persian-calendar";
 import {MainRate} from "@emran-rastadi/reactjs-persian-calender-beauty";
 import $ from "jquery";
 

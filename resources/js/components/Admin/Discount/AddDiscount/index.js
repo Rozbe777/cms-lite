@@ -16,46 +16,49 @@ import {LimitedUse} from "../layout/LimitedUse";
 import {StartDiscount} from "../layout/StartDiscount";
 import {EndDiscount} from "../layout/EndDiscount";
 
-export const AddDiscount = ({type, result, token}) => {
+export const AddDiscount = ({type, result, token , dataDefaul}) => {
 
+    console.log(dataDefaul , "jjjjjj")
 
-    const [allData, setAllData] = useState({
+    let def = {
         code: '',
         status: "active",
         type: 'percentage',
         max_limit: null,
-        functionality: 'total_card_price',
+        functionality: 'total_cart_price',
         user_status: 'all',
         functionality_amount: null,
+    }
 
 
-    })
+    const [allData, setAllData] = useState(dataDefaul ? dataDefaul : def)
 
 
     const [edit, setEdit] = useState(false);
     const [dateStart, setDateStart] = useState({})
     const [dateEnd, setDateEnd] = useState({})
-    const [status, setStatus] = useState("active");
+    const [status, setStatus] = useState(dataDefaul ? allData.status ? allData.status : "active" : "active" );
     const [prevCalSel, setPrevCatSel] = useState({})
     const [timeShow, setTimeShow] = useState([]);
     const [limitUse, setLimitUse] = useState({striShow: 'بدون محدودیت'});
-    const [functionality, setFunctionality] = useState({id: 'total_card_price', name: 'کل مبلغ سبد خرید'});
+    const [functionality, setFunctionality] = useState({id: 'total_cart_price', name: 'کل مبلغ سبد خرید'});
     const [functionality_amount, setFunctionality_amount] = useState([]);
     const [timeCheck, setTimeCheck] = useState([]);
-    const [discountCode, setDiscountCode] = useState('');
-    const [value, setValue] = useState('');
-    const [maxLimit, setMaxLimit] = useState(null);
+    const [discountCode, setDiscountCode] = useState(dataDefaul ? allData.code ? allData.code : '' : '');
+    const [value, setValue] = useState(allData ? allData.value : '');
+    const [maxLimit, setMaxLimit] = useState(allData ? allData.max_limit : null);
     const [userTypeName, setUserTypeName] = useState("برای همه کاربران")
     const [searchs, setSearchs] = useState([]);
     const [userStatus, setUserStatus] = useState('all');
     const [userGroup, setUserGroup] = useState([-1]);
     const [productData, setProductData] = useState([]);
-    const [disTypesDis, setDisTypesDis] = useState('total_card_price')
+    const [disTypesDis, setDisTypesDis] = useState(allData ? allData.type : 'total_cart_price');
     const [disTypesUser, setDisTypesUser] = useState('all')
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(false);
+
     const [cartStatus, setCartStatus] = useState({
-        card_conditions_amount: null,
+        cart_conditions_amount: null,
         typeSel: {
             types: "unlimited"
         },
@@ -253,7 +256,6 @@ export const AddDiscount = ({type, result, token}) => {
 
     const HandleForm = e => {
         e.preventDefault();
-        console.log(cartStatus)
         let data = {...allData};
         data.code = discountCode;
         data.status = status;
@@ -262,18 +264,42 @@ export const AddDiscount = ({type, result, token}) => {
         data.value = value;
         data.max_limit = maxLimit ? parseInt(maxLimit) : null;
         data.user_status = disTypesUser;
-        data.functionality = functionality;
+        data.functionality = functionality.id;
         data.functionality_amount = functionality_amount;
         data.user_status = userStatus ? userStatus : [];
         data.user_group = userGroup ? userGroup : [];
-        data.start_date = dateStart;
         data.cart_conditions = cartStatus.typeSel.types;
-        data.cart_conditions_amount = cartStatus.card_conditions_amount;
-        data.end_date = dateEnd ? dateEnd : null;
+        data.cart_conditions_amount = cartStatus.card_conditions_amount ? cartStatus.card_conditions_amount : null;
+        if (dateEnd.date.timestamp){
+            let timeEdns = dateEnd.date.timestamp.toString();
+            let newDateEnd = timeEdns.split("");
+            delete newDateEnd[newDateEnd.length-1];
+            delete newDateEnd[newDateEnd.length-2];
+            delete newDateEnd[newDateEnd.length-3];
+            dateEnd.date.timestamp = newDateEnd.join("");
+            data.end_date = dateEnd;
+        }else{
+            data.end_date = null;
+
+        }
+
+
+        if (dateStart.date.timestamp){
+            let timeStart = dateStart.date.timestamp.toString();
+            let newDateStart = timeStart.split("");
+            delete newDateStart[newDateStart.length-1];
+            delete newDateStart[newDateStart.length-2];
+            delete newDateStart[newDateStart.length-3];
+            dateStart.date.timestamp =  newDateStart.join("");
+            data.start_date =dateStart;
+        }else{
+            data.start_date = null;
+        }
+
         data.number_of_times_allowed_to_use = limitUse.codeVal ? limitUse.codeVal : null;
         data.number_of_use_allowed_per_user = limitUse.userVal ? limitUse.userVal : null;
 
-        console.log("88888", data)
+        console.log(data)
         AddNewDiscount(data)
 
 
@@ -746,7 +772,7 @@ export const AddDiscount = ({type, result, token}) => {
                             <fieldset className="form-group " style={{marginTop: '13px', padding: '15px'}}>
                                 <label id={"selectParent"}>وضعیت کد تخفیف</label>
                                 <Switcher
-                                    defaultState={true}
+                                    defaultState={status == "active" ? true : false}
                                     // defaultState={dataUpdateParse ? dataUpdateParse.status == "active" ? true : false : true}
                                     // status={(state) => handleSwitchStatus(state)}
                                     name={"showState"}
@@ -786,6 +812,7 @@ export const AddDiscount = ({type, result, token}) => {
                                 <div className={disTypesDis ? "custom-in-show" : "custom-in-show active"}>
                                     <input disabled={disTypesDis ? false : true}
                                            onChange={e => handleValue(e)}
+                                           value={value}
                                            type="number" id="moutDis"/>
 
                                 </div>
