@@ -16,7 +16,7 @@ import {LimitedUse} from "../layout/LimitedUse";
 import {StartDiscount} from "../layout/StartDiscount";
 import {EndDiscount} from "../layout/EndDiscount";
 
-export const AddDiscount = ({type , result , token}) => {
+export const AddDiscount = ({type, result, token}) => {
 
 
     const [allData, setAllData] = useState({
@@ -25,42 +25,47 @@ export const AddDiscount = ({type , result , token}) => {
         type: 'percentage',
         max_limit: null,
         functionality: 'total_card_price',
-        user_status : 'all',
-        functionality_amount : null,
+        user_status: 'all',
+        functionality_amount: null,
 
 
     })
 
 
     const [edit, setEdit] = useState(false);
-    const [dateStart , setDateStart] = useState({})
-    const [dateEnd , setDateEnd] = useState({})
+    const [dateStart, setDateStart] = useState({})
+    const [dateEnd, setDateEnd] = useState({})
     const [status, setStatus] = useState("active");
     const [prevCalSel, setPrevCatSel] = useState({})
     const [timeShow, setTimeShow] = useState([]);
-    const [limitUse , setLimitUse] = useState({});
+    const [limitUse, setLimitUse] = useState({striShow: 'بدون محدودیت'});
     const [functionality, setFunctionality] = useState({id: 'total_card_price', name: 'کل مبلغ سبد خرید'});
     const [functionality_amount, setFunctionality_amount] = useState([]);
     const [timeCheck, setTimeCheck] = useState([]);
     const [discountCode, setDiscountCode] = useState('');
     const [value, setValue] = useState('');
     const [maxLimit, setMaxLimit] = useState(null);
+    const [userTypeName, setUserTypeName] = useState("برای همه کاربران")
     const [searchs, setSearchs] = useState([]);
-    const [userStatus , setUserStatus] = useState('all');
-    const [userGroup , setUserGroup] = useState([-1]);
+    const [userStatus, setUserStatus] = useState('all');
+    const [userGroup, setUserGroup] = useState([-1]);
     const [productData, setProductData] = useState([]);
     const [disTypesDis, setDisTypesDis] = useState('total_card_price')
     const [disTypesUser, setDisTypesUser] = useState('all')
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(false);
-    const [cartStatus , setCartStatus] = useState({
-        typesNn : 'بدون محدودیت'
+    const [cartStatus, setCartStatus] = useState({
+        card_conditions_amount: null,
+        typeSel: {
+            types: "unlimited"
+        },
+        typesNn: "بدون محدودیت"
     })
     const [catData, setCatData] = useState({});
     const [catSel, setCatSel] = useState([]);
     const [userSelectList, setUserSelectList] = useState([]);
     const [proSel, setProSel] = useState([]);
-    const [start_time , setStart_time] = useState({});
+    const [start_time, setStart_time] = useState({});
     const [typeAct, setTypeAct] = useState('')
     const [typeUser, setTypeUser] = useState('')
     const [userGroups, setUserGroups] = useState('');
@@ -248,7 +253,7 @@ export const AddDiscount = ({type , result , token}) => {
 
     const HandleForm = e => {
         e.preventDefault();
-        // console.log(cartStatus)
+        console.log(cartStatus)
         let data = {...allData};
         data.code = discountCode;
         data.status = status;
@@ -257,17 +262,18 @@ export const AddDiscount = ({type , result , token}) => {
         data.value = value;
         data.max_limit = maxLimit ? parseInt(maxLimit) : null;
         data.user_status = disTypesUser;
-        data.functionality = disTypesDis;
+        data.functionality = functionality;
         data.functionality_amount = functionality_amount;
-        data.user_status = userStatus;
-        data.user_group = userGroup;
+        data.user_status = userStatus ? userStatus : [];
+        data.user_group = userGroup ? userGroup : [];
         data.start_date = dateStart;
         data.cart_conditions = cartStatus.typeSel.types;
-        data.card_conditions_amount = cartStatus.card_conditions_amount;
-        data.end_date = dateEnd;
-        data.number_of_times_allowed_to_use = limitUse.codeVal;
-        data.number_of_use_allowed_per_user = limitUse.userVal;
+        data.cart_conditions_amount = cartStatus.card_conditions_amount;
+        data.end_date = dateEnd ? dateEnd : null;
+        data.number_of_times_allowed_to_use = limitUse.codeVal ? limitUse.codeVal : null;
+        data.number_of_use_allowed_per_user = limitUse.userVal ? limitUse.userVal : null;
 
+        console.log("88888", data)
         AddNewDiscount(data)
 
 
@@ -479,7 +485,7 @@ export const AddDiscount = ({type , result , token}) => {
     }
 
     const handleCartStatus = e => {
-        console.log("dddd" , e)
+        console.log("dddd", e)
         setCartStatus(e)
     }
 
@@ -492,25 +498,33 @@ export const AddDiscount = ({type , result , token}) => {
 
     const handleUserSetting = e => {
 
-        setUserStatus(e.user_status);
+        // console.log(e , "i userss")
+
+        setUserStatus(e.user_status.types);
+        setUserTypeName(e.user_status.name);
         e.userGroup.length > 0 ? setUserGroup(e.userGroup) : null;
-        if(e.userSelecet.length > 0){
+        if (e.userSelecet.length > 0) {
             let users = [];
             e.userSelecet.map(item => {
                 users.push(parseInt(item.id));
                 setUserGroup(users);
             })
-        }else{
+        } else {
         }
     }
     const handleShowUserSetting = e => {
         e.preventDefault();
         $("#back-loaderedss").addClass("active");
-        ReactDOM.render(<UserSetting dataOut={handleUserSetting}/>, document.getElementById("back-loaderedss"));
+        ReactDOM.render(<UserSetting dataOut={handleUserSetting} oldData={{
+            userStatus,
+            userTypeName,
+            userGroup
+        }}/>, document.getElementById("back-loaderedss"));
     }
 
 
     const handleLimitUse = data => {
+        console.log("++++++", data)
         setLimitUse(data);
     }
     const handleShowLimitedUse = e => {
@@ -536,8 +550,8 @@ export const AddDiscount = ({type , result , token}) => {
         e.preventDefault();
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<EndDiscount timers={timeCheck}
-                                       dataOut={handleEndDis}
-                                       timeShows={timeShow}/>, document.getElementById("back-loaderedss"));
+                                     dataOut={handleEndDis}
+                                     timeShows={timeShow}/>, document.getElementById("back-loaderedss"));
     }
 
     const handleTimeCheck = () => {
@@ -644,10 +658,6 @@ export const AddDiscount = ({type , result , token}) => {
         }
         setDiscountCode(str + str2)
     };
-
-
-
-
 
 
     const handleValue = e => {
@@ -813,11 +823,12 @@ export const AddDiscount = ({type , result , token}) => {
                     <div className={"content-pages"}>
 
                         <div className={"discound-setting"}>
-                            <div className={"row"}>
+                            <div className={"row"} style={{padding: '60px 200px'}}>
 
 
-                                <ul id={"select-item"}>
-                                    <li id={"itemss"} onClick={e => handleShowTypeDiscount(e)}>
+                                <div className={"col-md-6 col-sm-12"} style={{marginBottom: 25}}>
+                                    <div id={"itemss"}
+                                         onClick={e => handleShowTypeDiscount(e)}>
 
                                         <i className={"bx bx-purchase-tag"}></i>
 
@@ -829,19 +840,30 @@ export const AddDiscount = ({type , result , token}) => {
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
 
-                                    </li>
-                                    <li id={"itemss"} onClick={e => handleShowUserSetting(e)}>
+                                    </div>
+                                </div>
+
+
+                                <div className={"col-md-6 col-sm-12"} style={{marginBottom: 25}}>
+                                    <div id={"itemss"}
+                                         onClick={e => handleShowUserSetting(e)}>
                                         <i className={"bx bx-user"}></i>
 
                                         <div id={"details-items"}>
                                             <p>
                                                 تنظیمات کاربران
                                             </p>
-                                            <p>برای همه کاربران</p>
+                                            <p>{userTypeName}</p>
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
-                                    </li>
-                                    <li id={"itemss"} onClick={e => handleShowStartDate(e)}>
+                                    </div>
+                                </div>
+
+
+                                <div className={"col-md-6 col-sm-12"} style={{marginBottom: 25}}>
+
+                                    <div id={"itemss"}
+                                         onClick={e => handleShowStartDate(e)}>
                                         <i className={"bx bx-calendar-alt"}></i>
 
                                         <div id={"details-items"}>
@@ -851,8 +873,13 @@ export const AddDiscount = ({type , result , token}) => {
                                             <p>{dateStart.date ? dateStart.date.date.day + " " + dateStart.date.date.month + " " + dateStart.date.date.year + " ساعت : " + dateStart.time.m + " : " + dateStart.time.h : 'تاریخی ثبت نشده است'}</p>
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
-                                    </li>
-                                    <li id={"itemss"} onClick={e => handleShowCartRoles(e)}>
+                                    </div>
+                                </div>
+
+
+                                <div className={"col-md-6 col-sm-12"} style={{marginBottom : 25}}>
+                                    <div id={"itemss"}
+                                         onClick={e => handleShowCartRoles(e)}>
                                         <i className={"bx bx-shopping-bag"}></i>
 
                                         <div id={"details-items"}>
@@ -862,8 +889,10 @@ export const AddDiscount = ({type , result , token}) => {
                                             <p>{cartStatus.typesNn}</p>
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
-                                    </li>
-                                    <li id={"itemss"} onClick={e => handleShowEndDate(e)}>
+                                    </div>
+                                </div>
+                                <div className={"col-md-6 col-sm-12"} style={{marginBottom : 25}}>
+                                    <div id={"itemss"} onClick={e => handleShowEndDate(e)}>
                                         <i className={"bx bx-calendar-alt"}></i>
 
                                         <div id={"details-items"}>
@@ -873,271 +902,22 @@ export const AddDiscount = ({type , result , token}) => {
                                             <p>{dateEnd.date ? dateEnd.date.date.day + " " + dateEnd.date.date.month + " " + dateEnd.date.date.year + " ساعت : " + dateEnd.time.m + " : " + dateEnd.time.h : 'تاریخی ثبت نشده است'}</p>
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
-                                    </li>
-                                    <li id={"itemss"} onClick={e => handleShowLimitedUse(e)}>
+                                    </div>
+                                </div>
+                                <div className={"col-md-6 col-sm-12"} style={{marginBottom : 25}}>
+                                    <div id={"itemss"}
+                                         onClick={e => handleShowLimitedUse(e)}>
                                         <i className={"bx bx-slider"}></i>
 
                                         <div id={"details-items"}>
                                             <p>
                                                 محدودیت استفاده
                                             </p>
-                                            <p>بدون محدودیت</p>
+                                            <p>{limitUse.striShow}</p>
                                         </div>
                                         <i className={"bx bx-cog absol"}></i>
-                                    </li>
-
-
-                                </ul>
-
-
-                                <div className={"col-lg-9 col-md-8"}
-                                     style={{position: 'relative', paddingLeft: '30px', display: 'none'}}>
-                                    <ul className={"contentsssc"}>
-
-
-                                        {/*   action types  */}
-                                        <li id={"boxess"} className={"active"}>
-                                            <div className={"row"} style={{
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                display: 'flex',
-                                                height: '360px',
-                                                width: '100%'
-                                            }}>
-                                                <div className={"col-md-6 col-sm-12"}>
-                                                    <div className={"content-select firstes"}>
-
-                                                        <p>تخفیف اعمال شود روی</p>
-
-                                                        <MultiOption name={"status"} data={[{
-                                                            id: 'کل مبلغ سبد خرید',
-                                                            name: 'کل مبلغ سبد خرید'
-                                                        }, {
-                                                            id: 'مبلغ سبد خرید بدون هزینه ارسال',
-                                                            name: 'مبلغ سبد خرید بدون هزینه ارسال'
-                                                        }, {
-                                                            id: 'محصولات خاص بدون هزینه ارسال',
-                                                            name: 'محصولات خاص بدون هزینه ارسال'
-                                                        }, {
-                                                            id: 'دسته بندی خاص بدون هزینه ارسال',
-                                                            name: 'دسته بندی خاص بدون هزینه ارسال'
-                                                        }]}
-                                                                     selected={item => handleCloseFirst(item)}
-
-                                                        />
-
-                                                    </div>
-                                                </div>
-                                                <Searchs.Provider value={{searchs, setSearchs}}>
-
-
-                                                    <div className={"col-md-6 col-sm-12 seconds category"}>
-                                                        <div className={"content-select"}>
-
-
-                                                            <p>لیست دسته بندی ها</p>
-
-
-                                                            <MultiSelected name={"cat-show"} data={catData}
-                                                                           loadings={loading}
-                                                                           selected={e => setCatSel(e)}
-                                                                           me={e => handleSearchCategory(e)}/>
-
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div className={"col-md-6 col-sm-12 seconds product"}>
-                                                        <div className={"content-select"}>
-                                                            <p>لیست محصولات</p>
-
-                                                            <MultiSelected name={"product-show"}
-                                                                           loadings={loading}
-                                                                           me={e => handleSearchProducts(e)}
-                                                                           data={productData}/>
-
-
-                                                        </div>
-                                                    </div>
-                                                </Searchs.Provider>
-
-
-                                                <div className={"col-12"}>
-                                                    <div className={"row"}>
-
-                                                        {typeAct === "pro" && dis && searchs.length > 0 ? (
-                                                            <div className={"col-md-6 col-sm-12 list-discount"}>
-                                                                <p id={"tits"}>لیست محصولات شامل تخفیف</p>
-                                                                <ul>
-                                                                    {searchs.map((item, index) => (
-                                                                        <li key={index}>{(index + 1) + " - " + item.name}</li>
-                                                                    ))}
-                                                                </ul>
-                                                            </div>
-                                                        ) : ''}
-
-                                                        {typeAct === "cat" && dis && catSel.length > 0 ? (
-                                                            <div className={"col-md-6 col-sm-12 list-discount"}>
-                                                                <p id={"tits"}>لیست دسته بندی های شامل تخفیف</p>
-                                                                <ul>
-                                                                    {catSel.map((item, index) => (
-                                                                        <li key={index}>{(index + 1) + " - " + item.name}</li>
-                                                                    ))}
-                                                                </ul>
-                                                            </div>
-                                                        ) : ''}
-
-                                                        {typeAct === "allPriceCart" ? (
-                                                            <p style={{textAlign: 'center', width: '100%'}}>تخفیف روی کل
-                                                                مبلغ سبد خرید اعمال خواهد شد!</p>
-                                                        ) : ''}
-
-                                                        {typeAct === "allPriceCartWSendPrice" ? (
-                                                            <p style={{textAlign: 'center', width: '100%'}}>تخفیف روی کل
-                                                                مبلغ سبد خرید اعمال خواهد شد ولی شامل هزینه ارسال نمی
-                                                                شود!</p>
-                                                        ) : ''}
-
-
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </li>
-
-                                        {/*  user types  */}
-                                        <li id={"boxess"}>
-                                            <div className={"row"} style={{
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                display: 'flex',
-                                                height: '360px',
-                                                width: '100%'
-                                            }}>
-                                                <div className={"col-md-6 col-sm-12"}>
-                                                    <div className={"content-select firstes"}>
-
-                                                        <p>تخفیف اعمال شود روی</p>
-
-                                                        <MultiOption name={"userDis"} data={[{
-                                                            id: 'all',
-                                                            name: 'همه کاربران'
-                                                        }, {
-                                                            id: 'group_of_users',
-                                                            name: 'گروهی از کاربران'
-                                                        }, {
-                                                            id: 'special_users',
-                                                            name: 'کاربران خاص'
-                                                        }]}
-                                                                     handleChoise={handleTypeUser}
-
-                                                        />
-
-                                                    </div>
-                                                </div>
-                                                <Searchs.Provider value={{searchs, setSearchs}}>
-
-
-                                                    <div className={"col-md-6 col-sm-12 seconds category"}>
-                                                        <div className={"content-select"}>
-
-
-                                                            <p>کاربرانی که</p>
-
-
-                                                            <MultiOption name={"groupUserSO"} data={[{
-                                                                id: 'کاربرانی که قبلا خرید کرده اند',
-                                                                name: 'کاربرانی که قبلا خرید کرده اند'
-                                                            }, {
-                                                                id: 'کاربرانی که خرید نکرده اند',
-                                                                name: 'کاربرانی که خرید نکرده اند'
-                                                            }]}
-                                                                         selected={item => handleSetUserAct(item)}
-
-                                                            />
-
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div className={"col-md-6 col-sm-12 seconds product"}>
-                                                        <div className={"content-select"}>
-
-
-                                                            <p>لیست کاربران</p>
-
-
-                                                            <MultiSelected name={"product-show"}
-                                                                           loadings={loading}
-                                                                           selected={e => setUserSelectList(e)}
-                                                                           me={e => handleSearchUser(e)}
-                                                                           data={userData}/>
-
-
-                                                        </div>
-                                                    </div>
-                                                </Searchs.Provider>
-
-
-                                                <div className={"col-12"}>
-                                                    <div className={"row"}>
-
-                                                        {typeUser === "speUser" && disUser && userSelectList.length > 0 ? (
-                                                            <div className={"col-md-6 col-sm-12 list-discount"}>
-                                                                <p id={"tits"}>لیست کاربران خاص شامل تخفیف</p>
-                                                                <ul>
-                                                                    {userSelectList.map((item, index) => (
-                                                                        <li key={index}>{(index + 1) + " - " + item.name}</li>
-                                                                    ))}
-                                                                </ul>
-                                                            </div>
-                                                        ) : ''}
-
-
-                                                        {userGroups == "userOldSel" ? (
-                                                            <p style={{textAlign: 'center', width: '100%'}}>تخفیف روی
-                                                                کاربرانی که قبلا خرید کرده اند اعمال میشد !</p>
-                                                        ) : ''}
-
-                                                        {userGroups == "userOldNotSel" ? (
-                                                            <p style={{textAlign: 'center', width: '100%'}}>
-                                                                تخفیف روی کاربرانی که قبلا خرید نکرده اند اعمال میشد !
-                                                            </p>
-                                                        ) : ''}
-
-                                                        {userGroups == "allUser" ? (
-                                                            <p style={{textAlign: 'center', width: '100%'}}>تخفیف روی
-                                                                همه کاربران اعمال شود !</p>
-                                                        ) : ''}
-
-
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </li>
-
-
-                                        <li id={"boxess"}>
-
-                                            پیج سه
-
-                                        </li>
-                                        <li id={"boxess"}>
-                                            پیج چهار
-                                        </li>
-                                        <li id={"boxess"}>
-
-                                            پیج پنج
-                                        </li>
-                                        <li id={"boxess"}>
-                                            پنج شش
-                                        </li>
-
-                                    </ul>
+                                    </div>
                                 </div>
-
-
                             </div>
 
                         </div>

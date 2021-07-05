@@ -50,7 +50,7 @@ const Show = (props) => {
 
     const handleBack = (item) => {
         if (item.status == 200) {
-            // get();
+            getAllCoupons();
             ReactDom.render('', document.getElementById('add-datas'))
         }
     }

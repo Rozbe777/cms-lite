@@ -18,7 +18,6 @@ export const MultiSelected = ({
                                   me: setMe
                               }) => {
 
-
     console.log(name , data)
     const [check, setCheck] = useState([])
     const [load, setLoad] = useState(false);

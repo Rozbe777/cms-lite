@@ -5,7 +5,9 @@ import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
 
-export const UserSetting = ({dataOut, limit, out: setOut}) => {
+export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
+
+    console.log(oldData , "//////")
 
     const [status, setStatus] = useState(true);
     const [data, setData] = useState({limit: limit ? limit : null})
@@ -13,8 +15,8 @@ export const UserSetting = ({dataOut, limit, out: setOut}) => {
     const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(false)
     const [userGroup , setUserGroup] = useState([])
-    const [typeSel, setTypeSel] = useState({types: ''});
-    const [catSel, setCatSel] = useState([]);
+    const [typeSel, setTypeSel] = useState({types: '' , name : ''});
+    const [catSel, setCatSel] = useState(oldData.userGroup ? oldData.userGroup :  []);
 
     const handleClose = e => {
         e.preventDefault();
@@ -24,7 +26,7 @@ export const UserSetting = ({dataOut, limit, out: setOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        dataOut({user_status: typeSel.types, userGroup ,userSelecet : catSel});
+        dataOut({user_status: typeSel, userGroup ,userSelecet : catSel});
         handleClose(e);
     }
 
@@ -63,15 +65,19 @@ export const UserSetting = ({dataOut, limit, out: setOut}) => {
         if (id == 0) {
             let typp = {...typeSel};
             typp.types = "all";
+            typp.name = "برای همه کاربران";
             setTypeSel(typp);
         } else if (id == 1) {
             let typpp = {...typeSel};
             typpp.types = "group_of_users";
+            typpp.name = "برای گروهی از کاربران";
             setTypeSel(typpp);
 
         } else if (id == 2) {
             let typpps = {...typeSel};
             typpps.types = "special_users";
+            typpps.name = "برای کاربران خاص";
+
             setTypeSel(typpps);
             handleSearchUser();
 
