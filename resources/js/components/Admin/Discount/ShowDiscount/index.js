@@ -10,6 +10,7 @@ import ReactDom from "react-dom";
 import Loading from "../../_Micro/Loading";
 import {CHECK_BOX_CONTENT} from './../../UserList/Helper/Context'
 import {ErroHandle, error as ErrorToast} from "../../../../helper";
+import SearchComponent from "./../Search";
 
 const Show = (props) => {
     let targetElem = document.getElementById("add-datas");
@@ -18,6 +19,10 @@ const Show = (props) => {
     const [state, setState] = useState();
     const [allCoupon , setAllCoupon] = useState([]);
     const [checkBox, setCheckBox] = useState([]);
+    const [stringSearchs, setStringSearch] = useState({
+        page : 1
+    });
+
     useEffect(() => {
         getAllCoupons();
         $("#breadCrumb").addClass("activeCrumb");
@@ -25,9 +30,9 @@ const Show = (props) => {
 
 
 
-    const getAllCoupons = () => {
+    const getAllCoupons = (searchses) => {
         setLoading(true)
-        Request.GetAllCoupon()
+        Request.GetAllCoupon(searchses ? searchses : stringSearchs)
             .then(res => {
                 setLoading(false)
                 setAllCoupon(res.data)
@@ -102,7 +107,33 @@ const Show = (props) => {
         });
     }
 
-    console.log("======" , allCoupon)
+
+
+
+    const paginate = (pageNumber) => {
+        stringSearchs.page = pageNumber;
+        setStringSearch({
+            page: pageNumber
+
+        });
+
+
+        getAllCoupons(setStringSearch)
+
+        $("li.page-item").removeClass("active");
+        if (pageNumber == Math.ceil(total / perPage)) {
+            $("li.page-item.next").css("opacity", 0.4);
+            $("li.page-item.previous").css("opacity", 1);
+        } else if (pageNumber == 1) {
+            $("li.page-item.next").css("opacity", 1);
+            $("li.page-item.previous").css("opacity", 0.4);
+        } else {
+            $("li.page-item.next").css("opacity", 2);
+            $("li.page-item.previous").css("opacity", 2);
+        }
+        $("li#" + pageNumber).addClass("active");
+    };
+
     return (
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
             <div className={"row col-12"} id={"headerContent"}>
@@ -111,6 +142,21 @@ const Show = (props) => {
                 <BreadCrumbs data={breadData} titleBtn={"ساخت کد تخفیف"} icon={"bx bx-plus"}
                              clicked={e => handleAddDisc(e)}/>
             </div>
+
+
+            <SearchComponent sort={items => {
+                setStringSearch(items)
+                let stringed = {...stringSearchs};
+                Object.keys(items).map(ii => {
+                    stringed[ii] = items[ii];
+                })
+                paginate(1)
+                stringed.page = 1;
+                setStringSearch(stringed)
+
+                getAllCoupons(stringed)
+            }}
+            />
 
 
             <div className={"container-fluid"}>

@@ -9,7 +9,7 @@ export const Request = {
     GroupDelProduct : (pageIds) =>  request.delete("/products/multi/destroy" , {params : pageIds}),
     CreateUserNew : (data) =>  request.post("/users" , data),
     AddNewCoupen : (data) =>  request.post("/coupons" , data),
-    GetAllCoupon : () =>  request.get("/coupons"),
+    GetAllCoupon : (data) =>  request.get("/coupons" , {params : data}),
     UpdateUserDetail : (data , id) =>  request.post("/users/update" , data),
     GetAllCategory : () =>  request.get("/categories?page=1"),
     GetAllCategorySearch : (data) =>  request.get("categories/getAll" , {params : data}),

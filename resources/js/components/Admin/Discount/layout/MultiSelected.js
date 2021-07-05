@@ -18,7 +18,7 @@ export const MultiSelected = ({
                                   me: setMe
                               }) => {
 
-    console.log(name , data)
+    console.log(name, data)
     const [check, setCheck] = useState([])
     const [load, setLoad] = useState(false);
     let selectCheckBox = new Set();
@@ -26,15 +26,19 @@ export const MultiSelected = ({
 
     useEffect(() => {
 
-
-        $(".main-selected").click(function () {
+        $(".main-selected").mouseover(function () {
             var thisisss = $(this);
             clearInterval(interValOptionsss)
             thisisss.find(".optionBox").addClass("active")
             thisisss.find("#box-droper i").addClass("active");
 
         })
-
+        $(".main-selected").mouseout(function () {
+            var thisisss = $(this);
+            clearInterval(interValOptionsss)
+            thisisss.find(".optionBox").removeClass("active")
+            thisisss.find("#box-droper i").removeClass("active");
+        })
 
 
         let checkkks = [...check];
@@ -71,7 +75,6 @@ export const MultiSelected = ({
                 id: e.target.name,
                 name: e.target.value
             })
-
 
 
             setCheck(checked)
@@ -121,7 +124,6 @@ export const MultiSelected = ({
         }
 
 
-
     }
 
 
@@ -130,8 +132,6 @@ export const MultiSelected = ({
             $("input[name=" + item.id + "]").prop("checked", true);
             $("span.checkboxeds." + item.id + "." + name).addClass("active");
         })
-
-
 
 
     })
@@ -181,7 +181,7 @@ export const MultiSelected = ({
                 )}
 
             </div>
-            <div id={"box-droper"} className={"selecteddd"} onClick={e => handleDropDown(e)}>
+            <div id={"box-droper"} className={"selecteddd"}>
                 <i className={"bx bx-chevron-down"}></i>
             </div>
 
