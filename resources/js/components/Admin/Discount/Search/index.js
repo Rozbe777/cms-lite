@@ -33,7 +33,6 @@ const SearchComponent = ({token, sort: pushSort}) => {
         })
         sortings.status = dataSe;
         pushSort(sortings);
-        // setSize(select.length)
     }
 
 
@@ -87,8 +86,25 @@ const SearchComponent = ({token, sort: pushSort}) => {
     }
 
     const handleChangeDateStart = date => {
-        console.log(date);
-        // setDateStart(date)
+        let sortings = {...sorting};
+
+        let timeEdns = date.timestamp.toString();
+        let newDateEnd = timeEdns.split("");
+        delete newDateEnd[newDateEnd.length - 1];
+        delete newDateEnd[newDateEnd.length - 2];
+        delete newDateEnd[newDateEnd.length - 3];
+        sortings.start_date = newDateEnd.join("");
+        pushSort(sortings)
+    }
+    const handleChangeDateEnd = date => {
+        let sortings = {...sorting};
+        let timeEdns = date.timestamp.toString();
+        let newDateEnd = timeEdns.split("");
+        delete newDateEnd[newDateEnd.length - 1];
+        delete newDateEnd[newDateEnd.length - 2];
+        delete newDateEnd[newDateEnd.length - 3];
+        sortings.end_date = newDateEnd.join("");
+        pushSort(sortings)
     }
 
     return (
@@ -120,7 +136,7 @@ const SearchComponent = ({token, sort: pushSort}) => {
                             <label htmlFor="users-list-status">تا تاریخ</label>
 
                             <div style={{width: '100%', height: '50px', background: '#fff', borderRadius: 5}}>
-                                <MainRate onChange={handleChangeDateStart}
+                                <MainRate onChange={handleChangeDateEnd}
                                           Icon={<i className="bx bx-calendar-alt"></i>}/>
 
                             </div>
