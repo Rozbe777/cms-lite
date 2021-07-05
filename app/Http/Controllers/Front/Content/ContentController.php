@@ -32,6 +32,7 @@ class ContentController extends Controller
             $categories = Category::moduleId(1)->orderBy('id', 'desc')->active()->limit(10)->get();
             return page('single-blog', compact('content', 'tags', 'categories'));
         } else {
+
             return (new FrontPageController(new FrontPageRepository()))->search($slug);
         }
 

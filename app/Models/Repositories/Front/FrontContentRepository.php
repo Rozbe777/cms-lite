@@ -13,7 +13,7 @@ class FrontContentRepository implements Interfaces\FrontInterface
     {
         $content = Content::when(!empty($slug), function ($query) use ($slug) {
             $query->where(function ($q) use ($slug) {
-                $q->Where('slug',$slug);
+                $q->where('slug',$slug);
             })->active();
         })->with('tags')
             ->with('categories')
@@ -21,7 +21,7 @@ class FrontContentRepository implements Interfaces\FrontInterface
             ->with('viewCounts')
             ->orderByDesc('id')->firstOrFail();
 
-         (new Counter())->count($content);
+        (new Counter())->count($content);
 
         return $content;
     }

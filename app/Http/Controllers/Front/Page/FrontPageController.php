@@ -32,17 +32,17 @@ class FrontPageController extends Controller
         if ($page->is_index) {
             if (!empty($page->layout_id)) {
                 $layout = Layout::find($page->layout_id);
-                return page($layout->view, compact('components'));
+                return page($layout->view, compact('components', 'page'));
             } else {
-                return page('index', compact('components'));
+                return page('index', compact('components', 'page'));
 
             }
 
         } elseif (!empty($page->layout_id)) {
             $layout = Layout::find($page->layout_id);
-            return page($layout->view, compact('components'));
+            return page($layout->view, compact('components', 'page'));
         } else {
-            return page('page', compact('components'));
+            return page('page', compact('components', 'page'));
         }
 
 
