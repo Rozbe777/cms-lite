@@ -40,18 +40,10 @@
                         </div>
                     </div>
                 @empty
-                    <h3>موردی یافت نشد!</h3>
+                    <h3 class="text-center">موردی یافت نشد!</h3>
                 @endforelse
-                {{$contents->links()}}
-                <div class="col-lg-12 col-md-12">
-                    <div class="pagination-area text-center">
-                        <span class="page-numbers current">1</span>
-                        <a href="blog-grid.html" class="page-numbers">2</a>
-                        <a href="blog-grid.html" class="page-numbers">3</a>
-                        <a href="blog-grid.html" class="page-numbers">4</a>
-                        <a href="blog-grid.html" class="next page-numbers"><i class="ri-arrow-left-s-line"></i></a>
-                    </div>
-                </div>
+                {{$contents->links(includes('pagination'))}}
+
             </div>
         </div>
     </div>
