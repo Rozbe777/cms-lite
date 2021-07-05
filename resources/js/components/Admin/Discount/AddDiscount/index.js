@@ -265,13 +265,24 @@ export const AddDiscount = ({type, result, token}) => {
         data.functionality_amount = functionality_amount;
         data.user_status = userStatus ? userStatus : [];
         data.user_group = userGroup ? userGroup : [];
-        data.start_date = dateStart;
         data.cart_conditions = cartStatus.typeSel.types;
         data.cart_conditions_amount = cartStatus.card_conditions_amount;
-        data.end_date = dateEnd ? dateEnd : null;
+        let timeEdns = dateEnd.date.timestamp.toString();
+        let newDateEnd = timeEdns.split("");
+        delete newDateEnd[newDateEnd.length-1];
+        delete newDateEnd[newDateEnd.length-2];
+        delete newDateEnd[newDateEnd.length-3];
+        data.end_date = dateEnd ? newDateEnd.join("") : null;
+        let timeStart = dateStart.date.timestamp.toString();
+        let newDateStart = timeStart.split("");
+        delete newDateStart[newDateStart.length-1];
+        delete newDateStart[newDateStart.length-2];
+        delete newDateStart[newDateStart.length-3];
+        data.end_start = dateStart ? newDateStart.join("") : null;
         data.number_of_times_allowed_to_use = limitUse.codeVal ? limitUse.codeVal : null;
         data.number_of_use_allowed_per_user = limitUse.userVal ? limitUse.userVal : null;
 
+        console.log(data)
         AddNewDiscount(data)
 
 

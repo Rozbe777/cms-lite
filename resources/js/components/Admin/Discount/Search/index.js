@@ -2,18 +2,19 @@ import React, {useEffect, useState} from "react";
 import {MultiSelected} from "./../layout/MultiSelected";
 import $ from 'jquery';
 import ReactDOM from "react-dom";
+import {MainRate} from "@emran-rastadi/reactjs-persian-calender-beauty";
 import {AddDiscount} from "../AddDiscount";
 
-const SearchComponent = ({token , sort: pushSort}) => {
+const SearchComponent = ({token, sort: pushSort}) => {
 
     const [size, setSize] = useState(0);
     const [load, setLoad] = useState(false)
     const [categories, setCategories] = useState([]);
+    const [dateStart, setDateStart] = useState();
     const [sizeCategory, setSizeCategory] = useState(0);
     const [sorting, setSorting] = useState({
         filter: []
     });
-
 
 
     const handleSelected = (select) => {
@@ -26,8 +27,6 @@ const SearchComponent = ({token , sort: pushSort}) => {
         pushSort(sortings);
         setSize(select.length)
     }
-
-
 
 
     const handleFade = (e) => {
@@ -45,7 +44,7 @@ const SearchComponent = ({token , sort: pushSort}) => {
     // jquery code in responsive
     const HandleResponsiveAdd = (e) => {
         e.preventDefault();
-        ReactDOM.render(<AddDiscount token={}/>, document.getElementById("add-product"));
+        ReactDOM.render(<AddDiscount token/>, document.getElementById("add-product"));
     }
 
     const handleFadeSearch = (e) => {
@@ -59,41 +58,17 @@ const SearchComponent = ({token , sort: pushSort}) => {
 
     let dataFilter = [
         {
-            id: "active",
+            id: "activeed",
             name: ' فعال ها'
         }, {
-            id: 'deactiv',
-            value: ' فعال ها'
+            id: 'deactivateed',
+            name: 'غیر فعال ها'
         }, {
-            name: 'discount',
-            value: ' تخفیف دار ها'
+            id: 'expireded',
+            name: 'منقضی ها'
         }
     ]
 
-
-    let dataSort = [
-        {
-            id: "created_at",
-            name: "بر اساس تاریخ انتشار"
-        }, {
-            id: "price",
-            name: "بر اساس قیمت"
-        }, {
-            id: 'count',
-            name: "بر اساس موجودی",
-        }, {
-            id: 'discount',
-            name: "بر اساس تخفیف",
-        }
-    ]
-
-
-    const handleOptionSort = (data) => {
-        let sortings = {...sorting};
-        sortings.sort = data;
-        setSorting(sortings);
-        pushSort(sortings);
-    }
 
     const HandleSearchInput = e => {
         e.preventDefault();
@@ -103,6 +78,10 @@ const SearchComponent = ({token , sort: pushSort}) => {
         pushSort(sortings);
     }
 
+    const handleChangeDateStart = date => {
+        console.log(date);
+        // setDateStart(date)
+    }
 
     return (
         <div className={"container-fluid"} style={{padding: '0px 4px'}}>
@@ -121,20 +100,31 @@ const SearchComponent = ({token , sort: pushSort}) => {
                         </div>
                         <div className="col-12 col-sm-6 col-lg-3">
                             <label
-                                htmlFor="users-list-verified">{size > 0 ? "( " + size + " ) فیلتر اعمال شده " : 'فیلتر'}</label>
+                                htmlFor="users-list-verified">از تاریخ</label>
+                            <div style={{width: '100%', height: '50px', background: '#fff', borderRadius: 5}}>
+                                <MainRate onChange={handleChangeDateStart}
+                                          Icon={<i className="bx bx-calendar-alt"></i>}/>
 
-                            <MultiSelectedFilterSwitcher dataRes={dataFilter} selected={sel => handleSelected(sel)}/>
+                            </div>
                         </div>
 
                         <div className="col-12 col-sm-6 col-lg-3">
-                            <label htmlFor="users-list-status">مرتب سازی</label>
-                            <MultiOption data={dataSort} selected={item => handleOptionSort(item)}/>
+                            <label htmlFor="users-list-status">تا تاریخ</label>
+
+                            <div style={{width: '100%', height: '50px', background: '#fff', borderRadius: 5}}>
+                                <MainRate onChange={handleChangeDateStart}
+                                          Icon={<i className="bx bx-calendar-alt"></i>}/>
+
+                            </div>
                         </div>
 
                         <div className="col-12 col-sm-6 col-lg-3">
                             <label
-                                htmlFor="users-list-role">{sizeCategory > 0 ? "( " + sizeCategory + " ) دسته بندی انتخاب شده " : 'دسته بندی'}</label>
-                            <MultiSelected data={categories} selected={itemsSel => handleCategory(itemsSel)}/>
+                                htmlFor="users-list-role">بر اساس وضعیت</label>
+                            <MultiSelected data={dataFilter}
+                                // selected={itemsSel => handleCategory(itemsSel)}
+
+                            />
                         </div>
 
                         {/*<div className="col-6 col-sm-6 col-lg-2" style={{marginBlockStart: 'auto'}}>*/}
@@ -153,20 +143,20 @@ const SearchComponent = ({token , sort: pushSort}) => {
 
                     <div className="col-12 col-sm-6 col-lg-3" id={"filterPro"}>
                         <label
-                            htmlFor="users-list-verified">{size > 0 ? "( " + size + " ) فیلتر اعمال شده " : 'فیلتر'}</label>
-
-                        <MultiSelectedFilterSwitcher let={"bottom"} dataRes={dataFilter} selected={sel => handleSelected(sel)}/>
+                            htmlFor="users-list-verified">فیلتر</label>
                     </div>
 
                     <div className="col-12 col-sm-6 col-lg-3" id={"productsSort"}>
                         <label htmlFor="users-list-status">مرتب سازی</label>
-                        <MultiOption lett={"bottom"} data={dataSort} selected={item => handleOptionSort(item)}/>
+                        {/*<MultiOption lett={"bottom"} data={dataSort} selected={item => handleOptionSort(item)}/>*/}
                     </div>
 
                     <div className="col-12 col-sm-6 col-lg-3">
                         <label
-                            htmlFor="users-list-role">{sizeCategory > 0 ? "( " + sizeCategory + " ) دسته بندی انتخاب شده " : 'دسته بندی'}</label>
-                        <MultiSelected let={"bottom"} data={categories} selected={itemsSel => handleCategory(itemsSel)}/>
+                            htmlFor="users-list-role">بر اساس وضعیت</label>
+                        <MultiSelected let={"bottom"}
+                                       data={dataFilter}
+                        />
                     </div>
 
                     {/*<div className="col-6 col-sm-6 col-lg-2" style={{marginBlockStart: 'auto'}}>*/}
