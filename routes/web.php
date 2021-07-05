@@ -178,7 +178,6 @@ Route::middleware('auth')->group(function () {
 
 
 });
-//-----------------------Mehrshad End----------------------
 
 Route::name('front.')->group(function () {
     Route::get('/', [FrontPageController::class, 'search'])->name('index');
@@ -196,3 +195,6 @@ Route::name('front.')->group(function () {
 
     Route::get('{slug}', [\App\Http\Controllers\Front\Content\ContentController::class, 'search'])->name('contents');
 });
+
+
+//-----------------------Mehrshad End----------------------
