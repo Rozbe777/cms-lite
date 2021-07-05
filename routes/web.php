@@ -179,6 +179,7 @@ Route::middleware('auth')->group(function () {
 
 });
 //-----------------------Mehrshad End----------------------
+
 Route::name('front.')->group(function () {
     Route::get('/', [FrontPageController::class, 'search'])->name('index');
     Route::get('shop', [\App\Http\Controllers\Front\Shop\ShopController::class, 'index'])->name('shop.blade');
