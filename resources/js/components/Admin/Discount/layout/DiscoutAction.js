@@ -131,7 +131,7 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
 
         if (id == 0) {
             let typp = {...typeSel};
-            typp.types = "total_card_price";
+            typp.types = "total_cart_price";
             setTypeSel(typp);
         } else if (id == 1) {
             let typpp = {...typeSel};
@@ -180,7 +180,7 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
                             <p style={{textAlign: 'center'}}>تخفیف اعمال شود روی</p>
 
                             <MultiOption name={"status"} handleChoise={handleChoise} data={[{
-                                id: 'total_card_price',
+                                id: 'total_cart_price',
                                 name: 'کل مبلغ سبد خرید'
                             }, {
                                 id: 'total_items_price',

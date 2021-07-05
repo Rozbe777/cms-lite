@@ -24,7 +24,7 @@ export const AddDiscount = ({type, result, token}) => {
         status: "active",
         type: 'percentage',
         max_limit: null,
-        functionality: 'total_card_price',
+        functionality: 'total_cart_price',
         user_status: 'all',
         functionality_amount: null,
 
@@ -39,7 +39,7 @@ export const AddDiscount = ({type, result, token}) => {
     const [prevCalSel, setPrevCatSel] = useState({})
     const [timeShow, setTimeShow] = useState([]);
     const [limitUse, setLimitUse] = useState({striShow: 'بدون محدودیت'});
-    const [functionality, setFunctionality] = useState({id: 'total_card_price', name: 'کل مبلغ سبد خرید'});
+    const [functionality, setFunctionality] = useState({id: 'total_cart_price', name: 'کل مبلغ سبد خرید'});
     const [functionality_amount, setFunctionality_amount] = useState([]);
     const [timeCheck, setTimeCheck] = useState([]);
     const [discountCode, setDiscountCode] = useState('');
@@ -50,12 +50,12 @@ export const AddDiscount = ({type, result, token}) => {
     const [userStatus, setUserStatus] = useState('all');
     const [userGroup, setUserGroup] = useState([-1]);
     const [productData, setProductData] = useState([]);
-    const [disTypesDis, setDisTypesDis] = useState('total_card_price')
+    const [disTypesDis, setDisTypesDis] = useState('total_cart_price')
     const [disTypesUser, setDisTypesUser] = useState('all')
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(false);
     const [cartStatus, setCartStatus] = useState({
-        card_conditions_amount: null,
+        cart_conditions_amount: null,
         typeSel: {
             types: "unlimited"
         },
@@ -253,7 +253,6 @@ export const AddDiscount = ({type, result, token}) => {
 
     const HandleForm = e => {
         e.preventDefault();
-        console.log(limitUse)
         let data = {...allData};
         data.code = discountCode;
         data.status = status;
