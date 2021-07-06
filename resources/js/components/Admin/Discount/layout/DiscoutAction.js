@@ -5,10 +5,10 @@ import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
 
-export const DiscoutAction = ({defaultValue , limit,dataOut }) => {
+export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
 
 
-    console.log(defaultValue , "***********def")
+    console.log(defaultValue, "***********def")
     // const {functionality} = defaultValue;
 
 
@@ -19,10 +19,7 @@ export const DiscoutAction = ({defaultValue , limit,dataOut }) => {
     const [loading, setLoading] = useState(false)
     const [typeSel, setTypeSel] = useState({types: defaultValue ? defaultValue.functionality : ''});
 
-    const [catSel, setCatSel] = useState(defaultValue ? defaultValue.catSel : []);
-
-
-
+    const [catSel, setCatSel] = useState(defaultValue ? defaultValue.functionality_amount : []);
 
 
     const handleClose = e => {
@@ -33,9 +30,9 @@ export const DiscoutAction = ({defaultValue , limit,dataOut }) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        console.log("___________________________be" , {data  , catSel})
+        console.log("___________________________be", {data, catSel})
         // if (data.limit){
-            dataOut({data : data ? data : 'total_card_price'  , catSel})
+        dataOut({data: data ? data : 'total_card_price', catSel})
 
         // }else{
         //     dataOut({data : "total_cart_price" , catSel})
@@ -67,7 +64,7 @@ export const DiscoutAction = ({defaultValue , limit,dataOut }) => {
 
     }
 
- const handleSearchCategore = e => {
+    const handleSearchCategore = e => {
         let searchdata = {search: '', pageSize: 10}
         if (e) {
             searchdata.search = e;
@@ -128,7 +125,7 @@ export const DiscoutAction = ({defaultValue , limit,dataOut }) => {
     }
 
 
-    const handleChoise = (e, id , name , index) => {
+    const handleChoise = (e, id, name, index) => {
         e.preventDefault();
 
         setData(index)
@@ -168,10 +165,14 @@ export const DiscoutAction = ({defaultValue , limit,dataOut }) => {
 
 
     const handleSelecete = e => {
+        if (Array.isArray(e)){
+            setCatSel(e);
+        }
 
-        setCatSel(e);
+        console.log(e , ".......")
 
     }
+
 
 
     return (
@@ -185,8 +186,8 @@ export const DiscoutAction = ({defaultValue , limit,dataOut }) => {
 
                             <p style={{textAlign: 'center'}}>تخفیف اعمال شود روی</p>
 
-                            {console.log(defaultValue.functionality , "deffffffff")}
-                            <MultiOption defData={defaultValue.functionality} name={"status"} handleChoise={handleChoise} data={[{
+                            <MultiOption defData={defaultValue.functionality} name={"status"}
+                                         handleChoise={handleChoise} data={[{
                                 id: 'total_cart_price',
                                 name: 'کل مبلغ سبد خرید'
                             }, {
@@ -207,14 +208,17 @@ export const DiscoutAction = ({defaultValue , limit,dataOut }) => {
 
                     </div>
 
+                    {console.log(catSel, "deffffffff")}
+
 
                     {typeSel.types ? typeSel.types == "special_products" ? (
                         <div className={"col-12"}>
                             <p>لیست محصولات</p>
 
 
-                            <MultiSelected name={"cat-show"} data={productData}
+                            <MultiSelected name={"product-show"} data={productData}
                                            loadings={loading}
+                                           defSelected={catSel}
                                            searchs={handleSearchProducts}
                                            selected={handleSelecete}
                                 // selected={e => setCatSel(e)}
@@ -227,10 +231,11 @@ export const DiscoutAction = ({defaultValue , limit,dataOut }) => {
 
                             <MultiSelected name={"cat-show"} data={categoryData}
                                            loadings={loading}
-                                           // defSelected={catSel ? catSel : null}
+                                           defSelected={catSel}
+                                // defSelected={catSel ? catSel : null}
                                            selected={handleSelecete}
                                            searchs={handleSearchCategore}
-                                           // me={e => handleSearchCategory(e)}
+                                // me={e => handleSearchCategory(e)}
                             />
                         </div>
 
