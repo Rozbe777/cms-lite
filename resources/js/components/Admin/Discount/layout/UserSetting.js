@@ -142,7 +142,7 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
                                 id: '-3',
                                 name: 'کاربرانی که خرید نکرده اند'
                             }]}
-                                         defData={userGroup[0]}
+                                         defData={userGroup[0] ? userGroup[0] : ''}
                                          handleChoise={handleChoiseGroup}
                                 // selected={item => handleCloseFirst(item)}
 
