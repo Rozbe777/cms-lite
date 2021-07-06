@@ -17,6 +17,7 @@ class UpdateRequest extends BaseRequest
     public function rules()
     {
         return [
+            'id'           => 'integer',
             'name'         => 'string|nullable',
             'last_name'    => 'string|nullable',
             'email'        => 'email|unique:users,email,'.Auth::id(),

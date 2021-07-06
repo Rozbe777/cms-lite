@@ -86,6 +86,7 @@ class CouponController extends Controller
      */
     public function show(Coupon $coupon)
     {
+        $this->repository->get($coupon);
         $coupon->load('coupon_settings');
         return $this->message(__('message.success.200'))->data($coupon)->success();
     }

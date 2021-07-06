@@ -4,6 +4,7 @@
 namespace App\Models\Repositories\Admin;
 
 
+use App\Models\Category;
 use App\Models\CategoryCoupon;
 use App\Models\CategoryUser;
 use App\Models\Coupon;
@@ -48,7 +49,15 @@ class CouponRepository implements RepositoryInterface
      */
     public function get($coupon)
     {
-        // TODO: Implement get() method.
+        $categories = json_decode($coupon->coupon_settings->functionality_amount);
+        foreach (Category::whereIn('id', $categories)->get() as $item) {
+            $arrayCat[] = $item->toArray();
+        }
+        $couponArr = $coupon->toArray();
+        $coupon_setting = ($coupon->coupon_settings)->toArray();
+        $coupon_setting['functionality_amount'] = $arrayCat;
+        $couponArr['coupon_settings'] = $coupon_setting;
+        return $couponArr;
     }
 
     public function delete($coupon)
