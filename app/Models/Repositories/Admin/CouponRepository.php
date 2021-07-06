@@ -29,17 +29,17 @@ class CouponRepository implements RepositoryInterface
         })->when(!empty($status), function ($query) use ($status) {
             $query->where("status", $status);
         })->when(!empty($startTime), function ($query) use ($startTime) {
-            $query->with(['coupon_settings' => function($query) use ($startTime) {
-                $query->where('start_date' ,">", (int)$startTime);
-            }]);
+            $query->whereHas('coupon_settings',function ($q) use ($startTime) {
+                $q->where('start_date', '>=' ,$startTime);
+            });
         })->when(!empty($endTime), function ($query) use ($endTime) {
-            $query->with(['coupon_settings' => function($query) use ($endTime) {
-                $query->where('end_date' ,"<", (int)$endTime);
-            }]);
+            $query->whereHas('coupon_settings',function ($q) use ($endTime) {
+                $q->where('end_date', '<=' ,$endTime);
+            });
         })->when(!empty($expired), function ($query) use ($expired) {
-            $query->with(['coupon_settings' => function ($q) use ($expired) {
+            $query->whereHas('coupon_settings',function ($q) use ($expired) {
                 $q->where("end_date", '<', jdate()->getTimestamp());
-            }])->has("coupon_settings");
+            })->has("coupon_settings");
         })->with('coupon_settings')
             ->orderByDesc('id')
             ->get();
