@@ -57,18 +57,14 @@ class CouponRepository implements RepositoryInterface
         foreach (Category::whereIn('id', $categories)->get() as $item) {
             $arrayCat[] = $item->toArray();
         }
-//        $couponArr = $coupon->toArray();
-//        $coupon_setting = ($coupon->coupon_settings)->toArray();
-//        $coupon_setting['functionality_amount'] = $arrayCat;
-//        $couponArr['coupon_settings'] = $coupon_setting;
 
         $userCat = json_decode($coupon->coupon_settings->user_group);
 
-        if ($userCat[0] < -1) {
+        if ((int)$userCat[0] < -1) {
             foreach (User::where('group', $userCat[0])->get() as $item) {
                 $arrayUser[] = $item->toArray();
             }
-        } elseif ($userCat[0] == -1) {
+        } elseif ((int)$userCat[0] == -1) {
             foreach (User::all() as $item) {
                 $arrayUser[] = $item->toArray();
             }
@@ -93,12 +89,13 @@ class CouponRepository implements RepositoryInterface
         return $coupon->delete();
     }
 
-    public function update(array $data, $coupon)
+    public function update(array $data, $couponId)
     {
+        $coupon = Coupon::find($couponId);
         $setting_data = [];
-        $data = [];
+        $info = [];
 
-        $coupon_setting = CouponSetting::where('coupon_id', $coupon->id);
+        $coupon_setting = CouponSetting::where('coupon_id', $couponId);
 
         $setting_data['functionality'] = !empty($data['functionality']) ?
             $data['functionality'] :

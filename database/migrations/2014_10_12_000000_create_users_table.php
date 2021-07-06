@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('mobile', 10)->unique();
             $table->string('description')->nullable();
             $table->string('image')->nullable();
+            $table->integer('group')->nullable();
             $table->string('registration_source')->nullable()->default("web");
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('mobile_verified_at')->nullable();
