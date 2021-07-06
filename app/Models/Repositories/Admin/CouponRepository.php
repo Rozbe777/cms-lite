@@ -139,6 +139,9 @@ class CouponRepository implements RepositoryInterface
             $setting_data['functionality_amount'] = $data['functionality_amount'];
         }
 
+        if(empty($setting_data['functionality_amount']))
+            $setting_data['functionality_amount'] = null;
+
         $setting_data['cart_conditions'] = !empty($data['cart_conditions']) ?
             $data['cart_conditions'] :
             'unlimited';
@@ -197,7 +200,9 @@ class CouponRepository implements RepositoryInterface
 
         $setting_data['start_date'] = $start_date['date']['timestamp'] != null ?
             $start_date['date']['timestamp'] :
-            jdate();
+            Jalalian::forge('today')->getTimestamp();
+
+
         $setting_data['start_time'] = $start_date['date']['timestamp'] != null ?
             "$H_start:$M_start:$S_start" :
             null;
