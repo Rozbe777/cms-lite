@@ -4,9 +4,13 @@
 namespace App\Models\Repositories\Admin;
 
 
+use App\Models\CategoryCoupon;
+use App\Models\CategoryUser;
 use App\Models\Coupon;
 use App\Models\CouponSetting;
+use App\Models\PivotCategoryUser;
 use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Morilog\Jalali\Jalalian;
 
@@ -34,7 +38,8 @@ class CouponRepository implements RepositoryInterface
             $query->with(['coupon_settings' => function ($q) use ($expired) {
                 $q->where("end_date", '<', jdate()->getTimestamp());
             }])->has("coupon_settings");
-        })->orderByDesc('id')
+        })->with('coupon_settings')
+            ->orderByDesc('id')
             ->get();
     }
 
@@ -203,7 +208,7 @@ class CouponRepository implements RepositoryInterface
             null;
         $setting_data['end_date'] = $end_date['date']['timestamp'];
         $setting_data['end_time'] = "$H_end:$M_end:$S_end";
-        dd($setting_data);
+
         CouponSetting::create($setting_data);
 
         return $coupon->with('coupon_settings');
