@@ -7,6 +7,7 @@ namespace App\Models\Repositories\Admin;
 use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\CouponSetting;
+use App\Models\Product;
 use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -69,11 +70,17 @@ class CouponRepository implements RepositoryInterface
         $arrayCat = [];
         $arrayUser = [];
 
-        $categories = json_decode($coupon->coupon_settings->functionality_amount);
-        foreach (Category::whereIn('id', $categories)->get() as $item) {
-            $arrayCat[] = $item->toArray();
+        $items = json_decode($coupon->coupon_settings->functionality_amount);
+        if ($coupon->coupon_settings->functionality == 'special_categories'){
+            foreach (Category::whereIn('id', $items)->get() as $item) {
+                $arrayCat[] = $item->toArray();
+            }
+        }elseif ($coupon->coupon_settings->functionality == 'special_products'){
+            foreach (Product::whereIn('id', $items)->get() as $item) {
+                $arrayCat[] = $item->toArray();
+            }
         }
-
+dd($arrayCat);
         $userCat = json_decode($coupon->coupon_settings->user_group);
 
         if (!empty($userCat)) {
