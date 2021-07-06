@@ -36,7 +36,7 @@ class CouponController extends Controller
      */
     public function index(SearchCouponRequest $request)
     {
-        $coupon = $this->repository->all($request->code, $request->start_date, $request->end_date, $request->status, $request->expired);
+        $coupon = $this->repository->all($request->code, $request->start_date, $request->end_date, $request->status);
 
         return (!$coupon) ?
             $this->message(__('message.coupon.search.notSuccess'))->error() :

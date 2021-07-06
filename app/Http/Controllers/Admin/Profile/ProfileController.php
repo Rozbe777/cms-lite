@@ -59,11 +59,15 @@ class ProfileController extends Controller
         if (empty($data['image']))
             unset($data['image']);
 
-        if (!empty($data['image']) && !is_bool($data['image'])) {
+        if (!empty($data['image']) && !is_string($data['image'])) {
             $image = $data['image'];
 
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $data['image'] = $image->storeAs('public/images', $imageName);
+        } elseif ($data['image'] == "true") {
+            unset($data['image']);
+        } else {
+            $data['image'] = null;
         }
 
         unset($data['password_confirmation']);
