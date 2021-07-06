@@ -110,7 +110,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     const [timeShow, setTimeShow] = useState([]);
     const [limitUse, setLimitUse] = useState({striShow: 'بدون محدودیت'});
     const [functionality, setFunctionality] = useState(dataDefaul ? dataDefaul.coupon_settings.functionality : 'total_cart_price');
-    const [functionality_amount, setFunctionality_amount] = useState([]);
+    const [functionality_amount, setFunctionality_amount] = useState(dataDefaul ? dataDefaul.coupon_settings.functionality_amount :[]);
     const [timeCheck, setTimeCheck] = useState([]);
     const [discountCode, setDiscountCode] = useState(dataDefaul ? allData.code ? allData.code : '' : '');
     const [value, setValue] = useState(dataDefaul ? dataDefaul.value : '');
@@ -118,7 +118,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     const [userTypeName, setUserTypeName] = useState("برای همه کاربران")
     const [searchs, setSearchs] = useState([]);
     const [userStatus, setUserStatus] = useState('all');
-    const [userGroup, setUserGroup] = useState([-1]);
+    const [userGroup, setUserGroup] = useState( [-1]);
     const [productData, setProductData] = useState([]);
     const [disTypesDis, setDisTypesDis] = useState(dataDefaul ? dataDefaul.type : 'fixed_price');
     const [disTypesUser, setDisTypesUser] = useState('all')
@@ -662,7 +662,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     const handleShowTypeDiscount = e => {
         e.preventDefault();
         $("#back-loaderedss").addClass("active");
-        ReactDOM.render(<DiscoutAction defaultValue={{catSel, functionality}}
+        ReactDOM.render(<DiscoutAction defaultValue={{catSel, functionality , functionality_amount}}
                                        dataOut={handleFunctionality}/>, document.getElementById("back-loaderedss"));
     }
 
