@@ -83,7 +83,7 @@ export const ItemDis = ({
                         </div>
                     </fieldset>
 
-                    <i className={"bx bxs-trash"}></i>
+                    <i className={"bx bxs-trash"} onClick={e => handleDelete(e , data.id)}></i>
                     <i className={"bx bxs-pencil"} onClick={e => handleEdit(e, data)}></i>
 
 

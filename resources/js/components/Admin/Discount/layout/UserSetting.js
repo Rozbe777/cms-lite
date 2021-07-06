@@ -14,8 +14,8 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
     const [productData, setProductData] = useState([]);
     const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(false)
-    const [userGroup , setUserGroup] = useState([])
-    const [typeSel, setTypeSel] = useState({types: '' , name : ''});
+    const [userGroup , setUserGroup] = useState(oldData ? oldData.userGroup : [])
+    const [typeSel, setTypeSel] = useState({types: oldData ? oldData.userStatus : '' , name : oldData ? oldData.userTypeName : ''});
     const [catSel, setCatSel] = useState(oldData.userGroup ? oldData.userGroup :  []);
 
     const handleClose = e => {
@@ -142,6 +142,7 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
                                 id: '-3',
                                 name: 'کاربرانی که خرید نکرده اند'
                             }]}
+                                         defData={userGroup[0]}
                                          handleChoise={handleChoiseGroup}
                                 // selected={item => handleCloseFirst(item)}
 
