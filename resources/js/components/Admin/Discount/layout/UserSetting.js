@@ -1,4 +1,4 @@
-import React, {useState, useEffect , useContext} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import ReactDOM from 'react-dom';
 import {Request} from "../../../../services/AdminService/Api";
 import {MultiOption} from "./MultiOption";
@@ -6,17 +6,18 @@ import {MultiSelected} from "./MultiSelected";
 import {USER_SETTING} from './../layout/Context';
 import $ from "jquery";
 
-export const UserSetting = ({dataOut,oldData}) => {
+export const UserSetting = ({dataOut, oldData}) => {
 
 
+    console.log("________", oldData)
     useEffect(() => {
         handleSearchUser();
-    } , [])
+    }, [])
 
     const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(false)
-    const [userGroup , setUserGroup] = useState(oldData ? oldData.userGroup : [-1])
-    const [typeSel, setTypeSel] = useState({type : oldData ? oldData.userStatus : 'all'});
+    const [userGroup, setUserGroup] = useState(oldData ? oldData.userGroup : [-1])
+    const [typeSel, setTypeSel] = useState({type: oldData ? oldData.userStatus : 'all'});
 
     const handleClose = e => {
         e.preventDefault();
@@ -26,10 +27,9 @@ export const UserSetting = ({dataOut,oldData}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        dataOut({user_status: typeSel,userGroup});
+        dataOut({user_status: typeSel, userGroup});
         handleClose(e);
     }
-
 
 
     const handleSearchUser = e => {
@@ -52,7 +52,7 @@ export const UserSetting = ({dataOut,oldData}) => {
     }
 
 
-    const handleChoiseGroup = (e , index , name , id) => {
+    const handleChoiseGroup = (e, index, name, id) => {
         e.preventDefault();
         let userGroups = [];
         userGroups.push(parseInt(id))
@@ -61,7 +61,7 @@ export const UserSetting = ({dataOut,oldData}) => {
     const handleChoise = (e, id) => {
         e.preventDefault();
 
-        console.log("[[[[[[" , id)
+        console.log("[[[[[[", id)
         // if (id == 0) {
         //     let typp = {...typeSel};
         //     typp.types = "all";
@@ -117,12 +117,11 @@ export const UserSetting = ({dataOut,oldData}) => {
 
     const handleSelecete = e => {
 
-        let UserGroups = [];
-        console.log(e , "ppppp")
-        e.map(item => {
-            UserGroups.push(item.id);
-        })
-        setUserGroup(UserGroups)
+
+        if (Array.isArray(e)) {
+            setUserGroup(e)
+
+        }
 
     }
 
@@ -138,7 +137,8 @@ export const UserSetting = ({dataOut,oldData}) => {
 
                             <p style={{textAlign: 'center'}}> اعمال شود روی</p>
 
-                            <MultiOption name={"status"} handleChoise={handleChoise} defData={typeSel.type ? typeSel.type : "all"} data={[{
+                            <MultiOption name={"status"} handleChoise={handleChoise}
+                                         defData={typeSel.type ? typeSel.type : "all"} data={[{
                                 id: 'all',
                                 name: 'همه کاربران'
                             }, {
@@ -155,7 +155,7 @@ export const UserSetting = ({dataOut,oldData}) => {
 
                     </div>
 
-                    {console.log(typeSel , "99999999999")}
+                    {console.log(typeSel, "99999999999")}
 
                     {typeSel.type ? typeSel.type == "group_of_users" ? (
                         <div className={"col-12"}>
@@ -181,6 +181,7 @@ export const UserSetting = ({dataOut,oldData}) => {
 
                             <MultiSelected name={"cat-show"} data={userData}
                                            loadings={loading}
+                                           defSelected={userGroup[0] == -1 ? [] : userGroup}
                                            selected={handleSelecete}
                                            searchs={handleSearchUser}
 

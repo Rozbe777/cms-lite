@@ -165,8 +165,14 @@ export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
 
 
     const handleSelecete = e => {
-        setCatSel(e);
+        if (Array.isArray(e)){
+            setCatSel(e);
+        }
+
+        console.log(e , ".......")
+
     }
+
 
 
     return (
@@ -180,7 +186,6 @@ export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
 
                             <p style={{textAlign: 'center'}}>تخفیف اعمال شود روی</p>
 
-                            {console.log(defaultValue.functionality, "deffffffff")}
                             <MultiOption defData={defaultValue.functionality} name={"status"}
                                          handleChoise={handleChoise} data={[{
                                 id: 'total_cart_price',
@@ -203,15 +208,17 @@ export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
 
                     </div>
 
+                    {console.log(catSel, "deffffffff")}
+
 
                     {typeSel.types ? typeSel.types == "special_products" ? (
                         <div className={"col-12"}>
                             <p>لیست محصولات</p>
 
 
-                            <MultiSelected name={"cat-show"} data={productData}
+                            <MultiSelected name={"product-show"} data={productData}
                                            loadings={loading}
-                                           defSelected={defaultValue.functionality_amount}
+                                           defSelected={catSel}
                                            searchs={handleSearchProducts}
                                            selected={handleSelecete}
                                 // selected={e => setCatSel(e)}
@@ -224,7 +231,7 @@ export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
 
                             <MultiSelected name={"cat-show"} data={categoryData}
                                            loadings={loading}
-                                           defSelected={defaultValue.functionality_amount}
+                                           defSelected={catSel}
                                 // defSelected={catSel ? catSel : null}
                                            selected={handleSelecete}
                                            searchs={handleSearchCategore}

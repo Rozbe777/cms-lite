@@ -85,6 +85,8 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
             s: '00'
         }
     })
+
+    const [numOfUse , ]
     const [dateEnd, setDateEnd] = useState({
         date: {
             date: {
@@ -111,6 +113,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     const [limitUse, setLimitUse] = useState({striShow: 'بدون محدودیت'});
     const [functionality, setFunctionality] = useState(dataDefaul ? dataDefaul.coupon_settings.functionality : 'total_cart_price');
     const [functionality_amount, setFunctionality_amount] = useState(dataDefaul ? dataDefaul.coupon_settings.functionality_amount :[]);
+    const [func_a_id , setF_a_id] = useState([]);
     const [timeCheck, setTimeCheck] = useState([]);
     const [discountCode, setDiscountCode] = useState(dataDefaul ? allData.code ? allData.code : '' : '');
     const [value, setValue] = useState(dataDefaul ? dataDefaul.value : '');
@@ -336,10 +339,15 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         data.max_limit = maxLimit ? parseInt(maxLimit) : null;
         data.user_status = disTypesUser;
         data.functionality = functionality;
-        data.functionality_amount = functionality_amount;
         // data.user_status = userStatus ? userStatus : [];
         data.user_group = userGroup;
         data.cart_conditions = cartStatus.typeSel.types;
+        let funAmou = [];
+        functionality_amount.map(it => {
+            funAmou.push(it.id);
+        })
+
+        data.functionality_amount = funAmou;
 
         data.cart_conditions_amount = cartStatus.cart_conditions_amount;
         if (dateEnd.date) {
@@ -645,18 +653,12 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
 
     const handleFunctionality = data => {
-        delete data.data.limit;
 
         console.log(data, "*************************", functionality)
         if (data.data) {
             setFunctionality(data.data)
         }
-        setPrevCatSel(data.catSel);
-        setFunctionality_amount([]);
-        data.catSel.map(item => {
-            functionality_amount.push(parseInt(item.id));
-            setFunctionality_amount(functionality_amount)
-        })
+       setFunctionality_amount(data.catSel)
 
     }
     const handleShowTypeDiscount = e => {
@@ -681,7 +683,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
 
     const handleUserSetting = e => {
-
+        console.log("?????" ,e)
         setUserStatus(e.user_status.type);
         setUserGroup(e.userGroup);
 
