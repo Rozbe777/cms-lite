@@ -8,7 +8,7 @@ import $ from "jquery";
 import {ErroHandle, error as ErrorToast, success} from "../../../../helper";
 import {DiscoutAction} from "../layout/DiscoutAction";
 import {MultiSelected} from "../layout/MultiSelected";
-import {Searchs} from "../layout/Context";
+import {Searchs, USER_SETTING} from "../layout/Context";
 import {Switcher} from "../../../HOC/Switch";
 import {TopPrice} from "../layout/TopPrice";
 import {CartAction} from "../layout/CartAction";
@@ -26,6 +26,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     let start_dd = dataDefaul ? dataDefaul.coupon_settings.start_date ? moment(parseInt(dataDefaul.coupon_settings.start_date.toString() + "000")).locale('fa') : null : null;
     // let start_dd = null;
     let end_dd = dataDefaul ? dataDefaul.coupon_settings.end_date ? moment(parseInt(dataDefaul.coupon_settings.end_date.toString() + "000")).locale('fa') : null : null;
+
     // let end_dd = null;
 
 
@@ -59,6 +60,10 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     const [allData, setAllData] = useState(dataDefaul ? dataDefaul : def)
 
 
+
+    const [userGroupNew , setUserGroupNew] = useState([-1]);
+    const [userStatusNew , setUserStatusNew] = useState("all")
+
     const [edit, setEdit] = useState(false);
     const [dateStart, setDateStart] = useState({
         date: {
@@ -68,7 +73,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
                 month: start_dd ? start_dd ? start_dd.format('MMMM') : moment(new Date()).locale('fa').format('MMMM') : moment(new Date()).locale('fa').format('MMMM'),
                 monthNum: start_dd ? start_dd ? start_dd.format('M') : moment(new Date()).locale('fa').format('M') : moment(new Date()).locale('fa').format('M')
             },
-            timestamp: dataDefaul ? dataDefaul.coupon_settings.start_date ?  parseInt(dataDefaul.coupon_settings.start_date.toString() + "000") : '' : ''
+            timestamp: dataDefaul ? dataDefaul.coupon_settings.start_date ? parseInt(dataDefaul.coupon_settings.start_date.toString() + "000") : '' : ''
         },
         time: dataDefaul ? {
             h: dataDefaul.coupon_settings.start_time ? dataDefaul.coupon_settings.start_time.split(":")[0] : '00',
@@ -88,7 +93,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
                 month: end_dd ? end_dd.format('MMMM') : moment(new Date()).locale('fa').format('MMMM'),
                 monthNum: end_dd ? end_dd.format('MMMM') : moment(new Date()).locale('fa').format('M')
             },
-            timestamp: dataDefaul ? dataDefaul.coupon_settings.end_date ?  parseInt(dataDefaul.coupon_settings.end_date.toString() + "000") : '' : ''
+            timestamp: dataDefaul ? dataDefaul.coupon_settings.end_date ? parseInt(dataDefaul.coupon_settings.end_date.toString() + "000") : '' : ''
         },
         time: dataDefaul ? {
             h: dataDefaul.coupon_settings.end_time.split(":")[0],
@@ -134,7 +139,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     const [start_time, setStart_time] = useState({});
     const [typeAct, setTypeAct] = useState('')
     const [typeUser, setTypeUser] = useState('')
-    const [userGroups, setUserGroups] = useState('');
+    const [userGroups, setUserGroups] = useState([-1]);
     const [dis, setDis] = useState(true);
     const [disUser, setDisUser] = useState(true);
     const [productTotal, setProductTotal] = useState(0);
@@ -333,7 +338,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         data.functionality = functionality;
         data.functionality_amount = functionality_amount;
         // data.user_status = userStatus ? userStatus : [];
-        data.user_group = userGroup ? userGroup : [];
+        data.user_group = userGroup;
         data.cart_conditions = cartStatus.typeSel.types;
 
         data.cart_conditions_amount = cartStatus.cart_conditions_amount;
@@ -366,7 +371,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         data.number_of_times_allowed_to_use = limitUse.codeVal ? parseInt(limitUse.codeVal) : null;
         data.number_of_use_allowed_per_user = limitUse.userVal ? parseInt(limitUse.userVal) : null;
 
-        console.log(data)
         AddNewDiscount(data)
 
 
@@ -424,6 +428,8 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         data.number_of_times_allowed_to_use = limitUse.codeVal ? parseInt(limitUse.codeVal) : null;
         data.number_of_use_allowed_per_user = limitUse.userVal ? parseInt(limitUse.userVal) : null;
 
+
+        console.log("___________", data)
         UpdateDiscount(data)
 
 
@@ -431,6 +437,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
 
     const AddNewDiscount = data => {
+        console.log("++++++" , data)
         swal({
             title: 'افزودن کد تخفیف جدید',
             text: "آیا مطمئنید؟",
@@ -469,6 +476,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     }
     const UpdateDiscount = data => {
 
+        console.log("vsdvsvsv0 ", data)
         swal({
             title: 'ویرایش کد تخفیف',
             text: "آیا مطمئنید؟",
@@ -493,31 +501,19 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
                         })
 
                     }).catch(err => {
-                    if (err.response.data.errors) {
-                        ErroHandle(err.response.data.errors);
-                    } else {
-                        //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
-                        ErrorToast("خطای غیر منتظره ای رخ داده است")
+                    if (err.response.data) {
+                        if (err.response.data.errors) {
+                            ErroHandle(err.response.data.errors);
+                        } else {
+                            //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
+                            ErrorToast("خطای غیر منتظره ای رخ داده است")
+                        }
                     }
-
                 })
             }
         });
     }
 
-    const handleTopDiscount = e => {
-        e.preventDefault();
-    }
-
-
-    const HandleEdit = e => {
-        e.preventDefault();
-    }
-
-    const HandleDuplicate = e => {
-        e.preventDefault();
-
-    }
 
     const handleMaxPrice = (data, e) => {
         e.preventDefault();
@@ -686,27 +682,16 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
     const handleUserSetting = e => {
 
-        // console.log(e , "i userss")
+        setUserStatus(e.user_status.type);
+        setUserGroup(e.userGroup);
 
-        setUserStatus(e.user_status.types);
-        setUserTypeName(e.user_status.name);
-        e.userGroup.length > 0 ? setUserGroup(e.userGroup) : null;
-        if (e.userSelecet.length > 0) {
-            let users = [];
-            e.userSelecet.map(item => {
-                users.push(parseInt(item.id));
-                setUserGroup(users);
-            })
-        } else {
-        }
     }
     const handleShowUserSetting = e => {
         e.preventDefault();
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<UserSetting dataOut={handleUserSetting} oldData={{
             userStatus,
-            userTypeName,
-            userGroup
+            userGroup,
         }}/>, document.getElementById("back-loaderedss"));
     }
 
@@ -899,6 +884,9 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
                 return 'کل مبلغ سبد خرید';
         }
     }
+
+
+    console.log("yyyyyy" , userGroupNew);
 
 
     return (

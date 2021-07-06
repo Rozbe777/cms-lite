@@ -18,7 +18,7 @@ export const MultiSelected = ({
                                   me: setMe
                               }) => {
 
-    console.log(name, data)
+    console.log("mmmmmmmmmmmmm" , name, data)
     const [check, setCheck] = useState([])
     const [load, setLoad] = useState(false);
     let selectCheckBox = new Set();
