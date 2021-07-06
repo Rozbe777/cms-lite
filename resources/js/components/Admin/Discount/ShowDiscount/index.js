@@ -48,7 +48,15 @@ const Show = (props) => {
                 setAllCoupon(res.data)
                 setPerPage(res.data.per_page);
                 setTotal(res.data.total)
-            })
+            }).catch(err => {
+            if (err.response.data.errors) {
+                ErroHandle(err.response.data.errors);
+            } else {
+                //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
+                $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center ;margin : 10px 0 0 '>خطا در ارتباط با دیتابیس</p><p>مجددا تلاش کنید</p><div>");
+                ErrorToast("خطای غیر منتظره ای رخ داده است")
+            }
+        })
     }
 
     const [breadData] = useState({
@@ -82,7 +90,11 @@ const Show = (props) => {
     const handleDeleteCoupon = (e , id) => {
         let finalAllIds = {};
         finalAllIds._token = token;
-        finalAllIds.couponIds = checkBox;
+        if (id){
+            finalAllIds.couponIds = [id];
+        }else{
+            finalAllIds.couponIds = checkBox;
+        }
         e.preventDefault();
         swal({
             title: 'حذف کوپن',
@@ -197,7 +209,7 @@ const Show = (props) => {
                 <div className={"row"} style={{padding : '15px'}}>
                     {loading || !allCoupon.data ? (<Loading />) : allCoupon.data.map((item , index) => (
                         <div className={"col-lg-3 col-md-4 col-sm-12"} key={index} style={{padding : '5px'}}>
-                            <ItemDis handleCheck={HandleChecked} sizeOf={allCoupon.data.length} checkStateOfOut={checked}  deleteCoupon={handleDeleteCoupon} handleEdit={handleEditDis} data={item} />
+                            <ItemDis handleCheck={HandleChecked} handleDelete={handleDeleteCoupon} sizeOf={allCoupon.data.length} checkStateOfOut={checked}  deleteCoupon={handleDeleteCoupon} handleEdit={handleEditDis} data={item} />
                         </div>
                     ))}
 

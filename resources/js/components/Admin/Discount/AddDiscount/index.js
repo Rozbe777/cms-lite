@@ -81,10 +81,10 @@ let end_dd = dataDefaul ? moment(parseInt(dataDefaul.coupon_settings.end_date.to
     const [dateEnd, setDateEnd] = useState({
         date : {
             date : {
-                year : end_dd ? end_dd.format('YYYY') : '' ,
-                day:end_dd ? end_dd.format('D') : '',
-                month : end_dd ? end_dd.format('MMMM') : '',
-                monthNum : end_dd ? end_dd.format('MMMM') : ''
+                year : end_dd ? end_dd.format('YYYY') :moment(new Date()).locale('fa').format('YYYY'),
+                day:end_dd ? end_dd.format('D') : moment(new Date()).locale('fa').format('D'),
+                month : end_dd ? end_dd.format('MMMM') : moment(new Date()).locale('fa').format('MMMM'),
+                monthNum : end_dd ? end_dd.format('MMMM') : moment(new Date()).locale('fa').format('M')
             },
             timestamp : dataDefaul ? parseInt(dataDefaul.coupon_settings.end_date.toString() + "000") : ''
         },
