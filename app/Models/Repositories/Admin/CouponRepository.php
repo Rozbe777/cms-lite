@@ -80,7 +80,7 @@ class CouponRepository implements RepositoryInterface
                 $arrayCat[] = $item->toArray();
             }
         }
-dd($arrayCat);
+
         $userCat = json_decode($coupon->coupon_settings->user_group);
 
         if (!empty($userCat)) {
