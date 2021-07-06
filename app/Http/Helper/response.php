@@ -17,6 +17,13 @@ if (!function_exists('success')) {
 if (!function_exists('error')) {
     function error($message, $data = null)
     {
-        return ['status' => false, 'message' => $message, 'data' => $data];
+        return [
+            "message" => $message,
+            "data" => $data,
+            "errors" => [
+                'data' => $message
+            ],
+        ];
+//        return ['status' => false, 'message' => $message, 'data' => $data];
     }
 }

@@ -27,8 +27,8 @@ class CreateCouponRequest extends BaseRequest
     public function rules()
     {
         return [
-//            "code" => new CouponCodeCheck(),
-            "code" => "required|unique:coupons,user_id,".Auth::id(),
+            "code" => new CouponCodeCheck(),
+//            "code" => "required|unique:coupons,user_id,".Auth::id(),
             "status" => 'nullable|in:active,deactivate',
             "type" => "nullable|in:fixed_price,percentage,free_delivery",
             'value' => "nullable|string",

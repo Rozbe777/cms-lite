@@ -22,7 +22,7 @@ class CouponRepository implements RepositoryInterface
      */
     public function all($code = null, $startTime = null, $endTime = null, $status = null, $expired = null)
     {
-        return  Coupon::when(!empty($code), function ($query) use ($code) {
+        return Coupon::when(!empty($code), function ($query) use ($code) {
             $query->where('code', 'like', '%' . $code . '%');
         })->when(!empty($status), function ($query) use ($status) {
             $query->where("status", $status);
@@ -136,8 +136,11 @@ class CouponRepository implements RepositoryInterface
         if (!in_array($setting_data['functionality'], ['total_items_price', 'total_cart_price'])) {
             $setting_data['functionality_amount'] = json_encode($data['functionality_amount']);
         } else {
-            $setting_data['functionality_amount'] = json_encode($data['functionality_amount']);
+            $setting_data['functionality_amount'] = $data['functionality_amount'];
         }
+
+        if(empty($setting_data['functionality_amount']))
+            $setting_data['functionality_amount'] = null;
 
         $setting_data['cart_conditions'] = !empty($data['cart_conditions']) ?
             $data['cart_conditions'] :
@@ -183,22 +186,28 @@ class CouponRepository implements RepositoryInterface
             null;
 
 //        $x = substr($start_date['date']['timestamp'], 0, -3);
-        $Hstart = $start_date['time']['h'];
-        $Mstart = $start_date['time']['m'];
-        $Sstart = $start_date['time']['s'];
+        $H_start = $start_date['time']['h'];
+        $M_start = $start_date['time']['m'];
+        $S_start = $start_date['time']['s'];
 
-        $Hend = $end_date['time']['h'];
-        $Mend = $end_date['time']['m'];
-        $Send = $end_date['time']['s'];
+        $H_end = $end_date['time']['h'];
+        $M_end = $end_date['time']['m'];
+        $S_end = $end_date['time']['s'];
 
         $coupon = Coupon::create($coupon_data);
 
         $setting_data['coupon_id'] = $coupon->id;
 
-        $setting_data['start_date'] = $start_date['date']['timestamp'];
-        $setting_data['start_time'] = "$Hstart:$Mstart:$Sstart";
+        $setting_data['start_date'] = $start_date['date']['timestamp'] != null ?
+            $start_date['date']['timestamp'] :
+            Jalalian::forge('today')->getTimestamp();
+
+
+        $setting_data['start_time'] = $start_date['date']['timestamp'] != null ?
+            "$H_start:$M_start:$S_start" :
+            null;
         $setting_data['end_date'] = $end_date['date']['timestamp'];
-        $setting_data['end_time'] = "$Hend:$Mend:$Send";
+        $setting_data['end_time'] = "$H_end:$M_end:$S_end";
 
         CouponSetting::create($setting_data);
 
