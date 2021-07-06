@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from "react-dom";
 import Webservice, {PUT_METHOD} from "../../classes/webservice";
-import {convertDigit, empty, ErroHandle, error as ErrorToast, error, success, warning} from "../../helper";
+import {convertDigit, empty, ErroHandle, error as ErrorToast, error, success, url, warning} from "../../helper";
 import {Request} from "../../services/AdminService/Api";
 import $ from "jquery";
 import Loading from "../Auth/Loading";
@@ -38,27 +38,58 @@ export default class Profile extends Component {
         return (
             <div>
 
-                <div className="media mb-2">
-                    <a className="mr-2">
-                        <img src={avatar} alt={full_name}
-                             className="users-avatar-shadow rounded-circle" height="64" width="64"/>
-                    </a>
-                    <div className="media-body">
-                        <div className={'row justify-content-between align-items-center pr-2 pl-1'}>
 
 
-                            <h4 className="media-heading">{full_name}</h4>
+                <div className="media mb-2" style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    position: 'relative',
+                    justifyContent: 'center'
+                }}>
+                    {
+                        loading ? (
+                            <>
+                                <img src={url(preImage.uri)} alt={''}
+                                     className="users-avatar-shadow rounded-circle" height="120"
+                                     width="120"/>
+                                <div className={"loadingsss"}>
+                                    <div className="spinner-border" role="status">
+                                        <span className="sr-only">در حال بارگذاری ...</span>
+                                    </div>
+                                </div>
+                            </>
 
-                            {this.renderStatusBadge()}
-                        </div>
-                        <div className="col-12 px-0 d-flex">
-                            <a onClick={() => {
-                                this.imagePicker();
-                            }} className="btn btn-sm btn-primary mr-25 text-white cursor-pointer">تغییر تصویر آواتار</a>
-                            {/*<a href="#" className="btn btn-sm btn-light-secondary">بازنشانی</a>*/}
-                        </div>
-                    </div>
+                        ) : pre ? (<img src={preImage.uri} alt={''}
+                                        className="users-avatar-shadow rounded-circle" height="120"
+                                        width="120"/>) : imageGet.state ?
+                            (
+                                <img src={imageGet.state} alt={''}
+                                     className="users-avatar-shadow rounded-circle" height="120" width="120"/>
+                            ) : (
+                                <img src={url(preImage.uri)} alt={''}
+                                     className="users-avatar-shadow rounded-circle" height="120" width="120"/>
+                            )
+                    }
+
+
+                    <span id={"choise-img"}>
+                    <i className={"bx bx-camera"}></i>
+
+                    <input type={"file"} onChange={e => handleFile(e)}
+                           style={{opacity: 0, position: 'absolute', right: 0, cursor: 'pointer'}}
+                    />
+                </span>
+
+                    <span id={"choise-img"} onClick={e => handledelImg(e)} style={{right: 0, left: '-75px'}}>
+                    <i className={"bx bx-trash-alt"}></i>
+
+                </span>
+
                 </div>
+
+
+
 
                 <form novalidate onSubmit={e => {
                     e.preventDefault();

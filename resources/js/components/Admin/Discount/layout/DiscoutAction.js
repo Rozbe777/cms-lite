@@ -34,7 +34,11 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        dataOut({data , catSel})
+        if (data.limit){
+            dataOut({data  , catSel})
+        }else{
+            dataOut({data : "total_cart_price" , catSel})
+        }
         handleClose(e);
     }
 
