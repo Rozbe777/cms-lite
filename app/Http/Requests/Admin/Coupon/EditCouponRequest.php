@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests\Admin\Coupon;
 
+use App\Http\Requests\BaseRequest;
 use App\Rules\CouponCodeCheck;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditCouponRequest extends FormRequest
+class EditCouponRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,18 +26,18 @@ class EditCouponRequest extends FormRequest
     public function rules()
     {
         return [
-            "code" => new CouponCodeCheck(),
-            "status" => "required|in:active,deactivate",
-            "type" => "required|in:fixed_price,percentage,free_delivery",
-            'value' => "required|string",
+            "code" => 'required',
+            "status" => "nullable|in:active,deactivate",
+            "type" => "nullable|in:fixed_price,percentage,free_delivery",
+            'value' => "nullable|string",
             'max_limit' => 'nullable|integer',
             'use_number' => 'nullable|integer',
-            'functionality' => 'nullable|in:total_items_price,total_cart_price,special_products,special_categories',
-            'functionality_amount' => 'nullable|array|required_with:functionality',
+            'functionality' => 'nullable|string',
+            'functionality_amount' => 'nullable|array',
             'cart_conditions' => 'nullable|in:unlimited,min_price,min_purchase_number,max_cart_price,max_purchase_number',
-            'cart_conditions_amount' => 'nullable|integer|required_with:cart_conditions',
-            'user_status' => 'in:all,special_users,group_of_users',
-            'user_group' => 'array|required_with:user_status',
+            'cart_conditions_amount' => 'nullable|integer',
+            'user_status' => 'nullable|in:all,special_users,group_of_users',
+            'user_group' => 'nullable|array',
             'number_of_times_allowed_to_use' => 'nullable|integer',
             'number_of_use_allowed_per_user' => 'nullable|integer',
             'start_date' => 'nullable',
