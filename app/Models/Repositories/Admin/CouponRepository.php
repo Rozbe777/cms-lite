@@ -11,6 +11,7 @@ use App\Models\Coupon;
 use App\Models\CouponSetting;
 use App\Models\PivotCategoryUser;
 use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Morilog\Jalali\Jalalian;
@@ -49,14 +50,40 @@ class CouponRepository implements RepositoryInterface
      */
     public function get($coupon)
     {
+        $arrayCat = [];
+        $arrayUser = [];
+
         $categories = json_decode($coupon->coupon_settings->functionality_amount);
         foreach (Category::whereIn('id', $categories)->get() as $item) {
             $arrayCat[] = $item->toArray();
         }
+//        $couponArr = $coupon->toArray();
+//        $coupon_setting = ($coupon->coupon_settings)->toArray();
+//        $coupon_setting['functionality_amount'] = $arrayCat;
+//        $couponArr['coupon_settings'] = $coupon_setting;
+
+        $userCat = json_decode($coupon->coupon_settings->user_group);
+
+        if ($userCat[0] < -1) {
+            foreach (User::where('group', $userCat[0])->get() as $item) {
+                $arrayUser[] = $item->toArray();
+            }
+        } elseif ($userCat[0] == -1) {
+            foreach (User::all() as $item) {
+                $arrayUser[] = $item->toArray();
+            }
+        } else {
+            foreach (User::whereIn('id', $userCat)->get() as $item) {
+                $arrayUser[] = $item->toArray();
+            }
+        }
+
         $couponArr = $coupon->toArray();
         $coupon_setting = ($coupon->coupon_settings)->toArray();
         $coupon_setting['functionality_amount'] = $arrayCat;
+        $coupon_setting['user_group'] = $arrayUser;
         $couponArr['coupon_settings'] = $coupon_setting;
+
         return $couponArr;
     }
 
