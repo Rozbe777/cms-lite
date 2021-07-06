@@ -133,13 +133,9 @@ class CouponRepository implements RepositoryInterface
             $data['functionality'] :
             'total_cart_price';
 
-        if (!in_array($setting_data['functionality'], ['total_items_price', 'total_cart_price'])) {
-            $setting_data['functionality_amount'] = json_encode($data['functionality_amount']);
-        } else {
-            $setting_data['functionality_amount'] = $data['functionality_amount'];
-        }
+        $setting_data['functionality_amount'] = json_encode($data['functionality_amount']);
 
-        if(empty($setting_data['functionality_amount']))
+        if (empty($setting_data['functionality_amount']))
             $setting_data['functionality_amount'] = null;
 
         $setting_data['cart_conditions'] = !empty($data['cart_conditions']) ?
@@ -202,13 +198,12 @@ class CouponRepository implements RepositoryInterface
             $start_date['date']['timestamp'] :
             Jalalian::forge('today')->getTimestamp();
 
-
         $setting_data['start_time'] = $start_date['date']['timestamp'] != null ?
             "$H_start:$M_start:$S_start" :
             null;
         $setting_data['end_date'] = $end_date['date']['timestamp'];
         $setting_data['end_time'] = "$H_end:$M_end:$S_end";
-
+        dd($setting_data);
         CouponSetting::create($setting_data);
 
         return $coupon->with('coupon_settings');

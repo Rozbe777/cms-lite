@@ -114,6 +114,10 @@ class CouponController extends Controller
     public function update(EditCouponRequest $request)
     {
         $coupon = $this->repository->update($request->all(), $request->id);
+
+        if (!empty($coupon))
+            $coupon = $coupon->load('categories');
+
         return $this->message(__('message.success.200'))->data($coupon)->success();
     }
 
