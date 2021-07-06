@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests\Admin\Coupon;
 
+use App\Http\Requests\BaseRequest;
 use App\Rules\CouponCodeCheck;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditCouponRequest extends FormRequest
+class EditCouponRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +26,7 @@ class EditCouponRequest extends FormRequest
     public function rules()
     {
         return [
-            "code" => new CouponCodeCheck(),
+            "code" => 'required',
             "status" => "nullable|in:active,deactivate",
             "type" => "nullable|in:fixed_price,percentage,free_delivery",
             'value' => "nullable|string",
