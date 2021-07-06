@@ -24,7 +24,9 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
 
     let start_dd = dataDefaul ? dataDefaul.coupon_settings.start_date ? moment(parseInt(dataDefaul.coupon_settings.start_date.toString() + "000")).locale('fa') : null : null;
+    // let start_dd = null;
     let end_dd = dataDefaul ? dataDefaul.coupon_settings.end_date ? moment(parseInt(dataDefaul.coupon_settings.end_date.toString() + "000")).locale('fa') : null : null;
+    // let end_dd = null;
 
 
     function handleCondName(id, value) {
@@ -61,17 +63,17 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     const [dateStart, setDateStart] = useState({
         date: {
             date: {
-                year: start_dd ? start_dd.format('YYYY') : moment(new Date()).locale('fa').format('YYYY'),
-                day: start_dd ? start_dd.format('D') : moment(new Date()).locale('fa').format('D'),
-                month: start_dd ? start_dd.format('MMMM') : moment(new Date()).locale('fa').format('MMMM'),
-                monthNum: start_dd ? start_dd.format('M') : moment(new Date()).locale('fa').format('M')
+                year: start_dd ? start_dd ? start_dd.format('YYYY') : moment(new Date()).locale('fa').format('YYYY') : moment(new Date()).locale('fa').format('YYYY'),
+                day: start_dd ? start_dd ? start_dd.format('D') : moment(new Date()).locale('fa').format('D') : moment(new Date()).locale('fa').format('D'),
+                month: start_dd ? start_dd ? start_dd.format('MMMM') : moment(new Date()).locale('fa').format('MMMM') : moment(new Date()).locale('fa').format('MMMM'),
+                monthNum: start_dd ? start_dd ? start_dd.format('M') : moment(new Date()).locale('fa').format('M') : moment(new Date()).locale('fa').format('M')
             },
             timestamp: dataDefaul ? dataDefaul.coupon_settings.start_date ?  parseInt(dataDefaul.coupon_settings.start_date.toString() + "000") : '' : ''
         },
         time: dataDefaul ? {
-            h: dataDefaul.coupon_settings.start_time.split(":")[0],
-            m: dataDefaul.coupon_settings.start_time.split(":")[1],
-            s: dataDefaul.coupon_settings.start_time.split(":")[2]
+            h: dataDefaul.coupon_settings.start_time ? dataDefaul.coupon_settings.start_time.split(":")[0] : '00',
+            m: dataDefaul.coupon_settings.start_time ? dataDefaul.coupon_settings.start_time.split(":")[1] : '00',
+            s: dataDefaul.coupon_settings.start_time ? dataDefaul.coupon_settings.start_time.split(":")[2] : '00'
         } : {
             h: "00",
             m: "00",
