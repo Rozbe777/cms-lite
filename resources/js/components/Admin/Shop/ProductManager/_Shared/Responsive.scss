@@ -1762,3 +1762,10 @@ ul.time-roles{
     padding-left: 8px !important;
     padding-bottom: 8px !important;
 }
+
+textarea{
+    &::placeholder{
+        text-align: right !important;
+
+    }
+}

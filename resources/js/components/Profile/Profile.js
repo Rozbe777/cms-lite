@@ -83,24 +83,25 @@ const Profile = (props) => {
     const submitForm = (e) => {
 
 
+        console.log(userData)
         let forms = new FormData();
         var pattern = /^0?9{1}([0-9]{9})$/;
-        let {id, name, last_name, mobile} = userData;
-        if (empty(name)) {
+        let {id, name, last_name, mobile , description} = userData;
+        if (empty(userData.name)) {
             return error('وارد کردن نام الزامی است.')
         }
-        if (empty(last_name)) {
+        if (empty(userData.last_name)) {
             return error('وارد کردن نام‌خانوادگی الزامی است.')
         }
 
-        if (empty(mobile)) {
+        if (empty(userData.mobile)) {
             return error('وارد کردن شماره تلفن‌همراه الزامی است.')
         }
 
-        if (!pattern.test((mobile))) {
+        if (!pattern.test((userData.mobile))) {
             return error('فرمت شماره تلفن اشتباه است.')
         }
-        state._token = token;
+        userData._token = token;
 
         if (file.file) {
             forms.append("image", file.file);
@@ -114,10 +115,11 @@ const Profile = (props) => {
 
         forms.append("_token", token);
 
-        forms.append("name", state.name);
+        forms.append("name", userData.name);
         forms.append("id", id);
-        forms.append("last_name", state.last_name);
-        forms.append("email", state.email ? state.email : '');
+        forms.append("last_name", userData.last_name);
+        forms.append("description", userData.description);
+        forms.append("email", userData.email ? userData.email : '');
         let mobiles = Array.from(mobile);
         let FirstNumber = mobiles[0]
         if (FirstNumber === 0 || FirstNumber === "0") {
@@ -126,7 +128,7 @@ const Profile = (props) => {
             forms.append("mobile", newMobile);
 
             $("#loading-show").addClass("activeLoadingLogin");
-            Request.UpdateUserDetail(forms, id)
+            Request.ProfileUpdate(forms)
                 .then(res => {
                     $("#loading-show").removeClass("activeLoadingLogin");
                     success("اطلاعات ویرایش شد");
@@ -142,10 +144,10 @@ const Profile = (props) => {
                 }
             })
         } else {
-            forms.append("mobile", state.mobile);
+            forms.append("mobile", userData.mobile);
 
             $("#loading-show").addClass("activeLoadingLogin");
-            Request.UpdateUserDetail(forms, id)
+            Request.ProfileUpdate(forms)
                 .then(res => {
 
                     $("#loading-show").removeClass("activeLoadingLogin");
@@ -229,7 +231,7 @@ const Profile = (props) => {
                                     <label>نام</label>
                                     <input type="text" className="form-control text-left" placeholder="نام"
                                            value={userData.name} onChange={(e) => {
-                                        setUserData({name: e.target.value})
+                                        setUserData({...userData , name: e.target.value})
                                     }} required
                                            data-validation-required-message="وارد کردن نام الزامی است"
                                            dir="ltr"/>
@@ -240,7 +242,7 @@ const Profile = (props) => {
                                     <label>نام خانوادگی</label>
                                     <input type="text" className="form-control" placeholder="نام خانوادگی"
                                            value={userData.last_name} onChange={(e) => {
-                                        setUserData({last_name: e.target.value})
+                                        setUserData({...userData , last_name: e.target.value})
                                     }}
                                            required
                                            data-validation-required-message="وارد کردن نام خانوادگی الزامی است"/>
@@ -251,8 +253,8 @@ const Profile = (props) => {
                                     <label>ایمیل</label>
                                     <input type="email" className="form-control text-left" placeholder="ایمیل"
                                            value={userData.email} onChange={(e) => {
-                                        setUserData({email: e.target.value})
-                                    }} required
+                                        setUserData({...userData , email: e.target.value})
+                                    }}
                                            data-validation-required-message="وارد کردن ایمیل الزامی است" dir="ltr"/>
                                 </div>
                             </div>
@@ -261,7 +263,7 @@ const Profile = (props) => {
                                     <label>شماره تلفن‌همراه</label>
                                     <input type="tel" className="form-control text-left" placeholder="شماره تلفن‌همراه"
                                            value={userData.mobile} onChange={(e) => {
-                                        setUserData({mobile: convertDigit(e.target.value)})
+                                        setUserData({...userData , mobile: convertDigit(e.target.value)})
                                     }} required
                                            data-validation-required-message="وارد کردن شماره تلفن‌همراه الزامی است"
                                            dir="ltr"/>
@@ -273,6 +275,11 @@ const Profile = (props) => {
                                 <fieldset className="form-group">
                                     <label>توضیحات شخصی</label>
                                     <textarea className="form-control" id="basicTextarea" rows="3"
+                                              name={"description"}
+                                              value={userData.description}
+                                              onChange={(e) => {
+                                                  setUserData({...userData , description:e.target.value})
+                                              }}
                                               placeholder="توضیحاتی راجع به خودتان تایپ کنید ..."></textarea>
                                 </fieldset>
                             </div>
