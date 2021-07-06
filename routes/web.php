@@ -118,7 +118,7 @@ Route::middleware('auth')->group(function () {
 
     //------------------------------Profile----------------------------
     Route::get('profile/{userId}/edit', [ProfileController::class, 'index'])->name('profile.edit');
-    Route::post('profile/{userId}/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('profile/password', [ProfileController::class, 'changePassword'])->name('profile.password');
     Route::delete('profile/delete', [ProfileController::class, 'delete'])->name('profile.delete');
 
