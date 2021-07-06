@@ -8,7 +8,7 @@ import $ from "jquery";
 import {ErroHandle, error as ErrorToast, success} from "../../../../helper";
 import {DiscoutAction} from "../layout/DiscoutAction";
 import {MultiSelected} from "../layout/MultiSelected";
-import {Searchs} from "../layout/Context";
+import {Searchs, USER_SETTING} from "../layout/Context";
 import {Switcher} from "../../../HOC/Switch";
 import {TopPrice} from "../layout/TopPrice";
 import {CartAction} from "../layout/CartAction";
@@ -59,6 +59,10 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
     const [allData, setAllData] = useState(dataDefaul ? dataDefaul : def)
 
+
+
+    const [userGroupNew , setUserGroupNew] = useState([-1]);
+    const [userStatusNew , setUserStatusNew] = useState("all")
 
     const [edit, setEdit] = useState(false);
     const [dateStart, setDateStart] = useState({
@@ -135,7 +139,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     const [start_time, setStart_time] = useState({});
     const [typeAct, setTypeAct] = useState('')
     const [typeUser, setTypeUser] = useState('')
-    const [userGroups, setUserGroups] = useState('');
+    const [userGroups, setUserGroups] = useState([-1]);
     const [dis, setDis] = useState(true);
     const [disUser, setDisUser] = useState(true);
     const [productTotal, setProductTotal] = useState(0);
@@ -334,7 +338,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         data.functionality = functionality;
         data.functionality_amount = functionality_amount;
         // data.user_status = userStatus ? userStatus : [];
-        data.user_group = userGroup ? userGroup : [];
+        data.user_group = userGroup;
         data.cart_conditions = cartStatus.typeSel.types;
 
         data.cart_conditions_amount = cartStatus.cart_conditions_amount;
@@ -433,6 +437,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
 
     const AddNewDiscount = data => {
+        console.log("++++++" , data)
         swal({
             title: 'افزودن کد تخفیف جدید',
             text: "آیا مطمئنید؟",
@@ -677,27 +682,16 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
     const handleUserSetting = e => {
 
-        // console.log(e , "i userss")
+        setUserStatus(e.user_status.type);
+        setUserGroup(e.userGroup);
 
-        setUserStatus(e.user_status.types);
-        setUserTypeName(e.user_status.name);
-        e.userGroup.length > 0 ? setUserGroup(e.userGroup) : null;
-        if (e.userSelecet.length > 0) {
-            let users = [];
-            e.userSelecet.map(item => {
-                users.push(parseInt(item.id));
-                setUserGroup(users);
-            })
-        } else {
-        }
     }
     const handleShowUserSetting = e => {
         e.preventDefault();
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<UserSetting dataOut={handleUserSetting} oldData={{
             userStatus,
-            userTypeName,
-            userGroup
+            userGroup,
         }}/>, document.getElementById("back-loaderedss"));
     }
 
@@ -890,6 +884,9 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
                 return 'کل مبلغ سبد خرید';
         }
     }
+
+
+    console.log("yyyyyy" , userGroupNew);
 
 
     return (

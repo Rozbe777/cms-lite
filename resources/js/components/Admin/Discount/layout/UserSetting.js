@@ -1,22 +1,22 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect , useContext} from "react";
 import ReactDOM from 'react-dom';
 import {Request} from "../../../../services/AdminService/Api";
 import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
+import {USER_SETTING} from './../layout/Context';
 import $ from "jquery";
 
-export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
+export const UserSetting = ({dataOut,oldData}) => {
 
-    console.log(oldData , "/////////////********")
 
-    const [status, setStatus] = useState(true);
-    const [data, setData] = useState({limit: limit ? limit : null})
-    const [productData, setProductData] = useState([]);
+    useEffect(() => {
+        handleSearchUser();
+    } , [])
+
     const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(false)
-    const [userGroup , setUserGroup] = useState(oldData ? oldData.userGroup : ["-2"])
-    const [typeSel, setTypeSel] = useState({types: oldData ? oldData.userStatus : '' , name : oldData ? oldData.userTypeName : ''});
-    const [catSel, setCatSel] = useState(oldData.userGroup ? oldData.userGroup :  []);
+    const [userGroup , setUserGroup] = useState(oldData ? oldData.userGroup : [-1])
+    const [typeSel, setTypeSel] = useState({type : oldData ? oldData.userStatus : 'all'});
 
     const handleClose = e => {
         e.preventDefault();
@@ -26,8 +26,7 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        console.log("666666" , typeSel, userGroup[0] ? userGroup[0] : [-1] ,catSel)
-        dataOut({user_status: typeSel,userGroup :  userGroup[0] ? [userGroup[0]] : [-1]  ,userSelecet : catSel[0] ? catSel : [-1]});
+        dataOut({user_status: typeSel,userGroup});
         handleClose(e);
     }
 
@@ -55,32 +54,53 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
 
     const handleChoiseGroup = (e , index , name , id) => {
         e.preventDefault();
-        console.log("555555555" , index, name , id)
         let userGroups = [];
-        setCatSel([]);
-        userGroups.push(id)
+        userGroups.push(parseInt(id))
         setUserGroup(userGroups);
     }
     const handleChoise = (e, id) => {
         e.preventDefault();
 
+        console.log("[[[[[[" , id)
+        // if (id == 0) {
+        //     let typp = {...typeSel};
+        //     typp.types = "all";
+        //     typp.name = "برای همه کاربران";
+        //     setTypeSel(typp);
+        // } else if (id == 1) {
+        //     let typpp = {...typeSel};
+        //     typpp.types = "group_of_users";
+        //     typpp.name = "برای گروهی از کاربران";
+        //     setTypeSel(typpp);
+        //
+        // } else if (id == 2) {
+        //     let typpps = {...typeSel};
+        //     typpps.types = "special_users";
+        //     typpps.name = "برای کاربران خاص";
+        //
+        //     setTypeSel(typpps);
+        //     handleSearchUser();
+        //
+        // } else {
+        //
+        // }
+        //
         if (id == 0) {
-            let typp = {...typeSel};
-            typp.types = "all";
-            typp.name = "برای همه کاربران";
-            setTypeSel(typp);
+
+            let userState = {...typeSel};
+            userState.type = "all";
+            setTypeSel(userState)
         } else if (id == 1) {
-            let typpp = {...typeSel};
-            typpp.types = "group_of_users";
-            typpp.name = "برای گروهی از کاربران";
-            setTypeSel(typpp);
+
+
+            let userState = {...typeSel};
+            userState.type = "group_of_users";
+            setTypeSel(userState);
 
         } else if (id == 2) {
-            let typpps = {...typeSel};
-            typpps.types = "special_users";
-            typpps.name = "برای کاربران خاص";
-
-            setTypeSel(typpps);
+            let userState = {...typeSel};
+            userState.type = "special_users";
+            setTypeSel(userState);
             handleSearchUser();
 
         } else {
@@ -98,8 +118,11 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
     const handleSelecete = e => {
 
         let UserGroups = [];
+        console.log(e , "ppppp")
+        e.map(item => {
+            UserGroups.push(item.id);
+        })
         setUserGroup(UserGroups)
-        setCatSel(e);
 
     }
 
@@ -115,7 +138,7 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
 
                             <p style={{textAlign: 'center'}}> اعمال شود روی</p>
 
-                            <MultiOption name={"status"} handleChoise={handleChoise} defData={oldData ? oldData.userStatus : null} data={[{
+                            <MultiOption name={"status"} handleChoise={handleChoise} defData={typeSel.type ? typeSel.type : "all"} data={[{
                                 id: 'all',
                                 name: 'همه کاربران'
                             }, {
@@ -132,8 +155,9 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
 
                     </div>
 
+                    {console.log(typeSel , "99999999999")}
 
-                    {typeSel.types ? typeSel.types == "group_of_users" ? (
+                    {typeSel.type ? typeSel.type == "group_of_users" ? (
                         <div className={"col-12"}>
                             <p style={{textAlign: 'center'}}>کاربرانی که</p>
                             <MultiOption name={"user_group"} data={[{
@@ -143,14 +167,14 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
                                 id: '-3',
                                 name: 'کاربرانی که خرید نکرده اند'
                             }]}
-                                         defData={userGroup[0] == "-1" ? "-2" : userGroup[0] }
+                                         defData={userGroup}
                                          handleChoise={handleChoiseGroup}
                                 // selected={item => handleCloseFirst(item)}
 
                             />
                         </div>
 
-                    ) : typeSel.types == "special_users" ? (
+                    ) : typeSel.type == "special_users" ? (
                         <div className={"col-12"}>
                             <p>کاربر</p>
 

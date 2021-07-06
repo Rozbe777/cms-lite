@@ -1,4 +1,4 @@
 import {createContext} from "react";
 
 
-export const UserSetting = createContext({});
+export const USER_SETTING = createContext({});
