@@ -26,6 +26,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     let start_dd = dataDefaul ? dataDefaul.coupon_settings.start_date ? moment(parseInt(dataDefaul.coupon_settings.start_date.toString() + "000")).locale('fa') : null : null;
     // let start_dd = null;
     let end_dd = dataDefaul ? dataDefaul.coupon_settings.end_date ? moment(parseInt(dataDefaul.coupon_settings.end_date.toString() + "000")).locale('fa') : null : null;
+
     // let end_dd = null;
 
 
@@ -68,7 +69,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
                 month: start_dd ? start_dd ? start_dd.format('MMMM') : moment(new Date()).locale('fa').format('MMMM') : moment(new Date()).locale('fa').format('MMMM'),
                 monthNum: start_dd ? start_dd ? start_dd.format('M') : moment(new Date()).locale('fa').format('M') : moment(new Date()).locale('fa').format('M')
             },
-            timestamp: dataDefaul ? dataDefaul.coupon_settings.start_date ?  parseInt(dataDefaul.coupon_settings.start_date.toString() + "000") : '' : ''
+            timestamp: dataDefaul ? dataDefaul.coupon_settings.start_date ? parseInt(dataDefaul.coupon_settings.start_date.toString() + "000") : '' : ''
         },
         time: dataDefaul ? {
             h: dataDefaul.coupon_settings.start_time ? dataDefaul.coupon_settings.start_time.split(":")[0] : '00',
@@ -88,7 +89,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
                 month: end_dd ? end_dd.format('MMMM') : moment(new Date()).locale('fa').format('MMMM'),
                 monthNum: end_dd ? end_dd.format('MMMM') : moment(new Date()).locale('fa').format('M')
             },
-            timestamp: dataDefaul ? dataDefaul.coupon_settings.end_date ?  parseInt(dataDefaul.coupon_settings.end_date.toString() + "000") : '' : ''
+            timestamp: dataDefaul ? dataDefaul.coupon_settings.end_date ? parseInt(dataDefaul.coupon_settings.end_date.toString() + "000") : '' : ''
         },
         time: dataDefaul ? {
             h: dataDefaul.coupon_settings.end_time.split(":")[0],
@@ -366,7 +367,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         data.number_of_times_allowed_to_use = limitUse.codeVal ? parseInt(limitUse.codeVal) : null;
         data.number_of_use_allowed_per_user = limitUse.userVal ? parseInt(limitUse.userVal) : null;
 
-        console.log(data)
         AddNewDiscount(data)
 
 
@@ -424,6 +424,8 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         data.number_of_times_allowed_to_use = limitUse.codeVal ? parseInt(limitUse.codeVal) : null;
         data.number_of_use_allowed_per_user = limitUse.userVal ? parseInt(limitUse.userVal) : null;
 
+
+        console.log("___________", data)
         UpdateDiscount(data)
 
 
@@ -469,6 +471,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     }
     const UpdateDiscount = data => {
 
+        console.log("vsdvsvsv0 ", data)
         swal({
             title: 'ویرایش کد تخفیف',
             text: "آیا مطمئنید؟",
@@ -493,31 +496,19 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
                         })
 
                     }).catch(err => {
-                    if (err.response.data.errors) {
-                        ErroHandle(err.response.data.errors);
-                    } else {
-                        //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
-                        ErrorToast("خطای غیر منتظره ای رخ داده است")
+                    if (err.response.data) {
+                        if (err.response.data.errors) {
+                            ErroHandle(err.response.data.errors);
+                        } else {
+                            //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
+                            ErrorToast("خطای غیر منتظره ای رخ داده است")
+                        }
                     }
-
                 })
             }
         });
     }
 
-    const handleTopDiscount = e => {
-        e.preventDefault();
-    }
-
-
-    const HandleEdit = e => {
-        e.preventDefault();
-    }
-
-    const HandleDuplicate = e => {
-        e.preventDefault();
-
-    }
 
     const handleMaxPrice = (data, e) => {
         e.preventDefault();

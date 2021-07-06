@@ -26,8 +26,8 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        console.log("666666" , typeSel, userGroup[0] == "-1" ? ["-2"] : userGroup ,catSel)
-        dataOut({user_status: typeSel, userGroup  ,userSelecet : catSel});
+        console.log("666666" , typeSel, userGroup[0] ? userGroup[0] : [-1] ,catSel)
+        dataOut({user_status: typeSel,userGroup :  userGroup[0] ? [userGroup[0]] : [-1]  ,userSelecet : catSel[0] ? catSel : [-1]});
         handleClose(e);
     }
 

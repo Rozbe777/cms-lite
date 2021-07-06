@@ -1,4 +1,4 @@
 import {createContext} from "react";
 
 
-export const Searchs = createContext({});
+export const UserSetting = createContext({});

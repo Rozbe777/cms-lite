@@ -49,7 +49,6 @@ const Show = (props) => {
         Request.GetOneCoupon(id)
             .then(res => {
                 console.log(res.data , "**************")
-
                 setLoadingOne(false);
                 setOneCoupon(res.data.data);
                 ReactDOM.render(<AddDiscount token={token} result={handleBack} dataDefaul={res.data.data}
@@ -104,7 +103,8 @@ const Show = (props) => {
 
     const handleBack = (item) => {
 
-        if (item.status == 200) {
+        console.log(item , "//////////")
+        if (item.status == 200 || item.http_code == 200) {
             getAllCoupons();
             ReactDom.render('', document.getElementById('add-datas'))
         }
