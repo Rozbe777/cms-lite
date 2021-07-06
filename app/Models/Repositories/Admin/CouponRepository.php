@@ -29,9 +29,13 @@ class CouponRepository implements RepositoryInterface
         })->when(!empty($status), function ($query) use ($status) {
             $query->where("status", $status);
         })->when(!empty($startTime), function ($query) use ($startTime) {
-            $query->where('start_date' > $startTime);
+            $query->with(['coupon_settings' => function($query) use ($startTime) {
+                $query->where('start_date' ,">", (int)$startTime);
+            }]);
         })->when(!empty($endTime), function ($query) use ($endTime) {
-            $query->where('end_date' > $endTime);
+            $query->with(['coupon_settings' => function($query) use ($endTime) {
+                $query->where('end_date' ,"<", (int)$endTime);
+            }]);
         })->when(!empty($expired), function ($query) use ($expired) {
             $query->with(['coupon_settings' => function ($q) use ($expired) {
                 $q->where("end_date", '<', jdate()->getTimestamp());
@@ -152,7 +156,7 @@ class CouponRepository implements RepositoryInterface
 
         $item['value'] = !empty($data['value']) ?
             $data['value'] :
-            $coupon->value;
+            ($item['type'] == "free_delivery" ?null:$coupon->value);
 
         $item['max_limit'] = !empty($data['max_limit']) ?
             $data['max_limit'] :
@@ -219,11 +223,11 @@ class CouponRepository implements RepositoryInterface
 
         $setting_data['number_of_times_allowed_to_use'] = !empty($data['number_of_times_allowed_to_use']) ?
             $data['number_of_times_allowed_to_use'] :
-            10;
+            null;
 
         $setting_data['number_of_use_allowed_per_user'] = !empty($data['number_of_use_allowed_per_user']) ?
             $data['number_of_use_allowed_per_user'] :
-            1;
+            null;
 
         $coupon_data['code'] = $data['code'];
         $coupon_data['user_id'] = Auth::id();
@@ -252,8 +256,6 @@ class CouponRepository implements RepositoryInterface
         $M_end = $end_date['time']['m'];
         $S_end = $end_date['time']['s'];
 
-        $coupon = Coupon::create($coupon_data);
-
         $setting_data['start_date'] = $start_date['date']['timestamp'] != null ?
             $start_date['date']['timestamp'] :
             Jalalian::forge('today')->getTimestamp();
@@ -261,8 +263,11 @@ class CouponRepository implements RepositoryInterface
         $setting_data['start_time'] = $start_date['date']['timestamp'] != null ?
             "$H_start:$M_start:$S_start" :
             null;
+
         $setting_data['end_date'] = $end_date['date']['timestamp'];
         $setting_data['end_time'] = "$H_end:$M_end:$S_end";
+
+        $coupon = Coupon::create($coupon_data);
 
         $setting_data['coupon_id'] = $coupon->id;
 

@@ -4,8 +4,6 @@ namespace App\Http\Requests\Admin\Coupon;
 
 use App\Http\Requests\BaseRequest;
 use App\Rules\CouponCodeCheck;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class CreateCouponRequest extends BaseRequest
 {
