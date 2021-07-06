@@ -5,13 +5,15 @@ import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
 
-export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
+export const DiscoutAction = ({defaultValue , limit,dataOut }) => {
 
-    const {functionality} = defaultValue;
+
+    console.log(defaultValue , "***********def")
+    // const {functionality} = defaultValue;
 
 
     const [status, setStatus] = useState(true);
-    const [data, setData] = useState({limit: limit ? limit : null})
+    const [data, setData] = useState(defaultValue ? defaultValue.functionality : 'total_cart_price');
     const [productData, setProductData] = useState([]);
     const [categoryData, setCategoryData] = useState([]);
     const [loading, setLoading] = useState(false)
@@ -23,9 +25,6 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
 
 
 
-
-
-    console.log(functionality)
     const handleClose = e => {
         e.preventDefault();
         $("#back-loaderedss").removeClass("active");
@@ -34,11 +33,13 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        if (data.limit){
-            dataOut({data  , catSel})
-        }else{
-            dataOut({data : "total_cart_price" , catSel})
-        }
+        console.log("___________________________be" , {data  , catSel})
+        // if (data.limit){
+            dataOut({data : data ? data : 'total_card_price'  , catSel})
+
+        // }else{
+        //     dataOut({data : "total_cart_price" , catSel})
+        // }
         handleClose(e);
     }
 
@@ -184,6 +185,7 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
 
                             <p style={{textAlign: 'center'}}>تخفیف اعمال شود روی</p>
 
+                            {console.log(defaultValue.functionality , "deffffffff")}
                             <MultiOption defData={defaultValue.functionality} name={"status"} handleChoise={handleChoise} data={[{
                                 id: 'total_cart_price',
                                 name: 'کل مبلغ سبد خرید'

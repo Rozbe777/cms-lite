@@ -20,9 +20,11 @@ import {EndDiscount} from "../layout/EndDiscount";
 export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
 
+    console.log("data default ", dataDefaul);
 
-let start_dd = dataDefaul ? moment(parseInt(dataDefaul.coupon_settings.start_date.toString() + "000")).locale('fa') : null;
-let end_dd = dataDefaul ? moment(parseInt(dataDefaul.coupon_settings.end_date.toString() + "000")).locale('fa') : null;
+
+    let start_dd = dataDefaul ? dataDefaul.coupon_settings.start_date ? moment(parseInt(dataDefaul.coupon_settings.start_date.toString() + "000")).locale('fa') : null : null;
+    let end_dd = dataDefaul ? dataDefaul.coupon_settings.end_date ? moment(parseInt(dataDefaul.coupon_settings.end_date.toString() + "000")).locale('fa') : null : null;
 
 
     function handleCondName(id, value) {
@@ -55,47 +57,45 @@ let end_dd = dataDefaul ? moment(parseInt(dataDefaul.coupon_settings.end_date.to
     const [allData, setAllData] = useState(dataDefaul ? dataDefaul : def)
 
 
-
-
     const [edit, setEdit] = useState(false);
     const [dateStart, setDateStart] = useState({
-        date : {
-            date : {
-                year : start_dd ? start_dd.format('YYYY') : moment(new Date()).locale('fa').format('YYYY') ,
-                day:start_dd ? start_dd.format('D') : moment(new Date()).locale('fa').format('D'),
-                month : start_dd ? start_dd.format('MMMM') : moment(new Date()).locale('fa').format('MMMM'),
-                monthNum : start_dd ? start_dd.format('M') : moment(new Date()).locale('fa').format('M')
+        date: {
+            date: {
+                year: start_dd ? start_dd.format('YYYY') : moment(new Date()).locale('fa').format('YYYY'),
+                day: start_dd ? start_dd.format('D') : moment(new Date()).locale('fa').format('D'),
+                month: start_dd ? start_dd.format('MMMM') : moment(new Date()).locale('fa').format('MMMM'),
+                monthNum: start_dd ? start_dd.format('M') : moment(new Date()).locale('fa').format('M')
             },
-            timestamp : dataDefaul ? parseInt(dataDefaul.coupon_settings.start_date.toString() + "000") : ''
+            timestamp: dataDefaul ? dataDefaul.coupon_settings.start_date ?  parseInt(dataDefaul.coupon_settings.start_date.toString() + "000") : '' : ''
         },
-        time : dataDefaul ? {
-            h  : dataDefaul.coupon_settings.start_time.split(":")[0],
-            m  : dataDefaul.coupon_settings.start_time.split(":")[1],
-            s  : dataDefaul.coupon_settings.start_time.split(":")[2]
+        time: dataDefaul ? {
+            h: dataDefaul.coupon_settings.start_time.split(":")[0],
+            m: dataDefaul.coupon_settings.start_time.split(":")[1],
+            s: dataDefaul.coupon_settings.start_time.split(":")[2]
         } : {
-            h : "00",
-            m : "00",
-            s : '00'
+            h: "00",
+            m: "00",
+            s: '00'
         }
     })
     const [dateEnd, setDateEnd] = useState({
-        date : {
-            date : {
-                year : end_dd ? end_dd.format('YYYY') :moment(new Date()).locale('fa').format('YYYY'),
-                day:end_dd ? end_dd.format('D') : moment(new Date()).locale('fa').format('D'),
-                month : end_dd ? end_dd.format('MMMM') : moment(new Date()).locale('fa').format('MMMM'),
-                monthNum : end_dd ? end_dd.format('MMMM') : moment(new Date()).locale('fa').format('M')
+        date: {
+            date: {
+                year: end_dd ? end_dd.format('YYYY') : moment(new Date()).locale('fa').format('YYYY'),
+                day: end_dd ? end_dd.format('D') : moment(new Date()).locale('fa').format('D'),
+                month: end_dd ? end_dd.format('MMMM') : moment(new Date()).locale('fa').format('MMMM'),
+                monthNum: end_dd ? end_dd.format('MMMM') : moment(new Date()).locale('fa').format('M')
             },
-            timestamp : dataDefaul ? parseInt(dataDefaul.coupon_settings.end_date.toString() + "000") : ''
+            timestamp: dataDefaul ? dataDefaul.coupon_settings.end_date ?  parseInt(dataDefaul.coupon_settings.end_date.toString() + "000") : '' : ''
         },
-        time : dataDefaul ? {
-            h  : dataDefaul.coupon_settings.end_time.split(":")[0],
-            m  : dataDefaul.coupon_settings.end_time.split(":")[1],
-            s  : dataDefaul.coupon_settings.end_time.split(":")[2]
+        time: dataDefaul ? {
+            h: dataDefaul.coupon_settings.end_time.split(":")[0],
+            m: dataDefaul.coupon_settings.end_time.split(":")[1],
+            s: dataDefaul.coupon_settings.end_time.split(":")[2]
         } : {
-            h : "00",
-            m : "00",
-            s : '00'
+            h: "00",
+            m: "00",
+            s: '00'
         }
     })
     const [status, setStatus] = useState(dataDefaul ? allData.status ? allData.status : "active" : "active");
@@ -113,7 +113,7 @@ let end_dd = dataDefaul ? moment(parseInt(dataDefaul.coupon_settings.end_date.to
     const [userStatus, setUserStatus] = useState('all');
     const [userGroup, setUserGroup] = useState([-1]);
     const [productData, setProductData] = useState([]);
-    const [disTypesDis, setDisTypesDis] = useState(dataDefaul ? dataDefaul.type : 'total_cart_price');
+    const [disTypesDis, setDisTypesDis] = useState(dataDefaul ? dataDefaul.type : 'fixed_price');
     const [disTypesUser, setDisTypesUser] = useState('all')
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(false);
@@ -144,7 +144,7 @@ let end_dd = dataDefaul ? moment(parseInt(dataDefaul.coupon_settings.end_date.to
         GetAllProducts();
         GetAllUser();
         handleTimeCheck();
-        if (dataDefaul){
+        if (dataDefaul) {
             handleTitrLimited();
         }
         if (!discountCode) {
@@ -370,7 +370,7 @@ let end_dd = dataDefaul ? moment(parseInt(dataDefaul.coupon_settings.end_date.to
 
     }
 
- const HandleEditForm = e => {
+    const HandleEditForm = e => {
         e.preventDefault();
         let data = {...allData};
         data.code = discountCode;
@@ -418,7 +418,7 @@ let end_dd = dataDefaul ? moment(parseInt(dataDefaul.coupon_settings.end_date.to
             data.start_date = null;
         }
 
-        data.id=dataDefaul.id;
+        data.id = dataDefaul.id;
         data.number_of_times_allowed_to_use = limitUse.codeVal ? parseInt(limitUse.codeVal) : null;
         data.number_of_use_allowed_per_user = limitUse.userVal ? parseInt(limitUse.userVal) : null;
 
@@ -453,7 +453,7 @@ let end_dd = dataDefaul ? moment(parseInt(dataDefaul.coupon_settings.end_date.to
                         })
 
                     }).catch(err => {
-                        // console.log(err.response.data.data);
+                    // console.log(err.response.data.data);
                     if (err.response.data.data) {
                         ErroHandle(err.response.data.data);
                     } else {
@@ -465,7 +465,7 @@ let end_dd = dataDefaul ? moment(parseInt(dataDefaul.coupon_settings.end_date.to
             }
         });
     }
-const UpdateDiscount = data => {
+    const UpdateDiscount = data => {
 
         swal({
             title: 'ویرایش کد تخفیف',
@@ -649,7 +649,7 @@ const UpdateDiscount = data => {
     const handleFunctionality = data => {
         delete data.data.limit;
 
-        console.log(data, "*************************")
+        console.log(data, "*************************", functionality)
         if (data.data) {
             setFunctionality(data.data)
         }
@@ -1006,6 +1006,7 @@ const UpdateDiscount = data => {
                                     name: 'ارسال رایگان'
                                 },
                             ]}
+                                         defData={"percentage"}
 
                                          handleChoise={handleTypeDiscount}
 
@@ -1180,17 +1181,17 @@ const UpdateDiscount = data => {
 
                         {dataDefaul ?
                             (<div onClick={(e) => HandleEditForm(e)}
-                                     className={"col-6"}
-                                     style={{
-                                         textAlign: 'center',
-                                         cursor: 'pointer',
-                                         background: "#5a8dee",
-                                         color: '#fff'
-                                     }}>
+                                  className={"col-6"}
+                                  style={{
+                                      textAlign: 'center',
+                                      cursor: 'pointer',
+                                      background: "#5a8dee",
+                                      color: '#fff'
+                                  }}>
                                     <span>ویرایش</span>
                                 </div>
                             )
-                             :
+                            :
 
                             (
                                 <div onClick={(e) => HandleForm(e)} className={"col-6"}
