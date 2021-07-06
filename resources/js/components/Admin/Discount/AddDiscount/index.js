@@ -377,7 +377,7 @@ let end_dd = dataDefaul ? moment(parseInt(dataDefaul.coupon_settings.end_date.to
         data.status = status;
         data._token = token;
         delete data.coupon_settings;
-        delete data.create_at;
+        delete data.created_at;
         delete data.deleted_at;
         delete data.updated_at;
         delete data.use_number;
