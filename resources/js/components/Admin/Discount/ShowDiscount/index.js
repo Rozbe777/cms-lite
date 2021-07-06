@@ -38,8 +38,9 @@ const Show = (props) => {
 
     const handleShowDis = (e) => {
         e.preventDefault();
-        ReactDOM.render(<AddDiscount token={token} result={handleBack}
-                                     />, document.getElementById("add-datas"));
+        console.log(oneCoupon , "***************")
+        // ReactDOM.render(<AddDiscount token={token} result={handleBack} dataDefaul={oneCoupon}
+        //                              />, document.getElementById("add-datas"));
     }
 
     const handleEditDis = (e, id) => {
@@ -47,10 +48,16 @@ const Show = (props) => {
         setLoadingOne(true);
         Request.GetOneCoupon(id)
             .then(res => {
+                console.log(res.data , "**************")
+
                 setLoadingOne(false);
                 setOneCoupon(res.data.data);
+                ReactDOM.render(<AddDiscount token={token} result={handleBack} dataDefaul={res.data.data}
+                                             />, document.getElementById("add-datas"));
                 handleShowDis(e)
             }).catch(err => {
+            setLoadingOne(false)
+
             if (err.response.data.errors) {
                 ErroHandle(err.response.data.errors);
             } else {
