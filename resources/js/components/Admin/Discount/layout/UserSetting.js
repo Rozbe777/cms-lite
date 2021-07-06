@@ -7,7 +7,7 @@ import $ from "jquery";
 
 export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
 
-    console.log(oldData , "//////")
+    console.log(oldData , "/////////////********")
 
     const [status, setStatus] = useState(true);
     const [data, setData] = useState({limit: limit ? limit : null})
@@ -113,7 +113,7 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
 
                             <p style={{textAlign: 'center'}}> اعمال شود روی</p>
 
-                            <MultiOption name={"status"} handleChoise={handleChoise} data={[{
+                            <MultiOption name={"status"} handleChoise={handleChoise} defData={oldData ? oldData.userStatus : null} data={[{
                                 id: 'all',
                                 name: 'همه کاربران'
                             }, {

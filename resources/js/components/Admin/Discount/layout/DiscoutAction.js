@@ -9,14 +9,19 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
 
     const {functionality} = defaultValue;
 
+
     const [status, setStatus] = useState(true);
     const [data, setData] = useState({limit: limit ? limit : null})
     const [productData, setProductData] = useState([]);
     const [categoryData, setCategoryData] = useState([]);
     const [loading, setLoading] = useState(false)
-    const [typeSel, setTypeSel] = useState({types: functionality.id ? functionality.id : ''});
+    const [typeSel, setTypeSel] = useState({types: defaultValue ? defaultValue.functionality : ''});
 
     const [catSel, setCatSel] = useState(defaultValue ? defaultValue.catSel : []);
+
+
+
+
 
 
 
@@ -39,7 +44,6 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
 
     const handleSearchProducts = e => {
         let searchdata = {search: '', pageSize: 10}
-        console.log(e);
 
         if (e) {
             searchdata.search = e;
@@ -92,6 +96,8 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
     }
 
     useEffect(() => {
+        handleSearchProducts();
+        handleSearchCategore();
         if (status) {
             $("span.checkboxed.limi").addClass("active");
         } else {
@@ -174,7 +180,7 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
 
                             <p style={{textAlign: 'center'}}>تخفیف اعمال شود روی</p>
 
-                            <MultiOption name={"status"} handleChoise={handleChoise} data={[{
+                            <MultiOption defData={defaultValue.functionality} name={"status"} handleChoise={handleChoise} data={[{
                                 id: 'total_cart_price',
                                 name: 'کل مبلغ سبد خرید'
                             }, {

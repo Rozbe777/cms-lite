@@ -5,14 +5,15 @@ import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
 
-export const LimitedUse = ({dataOut}) => {
+export const LimitedUse = ({defDataTU , defDataUU ,dataOut}) => {
 
 
-    const [checkCode, setCheckCode] = useState(false)
-    const [checkUser, setCkeckUser] = useState(false)
+    console.log("__++++___" , defDataTU , defDataUU)
+    const [checkCode, setCheckCode] = useState(defDataTU ? true : false)
+    const [checkUser, setCkeckUser] = useState(defDataUU ? true : false)
 
-    const [dataDis , setDis] = useState('');
-    const [dataUser , setUser] = useState('');
+    const [dataDis , setDis] = useState( defDataTU ? defDataTU : '');
+    const [dataUser , setUser] = useState(defDataUU ? defDataUU : '');
 
 
     const handleClose = e => {
@@ -26,7 +27,7 @@ export const LimitedUse = ({dataOut}) => {
         let codeVal = checkCode ? dataDis : null;
         let userVal = checkUser ? dataUser : null;
         let striShow = '';
-        console.log("____" , codeVal , userVal)
+
         if (checkCode && checkUser){
             striShow = `محدودیت ${codeVal} استفاده  و محدودیت ${userVal} استفاده برای هر کاربر`;
             dataOut({
@@ -116,7 +117,7 @@ export const LimitedUse = ({dataOut}) => {
 
                             <fieldset>
                                 <div className="checkbox">
-                                    <input type="checkbox" onChange={e => handleChangeCheckCode(e)}
+                                    <input type="checkbox" defaultChecked={checkCode ? checkCode : false} onChange={e => handleChangeCheckCode(e)}
                                            className="checkbox-input" id="checkbox2"/>
                                     <label style={{fontSize : '16px' , fontWeight : 100}} htmlFor="checkbox2">محدود کردن تعداد استفاده از این کد تخفیف</label>
                                 </div>
@@ -129,7 +130,7 @@ export const LimitedUse = ({dataOut}) => {
 
                     {checkCode ? (
                         <div className={"col-12"} style={{marginBottom : 20}}>
-                            <input type="number" onChange={e => handleCode(e)} id="title" className="form-control" placeholder={"تعداد قابل استفاده"}/>
+                            <input type="number" value={dataDis ? dataDis : ''} onChange={e => handleCode(e)} id="title" className="form-control" placeholder={"تعداد قابل استفاده"}/>
                         </div>
                     ) : ''}
 
@@ -139,7 +140,7 @@ export const LimitedUse = ({dataOut}) => {
 
                             <fieldset>
                                 <div className="checkbox">
-                                    <input type="checkbox" onChange={e => handleChangeCheckUser(e)}
+                                    <input type="checkbox" defaultChecked={checkUser ? checkUser : false} onChange={e => handleChangeCheckUser(e)}
                                            className="checkbox-input" id="checkboxUser"/>
                                     <label style={{fontSize : '16px' , fontWeight : 100}} htmlFor="checkboxUser">محدود کردن تعداد استفاده برای هر کاربر</label>
                                 </div>
@@ -152,7 +153,7 @@ export const LimitedUse = ({dataOut}) => {
 
                     {checkUser ? (
                         <div className={"col-12"} style={{marginBottom : 20}}>
-                            <input type="number" onChange={e => handleUser(e)} id="title" className="form-control" placeholder={"تعداد قابل استفاده برای هر کاربر"}/>
+                            <input type="number" value={dataUser ? dataUser : ''} onChange={e => handleUser(e)} id="title" className="form-control" placeholder={"تعداد قابل استفاده برای هر کاربر"}/>
                         </div>
                     ) : ''}
 

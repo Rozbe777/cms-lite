@@ -85,7 +85,7 @@ const Show = (props) => {
         finalAllIds.couponIds = checkBox;
         e.preventDefault();
         swal({
-            title: 'حذف دسته بندی',
+            title: 'حذف کوپن',
             text: "آیا مطمئنید؟",
             type: 'warning',
             showCancelButton: true,
@@ -102,7 +102,7 @@ const Show = (props) => {
                         Swal.fire({
                             type: "success",
                             title: 'حذف شد!',
-                            text: 'دسته بندی مورد نظر حذف شد',
+                            text: 'کوپن مورد نظر حذف شد',
                             confirmButtonClass: 'btn btn-success',
                             confirmButtonText: 'باشه',
                         })

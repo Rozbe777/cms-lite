@@ -7,6 +7,7 @@ import $ from "jquery";
 
 export const CartAction = ({defData, dataOut}) => {
 
+    console.log(defData , "..______________")
 
     function handleCondName(id) {
         switch (id.typeSel.types) {
