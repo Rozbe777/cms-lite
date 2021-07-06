@@ -12,7 +12,7 @@ export const Request = {
     GetAllCoupon : (data) =>  request.get("/coupons" , {params : data}),
     UpdateDiscounts : (data) =>  request.post("/coupons/update" , {params : data}),
     UpdateUserDetail : (data , id) =>  request.post("/users/update" , data),
-    GetAllCategory : () =>  request.get("/category?page=1"),
+    GetAllCategory : () =>  request.get("/categories?page=1"),
     GetAllCategorySearch : (data) =>  request.get("categories/getAll" , {params : data}),
     GetAllTags : () =>  request.get("/tags"),
     GetAllPages : () =>  request.get("/pages"),
