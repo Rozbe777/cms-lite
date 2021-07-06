@@ -191,14 +191,14 @@ const Profile = (props) => {
     //
     // }
     //
-    // const handlePreShowImage = e => {
-    //     e.preventDefault();
-    //     let preImages = {...preImage}
-    //     if (event.target.files && event.target.files[0]) {
-    //         preImages.uri = URL.createObjectURL(event.target.files[0])
-    //         setPreImage(preImages)
-    //     }
-    // }
+    const handlePreShowImage = e => {
+        e.preventDefault();
+        let preImages = {...preImage}
+        if (event.target.files && event.target.files[0]) {
+            preImages.uri = URL.createObjectURL(event.target.files[0])
+            setPreImage(preImages)
+        }
+    }
     //
     const handleFile = e => {
         e.preventDefault();
@@ -261,7 +261,99 @@ const Profile = (props) => {
     //
     //     let {name, last_name, email, mobile, avatar, status, full_name, id} = this.state;
     //
-        return (
+
+
+    const submitForm = (e) => {
+
+
+        let forms = new FormData();
+        var pattern = /^0?9{1}([0-9]{9})$/;
+        let {id, name, last_name,, mobile} = userData;
+        if (empty(name)) {
+            return error('وارد کردن نام الزامی است.')
+        }
+        if (empty(last_name)) {
+            return error('وارد کردن نام‌خانوادگی الزامی است.')
+        }
+
+        if (empty(mobile)) {
+            return error('وارد کردن شماره تلفن‌همراه الزامی است.')
+        }
+
+        if (!pattern.test((mobile))) {
+            return error('فرمت شماره تلفن اشتباه است.')
+        }
+        state._token = token;
+
+        if (file.file) {
+            forms.append("image", file.file);
+        } else {
+            if (imageGet.state == '') {
+                forms.append("image", '');
+            } else {
+                forms.append("image", true);
+            }
+        }
+
+        forms.append("_token", token);
+
+        forms.append("name", state.name);
+        forms.append("id", id);
+        forms.append("last_name", state.last_name);
+        forms.append("email", state.email ? state.email : '');
+        // forms.append("password", state.password);
+        // forms.append("role_id", state.role_id);
+        // forms.append("status", state.status);
+        // delete 0 from first mobile number
+        let mobiles = Array.from(mobile);
+        let FirstNumber = mobiles[0]
+        if (FirstNumber === 0 || FirstNumber === "0") {
+            mobiles.shift();
+            let newMobile = mobiles.join('');
+            forms.append("mobile", newMobile);
+
+            $("#loading-show").addClass("activeLoadingLogin");
+            Request.UpdateUserDetail(forms, id)
+                .then(res => {
+                    $("#loading-show").removeClass("activeLoadingLogin");
+                    success("اطلاعات ویرایش شد");
+                    setTimeout(() => {
+                        // window.location.reload();
+                    }, 400)
+                }).catch(error => {
+                $("#loading-show").removeClass("activeLoadingLogin");
+                if (error.response.data.errors) {
+                    ErroHandle(error.response.data.errors)
+                } else {
+                    ErrorToast("خطای غیر منتظره ای رخ داده است")
+                }
+            })
+        } else {
+            forms.append("mobile", state.mobile);
+
+            $("#loading-show").addClass("activeLoadingLogin");
+            Request.UpdateUserDetail(forms, id)
+                .then(res => {
+
+                    $("#loading-show").removeClass("activeLoadingLogin");
+                    success("اطلاعات ویرایش شد");
+                    setTimeout(() => {
+                        // window.location.reload();
+                    }, 400)
+                }).catch(error => {
+                $("#loading-show").removeClass("activeLoadingLogin");
+                if (error.response.data.errors) {
+                    ErroHandle(error.response.data.errors)
+                } else {
+                    ErrorToast("خطای غیر منتظره ای رخ داده است")
+                }
+            })
+        }
+
+
+    }
+
+    return (
             <div>
 
 
@@ -316,7 +408,7 @@ const Profile = (props) => {
 
                 <form novalidate onSubmit={e => {
                     e.preventDefault();
-                    this.submitForm()
+                    submitForm()
                 }}>
                     <div className="col-md-12">
                         <div className="row">
