@@ -9,7 +9,12 @@ import Loading from "../Auth/Loading";
 const Profile = (props) => {
 
     //
-    // let {user, is_admin = 0, roles = [], role_id = 0} = props;
+    let {user , token} = props;
+
+    console.log("////))))))___" , JSON.parse(props.user))
+    let {name , last_name , email , mobile} = JSON.parse(props.user);
+    const [userData , setUserData] = useState({name , last_name , email , mobile})
+
     // if (roles.length !== 0) {
     //     roles = JSON.parse(roles);
     // }
@@ -30,40 +35,41 @@ const Profile = (props) => {
     // });
     //
     //
-    // let defaultImg = 'images/avatar.jpg'
+    let defaultImg = 'images/avatar.jpg'
     //
-    // const [imageGet, setImage] = useState({state: ''})
+    const [imageGet, setImage] = useState({state: ''})
     //
-    // const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
     //
     //
-    // const handleGetImg = name => {
-    //     let names = name.split("/")
-    //     setLoading(true)
-    //     Request.GetImage(names[2])
-    //         .then(rr => {
-    //             setLoading(false)
-    //             setImage({state: rr.data})
-    //         }).catch(err => {
-    //         ErrorToast("خطایی در دانلود تصویر رخ داده است")
-    //     })
-    // }
+    const handleGetImg = name => {
+        let names = name.split("/")
+        setLoading(true)
+        Request.GetImage(names[2])
+            .then(rr => {
+                setLoading(false)
+                setImage({state: rr.data})
+            }).catch(err => {
+            ErrorToast("خطایی در دانلود تصویر رخ داده است")
+        })
+    }
     //
-    // useEffect(() => {
-    //     if (JSON.parse(user).image) {
-    //         let img = JSON.parse(user).image;
-    //
-    //         handleGetImg(img)
-    //
-    //     } else {
-    //         setImage({state: ''})
-    //     }
-    // }, [])
+    useEffect(() => {
+        if (JSON.parse(user).image) {
+            let img = JSON.parse(user).image;
+
+
+            handleGetImg(img)
+
+        } else {
+            setImage({state: ''})
+        }
+    }, [])
     //
     // let userData = JSON.parse(user);
-    // const [preImage, setPreImage] = useState({uri: defaultImg})
-    // const [pre, setPre] = useState(false)
-    // const [file, setFile] = useState({file: ''})
+    const [preImage, setPreImage] = useState({uri: defaultImg})
+    const [pre, setPre] = useState(false)
+    const [file, setFile] = useState({file: ''})
     // const [state, setState] = useState({
     //     id: userData.id,
     //     name: userData.name,
@@ -194,29 +200,27 @@ const Profile = (props) => {
     //     }
     // }
     //
-    // const handleFile = e => {
-    //     e.preventDefault();
-    //     handlePreShowImage(e);
-    //     let filed = {...file};
-    //     filed.file = e.target.files[0];
-    //     setFile(filed);
-    //     setPre(true)
+    const handleFile = e => {
+        e.preventDefault();
+        handlePreShowImage(e);
+        let filed = {...file};
+        filed.file = e.target.files[0];
+        setFile(filed);
+        setPre(true)
+    }
     //
     //
-    // }
-    //
-    //
-    // const handledelImg = (e) => {
-    //     e.preventDefault();
-    //
-    //     let preImages = {...preImage}
-    //     preImages.uri = defaultImg;
-    //     setPreImage(preImages)
-    //     setPre(false)
-    //     let states = {...imageGet};
-    //     states.state = '';
-    //     setImage(states)
-    // }
+    const handledelImg = (e) => {
+        e.preventDefault();
+
+        let preImages = {...preImage}
+        preImages.uri = defaultImg;
+        setPreImage(preImages)
+        setPre(false)
+        let states = {...imageGet};
+        states.state = '';
+        setImage(states)
+    }
     //
     //
     // function adminInputsHandler() {
@@ -257,128 +261,126 @@ const Profile = (props) => {
     //
     //     let {name, last_name, email, mobile, avatar, status, full_name, id} = this.state;
     //
-    //     return (
-    //         <div>
-    //
-    //
-    //             <div className="media mb-2" style={{
-    //                 display: 'flex',
-    //                 alignItems: 'center',
-    //                 flexDirection: 'row',
-    //                 position: 'relative',
-    //                 justifyContent: 'center'
-    //             }}>
-    //                 {
-    //                     loading ? (
-    //                         <>
-    //                             <img src={url(preImage.uri)} alt={''}
-    //                                  className="users-avatar-shadow rounded-circle" height="120"
-    //                                  width="120"/>
-    //                             <div className={"loadingsss"}>
-    //                                 <div className="spinner-border" role="status">
-    //                                     <span className="sr-only">در حال بارگذاری ...</span>
-    //                                 </div>
-    //                             </div>
-    //                         </>
-    //
-    //                     ) : pre ? (<img src={preImage.uri} alt={''}
-    //                                     className="users-avatar-shadow rounded-circle" height="120"
-    //                                     width="120"/>) : imageGet.state ?
-    //                         (
-    //                             <img src={imageGet.state} alt={''}
-    //                                  className="users-avatar-shadow rounded-circle" height="120" width="120"/>
-    //                         ) : (
-    //                             <img src={url(preImage.uri)} alt={''}
-    //                                  className="users-avatar-shadow rounded-circle" height="120" width="120"/>
-    //                         )
-    //                 }
-    //
-    //
-    //                 <span id={"choise-img"}>
-    //                 <i className={"bx bx-camera"}></i>
-    //
-    //                 <input type={"file"} onChange={e => handleFile(e)}
-    //                        style={{opacity: 0, position: 'absolute', right: 0, cursor: 'pointer'}}
-    //                 />
-    //             </span>
-    //
-    //                 <span id={"choise-img"} onClick={e => handledelImg(e)} style={{right: 0, left: '-75px'}}>
-    //                 <i className={"bx bx-trash-alt"}></i>
-    //
-    //             </span>
-    //
-    //             </div>
-    //
-    //
-    //             <form novalidate onSubmit={e => {
-    //                 e.preventDefault();
-    //                 this.submitForm()
-    //             }}>
-    //                 <div className="col-md-12">
-    //                     <div className="row">
-    //                         <div className="form-group col-md-6">
-    //                             <div className="controls">
-    //                                 <label>نام</label>
-    //                                 <input type="text" className="form-control text-left" placeholder="نام"
-    //                                        value={name} onChange={(e) => {
-    //                                     this.setState({name: e.target.value})
-    //                                 }} required
-    //                                        data-validation-required-message="وارد کردن نام الزامی است"
-    //                                        dir="ltr"/>
-    //                             </div>
-    //                         </div>
-    //                         <div className="form-group col-md-6">
-    //                             <div className="controls">
-    //                                 <label>نام خانوادگی</label>
-    //                                 <input type="text" className="form-control" placeholder="نام خانوادگی"
-    //                                        value={last_name} onChange={(e) => {
-    //                                     this.setState({last_name: e.target.value})
-    //                                 }}
-    //                                        required
-    //                                        data-validation-required-message="وارد کردن نام خانوادگی الزامی است"/>
-    //                             </div>
-    //                         </div>
-    //                         <div className="form-group col-md-6">
-    //                             <div className="controls">
-    //                                 <label>ایمیل</label>
-    //                                 <input type="email" className="form-control text-left" placeholder="ایمیل"
-    //                                        value={email} onChange={(e) => {
-    //                                     this.setState({email: e.target.value})
-    //                                 }} required
-    //                                        data-validation-required-message="وارد کردن ایمیل الزامی است" dir="ltr"/>
-    //                             </div>
-    //                         </div>
-    //                         <div className="form-group col-md-6">
-    //                             <div className="controls">
-    //                                 <label>شماره تلفن‌همراه</label>
-    //                                 <input type="tel" className="form-control text-left" placeholder="شماره تلفن‌همراه"
-    //                                        value={mobile} onChange={(e) => {
-    //                                     this.setState({mobile: convertDigit(e.target.value)})
-    //                                 }} required
-    //                                        data-validation-required-message="وارد کردن شماره تلفن‌همراه الزامی است"
-    //                                        dir="ltr"/>
-    //                             </div>
-    //                         </div>
-    //                         {this.adminInputsHandler()}
-    //                     </div>
-    //
-    //                     <div className="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
-    //                         <button type="submit"
-    //                                 className="btn btn-primary glow mb-1 mb-sm-0 ">ذخیره
-    //                             تغییرات
-    //                         </button>
-    //                     </div>
-    //                 </div>
-    //             </form>
-    //
-    //             <div id={"loading-show"} style={{zIndex: 9999, visibility: 'hidden'}}>
-    //                 <Loading/>
-    //             </div>
-    //         </div>
-    //     );
-    // }
+        return (
+            <div>
 
-    return (<div>vsdvsdv</div>)
+
+                <div className="media mb-2" style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    position: 'relative',
+                    justifyContent: 'center'
+                }}>
+                    {
+                        loading ? (
+                            <>
+                                <img src={url(preImage.uri)} alt={''}
+                                     className="users-avatar-shadow rounded-circle" height="120"
+                                     width="120"/>
+                                <div className={"loadingsss"}>
+                                    <div className="spinner-border" role="status">
+                                        <span className="sr-only">در حال بارگذاری ...</span>
+                                    </div>
+                                </div>
+                            </>
+
+                        ) : pre ? (<img src={preImage.uri} alt={''}
+                                        className="users-avatar-shadow rounded-circle" height="120"
+                                        width="120"/>) : imageGet.state ?
+                            (
+                                <img src={imageGet.state} alt={''}
+                                     className="users-avatar-shadow rounded-circle" height="120" width="120"/>
+                            ) : (
+                                <img src={url(preImage.uri)} alt={''}
+                                     className="users-avatar-shadow rounded-circle" height="120" width="120"/>
+                            )
+                    }
+
+
+                    <span id={"choise-img"}>
+                    <i className={"bx bx-camera"}></i>
+
+                    <input type={"file"} onChange={e => handleFile(e)}
+                           style={{opacity: 0, position: 'absolute', right: 0, cursor: 'pointer'}}
+                    />
+                </span>
+
+                    <span id={"choise-img"} onClick={e => handledelImg(e)} style={{right: 0, left: '-75px'}}>
+                    <i className={"bx bx-trash-alt"}></i>
+
+                </span>
+
+                </div>
+
+
+                <form novalidate onSubmit={e => {
+                    e.preventDefault();
+                    this.submitForm()
+                }}>
+                    <div className="col-md-12">
+                        <div className="row">
+                            <div className="form-group col-md-6">
+                                <div className="controls">
+                                    <label>نام</label>
+                                    <input type="text" className="form-control text-left" placeholder="نام"
+                                           value={userData.name} onChange={(e) => {
+                                        setUserData({name: e.target.value})
+                                    }} required
+                                           data-validation-required-message="وارد کردن نام الزامی است"
+                                           dir="ltr"/>
+                                </div>
+                            </div>
+                            <div className="form-group col-md-6">
+                                <div className="controls">
+                                    <label>نام خانوادگی</label>
+                                    <input type="text" className="form-control" placeholder="نام خانوادگی"
+                                           value={userData.last_name} onChange={(e) => {
+                                        setUserData({last_name: e.target.value})
+                                    }}
+                                           required
+                                           data-validation-required-message="وارد کردن نام خانوادگی الزامی است"/>
+                                </div>
+                            </div>
+                            <div className="form-group col-md-6">
+                                <div className="controls">
+                                    <label>ایمیل</label>
+                                    <input type="email" className="form-control text-left" placeholder="ایمیل"
+                                           value={userData.email} onChange={(e) => {
+                                        setUserData({email: e.target.value})
+                                    }} required
+                                           data-validation-required-message="وارد کردن ایمیل الزامی است" dir="ltr"/>
+                                </div>
+                            </div>
+                            <div className="form-group col-md-6">
+                                <div className="controls">
+                                    <label>شماره تلفن‌همراه</label>
+                                    <input type="tel" className="form-control text-left" placeholder="شماره تلفن‌همراه"
+                                           value={userData.mobile} onChange={(e) => {
+                                        setUserData({mobile: convertDigit(e.target.value)})
+                                    }} required
+                                           data-validation-required-message="وارد کردن شماره تلفن‌همراه الزامی است"
+                                           dir="ltr"/>
+                                </div>
+                            </div>
+                            {/*{this.adminInputsHandler()}*/}
+                        </div>
+
+                        <div className="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
+                            <button type="submit"
+                                    className="btn btn-primary glow mb-1 mb-sm-0 ">ذخیره
+                                تغییرات
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div id={"loading-show"} style={{zIndex: 9999, visibility: 'hidden'}}>
+                    <Loading/>
+                </div>
+            </div>
+        );
+    // }
 
 
 }
