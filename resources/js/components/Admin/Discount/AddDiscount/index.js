@@ -86,7 +86,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         }
     })
 
-    const [numOfUse , ]
+    const [numOfUse , setNumOfUse] = useState()
     const [dateEnd, setDateEnd] = useState({
         date: {
             date: {
@@ -337,10 +337,19 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         data.type = disTypesDis;
         data.value = value;
         data.max_limit = maxLimit ? parseInt(maxLimit) : null;
-        data.user_status = disTypesUser;
+        data.user_status = userStatus;
         data.functionality = functionality;
+        console.log("vsdvsdv" , setUserStatus)
         // data.user_status = userStatus ? userStatus : [];
-        data.user_group = userGroup;
+        let userg = [];
+        if (userStatus == "special_users"){
+            userGroup.map(itemss => {
+                userg.push(itemss.id);
+            })
+            data.user_group = userg;
+        }else{
+            data.user_group = userGroup;
+        }
         data.cart_conditions = cartStatus.typeSel.types;
         let funAmou = [];
         functionality_amount.map(it => {
@@ -654,7 +663,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
     const handleFunctionality = data => {
 
-        console.log(data, "*************************", functionality)
         if (data.data) {
             setFunctionality(data.data)
         }
@@ -703,6 +711,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     }
     const handleShowLimitedUse = e => {
         e.preventDefault();
+        console.log(limitUse , "....????????");
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<LimitedUse
             defDataTU={dataDefaul ? dataDefaul.coupon_settings.number_of_times_allowed_to_use : null}
