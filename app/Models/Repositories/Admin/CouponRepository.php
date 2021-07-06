@@ -76,17 +76,19 @@ class CouponRepository implements RepositoryInterface
 
         $userCat = json_decode($coupon->coupon_settings->user_group);
 
-        if ((int)$userCat[0] < -1) {
-            foreach (User::where('group', $userCat[0])->get() as $item) {
-                $arrayUser[] = $item->toArray();
-            }
-        } elseif ((int)$userCat[0] == -1) {
-            foreach (User::all() as $item) {
-                $arrayUser[] = $item->toArray();
-            }
-        } else {
-            foreach (User::whereIn('id', $userCat)->get() as $item) {
-                $arrayUser[] = $item->toArray();
+        if (!empty($userCat)) {
+            if ((int)$userCat[0] < -1) {
+                foreach (User::where('group', $userCat[0])->get() as $item) {
+                    $arrayUser[] = $item->toArray();
+                }
+            } elseif ((int)$userCat[0] == -1) {
+                foreach (User::all() as $item) {
+                    $arrayUser[] = $item->toArray();
+                }
+            } else {
+                foreach (User::whereIn('id', $userCat)->get() as $item) {
+                    $arrayUser[] = $item->toArray();
+                }
             }
         }
 
