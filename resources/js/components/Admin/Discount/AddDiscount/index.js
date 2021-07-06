@@ -453,8 +453,9 @@ let end_dd = dataDefaul ? moment(parseInt(dataDefaul.coupon_settings.end_date.to
                         })
 
                     }).catch(err => {
-                    if (err.response.data.errors) {
-                        ErroHandle(err.response.data.errors);
+                        // console.log(err.response.data.data);
+                    if (err.response.data.data) {
+                        ErroHandle(err.response.data.data);
                     } else {
                         //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
                         ErrorToast("خطای غیر منتظره ای رخ داده است")
