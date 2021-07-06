@@ -14,7 +14,7 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
     const [productData, setProductData] = useState([]);
     const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(false)
-    const [userGroup , setUserGroup] = useState(oldData ? oldData.userGroup : [])
+    const [userGroup , setUserGroup] = useState(oldData ? oldData.userGroup : ["-2"])
     const [typeSel, setTypeSel] = useState({types: oldData ? oldData.userStatus : '' , name : oldData ? oldData.userTypeName : ''});
     const [catSel, setCatSel] = useState(oldData.userGroup ? oldData.userGroup :  []);
 
@@ -26,7 +26,8 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        dataOut({user_status: typeSel, userGroup ,userSelecet : catSel});
+        console.log("666666" , typeSel, userGroup[0] == "-1" ? ["-2"] : userGroup ,catSel)
+        dataOut({user_status: typeSel, userGroup  ,userSelecet : catSel});
         handleClose(e);
     }
 
@@ -54,6 +55,7 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
 
     const handleChoiseGroup = (e , index , name , id) => {
         e.preventDefault();
+        console.log("555555555" , index, name , id)
         let userGroups = [];
         setCatSel([]);
         userGroups.push(id)
@@ -124,7 +126,6 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
                                 name: 'کاربران خاص'
                             }]}
                                 // selected={item => handleCloseFirst(item)}
-
                             />
 
                         </div>
@@ -142,7 +143,7 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
                                 id: '-3',
                                 name: 'کاربرانی که خرید نکرده اند'
                             }]}
-                                         defData={userGroup[0] ? userGroup[0] : ''}
+                                         defData={userGroup[0] == "-1" ? "-2" : userGroup[0] }
                                          handleChoise={handleChoiseGroup}
                                 // selected={item => handleCloseFirst(item)}
 

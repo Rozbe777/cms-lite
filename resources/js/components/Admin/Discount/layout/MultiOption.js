@@ -5,6 +5,7 @@ import "swiper/swiper-bundle.css";
 export const MultiOption = ({defData, handleChoise, name, data, selected: pushSelected}) => {
 
 
+    console.log("&&&&&&&&&&&&&&&" , defData)
     let defsel = '';
     if (defData) {
         data.map(items => {
