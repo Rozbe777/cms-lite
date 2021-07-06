@@ -86,7 +86,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         }
     })
 
-    const [numOfUse , ]
+    const [numOfUse , setNumOfUse] = useState()
     const [dateEnd, setDateEnd] = useState({
         date: {
             date: {
@@ -703,6 +703,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     }
     const handleShowLimitedUse = e => {
         e.preventDefault();
+        console.log(limitUse , "....????????");
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<LimitedUse
             defDataTU={dataDefaul ? dataDefaul.coupon_settings.number_of_times_allowed_to_use : null}
