@@ -118,6 +118,7 @@ export const LimitedUse = ({defDataTU , defDataUU ,dataOut}) => {
                             <fieldset>
                                 <div className="checkbox">
                                     <input type="checkbox" defaultChecked={checkCode ? checkCode : false} onChange={e => handleChangeCheckCode(e)}
+
                                            className="checkbox-input" id="checkbox2"/>
                                     <label style={{fontSize : '16px' , fontWeight : 100}} htmlFor="checkbox2">محدود کردن تعداد استفاده از این کد تخفیف</label>
                                 </div>
@@ -130,7 +131,7 @@ export const LimitedUse = ({defDataTU , defDataUU ,dataOut}) => {
 
                     {checkCode ? (
                         <div className={"col-12"} style={{marginBottom : 20}}>
-                            <input type="number" value={dataDis ? dataDis : ''} onChange={e => handleCode(e)} id="title" className="form-control" placeholder={"تعداد قابل استفاده"}/>
+                            <input type="number" style={{textAlign :'center'}} value={dataDis ? dataDis : ''} onChange={e => handleCode(e)} id="title" className="form-control" placeholder={"تعداد قابل استفاده"}/>
                         </div>
                     ) : ''}
 
@@ -153,7 +154,7 @@ export const LimitedUse = ({defDataTU , defDataUU ,dataOut}) => {
 
                     {checkUser ? (
                         <div className={"col-12"} style={{marginBottom : 20}}>
-                            <input type="number" value={dataUser ? dataUser : ''} onChange={e => handleUser(e)} id="title" className="form-control" placeholder={"تعداد قابل استفاده برای هر کاربر"}/>
+                            <input type="number" style={{textAlign :'center'}} value={dataUser ? dataUser : ''} onChange={e => handleUser(e)} id="title" className="form-control" placeholder={"تعداد قابل استفاده برای هر کاربر"}/>
                         </div>
                     ) : ''}
 

@@ -16,15 +16,17 @@ import {Pagination} from "../../_Micro/Pagination";
 const Show = (props) => {
     let targetElem = document.getElementById("add-datas");
     const {token} = props;
-    const [loading , setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [loadingOne, setLoadingOne] = useState(false);
     const [state, setState] = useState();
-    const [perPage , setPerPage] = useState();
-    const [allCoupon , setAllCoupon] = useState([]);
+    const [perPage, setPerPage] = useState();
+    const [allCoupon, setAllCoupon] = useState([]);
     const [total, setTotal] = useState();
     const [checkBox, setCheckBox] = useState([]);
     const [stringSearchs, setStringSearch] = useState({
-        page : 1
+        page: 1
     });
+    const [oneCoupon, setOneCoupon] = useState({});
     const [checked, setChecked] = useState([]);
 
 
@@ -34,10 +36,29 @@ const Show = (props) => {
     }, [])
 
 
-    const handleEditDis = (e , data) => {
+    const handleShowDis = (e) => {
         e.preventDefault();
-        console.log(data , "########")
-        ReactDOM.render(<AddDiscount token={token} result={handleBack} dataDefaul={data}/>, document.getElementById("add-datas"));
+        ReactDOM.render(<AddDiscount token={token} result={handleBack}
+                                     />, document.getElementById("add-datas"));
+    }
+
+    const handleEditDis = (e, id) => {
+        e.preventDefault();
+        setLoadingOne(true);
+        Request.GetOneCoupon(id)
+            .then(res => {
+                setLoadingOne(false);
+                setOneCoupon(res.data.data);
+                handleShowDis(e)
+            }).catch(err => {
+            if (err.response.data.errors) {
+                ErroHandle(err.response.data.errors);
+            } else {
+                //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
+                $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center ;margin : 10px 0 0 '>خطا در ارتباط با دیتابیس</p><p>مجددا تلاش کنید</p><div>");
+                ErrorToast("خطای غیر منتظره ای رخ داده است")
+            }
+        })
     }
 
     const getAllCoupons = (searchses) => {
@@ -87,12 +108,12 @@ const Show = (props) => {
         ReactDOM.render(<AddDiscount token={token} results={handleBack}/>, document.getElementById("add-datas"));
     }
 
-    const handleDeleteCoupon = (e , id) => {
+    const handleDeleteCoupon = (e, id) => {
         let finalAllIds = {};
         finalAllIds._token = token;
-        if (id){
+        if (id) {
             finalAllIds.couponIds = [id];
-        }else{
+        } else {
             finalAllIds.couponIds = checkBox;
         }
         e.preventDefault();
@@ -144,8 +165,6 @@ const Show = (props) => {
         setChecked(checkedNew);
 
     }
-
-
 
 
     if (checkBox.length > 0) {
@@ -206,16 +225,25 @@ const Show = (props) => {
 
             <div className={"container-fluid"}>
 
-                <div className={"row"} style={{padding : '15px'}}>
-                    {loading || !allCoupon.data ? (<Loading />) : allCoupon.data.map((item , index) => (
-                        <div className={"col-lg-3 col-md-4 col-sm-12"} key={index} style={{padding : '5px'}}>
-                            <ItemDis handleCheck={HandleChecked} handleDelete={handleDeleteCoupon} sizeOf={allCoupon.data.length} checkStateOfOut={checked}  deleteCoupon={handleDeleteCoupon} handleEdit={handleEditDis} data={item} />
+                <div className={"row"} style={{marginTop: '-15px'}}>
+                    {loading || !allCoupon.data ? (<Loading/>) : allCoupon.data.map((item, index) => (
+                        <div className={"col-lg-3 col-md-4 col-sm-12"} id={"coupon-box"} key={index}
+                             style={{padding: '8px !important'}}>
+                            <ItemDis handleCheck={HandleChecked} handleDelete={handleDeleteCoupon}
+                                     sizeOf={allCoupon.data.length} checkStateOfOut={checked}
+                                     deleteCoupon={handleDeleteCoupon} handleEdit={handleEditDis} data={item}/>
                         </div>
                     ))}
-
-
-
                 </div>
+
+                {loadingOne ? (
+                    <div className={"backLoadings"} style={{display: 'block'}}>
+                        <div className="spinner-border spinner-border-lg text-info" id={"loading-load"}
+                             role="status">
+                            <span className="sr-only">در حال بارگذاری ...</span>
+                        </div>
+                    </div>
+                ) : ''}
 
             </div>
 
