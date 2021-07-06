@@ -27,7 +27,7 @@ class SearchCouponRequest extends FormRequest
             'code' => 'nullable|string',
             'start_date' => 'nullable',
             'end_date' => 'nullable',
-            'status' => 'nullable|in:in:active,deactivate',
+            'status' => 'nullable|array',
         ];
     }
 }

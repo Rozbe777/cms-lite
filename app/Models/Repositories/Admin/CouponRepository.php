@@ -22,12 +22,28 @@ class CouponRepository implements RepositoryInterface
      * @param null $status
      * @return mixed
      */
-    public function all($code = null, $startTime = null, $endTime = null, $status = null, $expired = null)
+    public function all($code = null, $startTime = null, $endTime = null, $status = null)
     {
+        if (!empty($status)){
+            $active = in_array("active",$status) ? "active" : null;
+            $deactivated = in_array("deactivated",$status) ? "deactivated" : null;
+            $expaierd = in_array("expaierd",$status) ? "expaierd" : null;
+        } else{
+            $active = null;
+            $deactivated = null;
+            $expaierd = null;
+        }
+        if ($active == "active" && $deactivated == "deactivated") {
+            $active = null;
+            $deactivated = null;
+        }
+
         return Coupon::when(!empty($code), function ($query) use ($code) {
             $query->where('code', 'like', '%' . $code . '%');
-        })->when(!empty($status), function ($query) use ($status) {
-            $query->where("status", $status);
+        })->when(!empty($active), function ($query) use ($active) {
+            $query->where("status", $active);
+        })->when(!empty($deactivated), function ($query) use ($deactivated) {
+            $query->where("status", $deactivated);
         })->when(!empty($startTime), function ($query) use ($startTime) {
             $query->whereHas('coupon_settings',function ($q) use ($startTime) {
                 $q->where('start_date', '>=' ,$startTime);
@@ -36,10 +52,10 @@ class CouponRepository implements RepositoryInterface
             $query->whereHas('coupon_settings',function ($q) use ($endTime) {
                 $q->where('end_date', '<=' ,$endTime);
             });
-        })->when(!empty($expired), function ($query) use ($expired) {
-            $query->whereHas('coupon_settings',function ($q) use ($expired) {
+        })->when(!empty($expaierd), function ($query) use ($expaierd) {
+            $query->whereHas('coupon_settings',function ($q) use ($expaierd) {
                 $q->where("end_date", '<', jdate()->getTimestamp());
-            })->has("coupon_settings");
+            });
         })->with('coupon_settings')
             ->orderByDesc('id')
             ->get();
