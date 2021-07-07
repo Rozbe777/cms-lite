@@ -3,7 +3,7 @@ import {Request} from './../../../../services/AdminService/Api';
 import FormHandler from "./FormHandler";
 import {error as ErrorToast} from "../../../../helper";
 
-let formHandler = new FormHandler();
+// let formHandler = new FormHandler();
 export const HandleFormAdd = (data , checkResult) => {
     swal({
             title: 'افزودن محتوا جدید',

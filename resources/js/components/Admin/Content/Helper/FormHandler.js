@@ -4,6 +4,8 @@ import {HandleFormAdd} from './Action'
 import ReactDOM from "react-dom";
 export default class FormHandler{
 
+    constructor() {
+    }
     HandleForm(e , formData , file , contentNew , metaData,idSelCat , chipsetChange , chipset,slugManage , checkResult){
         let formNew = {...formData};
         let titleWrite = $("input[name=titleContent]").val();
