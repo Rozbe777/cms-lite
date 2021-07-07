@@ -56,20 +56,20 @@ class ProfileController extends Controller
         if (empty($data['description']))
             unset($data['description']);
 
-        if (empty($data['image']))
-            unset($data['image']);
+        if (isset($data['image'])) {
+            if (!empty($data['image']) && !is_string($data['image'])) {
+                $image = $data['image'];
 
-        if (!empty($data['image']) && !is_string($data['image'])) {
-            $image = $data['image'];
-
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $data['image'] = $image->storeAs('public/images', $imageName);
-        } elseif ($data['image'] == "true") {
-            unset($data['image']);
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $data['image'] = $image->storeAs('public/images', $imageName);
+            } elseif ($data['image'] == "true") {
+                unset($data['image']);
+            } else {
+                $data['image'] = "public/images/defaultIMG.png";
+            }
         } else {
-            $data['image'] = null;
+            $data['image'] = "public/images/defaultIMG.png";
         }
-
         unset($data['password_confirmation']);
 
         $data = $user->update($data);
