@@ -483,6 +483,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
                 Request.AddNewCoupen(data)
                     .then(res => {
+                        console.log("++++++++++++++++++++" , res);
                         results(res);
                         Swal.fire({
                             type: "success",
@@ -492,6 +493,8 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
                         })
 
                     }).catch(err => {
+                    console.log("-------------------" , err);
+
                     // console.log(err.response.data.data);
                     if (err.response.data.data) {
                         ErroHandle(err.response.data.data);
@@ -1013,20 +1016,22 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
                         <div className={"col-md-4 col-sm-12"}>
 
+
+                            {console.log("=======" ,disTypesDis )}
                             <label>نوع تخفیف</label>
                             <MultiOption name={"type-disc"} data={[
                                 {
-                                    id: 'fixed_price',
+                                    id: 'percentage',
                                     name: 'درصد'
                                 }, {
-                                    id: 'percentage',
+                                    id: 'fixed_price',
                                     name: 'مبلغ ثابت'
                                 }, {
                                     id: 'free_delivery',
                                     name: 'ارسال رایگان'
                                 },
                             ]}
-                                         defData={"percentage"}
+                                         defData={disTypesDis}
 
                                          handleChoise={handleTypeDiscount}
 

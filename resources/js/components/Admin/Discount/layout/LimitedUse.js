@@ -8,7 +8,6 @@ import $ from "jquery";
 export const LimitedUse = ({defDataTU , defDataUU ,dataOut}) => {
 
 
-    console.log("__++++___" , defDataTU , defDataUU)
     const [checkCode, setCheckCode] = useState(defDataTU ? true : false)
     const [checkUser, setCkeckUser] = useState(defDataUU ? true : false)
 

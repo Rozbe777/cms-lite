@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import ReactDOM from 'react-dom';
 import {Request} from "../../../../services/AdminService/Api";
 import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
 import {MultiSelectedCat} from "./MultiSelectedCat";
+import {MultiSelectedAction} from "./MultiSelectedAction";
 
 export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
 
 
-    console.log(defaultValue, "***********def")
     // const {functionality} = defaultValue;
 
 
@@ -32,23 +32,11 @@ export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        console.log("___________________________be", {data, catSel  , proSel})
-        if (typeSel.types == "special_products"){
-            dataOut({data: data ? data : 'total_card_price', catSel : proSel})
-        }else{
-            dataOut({data: data ? data : 'total_card_price', catSel : catSel})
-
+        if (typeSel.types == "special_products") {
+            dataOut({data: data ? data : 'total_card_price', catSel: proSel})
+        } else {
+            dataOut({data: data ? data : 'total_card_price', catSel: catSel})
         }
-        // if (data.limit){
-
-        // }else{
-        //     dataOut({data : "total_cart_price" , catSel})
-        // }
-        handleClose(e);
-    }
-
-    const CategoryGet = async () => {
-
     }
 
     const handleSearchProducts = e => {
@@ -137,7 +125,6 @@ export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
 
         setData(index)
 
-        setCatSel([])
 
         if (id == 0) {
             let typp = {...typeSel};
@@ -171,15 +158,14 @@ export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
     })
 
 
-    const handleSelecete = e => {
+    const handleSelecete = data => {
 
-        if (Array.isArray(e)) {
-            if (typeSel.types == "special_products") {
-                setProSel(e)
-            } else {
-                setCatSel(e);
-            }
+        if (typeSel.types == "special_products") {
+            setProSel(data)
+        } else {
+            setCatSel(data)
         }
+
 
     }
 
@@ -217,19 +203,17 @@ export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
 
                     </div>
 
-                    {console.log(catSel, "deffffffff")}
-
 
                     {typeSel.types ? typeSel.types == "special_products" ? (
                         <div className={"col-12"}>
                             <p>لیست محصولات</p>
 
 
-                            <MultiSelected name={"product-show"} data={productData}
-                                           loadings={loading}
-                                           defSelected={proSel}
-                                           searchs={handleSearchProducts}
-                                           selected={handleSelecete}
+                            <MultiSelectedAction name={"product-show"} data={productData}
+                                                 loadings={loading}
+                                                 defSelected={proSel}
+                                                 searchs={handleSearchProducts}
+                                                 handleSelecete={handleSelecete}
                                 // selected={e => setCatSel(e)}
                             />
                         </div>
@@ -239,10 +223,10 @@ export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
                             <p>لیست دسته بندی ها</p>
 
                             <MultiSelectedCat name={"cat-show"} data={categoryData}
-                                           loadings={loading}
-                                           defSelected={catSel}
-                                           selected={handleSelecete}
-                                           searchs={handleSearchCategore}
+                                              loadings={loading}
+                                              defSelected={catSel}
+                                              selected={handleSelecete}
+                                              searchs={handleSearchCategore}
                             />
                         </div>
 
