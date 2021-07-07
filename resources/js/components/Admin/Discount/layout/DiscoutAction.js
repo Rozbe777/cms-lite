@@ -37,6 +37,8 @@ export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
         } else {
             dataOut({data: data ? data : 'total_card_price', catSel: catSel})
         }
+        handleClose(e);
+
     }
 
     const handleSearchProducts = e => {

@@ -10,9 +10,8 @@ const Profile = (props) => {
 
     let {user , token} = props;
 
-    console.log("////))))))___" , JSON.parse(props.user))
-    let {name , last_name , email , mobile} = JSON.parse(props.user);
-    const [userData , setUserData] = useState({name , last_name , email , mobile})
+    let {name , last_name , email , mobile , description} = JSON.parse(props.user);
+    const [userData , setUserData] = useState({name , last_name , email , mobile , description})
 
     let defaultImg = 'images/avatar.jpg'
     const [imageGet, setImage] = useState({state: ''})
@@ -83,10 +82,9 @@ const Profile = (props) => {
     const submitForm = (e) => {
 
 
-        console.log(userData)
         let forms = new FormData();
         var pattern = /^0?9{1}([0-9]{9})$/;
-        let {id, name, last_name, mobile , description} = userData;
+        let {name, last_name, mobile , description} = userData;
         if (empty(userData.name)) {
             return error('وارد کردن نام الزامی است.')
         }
@@ -116,7 +114,6 @@ const Profile = (props) => {
         forms.append("_token", token);
 
         forms.append("name", userData.name);
-        forms.append("id", id);
         forms.append("last_name", userData.last_name);
         forms.append("description", userData.description);
         forms.append("email", userData.email ? userData.email : '');
@@ -132,9 +129,6 @@ const Profile = (props) => {
                 .then(res => {
                     $("#loading-show").removeClass("activeLoadingLogin");
                     success("اطلاعات ویرایش شد");
-                    setTimeout(() => {
-                        // window.location.reload();
-                    }, 400)
                 }).catch(error => {
                 $("#loading-show").removeClass("activeLoadingLogin");
                 if (error.response.data.errors) {
