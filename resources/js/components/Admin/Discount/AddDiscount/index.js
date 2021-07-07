@@ -45,6 +45,18 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         }
     }
 
+    function handleNameUser(id) {
+        if (id == "all") {
+            return "همه کاربران"
+        } else if (id == "group_of_users") {
+            return "گروهی از کاربران"
+        } else if (id == "special_users") {
+            return "کاربران خاص"
+        } else {
+            return "همه کاربران";
+        }
+    }
+
 
     let def = {
         code: '',
@@ -121,10 +133,10 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     const [discountCode, setDiscountCode] = useState(dataDefaul ? allData.code ? allData.code : '' : '');
     const [value, setValue] = useState(dataDefaul ? dataDefaul.value : '');
     const [maxLimit, setMaxLimit] = useState(dataDefaul ? dataDefaul.max_limit : null);
-    const [userTypeName, setUserTypeName] = useState("برای همه کاربران")
+    const [userTypeName, setUserTypeName] = useState(dataDefaul ? handleNameUser(dataDefaul.coupon_settings.user_status) : "برای همه کاربران")
     const [searchs, setSearchs] = useState([]);
-    const [userStatus, setUserStatus] = useState('all');
-    const [userGroup, setUserGroup] = useState([-1]);
+    const [userStatus, setUserStatus] = useState(dataDefaul ? dataDefaul.coupon_settings.user_status : 'all');
+    const [userGroup, setUserGroup] = useState(dataDefaul ? dataDefaul.coupon_settings.user_group : [-1]);
     const [productData, setProductData] = useState([]);
     const [disTypesDis, setDisTypesDis] = useState(dataDefaul ? dataDefaul.type : 'fixed_price');
     const [disTypesUser, setDisTypesUser] = useState('all')
@@ -422,7 +434,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         data.functionality_amount = funAmou;
 
 
-
         // data.user_status = userStatus ? userStatus : [];
         data.user_group = userGroup ? userGroup : [];
         data.cart_conditions = cartStatus.typeSel.types;
@@ -483,7 +494,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
                 Request.AddNewCoupen(data)
                     .then(res => {
-                        console.log("++++++++++++++++++++" , res);
+                        console.log("++++++++++++++++++++", res);
                         results(res);
                         Swal.fire({
                             type: "success",
@@ -493,7 +504,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
                         })
 
                     }).catch(err => {
-                    console.log("-------------------" , err);
+                    console.log("-------------------", err);
 
                     // console.log(err.response.data.data);
                     if (err.response.data.data) {
@@ -709,10 +720,13 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         setUserStatus(e.user_status.type);
         if (e.user_status.type == "all") {
             setUserTypeName("همه کاربران")
-        }else if (e.user_status.type == "group_of_users"){
+        } else if (e.user_status.type == "group_of_users") {
             setUserTypeName("گروهی از کاربران")
-        }else{
+        } else if (e.user_status.type == "special_users") {
             setUserTypeName("کاربران خاص")
+
+        } else {
+            setUserTypeName("همه کاربران")
 
         }
         setUserGroup(e.userGroup);
@@ -1017,7 +1031,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
                         <div className={"col-md-4 col-sm-12"}>
 
 
-                            {console.log("=======" ,disTypesDis )}
+                            {console.log("=======", disTypesDis)}
                             <label>نوع تخفیف</label>
                             <MultiOption name={"type-disc"} data={[
                                 {

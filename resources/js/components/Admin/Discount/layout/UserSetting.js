@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from "react";
 import ReactDOM from 'react-dom';
 import {Request} from "../../../../services/AdminService/Api";
 import {MultiOption} from "./MultiOption";
-import {MultiSelected} from "./MultiSelected";
+import {MultiSelectedUser} from "./MultiSelectedUser";
 import {USER_SETTING} from './../layout/Context';
 import $ from "jquery";
 
@@ -26,6 +26,7 @@ export const UserSetting = ({dataOut, oldData}) => {
 
     const handleAdd = e => {
         e.preventDefault();
+        console.log("______", userGroup)
         dataOut({user_status: typeSel, userGroup});
         handleClose(e);
     }
@@ -59,7 +60,6 @@ export const UserSetting = ({dataOut, oldData}) => {
     }
     const handleChoise = (e, id) => {
         e.preventDefault();
-
         if (id == 0) {
 
             let userState = {...typeSel};
@@ -76,6 +76,7 @@ export const UserSetting = ({dataOut, oldData}) => {
             let userState = {...typeSel};
             userState.type = "special_users";
             setTypeSel(userState);
+            setUserGroup([])
             handleSearchUser();
 
         } else {
@@ -90,13 +91,9 @@ export const UserSetting = ({dataOut, oldData}) => {
     })
 
 
-    const handleSelecete = e => {
-
-        if (Array.isArray(e)) {
-            setUserGroup(e)
-
-        }
-
+    const handleSelecete = data => {
+        console.log(data, "======")
+        setUserGroup(data)
     }
 
 
@@ -152,11 +149,11 @@ export const UserSetting = ({dataOut, oldData}) => {
                             <p>کاربر</p>
 
 
-                            <MultiSelected name={"cat-show"} data={userData}
-                                           loadings={loading}
-                                           defSelected={userGroup[0] == -1 ? [] : userGroup}
-                                           selected={handleSelecete}
-                                           searchs={handleSearchUser}
+                            <MultiSelectedUser name={"cat-show"} data={userData}
+                                               loadings={loading}
+                                               defSelected={userGroup[0] == -1 ? [] : userGroup}
+                                               handleSelecete={handleSelecete}
+                                               searchs={handleSearchUser}
 
                                 // me={e => handleSearchCategory(e)}
                             />
