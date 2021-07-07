@@ -85,13 +85,9 @@ class CouponRepository implements RepositoryInterface
 
         if (!empty($userCat)) {
             if ((int)$userCat[0] < -1) {
-                foreach (User::where('group', $userCat[0])->get() as $item) {
-                    $arrayUser[] = $item->toArray();
-                }
+                    $arrayUser = $userCat;
             } elseif ((int)$userCat[0] == -1) {
-                foreach (User::all() as $item) {
-                    $arrayUser[] = $item->toArray();
-                }
+                $arrayUser = $userCat;
             } else {
                 foreach (User::whereIn('id', $userCat)->get() as $item) {
                     $arrayUser[] = $item->toArray();
@@ -187,6 +183,7 @@ class CouponRepository implements RepositoryInterface
             $data['max_limit'] :
             null;
 
+        $item['user_id'] = Auth::id();
         $H_start = $start_date['time']['h'];
         $M_start = $start_date['time']['m'];
         $S_start = $start_date['time']['s'];

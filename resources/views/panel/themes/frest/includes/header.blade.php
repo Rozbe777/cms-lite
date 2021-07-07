@@ -225,7 +225,7 @@
                             <span><img class="round" src="{{asset("images/avatar.jpg")}}"
                                        alt="avatar" height="40" width="40"></span></a>
                         <div class="dropdown-menu pb-0"><a class="dropdown-item"
-                                                           href="{{route('profile.edit',["userId"=>\Illuminate\Support\Facades\Auth::id()])}}"><i
+                                                           href="{{route('profile.edit')}}"><i
 
                                     class="bx bx-user mr-50"></i> حساب کاربری</a>
                             <div class="dropdown-divider mb-0"></div>
