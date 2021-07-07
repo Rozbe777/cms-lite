@@ -71,7 +71,6 @@ export const MultiOption = ({defData, handleChoise, name, data, selected: pushSe
                     <i className={"bx bx-chevron-down"}></i>
                 </div>
                 <span id={"selected"}>
-                    {console.log("??????", selectedO.item, defData)}
                     {defData || selectedO.item !== "" ? (
                         <a onClick={e => delSel(e)}><i className='bx bx-x'></i><span
                             className={name}>{selectedO.item}</span></a>

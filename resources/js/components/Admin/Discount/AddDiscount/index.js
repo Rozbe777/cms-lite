@@ -60,9 +60,8 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     const [allData, setAllData] = useState(dataDefaul ? dataDefaul : def)
 
 
-
-    const [userGroupNew , setUserGroupNew] = useState([-1]);
-    const [userStatusNew , setUserStatusNew] = useState("all")
+    const [userGroupNew, setUserGroupNew] = useState([-1]);
+    const [userStatusNew, setUserStatusNew] = useState("all")
 
     const [edit, setEdit] = useState(false);
     const [dateStart, setDateStart] = useState({
@@ -86,7 +85,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         }
     })
 
-    const [numOfUse , setNumOfUse] = useState()
+    const [numOfUse, setNumOfUse] = useState()
     const [dateEnd, setDateEnd] = useState({
         date: {
             date: {
@@ -110,10 +109,14 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     const [status, setStatus] = useState(dataDefaul ? allData.status ? allData.status : "active" : "active");
     const [prevCalSel, setPrevCatSel] = useState({})
     const [timeShow, setTimeShow] = useState([]);
-    const [limitUse, setLimitUse] = useState({striShow: 'بدون محدودیت'});
+    const [limitUse, setLimitUse] = useState({
+        codeVal: dataDefaul ? dataDefaul.coupon_settings.number_of_times_allowed_to_use : null,
+        userVal: dataDefaul ? dataDefaul.coupon_settings.number_of_use_allowed_per_user : null,
+        striShow: 'بدون محدودیت'
+    });
     const [functionality, setFunctionality] = useState(dataDefaul ? dataDefaul.coupon_settings.functionality : 'total_cart_price');
-    const [functionality_amount, setFunctionality_amount] = useState(dataDefaul ? dataDefaul.coupon_settings.functionality_amount :[]);
-    const [func_a_id , setF_a_id] = useState([]);
+    const [functionality_amount, setFunctionality_amount] = useState(dataDefaul ? dataDefaul.coupon_settings.functionality_amount : []);
+    const [func_a_id, setF_a_id] = useState([]);
     const [timeCheck, setTimeCheck] = useState([]);
     const [discountCode, setDiscountCode] = useState(dataDefaul ? allData.code ? allData.code : '' : '');
     const [value, setValue] = useState(dataDefaul ? dataDefaul.value : '');
@@ -121,7 +124,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     const [userTypeName, setUserTypeName] = useState("برای همه کاربران")
     const [searchs, setSearchs] = useState([]);
     const [userStatus, setUserStatus] = useState('all');
-    const [userGroup, setUserGroup] = useState( [-1]);
+    const [userGroup, setUserGroup] = useState([-1]);
     const [productData, setProductData] = useState([]);
     const [disTypesDis, setDisTypesDis] = useState(dataDefaul ? dataDefaul.type : 'fixed_price');
     const [disTypesUser, setDisTypesUser] = useState('all')
@@ -339,15 +342,15 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         data.max_limit = maxLimit ? parseInt(maxLimit) : null;
         data.user_status = userStatus;
         data.functionality = functionality;
-        console.log("vsdvsdv" , setUserStatus)
+        console.log("vsdvsdv", setUserStatus)
         // data.user_status = userStatus ? userStatus : [];
         let userg = [];
-        if (userStatus == "special_users"){
+        if (userStatus == "special_users") {
             userGroup.map(itemss => {
                 userg.push(itemss.id);
             })
             data.user_group = userg;
-        }else{
+        } else {
             data.user_group = userGroup;
         }
         data.cart_conditions = cartStatus.typeSel.types;
@@ -409,7 +412,17 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         data.max_limit = maxLimit ? parseInt(maxLimit) : null;
         data.user_status = disTypesUser;
         data.functionality = functionality;
-        data.functionality_amount = functionality_amount;
+
+
+        let funAmou = [];
+        functionality_amount.map(it => {
+            funAmou.push(it.id);
+        })
+
+        data.functionality_amount = funAmou;
+
+
+
         // data.user_status = userStatus ? userStatus : [];
         data.user_group = userGroup ? userGroup : [];
         data.cart_conditions = cartStatus.typeSel.types;
@@ -454,7 +467,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
 
     const AddNewDiscount = data => {
-        console.log("++++++" , data)
+        console.log("++++++", data)
         swal({
             title: 'افزودن کد تخفیف جدید',
             text: "آیا مطمئنید؟",
@@ -666,13 +679,13 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         if (data.data) {
             setFunctionality(data.data)
         }
-       setFunctionality_amount(data.catSel)
+        setFunctionality_amount(data.catSel)
 
     }
     const handleShowTypeDiscount = e => {
         e.preventDefault();
         $("#back-loaderedss").addClass("active");
-        ReactDOM.render(<DiscoutAction defaultValue={{catSel, functionality , functionality_amount}}
+        ReactDOM.render(<DiscoutAction defaultValue={{catSel, functionality, functionality_amount}}
                                        dataOut={handleFunctionality}/>, document.getElementById("back-loaderedss"));
     }
 
@@ -683,7 +696,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
     const handleShowCartRoles = e => {
         e.preventDefault();
-
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<CartAction defData={cartStatus}
                                     dataOut={handleCartStatus}/>, document.getElementById("back-loaderedss"));
@@ -691,8 +703,15 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
 
     const handleUserSetting = e => {
-        console.log("?????" ,e)
         setUserStatus(e.user_status.type);
+        if (e.user_status.type == "all") {
+            setUserTypeName("همه کاربران")
+        }else if (e.user_status.type == "group_of_users"){
+            setUserTypeName("گروهی از کاربران")
+        }else{
+            setUserTypeName("کاربران خاص")
+
+        }
         setUserGroup(e.userGroup);
 
     }
@@ -711,11 +730,11 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     }
     const handleShowLimitedUse = e => {
         e.preventDefault();
-        console.log(limitUse , "....????????");
+        console.log(limitUse, "....????????");
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<LimitedUse
-            defDataTU={dataDefaul ? dataDefaul.coupon_settings.number_of_times_allowed_to_use : null}
-            defDataUU={dataDefaul ? dataDefaul.coupon_settings.number_of_use_allowed_per_user : null}
+            defDataTU={limitUse.codeVal}
+            defDataUU={limitUse.userVal}
             dataOut={handleLimitUse}/>, document.getElementById("back-loaderedss"));
     }
 
@@ -897,7 +916,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     }
 
 
-    console.log("yyyyyy" , userGroupNew);
+    console.log("yyyyyy", userGroupNew);
 
 
     return (

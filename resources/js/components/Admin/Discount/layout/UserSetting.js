@@ -61,30 +61,6 @@ export const UserSetting = ({dataOut, oldData}) => {
     const handleChoise = (e, id) => {
         e.preventDefault();
 
-        console.log("[[[[[[", id)
-        // if (id == 0) {
-        //     let typp = {...typeSel};
-        //     typp.types = "all";
-        //     typp.name = "برای همه کاربران";
-        //     setTypeSel(typp);
-        // } else if (id == 1) {
-        //     let typpp = {...typeSel};
-        //     typpp.types = "group_of_users";
-        //     typpp.name = "برای گروهی از کاربران";
-        //     setTypeSel(typpp);
-        //
-        // } else if (id == 2) {
-        //     let typpps = {...typeSel};
-        //     typpps.types = "special_users";
-        //     typpps.name = "برای کاربران خاص";
-        //
-        //     setTypeSel(typpps);
-        //     handleSearchUser();
-        //
-        // } else {
-        //
-        // }
-        //
         if (id == 0) {
 
             let userState = {...typeSel};
@@ -92,9 +68,9 @@ export const UserSetting = ({dataOut, oldData}) => {
             setTypeSel(userState)
         } else if (id == 1) {
 
-
             let userState = {...typeSel};
             userState.type = "group_of_users";
+            setUserGroup([-2])
             setTypeSel(userState);
 
         } else if (id == 2) {
@@ -155,7 +131,7 @@ export const UserSetting = ({dataOut, oldData}) => {
 
                     </div>
 
-                    {console.log(typeSel, "99999999999")}
+                    {console.log(typeSel, "99999999999" , userGroup)}
 
                     {typeSel.type ? typeSel.type == "group_of_users" ? (
                         <div className={"col-12"}>
@@ -167,7 +143,7 @@ export const UserSetting = ({dataOut, oldData}) => {
                                 id: '-3',
                                 name: 'کاربرانی که خرید نکرده اند'
                             }]}
-                                         defData={userGroup}
+                                         defData={userGroup ? userGroup[0] : -2}
                                          handleChoise={handleChoiseGroup}
                                 // selected={item => handleCloseFirst(item)}
 

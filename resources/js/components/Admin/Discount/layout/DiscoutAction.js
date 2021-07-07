@@ -4,6 +4,7 @@ import {Request} from "../../../../services/AdminService/Api";
 import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
+import {MultiSelectedCat} from "./MultiSelectedCat";
 
 export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
 
@@ -19,7 +20,8 @@ export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
     const [loading, setLoading] = useState(false)
     const [typeSel, setTypeSel] = useState({types: defaultValue ? defaultValue.functionality : ''});
 
-    const [catSel, setCatSel] = useState(defaultValue ? defaultValue.functionality_amount : []);
+    const [catSel, setCatSel] = useState(defaultValue ? defaultValue.functionality == "special_categories" ? defaultValue.functionality_amount : [] : []);
+    const [proSel, setProSel] = useState(defaultValue ? defaultValue.functionality == "special_products" ? defaultValue.functionality_amount : [] : []);
 
 
     const handleClose = e => {
@@ -30,9 +32,14 @@ export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        console.log("___________________________be", {data, catSel})
+        console.log("___________________________be", {data, catSel  , proSel})
+        if (typeSel.types == "special_products"){
+            dataOut({data: data ? data : 'total_card_price', catSel : proSel})
+        }else{
+            dataOut({data: data ? data : 'total_card_price', catSel : catSel})
+
+        }
         // if (data.limit){
-        dataOut({data: data ? data : 'total_card_price', catSel})
 
         // }else{
         //     dataOut({data : "total_cart_price" , catSel})
@@ -165,14 +172,16 @@ export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
 
 
     const handleSelecete = e => {
-        if (Array.isArray(e)){
-            setCatSel(e);
+
+        if (Array.isArray(e)) {
+            if (typeSel.types == "special_products") {
+                setProSel(e)
+            } else {
+                setCatSel(e);
+            }
         }
 
-        console.log(e , ".......")
-
     }
-
 
 
     return (
@@ -218,7 +227,7 @@ export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
 
                             <MultiSelected name={"product-show"} data={productData}
                                            loadings={loading}
-                                           defSelected={catSel}
+                                           defSelected={proSel}
                                            searchs={handleSearchProducts}
                                            selected={handleSelecete}
                                 // selected={e => setCatSel(e)}
@@ -229,13 +238,11 @@ export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
                         <div className={"col-12"}>
                             <p>لیست دسته بندی ها</p>
 
-                            <MultiSelected name={"cat-show"} data={categoryData}
+                            <MultiSelectedCat name={"cat-show"} data={categoryData}
                                            loadings={loading}
                                            defSelected={catSel}
-                                // defSelected={catSel ? catSel : null}
                                            selected={handleSelecete}
                                            searchs={handleSearchCategore}
-                                // me={e => handleSearchCategory(e)}
                             />
                         </div>
 
