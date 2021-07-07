@@ -4,8 +4,6 @@ namespace App\Http\Requests\Admin\Coupon;
 
 use App\Http\Requests\BaseRequest;
 use App\Rules\CouponCodeCheck;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class CreateCouponRequest extends BaseRequest
 {
@@ -27,11 +25,11 @@ class CreateCouponRequest extends BaseRequest
     public function rules()
     {
         return [
-//            "code" => new CouponCodeCheck(),
-            "code" => "required|unique:coupons,user_id,".Auth::id(),
+            "code" => new CouponCodeCheck(),
+//            "code" => "required|unique:coupons,user_id,".Auth::id(),
             "status" => 'nullable|in:active,deactivate',
-            "type" => "nullable|in:fixed_price,percentage,free_delivery",
-            'value' => "nullable|string",
+            "type" => "required|in:fixed_price,percentage,free_delivery",
+            'value' => "required|string",
             'max_limit' => 'nullable|integer',
             'use_number' => 'nullable|integer',
             'functionality' => 'nullable|in:total_items_price,total_cart_price,special_products,special_categories',

@@ -1,26 +1,29 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import ReactDOM from 'react-dom';
 import {Request} from "../../../../services/AdminService/Api";
 import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
+import {MultiSelectedCat} from "./MultiSelectedCat";
+import {MultiSelectedAction} from "./MultiSelectedAction";
 
-export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
+export const DiscoutAction = ({defaultValue, limit, dataOut}) => {
 
-    const {functionality} = defaultValue;
+
+    // const {functionality} = defaultValue;
+
 
     const [status, setStatus] = useState(true);
-    const [data, setData] = useState({limit: limit ? limit : null})
+    const [data, setData] = useState(defaultValue ? defaultValue.functionality : 'total_cart_price');
     const [productData, setProductData] = useState([]);
     const [categoryData, setCategoryData] = useState([]);
     const [loading, setLoading] = useState(false)
-    const [typeSel, setTypeSel] = useState({types: functionality.id ? functionality.id : ''});
+    const [typeSel, setTypeSel] = useState({types: defaultValue ? defaultValue.functionality : ''});
 
-    const [catSel, setCatSel] = useState(defaultValue ? defaultValue.catSel : []);
+    const [catSel, setCatSel] = useState(defaultValue ? defaultValue.functionality == "special_categories" ? defaultValue.functionality_amount : [] : []);
+    const [proSel, setProSel] = useState(defaultValue ? defaultValue.functionality == "special_products" ? defaultValue.functionality_amount : [] : []);
 
 
-
-    console.log(functionality)
     const handleClose = e => {
         e.preventDefault();
         $("#back-loaderedss").removeClass("active");
@@ -29,17 +32,17 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        dataOut({data , catSel})
+        if (typeSel.types == "special_products") {
+            dataOut({data: data ? data : 'total_card_price', catSel: proSel})
+        } else {
+            dataOut({data: data ? data : 'total_card_price', catSel: catSel})
+        }
         handleClose(e);
-    }
-
-    const CategoryGet = async () => {
 
     }
 
     const handleSearchProducts = e => {
         let searchdata = {search: '', pageSize: 10}
-        console.log(e);
 
         if (e) {
             searchdata.search = e;
@@ -58,7 +61,7 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
 
     }
 
- const handleSearchCategore = e => {
+    const handleSearchCategore = e => {
         let searchdata = {search: '', pageSize: 10}
         if (e) {
             searchdata.search = e;
@@ -92,6 +95,8 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
     }
 
     useEffect(() => {
+        handleSearchProducts();
+        handleSearchCategore();
         if (status) {
             $("span.checkboxed.limi").addClass("active");
         } else {
@@ -117,12 +122,11 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
     }
 
 
-    const handleChoise = (e, id , name , index) => {
+    const handleChoise = (e, id, name, index) => {
         e.preventDefault();
 
         setData(index)
 
-        setCatSel([])
 
         if (id == 0) {
             let typp = {...typeSel};
@@ -156,9 +160,14 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
     })
 
 
-    const handleSelecete = e => {
+    const handleSelecete = data => {
 
-        setCatSel(e);
+        if (typeSel.types == "special_products") {
+            setProSel(data)
+        } else {
+            setCatSel(data)
+        }
+
 
     }
 
@@ -174,7 +183,8 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
 
                             <p style={{textAlign: 'center'}}>تخفیف اعمال شود روی</p>
 
-                            <MultiOption name={"status"} handleChoise={handleChoise} data={[{
+                            <MultiOption defData={defaultValue.functionality} name={"status"}
+                                         handleChoise={handleChoise} data={[{
                                 id: 'total_cart_price',
                                 name: 'کل مبلغ سبد خرید'
                             }, {
@@ -201,10 +211,11 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
                             <p>لیست محصولات</p>
 
 
-                            <MultiSelected name={"cat-show"} data={productData}
-                                           loadings={loading}
-                                           searchs={handleSearchProducts}
-                                           selected={handleSelecete}
+                            <MultiSelectedAction name={"product-show"} data={productData}
+                                                 loadings={loading}
+                                                 defSelected={proSel}
+                                                 searchs={handleSearchProducts}
+                                                 handleSelecete={handleSelecete}
                                 // selected={e => setCatSel(e)}
                             />
                         </div>
@@ -213,12 +224,11 @@ export const DiscoutAction = ({defaultValue , limit,dataOut}) => {
                         <div className={"col-12"}>
                             <p>لیست دسته بندی ها</p>
 
-                            <MultiSelected name={"cat-show"} data={categoryData}
-                                           loadings={loading}
-                                           // defSelected={catSel ? catSel : null}
-                                           selected={handleSelecete}
-                                           searchs={handleSearchCategore}
-                                           // me={e => handleSearchCategory(e)}
+                            <MultiSelectedCat name={"cat-show"} data={categoryData}
+                                              loadings={loading}
+                                              defSelected={catSel}
+                                              selected={handleSelecete}
+                                              searchs={handleSearchCategore}
                             />
                         </div>
 

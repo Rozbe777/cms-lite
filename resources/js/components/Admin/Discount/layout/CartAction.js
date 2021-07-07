@@ -7,6 +7,7 @@ import $ from "jquery";
 
 export const CartAction = ({defData, dataOut}) => {
 
+    console.log(defData , "..______________")
 
     function handleCondName(id) {
         switch (id.typeSel.types) {
@@ -14,7 +15,7 @@ export const CartAction = ({defData, dataOut}) => {
                 return 'بدون محدودیت';
             case 'min_purchase_number' :
                 return 'حداقل مبلغ سبد خرید';
-            case 'max_card_price' :
+            case 'max_cart_price' :
                 return `حداقل تعداد محصولات در سبد`;
             case "max_purchase_number" :
                 return `حداکثر مبلغ سبد خرید`;
@@ -37,7 +38,7 @@ export const CartAction = ({defData, dataOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        let typesNn = typeName.type ? typeName.type == "price" ? typeName.text + " " + card_conditions_amount + " تومان " : typeName.text + " " + card_conditions_amount : typeName.text;
+        let typesNn = typeName.type ? typeName.type == "max_purchase_number" || typeName.type == "min_purchase_number" ? typeName.text + " " + card_conditions_amount + " تومان " : typeName.text + " " + card_conditions_amount : typeName.text;
         dataOut({
             cart_conditions_amount : card_conditions_amount,
             typeSel,
@@ -64,23 +65,23 @@ export const CartAction = ({defData, dataOut}) => {
             let typp = {...typeSel};
             typp.types = "unlimited";
             setTypeSel(typp);
-            setTypeName({text: "بدون محدودیت", type: null})
+            setTypeName({text: "بدون محدودیت", type: 'unlimited'})
         } else if (id == 1) {
             let typpp = {...typeSel};
             typpp.types = "min_purchase_number";
             setTypeSel(typpp);
-            setTypeName({text: "با محدودیت حداقل مبلغ خرید", type: 'price'});
+            setTypeName({text: "با محدودیت حداقل مبلغ خرید", type: 'min_purchase_number'});
         } else if (id == 2) {
             let typpps = {...typeSel};
             typpps.types = "max_purchase_number";
             setTypeSel(typpps);
-            setTypeName({text: "با محدودیت حداقل تعداد محصولات", type: 'num'});
+            setTypeName({text: "با محدودیت حداقل تعداد محصولات", type: 'max_purchase_number'});
 
         } else if (id == 3) {
             let typppb = {...typeSel};
             typppb.types = "max_cart_price";
             setTypeSel(typppb);
-            setTypeName({text: "با محدودیت حداکثر مبلغ خرید ", type: 'price'});
+            setTypeName({text: "با محدودیت حداکثر مبلغ خرید ", type: 'max_cart_price'});
 
         } else {
 
@@ -106,18 +107,18 @@ export const CartAction = ({defData, dataOut}) => {
 
                             <p style={{textAlign: 'center'}}>حداقل شرایط سبد خرید</p>
 
-                            <MultiOption defData={typeName.text} name={"cart-roles"} handleChoise={handleChoise}
+                            <MultiOption defData={typeSel.types} name={"cart-roles"} handleChoise={handleChoise}
                                          data={[{
-                                             id: 'بدون محدودیت',
+                                             id: 'unlimited',
                                              name: 'بدون محدودیت'
                                          }, {
-                                             id: 'حداقل مبلغ سبد خرید',
+                                             id: 'min_purchase_number',
                                              name: 'حداقل مبلغ سبد خرید'
                                          }, {
-                                             id: 'حداقل تعداد محصولات در سبد خرید',
+                                             id: 'max_purchase_number',
                                              name: 'حداقل تعداد محصولات در سبد خرید'
                                          }, {
-                                             id: 'حداکثر مبلغ سبد خرید',
+                                             id: 'max_cart_price',
                                              name: 'حداکثر مبلغ سبد خرید'
                                          }]}
                                 // selected={item => handleCloseFirst(item)}

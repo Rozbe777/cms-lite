@@ -62,7 +62,6 @@ export const ItemDis = ({
             $(".item-product.id_" + id).removeClass("activeCheck");
             handleCheck({type: "removed", id})
             HandlePushCheck(false, id)
-
         }
     }
 
@@ -83,8 +82,8 @@ export const ItemDis = ({
                         </div>
                     </fieldset>
 
-                    <i className={"bx bxs-trash"}></i>
-                    <i className={"bx bxs-pencil"} onClick={e => handleEdit(e, data)}></i>
+                    <i className={"bx bxs-trash"} onClick={e => handleDelete(e , data.id)}></i>
+                    <i className={"bx bxs-pencil"} onClick={e => handleEdit(e, data.id)}></i>
 
 
                 </div>

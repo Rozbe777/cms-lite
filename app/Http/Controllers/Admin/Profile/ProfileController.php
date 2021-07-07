@@ -54,8 +54,26 @@ class ProfileController extends Controller
         else
             $data['password'] = bcrypt($data['password']);
 
+        if (empty($data['description']))
+            unset($data['description']);
+
+        if (isset($data['image'])) {
+            if (!empty($data['image']) && !is_string($data['image'])) {
+                $image = $data['image'];
+
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $data['image'] = $image->storeAs('public/images', $imageName);
+            } elseif ($data['image'] == "true") {
+                unset($data['image']);
+            } else {
+                $data['image'] = "public/images/defaultIMG.png";
+            }
+        } else {
+            $data['image'] = "public/images/defaultIMG.png";
+        }
         unset($data['password_confirmation']);
+
         $data = $user->update($data);
-        return $this->message(__('message.success.200'))->view('pages.admin.profile.index')->data($data)->success();
+        return $this->message(__('message.success.200'))->data($data)->success();
     }
 }

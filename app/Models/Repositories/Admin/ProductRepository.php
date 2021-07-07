@@ -81,8 +81,7 @@ class ProductRepository implements RepositoryInterface
             })
             ->when(!empty($time), function ($query) use ($time) {
                 $query->latest();
-            })
-            ->paginate(config('view.pagination'));
+            })->with('galeries')->paginate(config('view.pagination'));
     }
 
     public function get($product)

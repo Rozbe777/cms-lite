@@ -1,68 +1,222 @@
-import React, {Component} from 'react';
+import React, {useEffect, useState} from 'react';
 import ReactDOM from "react-dom";
 import Webservice, {PUT_METHOD} from "../../classes/webservice";
-import {convertDigit, empty, ErroHandle, error as ErrorToast, error, success, warning} from "../../helper";
+import {convertDigit, empty, ErroHandle, error as ErrorToast, error, success, url, warning} from "../../helper";
 import {Request} from "../../services/AdminService/Api";
 import $ from "jquery";
 import Loading from "../Auth/Loading";
 
-export default class Profile extends Component {
+const Profile = (props) => {
 
-    componentWillMount() {
+    let {user , token} = props;
 
-        let {user, is_admin = 0, roles = [], role_id = 0} = this.props;
-        if (roles.length !== 0) {
-            roles = JSON.parse(roles);
+    let {name , last_name , email , mobile , description} = JSON.parse(props.user);
+    const [userData , setUserData] = useState({name , last_name , email , mobile , description})
+
+    let defaultImg = 'images/avatar.jpg'
+    const [imageGet, setImage] = useState({state: ''})
+    const [loading, setLoading] = useState(false)
+
+    const handleGetImg = name => {
+        let names = name.split("/")
+        setLoading(true)
+        Request.GetImage(names[2])
+            .then(rr => {
+                setLoading(false)
+                setImage({state: rr.data})
+            }).catch(err => {
+            ErrorToast("خطایی در دانلود تصویر رخ داده است")
+        })
+    }
+    //
+    useEffect(() => {
+        if (JSON.parse(user).image) {
+            let img = JSON.parse(user).image;
+
+
+            handleGetImg(img)
+
+        } else {
+            setImage({state: ''})
         }
-        role_id = parseInt(role_id);
-        user = JSON.parse(user)
-        this.setState({
-            id : user.id,
-            name: user.name,
-            last_name: user.last_name,
-            full_name: user.fullname,
-            email: user.email,
-            avatar: user.avatar,
-            mobile: user.mobile,
-            status: user.status,
-            roles,
-            role_id,
-            is_admin
-        });
+    }, [])
+    //
+    const [preImage, setPreImage] = useState({uri: defaultImg})
+    const [pre, setPre] = useState(false)
+    const [file, setFile] = useState({file: ''})
+
+
+
+    const handlePreShowImage = e => {
+        e.preventDefault();
+        let preImages = {...preImage}
+        if (event.target.files && event.target.files[0]) {
+            preImages.uri = URL.createObjectURL(event.target.files[0])
+            setPreImage(preImages)
+        }
+    }
+    //
+    const handleFile = e => {
+        e.preventDefault();
+        handlePreShowImage(e);
+        let filed = {...file};
+        filed.file = e.target.files[0];
+        setFile(filed);
+        setPre(true)
+    }
+    //
+    //
+    const handledelImg = (e) => {
+        e.preventDefault();
+
+        let preImages = {...preImage}
+        preImages.uri = defaultImg;
+        setPreImage(preImages)
+        setPre(false)
+        let states = {...imageGet};
+        states.state = '';
+        setImage(states)
+    }
+
+
+    const submitForm = (e) => {
+
+
+        let forms = new FormData();
+        var pattern = /^0?9{1}([0-9]{9})$/;
+        let {name, last_name, mobile , description} = userData;
+        if (empty(userData.name)) {
+            return error('وارد کردن نام الزامی است.')
+        }
+        if (empty(userData.last_name)) {
+            return error('وارد کردن نام‌خانوادگی الزامی است.')
+        }
+
+        if (empty(userData.mobile)) {
+            return error('وارد کردن شماره تلفن‌همراه الزامی است.')
+        }
+
+        if (!pattern.test((userData.mobile))) {
+            return error('فرمت شماره تلفن اشتباه است.')
+        }
+        userData._token = token;
+
+        if (file.file) {
+            forms.append("image", file.file);
+        } else {
+            if (imageGet.state == '') {
+                forms.append("image", '');
+            } else {
+                forms.append("image", true);
+            }
+        }
+
+        forms.append("_token", token);
+
+        forms.append("name", userData.name);
+        forms.append("last_name", userData.last_name);
+        forms.append("description", userData.description);
+        forms.append("email", userData.email ? userData.email : '');
+        let mobiles = Array.from(mobile);
+        let FirstNumber = mobiles[0]
+        if (FirstNumber === 0 || FirstNumber === "0") {
+            mobiles.shift();
+            let newMobile = mobiles.join('');
+            forms.append("mobile", newMobile);
+
+            $("#loading-show").addClass("activeLoadingLogin");
+            Request.ProfileUpdate(forms)
+                .then(res => {
+                    $("#loading-show").removeClass("activeLoadingLogin");
+                    success("اطلاعات ویرایش شد");
+                }).catch(error => {
+                $("#loading-show").removeClass("activeLoadingLogin");
+                if (error.response.data.errors) {
+                    ErroHandle(error.response.data.errors)
+                } else {
+                    ErrorToast("خطای غیر منتظره ای رخ داده است")
+                }
+            })
+        } else {
+            forms.append("mobile", userData.mobile);
+
+            $("#loading-show").addClass("activeLoadingLogin");
+            Request.ProfileUpdate(forms)
+                .then(res => {
+
+                    $("#loading-show").removeClass("activeLoadingLogin");
+                    success("اطلاعات ویرایش شد");
+                    setTimeout(() => {
+                        // window.location.reload();
+                    }, 400)
+                }).catch(error => {
+                $("#loading-show").removeClass("activeLoadingLogin");
+                if (error.response.data.errors) {
+                    ErroHandle(error.response.data.errors)
+                } else {
+                    ErrorToast("خطای غیر منتظره ای رخ داده است")
+                }
+            })
+        }
 
     }
 
-    render() {
-        let {name, last_name, email, mobile, avatar, status, full_name , id} = this.state;
-
-        return (
+    return (
             <div>
 
-                <div className="media mb-2">
-                    <a className="mr-2">
-                        <img src={avatar} alt={full_name}
-                             className="users-avatar-shadow rounded-circle" height="64" width="64"/>
-                    </a>
-                    <div className="media-body">
-                        <div className={'row justify-content-between align-items-center pr-2 pl-1'}>
+
+                <div className="media mb-2" style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    position: 'relative',
+                    justifyContent: 'center'
+                }}>
+                    {
+                        loading ? (
+                            <>
+                                <img src={url(preImage.uri)} alt={''}
+                                     className="users-avatar-shadow rounded-circle" height="120"
+                                     width="120"/>
+                                <div className={"loadingsss"}>
+                                    <div className="spinner-border" role="status">
+                                        <span className="sr-only">در حال بارگذاری ...</span>
+                                    </div>
+                                </div>
+                            </>
+
+                        ) : pre ? (<img src={preImage.uri} alt={''}
+                                        className="users-avatar-shadow rounded-circle" height="120"
+                                        width="120"/>) : imageGet.state ?
+                            (
+                                <img src={imageGet.state} alt={''}
+                                     className="users-avatar-shadow rounded-circle" height="120" width="120"/>
+                            ) : (
+                                <img src={url(preImage.uri)} alt={''}
+                                     className="users-avatar-shadow rounded-circle" height="120" width="120"/>
+                            )
+                    }
 
 
-                            <h4 className="media-heading">{full_name}</h4>
+                    <span id={"choise-img"}>
+                    <i className={"bx bx-camera"}></i>
 
-                            {this.renderStatusBadge()}
-                        </div>
-                        <div className="col-12 px-0 d-flex">
-                            <a onClick={() => {
-                                this.imagePicker();
-                            }} className="btn btn-sm btn-primary mr-25 text-white cursor-pointer">تغییر تصویر آواتار</a>
-                            {/*<a href="#" className="btn btn-sm btn-light-secondary">بازنشانی</a>*/}
-                        </div>
-                    </div>
+                    <input type={"file"} onChange={e => handleFile(e)}
+                           style={{opacity: 0, position: 'absolute', right: 0, cursor: 'pointer'}}
+                    />
+                </span>
+
+                    <span id={"choise-img"} onClick={e => handledelImg(e)} style={{right: 0, left: '-75px'}}>
+                    <i className={"bx bx-trash-alt"}></i>
+
+                </span>
+
                 </div>
+
 
                 <form novalidate onSubmit={e => {
                     e.preventDefault();
-                    this.submitForm()
+                    submitForm()
                 }}>
                     <div className="col-md-12">
                         <div className="row">
@@ -70,8 +224,8 @@ export default class Profile extends Component {
                                 <div className="controls">
                                     <label>نام</label>
                                     <input type="text" className="form-control text-left" placeholder="نام"
-                                           value={name} onChange={(e) => {
-                                        this.setState({name: e.target.value})
+                                           value={userData.name} onChange={(e) => {
+                                        setUserData({...userData , name: e.target.value})
                                     }} required
                                            data-validation-required-message="وارد کردن نام الزامی است"
                                            dir="ltr"/>
@@ -81,8 +235,8 @@ export default class Profile extends Component {
                                 <div className="controls">
                                     <label>نام خانوادگی</label>
                                     <input type="text" className="form-control" placeholder="نام خانوادگی"
-                                           value={last_name} onChange={(e) => {
-                                        this.setState({last_name: e.target.value})
+                                           value={userData.last_name} onChange={(e) => {
+                                        setUserData({...userData , last_name: e.target.value})
                                     }}
                                            required
                                            data-validation-required-message="وارد کردن نام خانوادگی الزامی است"/>
@@ -92,9 +246,9 @@ export default class Profile extends Component {
                                 <div className="controls">
                                     <label>ایمیل</label>
                                     <input type="email" className="form-control text-left" placeholder="ایمیل"
-                                           value={email} onChange={(e) => {
-                                        this.setState({email: e.target.value})
-                                    }} required
+                                           value={userData.email} onChange={(e) => {
+                                        setUserData({...userData , email: e.target.value})
+                                    }}
                                            data-validation-required-message="وارد کردن ایمیل الزامی است" dir="ltr"/>
                                 </div>
                             </div>
@@ -102,14 +256,30 @@ export default class Profile extends Component {
                                 <div className="controls">
                                     <label>شماره تلفن‌همراه</label>
                                     <input type="tel" className="form-control text-left" placeholder="شماره تلفن‌همراه"
-                                           value={mobile} onChange={(e) => {
-                                        this.setState({mobile: convertDigit(e.target.value)})
+                                           value={userData.mobile} onChange={(e) => {
+                                        setUserData({...userData , mobile: convertDigit(e.target.value)})
                                     }} required
                                            data-validation-required-message="وارد کردن شماره تلفن‌همراه الزامی است"
                                            dir="ltr"/>
                                 </div>
                             </div>
-                            {this.adminInputsHandler()}
+
+
+                            <div className="col-12">
+                                <fieldset className="form-group">
+                                    <label>توضیحات شخصی</label>
+                                    <textarea className="form-control" id="basicTextarea" rows="3"
+                                              name={"description"}
+                                              value={userData.description}
+                                              onChange={(e) => {
+                                                  setUserData({...userData , description:e.target.value})
+                                              }}
+                                              placeholder="توضیحاتی راجع به خودتان تایپ کنید ..."></textarea>
+                                </fieldset>
+                            </div>
+
+
+                            {/*{this.adminInputsHandler()}*/}
                         </div>
 
                         <div className="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
@@ -126,103 +296,9 @@ export default class Profile extends Component {
                 </div>
             </div>
         );
-    }
-
-    renderStatusBadge() {
-        let {is_admin, status} = this.state;
-        if (!is_admin) {
-            if (status === 'active') {
-                return (<div className="badge badge-success">فعال</div>);
-            } else {
-                return (<div className="badge badge-danger">غیرفعال</div>);
-            }
-        }
-
-    }
-
-    imagePicker() {
-        warning('در نسخه فعلی انتخاب تصویر آواتار امکان پذیر نیست!')
-    }
-
-    async submitForm() {
-        let {name, last_name, email, mobile} = this.state;
-        if (empty(name)) {
-            return error('وارد کردن نام الزامی است.')
-        }
-        if (empty(last_name)) {
-            return error('وارد کردن نام‌خانوادگی الزامی است.')
-        }
-        if (empty(email)) {
-            return error('وارد کردن ایمیل الزامی است.')
-        }
-        if (empty(mobile)) {
-            return error('وارد کردن شماره تلفن‌همراه الزامی است.')
-        }
+    // }
 
 
-        let data = {
-            name : this.state.name,
-            last_name : this.state.last_name,
-            email : this.state.email,
-            mobile : this.state.mobile,
-            _token : this.props.token
-        }
-
-        $("#loading-show").addClass("activeLoadingLogin");
-
-        Request.UpdateUserDetail(data , this.state.id)
-            .then(response => {
-                    $("#loading-show").removeClass("activeLoadingLogin");
-                    success("تغییرات ثبت شدند")
-                }).catch(error => {
-                    $("#loading-show").removeClass("activeLoadingLogin");
-                    if (error.response.data.errors) {
-                        ErroHandle(error.response.data.errors)
-                    } else {
-                        ErrorToast("خطای غیر منتظره ای رخ داده است")
-                    }
-            })
-
-
-
-
-    }
-
-    adminInputsHandler() {
-        let {is_admin, roles, role_id, status} = this.state;
-        if (is_admin) {
-            return (
-                <div className={'row col-12 m-0 p-0 '}>
-                    <div className="form-group col-md-6">
-                        <div className="controls">
-                            <label>دسترسی</label>
-                            <select value={role_id} className="form-control text-left" placeholder="دسترسی"
-                                    onChange={(e) => {
-                                        this.setState({role_id: convertDigit(e.target.value)})
-                                    }}>
-                                {roles.map((role) => {
-                                    return (<option value={role.id}>{role.display_name}</option>)
-                                })}
-                            </select>
-                        </div>
-                    </div>
-                    <div className="form-group col-md-6">
-                        <div className="controls">
-                            <label>وضعیت</label>
-                            <select value={status} className="form-control text-left" placeholder="دسترسی"
-                                    onChange={(e) => {
-                                        this.setState({status: convertDigit(e.target.value)})
-                                    }}>
-                                <option value={'active'}>فعال</option>
-                                <option value={'deactivate'}>غیرفعال</option>
-                            </select>
-                        </div>
-                    </div>
-
-                </div>
-            );
-        }
-    }
 }
 let elementId = 'profile-form';
 let element = document.getElementById(elementId);

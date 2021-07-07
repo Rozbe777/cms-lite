@@ -1757,3 +1757,15 @@ ul.time-roles{
         float: left;
     }
 }
+
+#coupon-box{
+    padding-left: 8px !important;
+    padding-bottom: 8px !important;
+}
+
+textarea{
+    &::placeholder{
+        text-align: right !important;
+
+    }
+}

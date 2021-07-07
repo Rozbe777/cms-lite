@@ -20,7 +20,7 @@ class CreateCouponsTable extends Migration
             $table->enum('status',['active','deactivate'])->default('deactivate');
             $table->enum('type',['fixed_price','percentage','free_delivery'])->default('percentage');
             $table->string('value')->nullable();
-            $table->integer('max_limit')->nullable();
+            $table->bigInteger('max_limit')->nullable();
             $table->integer('use_number')->nullable();
             $table->softDeletes();
             $table->timestamps();

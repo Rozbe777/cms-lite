@@ -17,14 +17,14 @@ class CreateInvoicesTable extends Migration
             $table->id();
             $table->char('title', 255)->default('noname');
             $table->integer('gateway_id')->default(0);
-            $table->bigInteger('user_id')->unsigned();
             $table->string('callback_url')->nullable();
             $table->json('payload')->nullable();
             $table->text('description')->nullable();
             $table->integer('amount')->default(0);
             $table->enum('status', ['paid', 'unpaid', 'fail'])->default('unpaid');
             $table->string('bank_result')->nullable();
-            $table->integer('order_id');
+            $table->bigInteger('user_id')->unsigned();
+            $table->integer('order_id')->unsigned();
             $table->timestamp('paid_at')->nullable();
             $table->softDeletes();
             $table->timestamps();

@@ -18,7 +18,6 @@ export const MultiSelected = ({
                                   me: setMe
                               }) => {
 
-    console.log(name, data)
     const [check, setCheck] = useState([])
     const [load, setLoad] = useState(false);
     let selectCheckBox = new Set();
@@ -46,7 +45,7 @@ export const MultiSelected = ({
             defSelected.map(item => {
                 checkkks.push({
                     id: item.id,
-                    name: item.name
+                    name: item.name ? item.name : item.title
                 })
                 setCheck(checkkks)
             })

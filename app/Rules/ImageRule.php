@@ -27,6 +27,8 @@ class ImageRule implements Rule
      */
     public function passes($attribute, $value)
     {
+        if (empty($value))
+            return true;
         /** in duplicate when user does not change the image
          *  the image value is "true"
          *  if user changes the image the image value is an image.

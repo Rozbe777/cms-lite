@@ -4,9 +4,12 @@
 namespace App\Models\Repositories\Admin;
 
 
+use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\CouponSetting;
+use App\Models\Product;
 use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Morilog\Jalali\Jalalian;
 
@@ -20,21 +23,42 @@ class CouponRepository implements RepositoryInterface
      * @param null $status
      * @return mixed
      */
-    public function all($code = null, $startTime = null, $endTime = null, $status = null, $expired = null)
+    public function all($code = null, $startTime = null, $endTime = null, $status = null)
     {
-        return  Coupon::when(!empty($code), function ($query) use ($code) {
+        if (!empty($status)){
+            $active = in_array("active",$status) ? "active" : null;
+            $deactivated = in_array("deactivated",$status) ? "deactivated" : null;
+            $expaierd = in_array("expaierd",$status) ? "expaierd" : null;
+        } else{
+            $active = null;
+            $deactivated = null;
+            $expaierd = null;
+        }
+        if ($active == "active" && $deactivated == "deactivated") {
+            $active = null;
+            $deactivated = null;
+        }
+
+        return Coupon::when(!empty($code), function ($query) use ($code) {
             $query->where('code', 'like', '%' . $code . '%');
-        })->when(!empty($status), function ($query) use ($status) {
-            $query->where("status", $status);
+        })->when(!empty($active), function ($query) use ($active) {
+            $query->where("status", $active);
+        })->when(!empty($deactivated), function ($query) use ($deactivated) {
+            $query->where("status", $deactivated);
         })->when(!empty($startTime), function ($query) use ($startTime) {
-            $query->where('start_date' > $startTime);
+            $query->whereHas('coupon_settings',function ($q) use ($startTime) {
+                $q->where('start_date', '>=' ,$startTime);
+            });
         })->when(!empty($endTime), function ($query) use ($endTime) {
-            $query->where('end_date' > $endTime);
-        })->when(!empty($expired), function ($query) use ($expired) {
-            $query->with(['coupon_settings' => function ($q) use ($expired) {
+            $query->whereHas('coupon_settings',function ($q) use ($endTime) {
+                $q->where('end_date', '<=' ,$endTime);
+            });
+        })->when(!empty($expaierd), function ($query) use ($expaierd) {
+            $query->whereHas('coupon_settings',function ($q) use ($expaierd) {
                 $q->where("end_date", '<', jdate()->getTimestamp());
-            }])->has("coupon_settings");
-        })->orderByDesc('id')
+            });
+        })->with('coupon_settings')
+            ->orderByDesc('id')
             ->get();
     }
 
@@ -43,7 +67,45 @@ class CouponRepository implements RepositoryInterface
      */
     public function get($coupon)
     {
-        // TODO: Implement get() method.
+        $arrayCat = [];
+        $arrayUser = [];
+
+        $items = json_decode($coupon->coupon_settings->functionality_amount);
+        if ($coupon->coupon_settings->functionality == 'special_categories'){
+            foreach (Category::whereIn('id', $items)->get() as $item) {
+                $arrayCat[] = $item->toArray();
+            }
+        }elseif ($coupon->coupon_settings->functionality == 'special_products'){
+            foreach (Product::whereIn('id', $items)->get() as $item) {
+                $arrayCat[] = $item->toArray();
+            }
+        }
+
+        $userCat = json_decode($coupon->coupon_settings->user_group);
+
+        if (!empty($userCat)) {
+            if ((int)$userCat[0] < -1) {
+                foreach (User::where('group', $userCat[0])->get() as $item) {
+                    $arrayUser[] = $item->toArray();
+                }
+            } elseif ((int)$userCat[0] == -1) {
+                foreach (User::all() as $item) {
+                    $arrayUser[] = $item->toArray();
+                }
+            } else {
+                foreach (User::whereIn('id', $userCat)->get() as $item) {
+                    $arrayUser[] = $item->toArray();
+                }
+            }
+        }
+
+        $couponArr = $coupon->toArray();
+        $coupon_setting = ($coupon->coupon_settings)->toArray();
+        $coupon_setting['functionality_amount'] = $arrayCat;
+        $coupon_setting['user_group'] = $arrayUser;
+        $couponArr['coupon_settings'] = $coupon_setting;
+
+        return $couponArr;
     }
 
     public function delete($coupon)
@@ -52,72 +114,102 @@ class CouponRepository implements RepositoryInterface
         return $coupon->delete();
     }
 
-    public function update(array $data, $coupon)
+    public function update(array $data, $couponId)
     {
-        $setting_data = [];
-        $data = [];
+        if (!empty($data['start_date']))
+            $start_date = $data['start_date'];
+        if (!empty($data['end_date']))
+            $end_date = $data['end_date'];
 
-        $coupon_setting = CouponSetting::where('coupon_id', $coupon->id);
+        $coupon = Coupon::find($couponId);
+        $setting_data = [];
+        $item = [];
+
+        $coupon_setting = CouponSetting::where('coupon_id', $couponId);
 
         $setting_data['functionality'] = !empty($data['functionality']) ?
             $data['functionality'] :
-            $coupon->coupon_settings->functionality;
+            null;
+
+        $setting_data['functionality_amount'] = !empty($data['functionality_amount']) ?
+            json_encode($data['functionality_amount']) :
+            [];
 
         $setting_data['cart_conditions'] = !empty($data['cart_conditions']) ?
             $data['cart_conditions'] :
-            $coupon->coupon_settings->cart_conditions;
+            null;
 
         $setting_data['cart_conditions_amount'] = !empty($data['cart_conditions_amount']) ?
             $data['cart_conditions_amount'] :
-            $coupon->coupon_settings->cart_conditions_amount;
+            null;
 
         $setting_data['user_status'] = !empty($data['user_status']) ?
             $data['user_status'] :
-            $coupon->coupon_settings->user_status;
+            null;
 
         $setting_data['user_group'] = !empty($data['user_group']) ?
-            $data['user_group'] :
-            $coupon->coupon_settings->user_group;
+            json_encode($data['user_group']) :
+            null;
 
-        $setting_data['number_times_allowed'] = !empty($data['number_times_allowed']) ?
-            $data['number_times_allowed'] :
-            $coupon->coupon_settings->number_times_allowed;
+        $setting_data['number_of_times_allowed_to_use'] = !empty($data['number_of_times_allowed_to_use']) ?
+            $data['number_of_times_allowed_to_use'] :
+            null;
 
-        $setting_data['number_of_users_allowed'] = !empty($data['number_of_users_allowed']) ?
-            $data['number_of_users_allowed'] :
-            $coupon->coupon_settings->number_of_users_allowed;
+        $setting_data['number_of_use_allowed_per_user'] = !empty($data['number_of_use_allowed_per_user']) ?
+            $data['number_of_use_allowed_per_user'] :
+            null;
 
         $setting_data['start_date'] = !empty($data['start_date']) ?
             $data['start_date'] :
-            $coupon->coupon_settings->start_date;
+            null;
 
         $setting_data['end_date'] = !empty($data['end_date']) ?
             $data['end_date'] :
-            $coupon->coupon_settings->end_date;
+            null;
 
-        $data['code'] = !empty($data['code']) ?
+        $item['code'] = !empty($data['code']) ?
             $data['code'] :
             $coupon->code;
 
-        $data['status'] = !empty($data['status']) ?
+        $item['status'] = !empty($data['status']) ?
             $data['status'] :
             $coupon->status;
 
-        $data['type'] = !empty($data['type']) ?
+        $item['type'] = !empty($data['type']) ?
             $data['type'] :
             $coupon->type;
 
-        $data['value'] = !empty($data['value']) ?
+        $item['value'] = !empty($data['value']) ?
             $data['value'] :
-            $coupon->value;
+            ($item['type'] == "free_delivery" ?null:$coupon->value);
 
-        $data['max_limit'] = !empty($data['max_limit']) ?
+        $item['max_limit'] = !empty($data['max_limit']) ?
             $data['max_limit'] :
-            $coupon->max_limit;
+            null;
 
-        $coupon = $coupon->update($data);
+        $H_start = $start_date['time']['h'];
+        $M_start = $start_date['time']['m'];
+        $S_start = $start_date['time']['s'];
+
+        $H_end = $end_date['time']['h'];
+        $M_end = $end_date['time']['m'];
+        $S_end = $end_date['time']['s'];
+
+        $setting_data['start_date'] = $start_date['date']['timestamp'] != null ?
+            $start_date['date']['timestamp'] :
+            Jalalian::forge('today')->getTimestamp();
+
+        $setting_data['start_time'] = $start_date['date']['timestamp'] != null ?
+            "$H_start:$M_start:$S_start" :
+            null;
+
+        $setting_data['end_date'] = $end_date['date']['timestamp'];
+        $setting_data['end_time'] = "$H_end:$M_end:$S_end";
+
+        $coupon->update($item);
         $coupon_setting->update($setting_data);
-        return $coupon->load('coupon_settings');
+
+        return Coupon::where('id',$couponId)->with('coupon_settings')->get();
     }
 
     public function create(array $data)
@@ -133,11 +225,10 @@ class CouponRepository implements RepositoryInterface
             $data['functionality'] :
             'total_cart_price';
 
-        if (!in_array($setting_data['functionality'], ['total_items_price', 'total_cart_price'])) {
-            $setting_data['functionality_amount'] = json_encode($data['functionality_amount']);
-        } else {
-            $setting_data['functionality_amount'] = json_encode($data['functionality_amount']);
-        }
+        $setting_data['functionality_amount'] = json_encode($data['functionality_amount']);
+
+        if (empty($setting_data['functionality_amount']))
+            $setting_data['functionality_amount'] = null;
 
         $setting_data['cart_conditions'] = !empty($data['cart_conditions']) ?
             $data['cart_conditions'] :
@@ -157,11 +248,11 @@ class CouponRepository implements RepositoryInterface
 
         $setting_data['number_of_times_allowed_to_use'] = !empty($data['number_of_times_allowed_to_use']) ?
             $data['number_of_times_allowed_to_use'] :
-            10;
+            null;
 
         $setting_data['number_of_use_allowed_per_user'] = !empty($data['number_of_use_allowed_per_user']) ?
             $data['number_of_use_allowed_per_user'] :
-            1;
+            null;
 
         $coupon_data['code'] = $data['code'];
         $coupon_data['user_id'] = Auth::id();
@@ -182,23 +273,28 @@ class CouponRepository implements RepositoryInterface
             $data['max_limit'] :
             null;
 
-//        $x = substr($start_date['date']['timestamp'], 0, -3);
-        $Hstart = $start_date['time']['h'];
-        $Mstart = $start_date['time']['m'];
-        $Sstart = $start_date['time']['s'];
+        $H_start = $start_date['time']['h'];
+        $M_start = $start_date['time']['m'];
+        $S_start = $start_date['time']['s'];
 
-        $Hend = $end_date['time']['h'];
-        $Mend = $end_date['time']['m'];
-        $Send = $end_date['time']['s'];
+        $H_end = $end_date['time']['h'];
+        $M_end = $end_date['time']['m'];
+        $S_end = $end_date['time']['s'];
+
+        $setting_data['start_date'] = $start_date['date']['timestamp'] != null ?
+            $start_date['date']['timestamp'] :
+            Jalalian::forge('today')->getTimestamp();
+
+        $setting_data['start_time'] = $start_date['date']['timestamp'] != null ?
+            "$H_start:$M_start:$S_start" :
+            null;
+
+        $setting_data['end_date'] = $end_date['date']['timestamp'];
+        $setting_data['end_time'] = "$H_end:$M_end:$S_end";
 
         $coupon = Coupon::create($coupon_data);
 
         $setting_data['coupon_id'] = $coupon->id;
-
-        $setting_data['start_date'] = $start_date['date']['timestamp'];
-        $setting_data['start_time'] = "$Hstart:$Mstart:$Sstart";
-        $setting_data['end_date'] = $end_date['date']['timestamp'];
-        $setting_data['end_time'] = "$Hend:$Mend:$Send";
 
         CouponSetting::create($setting_data);
 

@@ -36,10 +36,7 @@ class CouponController extends Controller
      */
     public function index(SearchCouponRequest $request)
     {
-        $coupon = $this->repository->all($request->code, $request->start_date, $request->end_date, $request->status, $request->expired);
-
-        if (!empty($coupon))
-            $coupon = $coupon->load('coupon_settings');
+        $coupon = $this->repository->all($request->code, $request->start_date, $request->end_date, $request->status);
 
         return (!$coupon) ?
             $this->message(__('message.coupon.search.notSuccess'))->error() :
@@ -89,7 +86,8 @@ class CouponController extends Controller
      */
     public function show(Coupon $coupon)
     {
-        $coupon->load('coupon_settings');
+        $coupon = $this->repository->get($coupon);
+
         return $this->message(__('message.success.200'))->data($coupon)->success();
     }
 
@@ -114,6 +112,7 @@ class CouponController extends Controller
     public function update(EditCouponRequest $request)
     {
         $coupon = $this->repository->update($request->all(), $request->id);
+
         return $this->message(__('message.success.200'))->data($coupon)->success();
     }
 

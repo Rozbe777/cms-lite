@@ -2,11 +2,22 @@ import React, {useEffect, useState} from 'react';
 import $ from 'jquery'
 import "swiper/swiper-bundle.css";
 
-export const MultiOption = ({defData , handleChoise , name, data, selected: pushSelected}) => {
+export const MultiOption = ({defData, handleChoise, name, data, selected: pushSelected}) => {
 
-    console.log("................" , defData)
+
+    console.log("&&&&&&&&&&&&&&&" , defData)
+    let defsel = '';
+    if (defData) {
+        data.map(items => {
+            if (items.id == defData) {
+                defsel = items.name;
+            }
+        })
+    }
+
+    console.log("................", defData, data, defsel)
     const [selectedO, setSelectedO] = useState({
-        item: defData ? defData : ''
+        item: defData ? defsel : ''
     });
     useEffect(() => {
         var interValOption;
@@ -60,9 +71,9 @@ export const MultiOption = ({defData , handleChoise , name, data, selected: push
                     <i className={"bx bx-chevron-down"}></i>
                 </div>
                 <span id={"selected"}>
-                    {console.log("??????" , selectedO.item , defData)}
                     {defData || selectedO.item !== "" ? (
-                        <a onClick={e => delSel(e)}><i className='bx bx-x'></i><span className={name}>{defData ? defData : selectedO.item}</span></a>
+                        <a onClick={e => delSel(e)}><i className='bx bx-x'></i><span
+                            className={name}>{selectedO.item}</span></a>
                     ) : 'انتخاب کنید'}
                 </span>
             </li>
@@ -71,7 +82,7 @@ export const MultiOption = ({defData , handleChoise , name, data, selected: push
                     {data ? data.map((item, index) => (
                         <li key={index} onClick={e => {
                             selectedOpt(e, item.name, item.id);
-                            handleChoise(e, index , item.name , item.id)
+                            handleChoise(e, index, item.name, item.id)
                         }}>{item.name}</li>
                     )) : (<li disabled>موردی یافت نشد</li>)}
 

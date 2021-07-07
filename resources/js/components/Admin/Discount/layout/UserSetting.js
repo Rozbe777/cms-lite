@@ -1,22 +1,22 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import ReactDOM from 'react-dom';
 import {Request} from "../../../../services/AdminService/Api";
 import {MultiOption} from "./MultiOption";
-import {MultiSelected} from "./MultiSelected";
+import {MultiSelectedUser} from "./MultiSelectedUser";
+import {USER_SETTING} from './../layout/Context';
 import $ from "jquery";
 
-export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
+export const UserSetting = ({dataOut, oldData}) => {
 
-    console.log(oldData , "//////")
 
-    const [status, setStatus] = useState(true);
-    const [data, setData] = useState({limit: limit ? limit : null})
-    const [productData, setProductData] = useState([]);
+    useEffect(() => {
+        handleSearchUser();
+    }, [])
+
     const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(false)
-    const [userGroup , setUserGroup] = useState([])
-    const [typeSel, setTypeSel] = useState({types: '' , name : ''});
-    const [catSel, setCatSel] = useState(oldData.userGroup ? oldData.userGroup :  []);
+    const [userGroup, setUserGroup] = useState(oldData ? oldData.userGroup : [-1])
+    const [typeSel, setTypeSel] = useState({type: oldData ? oldData.userStatus : 'all'});
 
     const handleClose = e => {
         e.preventDefault();
@@ -26,10 +26,10 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
 
     const handleAdd = e => {
         e.preventDefault();
-        dataOut({user_status: typeSel, userGroup ,userSelecet : catSel});
+        console.log("______", userGroup)
+        dataOut({user_status: typeSel, userGroup});
         handleClose(e);
     }
-
 
 
     const handleSearchUser = e => {
@@ -52,33 +52,31 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
     }
 
 
-    const handleChoiseGroup = (e , index , name , id) => {
+    const handleChoiseGroup = (e, index, name, id) => {
         e.preventDefault();
         let userGroups = [];
-        setCatSel([]);
-        userGroups.push(id)
+        userGroups.push(parseInt(id))
         setUserGroup(userGroups);
     }
     const handleChoise = (e, id) => {
         e.preventDefault();
-
         if (id == 0) {
-            let typp = {...typeSel};
-            typp.types = "all";
-            typp.name = "برای همه کاربران";
-            setTypeSel(typp);
+
+            let userState = {...typeSel};
+            userState.type = "all";
+            setTypeSel(userState)
         } else if (id == 1) {
-            let typpp = {...typeSel};
-            typpp.types = "group_of_users";
-            typpp.name = "برای گروهی از کاربران";
-            setTypeSel(typpp);
+
+            let userState = {...typeSel};
+            userState.type = "group_of_users";
+            setUserGroup([-2])
+            setTypeSel(userState);
 
         } else if (id == 2) {
-            let typpps = {...typeSel};
-            typpps.types = "special_users";
-            typpps.name = "برای کاربران خاص";
-
-            setTypeSel(typpps);
+            let userState = {...typeSel};
+            userState.type = "special_users";
+            setTypeSel(userState);
+            setUserGroup([])
             handleSearchUser();
 
         } else {
@@ -93,12 +91,9 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
     })
 
 
-    const handleSelecete = e => {
-
-        let UserGroups = [];
-        setUserGroup(UserGroups)
-        setCatSel(e);
-
+    const handleSelecete = data => {
+        console.log(data, "======")
+        setUserGroup(data)
     }
 
 
@@ -113,7 +108,8 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
 
                             <p style={{textAlign: 'center'}}> اعمال شود روی</p>
 
-                            <MultiOption name={"status"} handleChoise={handleChoise} data={[{
+                            <MultiOption name={"status"} handleChoise={handleChoise}
+                                         defData={typeSel.type ? typeSel.type : "all"} data={[{
                                 id: 'all',
                                 name: 'همه کاربران'
                             }, {
@@ -124,7 +120,6 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
                                 name: 'کاربران خاص'
                             }]}
                                 // selected={item => handleCloseFirst(item)}
-
                             />
 
                         </div>
@@ -132,7 +127,7 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
                     </div>
 
 
-                    {typeSel.types ? typeSel.types == "group_of_users" ? (
+                    {typeSel.type ? typeSel.type == "group_of_users" ? (
                         <div className={"col-12"}>
                             <p style={{textAlign: 'center'}}>کاربرانی که</p>
                             <MultiOption name={"user_group"} data={[{
@@ -142,21 +137,23 @@ export const UserSetting = ({dataOut, limit,oldData ,  out: setOut}) => {
                                 id: '-3',
                                 name: 'کاربرانی که خرید نکرده اند'
                             }]}
+                                         defData={userGroup ? userGroup[0] : -2}
                                          handleChoise={handleChoiseGroup}
                                 // selected={item => handleCloseFirst(item)}
 
                             />
                         </div>
 
-                    ) : typeSel.types == "special_users" ? (
+                    ) : typeSel.type == "special_users" ? (
                         <div className={"col-12"}>
                             <p>کاربر</p>
 
 
-                            <MultiSelected name={"cat-show"} data={userData}
-                                           loadings={loading}
-                                           selected={handleSelecete}
-                                           searchs={handleSearchUser}
+                            <MultiSelectedUser name={"cat-show"} data={userData}
+                                               loadings={loading}
+                                               defSelected={userGroup[0] == -1 ? [] : userGroup}
+                                               handleSelecete={handleSelecete}
+                                               searchs={handleSearchUser}
 
                                 // me={e => handleSearchCategory(e)}
                             />
