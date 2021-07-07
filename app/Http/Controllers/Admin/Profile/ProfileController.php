@@ -34,6 +34,7 @@ class ProfileController extends Controller
     function update(UpdateRequest $request)
     {
         $data = $request->all();
+
         $user = Auth::user();
 
         if (empty($data['mobile']))

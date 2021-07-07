@@ -5,14 +5,14 @@ import {MultiOption} from "./MultiOption";
 import {MultiSelected} from "./MultiSelected";
 import $ from "jquery";
 
-export const LimitedUse = ({defDataTU , defDataUU ,dataOut}) => {
+export const LimitedUse = ({defDataTU, defDataUU, dataOut}) => {
 
 
     const [checkCode, setCheckCode] = useState(defDataTU ? true : false)
     const [checkUser, setCkeckUser] = useState(defDataUU ? true : false)
 
-    const [dataDis , setDis] = useState( defDataTU ? defDataTU : '');
-    const [dataUser , setUser] = useState(defDataUU ? defDataUU : '');
+    const [dataDis, setDis] = useState(defDataTU ? defDataTU : '');
+    const [dataUser, setUser] = useState(defDataUU ? defDataUU : '');
 
 
     const handleClose = e => {
@@ -27,28 +27,54 @@ export const LimitedUse = ({defDataTU , defDataUU ,dataOut}) => {
         let userVal = checkUser ? dataUser : null;
         let striShow = '';
 
-        if (checkCode && checkUser){
-            striShow = `محدودیت ${codeVal} استفاده  و محدودیت ${userVal} استفاده برای هر کاربر`;
+        let codeStr = `محدودیت ${codeVal}  استفاده`
+        let userStr = `محدودیت استفاده برای ${userVal} کاربر`;
+
+        if (checkCode && checkUser) {
+            if (codeVal && userVal) {
+                striShow = codeStr + " - " + userStr;
+            } else if (codeVal && !userVal) {
+                striShow = codeVal;
+            } else if (!codeVal && userVal) {
+                striShow = userStr;
+            } else {
+                striShow = 'بدون محدودیت'
+            }
+            console.log("******" , striShow)
             dataOut({
                 codeVal,
                 userVal,
                 striShow
             })
-        }else if (checkCode && !checkUser){
-            striShow = `محدودیت ${codeVal} استفاده`
+        } else if (checkCode && !checkUser) {
+            if (codeVal) {
+                striShow = codeStr;
+            } else {
+                striShow = 'بدون محدودیت'
+            }
+            console.log("-----" , striShow)
+
             dataOut({
                 codeVal,
                 userVal,
                 striShow
             })
-        }else if (!checkCode && checkUser){
-            striShow = `محدودیت ${userVal} استفاده برای هر کاربر`
+        } else if (!checkCode && checkUser) {
+
+            if (userVal) {
+                striShow = userStr;
+            } else {
+                striShow = 'بدون محدودیت'
+            }
+
+            console.log("+++++++" , striShow)
+
             dataOut({
                 codeVal,
                 userVal,
                 striShow
             })
-        }else{
+        } else {
             striShow = "بدون محدودیت";
             dataOut({
                 codeVal,
@@ -68,10 +94,6 @@ export const LimitedUse = ({defDataTU , defDataUU ,dataOut}) => {
             $("span.checkboxed.limi").removeClass("active");
         }
     }, [])
-
-
-
-
 
 
     $(".main-selected").click(function () {
@@ -100,7 +122,7 @@ export const LimitedUse = ({defDataTU , defDataUU ,dataOut}) => {
         e.preventDefault();
         setUser(e.target.value)
     }
- const handleCode = e => {
+    const handleCode = e => {
         e.preventDefault();
         setDis(e.target.value)
     }
@@ -112,14 +134,16 @@ export const LimitedUse = ({defDataTU , defDataUU ,dataOut}) => {
                 <div className={"row"} style={{marginTop: '15px'}}>
                     <div className={"col-12"}>
 
-                        <div className={"content-select firstes"} style={{marginBottom : 20}}>
+                        <div className={"content-select firstes"} style={{marginBottom: 20}}>
 
                             <fieldset>
                                 <div className="checkbox">
-                                    <input type="checkbox" defaultChecked={checkCode ? checkCode : false} onChange={e => handleChangeCheckCode(e)}
+                                    <input type="checkbox" defaultChecked={checkCode ? checkCode : false}
+                                           onChange={e => handleChangeCheckCode(e)}
 
                                            className="checkbox-input" id="checkbox2"/>
-                                    <label style={{fontSize : '16px' , fontWeight : 100}} htmlFor="checkbox2">محدود کردن تعداد استفاده از این کد تخفیف</label>
+                                    <label style={{fontSize: '16px', fontWeight: 100}} htmlFor="checkbox2">محدود کردن
+                                        تعداد استفاده از این کد تخفیف</label>
                                 </div>
                             </fieldset>
 
@@ -129,20 +153,24 @@ export const LimitedUse = ({defDataTU , defDataUU ,dataOut}) => {
                     </div>
 
                     {checkCode ? (
-                        <div className={"col-12"} style={{marginBottom : 20}}>
-                            <input type="number" style={{textAlign :'center'}} value={dataDis ? dataDis : ''} onChange={e => handleCode(e)} id="title" className="form-control" placeholder={"تعداد قابل استفاده"}/>
+                        <div className={"col-12"} style={{marginBottom: 20}}>
+                            <input type="number" style={{textAlign: 'center'}} value={dataDis ? dataDis : ''}
+                                   onChange={e => handleCode(e)} id="title" className="form-control"
+                                   placeholder={"تعداد قابل استفاده"}/>
                         </div>
                     ) : ''}
 
                     <div className={"col-12"}>
 
-                        <div className={"content-select firstes"} style={{marginBottom : 20}}>
+                        <div className={"content-select firstes"} style={{marginBottom: 20}}>
 
                             <fieldset>
                                 <div className="checkbox">
-                                    <input type="checkbox" defaultChecked={checkUser ? checkUser : false} onChange={e => handleChangeCheckUser(e)}
+                                    <input type="checkbox" defaultChecked={checkUser ? checkUser : false}
+                                           onChange={e => handleChangeCheckUser(e)}
                                            className="checkbox-input" id="checkboxUser"/>
-                                    <label style={{fontSize : '16px' , fontWeight : 100}} htmlFor="checkboxUser">محدود کردن تعداد استفاده برای هر کاربر</label>
+                                    <label style={{fontSize: '16px', fontWeight: 100}} htmlFor="checkboxUser">محدود کردن
+                                        تعداد استفاده برای هر کاربر</label>
                                 </div>
                             </fieldset>
 
@@ -152,12 +180,12 @@ export const LimitedUse = ({defDataTU , defDataUU ,dataOut}) => {
                     </div>
 
                     {checkUser ? (
-                        <div className={"col-12"} style={{marginBottom : 20}}>
-                            <input type="number" style={{textAlign :'center'}} value={dataUser ? dataUser : ''} onChange={e => handleUser(e)} id="title" className="form-control" placeholder={"تعداد قابل استفاده برای هر کاربر"}/>
+                        <div className={"col-12"} style={{marginBottom: 20}}>
+                            <input type="number" style={{textAlign: 'center'}} value={dataUser ? dataUser : ''}
+                                   onChange={e => handleUser(e)} id="title" className="form-control"
+                                   placeholder={"تعداد قابل استفاده برای هر کاربر"}/>
                         </div>
                     ) : ''}
-
-
 
 
                 </div>

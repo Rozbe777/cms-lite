@@ -9,19 +9,21 @@ import {ErroHandle, error as ErrorToast, error} from './../../../../helper'
 import {ChipsetHandler} from './../../../HOC/ChipsetHandler'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import {MultiSelected} from "../../Shop/ProductManager/HOC/MultiSelected";
+import FormHandler from "../Helper/FormHandler";
 import $ from "jquery";
 import {BASE_URL_IMG} from "../../../../services/Type";
+import {Tab} from "../../_Micro/Tab";
+import RequestHandler from "../Helper/RequestHandler";
 
-const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, result: pushResult}) => {
+const ContentAdd = ({token,resultForm ,  checkChange: pushCheckChange, display, dataUpdate, result: pushResult}) => {
 
+    let titleWrite = $("input[name=titleContent]").val();
+    let formHandler = new FormHandler();
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? dataGet.allData : '';
     const [changeCheck, setChangeCheck] = useState(false)
-    const [updateId, setUpdateId] = useState([]);
     const [preImage, setPreImage] = useState({uri: ''});
-
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
-
     const [clear, setClear] = useState(false)
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
@@ -35,14 +37,9 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
     const [metaData, setMetaData] = useState({
         robots: false,
     });
-
-    let titleWrite = $("input[name=titleContent]").val();
-
     const type = dataGet ? dataGet.type : '';
-
     const [slugManage, setSlugManage] = useState(true);
     const [formData, setFormData] = useState({});
-
     let default_value = {
         is_menu: 0,
         comment_status: "deactivate",
@@ -51,6 +48,7 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
         slug: ''
     };
 
+    let requestHandler = new RequestHandler();
 
     const GetAllCategory = () => {
         setLoading(true)
@@ -72,70 +70,8 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
     }
 
 
-    const CreateAddContent = (data) => {
-        swal({
-            title: 'افزودن محتوا جدید',
-            text: "آیا مطمئنید؟",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'تایید',
-            confirmButtonClass: 'btn btn-primary',
-            cancelButtonClass: 'btn btn-danger ml-1',
-            cancelButtonText: 'انصراف',
-            buttonsStyling: false,
-        }).then(function (result) {
-            if (result.value) {
-                Request.AddNewContent(data)
-                    .then(res => {
-                        pushResult(res);
-                        $(".pagination li.page-item.numberss").removeClass("active")
-                        $("ul.pagination li").eq(1).addClass("active")
-                        $("li.page-item.next").css("opacity", 1);
-                        $("li.page-item.previous").css("opacity", 0.4);
-                        $("span.checkboxeds").removeClass("active");
-                        Swal.fire({
-                            type: "success",
-                            title: 'با موفقیت اضافه شد !',
-                            confirmButtonClass: 'btn btn-success',
-                            confirmButtonText: 'باشه',
-                        })
-                        pushCheckChange(true);
 
-                        setClear(true)
-                        localStorage.removeItem("is_menu");
-                        localStorage.removeItem("status");
-                        localStorage.removeItem("selected");
-                        localStorage.removeItem("comment_status");
-                        localStorage.removeItem("robots");
 
-                    }).catch(err => {
-                    if (err.response) {
-                        if (err.response.data.errors) {
-                            ErroHandle(err.response.data.errors);
-                        } else {
-                            ErrorToast("خطای غیر منتظره ای رخ داده است")
-                        }
-                    }
-                })
-            }
-        });
-    }
-
-    const handleGetImg = name => {
-        let names = name.split("/")
-        setLoading(true)
-        Request.GetImage(names[2])
-            .then(rr => {
-                setLoading(false)
-                setImage({state: rr.data})
-            }).catch(err => {
-            ErrorToast("خطایی در دانلود تصویر رخ داده است")
-            setTimeout(() => {
-                handleClose()
-            }, 1300)
-
-        })
-    }
 
     let formNews = {...formData};
 
@@ -155,7 +91,7 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
         if (formNews.image) {
             let img = formNews.image;
 
-            handleGetImg(img)
+            requestHandler.HandleGetImg(img , setLoading , setImage);
 
         } else {
             setImage({state: ''})
@@ -192,28 +128,7 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
     }, [])
 
 
-    const handleClose = (e) => {
-        e.preventDefault()
-        setClear(true)
-        $("span.checkboxeds").removeClass("active");
-        ReactDOM.render('', document.getElementById("add-datas"));
-        setFormData({
-            is_menu: 0,
-            status: "active",
-            comment_status: "active",
-            content: '',
-            slug: ''
-        });
-        localStorage.removeItem("is_menu");
-        localStorage.removeItem("status");
-        localStorage.removeItem("selected");
-        localStorage.removeItem("comment_status");
-        localStorage.removeItem("robots");
-        setMetaData({
-            robots: false,
-        })
-        $("#my-editor").attr("defaultValue", "");
-    }
+
 
     const handlePreShowImage = e => {
         e.preventDefault();
@@ -281,56 +196,6 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
     }
 
 
-    const HandleForm = (e) => {
-        let formNew = {...formData};
-        let formDataAll = new FormData();
-
-        // console.log("img" , file.file);
-        formDataAll.append("image", file.file ? file.file : '')
-        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
-        let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
-        let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formNew.comment_status;
-        let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
-        formDataAll.append("status", status)
-        formDataAll.append("comment_status", comment_status)
-        formDataAll.append("is_menu", is_menu)
-
-        let title = titleWrite;
-        let slug = slugManage ? titleWrite : $("input.slugest").val();
-
-        formDataAll.append("title", title)
-        formDataAll.append("slug", slug)
-        if (slugManage == false) {
-            formDataAll.append("slug", title)
-        } else {
-        }
-
-        if (formData.slug == "") {
-            formDataAll.append("slug", title)
-
-        }
-        let vcontent = JSON.stringify(contentNew);
-        formDataAll.append("content", vcontent)
-
-        let MetaDaa = {...metaData};
-        MetaDaa.robots = robots;
-        let vmetadata = JSON.stringify(MetaDaa);
-        formDataAll.append("metadata", vmetadata)
-
-        formDataAll.append("category_list", JSON.stringify(idSelCat))
-        let vtag_list = chipsetChange ? chipset : [];
-
-        formDataAll.append("tag_list", JSON.stringify(vtag_list))
-
-        if (formData.title && formData.title !== '') {
-            $("input[name=titleContent]").removeClass("is-invalid");
-            CreateAddContent(formDataAll);
-        } else {
-            $("input[name=titleContent]").addClass("is-invalid");
-            error("لطفا فیلد عنوان صفحه را پر کنید !")
-        }
-
-    }
 
     const HandleMetaData = (e) => {
         setEdit(true)
@@ -435,7 +300,7 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
         metaDatas.robots = robots;
         let metadatas = JSON.stringify(metaDatas);
         formdts.append("metadata", metadatas)
-        let contents = contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
+        let contents = contentNew == "" ? dataUpdateParse.content : contentNew;
         formdts.append("content", contents)
 
         formdts.append("status", status)
@@ -480,7 +345,7 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
         let metadatas = JSON.stringify(metaDatas);
-        let contents = contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
+        let contents = contentNew == "" ? dataUpdateParse.content : contentNew;
         formsData.append("metadata", metadatas)
         formsData.append("tag_list", JSON.stringify(chipset))
         formsData.append("id", formOldData.id);
@@ -494,11 +359,8 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
 
 
     const handleEditorData = (data) => {
-        setEdit(true);
-        setFormData({
-            ...formData,
-            content: data
-        })
+        setEdit(true)
+        setContentNew(data)
     }
 
     let MakeNewName = (name) => {
@@ -518,15 +380,18 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
         formDatas.slug = name + rand + "_کپی";
         return name + rand + "_کپی";
     }
-    const handleSwitchStatus = (status) => {
+    const handleSwitchStatus = (e, statuses) => {
+        e.preventDefault();
         setEdit(true)
-        localStorage.setItem("status", status ? "active" : "deactivate");
+        localStorage.setItem("status", statuses ? "active" : "deactivate");
     }
-    const handleSwitchMenu = (status) => {
+    const handleSwitchMenu = (e, status) => {
+        e.preventDefault();
         setEdit(true)
         localStorage.setItem("is_menu", status ? 1 : 0);
     }
-    const handleSwitchComment = (status) => {
+    const handleSwitchComment = (e, status) => {
+        e.preventDefault();
         setEdit(true)
         localStorage.setItem("comment_status", status ? "active" : "deactivate");
     }
@@ -569,30 +434,30 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
         let states = {...imageGet};
         states.state = '';
         setImage(states)
-
         let preImages = {...preImage}
         preImages.uri = '';
         setPreImage(preImages)
     }
 
 
+
+
+    const checkResult = (statused) => {
+        if (statused){
+            resultForm(true)
+            $("span.checkboxeds").removeClass("active");
+            formHandler.HandleRemoveLocal();
+        }
+    }
+
+
+
     return (
-        <div id={"category_add_pop_base"}>
+            <div id={"category_add_pop_base"}>
             <ul className="nav nav-tabs tab-layout" role="tablist">
-                <li className="nEav-item col-6 nav-custom">
-                    <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
-                       role="tab" aria-selected="true">
-                        <span className="align-middle">محتوا</span>
-                        <i id={"visible-custom"} className={"bx bxs-pencil"}></i>
-                    </a>
-                </li>
-                <li className="nav-item col-6 nav-custom ">
-                    <a className="nav-link" id="seo-tab" data-toggle="tab" href="#seo" aria-controls="seos"
-                       role="tab" aria-selected="false">
-                        <span className="align-middle">سئو و آدرس</span>
-                        <i id={"visible-custom"} className={"bx bxl-internet-explorer"}></i>
-                    </a>
-                </li>
+                <Tab active={true} id={"cat-tab"} title={"محتوا"} href={"#cat"} icon={"bx bxs-pencil"} />
+                <Tab  id={"seo-tab"} title={"سئو و آدرس"} href={"#seo"} icon={"bx bxl-internet-explorer"} />
+
             </ul>
             <div className="tab-content" style={{padding: 0, position: 'relative'}}>
                 <div className="tab-pane active" id="cat" aria-labelledby="cat-tab" role="tabpanel">
@@ -610,10 +475,10 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
 
                             <div className={"col-lg-2 col-md-3 col-sm-12"}>
                                 <fieldset className="form-group">
-                                    <label id={"selectParent"}>نظرسنجی</label>
+                                    <label id={"selectParent"}>دیدگاه</label>
                                     <Switcher
                                         defaultState={dataUpdateParse ? dataUpdateParse.comment_status == "active" ? true : false : false}
-                                        status={(state) => handleSwitchComment(state)} name={"showCommentStatus"}
+                                        handleSwitchStatus={handleSwitchComment} name={"showCommentStatus"}
                                         valueActive={"فعال"}
                                         valueDeActive={"غیرفعال"}/>
                                 </fieldset>
@@ -623,7 +488,7 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
                                     <label id={"selectParent"}>وضعیت نمایش</label>
                                     <Switcher
                                         defaultState={dataUpdateParse ? dataUpdateParse.status == "active" ? true : false : true}
-                                        status={(state) => handleSwitchStatus(state)} name={"showState"}
+                                        handleSwitchStatus={handleSwitchStatus} name={"showState"}
                                         valueActive={"فعال"}
                                         valueDeActive={"غیرفعال"}/>
                                 </fieldset>
@@ -633,20 +498,10 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
                                     <label id={"selectParent"}>نمایش در منو</label>
                                     <Switcher
                                         defaultState={dataUpdateParse ? dataUpdateParse.is_menu == 0 ? false : true : false}
-                                        status={(state) => handleSwitchMenu(state)} name={"showMenu"}
+                                        handleSwitchStatus={handleSwitchMenu} name={"showMenu"}
                                         valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
                                 </fieldset>
                             </div>
-                            {/*<div className={"col-lg-2 col-md-3 col-sm-12"}>*/}
-                            {/*    <fieldset className="form-group">*/}
-                            {/*        <label id={"selectParent"}>نظرسنجی</label>*/}
-                            {/*        <Switcher*/}
-                            {/*            defaultState={dataUpdateParse ? dataUpdateParse.comment_status == "active" ? true : false : true}*/}
-                            {/*            status={(state) => handleSwitchComment(state)} name={"comment_status"}*/}
-                            {/*            valueActive={"فعال"}*/}
-                            {/*            valueDeActive={"غیرفعال"}/>*/}
-                            {/*    </fieldset>*/}
-                            {/*</div>*/}
                             <div className={"col-lg-2 col-md-3 col-sm-12"}
                                  style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                                 {preImage.uri ? (
@@ -699,7 +554,7 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
                                                defSelected={dataUpdateParse.categories ? dataUpdateParse.categories : []}
                                                clearNew={cl => setClear(cl)}
                                                selected={item => {
-                                                   let datame =  [];
+                                                   let datame = [];
                                                    setIdSelCat([]);
                                                    setEdit(true)
                                                    item.map((ii, index) => {
@@ -746,14 +601,12 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
 
                             </div>
 
+                            {/*{console.log('...;..' , dataUpdateParse.content)}*/}
                             <div className={"col-12"}>
-                                <MyEditor editorData={data => {
-                                    setEdit(true)
-                                    setContentNew(data)
-                                }}
+                                <MyEditor editorDataFunc={handleEditorData}
                                           id={"my-editor"}
                                           type={"perfect"}
-                                          defaultVal={dataUpdateParse ? JSON.parse(dataUpdateParse.content) : ''}
+                                          defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
                                 />
                             </div>
                         </div>
@@ -861,7 +714,7 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
                 <div className={"col-12 bottom-footer"}>
                     <div className={"row"}>
 
-                        <div className={"col-6"} onClick={e => handleClose(e)}
+                        <div className={"col-6"} onClick={e => formHandler.handleClose(e)}
                              style={{
                                  cursor: 'pointer',
                                  textAlign: 'center',
@@ -906,7 +759,7 @@ const ContentAdd = ({token, checkChange: pushCheckChange, display, dataUpdate, r
                             ) :
 
                             (
-                                <div onClick={(e) => HandleForm(e)} className={"col-6"}
+                                <div onClick={(e) => formHandler.HandleForm(e , formData,file,contentNew,metaData,idSelCat,chipsetChange,chipset , slugManage , checkResult)} className={"col-6"}
                                      style={{
                                          textAlign: 'center',
                                          cursor: 'pointer',

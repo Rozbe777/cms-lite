@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import ReactDOM from 'react-dom'
 import moment from "jalali-moment";
 import {Request} from "../../../../services/AdminService/Api";
@@ -7,8 +7,6 @@ import {MultiOption} from "./../layout/MultiOption";
 import $ from "jquery";
 import {ErroHandle, error as ErrorToast, success} from "../../../../helper";
 import {DiscoutAction} from "../layout/DiscoutAction";
-import {MultiSelected} from "../layout/MultiSelected";
-import {Searchs, USER_SETTING} from "../layout/Context";
 import {Switcher} from "../../../HOC/Switch";
 import {TopPrice} from "../layout/TopPrice";
 import {CartAction} from "../layout/CartAction";
@@ -16,46 +14,15 @@ import {UserSetting} from "../layout/UserSetting";
 import {LimitedUse} from "../layout/LimitedUse";
 import {StartDiscount} from "../layout/StartDiscount";
 import {EndDiscount} from "../layout/EndDiscount";
+import {Tab} from "../../_Micro/Tab";
+import {HandleTimeCheck} from "../Helper/Action";
+import AddDiscountHelper from "../Helper/AddDiscount";
 
-export const AddDiscount = ({type, results, token, dataDefaul}) => {
+export const AddDiscount = ({type, results,backcheck, token, dataDefaul}) => {
 
-
-    console.log("data default ", dataDefaul);
-
-
+    let Helper = new AddDiscountHelper();
     let start_dd = dataDefaul ? dataDefaul.coupon_settings.start_date ? moment(parseInt(dataDefaul.coupon_settings.start_date.toString() + "000")).locale('fa') : null : null;
-    // let start_dd = null;
     let end_dd = dataDefaul ? dataDefaul.coupon_settings.end_date ? moment(parseInt(dataDefaul.coupon_settings.end_date.toString() + "000")).locale('fa') : null : null;
-
-    // let end_dd = null;
-
-
-    function handleCondName(id, value) {
-        switch (id) {
-            case  'unlimited' :
-                return 'بدون محدودیت';
-            case 'min_purchase_number' :
-                return `با محدودیت حداقل مبلغ خرید ${value} تومان`;
-            case 'max_card_price' :
-                return `با محدودیت حداکثر مبلغ خرید ${value} تومان`;
-            case "max_purchase_number" :
-                return `با محدودیت حداقل تعداد محصولات ${value}`;
-            default :
-                return 'بدون محدودیت';
-        }
-    }
-
-    function handleNameUser(id) {
-        if (id == "all") {
-            return "همه کاربران"
-        } else if (id == "group_of_users") {
-            return "گروهی از کاربران"
-        } else if (id == "special_users") {
-            return "کاربران خاص"
-        } else {
-            return "همه کاربران";
-        }
-    }
 
 
     let def = {
@@ -73,7 +40,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
 
     const [userGroupNew, setUserGroupNew] = useState([-1]);
-    const [userStatusNew, setUserStatusNew] = useState("all")
 
     const [edit, setEdit] = useState(false);
     const [dateStart, setDateStart] = useState({
@@ -97,7 +63,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         }
     })
 
-    const [numOfUse, setNumOfUse] = useState()
     const [dateEnd, setDateEnd] = useState({
         date: {
             date: {
@@ -119,7 +84,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         }
     })
     const [status, setStatus] = useState(dataDefaul ? allData.status ? allData.status : "active" : "active");
-    const [prevCalSel, setPrevCatSel] = useState({})
     const [timeShow, setTimeShow] = useState([]);
     const [limitUse, setLimitUse] = useState({
         codeVal: dataDefaul ? dataDefaul.coupon_settings.number_of_times_allowed_to_use : null,
@@ -128,47 +92,26 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     });
     const [functionality, setFunctionality] = useState(dataDefaul ? dataDefaul.coupon_settings.functionality : 'total_cart_price');
     const [functionality_amount, setFunctionality_amount] = useState(dataDefaul ? dataDefaul.coupon_settings.functionality_amount : []);
-    const [func_a_id, setF_a_id] = useState([]);
     const [timeCheck, setTimeCheck] = useState([]);
     const [discountCode, setDiscountCode] = useState(dataDefaul ? allData.code ? allData.code : '' : '');
     const [value, setValue] = useState(dataDefaul ? dataDefaul.value : '');
     const [maxLimit, setMaxLimit] = useState(dataDefaul ? dataDefaul.max_limit : null);
-    const [userTypeName, setUserTypeName] = useState(dataDefaul ? handleNameUser(dataDefaul.coupon_settings.user_status) : "برای همه کاربران")
-    const [searchs, setSearchs] = useState([]);
+    const [userTypeName, setUserTypeName] = useState(dataDefaul ? Helper.handleNameUser(dataDefaul.coupon_settings.user_status) : "برای همه کاربران")
     const [userStatus, setUserStatus] = useState(dataDefaul ? dataDefaul.coupon_settings.user_status : 'all');
     const [userGroup, setUserGroup] = useState(dataDefaul ? dataDefaul.coupon_settings.user_group : [-1]);
-    const [productData, setProductData] = useState([]);
     const [disTypesDis, setDisTypesDis] = useState(dataDefaul ? dataDefaul.type : 'fixed_price');
-    const [disTypesUser, setDisTypesUser] = useState('all')
-    const [userData, setUserData] = useState({});
-    const [loading, setLoading] = useState(false);
-
     const [cartStatus, setCartStatus] = useState({
         cart_conditions_amount: dataDefaul ? dataDefaul.coupon_settings.cart_conditions_amount : null,
         typeSel: {
             types: dataDefaul ? dataDefaul.coupon_settings.cart_conditions : "unlimited"
         },
-        typesNn: dataDefaul ? handleCondName(dataDefaul.coupon_settings.cart_conditions, dataDefaul.coupon_settings.cart_conditions_amount) : handleCondName("unlimited")
+        typesNn: dataDefaul ? Helper.handleCondName(dataDefaul.coupon_settings.cart_conditions, dataDefaul.coupon_settings.cart_conditions_amount) : Helper.handleCondName("unlimited")
     })
-    const [catData, setCatData] = useState({});
     const [catSel, setCatSel] = useState([]);
-    const [userSelectList, setUserSelectList] = useState([]);
-    const [proSel, setProSel] = useState([]);
-    const [start_time, setStart_time] = useState({});
-    const [typeAct, setTypeAct] = useState('')
-    const [typeUser, setTypeUser] = useState('')
-    const [userGroups, setUserGroups] = useState([-1]);
-    const [dis, setDis] = useState(true);
-    const [disUser, setDisUser] = useState(true);
-    const [productTotal, setProductTotal] = useState(0);
     const [userTotal, setUserTotal] = useState(0);
-
-
     useEffect((e) => {
-        GetAllCategory();
-        GetAllProducts();
         GetAllUser();
-        handleTimeCheck();
+
         if (dataDefaul) {
             handleTitrLimited();
         }
@@ -187,160 +130,18 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         e.preventDefault()
         $("span.checkboxeds").removeClass("active");
         ReactDOM.render('', document.getElementById("add-datas"));
-        localStorage.removeItem("is_menu");
         localStorage.removeItem("status");
-        localStorage.removeItem("selected");
-        localStorage.removeItem("comment_status");
-        localStorage.removeItem("robots");
     }
 
-    const GetAllCategory = () => {
-        setLoading(true);
-        Request.GetAllCategory().then(res => {
-            setLoading(false);
-            setCatData(res.data.data);
-        })
-    }
-    const GetAllProducts = () => {
-        Request.GetAllProducts().then(res => {
-            setLoading(false);
-            setProductTotal(res.data.data.total);
-        })
-    }
+
     const GetAllUser = () => {
         Request.GetAllUserApi().then(res => {
-            setLoading(false);
             setUserTotal(res.data.data.total);
         })
     }
 
-    const GetSearchProducts = (search) => {
-        setLoading(true);
-        if (search.search == '') {
-            search.pageSize = 10;
-            Request.GetAllProducts(search).then(res => {
-                setLoading(false);
-                setProductData(res.data.data.data)
-            })
-        } else {
-            Request.GetAllProducts(search).then(res => {
-                setLoading(false);
-                setProductData(res.data.data.data)
-            })
-        }
-
-    }
-
-    const GetSearchUsers = (search) => {
-        setLoading(true);
-        if (search.search == '') {
-            search.pageSize = 10;
-            Request.GetAllUserApi({params: search}).then(res => {
-                setLoading(false);
-                setUserData(res.data.data.data)
-            })
-        } else {
-            Request.GetAllUserApi({params: search}).then(res => {
-                setLoading(false);
-                setUserData(res.data.data.data)
-            })
-        }
-
-    }
-
-    // console.log(data)
 
 
-    $(function () {
-        $("ul#select-item li").click(function () {
-            let indexsm = $(this).index();
-            $("ul#select-item li").removeClass("active");
-            $(this).addClass("active");
-            $("ul.contentsssc li").removeClass("active")
-            $("ul.contentsssc li#boxess").eq(indexsm).addClass("active")
-        })
-
-
-        $("ul#main-child-sels.status li").click(function () {
-            let indexes = $(this).index();
-            if (indexes === 2) {
-                setTypeAct("pro")
-                $(".seconds.category").removeClass("active");
-                setDis(true)
-
-                $(".seconds.product").addClass("active");
-            } else if (indexes === 3) {
-                setTypeAct("cat")
-
-                $(".seconds.product").removeClass("active");
-                setDis(true)
-
-                $(".seconds.category").addClass("active");
-            } else if (indexes === 0) {
-                setTypeAct("allPriceCart")
-                setDis(false)
-                $(".seconds.product").removeClass("active");
-                $(".seconds.category").removeClass("active");
-            } else {
-                setTypeAct("allPriceCartWSendPrice");
-                $(".seconds.product").removeClass("active");
-                $(".seconds.category").removeClass("active");
-            }
-        })
-
-
-        $("ul#main-child-sels.userDis li").click(function () {
-            let indexes = $(this).index();
-            if (indexes === 2) {
-                setTypeUser("speUser")
-                $(".seconds.category").removeClass("active");
-                setDisUser(true)
-                setUserGroups('');
-
-
-                $(".seconds.product").addClass("active");
-            } else if (indexes === 1) {
-                setTypeUser("groupUser")
-
-                $(".seconds.product").removeClass("active");
-                setDisUser(true)
-
-                $(".seconds.category").addClass("active");
-            } else if (indexes === 0) {
-                setTypeUser("allUser")
-                setUserGroups("allUser");
-                setDisUser(true)
-                $(".seconds.product").removeClass("active");
-                $(".seconds.category").removeClass("active");
-            } else {
-
-            }
-        })
-
-
-        $("ul#main-child-sels.groupUserSO li").click(function () {
-            let indexes = $(this).index();
-            if (indexes === 0) {
-                setUserGroups("userOldSel");
-                setDisUser(true)
-            } else if (indexes === 1) {
-                setUserGroups("userOldNotSel")
-                setDisUser(true)
-            } else {
-
-            }
-        })
-
-        $(".main-selected").click(function () {
-            $(".input-searchsss").addClass("active");
-            $(".input-searchsss input").focus();
-        })
-
-        // $(".firstes").click(function (){
-        //     $(this).addClass("active");
-        //     $(".seconds").addClass("active");
-        // })
-    })
 
 
     const HandleForm = e => {
@@ -412,6 +213,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         data.code = discountCode;
         data.status = status;
         data._token = token;
+
         delete data.coupon_settings;
         delete data.created_at;
         delete data.deleted_at;
@@ -420,22 +222,13 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         data.type = disTypesDis;
         data.value = value;
         data.max_limit = maxLimit ? parseInt(maxLimit) : null;
-        data.user_status = disTypesUser;
+        data.user_status = userStatus;
         data.functionality = functionality;
-
-
         let funAmou = [];
         functionality_amount.map(it => {
             funAmou.push(it.id);
         })
-
         data.functionality_amount = funAmou;
-
-
-        // data.user_status = userStatus ? userStatus : [];
-        // data.user_group = userGroup ? userGroup : [];
-
-
         let userg = [];
         if (userStatus == "special_users") {
             userGroup.map(itemss => {
@@ -445,8 +238,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         } else {
             data.user_group = userGroup;
         }
-
-
         data.cart_conditions = cartStatus.typeSel.types;
 
         data.cart_conditions_amount = cartStatus.cart_conditions_amount;
@@ -505,7 +296,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
                 Request.AddNewCoupen(data)
                     .then(res => {
-                        console.log("++++++++++++++++++++", res);
                         results(res);
                         Swal.fire({
                             type: "success",
@@ -515,8 +305,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
                         })
 
                     }).catch(err => {
-                    console.log("-------------------", err);
-
                     // console.log(err.response.data.data);
                     if (err.response.data.data) {
                         ErroHandle(err.response.data.data);
@@ -530,8 +318,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         });
     }
     const UpdateDiscount = data => {
-
-        console.log("vsdvsvsv0 ", data)
         swal({
             title: 'ویرایش کد تخفیف',
             text: "آیا مطمئنید؟",
@@ -544,23 +330,21 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-
                 Request.UpdateDiscounts(data)
-                    .then(res => {
-                        results(res);
+                    .then(reses => {
+                        backcheck(true)
+
                         Swal.fire({
                             type: "success",
                             title: 'با موفقیت ویرایش شد !',
                             confirmButtonClass: 'btn btn-success',
                             confirmButtonText: 'باشه',
                         })
-
                     }).catch(err => {
                     if (err.response.data) {
                         if (err.response.data.errors) {
                             ErroHandle(err.response.data.errors);
                         } else {
-                            //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
                             ErrorToast("خطای غیر منتظره ای رخ داده است")
                         }
                     }
@@ -591,68 +375,14 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         ReactDOM.render('', document.getElementById("back-loaderedss"));
     }
 
-    const handleCloseFirst = item => {
-        if (item === '') {
-            $(".seconds").removeClass("active");
-        }
-    }
 
-    const handleSetUser = item => {
-        if (item === '') {
-            $(".seconds").removeClass("active");
-        }
-    }
-    const handleSetUserAct = item => {
-        if (item === '') {
-            setUserGroups("")
-        }
-    }
-
-
-    const handleSearchCategory = e => {
-        let searchdata = {search: '', pageSize: 10}
-        searchdata.search = e;
-        setLoading(true);
-        Request.GetAllProducts(searchdata).then(res => {
-            setLoading(false);
-            // setCatData(res.data.data);
-        })
-    }
-    const handleSearchProducts = e => {
-        let searchdata = {search: '', pageSize: 0}
-        searchdata.search = e;
-        searchdata.pageSize = parseInt(productTotal);
-        GetSearchProducts(searchdata);
-        // Request.GetAllProducts(searchdata).then(res => {
-        //     setLoading(false);
-        //     console.log("all pro", res.data.data)
-        //     // setCatData(res.data.data);
-        // })
-    }
-    const handleSearchUser = e => {
-        let searchdata = {search: '', pageSize: 0}
-        searchdata.search = e;
-        searchdata.pageSize = parseInt(userTotal);
-
-        GetSearchUsers(searchdata);
-        // Request.GetAllProducts(searchdata).then(res => {
-        //     setLoading(false);
-        //     console.log("all pro", res.data.data)
-        //     // setCatData(res.data.data);
-        // })
-    }
-
-    const handleCopy = (e, typeId) => {
+    const handleCopy = (e) => {
         e.preventDefault();
-        // console.log("////" ,typeId);
         var textCopy = document.getElementById("discount-code");
         textCopy.select();
         textCopy.setSelectionRange(0, 99999)
         document.execCommand("copy");
-
         success("کد تخفیف کپی شد")
-        // let data="vsdvsdvsdvsdvsdvsdvsdv";
-        // document.execCommand('copy');
     }
 
 
@@ -663,7 +393,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     const handleSwitchStatus = state => {
         setEdit(true)
         setStatus(state ? "active" : "deactivate");
-        // localStorage.setItem("status", status ? "active" : "deactivate");
     }
 
     const handleTypeDiscount = (e, index) => {
@@ -681,20 +410,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
             setMaxLimit(null)
 
             setDisTypesDis('free_delivery')
-        }
-    }
-    const handleTypeUser = (e, index) => {
-
-        e.preventDefault();
-
-        if (index == 1) {
-
-            setDisTypesUser('group_of_users');
-        } else if (index == 0) {
-
-            setDisTypesUser('all')
-        } else {
-            setDisTypesUser('special_users')
         }
     }
 
@@ -729,6 +444,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
     const handleUserSetting = e => {
         setUserStatus(e.user_status.type);
+        handleTitrLimited()
         if (e.user_status.type == "all") {
             setUserTypeName("همه کاربران")
         } else if (e.user_status.type == "group_of_users") {
@@ -758,7 +474,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     }
     const handleShowLimitedUse = e => {
         e.preventDefault();
-        console.log(limitUse, "....????????");
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<LimitedUse
             defDataTU={limitUse.codeVal}
@@ -768,20 +483,20 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
     const handleTitrLimited = () => {
         let striShow = '';
-        if (dataDefaul.coupon_settings.number_of_times_allowed_to_use && dataDefaul.coupon_settings.number_of_use_allowed_per_user) {
-            striShow = `محدودیت ${dataDefaul.coupon_settings.number_of_times_allowed_to_use} استفاده  و محدودیت ${dataDefaul.coupon_settings.number_of_use_allowed_per_user} استفاده برای هر کاربر`;
+        if (limitUse.userVal && limitUse.codeVal) {
+            striShow = `محدودیت ${limitUse.codeVal} استفاده  و محدودیت ${limitUse.userVal} استفاده برای هر کاربر`;
             setLimitUse({
                 ...limitUse,
                 striShow
             })
-        } else if (dataDefaul.coupon_settings.number_of_times_allowed_to_use && !dataDefaul.coupon_settings.number_of_use_allowed_per_user) {
-            striShow = `محدودیت ${dataDefaul.coupon_settings.number_of_times_allowed_to_use} استفاده`
+        } else if (limitUse.codeVal && !limitUse.userVal) {
+            striShow = `محدودیت ${limitUse.codeVal} استفاده`
             setLimitUse({
                 ...limitUse,
                 striShow
             })
-        } else if (!dataDefaul.coupon_settings.number_of_times_allowed_to_use && dataDefaul.coupon_settings.number_of_use_allowed_per_user) {
-            striShow = `محدودیت ${dataDefaul.coupon_settings.number_of_use_allowed_per_user} استفاده برای هر کاربر`
+        } else if (!limitUse.codeVal && limitUse.userVal) {
+            striShow = `محدودیت ${limitUse.userVal} استفاده برای هر کاربر`
             setLimitUse({
                 ...limitUse,
                 striShow
@@ -944,27 +659,15 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     }
 
 
-    console.log("yyyyyy", userGroupNew);
-
 
     return (
         <div id={"category_add_pop_base"}>
             <ul className="nav nav-tabs tab-layout" role="tablist">
-                <li className="nEav-item col-6 nav-custom">
-                    <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
-                       role="tab" aria-selected="true">
-                        <span className="align-middle">ایجاد کد تخفیف</span>
-                        <i id={"visible-custom"} className={"bx bxs-pencil"}></i>
-                    </a>
-                </li>
-                <li className="nav-item col-6 nav-custom ">
-                    <a className="nav-link" id="seo-tab" data-toggle="tab" href="#seo" aria-controls="seos"
-                       role="tab" aria-selected="false">
-                        <span className="align-middle">تنظیمات پیشرفته</span>
-                        <i id={"visible-custom"} className={"bx bxl-internet-explorer"}></i>
-                    </a>
-                </li>
+                <Tab active={true} id={"cat-tab"} title={"ایجاد کد تخفیف"} href={"#cat"} />
+
+                <Tab id={"seo-tab"} title={"تنظیمات پیشرفته"} href={"#seo"} />
             </ul>
+
             <div className="tab-content" style={{padding: 0, position: 'relative', marginTop: '-15px'}}>
                 <div className="tab-pane show-det-discount active" id="cat" aria-labelledby="cat-tab"
                      role="tabpanel">
@@ -1212,6 +915,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
                     </div>
                 </div>
+
 
                 <div className={"col-12 bottom-footer"}>
                     <div className={"row"}>

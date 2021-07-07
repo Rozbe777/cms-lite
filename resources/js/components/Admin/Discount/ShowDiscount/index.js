@@ -8,7 +8,7 @@ import $ from "jquery";
 import {Request} from "../../../../services/AdminService/Api";
 import ReactDom from "react-dom";
 import Loading from "../../_Micro/Loading";
-import {CHECK_BOX_CONTENT} from './../../UserList/Helper/Context'
+import {CHECK_BOX_CONTENT, CHECK_RESULT} from './../../UserList/Helper/Context'
 import {ErroHandle, error as ErrorToast} from "../../../../helper";
 import SearchComponent from "./../Search";
 import {Pagination} from "../../_Micro/Pagination";
@@ -23,6 +23,7 @@ const Show = (props) => {
     const [allCoupon, setAllCoupon] = useState([]);
     const [total, setTotal] = useState();
     const [checkBox, setCheckBox] = useState([]);
+    const [result, setResult] = useState('')
     const [stringSearchs, setStringSearch] = useState({
         page: 1
     });
@@ -33,14 +34,21 @@ const Show = (props) => {
     useEffect(() => {
         getAllCoupons();
         $("#breadCrumb").addClass("activeCrumb");
+
     }, [])
 
 
-    const handleShowDis = (e) => {
+    const backcheck = (state) => {
+        if(state){
+            getAllCoupons();
+            ReactDom.render('', document.getElementById('add-datas'))
+        }
+    }
+
+    const handleShowDis = (e, data) => {
         e.preventDefault();
-        console.log(oneCoupon , "***************")
-        // ReactDOM.render(<AddDiscount token={token} result={handleBack} dataDefaul={oneCoupon}
-        //                              />, document.getElementById("add-datas"));
+        ReactDOM.render(<AddDiscount token={token} backcheck={backcheck} dataDefaul={data}
+                                     />, document.getElementById("add-datas"));
     }
 
     const handleEditDis = (e, id) => {
@@ -48,15 +56,11 @@ const Show = (props) => {
         setLoadingOne(true);
         Request.GetOneCoupon(id)
             .then(res => {
-                console.log(res.data , "**************")
                 setLoadingOne(false);
                 setOneCoupon(res.data.data);
-                ReactDOM.render(<AddDiscount token={token} result={handleBack} dataDefaul={res.data.data}
-                                             />, document.getElementById("add-datas"));
-                handleShowDis(e)
+                handleShowDis(e , res.data.data)
             }).catch(err => {
             setLoadingOne(false)
-
             if (err.response.data.errors) {
                 ErroHandle(err.response.data.errors);
             } else {
@@ -101,10 +105,18 @@ const Show = (props) => {
         })
     })
 
+
     const handleBack = (item) => {
 
-        console.log(item , "//////////")
-        if (item.status == 200 || item.http_code == 200) {
+        if (item.http_code == 200) {
+            getAllCoupons();
+            ReactDom.render('', document.getElementById('add-datas'))
+        }
+    }
+
+
+    const handleBackUpdate = (item) => {
+        if (item.http_code == 200) {
             getAllCoupons();
             ReactDom.render('', document.getElementById('add-datas'))
         }
@@ -112,7 +124,8 @@ const Show = (props) => {
 
     const handleAddDisc = e => {
         e.preventDefault();
-        ReactDOM.render(<AddDiscount token={token} results={handleBack}/>, document.getElementById("add-datas"));
+        ReactDOM.render(<AddDiscount token={token} pushRes={e => handleBackUpdate(e)}
+                                     results={handleBack}/>, document.getElementById("add-datas"));
     }
 
     const handleDeleteCoupon = (e, id) => {
@@ -209,52 +222,55 @@ const Show = (props) => {
 
     return (
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
-            <div className={"row col-12"} id={"headerContent"}>
-                <TotalActions text={" مورد انتخاب شده است "} deleteUsers={e => handleDeleteCoupon(e)}
-                              allData={allCoupon} data={checkBox}/>
-                <BreadCrumbs data={breadData} titleBtn={"ساخت کد تخفیف"} icon={"bx bx-plus"}
-                             clicked={e => handleAddDisc(e)}/>
-            </div>
+            <CHECK_RESULT.Provider value={{setResult}}>
 
-
-            <SearchComponent sort={items => {
-                setStringSearch(items)
-                let stringed = {...stringSearchs};
-                Object.keys(items).map(ii => {
-                    stringed[ii] = items[ii];
-                })
-                setStringSearch(stringed)
-
-                getAllCoupons(stringed)
-            }}
-            />
-
-
-            <div className={"container-fluid"}>
-
-                <div className={"row"} style={{marginTop: '-15px'}}>
-                    {loading || !allCoupon.data ? (<Loading/>) : allCoupon.data.map((item, index) => (
-                        <div className={"col-lg-3 col-md-4 col-sm-12"} id={"coupon-box"} key={index}
-                             style={{padding: '8px !important'}}>
-                            <ItemDis handleCheck={HandleChecked} handleDelete={handleDeleteCoupon}
-                                     sizeOf={allCoupon.data.length} checkStateOfOut={checked}
-                                     deleteCoupon={handleDeleteCoupon} handleEdit={handleEditDis} data={item}/>
-                        </div>
-                    ))}
+                <div className={"row col-12"} id={"headerContent"}>
+                    <TotalActions text={" مورد انتخاب شده است "} deleteUsers={e => handleDeleteCoupon(e)}
+                                  allData={allCoupon} data={checkBox}/>
+                    <BreadCrumbs data={breadData} titleBtn={"ساخت کد تخفیف"} icon={"bx bx-plus"}
+                                 clicked={e => handleAddDisc(e)}/>
                 </div>
 
-                {loadingOne ? (
-                    <div className={"backLoadings"} style={{display: 'block'}}>
-                        <div className="spinner-border spinner-border-lg text-info" id={"loading-load"}
-                             role="status">
-                            <span className="sr-only">در حال بارگذاری ...</span>
-                        </div>
+
+                <SearchComponent sort={items => {
+                    setStringSearch(items)
+                    let stringed = {...stringSearchs};
+                    Object.keys(items).map(ii => {
+                        stringed[ii] = items[ii];
+                    })
+                    setStringSearch(stringed)
+
+                    getAllCoupons(stringed)
+                }}
+                />
+
+
+                <div className={"container-fluid"}>
+
+                    <div className={"row"} style={{marginTop: '-15px'}}>
+                        {loading || !allCoupon.data ? (<Loading/>) : allCoupon.data.map((item, index) => (
+                            <div className={"col-lg-3 col-md-4 col-sm-12"} id={"coupon-box"} key={index}
+                                 style={{padding: '8px !important'}}>
+                                <ItemDis handleCheck={HandleChecked} handleDelete={handleDeleteCoupon}
+                                         sizeOf={allCoupon.data.length} checkStateOfOut={checked}
+                                         deleteCoupon={handleDeleteCoupon} handleEdit={handleEditDis} data={item}/>
+                            </div>
+                        ))}
                     </div>
-                ) : ''}
 
-            </div>
+                    {loadingOne ? (
+                        <div className={"backLoadings"} style={{display: 'block'}}>
+                            <div className="spinner-border spinner-border-lg text-info" id={"loading-load"}
+                                 role="status">
+                                <span className="sr-only">در حال بارگذاری ...</span>
+                            </div>
+                        </div>
+                    ) : ''}
 
-            <div id={"add-datas"}></div>
+                </div>
+
+                <div id={"add-datas"}></div>
+            </CHECK_RESULT.Provider>
         </CHECK_BOX_CONTENT.Provider>
     )
 }

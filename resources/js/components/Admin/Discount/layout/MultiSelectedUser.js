@@ -194,9 +194,9 @@ export const MultiSelectedUser = ({
                                        onChange={e => HandleChange(e, item.id)}
                                        name={item.id}
                                        style={{background: 'green !important'}}
-                                       value={item.name ? item.name : item.title ? item.title : ''} id="checkbox1"/>
+                                       value={item.name ? item.name + " " + item.last_name : item.title ? item.title : ''} id="checkbox1"/>
                                 <span id={"labels"}
-                                      htmlFor="checkbox1">{item.name ? item.name : item.title ? item.title : ''}</span>
+                                      htmlFor="checkbox1">{item.name ? item.name + " " + item.last_name : item.title ? item.title : ''}</span>
                             </fieldset>
 
 
