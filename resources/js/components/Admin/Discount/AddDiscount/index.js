@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import ReactDOM from 'react-dom'
 import moment from "jalali-moment";
 import {Request} from "../../../../services/AdminService/Api";
@@ -16,12 +16,14 @@ import {UserSetting} from "../layout/UserSetting";
 import {LimitedUse} from "../layout/LimitedUse";
 import {StartDiscount} from "../layout/StartDiscount";
 import {EndDiscount} from "../layout/EndDiscount";
+import {CHECK_RESULT} from "../../UserList/Helper/Context";
 
-export const AddDiscount = ({type, results, token, dataDefaul}) => {
+export const AddDiscount = ({type, results,backcheck, token, dataDefaul}) => {
 
 
-    console.log("data default ", dataDefaul);
 
+
+    const {setResult} = useContext(CHECK_RESULT);
 
     let start_dd = dataDefaul ? dataDefaul.coupon_settings.start_date ? moment(parseInt(dataDefaul.coupon_settings.start_date.toString() + "000")).locale('fa') : null : null;
     // let start_dd = null;
@@ -412,15 +414,17 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         data.code = discountCode;
         data.status = status;
         data._token = token;
+
         delete data.coupon_settings;
         delete data.created_at;
         delete data.deleted_at;
         delete data.updated_at;
         delete data.use_number;
+
         data.type = disTypesDis;
         data.value = value;
         data.max_limit = maxLimit ? parseInt(maxLimit) : null;
-        data.user_status = disTypesUser;
+        data.user_status = userStatus;
         data.functionality = functionality;
 
 
@@ -505,7 +509,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
                 Request.AddNewCoupen(data)
                     .then(res => {
-                        console.log("++++++++++++++++++++", res);
                         results(res);
                         Swal.fire({
                             type: "success",
@@ -515,8 +518,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
                         })
 
                     }).catch(err => {
-                    console.log("-------------------", err);
-
                     // console.log(err.response.data.data);
                     if (err.response.data.data) {
                         ErroHandle(err.response.data.data);
@@ -530,8 +531,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         });
     }
     const UpdateDiscount = data => {
-
-        console.log("vsdvsvsv0 ", data)
         swal({
             title: 'ویرایش کد تخفیف',
             text: "آیا مطمئنید؟",
@@ -544,23 +543,21 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
             buttonsStyling: false,
         }).then(function (result) {
             if (result.value) {
-
                 Request.UpdateDiscounts(data)
-                    .then(res => {
-                        results(res);
+                    .then(reses => {
+                        backcheck(true)
+
                         Swal.fire({
                             type: "success",
                             title: 'با موفقیت ویرایش شد !',
                             confirmButtonClass: 'btn btn-success',
                             confirmButtonText: 'باشه',
                         })
-
                     }).catch(err => {
                     if (err.response.data) {
                         if (err.response.data.errors) {
                             ErroHandle(err.response.data.errors);
                         } else {
-                            //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
                             ErrorToast("خطای غیر منتظره ای رخ داده است")
                         }
                     }
@@ -729,6 +726,7 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
     const handleUserSetting = e => {
         setUserStatus(e.user_status.type);
+        handleTitrLimited()
         if (e.user_status.type == "all") {
             setUserTypeName("همه کاربران")
         } else if (e.user_status.type == "group_of_users") {
@@ -758,7 +756,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
     }
     const handleShowLimitedUse = e => {
         e.preventDefault();
-        console.log(limitUse, "....????????");
         $("#back-loaderedss").addClass("active");
         ReactDOM.render(<LimitedUse
             defDataTU={limitUse.codeVal}
@@ -768,20 +765,21 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
     const handleTitrLimited = () => {
         let striShow = '';
-        if (dataDefaul.coupon_settings.number_of_times_allowed_to_use && dataDefaul.coupon_settings.number_of_use_allowed_per_user) {
-            striShow = `محدودیت ${dataDefaul.coupon_settings.number_of_times_allowed_to_use} استفاده  و محدودیت ${dataDefaul.coupon_settings.number_of_use_allowed_per_user} استفاده برای هر کاربر`;
+        // console.log("_______" , dataDefaul.coupon_settings.number_of_times_allowed_to_use , dataDefaul.coupon_settings.number_of_use_allowed_per_user)
+        if (limitUse.userVal && limitUse.codeVal) {
+            striShow = `محدودیت ${limitUse.codeVal} استفاده  و محدودیت ${limitUse.userVal} استفاده برای هر کاربر`;
             setLimitUse({
                 ...limitUse,
                 striShow
             })
-        } else if (dataDefaul.coupon_settings.number_of_times_allowed_to_use && !dataDefaul.coupon_settings.number_of_use_allowed_per_user) {
-            striShow = `محدودیت ${dataDefaul.coupon_settings.number_of_times_allowed_to_use} استفاده`
+        } else if (limitUse.codeVal && !limitUse.userVal) {
+            striShow = `محدودیت ${limitUse.codeVal} استفاده`
             setLimitUse({
                 ...limitUse,
                 striShow
             })
-        } else if (!dataDefaul.coupon_settings.number_of_times_allowed_to_use && dataDefaul.coupon_settings.number_of_use_allowed_per_user) {
-            striShow = `محدودیت ${dataDefaul.coupon_settings.number_of_use_allowed_per_user} استفاده برای هر کاربر`
+        } else if (!limitUse.codeVal && limitUse.userVal) {
+            striShow = `محدودیت ${limitUse.userVal} استفاده برای هر کاربر`
             setLimitUse({
                 ...limitUse,
                 striShow
