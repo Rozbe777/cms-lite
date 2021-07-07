@@ -21,8 +21,8 @@ class CreateAttributesTable extends Migration
             $table->bigInteger('discount')->default(0);
             $table->integer('discount_percentage')->default(0);
             $table->enum('discount_status',['active','deactivate'])->default('active');
-            $table->Integer('count')->nullable();
-            $table->integer('limit')->nullable();
+            $table->bigInteger('count')->nullable();
+            $table->bigInteger('limit')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -17,8 +17,9 @@ class Invoice extends Model
         return $this->belongsTo(Order::class);
     }
 
-    public function orderProducts()
+    public function products()
     {
-        return $this->hasMany(OrderProducts::class,"invoices_id","id");
+        return $this->belongsToMany(Product::class, 'invoice_products', 'invoice_id','product_id');
     }
+
 }

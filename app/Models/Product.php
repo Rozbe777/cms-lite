@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Validation\Rules\In;
 use Morilog\Jalali\Jalalian;
 
 class Product extends Model
@@ -45,6 +46,11 @@ class Product extends Model
     public function galeries()
     {
         return $this->hasMany(Galery::class, 'product_id','id');
+    }
+
+    public function invoices()
+    {
+        return $this->belongsToMany(Invoice::class);
     }
 
     public function getJalaliCreatedAtAttribute()
