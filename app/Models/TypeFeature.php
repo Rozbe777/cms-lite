@@ -16,4 +16,9 @@ class TypeFeature extends Model
     {
         return $this->belongsTo(Attribute::class);
     }
+
+    public function orders()
+    {
+        return $this->morphToMany(Order::class,'orderable');
+    }
 }

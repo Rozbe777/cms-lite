@@ -12,11 +12,6 @@ class Order extends Model
 
     protected $guarded =[];
 
-    public function invoices()
-    {
-        return $this->hasMany(Invoice::class, 'order_id','id');
-    }
-
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -27,8 +22,28 @@ class Order extends Model
         return $this->belongsTo(Coupon::class);
     }
 
-    public function orderProducts()
+    public function invoices()
     {
-        return $this->belongsToMany(OrderProduct::class, 'order_products', 'order_id', 'orderProduct_id');
+        return $this->morphedByMany(Invoice::class, 'orderable');
     }
-}
+
+    public function products()
+    {
+        return $this->morphedByMany(Product::class, 'orderable');
+    }
+
+    public function types()
+    {
+        return $this->morphedByMany(Type::class, 'orderable');
+    }
+
+    public function typeFeatures()
+    {
+        return $this->morphedByMany(TypeFeature::class, 'orderable');
+    }
+
+    public function attributes()
+    {
+        return $this->morphedByMany(Attribute::class, 'orderable');
+    }
+ }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePivotOrderProductsTable extends Migration
+class CreateOrderablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreatePivotOrderProductsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pivot_order_products', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('orderables', function (Blueprint $table) {
+            $table->bigInteger('order_id');
+            $table->bigInteger('orderable_id');
+            $table->string('orderable_type');
         });
     }
 
@@ -26,6 +27,6 @@ class CreatePivotOrderProductsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pivot_order_products');
+        Schema::dropIfExists('orderables');
     }
 }

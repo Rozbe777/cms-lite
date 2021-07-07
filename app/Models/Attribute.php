@@ -31,4 +31,9 @@ class Attribute extends Model
     {
         return $this->hasMany(TypeFeature::class, 'attribute_id', 'id');
     }
+
+    public function orders()
+    {
+        return $this->morphToMany(Order::class,'orderable');
+    }
 }
