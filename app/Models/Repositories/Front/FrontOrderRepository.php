@@ -57,8 +57,12 @@ class FrontOrderRepository implements RepositoryInterface
      */
     public function create(array $data)
     {
+        $attributeId = $data['attribute'];
+        if ($data['coupon']){
+            $coupon = Coupon::find($data['coupon_id']);
+        }
+
         $order = Order::create($data);
-        $coupon = Coupon::find($data['coupon_id']);
 
         return Order::create($data);
     }

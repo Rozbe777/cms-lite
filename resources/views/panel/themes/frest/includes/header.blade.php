@@ -222,7 +222,7 @@
                                     class="user-status text-muted">{{auth()->user()->userRoleName}}</span>
 
                             </div>
-                            <span><img class="round" src="{{asset("images/avatar.jpg")}}"
+                            <span><img class="round" src="<?php $url = Storage::url(Auth::user()->image); echo asset("$url")?>"
                                        alt="avatar" height="40" width="40"></span></a>
                         <div class="dropdown-menu pb-0"><a class="dropdown-item"
                                                            href="{{route('profile.edit')}}"><i

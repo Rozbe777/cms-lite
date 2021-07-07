@@ -53,11 +53,6 @@ class Product extends Model
         return $this->belongsToMany(Invoice::class);
     }
 
-    public function orders()
-    {
-        return $this->morphToMany(Order::class,'orderable');
-    }
-
     public function getJalaliCreatedAtAttribute()
     {
         switch (setting("date_time")) {
