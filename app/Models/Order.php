@@ -27,21 +27,6 @@ class Order extends Model
         return $this->morphedByMany(Invoice::class, 'orderable');
     }
 
-    public function products()
-    {
-        return $this->morphedByMany(Product::class, 'orderable');
-    }
-
-    public function types()
-    {
-        return $this->morphedByMany(Type::class, 'orderable');
-    }
-
-    public function typeFeatures()
-    {
-        return $this->morphedByMany(TypeFeature::class, 'orderable');
-    }
-
     public function attributes()
     {
         return $this->morphedByMany(Attribute::class, 'orderable');

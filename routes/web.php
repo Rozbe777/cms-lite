@@ -44,10 +44,10 @@ Route::get('/test', function () {
 });
 
 Route::get('test2', function (\Illuminate\Http\Request $request) {
-$product = \App\Models\Product::find(10);
-$order = \App\Models\Order::find(1);
-$product->orders()->syncWithoutDetaching($order);
-dd($product->orders);
+
+$order = \App\Models\Order::find(8);
+
+dd($order->attributes);
 });
 
 Route::get('csrf', function () {

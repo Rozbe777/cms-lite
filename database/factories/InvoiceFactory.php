@@ -29,7 +29,6 @@ class InvoiceFactory extends Factory
             'description' => $this->faker->sentence,
             'amount' => rand(10000,50000),
             'status' => $this->faker->randomElement(['paid', 'unpaid', 'fail']),
-            'order_id' => rand(1,5),
         ];
     }
 }

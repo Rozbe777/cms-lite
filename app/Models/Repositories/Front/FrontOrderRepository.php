@@ -4,10 +4,13 @@
 namespace App\Models\Repositories\Front;
 
 
+use App\Models\Attribute;
 use App\Models\Coupon;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class FrontOrderRepository implements RepositoryInterface
 {
@@ -57,14 +60,16 @@ class FrontOrderRepository implements RepositoryInterface
      */
     public function create(array $data)
     {
-        $attributeId = $data['attribute'];
-        if ($data['coupon']){
-            $coupon = Coupon::find($data['coupon_id']);
-        }
+        $attribute = Attribute::find($data['attribute_id']);
+        $number = $data['number_of_product'];
+        unset($data['attribute_id'], $data['number_of_product']);
 
         $order = Order::create($data);
 
-        return Order::create($data);
+        $order->attributes()->attach($attribute,['number_of_product' => $number]);
+
+        Session::put('order',$order);
+        return $order;
     }
 
     public function multipleDestroy(array $data)
