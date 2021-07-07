@@ -9,7 +9,6 @@ import $ from "jquery";
 export const UserSetting = ({dataOut, oldData}) => {
 
 
-    console.log("________", oldData)
     useEffect(() => {
         handleSearchUser();
     }, [])
@@ -93,7 +92,6 @@ export const UserSetting = ({dataOut, oldData}) => {
 
     const handleSelecete = e => {
 
-
         if (Array.isArray(e)) {
             setUserGroup(e)
 
@@ -131,7 +129,6 @@ export const UserSetting = ({dataOut, oldData}) => {
 
                     </div>
 
-                    {console.log(typeSel, "99999999999" , userGroup)}
 
                     {typeSel.type ? typeSel.type == "group_of_users" ? (
                         <div className={"col-12"}>
