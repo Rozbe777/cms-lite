@@ -1,3 +1,5 @@
+export const ENABLE_LOG = true;
+
 export const csrf_token = (token = null) => {
     return (<input name="_token" id="csrf-token" type='hidden' value={token}/>)
 }
@@ -98,3 +100,8 @@ export const ErroHandle = (err) => {
 //     })
 //
 // }
+export const consoleLog = (message,parent=null) => {
+    if (ENABLE_LOG) {
+        console.log(message);
+    }
+}

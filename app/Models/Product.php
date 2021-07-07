@@ -30,7 +30,7 @@ class Product extends Model
 
     public function attributes()
     {
-        return $this->hasMany(Attribute::class,'product_id','id');
+        return $this->hasMany(Attribute::class, 'product_id', 'id');
     }
 
     public function user()
@@ -45,7 +45,7 @@ class Product extends Model
 
     public function galeries()
     {
-        return $this->hasMany(Galery::class, 'product_id','id');
+        return $this->hasMany(Galery::class, 'product_id', 'id');
     }
 
     public function invoices()
@@ -69,6 +69,12 @@ class Product extends Model
             default:
                 return Jalalian::forge($this->attributes['created_at'])->format(setting("date_time"));
         }
+    }
+
+    function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+
     }
 
 //    public function getRelatedProductAttribute()

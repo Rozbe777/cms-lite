@@ -667,6 +667,7 @@ export const AddDiscount = ({type, results,backcheck, token, dataDefaul}) => {
 
                 <Tab id={"seo-tab"} title={"تنظیمات پیشرفته"} href={"#seo"} />
             </ul>
+
             <div className="tab-content" style={{padding: 0, position: 'relative', marginTop: '-15px'}}>
                 <div className="tab-pane show-det-discount active" id="cat" aria-labelledby="cat-tab"
                      role="tabpanel">
@@ -914,6 +915,7 @@ export const AddDiscount = ({type, results,backcheck, token, dataDefaul}) => {
 
                     </div>
                 </div>
+
 
                 <div className={"col-12 bottom-footer"}>
                     <div className={"row"}>

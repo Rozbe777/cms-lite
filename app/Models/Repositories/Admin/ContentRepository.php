@@ -118,7 +118,6 @@ class ContentRepository implements RepositoryInterface
     {
         $data['owner'] = "content";
         $data['slug'] = $this->slugHandler($data['slug']);
-        $data['content'] = (!empty($data['content'])) ? !empty(json_decode($data['content'])) ? json_decode($data['content']) : null : null;
 
         $tag_list = json_decode($data['tag_list']) ?? null;
         unset($data["tag_list"]);
