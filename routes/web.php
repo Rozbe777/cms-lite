@@ -44,8 +44,10 @@ Route::get('/test', function () {
 });
 
 Route::get('test2', function (\Illuminate\Http\Request $request) {
-    dd(jdate()->getTimestamp());
-//   (new \App\Classes\Pay\Banks\Nextpay())->callback($request->order_id);
+$product = \App\Models\Product::find(10);
+$order = \App\Models\Order::find(1);
+$product->orders()->syncWithoutDetaching($order);
+dd($product->orders);
 });
 
 Route::get('csrf', function () {
