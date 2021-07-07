@@ -9,7 +9,7 @@ export const Switcher = ({handleSwitchStatus , defaultState, name, valueActive, 
             if (pushState){
                 pushState(status)
             }
-            handleSwitchStatus(status);
+            handleSwitchStatus(e , status);
             if (status) {
                 $("li." + name + ".active").addClass("act");
                 $("li." + name + ".deactive").removeClass("act");

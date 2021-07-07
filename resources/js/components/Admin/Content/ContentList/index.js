@@ -78,7 +78,7 @@ export const ContentList = ({token}) => {
     }, [])
 
     const handleAddContent = () => {
-        ReactDom.render(<ContentAdd token={token} display={true} dataUpdate={''} idParent={0} checkChange={item => setReloadTag(true)}
+        ReactDom.render(<ContentAdd resultForm={handleReload} token={token} display={true} dataUpdate={''} idParent={0} checkChange={item => setReloadTag(true)}
                                     result={item => handleBackContent(item)}/>, document.getElementById("add-datas"))
     }
 
@@ -105,10 +105,15 @@ export const ContentList = ({token}) => {
     }
 
 
-    const handleBack = (item) => {
-        if (item.status == 200) {
+    const handleReload = (statued) => {
+        if (statued){
             GetAllContents();
             ReactDom.render('', document.getElementById('add-datas'))
+        }
+    }
+
+    const handleBack = (item) => {
+        if (item.status == 200) {
         }
     }
     const handleBackContent = (item) => {
@@ -133,6 +138,7 @@ export const ContentList = ({token}) => {
     const handleClickItemContent = (clickId) => {
         ReactDom.render(<ContentAdd token={token} display={true} idParent={clickId}
                                     dataUpdate={''}
+                                    resultForm={handleReload}
                                     result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
     const HandleDeleteContent = (status) => {
@@ -150,7 +156,7 @@ export const ContentList = ({token}) => {
         }
     }
     const HandleBackLoaderContent = (data) => {
-        ReactDom.render(<ContentAdd token={token} display={true} dataUpdate={data} idParent={0}
+        ReactDom.render(<ContentAdd token={token} display={true} dataUpdate={data} idParent={0} resultForm={handleReload}
                                     result={item => handleBack(item)}/>, document.getElementById("add-datas"))
     }
 

@@ -83,7 +83,7 @@ class ContentController extends Controller
         return $this->message(__('message.success.200'))->data($content)->success();
     }
 
-    /**
+    /**E
      * Display the specified resource.
      *
      * @param Content $content
