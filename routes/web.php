@@ -76,6 +76,9 @@ Route::prefix('auth')->group(function () {
     });
 });
 
+
+
+
 Route::middleware('auth')->group(function () {
 
 //    Route::get('admin', function () {
@@ -147,7 +150,7 @@ Route::middleware('auth')->group(function () {
     Route::get('role', [RoleController::class, 'blade'])->name('roles.blade');
 
     //------------------------------Settings----------------------------
-    Route::get('product', [ProductController::class, 'blade'])->name('products.blade');
+    Route::get('product/index', [ProductController::class, 'blade'])->name('products.blade');
     Route::resource('products', ProductController::class)->except('update');
     Route::post('products/update', [ProductController::class, 'update'])->name('products.update');
     Route::delete('products/multi/destroy', [ProductController::class, 'multipleDestroy'])->name('products.multipleDestroy');
@@ -181,13 +184,16 @@ Route::middleware('auth')->group(function () {
 
 Route::name('front.')->group(function () {
     Route::get('/', [FrontPageController::class, 'search'])->name('index');
-    Route::get('shop', [\App\Http\Controllers\Front\Shop\ShopController::class, 'index'])->name('shop.blade');
+
 
     Route::get('category/{slug}', [\App\Http\Controllers\Front\Category\CategoryController::class, 'search'])->name('categories');
 
     Route::get('tag/{name}', [\App\Http\Controllers\Front\Tag\TagController::class, 'search'])->name('tags');
 
     Route::any('search', [SearchController::class, 'search'])->name('search');
+
+
+    Route::get('product/{slug}', [\App\Http\Controllers\Front\Shop\ProductController::class, 'show'])->name('product.show');
 
     Route::get('callback/{invoice_id}', [InvoiceController::class, 'callback'])->name('callback');;
 
