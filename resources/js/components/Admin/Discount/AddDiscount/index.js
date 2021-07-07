@@ -354,8 +354,6 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
         data.max_limit = maxLimit ? parseInt(maxLimit) : null;
         data.user_status = userStatus;
         data.functionality = functionality;
-        console.log("vsdvsdv", setUserStatus)
-        // data.user_status = userStatus ? userStatus : [];
         let userg = [];
         if (userStatus == "special_users") {
             userGroup.map(itemss => {
@@ -435,7 +433,20 @@ export const AddDiscount = ({type, results, token, dataDefaul}) => {
 
 
         // data.user_status = userStatus ? userStatus : [];
-        data.user_group = userGroup ? userGroup : [];
+        // data.user_group = userGroup ? userGroup : [];
+
+
+        let userg = [];
+        if (userStatus == "special_users") {
+            userGroup.map(itemss => {
+                userg.push(itemss.id);
+            })
+            data.user_group = userg;
+        } else {
+            data.user_group = userGroup;
+        }
+
+
         data.cart_conditions = cartStatus.typeSel.types;
 
         data.cart_conditions_amount = cartStatus.cart_conditions_amount;
