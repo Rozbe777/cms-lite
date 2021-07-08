@@ -56,11 +56,6 @@ export const CategoryList = ({token}) => {
             })
     }
 
-    // reload page after error in loading
-
-    function reloadpage() {
-        window.location.pathname = "/categories";
-    }
 
 
     useEffect(() => {
@@ -68,28 +63,26 @@ export const CategoryList = ({token}) => {
 
     }, [])
 
-
-    const handleAddCategory = (e) => {
-        e.preventDefault()
-        if (!loading) {
-            ReactDom.render(<AddCategory display={true} token={token}
-                                         dataAll={JSON.stringify(categoryData)}
-                                         result={item => handleBackPage(item)}/>, document.getElementById("add-datas"))
-        } else {
-        }
-    }
-
-    const HandleAdd = (item) => {
-        GetAllCategory();
-
-    }
-
-    const handleBackPage = (item) => {
-        if (item.status == 200) {
+    const handleReload = (statued) => {
+        if (statued) {
             GetAllCategory();
             ReactDom.render('', document.getElementById('add-datas'))
         }
     }
+
+
+    const handleAddCategory = (e) => {
+        e.preventDefault()
+        if (!loading) {
+            ReactDom.render(<AddCategory
+                display={true} token={token}
+                resultForm={handleReload}
+                dataAll={JSON.stringify(categoryData)}
+            />, document.getElementById("add-datas"))
+        } else {
+        }
+    }
+
 
     const HandleDelete = (status) => {
         GetAllCategory();
@@ -116,7 +109,7 @@ export const CategoryList = ({token}) => {
 
 
     const HandleBackLoader = (data) => {
-       let id_parents = JSON.parse(data).allData.parent_id;
+        let id_parents = JSON.parse(data).allData.parent_id;
         ReactDom.render(<AddCategory display={true} dataUpdate={data}
                                      dataAll={JSON.stringify(categoryData)}
                                      idParent={id_parents}
@@ -215,13 +208,13 @@ export const CategoryList = ({token}) => {
                     <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
                         {!loading ? categoryData ? categoryData.length > 0 ? (
                             <TreeShowCategory
-                                              duplicate={item => HandleDuplicate(item)}
-                                              itemClicks={clicks => handleClickItem(clicks)}
-                                              callBack={item => HandleDelete(item)}
-                                              delClick={item => HandleDelete(item)}
-                                              updateData={item => HandleBackLoader(item)}
-                                              data={categoryData}
-                                              loading={loading}/>
+                                duplicate={item => HandleDuplicate(item)}
+                                itemClicks={clicks => handleClickItem(clicks)}
+                                callBack={item => HandleDelete(item)}
+                                delClick={item => HandleDelete(item)}
+                                updateData={item => HandleBackLoader(item)}
+                                data={categoryData}
+                                loading={loading}/>
                         ) : (
                             <div>
                                 <NotFound/>

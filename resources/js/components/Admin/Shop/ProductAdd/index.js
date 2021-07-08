@@ -479,7 +479,7 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
         if (formData.slug == "") {
             formFile.append("slug", formNew.title);
         }
-        formFile.append("content", JSON.stringify(contentNew));
+        formFile.append("content", contentNew);
 
         let normal = NoralizeFetures(priceData);
         let checkValueFetures = CheckTextFetures(normal)
@@ -573,7 +573,7 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
 
     const HandleEdit = () => {
         let formOldData = {...formData};
-        formOldData.content = contentNew == "" ? defaultValuePro.content : JSON.stringify(contentNew);
+        formOldData.content = contentNew == "" ? defaultValuePro.content : contentNew;
 
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
@@ -607,7 +607,7 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
 
     const HandleDuplicate = () => {
         let formOldData = {...formData};
-        formOldData.content = contentNew == "" ? defaultValuePro.content : JSON.stringify(contentNew);
+        formOldData.content = contentNew == "" ? defaultValuePro.content : contentNew;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formData.status;
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
@@ -1029,7 +1029,7 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
                                 }}
                                           id={"my-editor"}
                                           type={"small"}
-                                          defaultVal={defaultValuePro ? JSON.parse(defaultValuePro.content) : ''}
+                                          defaultVal={defaultValuePro ? defaultValuePro.content : ''}
                                 />
                             </div>
                         </div>

@@ -88,18 +88,7 @@ export const ErroHandle = (err) => {
     })
 
 }
-// export const ErroHandleObj = (err) => {
-//     Object.values(err).map(errorItem => {
-//         errorItem.map(errorMsg => {
-//             if (errorMsg === "") {
-//
-//             } else {
-//                 error(errorMsg)
-//             }
-//         })
-//     })
-//
-// }
+
 export const consoleLog = (message,parent=null) => {
     if (ENABLE_LOG) {
         console.log(message);
