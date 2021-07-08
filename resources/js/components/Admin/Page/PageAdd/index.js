@@ -261,7 +261,7 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
             formFile.append("slug", title)
 
         }
-        let contents = JSON.stringify(contentNew);
+        let contents =contentNew;
         formFile.append("content", contents)
 
         let MetaDaa = {...metaData};
@@ -378,7 +378,7 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
         let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
-        let normalCon = contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
+        let normalCon = contentNew == "" ? dataUpdateParse.content : contentNew;
         formDta.append("metadata", JSON.stringify(metaDatas))
         formDta.append("content", normalCon)
         formDta.append("status", status ? status : 'active')
@@ -417,7 +417,7 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
         // let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : formData.comment_status;
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
-        let normalCon = contentNew == "" ? dataUpdateParse.content : JSON.stringify(contentNew);
+        let normalCon = contentNew == "" ? dataUpdateParse.content : contentNew;
         formDta.append("metadata", JSON.stringify(metaDatas))
         formDta.append("content", normalCon)
         formDta.append("status", status)
@@ -623,7 +623,7 @@ const PageAdd = ({token, display, dataUpdate, result: pushResult}) => {
                                 }}
                                           id={"my-editor"}
                                           type={"perfect"}
-                                          defaultVal={dataUpdateParse ? JSON.parse(dataUpdateParse.content) : ''}
+                                          defaultVal={dataUpdateParse ?dataUpdateParse.content : ''}
                                 />
                             </div>
                         </div>

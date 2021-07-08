@@ -74,8 +74,26 @@ class OrderController extends Controller
     {
         $order = $this->repository->create($request->all());
 
-        dd(Session::get('order'));
+        if (is_string($order))
+            return $this->message($order)->error();
+
+        if (!empty($order) && Session::has('order'))
         return $this->message(__('message.success.200'))->data($order)->success();
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function checkout(): JsonResponse
+    {
+        if (Session::has('order'))
+            $order = Session::get('order');
+        else
+            return $this->message(__('message.cart.checkout.error.empty'))->error();
+
+        $checkout = $this->repository->checkout($order);
+
+        return $this->message(__('message.success.200'))->data($checkout)->success();
     }
 
     /**
@@ -143,4 +161,5 @@ class OrderController extends Controller
 
         return $this->message(__('message.content.destroy.successful'))->success();
     }
+
 }

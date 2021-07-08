@@ -15,9 +15,9 @@ class CreateOrderablesTable extends Migration
     {
         Schema::create('orderables', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('order_id');
-            $table->bigInteger('orderable_id');
             $table->string('orderable_type');
+            $table->bigInteger('orderable_id');
+            $table->bigInteger('order_id');
             $table->integer('number_of_product');
             $table->timestamps();
         });

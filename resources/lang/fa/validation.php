@@ -239,6 +239,5 @@ return array(
         "current_images.*.alt"=>"توضیحات تصویر",
         "current_images.*.url"=>"ادرس تصویر",
         "address_id"=>"آدرس"
-
     ),
 );

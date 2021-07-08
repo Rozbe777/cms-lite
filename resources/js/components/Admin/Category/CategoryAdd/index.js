@@ -9,11 +9,19 @@ import {SelectOptions} from './../../../HOC/SelectOptions'
 import MyEditor from "../../_Micro/MyEditor/MyEditor";
 import {ErroHandle, error as ErrorToast, error} from './../../../../helper'
 import {ChipsetHandler} from './../../../HOC/ChipsetHandler';
+import {CreateAddCategory} from "../Helper/Action";
 import './../../_Micro/TreeShow/_Shared/style.scss';
+import FormHandler from "../Helper/FormHandler";
+import FunctionHandler from "../Helper/FunctionHandler";
+import ComponentHandler from "../Helper/ComponentHandler";
+import RequestHandler from "../Helper/RequestHandler";
 import $ from "jquery";
-import CatDataAdd from "form-data";
 
-const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult}) => {
+const AddCategory = ({token,resultForm, dataAll, dataUpdate, idParent, result: pushResult}) => {
+    let formHandler = new FormHandler();
+    let functionalHandler = new FunctionHandler();
+    let componentHandler = new ComponentHandler();
+    let requestHandler = new RequestHandler();
     const [categoryData] = useState({});
     const [preImage, setPreImage] = useState({uri: ''});
     const [loading, setLoading] = useState(false);
@@ -23,19 +31,14 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
     const [edit, setEdit] = useState(false);
     const [file, setFile] = useState({file : ''});
     const [changeCheck, setChangeCheck] = useState(false)
-
     const [imageGet, setImage] = useState({state: ''})
     const [metaData, setMetaData] = useState({
         robots: false,
     });
-
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
-
     const dataUpdateParse = dataGet ? dataGet.allData : '';
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : '';
     const types = dataGet ? dataGet.type : '';
-
-
     const [slugManage, setSlugManage] = useState(true);
     const [CatData, setCatData] = useState({});
     let default_value = {
@@ -47,73 +50,18 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
     };
 
     // const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
-    const CreateAddCategory = (data) => {
-        swal({
-            title: 'افزودن دسته بندی جدید',
-            text: "آیا مطمئنید؟",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'تایید',
-            confirmButtonClass: 'btn btn-primary',
-            cancelButtonClass: 'btn btn-danger ml-1',
-            cancelButtonText: 'انصراف',
-            buttonsStyling: false,
-        }).then(function (result) {
-            if (result.value) {
 
-                Request.AddNewCategory(data)
-                    .then(res => {
-                        pushResult(res);
-                        localStorage.removeItem("is_menu");
-                        localStorage.removeItem("status");
-                        localStorage.removeItem("selected");
-                        Swal.fire({
-                            type: "success",
-                            title: 'با موفقیت اضافه شد !',
-                            confirmButtonClass: 'btn btn-success',
-                            confirmButtonText: 'باشه',
-                        })
 
-                    }).catch(err => {
-                    if (err.response.data.errors) {
-                        ErroHandle(err.response.data.errors);
-                    } else {
-                        //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
-                        ErrorToast("خطای غیر منتظره ای رخ داده است")
-                    }
 
-                })
-            }
-        });
-    }
-
-    const handleGetImg = name => {
-        let names = name.split("/")
-        setLoading(true)
-        Request.GetImage(names[2])
-            .then(rr => {
-                setLoading(false)
-                setImage({state: rr.data})
-            }).catch(err => {
-            ErrorToast("خطایی در دانلود تصویر رخ داده است")
-            setTimeout(() => {
-                handleClose()
-            }, 1300)
-
-        })
-    }
     useEffect(() => {
         let formNews = {...CatData};
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
         if (formNews.image) {
             let img = formNews.image;
-
-            handleGetImg(img)
-
+            requestHandler.HandleGetImg(img ,setLoading,setImage);
         } else {
             setImage({state: ''})
         }
-
         setIds(formNews.id)
         setCatData({
             id: formNews.id,
@@ -131,71 +79,9 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
         setMetaData(metaDataNew)
         MetaDataUpdate.tags ? setChipset(MetaDataUpdate.tags) : '';
     }, [])
-    const handleClose = () => {
-        ReactDOM.render('', document.getElementById("add-datas"));
-        setCatData({
-            is_menu: 0,
-            status: "active",
-            content: '',
-            parent_id: 0,
-            slug: ''
-        });
-        setMetaData({
-            robots: false,
-        })
-        $("#my-editor").attr("defaultValue", "");
-    }
 
 
-    const handlePreShowImage = e => {
-        e.preventDefault();
-        let preImages = {...preImage}
-        if (event.target.files && event.target.files[0]) {
-            preImages.uri = URL.createObjectURL(event.target.files[0])
-            setPreImage(preImages)
-        }
-    }
-    const HandleFile = (e) => {
-        handlePreShowImage(e)
-        setEdit(true)
-        let files = e.target.files[0];
-        setFile({file: files});
-    }
 
-    const handleInput = (e) => {
-        setChangeCheck(true)
-        setEdit(true);
-        if (e.target.name == "name") {
-            if (slugManage) {
-                let CatDataOld = {...CatData};
-                CatDataOld.name = e.target.value;
-                CatDataOld.slug = e.target.value;
-                setCatData(CatDataOld);
-            } else {
-                let CatDataOld = {...CatData};
-                CatDataOld.name = e.target.value;
-                setCatData(CatDataOld);
-            }
-        } else {
-            let CatDataOld = {...CatData};
-            CatDataOld.slug = e.target.value;
-            setCatData(CatDataOld);
-        }
-    }
-
-
-    const RemoveChipset = (name) => {
-        setEdit(true)
-        let metaDatas = {...metaData};
-        var chipsetArr = [...chipset];
-        var index = chipsetArr.indexOf(name);
-        if (index !== -1) {
-            chipsetArr.splice(index, 1);
-        }
-        setChipset(chipsetArr);
-        metaDatas.tags = chipsetArr;
-        setMetaData(metaDatas)
-    }
 
     const handleAddChip = (item) => {
         setEdit(true)
@@ -214,46 +100,17 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
 
     const handleEditor = data => {
         setEdit(true)
-        setContentNew(JSON.stringify(data))
+        setContentNew(data)
     }
 
     let titleWrite = $("input[name=name]").val();
 
-    const HandleForm = (e) => {
-        let formNew = {...CatData};
-        let formFiledss = new FormData();
-        formFiledss.append("image", file.file ? file.file : '');
-        formFiledss.append("content", contentNew);
-        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : formNew.is_menu;
-        let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
-        let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : formNew.parent_id;
-        formFiledss.append("status", status);
-        formFiledss.append("parent_id", parent_id ? parseInt(parent_id) : '');
-        formFiledss.append("is_menu", is_menu);
-        formFiledss.append("name", formNew.name);
-        formFiledss.append("slug", formNew.slug);
-        // formFiledss.append("_token", token);
-        if (slugManage == false) {
-            formFiledss.append("slug", formNew.name);
-        } else {
-        }
 
-
-        if (CatData.slug == "") {
-            formFiledss.append("slug", formNew.name);
-        }
-
-
-        metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
-        formFiledss.append("metadata", JSON.stringify(metaData));
-        if (CatData.name && CatData.name !== '') {
-            $("input[name=name]").removeClass("is-invalid");
-            // formFiledss.append("parent_id", formNew.parent_id ? formNew.parent_id : 0);
-
-            CreateAddCategory(formFiledss);
-        } else {
-            $("input[name=name]").addClass("is-invalid");
-            error("لطفا فیلد نام دسته بندی را پر کنید !")
+    const checkResult = (statused) => {
+        if (statused) {
+            resultForm(true)
+            $("span.checkboxeds").removeClass("active");
+            formHandler.HandleRemoveLocal();
         }
     }
 
@@ -403,24 +260,13 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
                 formsNews.append("image", true);
             }
         }
-
-
         let metaDatas = {...metaData};
         metaDatas.robots = robots;
 
         formsNews.append("status", status)
         formsNews.append("metadata", JSON.stringify(metaDatas))
 
-        CreateAddCategory(formsNews);
-    }
-
-
-    const handleEditorData = (data) => {
-        setEdit(true);
-        setCatData({
-            ...CatData,
-            content: data
-        })
+        CreateAddCategory(formsNews,checkResult);
     }
 
     let MakeNewName = (name) => {
@@ -431,14 +277,7 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
         let slugs = name + rand + "_کپی";
         return name + rand + "_کپی";
     }
-    let MakeNewSlug = (name) => {
-        const min = 1;
-        const max = 1000;
-        const rand = Number(min + Math.random() * (max - min)).toFixed(0);
-        let slugs = name + rand + "_کپی";
 
-        return name + rand + "_کپی";
-    }
     const handleSwitchStatus = (status) => {
         setEdit(true)
         localStorage.setItem("status", status ? "active" : "deactivate");
@@ -450,19 +289,6 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
     const HandleSelectOption = (check) => {
         setEdit(true)
         localStorage.setItem("selected", check)
-    }
-
-    let HandleDefaultValuSlug = () => {
-        if (dataUpdateParse) {
-            if (types == "dup") {
-                return MakeNewName(dataUpdateParse.slug);
-            } else {
-                return dataUpdateParse.slug;
-            }
-        } else {
-            CatData.slug = CatData.name;
-            return CatData.name;
-        }
     }
 
     let HandleMakeName = () => {
@@ -478,7 +304,6 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
         }
     }
 
-
     const handledelImg = (e) => {
         e.preventDefault();
         setEdit(true)
@@ -491,9 +316,28 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
         setPreImage(preImages)
     }
 
+    const handleSwither = (e, state, name) => {
+        switch (name) {
+            case 'showState' :
+                componentHandler.handleSwitchStatus(e, state, setEdit);
+                return true;
+            case 'showMenu' :
+                componentHandler.handleSwitchMenu(e, state, setEdit);
+                return true;
+            default :
+                return true;
+        }
+    }
+
+    const handleEditorData = (data) => {
+        setEdit(true)
+        setContentNew(data)
+    }
+
     return (
         <div id={"category_add_pop_base"}>
             <ul className="nav nav-tabs tab-layout" role="tablist">
+
                 <li className="nEav-item col-6 nav-custom">
                     <a className="nav-link active" id="cat-tab" data-toggle="tab" href="#cat" aria-controls="cat"
                        role="tab" aria-selected="true">
@@ -518,7 +362,7 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان دسته بندی</label>
-                                    <input type={"text"} defaultValue={HandleMakeName()} onChange={e => handleInput(e)}
+                                    <input type={"text"} defaultValue={HandleMakeName()} onChange={e => functionalHandler.handleInput(e , setChangeCheck , setEdit ,slugManage,setCatData,CatData)}
                                            name={"name"} id={"title"}
                                            className={"form-control titleCat"}/>
                                 </fieldset>
@@ -542,7 +386,8 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
                                     <label id={"selectParent"}>وضعیت نمایش</label>
                                     <Switcher
                                         defaultState={dataUpdateParse ? dataUpdateParse.status == "active" ? true : false : true}
-                                        status={(state) => handleSwitchStatus(state)} name={"showState"}
+                                        handleSwitchStatus={handleSwither}
+                                        name={"showState"}
                                         valueActive={"فعال"}
                                         valueDeActive={"غیرفعال"}/>
                                 </fieldset>
@@ -552,7 +397,8 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
                                     <label id={"selectParent"}>نمایش در منو</label>
                                     <Switcher
                                         defaultState={dataUpdateParse ? dataUpdateParse.is_menu == 0 ? false : true : false}
-                                        status={(state) => handleSwitchMenu(state)} name={"showMenu"}
+                                        handleSwitchStatus={handleSwither}
+                                        name={"showMenu"}
                                         valueActive={"فعال"} valueDeActive={"غیرفعال"}/>
                                 </fieldset>
                             </div>
@@ -577,7 +423,7 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
                                         <div id={"file"}>
                                             <input type={"file"} name={"image"}
                                                    multiple="multiple"
-                                                   onChange={e => HandleFile(e)}
+                                                   onChange={e => functionalHandler.HandleFile(e , preImage , setPreImage , setEdit , setFile , imageGet,setImage)}
                                                    style={{
                                                        opacity: 0,
                                                        zIndex: 9,
@@ -598,12 +444,10 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
                             </div>
 
                             <div className={"col-12"}>
-                                <MyEditor editorData={data => {
-                                    handleEditor(data)
-                                }}
+                                <MyEditor editorDataFunc={handleEditorData}
                                           id={"my-editor"}
                                           type={"perfect"}
-                                          defaultVal={dataUpdateParse ? JSON.parse(dataUpdateParse.content) : ''}
+                                          defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
                                           placeholder={"توضیحات دسته بندی را بنویسید ..."}/>
                             </div>
 
@@ -640,7 +484,7 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
                                     ) : (
                                         <input type={"text"}
                                                defaultValue={CatData.slug}
-                                               onChange={e => handleInput(e)} name={"slug"} id={"title"}
+                                               onChange={e => functionalHandler.handleInput(e , setChangeCheck , setEdit ,slugManage,setCatData,CatData)} name={"slug"} id={"title"}
                                                className={"form-control slugest"}/>
                                     )}
                                 </fieldset>
@@ -691,7 +535,7 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
                                                     <div className="chip-body">
                                                         <span className="chip-text">{item}</span>
                                                         <div className="chip-closeable"
-                                                             onClick={e => RemoveChipset(item)}>
+                                                             onClick={e => functionalHandler.RemoveChipset(e,item,chipset , setChipset , setEdit)}>
                                                             <i className="bx bx-x"></i>
                                                         </div>
                                                     </div>
@@ -747,7 +591,7 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
                     <div className={"row"}>
 
 
-                        <div className={"col-6"} onClick={handleClose}
+                        <div className={"col-6"} onClick={e => formHandler.handleClose()}
                              style={{cursor: 'pointer', textAlign: 'center', borderLeft: '1px solid #a9a9a9'}}>
                             <button type={"reset"} id={"clear"}>
                                 انصراف
@@ -789,7 +633,7 @@ const AddCategory = ({token, dataAll, dataUpdate, idParent, result: pushResult})
                             ) :
 
                             (
-                                <div onClick={(e) => HandleForm(e)} className={"col-6"}
+                                <div onClick={(e) => formHandler.HandleForm(CatData , contentNew ,slugManage ,metaData , checkResult , file)} className={"col-6"}
                                      style={{
                                          textAlign: 'center',
                                          cursor: 'pointer',

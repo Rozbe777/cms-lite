@@ -15,22 +15,17 @@ import {BreadCrumbs} from "../../UserList/HOC/BreadCrumbs";
 import BottomNavigationBar from "../../UserList/HOC/BottomNavigationBar";
 import {Pagination} from "../../_Micro/Pagination";
 import SearchComponent from "./../Search";
+import {HandleDeleteGroup} from "../Helper/Action";
 
-const LOCAL_CAT = "localcat-zerone-cmslite";
 
 export const ContentList = ({token}) => {
     const [checkBox, setCheckBox] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [categoryData, setCategoryData] = useState()
     const [contentData, setContentData] = useState({})
     const [contentAll, setContentAll] = useState({})
-    const [searchload, setSearch] = useState(false)
-
     const [perPage, setPerPage] = useState(0);
     const [total, setTotal] = useState();
 
-
-    const [length, setLength] = useState(0)
     const [breadData] = useState({
         title: 'لیست محتوا',
         desc: 'نمایش لیست محتوا و مدیریت آنها'
@@ -39,7 +34,6 @@ export const ContentList = ({token}) => {
         params: {
             page: 1
         }
-
     });
 
     const [reloadTag, setReloadTag] = useState(false);
@@ -48,7 +42,6 @@ export const ContentList = ({token}) => {
         setLoading(true)
         Request.GetAllContents(stringSearchs)
             .then(res => {
-                localStorage.setItem(LOCAL_CAT, JSON.stringify(res));
                 setLoading(false)
                 setContentData(res.data.data)
                 setPerPage(res.data.data.per_page);
@@ -59,14 +52,11 @@ export const ContentList = ({token}) => {
                 if (err.response.data.errors) {
                     ErroHandle(err.response.data.errors);
                 } else {
-                    //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
                     $(".tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center ;margin : 10px 0 0 '>خطا در ارتباط با دیتابیس</p><p>مجددا تلاش کنید</p><div>");
                     ErrorToast("خطای غیر منتظره ای رخ داده است")
                 }
-
             })
     }
-
 
     useEffect(() => {
         GetAllContents();
@@ -79,22 +69,7 @@ export const ContentList = ({token}) => {
 
     const handleAddContent = () => {
         ReactDom.render(<ContentAdd resultForm={handleReload} token={token} display={true} dataUpdate={''} idParent={0} checkChange={item => setReloadTag(true)}
-                                    result={item => handleBackContent(item)}/>, document.getElementById("add-datas"))
-    }
-
-
-    const HandleAdd = (item) => {
-        if (item.status == 200) {
-            GetAllContents();
-            ReactDom.render('', document.getElementById("add-datas"))
-        } else {
-        }
-    }
-
-    const HandleDelete = (status) => {
-        GetAllContents();
-
-        setCheckBox([])
+                                   />, document.getElementById("add-datas"))
     }
 
     const HandleDuplicate = (status) => {
@@ -104,7 +79,6 @@ export const ContentList = ({token}) => {
         }
     }
 
-
     const handleReload = (statued) => {
         if (statued){
             GetAllContents();
@@ -112,34 +86,15 @@ export const ContentList = ({token}) => {
         }
     }
 
-    const handleBack = (item) => {
-        if (item.status == 200) {
-        }
-    }
-    const handleBackContent = (item) => {
-        if (item.status == 200) {
-            GetAllContents();
-            ReactDom.render('', document.getElementById('add-datas'))
-        }
-    }
-
-
     const HandleAddContentSelect = (data) => {
         handleAddContent();
     }
 
-    // Content handlersssss
-    const HandleDuplicateContent = (status) => {
-        if (status == 200) {
-            GetAllContents();
-        } else {
-        }
-    }
     const handleClickItemContent = (clickId) => {
         ReactDom.render(<ContentAdd token={token} display={true} idParent={clickId}
                                     dataUpdate={''}
                                     resultForm={handleReload}
-                                    result={item => handleBack(item)}/>, document.getElementById("add-datas"))
+                                    />, document.getElementById("add-datas"))
     }
     const HandleDeleteContent = (status) => {
         if (status == 200) {
@@ -157,7 +112,7 @@ export const ContentList = ({token}) => {
     }
     const HandleBackLoaderContent = (data) => {
         ReactDom.render(<ContentAdd token={token} display={true} dataUpdate={data} idParent={0} resultForm={handleReload}
-                                    result={item => handleBack(item)}/>, document.getElementById("add-datas"))
+                                   />, document.getElementById("add-datas"))
     }
 
     if (checkBox.length > 0) {
@@ -168,58 +123,7 @@ export const ContentList = ({token}) => {
         $("#breadCrumb").addClass("activeCrumb");
     }
 
-
-    const handleDeleteGroup = (event) => {
-
-        let finalAllIds = {};
-        finalAllIds.contentIds = checkBox;
-
-        finalAllIds._token = $('meta[name="csrf-token"]').attr('content');
-
-        event.preventDefault();
-        swal({
-            title: 'حذف محتوا',
-            text: "آیا مطمئنید؟",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'تایید',
-            confirmButtonClass: 'btn btn-primary',
-            cancelButtonClass: 'btn btn-danger ml-1',
-            cancelButtonText: 'انصراف',
-            buttonsStyling: false,
-        }).then(function (result) {
-            if (result.value) {
-                Request.GroupDelContent(finalAllIds)
-                    .then(res => {
-                        setCheckBox([])
-                        Swal.fire({
-                            type: "success",
-                            title: 'حذف شد!',
-                            text: 'محتوا مورد نظر حذف شد',
-                            confirmButtonClass: 'btn btn-success',
-                            confirmButtonText: 'باشه',
-                        })
-
-                        stringSearchs.params.page = 1;
-                        $(".pagination li.page-item.numberss").removeClass("active")
-                        $(".pagination li#1.page-item.numberss").addClass("active")
-
-                        GetAllContents(stringSearchs);
-                    }).catch(error => {
-                    if (error.response.data.errors) {
-                        ErroHandle(error.response.data.errors)
-                    } else {
-                        ErrorToast("خطای غیر منتظره ای رخ داده است")
-                    }
-                })
-            }
-        });
-    }
-
-
     const paginate = (pageNumber) => {
-        console.log("vsdvsdv" , pageNumber)
-
         stringSearchs.params.page = pageNumber;
         setStringSearch({
             params: {
@@ -251,7 +155,7 @@ export const ContentList = ({token}) => {
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
             <div>
                 <div className={"row col-12"} id={"headerContent"}>
-                    <TotalActions text={" مورد انتخاب شده است "} deleteUsers={e => handleDeleteGroup(e)}
+                    <TotalActions text={" مورد انتخاب شده است "} deleteUsers={e => HandleDeleteGroup(e , checkBox ,setCheckBox, handleReload , GetAllContents ,stringSearchs )}
                                   allData={contentData.data ? contentData : []} data={checkBox}/>
                     <BreadCrumbs titleBtn={"افزودن"} icon={"bx bx-plus"} data={breadData}/>
                 </div>
