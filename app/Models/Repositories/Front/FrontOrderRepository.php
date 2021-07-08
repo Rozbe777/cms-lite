@@ -4,16 +4,20 @@
 namespace App\Models\Repositories\Front;
 
 
+use App\Http\Controllers\Front\Order\OrderTrait;
 use App\Models\Attribute;
 use App\Models\Coupon;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class FrontOrderRepository implements RepositoryInterface
 {
+
+    use OrderTrait;
 
     /**
      * @return mixed
@@ -60,13 +64,23 @@ class FrontOrderRepository implements RepositoryInterface
      */
     public function create(array $data)
     {
-        $attribute = Attribute::find($data['attribute_id']);
-        $number = $data['number_of_product'];
-        unset($data['attribute_id'], $data['number_of_product']);
+        $order = Order::where('user_id',Auth::id())->where('status','pending_pay')->first();
+        if (!empty($order)) {
+            $attribute = Attribute::find($data['attribute_id']);
+            $number = $data['number_of_product'];
+            $price = $data['price'];
+            unset($data['attribute_id'], $data['number_of_product'],$data['price']);
 
-        $order = Order::create($data);
+            $data['total_price'] = $this->totalPrice($attribute,$number,$price,$data['tax'],$data['coupon_code']);
+            if (is_string($data['total_price']))
+                return $data['total_price'];
 
-        $order->attributes()->attach($attribute,['number_of_product' => $number]);
+            $order = Order::create($data);
+            $order->attributes()->attach($attribute, ['number_of_product' => $number]);
+        }else{
+            $order->total_price += $data['price'];
+        }
+
 
         Session::put('order',$order);
         return $order;
@@ -75,6 +89,14 @@ class FrontOrderRepository implements RepositoryInterface
     public function multipleDestroy(array $data)
     {
         return Order::whereIn('id', $data['orderIds'])->delete();
+    }
+
+    /**
+     * @param $order
+     */
+    public function checkout($order)
+    {
+        $products = $order->attributes;
     }
 
     /**

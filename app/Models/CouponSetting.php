@@ -16,4 +16,9 @@ class CouponSetting extends Model
     {
         return $this->belongsTo(Coupon::class);
     }
+
+    public function scopeExpired($query)
+    {
+        return $query->where('end_date','>',jdate()->getTimestamp())->get();
+    }
 }

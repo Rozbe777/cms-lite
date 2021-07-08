@@ -29,6 +29,6 @@ class Order extends Model
 
     public function attributes()
     {
-        return $this->morphedByMany(Attribute::class, 'orderable');
+        return $this->morphedByMany(Attribute::class, 'orderable')->withPivot('number_of_product');
     }
  }

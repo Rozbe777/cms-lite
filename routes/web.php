@@ -24,6 +24,7 @@ use App\Http\Controllers\Front\Order\OrderController;
 use App\Http\Controllers\Front\Page\FrontPageController;
 use App\Http\Controllers\Front\Search\SearchController;
 use Illuminate\Support\Facades\Route;
+use Morilog\Jalali\Jalalian;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,10 +45,7 @@ Route::get('/test', function () {
 });
 
 Route::get('test2', function (\Illuminate\Http\Request $request) {
-
-$order = \App\Models\Order::find(8);
-
-dd($order->attributes);
+dd(jdate()->getTimestamp(),Jalalian::forge('last sunday')->getTimestamp());
 });
 
 Route::get('csrf', function () {
@@ -174,6 +172,7 @@ Route::middleware('auth')->group(function () {
 
     //------------------------------Order-------------------------------
     Route::get('order', [OrderController::class, 'blade'])->name('orders.blade');
+    Route::get('orders/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
     Route::resource('orders', OrderController::class);
     Route::delete('orders/multi/destroy', [OrderController::class, 'multipleDestroy'])->name('orders.multipleDestroy');
 

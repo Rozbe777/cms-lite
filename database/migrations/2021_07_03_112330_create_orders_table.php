@@ -16,7 +16,6 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->unsigned();
-            $table->integer('product_number');
             $table->enum('status',['done','pending_pay','pending_operator','pending_delivery','process', 'rejected','failed'])->default('pending_pay');
             $table->integer('total_price')->nullable();
             $table->integer('coupon_id')->nullable();
