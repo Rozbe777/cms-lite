@@ -16,7 +16,7 @@ use App\Models\ThemeSetting;
 
 trait ThemeImporter
 {
-    use PageTrait;
+    use PageTrait, ShopImporter;
 
     public $themeId = 0;
 
@@ -69,8 +69,8 @@ trait ThemeImporter
 
             $c->is_index = 0;
             $c->content = $content['content'];
-            if(!empty($content['image']))
-            $c->image = $content['image'];
+            if (!empty($content['image']))
+                $c->image = $content['image'];
             $c->metadata = (string)json_encode(json_encode(['robots' => false]));
             if (empty($content['published_at']))
                 $c->published_at = $content['published_at'];

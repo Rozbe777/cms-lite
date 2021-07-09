@@ -25,11 +25,11 @@ class ContentController extends Controller
     public function search($slug = null)
     {
         $content = $this->repository->search($slug);
-
+        $title = $content->title;
         if ($content->owner == 'content') {
             $tags = Tag::orderBy('id', 'desc')->limit(10)->get();
             $categories = Category::moduleId(1)->orderBy('id', 'desc')->active()->limit(10)->get();
-            return page('single-blog', compact('content', 'tags', 'categories'));
+            return page('single-blog', compact('content', 'tags', 'categories', 'title'));
         } else {
 
             return (new FrontPageController(new FrontPageRepository()))->search($slug);

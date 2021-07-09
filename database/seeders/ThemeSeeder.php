@@ -40,6 +40,9 @@ class ThemeSeeder extends Seeder
             if (!empty($theme['components'])) {
                 $this->createComponent($theme['components']);
             }
+            if (!empty($theme['products'])) {
+                $this->createProduct($theme['products']);
+            }
         }
     }
 

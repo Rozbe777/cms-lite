@@ -16,8 +16,8 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 col-md-12">
                     <div class="products-details-image">
-                        <a href="assets/img/products/products-img1.jpg" class="popup-image">
-                            <img src="assets/img/products/products-img1.jpg" alt="image">
+                        <a href="{{$product->image_url}}" class="popup-image">
+                            <img src="{{$product->image_url}}" alt="{{$product->title}}">
                         </a>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                             <button type="submit" class="default-btn">افزودن خرید <i class="ri-arrow-left-line"></i></button>
                         </div>
                         <ul class="social-share">
-                            <li><span>اشتراک گذاری:</span></li>
+                            <li><span>اشتراک گذاری</span></li>
                             <li><a href="#" target="_blank"><i class="ri-facebook-fill"></i></a></li>
                             <li><a href="#" target="_blank"><i class="ri-twitter-fill"></i></a></li>
                             <li><a href="#" target="_blank"><i class="ri-linkedin-fill"></i></a></li>
@@ -69,15 +69,7 @@
                         <div class="single-tabs-box">
                             <h2><span>شرح محصول</span></h2>
                             <div class="inner-box">
-                                <h3>بررسی اجمالی</h3>
-                                <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
-                                <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
-                                <ul>
-                                    <li>فوری <strong>انری</strong> فروش برتر</li>
-                                    <li>به 18 زبان ترجمه شده است</li>
-                                    <li>#1 توصیه شده ترین کتاب سال.</li>
-                                    <li>یک پروژه نادیده گرفته شده ، به طور گسترده رد شد ، قهرمان آن به عنوان نوشت.</li>
-                                </ul>
+                                {!! $product->content !!}
                             </div>
                         </div>
                         <div class="single-tabs-box">

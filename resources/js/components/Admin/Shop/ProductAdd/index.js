@@ -284,7 +284,7 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
 
     const CreateNewProduct = (dataed) => {
         swal({
-            title: 'افزودن دسته بندی جدید',
+            title: 'افزودن محصول جدید',
             text: "آیا مطمئنید؟",
             type: 'warning',
             showCancelButton: true,
@@ -1216,7 +1216,7 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
 
                                 <div className={"col s12"}>
                                     <div className={"alert alert-primary mb-2 col-12"} role={"alert"}>
-                                        اطلاعات تیتر و توضیحات صفحه به صورت خودکار توسط zerone برای سئوی بهتر ایجاد
+                                        اطلاعات تیتر و توضیحات صفحه به صورت خودکار توسط ریسمان برای سئوی بهتر ایجاد
                                         می‌شوند.
                                         در صورتی که تمایل به شخصی‌سازی آن دارید، می‌توانید از بخش زیر استفاده کنید.
                                     </div>
