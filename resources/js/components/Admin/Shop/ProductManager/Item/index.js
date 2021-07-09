@@ -2,14 +2,15 @@ import React, {useContext, useEffect} from 'react';
 import './_Shared/style.scss'
 import $ from 'jquery';
 import {CHECK_BOX_CONTENT} from "../../../UserList/Helper/Context";
+import {separate} from "../../../../../helper";
 
-const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected ,duplicated : duplicate, editClick : pushEditClick , deleteClick : delPushClick}) => {
+const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected, duplicated: duplicate, editClick: pushEditClick, deleteClick: delPushClick}) => {
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
 
     useEffect(() => {
         checkTest();
         checkBox.map(item => {
-            $(".item-product.id_"+item).addClass("activeCheck");
+            $(".item-product.id_" + item).addClass("activeCheck");
             $("input#checkbox_" + item).prop("checked", true);
         })
     })
@@ -40,6 +41,9 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected ,duplicate
 
     }
 
+    const show = (url) => {
+        window.open(url, "_blank")
+    }
     const HandleChange = (e, id) => {
 
         if (e.target.checked) {
@@ -61,16 +65,17 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected ,duplicate
                 <div className={"header-box-pro"}>
                     <fieldset>
                         <div className={"checkbox"}>
-                            <input type={"checkbox"} className={"checkbox-input itemcheckboxed"} name={"product_" + data.id}
+                            <input type={"checkbox"} className={"checkbox-input itemcheckboxed"}
+                                   name={"product_" + data.id}
                                    id={"checkbox_" + data.id} onChange={e => HandleChange(e, data.id)}/>
                             <label htmlFor={"checkbox_" + data.id}></label>
                         </div>
                     </fieldset>
                 </div>
 
-                {data.image !== "" && data.image !== "0" ? (
+                {data.image_url !== "" && data.image_url !== "0" ? (
                     <div className={"image-src"}>
-                        <img className={"default"} src={data.image} alt=""/>
+                        <img className={"default"} src={data.image_url} alt=""/>
                     </div>
                 ) : (
                     <div className={"image"}>
@@ -96,7 +101,7 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected ,duplicate
                             marginTop: 10,
                             marginRight: 5
                         }}></i>&nbsp;&nbsp; </span>
-                        <span>{data.price !== 0 ? data.price + " تومان " : 'رایگان'}</span>
+                        <span>{data.price !== 0 ? separate(data.price) + " تومان " : 'رایگان'}</span>
                     </li>
                 </ul>
 
@@ -109,11 +114,11 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected ,duplicate
 
                     <div className={"footer-manage-pro"}>
                         <i className={"bx bx-trash-alt"} onClick={e => delPushClick({
-                            event : e,
-                            id : data.id
+                            event: e,
+                            id: data.id
                         })}></i>
-                        <i className={"bx bx-duplicate"} onClick={e =>duplicate(e)}></i>
-                        <i className={"bx bx-link-alt"} id={"right"}></i>
+                        <i className={"bx bx-duplicate"} onClick={e => duplicate(e)}></i>
+                        <i className={"bx bx-link-alt"} onClick={e => show(data.url)} id={"right"}></i>
                     </div>
                 </div>
             </div>

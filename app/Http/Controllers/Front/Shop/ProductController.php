@@ -13,8 +13,8 @@ class ProductController extends Controller
     function show($slug)
     {
         $product = Product::whereSlug($slug)->active()->firstOrFail();
-
-        return page('shop.product.index', compact('product'));
+        $title = $product->title;
+        return page('shop.product.index', compact('product', 'title'));
     }
 
 }

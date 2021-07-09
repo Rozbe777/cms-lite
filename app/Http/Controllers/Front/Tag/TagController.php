@@ -23,6 +23,7 @@ class TagController extends Controller
     {
         $tag = $this->repository->search($slug);
         $contents = $tag->contents()->orderByDesc('id')->paginate(config('view.pagination'));
-        return page('tag',compact('tag','contents'));
+        $title = $tag->name;
+        return page('tag', compact('tag', 'contents', 'title'));
     }
 }

@@ -15,6 +15,8 @@ class Product extends Model
 
     protected $guarded = [];
     protected $appends = ['jalali_created_at',
+        'url',
+        'image_url',
 //        'related_content'
     ];
 
@@ -51,6 +53,16 @@ class Product extends Model
     public function invoices()
     {
         return $this->belongsToMany(Invoice::class);
+    }
+
+    public function getUrlAttribute()
+    {
+        return route('front.product.show', $this->attributes['slug']);
+    }
+
+    public function getImageUrlAttribute()
+    {
+        return image($this->attributes['image']);
     }
 
     public function getJalaliCreatedAtAttribute()

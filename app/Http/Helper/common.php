@@ -26,7 +26,7 @@ if (!function_exists('mobile')) {
 if (!function_exists('title')) {
     function title($prefix = null)
     {
-        return trim($prefix . ' ' . env('APP_NAME'));
+        return trim($prefix . ' ' . setting('title'));
     }
 
 }

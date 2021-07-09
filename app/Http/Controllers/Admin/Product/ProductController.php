@@ -44,8 +44,10 @@ class ProductController extends Controller
         $entity = ($request->entity == 'true') ? $request->entity : null;
         $discount = ($request->discount == 'true') ? $request->discount : null;
 
-        $products = $this->repository->all($status, $request->search , $entity, $request->categorise , $request->sort, $discount);
-
+        $products = $this->repository->all($status, $request->search, $entity, $request->categorise, $request->sort, $discount);
+        foreach ($products as $p) {
+            $p->image_url = image($p->id);
+        }
         return (!$products) ?
             $this->message(__('message.content.search.notSuccess'))->error() :
             $this->data($products)->message(__('message.success.200'))->success();
@@ -62,7 +64,7 @@ class ProductController extends Controller
         $entity = !empty($request->filter['entity']) ? $request->filter['entity'] : null;
         $discount = !empty($request->filter['discount']) ? $request->filter['discount'] : null;
 
-        $product = $this->repository->all($status, $request->search , $entity, $request->categories , $request->sort, $discount);
+        $product = $this->repository->all($status, $request->search, $entity, $request->categories, $request->sort, $discount);
 
         if (!$product)
             return redirect()->back()->with('error', __("message.content.search.notSuccess"));
