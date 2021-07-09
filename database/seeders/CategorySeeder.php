@@ -16,26 +16,10 @@ class CategorySeeder extends Seeder
     public function run()
     {
         Category::create([
-            'name'=>'no Name',
-            'slug'=> 'no Slug',
+            'name'=>'بدون دسته بندی',
+            'slug'=> 'بدون دسته بندی',
             'user_id'=>1,
             'status'=>'active'
         ]);
-        Category::factory()->times(10)->create();
-
-        foreach (range(1,10) as $index){
-            DB::table('category_content')->insert([
-                'content_id'=>$index,
-                'category_id'=>rand(1,3),
-            ]);
-        }
-
-        foreach (range(1,10) as $index) {
-            DB::table('view_counts')->insert([
-                'viewcountable_type' => 'App\Models\Category',
-                'viewcountable_id' => $index,
-                'view_count' => 1
-            ]);
-        }
     }
 }

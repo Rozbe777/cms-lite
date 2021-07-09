@@ -111,7 +111,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="single-tabs-box">
+                       {{-- <div class="single-tabs-box">
                             <h2><span>نظرات</span></h2>
                             <div class="inner-box">
                                 <div class="products-review-comments">
@@ -214,7 +214,7 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
+                        </div>--}}
                     </div>
                 </div>
             </div>
