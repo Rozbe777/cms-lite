@@ -17,7 +17,7 @@ class CategoryRepository implements RepositoryInterface
 
     public function all($status = 'active', $search = null, $pageSize = null, $routeName = null)
     {
-        $moduleId = str_contains($routeName, 'products') ? 2 : 1;
+        $moduleId = str_contains($routeName, 'product') ? 2 : 1;
         $status = empty($status) ? 'active' : $status;
 
         return $this->listHandler($status, $moduleId);
@@ -25,7 +25,7 @@ class CategoryRepository implements RepositoryInterface
 
     public function retrieveAll($status = null, $search = null, $pageSize = null, $routeName = null)
     {
-        $moduleId = str_contains($routeName, 'products') ? 2 : 1;
+        $moduleId = str_contains($routeName, 'product') ? 2 : 1;
 
         $pageSize = empty($pageSize) ? config('view.pagination') : $pageSize;
         $status = empty($status) ? 'active' : $status;
@@ -75,7 +75,7 @@ class CategoryRepository implements RepositoryInterface
 
     public function create(array $data , $routeName=null)
     {
-        $data['module_id'] = str_contains($routeName, 'products') ? 2 : 1;
+        $data['module_id'] = str_contains($routeName, 'product') ? 2 : 1;
         $data['parent_id'] = !empty($data['parent_id']) ? (int)$data['parent_id'] : 0;
 
         $data['slug'] = $this->slugHandler($data['slug']);
