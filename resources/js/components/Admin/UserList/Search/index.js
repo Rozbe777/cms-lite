@@ -60,7 +60,7 @@ const SearchComponent = ({total , searchRes: pushSearchRes}) => {
 
                         <div className="row col-12" id={"header-card-custom"}>
 
-                            <div className="col-12 col-sm-12 col-lg-3">
+                            <div className="col-md-6 col-sm-12 col-lg-3">
                                 <label htmlFor="users-list-verified">جستجو</label>
                                 <input type="text" className="form-control"
                                        id={"search_input"}

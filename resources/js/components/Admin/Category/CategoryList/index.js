@@ -57,13 +57,12 @@ export const CategoryList = ({token}) => {
     }
 
 
-
     useEffect(() => {
         GetAllCategory();
 
     }, [])
 
-    const handleReload = (statued) => {
+    const resultForm = (statued) => {
         if (statued) {
             GetAllCategory();
             ReactDom.render('', document.getElementById('add-datas'))
@@ -75,8 +74,8 @@ export const CategoryList = ({token}) => {
         e.preventDefault()
         if (!loading) {
             ReactDom.render(<AddCategory
+                handleResult={resultForm}
                 display={true} token={token}
-                resultForm={handleReload}
                 dataAll={JSON.stringify(categoryData)}
             />, document.getElementById("add-datas"))
         } else {

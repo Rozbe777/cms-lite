@@ -91,6 +91,7 @@ const ContentAdd = ({token, resultForm, checkChange: pushCheckChange, display, d
 
     }, [])
 
+    console.log(dataUpdateParse)
     const checkResult = (statused) => {
         if (statused) {
             resultForm(true)
