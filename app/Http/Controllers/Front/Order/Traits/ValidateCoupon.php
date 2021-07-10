@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\Front\Order;
+namespace App\Http\Controllers\Front\Order\Traits;
 
 
 use App\Models\Coupon;
@@ -9,7 +9,7 @@ use App\Models\CouponSetting;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 
-trait OrderTrait
+trait ValidateCoupon
 {
     /**
      * @param $attribute
@@ -19,7 +19,7 @@ trait OrderTrait
      * @param $couponCode
      * @return array|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Translation\Translator|string|null
      */
-    public function totalPrice($attribute, $number, $price, $tax, $couponCode)
+    public function validateCoupon($attribute, $couponCode)
     {
         $coupon = $this->checkCoupon($couponCode, $attribute);
 
@@ -31,6 +31,8 @@ trait OrderTrait
 
         if ($coupon != true)
             return __('message.coupon.validation.error.none');
+
+        return $coupon;
 
 
     }
@@ -57,9 +59,9 @@ trait OrderTrait
         /** check coupon functionality on user's cart */
         $coupon_functionality_amount = $coupon->coupon_settings->functionality_amount;
 
-        $productvalidation = $this->checkProduct($attribute, $coupon_functionality, $coupon_functionality_amount);
-        if (is_string($productvalidation))
-            return $productvalidation;
+        $productValidation = $this->checkProduct($attribute, $coupon_functionality, $coupon_functionality_amount);
+        if (is_string($productValidation))
+            return $productValidation;
 
         /** check coupon access for current user */
         $coupon_user_group = $coupon->coupon_settings->user_group;
@@ -72,8 +74,20 @@ trait OrderTrait
             if (!in_array($user_group, json_decode($coupon_user_group)))
                 return __('message.coupon.validation.error.access');
 
-//            if ($cart_conditions == 'unlimited')
-        return true;
+        return [
+            'coupon_functionality' => [
+                'coupon_functionality' => $coupon_functionality,
+                'coupon_functionality_amount' => $coupon_functionality_amount,
+            ],
+            'cart_conditions' => [
+                'cart_conditions' => $cart_conditions,
+                'cart_conditions_amount' =>  $coupon->coupon_settings->cart_conditions_amount,
+            ],
+            'user_group' => [
+                'user_status' =>$coupon->coupon_settings->user_status,
+                'user_group' => $user_group,
+            ]
+        ];
     }
 
     /**
