@@ -1,0 +1,7 @@
+
+.form-group input.auth-input{
+    text-align: center !important;
+    &::placeholder{
+        text-align: center !important;
+    }
+}

@@ -20,8 +20,6 @@
 
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" data-icon-style="">
 
-
-
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation"
                 data-icon-style="">
                 @php($menus=\App\Models\Permission::isParent()->isMenu()->get())
@@ -31,9 +29,8 @@
 
                     @if(auth()->user()->can($menu->name))
                         @php($subMenus=\App\Models\Permission::parentId($menu->id)->isMenu()->get())
-                        <li class="nav-item {{activeAdminMenu($menu->name)}}"><a href="{{route($menu->name)}}" style="
->>>>>>> 1f6874c7d8d5783088f7f5d6b66a3d460a327ccf
-    margin: 5px 0;
+                        <li class="nav-item {{activeAdminMenu($menu->name)}}" ><a href="{{route($menu->name)}}" style="
+    margin: 7px 0;
     padding: 10px 10px;
     line-height: 2;"><i class="bx {{$menu->icon}}"></i><span
                                     class="menu-title"

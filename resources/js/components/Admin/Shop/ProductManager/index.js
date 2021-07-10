@@ -207,6 +207,7 @@ const Index = () => {
     const HandleEdit = (e , data) => {
         e.preventDefault();
         let normalData = NormalProductOneItem(data)
+        // console.log("data" , normalData)
         ReactDOM.render(<ProductAdd types={"edit"} defaultValuePro={normalData} result={res => handleBackRef(res) }/>, document.getElementById("add-product"));
     }
     const HandleDuplicate = (e , data) => {
@@ -276,7 +277,7 @@ const Index = () => {
                         {loading === false ? Products.data.length > 0 ? Products.data.map((item , index) => {
                             return (
                                 <Item key={index} data={item} checkStateOfOut={checked} sizeOf={Products.data.length}
-                                      editClick={e => HandleEdit(e, item)}
+                                      handleEdit={HandleEdit}
                                       duplicated={e=> HandleDuplicate(e , item)}
                                       deleteClick={e => {
                                           handleDeleteGroup(e.event , e.id)

@@ -103,16 +103,16 @@ const FinalDataRegister = ({token, id}) => {
                                 </div>
 
                                 <div className="form-group col-md-6 mb-50">
-                                    <label htmlFor="inputfirstname4">نام</label>
-                                    <input type="text" autoComplete="off" className="form-control inputRegister"
+                                    <label htmlFor="inputfirstname4" style={{width :'100%',textAlign : 'center'}}>نام</label>
+                                    <input type="text" autoComplete="off" className="form-control auth-input inputRegister"
                                            id="inputfirstname4 finalInputs"
 
                                            autoComplete="one-time-code"
                                            name="name" onChange={e => onChangeInput(e)} placeholder="نام"/>
                                 </div>
                                 <div className="form-group col-md-6 mb-50">
-                                    <label htmlFor="inputlastname4">نام خانوادگی</label>
-                                    <input type="text" autoComplete="off" className="form-control inputRegister"
+                                    <label htmlFor="inputlastname4" style={{width :'100%',textAlign : 'center'}}>نام خانوادگی</label>
+                                    <input type="text" autoComplete="off" className="form-control auth-input inputRegister"
                                            id="inputlastname4 finalInputs"
                                            autoComplete="one-time-code"
                                            name="last_name" onChange={e => onChangeInput(e)}
@@ -122,10 +122,10 @@ const FinalDataRegister = ({token, id}) => {
 
 
                             <div className="form-group mb-2">
-                                <label className="text-bold-700" htmlFor="exampleInputPassword1">رمز
+                                <label className="text-bold-700" htmlFor="exampleInputPassword1" style={{width :'100%',textAlign : 'center'}}>رمز
                                     عبور</label>
                                 <input type="password" autoComplete="off"
-                                       className="form-control inputRegister text-left"
+                                       className="form-control inputRegister auth-input"
                                        name="password"
                                        autoComplete="one-time-code"
                                        onChange={e => onChangeInput(e)}
@@ -133,13 +133,12 @@ const FinalDataRegister = ({token, id}) => {
                                        dir="ltr"/>
                             </div>
                             <div className="form-group mb-2">
-                                <label className="text-bold-700" htmlFor="exampleInputPassword1">تایید رمز
+                                <label className="text-bold-700" htmlFor="exampleInputPassword1" style={{width :'100%',textAlign : 'center'}}>تایید رمز
                                     عبور </label>
                                 <input type="password" autoComplete="off"
-                                       className="form-control inputRegister text-left"
+                                       className="form-control inputRegister auth-input"
                                        autoComplete="one-time-code"
                                        onChange={e => onChangeInput(e)}
-
                                        name="password_confirmation" id="password-confirm finalInputs"
                                        placeholder=" تایید رمز عبور" dir="ltr"/>
                             </div>

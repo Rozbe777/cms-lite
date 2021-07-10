@@ -230,7 +230,7 @@ const MobileVerify = (props) => {
                     </div>
                 </div>
 
-                <p style={{paddingRight : '25px' , fontSize:13}}>
+                <p style={{paddingRight : '25px' , fontSize:13 , textAlign :'center'}}>
                     در صورتی که رمز عبور پنل کاربری خود را فراموش کرده اید کافیست با وارد کردن شماره تلفن همراه و تایید آن توسط کد پیامک ارسال شده به تلفن همراه خود وارد پنل تغییر رمز عبور شوید.
                 </p>
 
@@ -239,10 +239,10 @@ const MobileVerify = (props) => {
                     <div className="card-body">
 
                         <div className="form-group mb-50">
-                            <label className="text-bold-700" htmlFor="username">
+                            <label className="text-bold-700" htmlFor="username" style={{width :'100%',textAlign : 'center'}}>
                                 شماره تلفن خود را وارد کنید
                             </label>
-                            <input type="number" className="form-control text-left"
+                            <input type="number" className="form-control auth-input"
                                    id="username"
                                    autoComplete="one-time-code"
                                    onChange={e => HandlePhone(e)}
