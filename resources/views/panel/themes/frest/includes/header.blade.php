@@ -45,7 +45,8 @@
                              style="margin: 0px !important; padding : 0px !important">
                             <input type="checkbox" class="custom-control-input" id="customSwitch10">
                             <label class="custom-control-label" for="customSwitch10">
-                                <span class="switch-icon-left"><i style="transform: rotate(180deg)" class="bx bxs-moon"></i></span>
+                                <span class="switch-icon-left"><i style="transform: rotate(180deg)"
+                                                                  class="bx bxs-moon"></i></span>
                                 <span class="switch-icon-right"><i class="bx bxs-sun"></i></span>
                             </label>
                         </div>
@@ -222,16 +223,25 @@
                                     class="user-status text-muted">{{auth()->user()->userRoleName}}</span>
 
                             </div>
+<<<<<<< HEAD
+                            <span><img class="round"
+                                       src="<?php $url = Storage::url(Auth::user()->image); echo asset("$url")?>"
+=======
 
                             <span><img class="round" src="<?php $url = Auth::user()->image;  echo asset("storage/images/$url")?>"
+>>>>>>> aee8a50d3d9b6c05541d995aca0a8de5dfc27deb
                                        alt="avatar" height="40" width="40"></span></a>
-                        <div class="dropdown-menu pb-0"><a class="dropdown-item"
-                                                           href="{{route('profile.edit')}}"><i
+                        <div class="dropdown-menu pb-0">
+                            <a class="dropdown-item" href="/" target="_blank"><i class="bx bx-show mr-50"></i> مشاهده سایت</a>
 
-                                    class="bx bx-user mr-50"></i> حساب کاربری</a>
                             <div class="dropdown-divider mb-0"></div>
-                            <a class="dropdown-item" href="{{route('auth.logout')}}"><i
-                                    class="bx bx-power-off mr-50"></i> خروج</a>
+
+                            <a class="dropdown-item" href="{{route('profile.edit')}}"><i class="bx bx-user mr-50"></i> حساب کاربری</a>
+
+                            <div class="dropdown-divider mb-0"></div>
+                            <a class="dropdown-item" href="{{route('auth.logout')}}"><i class="bx bx-power-off mr-50"></i> خروج</a>
+
+
                         </div>
                     </li>
                 </ul>

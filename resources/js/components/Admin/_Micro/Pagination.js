@@ -52,11 +52,22 @@ export const Pagination = (props) => {
     return (
         <nav aria-label="Page navigation">
             <ul className="pagination pagination-borderless justify-content-center mt-2">
-                <li className="page-item previous" style={{opacity: '0.4'}} onClick={handlePrevPage}><a
-                    className="page-link"
-                    href="#">
-                    <i className="bx bx-chevron-right"></i>
-                </a></li>
+                {
+                    Math.ceil(total / perPage) == 1 ? (
+                        <li className="page-item previous" style={{opacity: '0.4'}} ><a
+                            className="page-link"
+                            href="#">
+                            <i className="bx bx-chevron-right"></i>
+                        </a></li>
+                    ):(
+                        <li className="page-item previous" style={{opacity: '0.4'}} onClick={handlePrevPage}><a
+                            className="page-link"
+                            href="#">
+                            <i className="bx bx-chevron-right"></i>
+                        </a></li>
+                    )
+                }
+
                 {pageNumbers.map((number, index) => number == 1 ? (
                     <li key={index} data-tar={number} className={"active page-item numberss " + number} onClick={() => paginate(number)}>
                         <a className="page-link">{number}</a>
@@ -64,10 +75,20 @@ export const Pagination = (props) => {
                 ) : <li data-tar={number} key={index} className={"page-item numberss " + number} onClick={() => paginate(number)}>
                     <a className="page-link">{number}</a>
                 </li>)}
-                <li className="page-item next" onClick={handleNextPage}><a className="page-link"
-                                                                           href="#">
-                    <i className="bx bx-chevron-left"></i>
-                </a></li>
+                {
+                    Math.ceil(total / perPage) == 1 ? (
+                        <li className={"page-item next opacity-mimi"}><a className="page-link"
+                                                                                                                                                         href="#">
+                            <i className="bx bx-chevron-left"></i>
+                        </a></li>
+                    ) : (
+                        <li className={"page-item next"} onClick={handleNextPage}  ><a className="page-link"
+                                                                                                                                                         href="#">
+                            <i className="bx bx-chevron-left"></i>
+                        </a></li>
+                    )
+                }
+
             </ul>
         </nav>
 

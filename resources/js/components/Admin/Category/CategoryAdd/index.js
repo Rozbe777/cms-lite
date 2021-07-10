@@ -14,10 +14,12 @@ import './../../_Micro/TreeShow/_Shared/style.scss';
 import FormHandler from "../Helper/FormHandler";
 import FunctionHandler from "../Helper/FunctionHandler";
 import ComponentHandler from "../Helper/ComponentHandler";
+import {CHECK_RESULT} from '../Helper/Context';
 import RequestHandler from "../Helper/RequestHandler";
 import $ from "jquery";
+import ReactDom from "react-dom";
 
-const AddCategory = ({token, resultForm, dataAll, dataUpdate, idParent, result: pushResult}) => {
+const AddCategory = ({handleResult, token, dataAll, dataUpdate, idParent}) => {
 
     let formHandler = new FormHandler();
     let functionalHandler = new FunctionHandler();
@@ -38,6 +40,8 @@ const AddCategory = ({token, resultForm, dataAll, dataUpdate, idParent, result: 
     });
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
     const dataUpdateParse = dataGet ? dataGet.allData : '';
+    console.log(dataUpdateParse)
+
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : '';
     const types = dataGet ? dataGet.type : '';
     const [slugManage, setSlugManage] = useState(true);
@@ -50,8 +54,7 @@ const AddCategory = ({token, resultForm, dataAll, dataUpdate, idParent, result: 
         slug: ''
     };
 
-    console.log(",,,," ,dataUpdateParse )
-
+    console.log(",,,,", dataUpdateParse)
 
     useEffect(() => {
         let formNews = {...CatData};
@@ -80,7 +83,6 @@ const AddCategory = ({token, resultForm, dataAll, dataUpdate, idParent, result: 
         MetaDataUpdate.tags ? setChipset(MetaDataUpdate.tags) : '';
     }, [])
 
-
     const handleAddChip = (item) => {
         setEdit(true)
         let metaDatas = {...metaData};
@@ -93,7 +95,6 @@ const AddCategory = ({token, resultForm, dataAll, dataUpdate, idParent, result: 
             metaDatas.tags = chipsets;
             setMetaData(metaDatas);
         }
-
     }
 
     const handleEditor = data => {
@@ -103,14 +104,19 @@ const AddCategory = ({token, resultForm, dataAll, dataUpdate, idParent, result: 
 
     let titleWrite = $("input[name=name]").val();
 
-
     const checkResult = (statused) => {
-        if (statused) {
-            resultForm(true)
+        console.log("result : " , statused)
+        if (statused){
+            handleResult(statused);
             $("span.checkboxeds").removeClass("active");
             formHandler.HandleRemoveLocal();
+
         }
     }
+    //
+    // function handlers(stateAt){
+    //     handleResult(stateAt)
+    // }
 
     const HandleMetaData = (e) => {
         setEdit(true)
@@ -136,93 +142,6 @@ const AddCategory = ({token, resultForm, dataAll, dataUpdate, idParent, result: 
     const handleAddress = (status) => {
         setEdit(true)
         setSlugManage(status)
-    }
-
-    const HandleUpdateForm = (data, id) => {
-        swal({
-            title: 'ویرایش دسته بندی',
-            text: "آیا مطمئنید؟",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'تایید',
-            confirmButtonClass: 'btn btn-primary',
-            cancelButtonClass: 'btn btn-danger ml-1',
-            cancelButtonText: 'انصراف',
-            buttonsStyling: false,
-        }).then(function (result) {
-            if (result.value) {
-                Request.UpdateDataCategory(data, id)
-                    .then(res => {
-                        let resError = res.data.message ? res.data.message : '';
-                        pushResult(res);
-                        localStorage.removeItem("is_menu");
-                        localStorage.removeItem("status");
-                        localStorage.removeItem("selected");
-                        localStorage.removeItem("robots");
-
-                        Swal.fire({
-                            type: "success",
-                            title: 'با موفقیت ویرایش شد !',
-                            confirmButtonClass: 'btn btn-success',
-                            confirmButtonText: 'باشه',
-                        })
-                    }).catch(err => {
-                        if (err.response.data.errors) {
-                            ErroHandle(err.response.data.errors);
-                        } else {
-                            ErrorToast("خطای غیر منتظره ای رخ داده است")
-                        }
-                    }
-                )
-            }
-        });
-    }
-
-    const HandleEdit = () => {
-        let formOldData = {...CatData};
-        let formDataFit = new FormData();
-        if (file.file) {
-            if (imageGet.state == "") {
-                formDataFit.append("image", file.file);
-            } else {
-                formDataFit.append("image", true);
-            }
-        } else {
-            if (imageGet.state == '') {
-                formDataFit.append("image", '');
-            } else {
-                formDataFit.append("image", true);
-            }
-        }
-        // formDataFit.append("image" , file.file ? file.file : '')
-        formDataFit.append("content", contentNew);
-        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : CatData.is_menu;
-        let status = localStorage.getItem("status") ? localStorage.getItem("status") : CatData.status;
-        let parent_ids = localStorage.getItem("selected") ? localStorage.getItem("selected") : CatData.parent_id;
-        let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
-        let metaDatas = {...metaData};
-        metaDatas.robots = robots;
-        // delete formOldData.children;
-        let name = titleWrite;
-        let slug = slugManage ? titleWrite : $("input.slugest").val();
-        formDataFit.append("name", name);
-        formDataFit.append("id", formOldData.id);
-        formDataFit.append("slug", slug);
-        // formDataFit.append("_method", "PUT");
-        formDataFit.append("_token", token);
-
-        // delete formOldData.childern;
-        // delete formOldData.content_count;
-        // delete formOldData.contents;
-        formDataFit.append("status", status);
-
-        formDataFit.append("metadata", JSON.stringify(metaDatas));
-
-        // formOldData.is_menu = parseInt(is_menu);
-        formDataFit.append("is_menu", parseInt(is_menu))
-        formDataFit.append("parent_id", parseInt(parent_ids))
-        // formOldData.parent_id = parseInt(parent_ids);
-        HandleUpdateForm(formDataFit, ids);
     }
 
 
@@ -279,6 +198,9 @@ const AddCategory = ({token, resultForm, dataAll, dataUpdate, idParent, result: 
                 componentHandler.handleSwitchStatus(e, state, setEdit);
                 return true;
             case 'showMenu' :
+                componentHandler.handleSwitchMenu(e, state, setEdit);
+                return true;
+                case 'showMenu' :
                 componentHandler.handleSwitchMenu(e, state, setEdit);
                 return true;
             default :
@@ -424,7 +346,7 @@ const AddCategory = ({token, resultForm, dataAll, dataUpdate, idParent, result: 
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>نوع آدرس</label>
 
-                                    <Switcher defaultState={true} status={state => handleAddress(state)}
+                                    <Switcher defaultState={true} handleSwitchStatus={handleSwither}
                                               name={"AddressType"}
                                               valueActive={"خودکار"} valueDeActive={"دستی"}/>
                                 </fieldset>
@@ -561,7 +483,7 @@ const AddCategory = ({token, resultForm, dataAll, dataUpdate, idParent, result: 
 
 
                         {types ? types == 'edit' ? edit ? (
-                                <div onClick={(e) => HandleEdit(e)}
+                                <div onClick={(e) => formHandler.HandleEdit(CatData, file, imageGet, contentNew, metaData, slugManage, token, ids, checkResult)}
                                      className={"col-6"}
                                      style={{textAlign: 'center', cursor: 'pointer', background: "#5a8dee", color: '#fff'}}>
                                     <span>ویرایش</span>
@@ -582,7 +504,7 @@ const AddCategory = ({token, resultForm, dataAll, dataUpdate, idParent, result: 
                             )
                             : (
                                 <div
-                                    onClick={(e) => formHandler.HandleDuplicate(e, CatData, contentNew, slugManage, metaData, file, imageGet, checkResult)}
+                                    onClick={(e) => formHandler.HandleDuplicate(CatData, contentNew, slugManage, metaData, file, imageGet, checkResult)}
                                     className={"col-6"}
                                     style={{
                                         textAlign: 'center',
@@ -596,7 +518,7 @@ const AddCategory = ({token, resultForm, dataAll, dataUpdate, idParent, result: 
 
                             (
                                 <div
-                                    onClick={(e) => formHandler.HandleForm(CatData, contentNew, slugManage, metaData, checkResult, file)}
+                                    onClick={(e) => formHandler.HandleForm(CatData, contentNew, slugManage, metaData, file , checkResult)}
                                     className={"col-6"}
                                     style={{
                                         textAlign: 'center',

@@ -124,7 +124,7 @@ const LoginForm = ({token}) => {
                                 <a
                                     style={{cursor: 'pointer'}}
                                     className="card-link">
-                                    <small onClick={e => RePassClick(e)}>
+                                    <small style={{borderBottom : '1px dashed'}} onClick={e => RePassClick(e)}>
                                         رمز عبورتان را فراموش کرده
                                         اید؟
                                     </small>
@@ -137,7 +137,7 @@ const LoginForm = ({token}) => {
                     </form>
                     <hr/>
                     <div className="text-center"><small className="mr-25">تا کنون ثبت نام نکرده اید؟</small><a
-                        href={url('auth/register')}><small>ثبت نام کنید</small></a>
+                        href={url('auth/register')}><small style={{borderBottom : '1px dashed'}}>ثبت نام کنید</small></a>
                     </div>
                 </div>
 

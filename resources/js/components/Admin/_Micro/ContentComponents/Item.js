@@ -152,7 +152,6 @@ export const Item = ({
 
                 </div>
 
-
                 <div className={"col-md-6 col-sm-4"} style={{padding: 13}} id={"icon-item-list"}>
                     <div className={"form-check"}>
                         <i className={"bx bx-show"} onClick={e => show(e , url)}></i>
