@@ -121,11 +121,12 @@ export const TreeShowCategory = ({
     const HandleDataForUpdate = (data) => {
         pushUpdateData(data);
     }
+
     if (loading) {
         return <Loading/>
     }
 
-    // delte category or product when i used responsive mode
+    // delete category or product when i used responsive mode
 
     const HandleDel = (e) => {
         e.preventDefault();

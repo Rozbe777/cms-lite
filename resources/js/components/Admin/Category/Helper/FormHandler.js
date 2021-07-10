@@ -6,7 +6,6 @@ import ReactDOM from "react-dom";
 export default class FormHandler {
 
 
-
     HandleDuplicate(CatData, contentNew, slugManage, metaData, file, imageGet, checkResult) {
         let formOldData = {...CatData};
         let titleWrite = $("input[name=name]").val();

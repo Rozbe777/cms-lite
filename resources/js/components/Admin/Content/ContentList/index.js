@@ -25,7 +25,6 @@ export const ContentList = ({token}) => {
     const [contentAll, setContentAll] = useState({})
     const [perPage, setPerPage] = useState(0);
     const [total, setTotal] = useState();
-
     const [breadData] = useState({
         title: 'لیست محتوا',
         desc: 'نمایش لیست محتوا و مدیریت آنها'
@@ -68,7 +67,9 @@ export const ContentList = ({token}) => {
     }, [])
 
     const handleAddContent = () => {
-        ReactDom.render(<ContentAdd resultForm={handleReload} token={token} display={true} dataUpdate={''} idParent={0} checkChange={item => setReloadTag(true)}
+        ReactDom.render(<ContentAdd onChange={()=>{
+
+        }} resultForm={handleReload} token={token} display={true} dataUpdate={''} idParent={0} checkChange={item => setReloadTag(true)}
                                    />, document.getElementById("add-datas"))
     }
 

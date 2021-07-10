@@ -16,6 +16,7 @@ import {Tab} from "../../_Micro/Tab";
 import RequestHandler from "../Helper/RequestHandler";
 import FunctionHandler from "../Helper/FunctionHandler";
 import ComponentHandler from "../Helper/ComponentHandler";
+import CreateContent from "../Api/CreateContent";
 
 const ContentAdd = ({token, resultForm, checkChange: pushCheckChange, display, dataUpdate, result: pushResult}) => {
 
@@ -448,7 +449,8 @@ const ContentAdd = ({token, resultForm, checkChange: pushCheckChange, display, d
 
                             (
                                 <div
-                                    onClick={e => formHandler.HandleForm(e, formData, file, contentNew, metaData, idSelCat, chipsetChange, chipset, slugManage, checkResult)}
+                                    // onClick={e => formHandler.HandleForm(e, formData, file, contentNew, metaData, idSelCat, chipsetChange, chipset, slugManage, checkResult)}
+                                    onClick={e => onSubmit(e, formData, file, contentNew, metaData, idSelCat, chipsetChange, chipset, slugManage, checkResult)}
                                     className={"col-6"}
                                     style={{
                                         textAlign: 'center',
@@ -467,6 +469,15 @@ const ContentAdd = ({token, resultForm, checkChange: pushCheckChange, display, d
         </div>
     )
 
+    function onSubmit() {
+
+        let api = new CreateContent()
+        api.create().then((response) => {
+            this.props.onChange(response);
+        }).catch((e) => {
+
+        })
+    }
 
 }
 export default ContentAdd;
