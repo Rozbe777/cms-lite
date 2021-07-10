@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 
+use App\Models\SaleChannel;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CouponSeeder::class);
         $this->call(OrderSeeder::class);
         $this->call(InvoiceSeeder::class);
+        $this->call(SaleChannelSeeder::class);
         $this->call(ModuleIdSeeder::class);
         $this->call(AddressSeeder::class);
         $this->call(TransferSeeder::class);
