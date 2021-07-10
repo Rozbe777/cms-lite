@@ -55,7 +55,8 @@ class AddressRepository implements RepositoryInterface
         if (empty($data['postal_code']))
             unset($data['postal_code']);
 
-        return $address->update($data);
+        $address->update($data);
+        return Address::find($address->id);
     }
 
     /**

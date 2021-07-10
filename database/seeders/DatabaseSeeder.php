@@ -30,5 +30,6 @@ class DatabaseSeeder extends Seeder
         $this->call(InvoiceSeeder::class);
         $this->call(ModuleIdSeeder::class);
         $this->call(AddressSeeder::class);
+        $this->call(TransferSeeder::class);
     }
 }
