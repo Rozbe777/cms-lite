@@ -166,9 +166,17 @@ Route::middleware('auth')->group(function () {
 //-------------------------------------------------------------------------------------------------------------------
 
     //------------------------------Order-------------------------------
-    Route::get('address', [AddressController::class, 'blade'])->name('addresses.blade');
-    Route::resource('addresses', AddressController::class);
-    Route::delete('addresses/multi/destroy', [AddressController::class, 'multipleDestroy'])->name('addresses.multipleDestroy');
+    Route::get('address/index', [AddressController::class, 'blade'])->name('addresses.blade');
+    Route::prefix('addresses/')->group(function (){
+        Route::get('', [AddressController::class, 'index'])->name('addresses.index');
+        Route::post('', [AddressController::class, 'store'])->name('addresses.store');
+        Route::get('create', [AddressController::class, 'create'])->name('addresses.create');
+        Route::get('show', [AddressController::class, 'show'])->name('addresses.show');
+        Route::post('update', [AddressController::class, 'update'])->name('addresses.update');
+        Route::get('edit', [AddressController::class, 'edit'])->name('addresses.edit');
+        Route::delete('multi/destroy', [AddressController::class, 'multipleDestroy'])->name('addresses.multipleDestroy');
+    });
+
 
     //------------------------------Order-------------------------------
     Route::get('order', [OrderController::class, 'blade'])->name('orders.blade');
