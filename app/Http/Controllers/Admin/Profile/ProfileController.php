@@ -62,7 +62,8 @@ class ProfileController extends Controller
                 $image = $data['image'];
 
                 $imageName = time() . '.' . $image->getClientOriginalExtension();
-                $data['image'] = $image->storeAs('public/images', $imageName);
+                $data['image'] = $imageName;
+                $image->storeAs('public/images', $imageName);
             } elseif ($data['image'] == "true") {
                 unset($data['image']);
             } else {

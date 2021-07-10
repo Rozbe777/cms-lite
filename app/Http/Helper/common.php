@@ -57,6 +57,12 @@ if (!function_exists('uploadRoot')) {
         return url('uploads/' . $file);
     }
 }
+if (!function_exists('avatar')) {
+    function avatar($file = null)
+    {
+    return response()->file(storage_path('app/images/'.$file))->getFile();
+    }
+}
 if (!function_exists('setting')) {
     function setting($key)
     {

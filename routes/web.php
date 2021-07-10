@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Role\RoleController;
 use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\Tag\TagController;
 use App\Http\Controllers\Admin\Theme\ThemeController;
+use App\Http\Controllers\Admin\Transfer\TransferController;
 use App\Http\Controllers\Admin\User\AddressController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Auth\LoginController;
@@ -160,15 +161,35 @@ Route::middleware('auth')->group(function () {
 
     Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 
+    //-------------------------------Transfer-----------------------------
+    Route::get('transfer/index', [TransferController::class, 'blade'])->name('transfers.blade');
+    Route::prefix('transfers/')->group(function (){
+        Route::get('', [TransferController::class, 'index'])->name('transfers.index');
+        Route::post('', [TransferController::class, 'store'])->name('transfers.store');
+        Route::get('create', [TransferController::class, 'create'])->name('transfers.create');
+        Route::get('show', [TransferController::class, 'show'])->name('transfers.show');
+        Route::post('update', [TransferController::class, 'update'])->name('transfers.update');
+        Route::get('edit', [TransferController::class, 'edit'])->name('transfers.edit');
+        Route::delete('multi/destroy', [TransferController::class, 'multipleDestroy'])->name('transfers.multipleDestroy');
+    });
+
 
 //-------------------------------------------------------------------------------------------------------------------
 //#####################################------------FRONT Routes------------##########################################
 //-------------------------------------------------------------------------------------------------------------------
 
-    //------------------------------Order-------------------------------
-    Route::get('address', [AddressController::class, 'blade'])->name('addresses.blade');
-    Route::resource('addresses', AddressController::class);
-    Route::delete('addresses/multi/destroy', [AddressController::class, 'multipleDestroy'])->name('addresses.multipleDestroy');
+    //------------------------------Address-------------------------------
+    Route::get('address/index', [AddressController::class, 'blade'])->name('addresses.blade');
+    Route::prefix('addresses/')->group(function (){
+        Route::get('', [AddressController::class, 'index'])->name('addresses.index');
+        Route::post('', [AddressController::class, 'store'])->name('addresses.store');
+        Route::get('create', [AddressController::class, 'create'])->name('addresses.create');
+        Route::get('show', [AddressController::class, 'show'])->name('addresses.show');
+        Route::post('update', [AddressController::class, 'update'])->name('addresses.update');
+        Route::get('edit', [AddressController::class, 'edit'])->name('addresses.edit');
+        Route::delete('multi/destroy', [AddressController::class, 'multipleDestroy'])->name('addresses.multipleDestroy');
+    });
+
 
     //------------------------------Order-------------------------------
     Route::get('order', [OrderController::class, 'blade'])->name('orders.blade');
