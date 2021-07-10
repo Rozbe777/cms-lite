@@ -40,7 +40,7 @@ class CategoryController extends Controller
      */
     public function index(SearchCategoryRequest $request)
     {
-        $categories = $this->categoryRepository->all($request->status, $request->search, $request->pageSize);
+        $categories = $this->categoryRepository->all($request->status, $request->search, $request->pageSize, $request->module_id);
 
         return (!$categories) ?
             $this->message(__('message.content.search.notSuccess'))->error() :
@@ -53,7 +53,7 @@ class CategoryController extends Controller
      */
     public function getAll(SearchCategoryRequest $request)
     {
-        $categories = $this->categoryRepository->retrieveAll($request->status, $request->search, $request->pageSize);
+        $categories = $this->categoryRepository->retrieveAll($request->status, $request->search, $request->pageSize, $request->module_id);
 
         return (!$categories) ?
             $this->message(__('message.content.search.notSuccess'))->error() :

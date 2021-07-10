@@ -19,7 +19,16 @@ class CategorySeeder extends Seeder
             'name'=>'بدون دسته بندی',
             'slug'=> 'بدون دسته بندی',
             'user_id'=>1,
-            'status'=>'active'
+            'status'=>'active',
+            'module_id' => 1,
+        ]);
+
+        Category::create([
+            'name'=>'بدون دسته بندی',
+            'slug'=> 'بدون دسته بندی',
+            'user_id'=>1,
+            'status'=>'active',
+            'module_id' => 2,
         ]);
     }
 }

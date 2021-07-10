@@ -54,10 +54,10 @@ trait CategoryTrait
         });
     }
 
-    public function listHandler($status = null)
+    public function listHandler($status = null , $moduleId = null)
     {
         $categories = Category::whereParentId(0)
-            ->with('contents')->get();
+            ->where('module_id', $moduleId)->with('contents')->get();
 
         foreach ($categories as $category) {
             $category->childern = $this->getChildrenCategories($category->id);

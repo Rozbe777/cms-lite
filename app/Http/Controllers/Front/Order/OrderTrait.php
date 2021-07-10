@@ -28,6 +28,11 @@ trait OrderTrait
 
         if (is_string($coupon))
             return $coupon;
+
+        if ($coupon != true)
+            return __('message.coupon.validation.error.none');
+
+
     }
 
 
@@ -67,6 +72,7 @@ trait OrderTrait
             if (!in_array($user_group, json_decode($coupon_user_group)))
                 return __('message.coupon.validation.error.access');
 
+//            if ($cart_conditions == 'unlimited')
         return true;
     }
 
@@ -91,6 +97,6 @@ trait OrderTrait
         if (count($category) == 0)
             return __('message.coupon.validation.error.inclusive');
 
-            return true;
+        return true;
     }
 }

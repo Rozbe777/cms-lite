@@ -15,15 +15,19 @@ class CategoryRepository implements RepositoryInterface
 {
     use CategoryTrait;
 
-    public function all($status = 'active', $search = null, $pageSize = null)
+    public function all($status = 'active', $search = null, $pageSize = null, $moduleId = null)
     {
-        return $this->listHandler($status);
+        $moduleId = empty($moduleId) ? 1 : $moduleId;
+        $status = empty($status) ? 'active' : $status;
+
+        return $this->listHandler($status, $moduleId);
     }
 
-    public function retrieveAll($status = null, $search = null, $pageSize = null)
+    public function retrieveAll($status = null, $search = null, $pageSize = null, $moduleId = null)
     {
         $pageSize = empty($pageSize) ? config('view.pagination') : $pageSize;
         $status = empty($status) ? 'active' : $status;
+        $moduleId = empty($moduleId) ? 1 : $moduleId;
 
         return Category::when(!empty($search), function ($query) use ($search) {
             $query->where(function ($query) use ($search) {
@@ -31,7 +35,10 @@ class CategoryRepository implements RepositoryInterface
                     ->orWhere('slug', 'like', '%' . $search . '%')
                     ->orWhere('content', 'like', '%' . $search . '%');
             });
-        })->where('status', $status)->orderByDesc('id')->paginate($pageSize);
+        })->where('module_id', $moduleId)
+            ->where('status', $status)
+            ->orderByDesc('id')
+            ->paginate($pageSize);
     }
 
     public function get($category)
@@ -71,6 +78,9 @@ class CategoryRepository implements RepositoryInterface
         $data['slug'] = $this->slugHandler($data['slug']);
 
         $data['user_id'] = Auth::id();
+
+        if (empty($data['module_id']))
+            $data['module_id'] = 1;
 
         if (!empty($data['image']) && !is_string($data['image'])) {
             $data['image'] = $this->imageHandler($data['image']);
