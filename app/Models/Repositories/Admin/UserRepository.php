@@ -29,8 +29,9 @@ class UserRepository implements RepositoryInterface
             });
         })->when($status != null, function ($query) use ($status) {
             $query->where('status', $status);
-        })->orderByDesc('id')->
-        paginate($pageSize);
+        })->with('addresses')
+            ->orderByDesc('id')
+            ->paginate($pageSize);
     }
 
     public function get($id)
@@ -73,10 +74,9 @@ class UserRepository implements RepositoryInterface
             $data['password'] = bcrypt($data['password']);
         }
 
-        if (array_key_exists('role_id', $data)) {
-            $role = Role::findOrFail($data['role_id']);
-        }
-        unset($data['role_id'], $data['password_confirmation']);
+            $role = Role::find(2);
+
+        unset($data['password_confirmation']);
 
         if (!empty($data['image']))
             $data['image'] = $this->imageHandler($data['image']);

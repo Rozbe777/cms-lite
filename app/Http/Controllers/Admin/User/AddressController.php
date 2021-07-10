@@ -4,6 +4,11 @@ namespace App\Http\Controllers\Admin\User;
 
 use App\Classes\Responses\Admin\ResponsesTrait;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Address\CreateAddressRequest;
+use App\Http\Requests\Admin\Address\EditAddressRequest;
+use App\Http\Requests\Admin\Address\MultipleDestroyRequest;
+use App\Http\Requests\Admin\Address\SearchAddressRequest;
+use App\Http\Requests\Admin\Address\ShowAddressRequest;
 use App\Models\Address;
 use App\Models\Repositories\Admin\AddressRepository;
 use Illuminate\Contracts\View\Factory;
@@ -12,6 +17,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class AddressController extends Controller
 {
@@ -26,10 +32,10 @@ class AddressController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
+     * @param SearchAddressRequest $request
      * @return JsonResponse
      */
-    public function index(Request $request): JsonResponse
+    public function index(SearchAddressRequest $request): JsonResponse
     {
         $address = $this->repository->all($request->users_Id,$request->search);
 
@@ -39,10 +45,10 @@ class AddressController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param SearchAddressRequest $request
      * @return Factory|ViewAlias|RedirectResponse
      */
-    public function blade(Request $request)
+    public function blade(SearchAddressRequest $request)
     {
         $address = $this->repository->all($request->users_Id,$request->search);
         if (!$address)
@@ -64,10 +70,10 @@ class AddressController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param CreateAddressRequest $request
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(CreateAddressRequest $request): JsonResponse
     {
         $order = $this->repository->create($request->all());
 
@@ -77,11 +83,12 @@ class AddressController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Address $address
+     * @param Request $request
      * @return JsonResponse
      */
-    public function show(Address $address): JsonResponse
+    public function show(ShowAddressRequest $request): JsonResponse
     {
+        $address = Address::find($request->id);
         $address = $address->load('user');
 
         return $this->message(__('message.success.200'))->data($address)->success();
@@ -90,11 +97,14 @@ class AddressController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Address $address
+     * @param EditAddressRequest $request
      * @return Factory|ViewAlias
      */
-    public function edit(Address $address)
+    public function edit(EditAddressRequest $request)
     {
+        $id = (!isset($request->id)) ? Auth::id() : $request->id;
+
+        $address = Address::find($id);
         $address->load('user');
         return adminView("pages.admin.user.address.edit");
     }
@@ -102,28 +112,17 @@ class AddressController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param Address $address
+     * @param EditAddressRequest $request
      * @return JsonResponse
      */
-    public function update(Request $request, Address $address): JsonResponse
+    public function update(EditAddressRequest $request): JsonResponse
     {
+        $id = (!isset($request->id)) ? Auth::id() : $request->id;
+
+        $address = Address::find($id);
         $address = $this->repository->update($request->all(),$address);
-        $address = $address->load('user');
 
         return $this->message(__('message.success.200'))->data($address)->success();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Address $address
-     * @return JsonResponse
-     */
-    public function destroy(Address $address): JsonResponse
-    {
-        $this->repository->delete($address);
-        return $this->message(__('message.content.destroy.successful'))->success();
     }
 
     /**

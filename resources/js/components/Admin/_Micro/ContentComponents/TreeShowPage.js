@@ -90,6 +90,7 @@ export const TreeShowPage = ({
                                 <Item name={keyName.title}
                                       allData={keyName}
                                       id={keyName.id}
+                                      url={keyName.url}
                                       status={keyName.status}
                                       callBack={item => handlePush(item)}
                                       duplicate={item => HndleDuplicate(item)}

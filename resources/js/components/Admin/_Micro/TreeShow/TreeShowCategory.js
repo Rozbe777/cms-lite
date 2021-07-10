@@ -199,7 +199,9 @@ export const TreeShowCategory = ({
                                           allData={item}
                                           allDataWidth = {data}
                                           checkSel={id => HandleCheckBox(id)}
-                                          id={item.id} status={item.status}
+                                          id={item.id}
+                                          url={item.url}
+                                          status={item.status}
                                           callBack={item => handlePush(item)}
                                           duplicate={item => HndleDuplicate(item)}
                                           delClick={item => HandleDelClick(item)}
@@ -229,6 +231,7 @@ export const TreeShowCategory = ({
                                                               duplicate={item => HndleDuplicate(item)}
                                                               delClick={item => HandleDelClick(item)}
                                                               level={2}
+                                                              url={itemClildOne.url}
                                                               dataAlls={data}
                                                               dataForEdit={item => HandleDataForUpdate(item)}
                                                               itemClick={itemId => HandleClick(itemId)}
@@ -256,6 +259,7 @@ export const TreeShowCategory = ({
                                                                           duplicate={item => HndleDuplicate(item)}
                                                                           delClick={item => HandleDelClick(item)}
                                                                           level={3}
+                                                                          url={childThree.url}
                                                                           dataAlls={data}
                                                                           dataForEdit={item => HandleDataForUpdate(item)}
                                                                           itemClick={itemId => HandleClick(itemId)}
