@@ -41,6 +41,54 @@ export default class FormHandler {
 
 
 
+    HandleDuplicate(e , CatData,contentNew,slugManage ,metaData , file , imageGet , checkResult ){
+        e.preventDefault();
+        let formOldData = {...CatData};
+        let titleWrite = $("input[name=name]").val();
+        let formsNews = new FormData();
+        formsNews.append("content", contentNew)
+        let name = titleWrite;
+        let slug = slugManage ? titleWrite : $("input.slugest").val();
+        formsNews.append("name", name)
+        formsNews.append("slug", slug)
+
+        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : CatData.is_menu;
+        let status = localStorage.getItem("status") ? localStorage.getItem("status") : CatData.status;
+        let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
+        let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : CatData.parent_id;
+
+        formsNews.append("is_menu", parseInt(is_menu))
+        formsNews.append("status", status)
+        formsNews.append("id", formOldData.id)
+        formsNews.append("parent_id", parseInt(parent_id))
+        formsNews.append("image", file.file ? file.file : '')
+
+        if (file.file) {
+            if (imageGet.state == "") {
+                formsNews.append("image", file.file);
+            } else {
+                formsNews.append("image", true);
+            }
+        } else {
+            if (imageGet.state == '') {
+                formsNews.append("image", '');
+            } else {
+                formsNews.append("image", true);
+            }
+        }
+        let metaDatas = {...metaData};
+        metaDatas.robots = robots;
+
+        formsNews.append("status", status)
+        formsNews.append("metadata", JSON.stringify(metaDatas))
+
+        CreateAddCategory(formsNews,checkResult);
+    }
+
+
+
+
+
     handleClose() {
         $("span.checkboxeds").removeClass("active");
         ReactDOM.render('', document.getElementById("add-datas"));
