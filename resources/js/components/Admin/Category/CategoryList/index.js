@@ -6,7 +6,7 @@ import {Request} from './../../../../services/AdminService/Api'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import AddCategory from './../CategoryAdd';
 import {CHECK_BOX_CONTENT} from "../../UserList/Helper/Context";
-import Loading from './../../_Micro/Loading'
+import Loading from './../../_Micro/Loading';
 import $ from 'jquery';
 import {ErroHandle, error as ErrorToast} from "../../../../helper";
 import {TotalActions} from "../../UserList/HOC/TotalActions";

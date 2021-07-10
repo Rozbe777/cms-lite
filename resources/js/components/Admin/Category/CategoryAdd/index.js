@@ -17,7 +17,8 @@ import ComponentHandler from "../Helper/ComponentHandler";
 import RequestHandler from "../Helper/RequestHandler";
 import $ from "jquery";
 
-const AddCategory = ({token,resultForm, dataAll, dataUpdate, idParent, result: pushResult}) => {
+const AddCategory = ({token, resultForm, dataAll, dataUpdate, idParent, result: pushResult}) => {
+
     let formHandler = new FormHandler();
     let functionalHandler = new FunctionHandler();
     let componentHandler = new ComponentHandler();
@@ -29,7 +30,7 @@ const AddCategory = ({token,resultForm, dataAll, dataUpdate, idParent, result: p
     const [contentNew, setContentNew] = useState('');
     const [chipset, setChipset] = useState([]);
     const [edit, setEdit] = useState(false);
-    const [file, setFile] = useState({file : ''});
+    const [file, setFile] = useState({file: ''});
     const [changeCheck, setChangeCheck] = useState(false)
     const [imageGet, setImage] = useState({state: ''})
     const [metaData, setMetaData] = useState({
@@ -49,8 +50,7 @@ const AddCategory = ({token,resultForm, dataAll, dataUpdate, idParent, result: p
         slug: ''
     };
 
-    // const dataCategory = JSON.parse(localStorage.getItem(LOCAL_CAT));
-
+    console.log(",,,," ,dataUpdateParse )
 
 
     useEffect(() => {
@@ -58,7 +58,7 @@ const AddCategory = ({token,resultForm, dataAll, dataUpdate, idParent, result: p
         formNews = dataUpdateParse ? dataUpdateParse : default_value;
         if (formNews.image) {
             let img = formNews.image;
-            requestHandler.HandleGetImg(img ,setLoading,setImage);
+            requestHandler.HandleGetImg(img, setLoading, setImage);
         } else {
             setImage({state: ''})
         }
@@ -79,8 +79,6 @@ const AddCategory = ({token,resultForm, dataAll, dataUpdate, idParent, result: p
         setMetaData(metaDataNew)
         MetaDataUpdate.tags ? setChipset(MetaDataUpdate.tags) : '';
     }, [])
-
-
 
 
     const handleAddChip = (item) => {
@@ -227,47 +225,6 @@ const AddCategory = ({token,resultForm, dataAll, dataUpdate, idParent, result: p
         HandleUpdateForm(formDataFit, ids);
     }
 
-    const HandleDuplicate = () => {
-        let formOldData = {...CatData};
-        let formsNews = new FormData();
-        formsNews.append("content", contentNew)
-        let name = titleWrite;
-        let slug = slugManage ? titleWrite : $("input.slugest").val();
-        formsNews.append("name", name)
-        formsNews.append("slug", slug)
-
-        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : CatData.is_menu;
-        let status = localStorage.getItem("status") ? localStorage.getItem("status") : CatData.status;
-        let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaData.robots;
-        let parent_id = localStorage.getItem("selected") ? localStorage.getItem("selected") : CatData.parent_id;
-
-        formsNews.append("is_menu", parseInt(is_menu))
-        formsNews.append("status", status)
-        formsNews.append("id", formOldData.id)
-        formsNews.append("parent_id", parseInt(parent_id))
-        formsNews.append("image", file.file ? file.file : '')
-
-        if (file.file) {
-            if (imageGet.state == "") {
-                formsNews.append("image", file.file);
-            } else {
-                formsNews.append("image", true);
-            }
-        } else {
-            if (imageGet.state == '') {
-                formsNews.append("image", '');
-            } else {
-                formsNews.append("image", true);
-            }
-        }
-        let metaDatas = {...metaData};
-        metaDatas.robots = robots;
-
-        formsNews.append("status", status)
-        formsNews.append("metadata", JSON.stringify(metaDatas))
-
-        CreateAddCategory(formsNews,checkResult);
-    }
 
     let MakeNewName = (name) => {
         const min = 1;
@@ -362,7 +319,8 @@ const AddCategory = ({token,resultForm, dataAll, dataUpdate, idParent, result: p
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان دسته بندی</label>
-                                    <input type={"text"} defaultValue={HandleMakeName()} onChange={e => functionalHandler.handleInput(e , setChangeCheck , setEdit ,slugManage,setCatData,CatData)}
+                                    <input type={"text"} defaultValue={HandleMakeName()}
+                                           onChange={e => functionalHandler.handleInput(e, setChangeCheck, setEdit, slugManage, setCatData, CatData)}
                                            name={"name"} id={"title"}
                                            className={"form-control titleCat"}/>
                                 </fieldset>
@@ -407,40 +365,42 @@ const AddCategory = ({token,resultForm, dataAll, dataUpdate, idParent, result: p
                                 {preImage.uri ? (<div className={"mini-img-show-edit"}>
                                         <div className={"img-box"}>
                                             <img src={`${preImage.uri}`}/>
-                                            <div className={"back"}><span onClick={e => handledelImg(e)}><i className={"bx bx-x"}></i> </span></div>
+                                            <div className={"back"}><span onClick={e => handledelImg(e)}><i
+                                                className={"bx bx-x"}></i> </span></div>
                                         </div>
                                     </div>)
-                                 : !loading ?  imageGet.state !== "" ? (
-                                    <div className={"mini-img-show-edit"}>
-                                        <div className={"img-box"}>
-                                            <img src={`${BASE_URL_IMG}${imageGet.state}`}/>
-                                            <div className={"back"}><span onClick={e => handledelImg(e)}><i className={"bx bx-x"}></i> </span></div>
+                                    : !loading ? imageGet.state !== "" ? (
+                                        <div className={"mini-img-show-edit"}>
+                                            <div className={"img-box"}>
+                                                <img src={`${BASE_URL_IMG}${imageGet.state}`}/>
+                                                <div className={"back"}><span onClick={e => handledelImg(e)}><i
+                                                    className={"bx bx-x"}></i> </span></div>
+                                            </div>
                                         </div>
-                                    </div>
-                                ) : (
-                                    <fieldset className="form-group" style={{width: '100%'}}>
-                                        <label id={"selectParent"}>افزودن فایل</label>
-                                        <div id={"file"}>
-                                            <input type={"file"} name={"image"}
-                                                   multiple="multiple"
-                                                   onChange={e => functionalHandler.HandleFile(e , preImage , setPreImage , setEdit , setFile , imageGet,setImage)}
-                                                   style={{
-                                                       opacity: 0,
-                                                       zIndex: 9,
-                                                       height: '100%',
-                                                       position: 'absolute',
-                                                       cursor: 'pointer'
-                                                   }}/>
-                                            <button id="select-files" className="btn btn-primary mb-1"><i
-                                                className="icon-file2"></i>
-                                                انتخاب فایل
-                                            </button>
+                                    ) : (
+                                        <fieldset className="form-group" style={{width: '100%'}}>
+                                            <label id={"selectParent"}>افزودن فایل</label>
+                                            <div id={"file"}>
+                                                <input type={"file"} name={"image"}
+                                                       multiple="multiple"
+                                                       onChange={e => functionalHandler.HandleFile(e, preImage, setPreImage, setEdit, setFile, imageGet, setImage)}
+                                                       style={{
+                                                           opacity: 0,
+                                                           zIndex: 9,
+                                                           height: '100%',
+                                                           position: 'absolute',
+                                                           cursor: 'pointer'
+                                                       }}/>
+                                                <button id="select-files" className="btn btn-primary mb-1"><i
+                                                    className="icon-file2"></i>
+                                                    انتخاب فایل
+                                                </button>
 
-                                        </div>
-                                    </fieldset>
-                                ) : (<div className="spinner-border" role="status">
-                                    <span className="sr-only">در حال بارگذاری ...</span>
-                                </div>)}
+                                            </div>
+                                        </fieldset>
+                                    ) : (<div className="spinner-border" role="status">
+                                        <span className="sr-only">در حال بارگذاری ...</span>
+                                    </div>)}
                             </div>
 
                             <div className={"col-12"}>
@@ -484,7 +444,8 @@ const AddCategory = ({token,resultForm, dataAll, dataUpdate, idParent, result: p
                                     ) : (
                                         <input type={"text"}
                                                defaultValue={CatData.slug}
-                                               onChange={e => functionalHandler.handleInput(e , setChangeCheck , setEdit ,slugManage,setCatData,CatData)} name={"slug"} id={"title"}
+                                               onChange={e => functionalHandler.handleInput(e, setChangeCheck, setEdit, slugManage, setCatData, CatData)}
+                                               name={"slug"} id={"title"}
                                                className={"form-control slugest"}/>
                                     )}
                                 </fieldset>
@@ -535,7 +496,7 @@ const AddCategory = ({token,resultForm, dataAll, dataUpdate, idParent, result: p
                                                     <div className="chip-body">
                                                         <span className="chip-text">{item}</span>
                                                         <div className="chip-closeable"
-                                                             onClick={e => functionalHandler.RemoveChipset(e,item,chipset , setChipset , setEdit)}>
+                                                             onClick={e => functionalHandler.RemoveChipset(e, item, chipset, setChipset, setEdit)}>
                                                             <i className="bx bx-x"></i>
                                                         </div>
                                                     </div>
@@ -620,26 +581,29 @@ const AddCategory = ({token,resultForm, dataAll, dataUpdate, idParent, result: p
                                 </div>
                             )
                             : (
-                                <div onClick={(e) => HandleDuplicate(e)}
-                                     className={"col-6"}
-                                     style={{
-                                         textAlign: 'center',
-                                         cursor: 'pointer',
-                                         background: "#5a8dee",
-                                         color: '#fff'
-                                     }}>
+                                <div
+                                    onClick={(e) => formHandler.HandleDuplicate(e, CatData, contentNew, slugManage, metaData, file, imageGet, checkResult)}
+                                    className={"col-6"}
+                                    style={{
+                                        textAlign: 'center',
+                                        cursor: 'pointer',
+                                        background: "#5a8dee",
+                                        color: '#fff'
+                                    }}>
                                     <span style={{color: '#fff !important'}}>ذخیره کپی</span>
                                 </div>
                             ) :
 
                             (
-                                <div onClick={(e) => formHandler.HandleForm(CatData , contentNew ,slugManage ,metaData , checkResult , file)} className={"col-6"}
-                                     style={{
-                                         textAlign: 'center',
-                                         cursor: 'pointer',
-                                         background: "#5a8dee",
-                                         color: '#fff'
-                                     }}>
+                                <div
+                                    onClick={(e) => formHandler.HandleForm(CatData, contentNew, slugManage, metaData, checkResult, file)}
+                                    className={"col-6"}
+                                    style={{
+                                        textAlign: 'center',
+                                        cursor: 'pointer',
+                                        background: "#5a8dee",
+                                        color: '#fff'
+                                    }}>
                                     <span style={{color: '#fff !important'}}>ذخیره</span>
                                 </div>
                             )}

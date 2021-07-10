@@ -13,6 +13,7 @@ export const Item = ({
                          level,
                          key,
                          id,
+                         url,
                          name,
                          status,
                          checkSel: pushCheckSel,
@@ -49,6 +50,11 @@ export const Item = ({
 
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
 
+    const show = (e , url) => {
+        // e.preventDefault();
+        window.open(url, "_blank")
+    }
+
     // handle delete single item by category id
     const HandleDel = (e, idDel) => {
         e.preventDefault()
@@ -67,14 +73,14 @@ export const Item = ({
                 Request.DeleteCategoryOne(idDel)
                     .then(res => {
                         pushDelClick(res.status)
-                            Swal.fire({
-                                type: "success",
-                                title: 'با موفقیت حذف شد !',
-                                confirmButtonClass: 'btn btn-success',
-                                confirmButtonText: 'باشه',
-                            })
+                        Swal.fire({
+                            type: "success",
+                            title: 'با موفقیت حذف شد !',
+                            confirmButtonClass: 'btn btn-success',
+                            confirmButtonText: 'باشه',
+                        })
 
-                    }).catch(error =>  ErroHandle("خطای غیر منتظره ای رخ داده است"))
+                    }).catch(error => ErroHandle("خطای غیر منتظره ای رخ داده است"))
             }
         });
 
@@ -236,7 +242,7 @@ export const Item = ({
                         <i className={"bx bx-chevron-down"}></i>
                     </div>
                     <div className={"col-12 " + id} id={"moreOpp"}>
-                        <i className={"bx bx-show"}></i>
+                        <i className={"bx bx-show"} onClick={e => show(e,url)}></i>
                         <i className={"bx bx-trash-alt"} onClick={e => HandleDel(e, id)}></i>
                         <i className={"bx bx-edit"} onClick={e => HandleEdit(e, "edit")}></i>
                         <i className={"bx bx-duplicate"} onClick={e => HandleEdit(e, "dup")}></i>
@@ -257,7 +263,7 @@ export const Item = ({
                     <div className={"form-check"}>
                         {level == 3 ? (<i style={{opacity: '0.3'}} className={"bx bx-plus"}></i>) : (
                             <i className={"bx bx-plus"} onClick={e => handleAdding(e)}></i>)}
-                        <i className={"bx bx-show"}></i>
+                        <i className={"bx bx-show"} onClick={e => show(e,url)}></i>
                         <i className={"bx bx-trash-alt"} onClick={e => HandleDel(e, id)}></i>
                         <i className={"bx bx-edit"} onClick={e => HandleEdit(e, "edit")}></i>
                         <i className={"bx bx-duplicate"} onClick={e => HandleEdit(e, "dup")}></i>

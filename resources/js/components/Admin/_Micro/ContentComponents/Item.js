@@ -11,6 +11,7 @@ export const Item = ({
                          id,
                          name,
                          status,
+                         url,
                          duplicate: pushDuplicate,
                          itemClick: pushItemClisk,
                          delClick: pushDelClick,
@@ -40,12 +41,10 @@ export const Item = ({
     }, [])
 
 
-    // $(function (){
-    //     $("span#sub-menu-custom").click(function () {
-    //         $(this).parents("#li-div").find("#moreOpp." + id).toggleClass("active")
-    //         $(this).find('i.' + id).toggleClass("active");
-    //     })
-    // })
+    const show = (e , url) => {
+        // e.preventDefault();
+        window.open(url, "_blank")
+    }
 
 
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
@@ -126,7 +125,7 @@ export const Item = ({
             <div className={"row"} style={{padding: '0 20px', position: 'relative'}}>
                 <div className={"col-md-6 col-sm-8"} style={{padding: '12px 12px'}}>
                     <fieldset style={{float: "right"}}>
-                        <div className="checkbox" >
+                        <div className="checkbox">
                             <input type="checkbox" name={"checkbox_content_" + id}
                                    onChange={e => HandlePushCheck(e, id)}
                                    className="checkbox-input"
@@ -139,7 +138,7 @@ export const Item = ({
                         <i className={"bx bx-chevron-down"}></i>
                     </div>
                     <div className={"col-12 " + id} id={"moreOpp"}>
-                        <i className={"bx bx-show"}></i>
+                        <i className={"bx bx-show"} onClick={e => show(e , url)}></i>
                         <i className={"bx bx-trash-alt"} onClick={e => HandleDel(e, id)}></i>
                         <i className={"bx bx-edit"} onClick={e => HandleEdit(e, "edit")}></i>
                         <i className={"bx bx-duplicate"} onClick={e => HandleEdit(e, "dup")}></i>
@@ -156,7 +155,7 @@ export const Item = ({
 
                 <div className={"col-md-6 col-sm-4"} style={{padding: 13}} id={"icon-item-list"}>
                     <div className={"form-check"}>
-                        <i className={"bx bx-show"}></i>
+                        <i className={"bx bx-show"} onClick={e => show(e , url)}></i>
                         <i className={"bx bx-trash-alt"} onClick={e => HandleDel(e, id)}></i>
                         <i className={"bx bx-edit"} onClick={e => HandleEdit(e, "edit")}></i>
                         <i className={"bx bx-duplicate"} onClick={e => HandleEdit(e, "dup")}></i>

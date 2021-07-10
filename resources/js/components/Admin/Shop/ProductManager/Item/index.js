@@ -2,9 +2,9 @@ import React, {useContext, useEffect} from 'react';
 import './_Shared/style.scss'
 import $ from 'jquery';
 import {CHECK_BOX_CONTENT} from "../../../UserList/Helper/Context";
-import {separate} from "../../../../../helper";
+import {separate, info} from "../../../../../helper";
 
-const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected, duplicated: duplicate, editClick: pushEditClick, deleteClick: delPushClick}) => {
+const Index = ({data, checkStateOfOut, sizeOf,handleEdit, selected: pushSelected, duplicated: duplicate, deleteClick: delPushClick}) => {
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
 
     useEffect(() => {
@@ -58,6 +58,10 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected, duplicate
         }
     }
 
+    const handleFasrChange = e => {
+        e.preventDefault();
+        info("به زودی ارائه می گردد")
+    }
 
     return (
         <div className={"col-lg-3 col-md-4 col-sm-12"} id={"product-item"} style={{padding: '8px !important'}}>
@@ -108,8 +112,8 @@ const Index = ({data, checkStateOfOut, sizeOf, selected: pushSelected, duplicate
                 <div className={"back-show-detail-pro"}>
 
                     <div className={"manage-pro"}>
-                        <a className={"btn"} onClick={e => pushEditClick(e)}>ویرایش</a>
-                        <a className={"btn btn-primary"}>طراحی صفحه</a>
+                        <a className={"btn"} onClick={e => handleEdit(e ,data)}>ویرایش</a>
+                        <a className={"btn btn-primary"} onClick={e => handleFasrChange(e)}>ویرایش سریع</a>
                     </div>
 
                     <div className={"footer-manage-pro"}>
