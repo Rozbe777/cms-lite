@@ -83,14 +83,14 @@ class Category extends Model
         return $this->belongsToMany(Product::class);
     }
 
-//    public function tags()
-//    {
-//        return $this->belongsToMany(Tag::class, 'category_tag', 'category_id', 'tag_id');
-//    }
-
     public function viewCounts()
     {
         return $this->morphOne(ViewCount::class, 'viewcountable');
+    }
+
+    public function modules()
+    {
+        return $this->hasOne(Module::class);
     }
 
     public function scopeActive($query)
