@@ -21,6 +21,7 @@ import {HandleFormAdd} from "../Helper/Action"
 import HelperFunction from "../Helper/HelperFunction";
 import ContentDependentApi from "../Api/ContentDependentApi";
 import CategoryApi from "../../Category/Api/CategoryApi";
+import {Footer} from "../Component/Footer";
 
 const ContentAdd = ({token, resultForm, dataUpdate}) => {
 
@@ -418,7 +419,7 @@ const ContentAdd = ({token, resultForm, dataUpdate}) => {
                 </div>
 
                 <div className={"col-12 bottom-footer"}>
-
+<Footer />
                 </div>
             </div>
         </div>
