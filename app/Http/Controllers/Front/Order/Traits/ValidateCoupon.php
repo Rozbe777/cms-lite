@@ -33,8 +33,6 @@ trait ValidateCoupon
             return __('message.coupon.validation.error.none');
 
         return $coupon;
-
-
     }
 
 
@@ -45,13 +43,12 @@ trait ValidateCoupon
      */
     public function checkCoupon($couponCode, $attribute)
     {
-        $coupon = Coupon::whereCode($couponCode)->where('status', 'active')
-            ->whereHas('coupon_settings', function ($q) {
-                $q->where('end_date', '>', jdate()->getTimestamp());
-            })
+        $coupon = Coupon::whereCode($couponCode)->where('status', 'active')->with('coupon_settings')
             ->first();
-        if (empty($coupon))
-            return __('message.coupon.validation.error.expired');
+
+        if (!empty($coupon->coupon_settings->end_date))
+            if ($coupon->coupon_settings->end_date > jdate()->getTimestamp())
+                return __('message.coupon.validation.error.expired');
 
         $coupon_functionality = $coupon->coupon_settings->functionality;
         $cart_conditions = $coupon->coupon_settings->cart_conditions;
@@ -81,10 +78,10 @@ trait ValidateCoupon
             ],
             'cart_conditions' => [
                 'cart_conditions' => $cart_conditions,
-                'cart_conditions_amount' =>  $coupon->coupon_settings->cart_conditions_amount,
+                'cart_conditions_amount' => $coupon->coupon_settings->cart_conditions_amount,
             ],
             'user_group' => [
-                'user_status' =>$coupon->coupon_settings->user_status,
+                'user_status' => $coupon->coupon_settings->user_status,
                 'user_group' => $user_group,
             ]
         ];
