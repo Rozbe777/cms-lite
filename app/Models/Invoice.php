@@ -14,7 +14,7 @@ class Invoice extends Model
 
     public function orders()
     {
-        return $this->morphToMany(Order::class,'orderable');
+        return $this->belongsTo(Order::class);
     }
 
     public function products()
