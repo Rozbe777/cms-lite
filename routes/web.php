@@ -100,6 +100,11 @@ Route::middleware('auth')->group(function () {
     Route::get('category', [CategoryController::class, 'blade'])->name('categories.blade');
     Route::get('categories/all', [CategoryController::class, 'all'])->name('categories.getAll');
     Route::resource('categories', CategoryController::class)->except('update');
+    //              -----------ProductCategories-------------
+    Route::resource('product/categories', CategoryController::class,[
+        'names' => 'product.categories'
+    ])->except('update');
+    //              -----------ProductCategories-------------
     Route::post('categories/update', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy'])->name('categories.multipleDestroy');
 
@@ -184,7 +189,6 @@ Route::middleware('auth')->group(function () {
         Route::get('edit', [AddressController::class, 'edit'])->name('addresses.edit');
         Route::delete('multi/destroy', [AddressController::class, 'multipleDestroy'])->name('addresses.multipleDestroy');
     });
-
 
     //------------------------------Order-------------------------------
     Route::get('order', [OrderController::class, 'blade'])->name('orders.blade');

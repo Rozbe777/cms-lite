@@ -5,22 +5,31 @@
         display: none;
     }
 
+    #stateActive {
+        display: none !important;
+    }
+    #checkActive {
+        display: none !important;
+    }
     .discound-setting {
-        .select-item{
-            padding: 25px ;
+        .select-item {
+            padding: 25px;
         }
+    }
+    .card-content .cart-body {
+        padding: 0px !important;
     }
     .mini-img-show-edit {
         height: 140px !important;
     }
-    .content-pages{
+    .content-pages {
         padding: 30px !important;
     }
-    input#make-discounts{
+    input#make-discounts {
         width: 50% !important;
     }
 
-    .discount-rows{
+    .discount-rows {
         padding: 10px !important;
     }
 
@@ -256,13 +265,22 @@
         height: 185px;
     }
 
+
+
+    #stateActive {
+        display: none !important;
+    }
+    #checkActive {
+        display: none !important;
+    }
+
     .discound-setting {
-        .select-item{
-            padding: 25px ;
+        .select-item {
+            padding: 25px;
         }
     }
 
-    .content-pages{
+    .content-pages {
         padding: 30px !important;
     }
 
@@ -894,7 +912,8 @@ body.active-darked {
 
             .menu-content {
                 background-color: #272E48 !important;
-                border-top : 1px solid #464d5c !important;
+                border-top: 1px solid #464d5c !important;
+
                 li.is-shown {
                     margin-right: 20px;
 
@@ -1198,9 +1217,10 @@ body.active-darked {
         }
     }
 
-    span#choise-img{
+    span#choise-img {
         background: #272e48 !important;
     }
+
     .search-input-float {
         background: $itemBackground !important;
 
@@ -1286,8 +1306,7 @@ body.active-darked {
     }
 
 
-    .main-menu.menu-light .navigation > li.nav-item.open.has-sub.open, .main-menu.menu-light .navigation > li.nav-item.open.has-sub.sidebar-group-active, .main-menu.menu-light .navigation > li.nav-item.sidebar-group-active.has-sub.open, .main-menu.menu-light .navigation > li.nav-item.sidebar-group-active.has-sub.sidebar-group-active
-    {
+    .main-menu.menu-light .navigation > li.nav-item.open.has-sub.open, .main-menu.menu-light .navigation > li.nav-item.open.has-sub.sidebar-group-active, .main-menu.menu-light .navigation > li.nav-item.sidebar-group-active.has-sub.open, .main-menu.menu-light .navigation > li.nav-item.sidebar-group-active.has-sub.sidebar-group-active {
         border: 1px solid #2f2f2f !important;
         background-color: #272e48 !important;
     }
@@ -1727,7 +1746,7 @@ a.menu-toggle {
     }
 }
 
-.preloaderss{
+.preloaderss {
     /*
     Making the preloader floating over other elements.
     The preloader is visible by default.
@@ -1746,12 +1765,12 @@ a.menu-toggle {
 }
 
 
-input[type=file]{
+input[type=file] {
     cursor: pointer !important;
 }
 
-ul.time-roles{
-    li{
+ul.time-roles {
+    li {
         text-align: left !important;
         direction: ltr !important;
         font-size: 19px !important;
@@ -1759,7 +1778,7 @@ ul.time-roles{
     }
 }
 
-.main-options-sel a{
+.main-options-sel a {
     span.time-roles {
         direction: ltr !important;
         text-align: left;
@@ -1767,52 +1786,66 @@ ul.time-roles{
     }
 }
 
-#coupon-box{
+#coupon-box {
     padding-left: 8px !important;
     padding-bottom: 8px !important;
 }
 
-textarea{
-    &::placeholder{
+textarea {
+    &::placeholder {
         text-align: right !important;
 
     }
 }
 
-.switch-container{
-    input{
+.switch-container {
+    input {
         cursor: pointer !important;
     }
 }
-.checkbox{
-    input.checkbox-input{
-        cursor : pointer !important;
+
+.checkbox {
+    input.checkbox-input {
+        cursor: pointer !important;
     }
 }
-body.active-darked .main-menu.menu-light .navigation > li > ul > li:first-child > a{
+
+body.active-darked .main-menu.menu-light .navigation > li > ul > li:first-child > a {
     border-top: unset !important;
 }
-ul.menu-content{
-    border-top : solid 1px #eee ;
+
+ul.menu-content {
+    border-top: solid 1px #eee;
 }
 
-.nav-item.has-sub.open .menu-content li.is-shown{
+.nav-item.has-sub.open .menu-content li.is-shown {
     margin-right: 0px !important;
 }
 
-body.active-darked .main-menu .nav-item.has-sub.open .menu-content li.is-shown{
+body.active-darked .main-menu .nav-item.has-sub.open .menu-content li.is-shown {
     margin-right: 0px !important;
 }
-body.active-darked .main-menu .nav-item.has-sub.open.hover .menu-content li.is-shown{
+
+body.active-darked .main-menu .nav-item.has-sub.open.hover .menu-content li.is-shown {
     height: 45px !important;
 }
 
-.main-menu.menu-light .navigation > li.nav-item.open .menu-content li a, .main-menu.menu-light .navigation > li.nav-item.sidebar-group-active .menu-content li a{
+.main-menu.menu-light .navigation > li.nav-item.open .menu-content li a, .main-menu.menu-light .navigation > li.nav-item.sidebar-group-active .menu-content li a {
     height: 45px !important;
 }
-.main-menu.menu-light .navigation > li ul .active{
+
+.main-menu.menu-light .navigation > li ul .active {
     height: 45px !important;
 }
+
 .main-menu.menu-light .navigation > li ul li {
-    padding-right : 15px !important;
+    padding-right: 15px !important;
+}
+
+.main-menu.menu-light .navigation > li.nav-item.open .menu-content li a, .main-menu.menu-light .navigation > li.nav-item.sidebar-group-active .menu-content li a {
+    border-top: unset !important;
+}
+
+.opacity-mimi {
+    opacity: 0.4;
 }

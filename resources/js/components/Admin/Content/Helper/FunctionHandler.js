@@ -76,7 +76,7 @@ export default class FunctionHandler{
     handleInput(e , setChangeCheck , setEdit ,slugManage,formData,setFormData){
         setChangeCheck(true)
         setEdit(true);
-        if (e.target.name == "titleContent") {
+        if (e.target.name === "titleContent") {
             if (slugManage) {
                 let formDataOld = {...formData};
                 formDataOld.title = e.target.value;

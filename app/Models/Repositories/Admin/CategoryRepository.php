@@ -15,16 +15,18 @@ class CategoryRepository implements RepositoryInterface
 {
     use CategoryTrait;
 
-    public function all($status = 'active', $search = null, $pageSize = null, $moduleId = null)
+    public function all($status = 'active', $search = null, $pageSize = null, $routeName = null)
     {
-        $moduleId = empty($moduleId) ? 1 : $moduleId;
+        $moduleId = str_contains($routeName, 'product') ? 2 : 1;
         $status = empty($status) ? 'active' : $status;
 
         return $this->listHandler($status, $moduleId);
     }
 
-    public function retrieveAll($status = null, $search = null, $pageSize = null, $moduleId = null)
+    public function retrieveAll($status = null, $search = null, $pageSize = null, $routeName = null)
     {
+        $moduleId = str_contains($routeName, 'product') ? 2 : 1;
+
         $pageSize = empty($pageSize) ? config('view.pagination') : $pageSize;
         $status = empty($status) ? 'active' : $status;
         $moduleId = empty($moduleId) ? 1 : $moduleId;
@@ -71,16 +73,14 @@ class CategoryRepository implements RepositoryInterface
         return $category->update($data);
     }
 
-    public function create(array $data)
+    public function create(array $data , $routeName=null)
     {
+        $data['module_id'] = str_contains($routeName, 'product') ? 2 : 1;
         $data['parent_id'] = !empty($data['parent_id']) ? (int)$data['parent_id'] : 0;
 
         $data['slug'] = $this->slugHandler($data['slug']);
 
         $data['user_id'] = Auth::id();
-
-        if (empty($data['module_id']))
-            $data['module_id'] = 1;
 
         if (!empty($data['image']) && !is_string($data['image'])) {
             $data['image'] = $this->imageHandler($data['image']);

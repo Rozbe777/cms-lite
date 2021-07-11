@@ -4,7 +4,8 @@
 namespace App\Models\Repositories\Front;
 
 
-use App\Http\Controllers\Front\Order\OrderTrait;
+use App\Http\Controllers\Front\Order\Traits\CalculateTotalPrice;
+use App\Http\Controllers\Front\Order\Traits\ValidateCoupon;
 use App\Models\Attribute;
 use App\Models\Coupon;
 use App\Models\Invoice;
@@ -17,7 +18,8 @@ use Illuminate\Support\Facades\Session;
 class FrontOrderRepository implements RepositoryInterface
 {
 
-    use OrderTrait;
+    use CalculateTotalPrice;
+    use ValidateCoupon;
 
     /**
      * @return mixed
@@ -71,9 +73,11 @@ class FrontOrderRepository implements RepositoryInterface
             $price = $data['price'];
             unset($data['attribute_id'], $data['number_of_product'],$data['price']);
 
-            $data['total_price'] = $this->totalPrice($attribute,$number,$price,$data['tax'],$data['coupon_code']);
+            $data['total_price'] = $this->validateCoupon($attribute,$data['coupon_code']);
             if (is_string($data['total_price']))
                 return $data['total_price'];
+
+
 
             $order = Order::create($data);
             $order->attributes()->attach($attribute, ['number_of_product' => $number]);
