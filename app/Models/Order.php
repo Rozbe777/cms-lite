@@ -24,11 +24,11 @@ class Order extends Model
 
     public function invoices()
     {
-        return $this->morphedByMany(Invoice::class, 'orderable');
+        return $this->hasMany(Invoice::class, 'order_id', 'id');
     }
 
     public function attributes()
     {
-        return $this->morphedByMany(Attribute::class, 'orderable')->withPivot('number_of_product');
+        return $this->belongsToMany(Attribute::class, 'order_attributes', 'order_id', 'attribute_id' )->withPivot('price','number_of_product');
     }
  }

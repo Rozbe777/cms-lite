@@ -34,6 +34,10 @@ class Attribute extends Model
 
     public function orders()
     {
+<<<<<<< HEAD
         return $this->morphToMany(Order::class, 'orderable');
+=======
+        return $this->belongsToMany(Order::class);
+>>>>>>> c8a21951bbf17e245433eb55464ec9f4e5af0498
     }
 }
