@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Attribute extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $guarded = [];
 
     public function products()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'product_id');
     }
 
     public function user()
@@ -24,7 +24,7 @@ class Attribute extends Model
 
     public function types()
     {
-        return $this->hasMany(Type::class, 'attribute_id','id');
+        return $this->hasMany(Type::class, 'attribute_id', 'id');
     }
 
     public function typeFeatures()
@@ -34,6 +34,6 @@ class Attribute extends Model
 
     public function orders()
     {
-        return $this->morphToMany(Order::class,'orderable');
+        return $this->morphToMany(Order::class, 'orderable');
     }
 }

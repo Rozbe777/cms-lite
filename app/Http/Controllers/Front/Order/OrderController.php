@@ -54,6 +54,9 @@ class OrderController extends Controller
         return frontView('pages.order.index', compact('orders'));
     }
 
+
+
+
     /**
      * Show the form for creating a new resource.
      *

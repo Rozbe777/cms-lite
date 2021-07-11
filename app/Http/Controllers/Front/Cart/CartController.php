@@ -5,87 +5,44 @@ namespace App\Http\Controllers\Front\Cart;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+const CART_SESSION_ID = 'cart';
 class CartController extends Controller
 {
-
-    protected $repository;
-    public function __construct()
+    function orderCreate()
     {
+
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    function addToCart(Request $request)
     {
-        //
+        $count = $request->input('count', 1);
+        $attributeId = $request->input('attribute_id');
+        if (empty($attributeId)) {
+            return error('شناسه محصول نامعتبر می باشد.');
+        }
+
+        $currentCart = [];
+
+        if (session()->has(CART_SESSION_ID)) {
+            $currentCart = $this->getCart();
+        }
+        for ($i = 1; $i <= $count; $i++) {
+            $currentCart[] = $attributeId;
+        }
+        session()->put(CART_SESSION_ID, $currentCart);
+        info($this->getCart());
+        return success($this->getCart());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    function resetCart()
     {
-        //
+        session()->forget(CART_SESSION_ID);
+        return success();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    private function getCart()
     {
-        //
+        return session(CART_SESSION_ID);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

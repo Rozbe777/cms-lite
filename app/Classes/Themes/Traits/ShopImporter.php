@@ -51,7 +51,7 @@ trait ShopImporter
             $f->type_id = ($index == 0) ? 1 : 2;
             $f->attribute_id = $attributeId;
             $f->title = $feature['title'];
-            $f->attribute_id = $feature['value'];
+            $f->value = $feature['value'];
             $f->save();
         }
     }
