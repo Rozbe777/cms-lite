@@ -73,7 +73,7 @@ export default class FunctionHandler{
         }
     }
 
-    handleInput(e , setChangeCheck , setEdit ,slugManage,formData,setFormData){
+    handleInput(e , setChangeCheck , setEdit ,slugManage,formData,setFormData , setDataGetter){
         setChangeCheck(true)
         setEdit(true);
         if (e.target.name === "titleContent") {
@@ -82,15 +82,20 @@ export default class FunctionHandler{
                 formDataOld.title = e.target.value;
                 formDataOld.slug = e.target.value;
                 setFormData(formDataOld);
+                setDataGetter(formDataOld)
             } else {
                 let formDataOld = {...formData};
                 formDataOld.title = e.target.value;
                 setFormData(formDataOld);
+                setDataGetter(formDataOld)
+
             }
         } else {
             let formDataOld = {...formData};
             formDataOld.slug = e.target.value;
             setFormData(formDataOld);
+            setDataGetter(formDataOld)
+
         }
     }
 

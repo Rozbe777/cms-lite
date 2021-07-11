@@ -89,8 +89,43 @@ export const ErroHandle = (err) => {
 
 }
 
-export const consoleLog = (message,parent=null) => {
+export const consoleLog = (message, parent = null) => {
     if (ENABLE_LOG) {
         console.log(message);
     }
+}
+
+
+export const swalAccept = (msg) => {
+    try {
+        let swalRes = swal({
+            title: msg,
+            text: "آیا مطمئنید؟",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'تایید',
+            confirmButtonClass: 'btn btn-primary',
+            cancelButtonClass: 'btn btn-danger ml-1',
+            cancelButtonText: 'انصراف',
+            buttonsStyling: false,
+        });
+        return new Promise(resolve => {
+            resolve(swalRes)
+        })
+    } catch (e) {
+        return new Promise(reject => {
+            reject(e)
+        })
+    }
+
+}
+
+
+export const successSwal = (msg) => {
+    return Swal.fire({
+        type: "success",
+        title: msg,
+        confirmButtonClass: 'btn btn-success',
+        confirmButtonText: 'باشه',
+    })
 }

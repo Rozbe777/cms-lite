@@ -7,6 +7,7 @@ export default class ContentsApi extends Webservice {
 
     async create(data){
 
+        console.log(data);
         try{
             let response = await Request.AddNewContent(data);
             return new Promise((resolve => {

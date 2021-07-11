@@ -7,11 +7,10 @@ import $ from "jquery";
 
 export const Item = ({
                          allData,
-                         key,
                          id,
                          name,
-                         status,
-                         url,
+                         contentStatus,
+                         urlFastShow,
                          duplicate: pushDuplicate,
                          itemClick: pushItemClisk,
                          delClick: pushDelClick,
@@ -35,20 +34,14 @@ export const Item = ({
             // $("#li-div div#moreOpp").removeClass("active")
             $("#li-div #moreOpp").removeClass("active")
             $(this).find("#sub-menu-custom i").removeClass("active")
-
-
         })
     }, [])
 
 
     const show = (e , url) => {
-        // e.preventDefault();
         window.open(url, "_blank")
     }
-
-
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
-
     // handle delete single item by category id
     const HandleDel = (e, idDel) => {
         e.preventDefault()
@@ -87,7 +80,6 @@ export const Item = ({
 
     }
 
-
     // handle edit single item by id and data
     // this function used for edit and duplicate category
     const HandleEdit = (e, type) => {
@@ -113,12 +105,6 @@ export const Item = ({
 
     }
 
-    // const handleClickMenuOpt =( e , ids) => {
-    //     e.preventDefault();
-    //     $("#moreOpp." + ids).toggleClass("active")
-    //     $("span#sub-menu-custom i." + ids).toggleClass("active");
-    //
-    // }
 
     return (
         <div id={"li-div"} className={"mini"}>
@@ -138,12 +124,12 @@ export const Item = ({
                         <i className={"bx bx-chevron-down"}></i>
                     </div>
                     <div className={"col-12 " + id} id={"moreOpp"}>
-                        <i className={"bx bx-show"} onClick={e => show(e , url)}></i>
+                        <i className={"bx bx-show"} onClick={e => show(e , urlFastShow)}></i>
                         <i className={"bx bx-trash-alt"} onClick={e => HandleDel(e, id)}></i>
                         <i className={"bx bx-edit"} onClick={e => HandleEdit(e, "edit")}></i>
                         <i className={"bx bx-duplicate"} onClick={e => HandleEdit(e, "dup")}></i>
 
-                        {status == "active" ? (
+                        {contentStatus == "active" ? (
                             <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
                         ) : (
                             <span className={"badge badge-warning badge-pill ml-50"}>غیرفعال</span>
@@ -154,12 +140,12 @@ export const Item = ({
 
                 <div className={"col-md-6 col-sm-4"} style={{padding: 13}} id={"icon-item-list"}>
                     <div className={"form-check"}>
-                        <i className={"bx bx-show"} onClick={e => show(e , url)}></i>
+                        <i className={"bx bx-show"} onClick={e => show(e , urlFastShow)}></i>
                         <i className={"bx bx-trash-alt"} onClick={e => HandleDel(e, id)}></i>
                         <i className={"bx bx-edit"} onClick={e => HandleEdit(e, "edit")}></i>
                         <i className={"bx bx-duplicate"} onClick={e => HandleEdit(e, "dup")}></i>
 
-                        {status == "active" ? (
+                        {contentStatus == "active" ? (
                             <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
                         ) : (
                             <span className={"badge badge-warning badge-pill ml-50"}>غیرفعال</span>

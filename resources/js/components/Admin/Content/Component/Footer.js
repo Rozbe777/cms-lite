@@ -1,54 +1,48 @@
-import React from "react";
+import React , {useEffect} from "react";
 import './../../../_shared/style.scss'
 
-export const Footer = ({actionType, editStatus, onSubmit, onUpdate, onDuplicate, onCancel}) => {
-    return (
-        <div className={"row"}>
-            {_cancel()}
-            {handleActionType(actionType)}
-        </div>
-    );
+export const Footer = ({actionType, editStatus, onClicked , onCancel}) => {
 
-
-    function handleActionType(actionType) {
+    const handleActionType = (actionType) =>  {
         switch (actionType) {
             case 'edit' :
-                _edit();
+                return _renderEdit();
             case 'duplicate' :
-                _duplicate();
+                return _renderDuplicate();
             case 'save' :
-                _save();
+                return _renderSave();
             default :
-                return _save();
+                return actionType;
         }
     }
 
 
-    function _duplicate() {
+
+    const _renderDuplicate = () =>  {
         return (
             <div
-                onClick={e => onDuplicate(e)}
+                onClick={e => onClicked(e)}
                 className={"col-6 submit-form"}>
                 <span>ذخیره کپی</span>
             </div>
         )
     }
 
-    function _save() {
+    const _renderSave = () => {
         return (
             <div
-                onClick={e => onSubmit()}
+                onClick={e => onClicked(e)}
                 className={"col-6 submit-form"}>
                 <span>ذخیره</span>
             </div>
         )
     }
 
-    function _edit() {
+    const  _renderEdit = () => {
         if (editStatus) {
             return (
                 <div
-                    onClick={(e) => onUpdate(e)}
+                    onClick={(e) => onClicked(e)}
                     className={"col-6 submit-form"}>
                     <span>ویرایش</span>
                 </div>
@@ -68,8 +62,20 @@ export const Footer = ({actionType, editStatus, onSubmit, onUpdate, onDuplicate,
     function _cancel() {
         return (
             <div className={"col-6 cancel"} onClick={e => onCancel(e)}>
-                    انصراف
+                انصراف
             </div>
         )
     }
+
+
+
+    return (
+        <div className={"row"}>
+            {_cancel()}
+            {handleActionType(actionType)}
+        </div>
+    );
+
+
+
 }

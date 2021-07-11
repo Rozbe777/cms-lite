@@ -5,7 +5,7 @@ import {BigSwitcher} from './../../../HOC/BigSwitcher';
 import './../../_Shared/Style.scss'
 import {Request} from './../../../../services/AdminService/Api'
 import MyEditor from "../../_Micro/MyEditor/MyEditor";
-import {ErroHandle, error as ErrorToast, error} from './../../../../helper'
+import {ErroHandle, error as ErrorToast, error, successSwal, swalAccept} from './../../../../helper'
 import {ChipsetHandler} from './../../../HOC/ChipsetHandler'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import {MultiSelected} from "../../Shop/ProductManager/HOC/MultiSelected";
@@ -23,7 +23,7 @@ import ContentDependentApi from "../Api/ContentDependentApi";
 import CategoryApi from "../../Category/Api/CategoryApi";
 import {Footer} from "../Component/Footer";
 
-const ContentAdd = ({token, resultForm, dataUpdate}) => {
+const ContentAdd = ({token, actionResult, dataUpdate}) => {
 
 
     let formHandler = new FormHandler();
@@ -75,19 +75,6 @@ const ContentAdd = ({token, resultForm, dataUpdate}) => {
         categoryApi.call().then(res => {
             setCategoryData(res.data.data);
         })
-
-        // if (currentContentData.image) {
-        //     let name = currentContentData.image;
-        //     let imgName = name.split("/")[2];
-        //     setLoading(true);
-        //     contentDependentApi.getImageUrl(imgName).then(res => {
-        //         setLoading(false);
-        //         setImage({state : res.data});
-        //     })
-        // } else {
-        //     setImage({state: ''})
-        // }
-
 
         dataUpdateParse ? dataUpdateParse.tags.map(item => {
             chipset.push(item.name);
@@ -142,6 +129,72 @@ const ContentAdd = ({token, resultForm, dataUpdate}) => {
         setEditorContent(data)
     }
 
+
+    const onSubmit = (e) => {
+        let api = new CreateContent()
+        let contentDataClone = {...contentForm};
+        let titleWrite = $("input[name=titleContent]").val();
+        let contentcontentForm = new FormData();
+        contentcontentForm.append("image", file.file ? file.file : '')
+        let metaDataClone = {...metaData};
+        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : contentDataClone.is_menu;
+        let status = localStorage.getItem("status") ? localStorage.getItem("status") : contentDataClone.status;
+        let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : contentDataClone.comment_status;
+        let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaDataClone.robots;
+        contentcontentForm.append("status", status)
+        contentcontentForm.append("comment_status", comment_status)
+        contentcontentForm.append("is_menu", is_menu)
+        let title = titleWrite;
+        let slug = slugManage ? titleWrite : $("input.slugest").val();
+        contentcontentForm.append("title", title)
+        if (slugManage == false) {
+            contentcontentForm.append("slug", title)
+        } else {
+            contentcontentForm.append("slug", slug)
+        }
+
+        if (contentDataClone.slug == "") {
+            contentcontentForm.append("slug", title)
+        }
+        contentcontentForm.append("content", editorContent)
+        metaDataClone.robots = robots;
+        let metaDataStringify = JSON.stringify(metaDataClone);
+        contentcontentForm.append("metadata", metaDataStringify)
+        contentcontentForm.append("category_list", JSON.stringify(categoryOldSelected))
+        let contentTagList = chipsetChange ? chipset : [];
+        contentcontentForm.append("tag_list", JSON.stringify(contentTagList))
+        if (contentDataClone.title && contentDataClone.title !== '') {
+            $("input[name=titleContent]").removeClass("is-invalid");
+           swalAccept("افزودن محتوا جدید").then(resSwal => {
+               if(resSwal.value){
+                   api.create(contentcontentForm).then(res => {
+                       successSwal("با موفقیت اضافه شد !");
+                       actionResult(res);
+                   })
+               }
+
+           })
+
+        } else {
+            $("input[name=titleContent]").addClass("is-invalid");
+            error("لطفا فیلد عنوان صفحه را پر کنید !")
+        }
+
+    }
+
+    const onCancel = e => {
+        e.preventDefault();
+        formHandler.handleClose();
+    }
+
+
+    const onUpdate = () => {
+
+    }
+
+    const onDuplicate = () => {
+
+    }
 
     return (
         <div id={"category_add_pop_base"}>
@@ -419,56 +472,13 @@ const ContentAdd = ({token, resultForm, dataUpdate}) => {
                 </div>
 
                 <div className={"col-12 bottom-footer"}>
-<Footer />
+                    <Footer actionType={type ? type : 'save'} editStatus={edit} onSubmit={onSubmit} onUpdate={onUpdate}
+                            onDuplicate={onDuplicate} onCancel={onCancel}/>
                 </div>
             </div>
         </div>
     )
 
-    function onSubmit() {
-        let api = new CreateContent()
-        let contentDataClone = {...contentForm};
-        let titleWrite = $("input[name=titleContent]").val();
-        let contentcontentForm = new contentForm();
-        contentcontentForm.append("image", file.file ? file.file : '')
-        let metaDataClone = {...metaData};
-        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : contentDataClone.is_menu;
-        let status = localStorage.getItem("status") ? localStorage.getItem("status") : contentDataClone.status;
-        let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : contentDataClone.comment_status;
-        let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaDataClone.robots;
-        contentcontentForm.append("status", status)
-        contentcontentForm.append("comment_status", comment_status)
-        contentcontentForm.append("is_menu", is_menu)
-        let title = titleWrite;
-        let slug = slugManage ? titleWrite : $("input.slugest").val();
-        contentcontentForm.append("title", title)
-        if (slugManage == false) {
-            contentcontentForm.append("slug", title)
-        }else{
-            contentcontentForm.append("slug", slug)
-        }
-
-        if (contentDataClone.slug == "") {
-            contentcontentForm.append("slug", title)
-        }
-        contentcontentForm.append("content", editorContent)
-        metaDataClone.robots = robots;
-        let metaDataStringify = JSON.stringify(metaDataClone);
-        contentcontentForm.append("metadata", metaDataStringify)
-        contentcontentForm.append("category_list", JSON.stringify(categoryOldSelected))
-        let contentTagList = chipsetChange ? chipset : [];
-        contentcontentForm.append("tag_list", JSON.stringify(contentTagList))
-        if (contentDataClone.title && contentDataClone.title !== '') {
-            $("input[name=titleContent]").removeClass("is-invalid");
-            api.create(contentcontentForm).then(res => {
-
-            })
-        } else {
-            $("input[name=titleContent]").addClass("is-invalid");
-            error("لطفا فیلد عنوان صفحه را پر کنید !")
-        }
-
-    }
 
 }
 export default ContentAdd;
