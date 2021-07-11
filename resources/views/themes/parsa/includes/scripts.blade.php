@@ -1,4 +1,3 @@
-
 <script src="{{themeAsset('js/jquery.min.js')}}"></script>
 <script src="{{themeAsset('js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{themeAsset('js/owl.carousel.min.js')}}"></script>
@@ -13,3 +12,4 @@
 <script src="{{themeAsset('js/contact-form-script.js')}}"></script>
 <script src="{{themeAsset('js/ajaxchimp.min.js')}}"></script>
 <script src="{{themeAsset('js/main.js')}}"></script>
+<script src="{{themeAsset('js/parsa.js')}}"></script>

@@ -39,14 +39,11 @@ use Morilog\Jalali\Jalalian;
 */
 
 Route::get('/test', function () {
-    $result = (new \App\Classes\Pay\Pay());
-    $result = $result->userId()->gatewayId(2)->start(1000);
-    return $result;
-
+    return (new \App\Http\Controllers\Front\Cart\CartController())->addToCart(1, 10);
 });
 
 Route::get('test2', function (\Illuminate\Http\Request $request) {
-dd(jdate()->getTimestamp(),Jalalian::forge('last sunday')->getTimestamp());
+    return (new \App\Http\Controllers\Front\Cart\CartController())->resetCart();
 });
 
 Route::get('csrf', function () {
@@ -76,8 +73,6 @@ Route::prefix('auth')->group(function () {
         Route::post('/recovery', [PasswordController::class, 'passwordRecovery'])->name('auth.password.recovery');
     });
 });
-
-
 
 
 Route::middleware('auth')->group(function () {
@@ -163,7 +158,7 @@ Route::middleware('auth')->group(function () {
 
     //-------------------------------Transfer-----------------------------
     Route::get('transfer/index', [TransferController::class, 'blade'])->name('transfers.blade');
-    Route::prefix('transfers/')->group(function (){
+    Route::prefix('transfers/')->group(function () {
         Route::get('', [TransferController::class, 'index'])->name('transfers.index');
         Route::post('', [TransferController::class, 'store'])->name('transfers.store');
         Route::get('create', [TransferController::class, 'create'])->name('transfers.create');
@@ -180,7 +175,7 @@ Route::middleware('auth')->group(function () {
 
     //------------------------------Address-------------------------------
     Route::get('address/index', [AddressController::class, 'blade'])->name('addresses.blade');
-    Route::prefix('addresses/')->group(function (){
+    Route::prefix('addresses/')->group(function () {
         Route::get('', [AddressController::class, 'index'])->name('addresses.index');
         Route::post('', [AddressController::class, 'store'])->name('addresses.store');
         Route::get('create', [AddressController::class, 'create'])->name('addresses.create');
@@ -194,6 +189,7 @@ Route::middleware('auth')->group(function () {
     //------------------------------Order-------------------------------
     Route::get('order', [OrderController::class, 'blade'])->name('orders.blade');
     Route::get('orders/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
+
     Route::resource('orders', OrderController::class);
     Route::delete('orders/multi/destroy', [OrderController::class, 'multipleDestroy'])->name('orders.multipleDestroy');
 
@@ -207,18 +203,19 @@ Route::middleware('auth')->group(function () {
 Route::name('front.')->group(function () {
     Route::get('/', [FrontPageController::class, 'search'])->name('index');
 
-
     Route::get('category/{slug}', [\App\Http\Controllers\Front\Category\CategoryController::class, 'search'])->name('categories');
 
     Route::get('tag/{name}', [\App\Http\Controllers\Front\Tag\TagController::class, 'search'])->name('tags');
 
     Route::any('search', [SearchController::class, 'search'])->name('search');
 
-
     Route::get('product/{slug}', [\App\Http\Controllers\Front\Shop\ProductController::class, 'show'])->name('product.show');
 
-    Route::get('callback/{invoice_id}', [InvoiceController::class, 'callback'])->name('callback');;
+    Route::get('callback/{invoice_id}', [InvoiceController::class, 'callback'])->name('callback');
 
+    Route::name('cart.')->prefix('cart/')->group(function () {
+        Route::post('add', [\App\Http\Controllers\Front\Cart\CartController::class, 'addToCart'])->name('add');
+    });
 
     Route::get('{slug}', [\App\Http\Controllers\Front\Content\ContentController::class, 'search'])->name('contents');
 });
