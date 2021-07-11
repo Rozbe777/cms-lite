@@ -35,6 +35,23 @@
                             </div>
                             <a href="#" class="rating-count">(3 بازدید)</a>
                         </div>
+                        <div>
+                            <select class="form-control" id="attribute_id">
+                                @forelse($attributes as $attribute)
+
+
+                                    <option value="{{$attribute->id}}">{{$attribute->product_code}} -
+                                        @foreach($attribute->typeFeatures as $tf)
+                                            {{$tf->title}}:{{$tf->value}} -
+                                        @endforeach
+                                    </option>
+
+
+                                @empty
+                                    <option disabled>موردی یافت نشد</option>
+                                @endforelse
+                            </select>
+                        </div>
                         <div class="price">
                             <span class="old-price">99000 تومان</span>
                             <span class="new-price">69000 تومان</span>
@@ -51,11 +68,12 @@
                                 <span class="sub-title">تعداد:</span>
                                 <div class="input-counter">
                                     <span class="minus-btn"><i class="ri-subtract-line"></i></span>
-                                    <input type="text" value="1">
+                                    <input id="count" min="1" max="10" type="text" value="1">
                                     <span class="plus-btn"><i class="ri-add-line"></i></span>
                                 </div>
                             </div>
-                            <button type="button" onclick="addToCart(1,3)" class="default-btn">افزودن خرید <i class="ri-arrow-left-line"></i>
+                            <button type="button" onclick="addToCart()" class="default-btn">افزودن خرید <i
+                                    class="ri-arrow-left-line"></i>
                             </button>
                         </div>
                         <ul class="social-share">
@@ -230,7 +248,7 @@
                                     src="assets/img/products/products-img1.jpg" alt="image"></a>
                             <ul class="buttons-list">
                                 <li>
-                                    <a href="#" >
+                                    <a href="#">
                                         <i class="ri-shopping-cart-2-line"></i>
                                         <span class="tooltip-label">افزودن خرید</span>
                                     </a>

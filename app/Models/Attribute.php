@@ -10,9 +10,11 @@ class Attribute extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
     protected $guarded = [];
+    protected $appends = ['final_price'];
 
-    public function products()
+    public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
@@ -35,5 +37,14 @@ class Attribute extends Model
     public function orders()
     {
         return $this->morphToMany(Order::class, 'orderable');
+    }
+
+    public function getFinalPriceAttribute()
+    {
+        if ($this->attributes['discount_status'] == 'active') {
+            return $this->attributes['discount'];
+        } else {
+            return $this->attributes['price'];
+        }
     }
 }
