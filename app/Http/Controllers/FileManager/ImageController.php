@@ -11,6 +11,6 @@ class ImageController extends Controller
 {
     public function show($name)
     {
-        return Storage::url('public/images/'.$name);
+        return response()->file(public_path('storage/images/' . $name));
     }
 }

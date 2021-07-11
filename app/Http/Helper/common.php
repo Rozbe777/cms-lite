@@ -41,7 +41,7 @@ if (!function_exists('image')) {
     function image($image = null)
     {
         if (empty($image)) {
-            return  adminTheme('placeholder.jpg');
+            return adminTheme('placeholder.jpg');
         }
 
         //return url('uploads/' . $image);
@@ -60,7 +60,7 @@ if (!function_exists('uploadRoot')) {
 if (!function_exists('avatar')) {
     function avatar($file = null)
     {
-    return response()->file(storage_path('app/images/'.$file))->getFile();
+        return response()->file(storage_path('app/images/' . $file))->getFile();
     }
 }
 if (!function_exists('setting')) {
@@ -144,5 +144,14 @@ if (!function_exists('shorter')) {
         if (strlen($text) > $chars_limit)
             return substr($text, 0, strrpos(substr($text, 0, $chars_limit), " ")) . '...';
         else return $text;
+    }
+}
+if (!function_exists('cartCount')) {
+    function cartCount()
+    {
+        $cartCount = session(\App\Http\Controllers\Front\Cart\CartController::CART_SESSION_ID);
+        if (empty($cartCount))
+            return 0;
+        return sizeof($cartCount);
     }
 }

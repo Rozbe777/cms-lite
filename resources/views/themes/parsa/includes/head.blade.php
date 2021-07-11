@@ -5,7 +5,7 @@
     <meta name="keywords" content="HTML5,CSS3,HTML,Template,multi-page,Enry - Business Consulting HTML Template">
     <meta name="description" content="Enry - Business Consulting HTML Template">
     <meta name="author" content="zerone.Team">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="stylesheet" href="{{themeAsset('css/bootstrap.rtl.min.css')}}">
     <link rel="stylesheet" href="{{themeAsset('css/animate.min.css')}}">
     <link rel="stylesheet" href="{{themeAsset('css/meanmenu.min.css')}}">

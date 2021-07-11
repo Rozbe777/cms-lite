@@ -62,7 +62,9 @@ class Product extends Model
 
     public function getImageUrlAttribute()
     {
-        return image($this->attributes['image']);
+        if (!empty($this->attributes['image']))
+            return image($this->attributes['image']);
+        return "#";
     }
 
     public function getJalaliCreatedAtAttribute()

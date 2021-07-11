@@ -1,5 +1,6 @@
 @extends(layout('layout'))
 @section('content')
+
     <div class="page-title-area">
         <div class="container">
             <div class="page-title-content">
@@ -34,11 +35,29 @@
                             </div>
                             <a href="#" class="rating-count">(3 بازدید)</a>
                         </div>
+                        <div>
+                            <select class="form-control" id="attribute_id">
+                                @forelse($attributes as $attribute)
+
+
+                                    <option value="{{$attribute->id}}">{{$attribute->product_code}} -
+                                        @foreach($attribute->typeFeatures as $tf)
+                                            {{$tf->title}}:{{$tf->value}} -
+                                        @endforeach
+                                    </option>
+
+
+                                @empty
+                                    <option disabled>موردی یافت نشد</option>
+                                @endforelse
+                            </select>
+                        </div>
                         <div class="price">
                             <span class="old-price">99000 تومان</span>
                             <span class="new-price">69000 تومان</span>
                         </div>
-                        <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
+                        <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است. لورم
+                            ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
                         <div class="products-meta">
                             <span>تعداد: <span class="sku">10</span></span>
                             <span>موجود: <span class="in-stock">در انبار</span></span>
@@ -49,11 +68,13 @@
                                 <span class="sub-title">تعداد:</span>
                                 <div class="input-counter">
                                     <span class="minus-btn"><i class="ri-subtract-line"></i></span>
-                                    <input type="text" value="1">
+                                    <input id="count" min="1" max="10" type="text" value="1">
                                     <span class="plus-btn"><i class="ri-add-line"></i></span>
                                 </div>
                             </div>
-                            <button type="submit" class="default-btn">افزودن خرید <i class="ri-arrow-left-line"></i></button>
+                            <button type="button" onclick="addToCart()" class="default-btn">افزودن خرید <i
+                                    class="ri-arrow-left-line"></i>
+                            </button>
                         </div>
                         <ul class="social-share">
                             <li><span>اشتراک گذاری</span></li>
@@ -103,110 +124,110 @@
                                 </div>
                             </div>
                         </div>
-                       {{-- <div class="single-tabs-box">
-                            <h2><span>نظرات</span></h2>
-                            <div class="inner-box">
-                                <div class="products-review-comments">
-                                    <div class="user-review">
-                                        <img src="assets/img/user/user1.jpg" alt="image">
-                                        <div class="review-rating">
-                                            <div class="review-stars">
-                                                <i class="ri-star-fill checked"></i>
-                                                <i class="ri-star-fill checked"></i>
-                                                <i class="ri-star-fill checked"></i>
-                                                <i class="ri-star-fill checked"></i>
-                                                <i class="ri-star-fill checked"></i>
-                                            </div>
-                                        </div>
-                                        <span class="d-block sub-comment">جیمز اندرسون</span>
-                                        <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
-                                    </div>
-                                    <div class="user-review">
-                                        <img src="assets/img/user/user2.jpg" alt="image">
-                                        <div class="review-rating">
-                                            <div class="review-stars">
-                                                <i class="ri-star-fill checked"></i>
-                                                <i class="ri-star-fill checked"></i>
-                                                <i class="ri-star-fill checked"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                            </div>
-                                        </div>
-                                        <span class="d-block sub-comment">جیمز اندرسون</span>
-                                        <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
-                                    </div>
-                                    <div class="user-review">
-                                        <img src="assets/img/user/user3.jpg" alt="image">
-                                        <div class="review-rating">
-                                            <div class="review-stars">
-                                                <i class="ri-star-fill checked"></i>
-                                                <i class="ri-star-fill checked"></i>
-                                                <i class="ri-star-fill checked"></i>
-                                                <i class="ri-star-fill checked"></i>
-                                                <i class="ri-star-fill checked"></i>
-                                            </div>
-                                        </div>
-                                        <span class="d-block sub-comment">جیمز اندرسون</span>
-                                        <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
-                                    </div>
-                                    <div class="user-review">
-                                        <img src="assets/img/user/user4.jpg" alt="image">
-                                        <div class="review-rating">
-                                            <div class="review-stars">
-                                                <i class="ri-star-fill checked"></i>
-                                                <i class="ri-star-fill checked"></i>
-                                                <i class="ri-star-fill checked"></i>
-                                                <i class="ri-star-fill checked"></i>
-                                                <i class="ri-star-fill"></i>
-                                            </div>
-                                        </div>
-                                        <span class="d-block sub-comment">جیمز اندرسون</span>
-                                        <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
-                                    </div>
-                                </div>
-                                <div class="review-form-wrapper">
-                                    <h3>افزودن نظر</h3>
-                                    <p class="comment-notes">آدرس ایمیل شما منتشر نخواهد شد. قسمتهای مورد نیاز علامت گذاری شده اند <span>*</span></p>
-                                    <form>
-                                        <div class="row">
-                                            <div class="col-lg-12 col-md-12">
-                                                <div class="rating">
-                                                    <input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
-                                                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
-                                                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
-                                                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
-                                                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="نام *">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6">
-                                                <div class="form-group">
-                                                    <input type="email" class="form-control" placeholder="ایمیل *">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 col-md-12">
-                                                <div class="form-group">
-                                                    <textarea placeholder="موضوع شما" class="form-control" cols="30" rows="6"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 col-md-12">
-                                                <p class="comment-form-cookies-consent">
-                                                    <input type="checkbox" id="test1">
-                                                    <label for="test1">نام ، ایمیل و وب سایت من را برای دفعه بعدی که نظر می دهم در این مرورگر ذخیره کنید.</label>
-                                                </p>
-                                            </div>
-                                            <div class="col-lg-12 col-md-12">
-                                                <button type="submit">مشترک شدن</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>--}}
+                        {{-- <div class="single-tabs-box">
+                             <h2><span>نظرات</span></h2>
+                             <div class="inner-box">
+                                 <div class="products-review-comments">
+                                     <div class="user-review">
+                                         <img src="assets/img/user/user1.jpg" alt="image">
+                                         <div class="review-rating">
+                                             <div class="review-stars">
+                                                 <i class="ri-star-fill checked"></i>
+                                                 <i class="ri-star-fill checked"></i>
+                                                 <i class="ri-star-fill checked"></i>
+                                                 <i class="ri-star-fill checked"></i>
+                                                 <i class="ri-star-fill checked"></i>
+                                             </div>
+                                         </div>
+                                         <span class="d-block sub-comment">جیمز اندرسون</span>
+                                         <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
+                                     </div>
+                                     <div class="user-review">
+                                         <img src="assets/img/user/user2.jpg" alt="image">
+                                         <div class="review-rating">
+                                             <div class="review-stars">
+                                                 <i class="ri-star-fill checked"></i>
+                                                 <i class="ri-star-fill checked"></i>
+                                                 <i class="ri-star-fill checked"></i>
+                                                 <i class="ri-star-fill"></i>
+                                                 <i class="ri-star-fill"></i>
+                                             </div>
+                                         </div>
+                                         <span class="d-block sub-comment">جیمز اندرسون</span>
+                                         <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
+                                     </div>
+                                     <div class="user-review">
+                                         <img src="assets/img/user/user3.jpg" alt="image">
+                                         <div class="review-rating">
+                                             <div class="review-stars">
+                                                 <i class="ri-star-fill checked"></i>
+                                                 <i class="ri-star-fill checked"></i>
+                                                 <i class="ri-star-fill checked"></i>
+                                                 <i class="ri-star-fill checked"></i>
+                                                 <i class="ri-star-fill checked"></i>
+                                             </div>
+                                         </div>
+                                         <span class="d-block sub-comment">جیمز اندرسون</span>
+                                         <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
+                                     </div>
+                                     <div class="user-review">
+                                         <img src="assets/img/user/user4.jpg" alt="image">
+                                         <div class="review-rating">
+                                             <div class="review-stars">
+                                                 <i class="ri-star-fill checked"></i>
+                                                 <i class="ri-star-fill checked"></i>
+                                                 <i class="ri-star-fill checked"></i>
+                                                 <i class="ri-star-fill checked"></i>
+                                                 <i class="ri-star-fill"></i>
+                                             </div>
+                                         </div>
+                                         <span class="d-block sub-comment">جیمز اندرسون</span>
+                                         <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
+                                     </div>
+                                 </div>
+                                 <div class="review-form-wrapper">
+                                     <h3>افزودن نظر</h3>
+                                     <p class="comment-notes">آدرس ایمیل شما منتشر نخواهد شد. قسمتهای مورد نیاز علامت گذاری شده اند <span>*</span></p>
+                                     <form>
+                                         <div class="row">
+                                             <div class="col-lg-12 col-md-12">
+                                                 <div class="rating">
+                                                     <input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
+                                                     <input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
+                                                     <input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
+                                                     <input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
+                                                     <input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
+                                                 </div>
+                                             </div>
+                                             <div class="col-lg-6 col-md-6">
+                                                 <div class="form-group">
+                                                     <input type="text" class="form-control" placeholder="نام *">
+                                                 </div>
+                                             </div>
+                                             <div class="col-lg-6 col-md-6">
+                                                 <div class="form-group">
+                                                     <input type="email" class="form-control" placeholder="ایمیل *">
+                                                 </div>
+                                             </div>
+                                             <div class="col-lg-12 col-md-12">
+                                                 <div class="form-group">
+                                                     <textarea placeholder="موضوع شما" class="form-control" cols="30" rows="6"></textarea>
+                                                 </div>
+                                             </div>
+                                             <div class="col-lg-12 col-md-12">
+                                                 <p class="comment-form-cookies-consent">
+                                                     <input type="checkbox" id="test1">
+                                                     <label for="test1">نام ، ایمیل و وب سایت من را برای دفعه بعدی که نظر می دهم در این مرورگر ذخیره کنید.</label>
+                                                 </p>
+                                             </div>
+                                             <div class="col-lg-12 col-md-12">
+                                                 <button type="submit">مشترک شدن</button>
+                                             </div>
+                                         </div>
+                                     </form>
+                                 </div>
+                             </div>
+                         </div>--}}
                     </div>
                 </div>
             </div>
@@ -223,10 +244,11 @@
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="single-products-box">
                         <div class="image">
-                            <a href="products-details.html" class="d-block"><img src="assets/img/products/products-img1.jpg" alt="image"></a>
+                            <a href="products-details.html" class="d-block"><img
+                                    src="assets/img/products/products-img1.jpg" alt="image"></a>
                             <ul class="buttons-list">
                                 <li>
-                                    <a href="cart.html">
+                                    <a href="#">
                                         <i class="ri-shopping-cart-2-line"></i>
                                         <span class="tooltip-label">افزودن خرید</span>
                                     </a>
@@ -263,7 +285,8 @@
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="single-products-box">
                         <div class="image">
-                            <a href="products-details.html" class="d-block"><img src="assets/img/products/products-img2.jpg" alt="image"></a>
+                            <a href="products-details.html" class="d-block"><img
+                                    src="assets/img/products/products-img2.jpg" alt="image"></a>
                             <ul class="buttons-list">
                                 <li>
                                     <a href="cart.html">
@@ -303,7 +326,8 @@
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="single-products-box">
                         <div class="image">
-                            <a href="products-details.html" class="d-block"><img src="assets/img/products/products-img3.jpg" alt="image"></a>
+                            <a href="products-details.html" class="d-block"><img
+                                    src="assets/img/products/products-img3.jpg" alt="image"></a>
                             <ul class="buttons-list">
                                 <li>
                                     <a href="cart.html">
