@@ -20,7 +20,7 @@ class CreateAttributesTable extends Migration
             $table->bigInteger('price');
             $table->bigInteger('discount')->default(0);
             $table->integer('discount_percentage')->default(0);
-            $table->enum('discount_status',['active','deactivate'])->default('active');
+            $table->enum('discount_status',['active','deactivate'])->default('deactivate');
             $table->bigInteger('count')->nullable();
             $table->bigInteger('limit')->nullable();
             $table->softDeletes();

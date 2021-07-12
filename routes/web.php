@@ -39,7 +39,7 @@ use Morilog\Jalali\Jalalian;
 */
 
 Route::get('/test', function () {
-    return (new \App\Http\Controllers\Front\Cart\CartController())->addToCart(1, 10);
+    return (new \App\Http\Controllers\Front\Cart\CartController())->index();
 });
 
 Route::get('test2', function (\Illuminate\Http\Request $request) {
@@ -101,7 +101,7 @@ Route::middleware('auth')->group(function () {
     Route::get('categories/all', [CategoryController::class, 'all'])->name('categories.getAll');
     Route::resource('categories', CategoryController::class)->except('update');
     //              -----------ProductCategories-------------
-    Route::resource('product/categories', CategoryController::class,[
+    Route::resource('product/categories', CategoryController::class, [
         'names' => 'product.categories'
     ])->except('update');
     //              -----------ProductCategories-------------
@@ -219,6 +219,7 @@ Route::name('front.')->group(function () {
 
     Route::name('cart.')->prefix('cart/')->group(function () {
         Route::post('add', [\App\Http\Controllers\Front\Cart\CartController::class, 'addToCart'])->name('add');
+        Route::post('update', [\App\Http\Controllers\Front\Cart\CartController::class, 'update'])->name('update');
     });
 
     Route::get('{slug}', [\App\Http\Controllers\Front\Content\ContentController::class, 'search'])->name('contents');

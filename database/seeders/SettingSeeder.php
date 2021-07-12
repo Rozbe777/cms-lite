@@ -64,6 +64,10 @@ class SettingSeeder extends Seeder
                 "key" => "cron",
                 "value" => "* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1",
             ],
+            [
+                "key" => "tax",
+                "value" => 9,
+            ],
         ];
 
         foreach ($records as $record) {

@@ -16,8 +16,8 @@ class ProductController extends Controller
         $product = Product::whereSlug($slug)->active()->firstOrFail();
         $title = $product->title;
         $attributes = Attribute::whereProductId($product->id)->with('typeFeatures')->get();
-        dd($attributes);
-        return page('shop.product.index', compact('product', 'title'));
+
+        return page('shop.product.index', compact('product', 'attributes', 'title'));
     }
 
 }

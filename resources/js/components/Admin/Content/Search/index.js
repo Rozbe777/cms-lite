@@ -2,63 +2,50 @@ import React, {useEffect, useState} from "react";
 import {MultiOption} from "./../../Shop/ProductManager/HOC/MultiOption";
 import {MultiSelected} from "./../../Shop/ProductManager/HOC/MultiSelected";
 import $ from 'jquery';
-import {Request} from "../../../../services/AdminService/Api";
 import {ErroHandle, error as ErrorToast} from "../../../../helper";
+import ContentsApi from "../Api/ContentApi";
+import CategoryApi from "../../Category/Api/CategoryApi";
 
-const SearchComponent = ({tagReload, total, searchRes: pushSearchRes}) => {
+const SearchComponent = ({searchResultSelected}) => {
 
 
-    const [size, setSize] = useState(0);
-    const [sizeCategory, setSizeCategory] = useState(0);
-    const [loading, setLoading] = useState(false);
     const [categoryData, setCategoryData] = useState()
     const [tagData, setTagData] = useState()
     const [search, setSearch] = useState({});
+    let contentApi = new ContentsApi();
+    let categoryApi = new CategoryApi();
+
+
+
     useEffect(() => {
         GetAllCategory();
         GetAllTag()
 
     }, [])
 
-    let idss = [];
-
 
     const GetAllCategory = () => {
-        setLoading(true)
-        Request.GetAllCategory()
-            .then(res => {
-                setLoading(false)
-                setCategoryData(res.data.data)
-            })
-            .catch(err => {
-                if (err.response.data.errors) {
-                    ErroHandle(err.response.data.errors);
-                } else {
-                    //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
-                    $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center ;margin : 10px 0 0 '>خطا در ارتباط با دیتابیس</p><p>مجددا تلاش کنید</p><div>");
-                    ErrorToast("خطای غیر منتظره ای رخ داده است")
-                }
-
-            })
+        categoryApi.call().then(response => {
+            setCategoryData(response.data.data)
+        }).catch(error => {
+            if (error.response.data.errors) {
+                ErroHandle(error.response.data.errors);
+            } else {
+                ErrorToast("خطای غیر منتظره ای رخ داده است")
+            }
+        })
     }
 
     const GetAllTag = () => {
-        setLoading(true)
-        Request.GetAllTags()
-            .then(res => {
-                setLoading(false)
-                setTagData(res.data.data.data)
-            })
-            .catch(err => {
-                if (err.response.data.errors) {
-                    ErroHandle(err.response.data.errors);
-                } else {
-                    //<button onclick='`${reloadpage()}`'  id='reloads' style='margin : 0 !important' class='btn btn-secondary  round mr-1 mb-1'>پردازش مجدد</button>
-                    $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center ;margin : 10px 0 0 '>خطا در ارتباط با دیتابیس</p><p>مجددا تلاش کنید</p><div>");
-                    ErrorToast("خطای غیر منتظره ای رخ داده است")
-                }
-
-            })
+        contentApi.getAllTags().then(response => {
+            setTagData(response.data.data.data)
+        }).catch(error => {
+            if (error.response.data.errors) {
+                ErroHandle(error.response.data.errors);
+            } else {
+                ErrorToast("خطای غیر منتظره ای رخ داده است")
+            }
+        })
     }
 
 
@@ -72,8 +59,6 @@ const SearchComponent = ({tagReload, total, searchRes: pushSearchRes}) => {
     const handleFadeSearchInput = (e) => {
         $(".search-input-float").toggleClass("active");
     }
-
-
 
 
     const handleFadeSearch = (e) => {
@@ -90,18 +75,37 @@ const SearchComponent = ({tagReload, total, searchRes: pushSearchRes}) => {
         let searchOld = {...search};
         searchOld.search = e.target.value;
         setSearch(searchOld)
-        pushSearchRes(searchOld)
+        searchResultSelected(searchOld)
     }
 
 
-    const responsiveSeach = (e) => {
-        let searchOlds = {...search};
-
-        searchOlds[e.target.name] = e.target.value;
-        setSearch(searchOlds)
-        pushSearchRes(searchOlds)
+    const categoriesSearchSelected = (categoryData) => {
+        let categoriesId = [];
+        categoryData.map(categoryDataItem => {
+            categoriesId.push(categoryDataItem.id);
+        })
+        let oldSearch = {...search};
+        oldSearch.categories = categoriesId;
+        setSearch(oldSearch)
+        searchResultSelected(oldSearch)
+    }
+    const tagsSearchSelected = (tagData) => {
+        let tagsId = [];
+        tagData.map(tagsDataItem => {
+            tagsId.push(tagsDataItem.id);
+        })
+        let oldSearch = {...search};
+        oldSearch.tags = tagsId;
+        setSearch(oldSearch)
+        searchResultSelected(oldSearch)
     }
 
+    const statusSearchSelected = (status) => {
+        let oldSearch = {...search};
+        oldSearch.status = status == "منتشر شده" ? "active" : status == "منتشر نشده" ? "deactivate" : '';
+        setSearch(oldSearch)
+        searchResultSelected(oldSearch)
+    }
     return (
         <>
             <div id={"shop_product_search"} style={{marginBottom: 20}}>
@@ -110,71 +114,14 @@ const SearchComponent = ({tagReload, total, searchRes: pushSearchRes}) => {
 
                         <div className="row col-12" id={"header-card-custom"}>
 
-                            <div className="col-md-6 col-sm-12 col-lg-3">
-                                <label htmlFor="users-list-verified">جستجو</label>
-                                <input type="text" className="form-control"
-                                       id={"search_input"}
-                                       onChange={e => handleInputSearch(e)}
-                                       placeholder="جستجو با نام ..." name="search"/>
-
-                            </div>
+                            {_renderSearchInput()}
 
 
-                            <div className="col-12 col-sm-6 col-lg-3">
-                                <label
-                                    htmlFor="users-list-role">دسته بندی</label>
-                                <MultiSelected name={"categories"} data={categoryData ? categoryData : []}
-                                               selected={item => {
-                                                   item.map(ii => {
-                                                       idss.push(ii);
-                                                   })
-                                                   let oldSearch = {...search};
-                                                   oldSearch.categories = idss;
-                                                   setSearch(oldSearch)
-                                                   pushSearchRes(oldSearch)
-                                               }}
+                            {_renderCategories()}
 
-                                />
-                            </div>
+                            {_renderStatus()}
 
-                            <div className="col-12 col-sm-6 col-lg-3">
-                                <label
-                                    htmlFor="users-list-role">وضعیت</label>
-                                <MultiOption name={"status"} data={[{
-                                    id : 'منتشر شده',
-                                    name : 'منتشر شده'
-                                },{
-                                    id : 'منتشر نشده',
-                                    name : 'منتشر نشده'
-                                }]}
-                                             selected={item => {
-                                                 let oldSearch = {...search};
-                                                 oldSearch.status = item == "منتشر شده" ? "active" : item == "منتشر نشده" ? "deactivate" : '';
-                                                 setSearch(oldSearch)
-                                                 pushSearchRes(oldSearch)
-                                             }}
-                                />
-                            </div>
-
-
-                            <div className="col-12 col-sm-6 col-lg-3">
-                                <label
-                                    htmlFor="users-list-role">برچسپ</label>
-                                <MultiSelected name={"tags"} data={tagData ? tagData : []}
-                                               selected={item => {
-                                                   let oldSearch = {...search};
-                                                   setSearch(oldSearch)
-                                                   pushSearchRes(oldSearch)
-                                               }}
-
-                                />
-                            </div>
-
-                            {/*<div className="col-6 col-sm-6 col-lg-2" style={{marginBlockStart: 'auto'}}>*/}
-                            {/*    <button type="submit" className="btn btn-primary mr-1 mb-1" id={"search-btn"}>جستجو</button>*/}
-                            {/*</div>*/}
-
-
+                            {_renderTags()}
                         </div>
                     </div>
                 </div>
@@ -185,60 +132,26 @@ const SearchComponent = ({tagReload, total, searchRes: pushSearchRes}) => {
             </div>
             <div className={"filter-content-fix"} id={"userlist"}>
                 <div className="row col-12" id={"header-card-custom"}>
-                    <div className="col-12 col-sm-6 col-lg-3">
-                        <label
-                            htmlFor="users-list-role">دسته بندی</label>
-                        <MultiSelected name={"categories"} data={categoryData ? categoryData : []}
-                                       selected={item => {
-                                           item.map(ii => {
-                                               idss.push(ii);
-                                           })
-                                           let oldSearch = {...search};
-                                           oldSearch.categories = idss;
-                                           setSearch(oldSearch)
-                                           pushSearchRes(oldSearch)
-                                       }}
+                    {_renderCategories()}
 
-                        />
-                    </div>
-
-                    <div className="col-12 col-sm-6 col-lg-3">
-                        <label
-                            htmlFor="users-list-role">وضعیت</label>
-                        <MultiOption name={"status"} data={[{
-                            id : 'منتشر شده',
-                            name : 'منتشر شده'
-                        },{
-                            id : 'منتشر نشده',
-                            name : 'منتشر نشده'
-                        }]}
-                                     selected={item => {
-                                         let oldSearch = {...search};
-                                         oldSearch.status = item == "منتشر شده" ? "active" : item == "منتشر نشده" ? "deactivate" : '';
-                                         setSearch(oldSearch)
-                                         pushSearchRes(oldSearch)
-                                     }}
-                        />
-                    </div>
+                    {_renderStatus()}
 
 
-                    <div className="col-12 col-sm-6 col-lg-3">
-                        <label
-                            htmlFor="users-list-role">برچسپ</label>
-                        <MultiSelected name={"tags"} data={tagData ? tagData : []}
-                                       selected={item => {
-                                           let oldSearch = {...search};
-                                           setSearch(oldSearch)
-                                           pushSearchRes(oldSearch)
-                                       }}
-
-                        />
-                    </div>
+                    {_renderTags()}
 
                 </div>
             </div>
 
 
+            {_renderFloadBtnSearch()}
+        </>
+
+    )
+
+
+
+    function _renderFloadBtnSearch(){
+        return (
             <div className={"float-btn"}>
                 <ul>
 
@@ -256,10 +169,67 @@ const SearchComponent = ({tagReload, total, searchRes: pushSearchRes}) => {
                     </li>
                 </ul>
             </div>
-        </>
+        )
+    }
 
-    )
+    function _renderSearchInput(){
+        return (
+            <div className="col-md-6 col-sm-12 col-lg-3">
+                <label htmlFor="users-list-verified">جستجو</label>
+                <input type="text" className="form-control"
+                       id={"search_input"}
+                       onChange={e => handleInputSearch(e)}
+                       placeholder="جستجو با نام ..." name="search"/>
 
+            </div>
+        )
+    }
+
+    function _renderTags() {
+        return (
+            <div className="col-12 col-sm-6 col-lg-3">
+                <label
+                    htmlFor="users-list-role">برچسپ</label>
+                <MultiSelected name={"tags"} data={tagData ? tagData : []}
+                               selected={item => tagsSearchSelected(item)}
+
+                />
+            </div>
+        )
+    }
+
+
+    function _renderCategories() {
+        return (
+            <div className="col-12 col-sm-6 col-lg-3">
+                <label
+                    htmlFor="users-list-role">دسته بندی</label>
+                <MultiSelected name={"categories"} data={categoryData ? categoryData : []}
+                               selected={item => categoriesSearchSelected(item)}
+
+                />
+            </div>
+        )
+    }
+
+    function _renderStatus() {
+        return (
+            <div className="col-12 col-sm-6 col-lg-3">
+                <label
+                    htmlFor="users-list-role">وضعیت</label>
+                <MultiOption name={"status"} data={[{
+                    id: 'منتشر شده',
+                    name: 'منتشر شده'
+                }, {
+                    id: 'منتشر نشده',
+                    name: 'منتشر نشده'
+                }]}
+                             selected={item => statusSearchSelected(item)}
+                />
+            </div>
+
+        )
+    }
 
 }
 

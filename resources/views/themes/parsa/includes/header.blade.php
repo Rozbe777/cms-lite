@@ -158,7 +158,9 @@
                         </ul>
                         <div class="others-option">
                             <div class="cart-btn">
-                                <a href="cart.html"><i class="ri-shopping-cart-line"></i><span>3</span></a>
+                                <a href="cart.html"><i class="ri-shopping-cart-line"></i>
+                                    <div id="cart-count">@if(cartCount())<span>{{cartCount()}}</span>@endif</div>
+                                </a>
                             </div>
                             <div class="search-icon">
                                 <i class="ri-search-line"></i>

@@ -23,13 +23,17 @@ function getToken() {
 /*
 * AJAX REQUESTS
 * */
-function addToCart(attribute_id, count) {
+function addToCart() {
+    let attribute_id = $("#attribute_id").val();
+    let count = $("#count").val();
+    let remaining = 10;
     $.ajax({
         type: 'post',
         url: `${SITE_URL}${URLS.ADD_TO_CART}`,
         data: {
             attribute_id,
             count,
+            remaining,
             _token: getToken()
         },
         headers: {

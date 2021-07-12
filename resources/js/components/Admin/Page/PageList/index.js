@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import ReactDom from 'react-dom';
-import {BackLoader} from './../../_Micro/BackLoader'
 import {TreeShowPage} from './../../_Micro/PageComponents/TreeShowPage';
 import {Request} from './../../../../services/AdminService/Api'
 import './../../_Micro/TreeShow/_Shared/style.scss';
@@ -134,10 +133,6 @@ export const PageList = (props) => {
         } else {
         }
     }
-    const HandleBackLoaderPage = (data) => {
-        ReactDom.render(<PageAdd token={token} display={true} dataUpdate={data} idParent={0}
-                                 result={item => handleBack(item)}/>, document.getElementById("add-datas"))
-    }
 
     if (checkBox.length > 0) {
         $("#totalAction").addClass("activeAction");
@@ -266,7 +261,6 @@ export const PageList = (props) => {
                 </div>
 
 
-                <BackLoader states={item => (HandleAddPageSelect(item))}/>
                 <div id={"add-datas"}></div>
                 {/*<div className="col-md-12">*/}
                 {/*    {pageAll.data ? pageAll.data.length ? (*/}
