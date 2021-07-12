@@ -5,7 +5,7 @@ import {TreeShowPage} from './../../_Micro/ContentComponents/TreeShowPage';
 import {Request} from './../../../../services/AdminService/Api'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import {CHECK_BOX_CONTENT} from "../../UserList/Helper/Context";
-import ContentAdd from './../../Content/ContentAdd'
+// import ContentAdd from './../../Content/ContentAdd'
 import Loading from './../../_Micro/Loading'
 import NotFound from './../../_Micro/NotFound'
 import $ from 'jquery';
@@ -15,6 +15,7 @@ import {BreadCrumbs} from "../../UserList/HOC/BreadCrumbs";
 import BottomNavigationBar from "../../UserList/HOC/BottomNavigationBar";
 import {Pagination} from "../../_Micro/Pagination";
 import SearchComponent from "./../Search";
+import ContentAdd from './../Component/ContentAdd';
 import {HandleDeleteGroup} from "../Helper/Action";
 
 
@@ -67,10 +68,7 @@ export const ContentList = ({token}) => {
     }, [])
 
     const handleAddContent = () => {
-        ReactDom.render(<ContentAdd onChange={()=>{
-
-        }} resultForm={handleReload} token={token} display={true} dataUpdate={''} idParent={0} checkChange={item => setReloadTag(true)}
-                                   />, document.getElementById("add-datas"))
+        ReactDom.render(<ContentAdd  actionResult={handleReload} />, document.getElementById("add-datas"))
     }
 
     const HandleDuplicate = (status) => {
@@ -80,8 +78,8 @@ export const ContentList = ({token}) => {
         }
     }
 
-    const handleReload = (statued) => {
-        if (statued){
+    const handleReload = (actionRes) => {
+        if (actionRes.status === 200){
             GetAllContents();
             ReactDom.render('', document.getElementById('add-datas'))
         }
@@ -94,7 +92,7 @@ export const ContentList = ({token}) => {
     const handleClickItemContent = (clickId) => {
         ReactDom.render(<ContentAdd token={token} display={true} idParent={clickId}
                                     dataUpdate={''}
-                                    resultForm={handleReload}
+                                    actionResult={handleReload}
                                     />, document.getElementById("add-datas"))
     }
     const HandleDeleteContent = (status) => {
@@ -112,7 +110,7 @@ export const ContentList = ({token}) => {
         }
     }
     const HandleBackLoaderContent = (data) => {
-        ReactDom.render(<ContentAdd token={token} display={true} dataUpdate={data} idParent={0} resultForm={handleReload}
+        ReactDom.render(<ContentAdd token={token} display={true} dataUpdate={data} idParent={0} actionResult={handleReload}
                                    />, document.getElementById("add-datas"))
     }
 

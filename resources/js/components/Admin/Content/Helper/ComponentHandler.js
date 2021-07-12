@@ -19,4 +19,5 @@ export default class ComponentHandler{
         setEdit(true)
         localStorage.setItem("comment_status", status ? "active" : "deactivate");
     }
+
 }

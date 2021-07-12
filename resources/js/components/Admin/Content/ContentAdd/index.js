@@ -5,7 +5,7 @@ import {BigSwitcher} from './../../../HOC/BigSwitcher';
 import './../../_Shared/Style.scss'
 import {Request} from './../../../../services/AdminService/Api'
 import MyEditor from "../../_Micro/MyEditor/MyEditor";
-import {ErroHandle, error as ErrorToast, error} from './../../../../helper'
+import {ErroHandle, error as ErrorToast, error, successSwal, swalAccept} from './../../../../helper'
 import {ChipsetHandler} from './../../../HOC/ChipsetHandler'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import {MultiSelected} from "../../Shop/ProductManager/HOC/MultiSelected";
@@ -16,26 +16,34 @@ import {Tab} from "../../_Micro/Tab";
 import RequestHandler from "../Helper/RequestHandler";
 import FunctionHandler from "../Helper/FunctionHandler";
 import ComponentHandler from "../Helper/ComponentHandler";
-import CreateContent from "../Api/CreateContent";
+import CreateContent from "../Api/ContentApi";
+import {HandleFormAdd} from "../Helper/Action"
+import HelperFunction from "../Helper/HelperFunction";
+import ContentDependentApi from "../Api/ContentDependentApi";
+import CategoryApi from "../../Category/Api/CategoryApi";
+import {Footer} from "../Component/Footer";
 
-const ContentAdd = ({token, resultForm, checkChange: pushCheckChange, display, dataUpdate, result: pushResult}) => {
+const ContentAdd = ({token, actionResult, dataUpdate}) => {
+
 
     let formHandler = new FormHandler();
     let componentHandler = new ComponentHandler();
     let functionHandler = new FunctionHandler();
     let requestHandler = new RequestHandler();
+    let helperFunction = new HelperFunction();
+    let categoryApi = new CategoryApi();
+    let contentDependentApi = new ContentDependentApi();
     let titleWrite = $("input[name=titleContent]").val();
-    const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
-    const dataUpdateParse = dataGet ? dataGet.allData : '';
-    const [changeCheck, setChangeCheck] = useState(false)
+    const contentDataUpdate = dataUpdate ? JSON.parse(dataUpdate) : '';
+    const dataUpdateParse = contentDataUpdate ? contentDataUpdate.allData : '';
+    const [changeCheckSlug, setChangeCheck] = useState(false)
     const [preImage, setPreImage] = useState({uri: ''});
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
     const [clear, setClear] = useState(false)
     const [categoryData, setCategoryData] = useState({});
     const [loading, setLoading] = useState(false);
-    const [contentNew, setContentNew] = useState('');
-    const [ids, setIds] = useState(0)
-    const [imageGet, setImage] = useState({state: ''})
+    const [editorContent, setEditorContent] = useState('');
+    const [currentContentId, setCurrentContentId] = useState(0)
     const [chipset, setChipset] = useState([]);
     const [chipsetChange, setChipChange] = useState(false)
     const [edit, setEdit] = useState(false);
@@ -43,9 +51,9 @@ const ContentAdd = ({token, resultForm, checkChange: pushCheckChange, display, d
     const [metaData, setMetaData] = useState({
         robots: false,
     });
-    const type = dataGet ? dataGet.type : '';
+    const type = contentDataUpdate ? contentDataUpdate.type : '';
     const [slugManage, setSlugManage] = useState(true);
-    const [formData, setFormData] = useState({});
+    const [contentForm, setContentForm] = useState({});
     let default_value = {
         is_menu: 0,
         comment_status: "deactivate",
@@ -53,46 +61,45 @@ const ContentAdd = ({token, resultForm, checkChange: pushCheckChange, display, d
         content: '',
         slug: ''
     };
-    let formNews = {...formData};
-    formNews = dataUpdateParse ? dataUpdateParse : default_value;
-    let selecteds = [];
+    let currentContentData = dataUpdateParse ? dataUpdateParse : default_value;
+    let categorySelctedId = [];
     dataUpdateParse ? dataUpdateParse.categories.map(item => {
-        selecteds.push(item.id);
+        categorySelctedId.push(item.id);
     }) : '';
 
+    let imageOldUrl = currentContentData ? currentContentData.image : '';
+    const [imageGet, setImage] = useState({state: imageOldUrl})
 
-    const [idSelCat, setIdSelCat] = useState(selecteds)
+    const [categoryOldSelected, setCategoryOldSelected] = useState(categorySelctedId)
     useEffect(() => {
-        requestHandler.GetAllCategory(setLoading, setCategoryData);
-        if (formNews.image) {
-            let img = formNews.image;
-            requestHandler.HandleGetImg(img, setLoading, setImage);
-        } else {
-            setImage({state: ''})
-        }
+        categoryApi.call().then(res => {
+            setCategoryData(res.data.data);
+        })
+
         dataUpdateParse ? dataUpdateParse.tags.map(item => {
             chipset.push(item.name);
             setChipset(chipset);
         }) : '';
+
+
         setMetaData(MetaDataUpdate)
-        setIds(formNews.id);
-        setFormData({
-            id: formNews.id,
-            image: formNews.image,
-            content: formNews.content,
-            is_menu: formNews.is_menu,
-            status: formNews.status,
-            comment_status: formNews.comment_status,
-            metadata: formNews.metadata,
-            slug: formNews.slug,
-            title: formNews.title,
-            tag_list: formNews.tag_list,
-            category_list: formNews.category_list
+        setCurrentContentId(currentContentData.id);
+        setContentForm({
+            id: currentContentData.id,
+            image: currentContentData.image,
+            content: currentContentData.content,
+            is_menu: currentContentData.is_menu,
+            status: currentContentData.status,
+            comment_status: currentContentData.comment_status,
+            metadata: currentContentData.metadata,
+            slug: currentContentData.slug,
+            title: currentContentData.title,
+            tag_list: currentContentData.tag_list,
+            category_list: currentContentData.category_list
         });
 
     }, [])
 
-    console.log(dataUpdateParse)
     const checkResult = (statused) => {
         if (statused) {
             resultForm(true)
@@ -119,9 +126,75 @@ const ContentAdd = ({token, resultForm, checkChange: pushCheckChange, display, d
 
     const handleEditorData = (data) => {
         setEdit(true)
-        setContentNew(data)
+        setEditorContent(data)
     }
 
+
+    const onSubmit = (e) => {
+        let api = new CreateContent()
+        let contentDataClone = {...contentForm};
+        let titleWrite = $("input[name=titleContent]").val();
+        let contentcontentForm = new FormData();
+        contentcontentForm.append("image", file.file ? file.file : '')
+        let metaDataClone = {...metaData};
+        let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : contentDataClone.is_menu;
+        let status = localStorage.getItem("status") ? localStorage.getItem("status") : contentDataClone.status;
+        let comment_status = localStorage.getItem("comment_status") ? localStorage.getItem("comment_status") : contentDataClone.comment_status;
+        let robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : metaDataClone.robots;
+        contentcontentForm.append("status", status)
+        contentcontentForm.append("comment_status", comment_status)
+        contentcontentForm.append("is_menu", is_menu)
+        let title = titleWrite;
+        let slug = slugManage ? titleWrite : $("input.slugest").val();
+        contentcontentForm.append("title", title)
+        if (slugManage == false) {
+            contentcontentForm.append("slug", title)
+        } else {
+            contentcontentForm.append("slug", slug)
+        }
+
+        if (contentDataClone.slug == "") {
+            contentcontentForm.append("slug", title)
+        }
+        contentcontentForm.append("content", editorContent)
+        metaDataClone.robots = robots;
+        let metaDataStringify = JSON.stringify(metaDataClone);
+        contentcontentForm.append("metadata", metaDataStringify)
+        contentcontentForm.append("category_list", JSON.stringify(categoryOldSelected))
+        let contentTagList = chipsetChange ? chipset : [];
+        contentcontentForm.append("tag_list", JSON.stringify(contentTagList))
+        if (contentDataClone.title && contentDataClone.title !== '') {
+            $("input[name=titleContent]").removeClass("is-invalid");
+           swalAccept("افزودن محتوا جدید").then(resSwal => {
+               if(resSwal.value){
+                   api.create(contentcontentForm).then(res => {
+                       successSwal("با موفقیت اضافه شد !");
+                       actionResult(res);
+                   })
+               }
+
+           })
+
+        } else {
+            $("input[name=titleContent]").addClass("is-invalid");
+            error("لطفا فیلد عنوان صفحه را پر کنید !")
+        }
+
+    }
+
+    const onCancel = e => {
+        e.preventDefault();
+        formHandler.handleClose();
+    }
+
+
+    const onUpdate = () => {
+
+    }
+
+    const onDuplicate = () => {
+
+    }
 
     return (
         <div id={"category_add_pop_base"}>
@@ -139,8 +212,8 @@ const ContentAdd = ({token, resultForm, checkChange: pushCheckChange, display, d
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان محتوا</label>
                                     <input type={"text"}
-                                           defaultValue={functionHandler.HandleMakeName(dataUpdateParse, formData, type)}
-                                           onChange={e => functionHandler.handleInput(e, setChangeCheck, setEdit, slugManage, formData, setFormData)}
+                                           defaultValue={functionHandler.HandleMakeName(dataUpdateParse, contentForm, type)}
+                                           onChange={e => functionHandler.handleInput(e, setChangeCheck, setEdit, slugManage, contentForm, setContentForm)}
                                            name={"titleContent"} id={"title"}
                                            className={"form-control"}/>
                                 </fieldset>
@@ -191,7 +264,7 @@ const ContentAdd = ({token, resultForm, checkChange: pushCheckChange, display, d
                                     : !loading ? !loading && imageGet.state !== "" ? (
                                         <div className={"mini-img-show-edit"}>
                                             <div className={"img-box"}>
-                                                <img src={`${BASE_URL_IMG}${imageGet.state}`}/>
+                                                <img src={`${BASE_URL_IMG}/${imageGet.state}`}/>
                                                 <div className={"back"}><span
                                                     onClick={e => functionHandler.handledelImg(e, setEdit, imageGet, setImage, setPreImage, preImage)}><i
                                                     className={"bx bx-x"}></i> </span></div>
@@ -232,12 +305,12 @@ const ContentAdd = ({token, resultForm, checkChange: pushCheckChange, display, d
                                                clearNew={cl => setClear(cl)}
                                                selected={item => {
                                                    let datame = [];
-                                                   setIdSelCat([]);
+                                                   setCategoryOldSelected([]);
                                                    setEdit(true)
                                                    item.map((ii, index) => {
-                                                       let idsel = idSelCat.indexOf(parseInt(ii.id))
+                                                       let idsel = categoryOldSelected.indexOf(parseInt(ii.id))
                                                        datame.push(parseInt(ii.id))
-                                                       setIdSelCat(datame);
+                                                       setCategoryOldSelected(datame);
                                                    })
                                                }}
 
@@ -308,18 +381,18 @@ const ContentAdd = ({token, resultForm, checkChange: pushCheckChange, display, d
                             <div className={"col-lg-9 col-md-8 col-sm-12"} style={{paddingTop: 8}}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس صفحه محتوا</label>
-                                    {slugManage ? changeCheck ? (
+                                    {slugManage ? changeCheckSlug ? (
                                         <div className={"fucks"}>
                                             {titleWrite}
                                         </div>
                                     ) : (
                                         <div className={"fucks"}>
-                                            {formData.slug}
+                                            {contentForm.slug}
                                         </div>
                                     ) : (
                                         <input type={"text"}
-                                               defaultValue={formData.slug}
-                                               onChange={e => functionHandler.handleInput(e, setChangeCheck, setEdit, slugManage, formData, setFormData)}
+                                               defaultValue={contentForm.slug}
+                                               onChange={e => functionHandler.handleInput(e, setChangeCheck, setEdit, slugManage, contentForm, setContentForm)}
                                                name={"slug"} id={"title"}
                                                className={"form-control slugest"}/>
                                     )}
@@ -399,85 +472,13 @@ const ContentAdd = ({token, resultForm, checkChange: pushCheckChange, display, d
                 </div>
 
                 <div className={"col-12 bottom-footer"}>
-                    <div className={"row"}>
-
-                        <div className={"col-6"} onClick={e => formHandler.handleClose(e)}
-                             style={{
-                                 cursor: 'pointer',
-                                 textAlign: 'center',
-                                 borderLeft: '1px solid #a9a9a9'
-                             }}>
-                            <button type={"reset"} id={"clear"}>
-                                انصراف
-                            </button>
-                        </div>
-
-                        {type ? type == 'edit' ? edit ? (
-                                <div
-                                    onClick={(e) => formHandler.HandleEdit(e, formData, file, imageGet, metaData, contentNew, dataUpdateParse, chipset, token, setChipChange, ids, idSelCat, slugManage, checkResult)}
-                                    className={"col-6"}
-                                    style={{textAlign: 'center', cursor: 'pointer', background: "#5a8dee", color: '#fff'}}>
-                                    <span>ویرایش</span>
-                                </div>
-                            )
-                            : (
-                                <div
-                                    id={"disable-div"}
-                                    className={"col-6"}
-                                    style={{
-                                        textAlign: 'center',
-                                        cursor: 'pointer',
-                                        background: "#5a8dee",
-                                        color: '#fff'
-                                    }}>
-                                    <span style={{color: '#fff !important'}}>ویرایش</span>
-                                </div>
-                            )
-                            : (
-                                <div
-                                    onClick={e => formHandler.HandleDuplicate(e, formData, slugManage, file, imageGet, metaData, dataUpdateParse, contentNew, idSelCat, chipset, checkResult)}
-                                    className={"col-6"}
-                                    style={{
-                                        textAlign: 'center',
-                                        cursor: 'pointer',
-                                        background: "#5a8dee",
-                                        color: '#fff'
-                                    }}>
-                                    <span style={{color: '#fff !important'}}>ذخیره کپی</span>
-                                </div>
-                            ) :
-
-                            (
-                                <div
-                                    // onClick={e => formHandler.HandleForm(e, formData, file, contentNew, metaData, idSelCat, chipsetChange, chipset, slugManage, checkResult)}
-                                    onClick={e => onSubmit(e, formData, file, contentNew, metaData, idSelCat, chipsetChange, chipset, slugManage, checkResult)}
-                                    className={"col-6"}
-                                    style={{
-                                        textAlign: 'center',
-                                        cursor: 'pointer',
-                                        background: "#5a8dee",
-                                        color: '#fff'
-                                    }}>
-                                    <span style={{color: '#fff !important'}}>ذخیره</span>
-                                </div>
-                            )}
-                    </div>
-
+                    <Footer actionType={type ? type : 'save'} editStatus={edit} onSubmit={onSubmit} onUpdate={onUpdate}
+                            onDuplicate={onDuplicate} onCancel={onCancel}/>
                 </div>
             </div>
-
         </div>
     )
 
-    function onSubmit() {
-
-        let api = new CreateContent()
-        api.create().then((response) => {
-            this.props.onChange(response);
-        }).catch((e) => {
-
-        })
-    }
 
 }
 export default ContentAdd;

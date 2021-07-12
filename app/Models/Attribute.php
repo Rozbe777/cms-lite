@@ -36,6 +36,7 @@ class Attribute extends Model
 
     public function orders()
     {
+<<<<<<< HEAD
         return $this->belongsToMany(Order::class);
     }
 
@@ -46,5 +47,12 @@ class Attribute extends Model
         } else {
             return $this->attributes['price'];
         }
+=======
+<<<<<<< HEAD
+        return $this->morphToMany(Order::class, 'orderable');
+=======
+        return $this->belongsToMany(Order::class);
+>>>>>>> c8a21951bbf17e245433eb55464ec9f4e5af0498
+>>>>>>> d4b8665754367d8a02791db5844145a41cf6e569
     }
 }

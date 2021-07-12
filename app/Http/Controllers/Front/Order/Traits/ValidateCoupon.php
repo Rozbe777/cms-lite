@@ -34,8 +34,7 @@ trait ValidateCoupon
 
         return $coupon;
     }
-
-
+    
     /**
      * @param $couponCode
      * @param $attribute
