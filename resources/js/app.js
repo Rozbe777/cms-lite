@@ -26,9 +26,12 @@ require('./components/User/UpdateUser');
 require("./components/Admin/UserList/UserList");
 
 
-/*require("./components/Admin/Category/CategoryList");*/
-require("./components/Admin/Category/V1/Category");
-require("./components/Admin/Category/CategoryAdd");
+require("./components/Admin/Category/Component/CategoryAdd");
+require("./components/Admin/Category/Component/CategoryFormParent");
+require("./components/Admin/Category/Component/CategoryList");
+require("./components/Admin/Category/Component/CategoryDuplicate");
+require("./components/Admin/Category/Component/CategoryEdit");
+
 
 
 require("./components/Admin/Page/PageAdd");
@@ -36,6 +39,7 @@ require("./components/Admin/Page/PageList");
 require("./components/Admin/Content/Component/ContentEdit");
 require("./components/Admin/Content/Component/ContentAdd");
 require("./components/Admin/Content/Component/ContentDuplicate");
+require("./components/Admin/Content/Component/ContentFormParent");
 require("./components/Admin/Content/Component/ContentList");
 require("./components/Admin/Dasboard");
 require("./components/Admin/Shop/ProductManager");

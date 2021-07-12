@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Footer} from "./Footer";
 import {ContentFormParent} from "./ContentFormParent";
 import HelperFunction from './../Helper/HelperFunction';
-import CreateContent from "../Api/ContentApi";
+import ContentApi from "../Api/ContentApi";
 import $ from "jquery";
 import {error, successSwal, swalAccept} from "../../../../helper";
 
@@ -19,7 +19,7 @@ const ContentAdd = ({actionResult}) => {
 
     const [contentForm, setContentForm] = useState(default_value);
     const [editorConten, setEditorContent] = useState('');
-    const [edit,setEdit] = useState(false)
+    const [edit, setEdit] = useState(false)
     const [metaData, setMetaData] = useState({
         robots: false
     });
@@ -83,7 +83,7 @@ const ContentAdd = ({actionResult}) => {
     }
 
     const onSubmit = () => {
-        let api = new CreateContent()
+        let api = new ContentApi()
         console.log(contentForm)
         let contentDataClone = {...contentForm};
         let titleWrite = $("input[name=titleContent]").val();
@@ -130,9 +130,13 @@ const ContentAdd = ({actionResult}) => {
         }
 
     }
+
+
     const changeCheck = (status) => {
         setEdit(status)
     }
+
+
     return (
         <div id={"category_add_pop_base"}>
             <ContentFormParent
