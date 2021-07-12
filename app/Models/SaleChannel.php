@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class SaleChannel extends Model
 {
     use HasFactory;
+
+
+    function detail(){
+        return $this->belongsToMany(ChannelDetail::class);
+    }
+    function scopeActive($query){
+        return $query->where('status','active');
+    }
 }

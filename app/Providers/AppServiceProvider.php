@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Product::created(function ($model) {
-
+            
         });
         Product::updated(function ($model) {
 
