@@ -19,7 +19,7 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        Product::factory()->times(10)->create();
+        /*Product::factory()->times(10)->create();
 
         $name = ['color','size','gender'];
         $status = ["active", "deactivate"];
@@ -61,7 +61,7 @@ class ProductSeeder extends Seeder
                 'viewcountable_id' => $index,
                 'view_count' => 1
             ]);
-        }
+        }*/
 
 
     }

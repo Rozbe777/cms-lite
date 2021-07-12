@@ -1,0 +1,17 @@
+.submit-form{
+    text-align: center;
+    cursor: pointer;
+    background: #5a8dee;
+    color: #fff;
+    span{
+        color: #fff !important;
+    }
+    &.submit-none-select{
+        opacity: 0.4;
+    }
+}
+.cancel{
+    text-align: center;
+    line-height: 4.1;
+    cursor: pointer;
+}

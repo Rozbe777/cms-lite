@@ -10,7 +10,8 @@
                     <h2 class="brand-text mb-0">{{setting("title")}}</h2></a></li>
             <li class="nav-item nav-toggle">
                 <a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse">
-                    <i class="toggle-icon bx bx-disc font-medium-4 d-none d-xl-block collapse-toggle-icon primary" style="display: block !important;visibility: visible !important;"
+                    <i class="toggle-icon bx bx-disc font-medium-4 d-none d-xl-block collapse-toggle-icon primary"
+                       style="display: block !important;visibility: visible !important;"
                        data-ticon="bx-disc"></i>
                 </a></li>
         </ul>
@@ -19,8 +20,6 @@
     <div class="main-menu-content">
 
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" data-icon-style="">
-
-
 
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation"
                 data-icon-style="">
@@ -32,21 +31,22 @@
                     @if(auth()->user()->can($menu->name))
                         @php($subMenus=\App\Models\Permission::parentId($menu->id)->isMenu()->get())
                         <li class="nav-item {{activeAdminMenu($menu->name)}}"><a href="{{route($menu->name)}}" style="
->>>>>>> 1f6874c7d8d5783088f7f5d6b66a3d460a327ccf
-    margin: 5px 0;
+    margin: 7px 0;
     padding: 10px 10px;
     line-height: 2;"><i class="bx {{$menu->icon}}"></i><span
                                     class="menu-title"
                                 >{{$menu->display_name}}</span></a>
                             @if(sizeof($subMenus))
                                 <ul class="menu-content">
-                                    <li class=" nav-item {{activeAdminMenu($menu->name)}}"><a href="{{route($menu->name)}}"><i
+                                    <li class=" nav-item {{activeAdminMenu($menu->name)}}"><a
+                                            href="{{route($menu->name)}}"><i
                                                 class="bx {{$menu->icon}}"></i><span
                                                 class="menu-title"
                                             >{{$menu->display_name}}</span></a>
                                     @foreach($subMenus as $subMenu)
 
-                                        <li class=" nav-item"><a href="{{route($subMenu->name)}}"><i
+                                        <li class="nav-item {{activeAdminMenu($subMenu->name)}}"><a
+                                                href="{{route($subMenu->name)}}"><i
                                                     class="bx {{$subMenu->icon}}"></i><span
                                                     class="menu-title"
                                                     data-i18n="User">{{$subMenu->display_name}}</span></a>

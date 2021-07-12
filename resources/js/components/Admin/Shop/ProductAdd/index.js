@@ -25,10 +25,13 @@ import {
     NormalAttrOnePro,
     NormalAttrHead,
 } from "../../Helper/HelperClassFetures";
+import ComponentHandler from "../Helper/ComponentHandler";
 
 const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) => {
 
 
+
+    let componentHandler = new ComponentHandler();
     let mins = 10000000000;
     let maxs = 99999999999;
     let firstRand = Math.round(mins + Math.random() * (maxs - mins));
@@ -284,7 +287,7 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
 
     const CreateNewProduct = (dataed) => {
         swal({
-            title: 'افزودن دسته بندی جدید',
+            title: 'افزودن محصول جدید',
             text: "آیا مطمئنید؟",
             type: 'warning',
             showCancelButton: true,
@@ -298,6 +301,7 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
                 Request.AddNewProduct(dataed)
                     .then(res => {
                         setClear(true)
+                        console.log("dddd" , res)
                         Swal.fire({
                             type: "success",
                             title: 'با موفقیت اضافه شد !',
@@ -313,6 +317,7 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
 
 
                     }, errors => {
+                        console.log("eeeee" , errors.response.data)
                         if (errors) {
                             if (errors.response.data.errors) {
                                 ErroHandle(errors.response.data.errors);
@@ -490,17 +495,9 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
             formFile.append("features", JSON.stringify(normal.fetures));
             formFile.append("category_list", JSON.stringify(idSelCat));
             formFile.append("tag_list", JSON.stringify(chipsetTagsChange ? chipsetTags : []));
-
-            // formNew.attributes = normal.attributes;
-            // formNew.features = normal.fetures;
-            // formNew.category_list = idSelCat;
-            // formNew.tag_list = chipsetTagsChange ? chipsetTags : [];
             metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
-
             let metadatas = JSON.stringify(metaData);
-
             formFile.append("metadata", metadatas);
-
             if (formData.title && formData.title !== '') {
                 $("input[name=title]#pro-title").removeClass("is-invalid");
                 CreateNewProduct(formFile);
@@ -511,8 +508,6 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
         } else {
             ErrorToast("مقدار ویژگی الزامی است زمانی که ردیف ویژگی موجود است.")
         }
-
-
     }
 
     const HandleMetaData = (e) => {
@@ -646,11 +641,16 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
         return name + rand + "_کپی";
     }
 
-    const handleSwitchStatus = (status) => {
-        setEdit(true)
-        localStorage.setItem("status", status ? "active" : "deactivate");
-    }
 
+    const handleSwither = (e, state, name) => {
+        switch (name) {
+            case "showState" :
+                componentHandler.handleSwitchShowState(e, state, setEdit);
+                return true;
+            default :
+                return true;
+        }
+    }
 
     let HandleMakeName = () => {
         if (formData) {
@@ -949,7 +949,7 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
                                         <label id={"selectParent"}>وضعیت نمایش</label>
                                         <Switcher
                                             defaultState={defaultValuePro ? formData.status == "active" ? true : false : true}
-                                            status={(state) => handleSwitchStatus(state)} name={"showState"}
+                                            handleSwitchStatus={handleSwither} name={"showState"}
                                             valueActive={"فعال"}
                                             valueDeActive={"غیرفعال"}/>
                                     </fieldset>
@@ -1216,7 +1216,7 @@ const AddProduct = ({defaultValuePro, types, dataUpdate, result: pushResult}) =>
 
                                 <div className={"col s12"}>
                                     <div className={"alert alert-primary mb-2 col-12"} role={"alert"}>
-                                        اطلاعات تیتر و توضیحات صفحه به صورت خودکار توسط zerone برای سئوی بهتر ایجاد
+                                        اطلاعات تیتر و توضیحات صفحه به صورت خودکار توسط ریسمان برای سئوی بهتر ایجاد
                                         می‌شوند.
                                         در صورتی که تمایل به شخصی‌سازی آن دارید، می‌توانید از بخش زیر استفاده کنید.
                                     </div>

@@ -102,18 +102,18 @@ const PasswordSet = ({token}) => {
 
 
                         <div className="form-group mb-50">
-                            <label className="text-bold-700" htmlFor="username">پسورد جدید</label>
+                            <label className="text-bold-700" htmlFor="username" style={{width :'100%',textAlign : 'center'}}>پسورد جدید</label>
                             <input
                                 autocomplete="one-time-code"
                                 onChange={e => changeInput(e)}
-                                type="password" className="form-control text-left"
+                                type="password" className="form-control auth-input"
                                 id="username"
                                 name="password"
                                 placeholder="پسورد جدید" dir="ltr"/>
                         </div>
                         <div className="form-group">
-                            <label className="text-bold-700" htmlFor="password">تکرار پسورد جدید</label>
-                            <input type="password" className="form-control text-left"
+                            <label className="text-bold-700" htmlFor="password" style={{width :'100%',textAlign : 'center'}}>تکرار پسورد جدید</label>
+                            <input type="password" className="form-control auth-input"
                                    name="password_confirmation" id="password"
                                    onChange={e => changeInput(e)}
                                    autocomplete="one-time-code"

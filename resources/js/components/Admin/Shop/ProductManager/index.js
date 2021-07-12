@@ -31,7 +31,7 @@ const Index = () => {
     const [total, setTotal] = useState();
     const [edit, setEdit] = useState(false);
     const [stringSearchs, setStringSearch] = useState({
-        page : 1
+        page: 1
     });
 
     const [breadData] = useState({
@@ -42,8 +42,6 @@ const Index = () => {
     useEffect(() => {
         GetAllProducts()
     }, [])
-
-
 
 
     const GetAllProducts = (dataSearch) => {
@@ -84,7 +82,7 @@ const Index = () => {
     }
 
 
-    const handleDeleteGroup = (event , idOne = null) => {
+    const handleDeleteGroup = (event, idOne = null) => {
 
         let finalAllIds = {};
 
@@ -201,44 +199,50 @@ const Index = () => {
 
     const HandlePopUpAddProduct = e => {
         e.preventDefault();
-        ReactDOM.render(<ProductAdd result={res => handleBackRef(res) }/>, document.getElementById("add-product"));
+        ReactDOM.render(<ProductAdd result={res => handleBackRef(res)}/>, document.getElementById("add-product"));
     }
 
-    const HandleEdit = (e , data) => {
+    const HandleEdit = (e, data) => {
         e.preventDefault();
         let normalData = NormalProductOneItem(data)
-        ReactDOM.render(<ProductAdd types={"edit"} defaultValuePro={normalData} result={res => handleBackRef(res) }/>, document.getElementById("add-product"));
+        // console.log("data" , normalData)
+        ReactDOM.render(<ProductAdd types={"edit"} defaultValuePro={normalData}
+                                    result={res => handleBackRef(res)}/>, document.getElementById("add-product"));
     }
-    const HandleDuplicate = (e , data) => {
+    const HandleDuplicate = (e, data) => {
         e.preventDefault();
         let normalData = NormalProductOneItem(data)
-        ReactDOM.render(<ProductAdd types={"duplicate"} defaultValuePro={normalData} result={res => handleBackRef(res) }/>, document.getElementById("add-product"));
+        ReactDOM.render(<ProductAdd types={"duplicate"} defaultValuePro={normalData}
+                                    result={res => handleBackRef(res)}/>, document.getElementById("add-product"));
     }
 
 
     const paginate = (pageNumber) => {
         stringSearchs.page = pageNumber;
         setStringSearch({
-                page: pageNumber
+            page: pageNumber
 
         });
-
         GetAllProducts(stringSearchs);
         $("li.page-item").removeClass("active");
-        if (pageNumber == Math.ceil(total / perPage)) {
+        if (Math.ceil(total / perPage) == 1) {
             $("li.page-item.next").css("opacity", 0.4);
-            $("li.page-item.previous").css("opacity", 1);
-        } else if (pageNumber == 1) {
-            $("li.page-item.next").css("opacity", 1);
             $("li.page-item.previous").css("opacity", 0.4);
         } else {
-            $("li.page-item.next").css("opacity", 2);
-            $("li.page-item.previous").css("opacity", 2);
+            if (pageNumber == Math.ceil(total / perPage)) {
+                $("li.page-item.next").css("opacity", 0.4);
+                $("li.page-item.previous").css("opacity", 1);
+            } else if (pageNumber == 1) {
+                $("li.page-item.next").css("opacity", 1);
+                $("li.page-item.previous").css("opacity", 0.4);
+            } else {
+                $("li.page-item.next").css("opacity", 2);
+                $("li.page-item.previous").css("opacity", 2);
+            }
         }
+
         $("li#" + pageNumber).addClass("active");
     };
-
-
 
 
     return (
@@ -273,13 +277,13 @@ const Index = () => {
 
                 <div className={"container-fluid"} style={{marginTop: '20px', padding: '0px 4px'}}>
                     <div className={"row"} style={{padding: 10}}>
-                        {loading === false ? Products.data.length > 0 ? Products.data.map((item , index) => {
+                        {loading === false ? Products.data.length > 0 ? Products.data.map((item, index) => {
                             return (
                                 <Item key={index} data={item} checkStateOfOut={checked} sizeOf={Products.data.length}
-                                      editClick={e => HandleEdit(e, item)}
-                                      duplicated={e=> HandleDuplicate(e , item)}
+                                      handleEdit={HandleEdit}
+                                      duplicated={e => HandleDuplicate(e, item)}
                                       deleteClick={e => {
-                                          handleDeleteGroup(e.event , e.id)
+                                          handleDeleteGroup(e.event, e.id)
                                       }}
                                       selected={response => HandleChecked(response)}/>
                             )

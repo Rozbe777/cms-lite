@@ -15,15 +15,21 @@ class CategoryRepository implements RepositoryInterface
 {
     use CategoryTrait;
 
-    public function all($status = 'active', $search = null, $pageSize = null)
+    public function all($status = 'active', $search = null, $pageSize = null, $routeName = null)
     {
-        return $this->listHandler($status);
+        $moduleId = str_contains($routeName, 'product') ? 2 : 1;
+        $status = empty($status) ? 'active' : $status;
+
+        return $this->listHandler($status, $moduleId);
     }
 
-    public function retrieveAll($status = null, $search = null, $pageSize = null)
+    public function retrieveAll($status = null, $search = null, $pageSize = null, $routeName = null)
     {
+        $moduleId = str_contains($routeName, 'product') ? 2 : 1;
+
         $pageSize = empty($pageSize) ? config('view.pagination') : $pageSize;
         $status = empty($status) ? 'active' : $status;
+        $moduleId = empty($moduleId) ? 1 : $moduleId;
 
         return Category::when(!empty($search), function ($query) use ($search) {
             $query->where(function ($query) use ($search) {
@@ -31,7 +37,10 @@ class CategoryRepository implements RepositoryInterface
                     ->orWhere('slug', 'like', '%' . $search . '%')
                     ->orWhere('content', 'like', '%' . $search . '%');
             });
-        })->where('status', $status)->orderByDesc('id')->paginate($pageSize);
+        })->where('module_id', $moduleId)
+            ->where('status', $status)
+            ->orderByDesc('id')
+            ->paginate($pageSize);
     }
 
     public function get($category)
@@ -64,8 +73,9 @@ class CategoryRepository implements RepositoryInterface
         return $category->update($data);
     }
 
-    public function create(array $data)
+    public function create(array $data , $routeName=null)
     {
+        $data['module_id'] = str_contains($routeName, 'product') ? 2 : 1;
         $data['parent_id'] = !empty($data['parent_id']) ? (int)$data['parent_id'] : 0;
 
         $data['slug'] = $this->slugHandler($data['slug']);

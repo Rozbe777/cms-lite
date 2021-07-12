@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Role\RoleController;
 use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\Tag\TagController;
 use App\Http\Controllers\Admin\Theme\ThemeController;
+use App\Http\Controllers\Admin\Transfer\TransferController;
 use App\Http\Controllers\Admin\User\AddressController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Auth\LoginController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\Auth\MobileRegisterController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FileManager\ImageController;
+use App\Http\Controllers\Front\Cart\CartController;
 use App\Http\Controllers\Front\Cart\CheckoutController;
 use App\Http\Controllers\Front\InvoiceController;
 use App\Http\Controllers\Front\Order\OrderController;
@@ -38,14 +40,11 @@ use Morilog\Jalali\Jalalian;
 */
 
 Route::get('/test', function () {
-    $result = (new \App\Classes\Pay\Pay());
-    $result = $result->userId()->gatewayId(2)->start(1000);
-    return $result;
-
+    return (new \App\Http\Controllers\Front\Cart\CartController())->index();
 });
 
 Route::get('test2', function (\Illuminate\Http\Request $request) {
-dd(jdate()->getTimestamp(),Jalalian::forge('last sunday')->getTimestamp());
+    return (new \App\Http\Controllers\Front\Cart\CartController())->resetCart();
 });
 
 Route::get('csrf', function () {
@@ -77,8 +76,6 @@ Route::prefix('auth')->group(function () {
 });
 
 
-
-
 Route::middleware('auth')->group(function () {
 
 //    Route::get('admin', function () {
@@ -104,6 +101,11 @@ Route::middleware('auth')->group(function () {
     Route::get('category', [CategoryController::class, 'blade'])->name('categories.blade');
     Route::get('categories/all', [CategoryController::class, 'all'])->name('categories.getAll');
     Route::resource('categories', CategoryController::class)->except('update');
+    //              -----------ProductCategories-------------
+    Route::resource('product/categories', CategoryController::class, [
+        'names' => 'product.categories'
+    ])->except('update');
+    //              -----------ProductCategories-------------
     Route::post('categories/update', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('categories/multi/destroy', [CategoryController::class, 'multipleDestroy'])->name('categories.multipleDestroy');
 
@@ -160,19 +162,39 @@ Route::middleware('auth')->group(function () {
 
     Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 
+    //-------------------------------Transfer-----------------------------
+    Route::get('transfer/index', [TransferController::class, 'blade'])->name('transfers.blade');
+    Route::prefix('transfers/')->group(function () {
+        Route::get('', [TransferController::class, 'index'])->name('transfers.index');
+        Route::post('', [TransferController::class, 'store'])->name('transfers.store');
+        Route::get('create', [TransferController::class, 'create'])->name('transfers.create');
+        Route::get('show', [TransferController::class, 'show'])->name('transfers.show');
+        Route::post('update', [TransferController::class, 'update'])->name('transfers.update');
+        Route::get('edit', [TransferController::class, 'edit'])->name('transfers.edit');
+        Route::delete('multi/destroy', [TransferController::class, 'multipleDestroy'])->name('transfers.multipleDestroy');
+    });
+
 
 //-------------------------------------------------------------------------------------------------------------------
 //#####################################------------FRONT Routes------------##########################################
 //-------------------------------------------------------------------------------------------------------------------
 
-    //------------------------------Order-------------------------------
-    Route::get('address', [AddressController::class, 'blade'])->name('addresses.blade');
-    Route::resource('addresses', AddressController::class);
-    Route::delete('addresses/multi/destroy', [AddressController::class, 'multipleDestroy'])->name('addresses.multipleDestroy');
+    //------------------------------Address-------------------------------
+    Route::get('address/index', [AddressController::class, 'blade'])->name('addresses.blade');
+    Route::prefix('addresses/')->group(function () {
+        Route::get('', [AddressController::class, 'index'])->name('addresses.index');
+        Route::post('', [AddressController::class, 'store'])->name('addresses.store');
+        Route::get('create', [AddressController::class, 'create'])->name('addresses.create');
+        Route::get('show', [AddressController::class, 'show'])->name('addresses.show');
+        Route::post('update', [AddressController::class, 'update'])->name('addresses.update');
+        Route::get('edit', [AddressController::class, 'edit'])->name('addresses.edit');
+        Route::delete('multi/destroy', [AddressController::class, 'multipleDestroy'])->name('addresses.multipleDestroy');
+    });
 
     //------------------------------Order-------------------------------
     Route::get('order', [OrderController::class, 'blade'])->name('orders.blade');
     Route::get('orders/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
+
     Route::resource('orders', OrderController::class);
     Route::delete('orders/multi/destroy', [OrderController::class, 'multipleDestroy'])->name('orders.multipleDestroy');
 
@@ -186,18 +208,21 @@ Route::middleware('auth')->group(function () {
 Route::name('front.')->group(function () {
     Route::get('/', [FrontPageController::class, 'search'])->name('index');
 
-
     Route::get('category/{slug}', [\App\Http\Controllers\Front\Category\CategoryController::class, 'search'])->name('categories');
 
     Route::get('tag/{name}', [\App\Http\Controllers\Front\Tag\TagController::class, 'search'])->name('tags');
 
     Route::any('search', [SearchController::class, 'search'])->name('search');
 
-
     Route::get('product/{slug}', [\App\Http\Controllers\Front\Shop\ProductController::class, 'show'])->name('product.show');
 
-    Route::get('callback/{invoice_id}', [InvoiceController::class, 'callback'])->name('callback');;
+    Route::get('callback/{invoice_id}', [InvoiceController::class, 'callback'])->name('callback');
 
+    Route::prefix('cart/')->name('cart.')->group(function () {
+        Route::get('index', [CartController::class, 'index'])->name('index');
+        Route::post('add', [CartController::class, 'addToCart'])->name('add');
+        Route::post('update', [CartController::class, 'update'])->name('update');
+    });
 
     Route::get('{slug}', [\App\Http\Controllers\Front\Content\ContentController::class, 'search'])->name('contents');
 });

@@ -17,6 +17,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Route;
 
 class CategoryController extends Controller
 {
@@ -40,7 +41,7 @@ class CategoryController extends Controller
      */
     public function index(SearchCategoryRequest $request)
     {
-        $categories = $this->categoryRepository->all($request->status, $request->search, $request->pageSize);
+        $categories = $this->categoryRepository->all($request->status, $request->search, $request->pageSize,\Route::currentRouteName());
 
         return (!$categories) ?
             $this->message(__('message.content.search.notSuccess'))->error() :
@@ -53,7 +54,7 @@ class CategoryController extends Controller
      */
     public function getAll(SearchCategoryRequest $request)
     {
-        $categories = $this->categoryRepository->retrieveAll($request->status, $request->search, $request->pageSize);
+        $categories = $this->categoryRepository->retrieveAll($request->status, $request->search, $request->pageSize, \Route::currentRouteName());
 
         return (!$categories) ?
             $this->message(__('message.content.search.notSuccess'))->error() :
@@ -67,7 +68,7 @@ class CategoryController extends Controller
      */
     public function blade(SearchCategoryRequest $request)
     {
-        $categories = $this->categoryRepository->retrieveAll($request->status, $request->search, $request->pageSize);
+        $categories = $this->categoryRepository->retrieveAll($request->status, $request->search, $request->pageSize, \Route::currentRouteName());
 
         if (!$categories)
             return redirect()->back()->with('error', __("message.content.search.notSuccess"));
@@ -97,7 +98,7 @@ class CategoryController extends Controller
        if (!in_array($request->parent_id,$parent_id->toArray()) && $request->parent_id != 0){
            return  $this->message(__('message.categories.error.parent_id'))->error();
        }
-        $category = $this->categoryRepository->create($request->all());
+        $category = $this->categoryRepository->create($request->all(), \Route::currentRouteName());
 
         return $this->message(__('message.success.200'))->data($category)->success();
     }

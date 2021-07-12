@@ -2,10 +2,10 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="HTML5,CSS3,HTML,Template,multi-page,Enry - Business Consulting HTML Template" >
+    <meta name="keywords" content="HTML5,CSS3,HTML,Template,multi-page,Enry - Business Consulting HTML Template">
     <meta name="description" content="Enry - Business Consulting HTML Template">
-    <meta name="author" content="Barat Hadian">
-
+    <meta name="author" content="zerone.Team">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="stylesheet" href="{{themeAsset('css/bootstrap.rtl.min.css')}}">
     <link rel="stylesheet" href="{{themeAsset('css/animate.min.css')}}">
     <link rel="stylesheet" href="{{themeAsset('css/meanmenu.min.css')}}">
@@ -18,6 +18,6 @@
     <link rel="stylesheet" href="{{themeAsset('css/style.css')}}">
     <link rel="stylesheet" href="{{themeAsset('css/responsive.css')}}">
     <link rel="stylesheet" href="{{themeAsset('css/rtl.css')}}">
-    <title>Enry - قالب HTML انری , پوسته سایت شرکتی مشاوره کسب و کار</title>
-    <link rel="icon" type="image/png" href="{{themeAsset('img/favicon.png">
+    <title>{{pageTitle($title)}}</title>
+    <link rel="icon" type="image/png" href="{{themeAsset('img/favicon.png')}}">
 </head>

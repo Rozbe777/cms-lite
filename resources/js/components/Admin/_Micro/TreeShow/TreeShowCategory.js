@@ -5,20 +5,15 @@ import Loading from './../../_Micro/Loading'
 import $ from 'jquery';
 import {ErroHandle, error as ErrorToast} from "../../../../helper";
 import {CHECK_BOX_CONTENT} from "../../UserList/Helper/Context";
+import ContentAdd from "../../Content/Component/ContentAdd";
 
 const dataTransitionKey = "cmsLiteData123548$%";
 
 export const TreeShowCategory = ({
-                                     data,
+                                     categoryData,
                                      loading,
-                                     callBack: pushCallBack,
-                                     itemClicks: pushItemCliks,
-                                     duplicate: pushDuplicate,
-                                     delClick: pushDelClick,
-                                     updateData: pushUpdateData,
+                                     actionResult
                                  }) => {
-    const [responseData, setResponseData] = useState({});
-    const [idDelete, setIdDelete] = useState([]);
 
 
     useEffect(() => {
@@ -37,30 +32,30 @@ export const TreeShowCategory = ({
 
         })
 
-        data.map(item => {
-            var filterChild1 = checkBox.indexOf(item.id);
-            if (filterChild1 !== -1){
-                $("input[name=checkbox_"+item.id).prop("checked" , true)
-            }else{
-                $("input[name=checkbox_"+item.id).prop("checked" , false)
+        categoryData.data.map(item => {
+            let filterChild1 = checkBox.indexOf(item.id);
+            if (filterChild1 !== -1) {
+                $("input[name=checkbox_" + item.id).prop("checked", true)
+            } else {
+                $("input[name=checkbox_" + item.id).prop("checked", false)
             }
 
-            if(item.childern){
+            if (item.childern) {
                 item.childern.map(itemChild2 => {
-                    var filterChild1 = checkBox.indexOf(itemChild2.id);
-                    if (filterChild1 !== -1){
-                        $("input[name=checkbox_"+itemChild2.id).prop("checked" , true)
-                    }else{
-                        $("input[name=checkbox_"+itemChild2.id).prop("checked" , false)
+                    let filterChild1 = checkBox.indexOf(itemChild2.id);
+                    if (filterChild1 !== -1) {
+                        $("input[name=checkbox_" + itemChild2.id).prop("checked", true)
+                    } else {
+                        $("input[name=checkbox_" + itemChild2.id).prop("checked", false)
                     }
 
 
                     itemChild2.children.map(itemChild22 => {
-                        var filterChild22 = checkBox.indexOf(itemChild22.id);
-                        if (filterChild22 !== -1){
-                            $("input[name=checkbox_"+itemChild22.id).prop("checked" , true)
-                        }else{
-                            $("input[name=checkbox_"+itemChild22.id).prop("checked" , false)
+                        let filterChild22 = checkBox.indexOf(itemChild22.id);
+                        if (filterChild22 !== -1) {
+                            $("input[name=checkbox_" + itemChild22.id).prop("checked", true)
+                        } else {
+                            $("input[name=checkbox_" + itemChild22.id).prop("checked", false)
                         }
                     })
 
@@ -68,13 +63,13 @@ export const TreeShowCategory = ({
             }
 
 
-            if(item.children){
+            if (item.children) {
                 item.children.map(itemChild3 => {
-                    var filterChild3 = checkBox.indexOf(itemChild3.id);
-                    if (filterChild3 !== -1){
-                        $("input[name=checkbox_"+itemChild3.id).prop("checked" , true)
-                    }else{
-                        $("input[name=checkbox_"+itemChild3.id).prop("checked" , false)
+                    let filterChild3 = checkBox.indexOf(itemChild3.id);
+                    if (filterChild3 !== -1) {
+                        $("input[name=checkbox_" + itemChild3.id).prop("checked", true)
+                    } else {
+                        $("input[name=checkbox_" + itemChild3.id).prop("checked", false)
                     }
                 })
             }
@@ -87,107 +82,32 @@ export const TreeShowCategory = ({
 
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
 
-    $(function () {
-        $("span#sub-menu-custom").click(function () {
-            $(".back-blur").fadeIn(100);
-            let idDel = [...idDelete];
-            let ids = $(this).attr("attr-ids");
-            idDel.push(ids)
-            setIdDelete(idDel)
-            setTimeout(() => {
-                $("#bottom-chip").addClass("active");
-            }, 200)
-        })
-        $(".back-blur").click(() => {
-            // localStorage.removeItem(dataTransitionKey);
-            $("#bottom-chip").removeClass("active");
-            setTimeout(() => {
-                $(".back-blur").fadeOut(100)
-            }, 200)
-        })
-    });
-    const handlePush = (item) => {
-        pushCallBack(item);
-    }
-    const HandleClick = (id) => {
-        pushItemCliks(id);
-    }
-    const HndleDuplicate = (item) => {
-        pushDuplicate(item)
-    }
-    const HandleDelClick = (item) => {
-        pushDelClick(item)
-    }
-    const HandleDataForUpdate = (data) => {
-        pushUpdateData(data);
-    }
-    if (loading) {
-        return <Loading/>
-    }
 
-    // delte category or product when i used responsive mode
-
-    const HandleDel = (e) => {
+    const onAdd = (e, parentId) => {
         e.preventDefault();
-        if (idDelete) {
-            swal({
-                title: 'حذف دسته بندی',
-                text: "آیا مطمئنید؟",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'تایید',
-                confirmButtonClass: 'btn btn-primary',
-                cancelButtonClass: 'btn btn-danger ml-1',
-                cancelButtonText: 'انصراف',
-                buttonsStyling: false,
-            }).then(function (result) {
-                if (result.value) {
-                    Request.DeleteCategoryOne(idDelete)
-                        .then(res => {
-                            pushDelClick(res.status)
-                            Swal.fire({
-                                type: "success",
-                                title: 'با موفقیت حذف شد !',
-                                confirmButtonClass: 'btn btn-success',
-                                confirmButtonText: 'باشه',
-                            })
-
-
-
-                        }).catch(error => {
-                        if (error.response.data.errors) {
-                            ErroHandle(error.response.data.errors)
-                        } else {
-                            ErrorToast("خطای غیر منتظره ای رخ داده است")
-                        }
-                    })
-                }
-            });
-
-        } else {
-            alert("لطفا آیتمی را برای حذف انتخاب کنید!");
-        }
-
     }
 
-    const handleAdding = () => {
-        pushItemCliks(ids);
-    }
-
-    const HandleEdit = (e, type) => {
+    const onEdit = (e, itemData) => {
         e.preventDefault()
-        let editOrDup = JSON.stringify({type, allData: responseData})
-
-        pushUpdateData(editOrDup);
     }
 
+
+    const onDuplicate = (e, itemData) => {
+        e.preventDefault()
+
+    }
+
+    const onDelete = (e, id) => {
+        e.preventDefault()
+
+    }
 
 
     return (
         <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
             <div>
                 <ul className={"content-li"}>
-                    {data ? data.map((item , index) => {
+                    {categoryData.data ? categoryData.data.map((item, index) => {
                             return (
                                 <li key={index} id={"li-back-item"}>
 
@@ -195,85 +115,42 @@ export const TreeShowCategory = ({
                                     <div className={"branch-top"}>
                                     </div>
 
-                                    <Item name={item.name}
-                                          allData={item}
-                                          allDataWidth = {data}
-                                          checkSel={id => HandleCheckBox(id)}
-                                          id={item.id} status={item.status}
-                                          callBack={item => handlePush(item)}
-                                          duplicate={item => HndleDuplicate(item)}
-                                          delClick={item => HandleDelClick(item)}
-                                          level={1}
-                                          dataForEdit={item => HandleDataForUpdate(item)}
-                                          itemClick={itemId => HandleClick(itemId)}
-                                          dataAlls={data}
-                                          responseUpdate={item => setResponseData(item)}
-                                    />
-                                    {item.childern.length > 0 ? item.childern.map((itemClildOne, indexed) => {
-                                            return (
-                                                <ul key={indexed} style={{padding: '0 50px 0 0', listStyle: 'inherit'}}>
+                                    {_renderItem(item, 1)}
+                                    {item.childern.length > 0 ? item.childern.map((categoryItemOne, index) => {
+                                        return (
+                                            <ul key={index} style={{padding: '0 50px 0 0', listStyle: 'inherit'}}>
 
-                                                    <li id={"li-back-item"}>
-
-                                                        <div className={"branch-top"}>
-                                                        </div>
-
-
-                                                        <div className={"branch"}>
-                                                            <div className={"box"}></div>
-                                                        </div>
-                                                        <Item status={itemClildOne.status}
-                                                              name={itemClildOne.name} id={itemClildOne.id}
-                                                              allData={itemClildOne}
-                                                              callBack={item => handlePush(item)}
-                                                              duplicate={item => HndleDuplicate(item)}
-                                                              delClick={item => HandleDelClick(item)}
-                                                              level={2}
-                                                              dataAlls={data}
-                                                              dataForEdit={item => HandleDataForUpdate(item)}
-                                                              itemClick={itemId => HandleClick(itemId)}
-                                                        />
-
-                                                        {itemClildOne.children.length > 0 ? itemClildOne.children.map((childThree, indexes) => (
-                                                            <ul key={indexes} style={{
-                                                                padding: '0 50px 0 0',
-                                                                listStyle: 'inherit'
-                                                            }}>
+                                                <li id={"li-back-item"}>
+                                                    <div className={"branch-top"}>
+                                                    </div>
+                                                    <div className={"branch"}>
+                                                        <div className={"box"}></div>
+                                                    </div>
+                                                    {_renderItem(categoryItemOne, 2)}
+                                                    {categoryItemOne.children.length > 0 ? categoryItemOne.children.map(categoryItemTow => {
+                                                        return (
+                                                            <ul key={index}
+                                                                style={{padding: '0 50px 0 0', listStyle: 'inherit'}}>
 
                                                                 <li id={"li-back-item"}>
-
                                                                     <div className={"branch-top"}>
-
                                                                     </div>
                                                                     <div className={"branch"}>
                                                                         <div className={"box"}></div>
                                                                     </div>
-
-                                                                    <Item status={childThree.status}
-                                                                          name={childThree.name} id={childThree.id}
-                                                                          callBack={item => handlePush(item)}
-                                                                          allData={childThree}
-                                                                          duplicate={item => HndleDuplicate(item)}
-                                                                          delClick={item => HandleDelClick(item)}
-                                                                          level={3}
-                                                                          dataAlls={data}
-                                                                          dataForEdit={item => HandleDataForUpdate(item)}
-                                                                          itemClick={itemId => HandleClick(itemId)}
-                                                                    />
+                                                                    {_renderItem(categoryItemTow, 3)}
                                                                 </li>
+
                                                             </ul>
-                                                        )) : ''}
+                                                        )
+                                                    }) : ''}
+                                                </li>
 
-
-                                                    </li>
-
-                                                </ul>
-
-                                            )
-                                        }
-                                    ) : (
-                                        ''
-                                    )}
+                                            </ul>
+                                        )
+                                    }) : ''
+                                    }
+                                    {/*{_renderChildrenOne(item.childern , 2)}*/}
                                 </li>
 
                             )
@@ -283,25 +160,70 @@ export const TreeShowCategory = ({
                     )}
                 </ul>
 
-                <div className={"back-blur"}>
-
-                    <div id={"bottom-chip"}>
-                        <div className={"form-check"}>
-
-                            <ul>
-                                <li onClick={e => HandleEdit(e, "dup")}>کپی دسته</li>
-                                <li onClick={e => HandleEdit(e, "edit")}>ویرایش</li>
-                                <li onClick={e => HandleDel(e)}>حذف</li>
-                                <li>مشاهده</li>
-                                <li onClick={e => handleAdding(e)}>زیردسته</li>
-                            </ul>
-
-                        </div>
-                    </div>
-                </div>
             </div>
         </CHECK_BOX_CONTENT.Provider>
 
     )
+
+
+    function _renderItem(thisCategoryData, level) {
+        return (
+            <Item
+                thisCategoryData={thisCategoryData}
+                level={level}
+                categoryData={categoryData}
+                onEdit={onEdit}
+                onDuplicate={onDuplicate}
+                onAdd={onAdd}
+                onDelete={onDelete}
+            />
+        )
+    }
+
+    // function _renderChildrenOne(categoryItemOne , level){
+    //     if (categoryItemOne.length > 0){
+    //         console.log("csdcsdc0 , " , categoryItemOne)
+    //         categoryItemOne.map((itemData , index) => {
+    //             return (
+    //                 <ul key={index} style={{padding: '0 50px 0 0', listStyle: 'inherit'}}>
+    //
+    //                     <li id={"li-back-item"}>
+    //                         <div className={"branch-top"}>
+    //                         </div>
+    //                         <div className={"branch"}>
+    //                             <div className={"box"}></div>
+    //                         </div>
+    //                         {_renderItem(itemData , level)}
+    //                         {_renderChildrenTow(itemData.children)}
+    //                     </li>
+    //
+    //                 </ul>
+    //             )
+    //         })
+    //
+    //     }
+    //
+    // }
+    // function _renderChildrenTow(categoryItemTow){
+    //     if (categoryItemTow.length > 0){
+    //         categoryItemTow.map((itemData , index) => {
+    //             return (
+    //                 <ul key={index} style={{padding: '0 50px 0 0', listStyle: 'inherit'}}>
+    //
+    //                     <li id={"li-back-item"}>
+    //                         <div className={"branch-top"}>
+    //                         </div>
+    //                         <div className={"branch"}>
+    //                             <div className={"box"}></div>
+    //                         </div>
+    //                         {_renderItem(itemData , 3)}
+    //                     </li>
+    //
+    //                 </ul>
+    //             )
+    //         })
+    //
+    //     }
+    // }
 
 }

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {csrf_token, error as ErrorToast, url, success, ErroHandle, info, warning, empty, redirect} from "../../helper";
 import {Request} from './../../services/AuthService/Api'
 import MobileVerify from "./RePass/MobileVerify";
+import './_shared/style.scss';
 import $ from 'jquery'
 import Loading from "./Loading";
 
@@ -91,18 +92,18 @@ const LoginForm = ({token}) => {
                     <form onSubmit={e => submitForm(e)}>
                         {csrf_token(token)}
                         <div className="form-group mb-50">
-                            <label className="text-bold-700" htmlFor="username">شماره تلفن همراه</label>
+                            <label className="text-bold-700" htmlFor="username" style={{width : '100%',textAlign : 'center'}}>شماره تلفن همراه</label>
                             <input
                                 autoComplete="off"
-                                type="text" className="form-control text-left"
+                                type="text" className="form-control auth-input"
                                 id="mobile"
                                 name="mobile"
                                 placeholder="شماره تلفن همراه" dir="ltr"/>
                         </div>
                         <div className="form-group">
-                            <label className="text-bold-700" htmlFor="password">رمز
+                            <label className="text-bold-700" htmlFor="password" style={{width : '100%',textAlign : 'center'}}>رمز
                                 عبور</label>
-                            <input type="password" className="form-control text-left"
+                            <input type="password" className="form-control auth-input"
                                    name="password" id="password"
                                    autoComplete="off"
                                    placeholder="رمز عبور" dir="ltr"/>
@@ -123,7 +124,7 @@ const LoginForm = ({token}) => {
                                 <a
                                     style={{cursor: 'pointer'}}
                                     className="card-link">
-                                    <small onClick={e => RePassClick(e)}>
+                                    <small style={{borderBottom : '1px dashed'}} onClick={e => RePassClick(e)}>
                                         رمز عبورتان را فراموش کرده
                                         اید؟
                                     </small>
@@ -136,7 +137,7 @@ const LoginForm = ({token}) => {
                     </form>
                     <hr/>
                     <div className="text-center"><small className="mr-25">تا کنون ثبت نام نکرده اید؟</small><a
-                        href={url('auth/register')}><small>ثبت نام کنید</small></a>
+                        href={url('auth/register')}><small style={{borderBottom : '1px dashed'}}>ثبت نام کنید</small></a>
                     </div>
                 </div>
 

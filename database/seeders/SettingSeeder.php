@@ -22,15 +22,15 @@ class SettingSeeder extends Seeder
             ],
             [
                 "key" => "title",
-                "value" => "زیروپرس",
+                "value" => "ریسمان",
             ],
             [
                 "key" => "description",
-                "value" => "توضیحات زیروپرس",
+                "value" => "توضیحات ریسمان",
             ],
             [
                 "key" => "keywords",
-                "value" => "برچسب,زیروپرس",
+                "value" => "برچسب,ریسمان",
             ],
             [
                 "key" => "current_theme",
@@ -63,6 +63,10 @@ class SettingSeeder extends Seeder
             [
                 "key" => "cron",
                 "value" => "* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1",
+            ],
+            [
+                "key" => "tax",
+                "value" => 9,
             ],
         ];
 

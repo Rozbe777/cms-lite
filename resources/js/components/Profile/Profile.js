@@ -270,7 +270,7 @@ const Profile = (props) => {
                                     <label>توضیحات شخصی</label>
                                     <textarea className="form-control" id="basicTextarea" rows="3"
                                               name={"description"}
-                                              value={userData.description}
+                                              value={userData.description ? userData.description : ''}
                                               onChange={(e) => {
                                                   setUserData({...userData , description:e.target.value})
                                               }}

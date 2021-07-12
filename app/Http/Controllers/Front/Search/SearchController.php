@@ -26,7 +26,8 @@ class SearchController extends Controller
         if (empty($query))
             $query = "";
         $contents = $this->repository->search($query);
-        return page('search', compact('contents', 'query'));
+        $title = $query;
+        return page('search', compact('contents', 'query', 'title'));
     }
 
 }

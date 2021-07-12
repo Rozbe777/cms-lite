@@ -231,16 +231,16 @@ const Index = (props) => {
                     </div>
                 </div>
 
-<p style={{paddingRight : '25px' , fontSize:13}}>برای ثبت نام در وب سایت کافیست شماره تلفن خود را وارد کنید و کد تایید ارسال شده به شماره تلفن همراه خود را در محله تایید کد وارد نمایید
+<p style={{paddingRight : '25px' , fontSize:13 , textAlign : 'center'}}>برای ثبت نام در وب سایت کافیست شماره تلفن خود را وارد کنید و کد تایید ارسال شده به شماره تلفن همراه خود را در محله تایید کد وارد نمایید
 </p>
                 <div className="card-content">
                     <div className="card-body">
 
                         <div className="form-group mb-50">
-                            <label className="text-bold-700" htmlFor="username">
+                            <label className="text-bold-700" htmlFor="username" style={{width :'100%',textAlign : 'center'}}>
                                 شماره تلفن خود را وارد کنید
                             </label>
-                            <input type="tel" className="form-control text-left"
+                            <input type="tel" className="form-control auth-input"
                                    id="username"
                                    max={"11"}
                                    autoComplete="off"

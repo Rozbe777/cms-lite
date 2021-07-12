@@ -49,7 +49,14 @@ class PermissionSeeder extends Seeder
                     'is_menu' => 1,
                     "name" => "products.blade",
                     "display_name" => "فروشگاه",
-                    "children" => []
+                    "children" => [
+                        [
+                            'icon' => 'bx-purchase-tag',
+                            'is_menu' => 1,
+                            "name" => "coupons.blade",
+                            "display_name" => "کوپن تخفیف",
+                        ]
+                    ],
                 ],
                 [
                     'weight' => 100,

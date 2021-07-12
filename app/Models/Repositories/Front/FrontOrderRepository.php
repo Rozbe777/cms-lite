@@ -4,7 +4,8 @@
 namespace App\Models\Repositories\Front;
 
 
-use App\Http\Controllers\Front\Order\OrderTrait;
+use App\Http\Controllers\Front\Order\Traits\CalculateTotalPrice;
+use App\Http\Controllers\Front\Order\Traits\ValidateCoupon;
 use App\Models\Attribute;
 use App\Models\Coupon;
 use App\Models\Invoice;
@@ -17,7 +18,8 @@ use Illuminate\Support\Facades\Session;
 class FrontOrderRepository implements RepositoryInterface
 {
 
-    use OrderTrait;
+    use CalculateTotalPrice;
+    use ValidateCoupon;
 
     /**
      * @return mixed
@@ -64,25 +66,27 @@ class FrontOrderRepository implements RepositoryInterface
      */
     public function create(array $data)
     {
-        $order = Order::where('user_id',Auth::id())->where('status','pending_pay')->first();
-        if (!empty($order)) {
+        $order = Order::where('user_id', Auth::id())->where('status', 'pending_pay')->first();
+//        if (!empty($order)) {
             $attribute = Attribute::find($data['attribute_id']);
             $number = $data['number_of_product'];
             $price = $data['price'];
-            unset($data['attribute_id'], $data['number_of_product'],$data['price']);
+            unset($data['attribute_id'], $data['number_of_product'], $data['price']);
 
-            $data['total_price'] = $this->totalPrice($attribute,$number,$price,$data['tax'],$data['coupon_code']);
-            if (is_string($data['total_price']))
-                return $data['total_price'];
+            $data['coupon_status'] = $this->validateCoupon($attribute, $data['coupon_code']);
+            if (is_string($data['coupon_status']))
+                return $data['coupon_status'];
+
+            $this->checkCartPrice($data['coupon_status']);
 
             $order = Order::create($data);
             $order->attributes()->attach($attribute, ['number_of_product' => $number]);
-        }else{
-            $order->total_price += $data['price'];
-        }
+//        } else {
+//            $order->total_price += $data['price'];
+//        }
 
 
-        Session::put('order',$order);
+        Session::put('order', $order);
         return $order;
     }
 
@@ -103,5 +107,7 @@ class FrontOrderRepository implements RepositoryInterface
      * @param $id
      * @return void
      */
-    public function get($id){}
+    public function get($id)
+    {
+    }
 }

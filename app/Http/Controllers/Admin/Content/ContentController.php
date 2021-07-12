@@ -120,7 +120,6 @@ class ContentController extends Controller
     {
         $content = $this->contentRepository->update($request->all(), $request->id);
         $content = $content->load('tags')->load('categories')->load('viewCounts');
-
         return $this->message(__('message.success.200'))->data($content)->success();
     }
 

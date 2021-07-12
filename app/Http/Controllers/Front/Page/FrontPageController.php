@@ -29,20 +29,21 @@ class FrontPageController extends Controller
             ->with('component')
             ->with('items')
             ->get();
+        $title = $page->title;
         if ($page->is_index) {
             if (!empty($page->layout_id)) {
                 $layout = Layout::find($page->layout_id);
-                return page($layout->view, compact('components', 'page'));
+                return page($layout->view, compact('components', 'page', 'title'));
             } else {
-                return page('index', compact('components', 'page'));
+                return page('index', compact('components', 'page', 'title'));
 
             }
 
         } elseif (!empty($page->layout_id)) {
             $layout = Layout::find($page->layout_id);
-            return page($layout->view, compact('components', 'page'));
+            return page($layout->view, compact('components', 'page', 'title'));
         } else {
-            return page('page', compact('components', 'page'));
+            return page('page', compact('components', 'page', 'title'));
         }
 
 
