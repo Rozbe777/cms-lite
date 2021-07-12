@@ -19,6 +19,7 @@ use App\Http\Controllers\Auth\MobileRegisterController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FileManager\ImageController;
+use App\Http\Controllers\Front\Cart\CartController;
 use App\Http\Controllers\Front\Cart\CheckoutController;
 use App\Http\Controllers\Front\InvoiceController;
 use App\Http\Controllers\Front\Order\OrderController;
@@ -217,9 +218,10 @@ Route::name('front.')->group(function () {
 
     Route::get('callback/{invoice_id}', [InvoiceController::class, 'callback'])->name('callback');
 
-    Route::name('cart.')->prefix('cart/')->group(function () {
-        Route::post('add', [\App\Http\Controllers\Front\Cart\CartController::class, 'addToCart'])->name('add');
-        Route::post('update', [\App\Http\Controllers\Front\Cart\CartController::class, 'update'])->name('update');
+    Route::prefix('cart/')->name('cart.')->group(function () {
+        Route::get('index', [CartController::class, 'index'])->name('index');
+        Route::post('add', [CartController::class, 'addToCart'])->name('add');
+        Route::post('update', [CartController::class, 'update'])->name('update');
     });
 
     Route::get('{slug}', [\App\Http\Controllers\Front\Content\ContentController::class, 'search'])->name('contents');

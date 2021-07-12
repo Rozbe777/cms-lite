@@ -7,7 +7,6 @@ import {ChipsetHandler} from "../../../HOC/ChipsetHandler";
 import MyEditor from "../../_Micro/MyEditor/MyEditor";
 import {BigSwitcher} from "../../../HOC/BigSwitcher";
 import ComponentHandler from "../Helper/ComponentHandler";
-import FunctionHandler from "../Helper/FunctionHandler";
 import './../_shared/style.scss';
 import CategoryApi from "../../Category/Api/CategoryApi";
 import HelperFunction from './../Helper/HelperFunction'
@@ -16,7 +15,8 @@ import $ from "jquery";
 
 export const ContentFormParent = ({
                                       actionType,
-                                      dataUpdate,
+                                      changeCheck,
+                                      contentData,
                                       onChangeInput,
                                       categoryOnChange,
                                       tagChange,
@@ -27,29 +27,14 @@ export const ContentFormParent = ({
 
 
     let componentHandler = new ComponentHandler();
-    let functionHandler = new FunctionHandler();
     let helperFunction = new HelperFunction();
     let categoryApi = new CategoryApi();
-    let titleWrite = $("input[name=titleContent]").text();
 
-    const contentDataUpdate = dataUpdate ? JSON.parse(dataUpdate) : '';
-    const dataUpdateParse = contentDataUpdate ? contentDataUpdate.allData : '';
-    const [changeCheckSlug, setChangeCheck] = useState(false)
+    const dataUpdateParse = contentData ? contentData : '';
     const [preImage, setPreImage] = useState({uri: ''});
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
     const [categoryData, setCategoryData] = useState({});
-    const [title, setTitle] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [editorContent, setEditorContent] = useState('');
-    const [currentContentId, setCurrentContentId] = useState(0)
     const [chipset, setChipset] = useState([]);
-    const [chipsetChange, setChipChange] = useState(false)
-    const [edit, setEdit] = useState(false);
-    const [file, setFile] = useState({file: ''});
-    const [metaData, setMetaData] = useState({
-        robots: false,
-    });
-    const type = contentDataUpdate ? contentDataUpdate.type : '';
     const [slugManage, setSlugManage] = useState(true);
     const [contentForm, setContentForm] = useState({});
     let default_value = {
@@ -68,7 +53,6 @@ export const ContentFormParent = ({
     let imageOldUrl = currentContentData ? currentContentData.image : '';
     const [imageGet, setImage] = useState({state: imageOldUrl})
 
-    const [categoryOldSelected, setCategoryOldSelected] = useState(categorySelctedId)
     useEffect(() => {
         categoryApi.call().then(res => {
             setCategoryData(res.data.data);
@@ -80,35 +64,19 @@ export const ContentFormParent = ({
         }) : '';
 
 
-        setMetaData(MetaDataUpdate)
-        setCurrentContentId(currentContentData.id);
-        setContentForm({
-            id: currentContentData.id,
-            image: currentContentData.image,
-            content: currentContentData.content,
-            is_menu: currentContentData.is_menu,
-            status: currentContentData.status,
-            comment_status: currentContentData.comment_status,
-            metadata: currentContentData.metadata,
-            slug: currentContentData.slug,
-            title: currentContentData.title,
-            tag_list: currentContentData.tag_list,
-            category_list: currentContentData.category_list
-        });
-
     }, [])
 
 
     const handleSwither = (e, state, name) => {
         switch (name) {
             case "showCommentStatus" :
-                componentHandler.handleSwitchComment(e, state, setEdit);
+                componentHandler.handleSwitchComment(e, state, changeCheck);
                 return true;
             case 'showState' :
-                componentHandler.handleSwitchStatus(e, state, setEdit);
+                componentHandler.handleSwitchStatus(e, state, changeCheck);
                 return true;
             case 'showMenu' :
-                componentHandler.handleSwitchMenu(e, state, setEdit);
+                componentHandler.handleSwitchMenu(e, state, changeCheck);
                 return true;
             default :
                 return true;
@@ -118,7 +86,7 @@ export const ContentFormParent = ({
 
     const handledelImg = (e) => {
         e.preventDefault();
-        setEdit(true)
+        changeCheck(true)
         let states = {...imageGet};
         states.state = '';
         setImage(states)
@@ -129,9 +97,8 @@ export const ContentFormParent = ({
 
     const handleFile = (e) => {
         handlePreShowImage(e)
-        setEdit(true)
+        changeCheck(true)
         let files = e.target.files[0];
-        setFile({file: files});
         fileChange(files);
         imageGet.state = '';
         setImage(imageGet);
@@ -147,23 +114,8 @@ export const ContentFormParent = ({
     }
 
 
-    const handleMakeName = () => {
-        if (dataUpdateParse) {
-            if (actionType == "duplicate") {
-                return this.MakeNewName(dataUpdateParse.title);
-            } else {
-                return dataUpdateParse.title;
-            }
-        } else {
-            contentForm.slug = contentForm.title;
-            return contentForm.title;
-        }
-    }
-
-
     const handleAddChip = (item) => {
-        setEdit(true)
-        setChipChange(true)
+        changeCheck(true)
         let chipsets = [...chipset];
         if (item === "") {
         } else {
@@ -174,9 +126,9 @@ export const ContentFormParent = ({
     }
 
 
-    const RemoveChipset = (e, name) => {
+    const removeChipset = (e, name) => {
         e.preventDefault();
-        setChipChange(true)
+        changeCheck(true)
         let tagList = [...chipset];
         let index = tagList.indexOf(name);
         if (index !== -1) {
@@ -188,15 +140,31 @@ export const ContentFormParent = ({
 
     const handleSwitchAddress = (event, status) => {
         event.preventDefault();
-        setEdit(true);
-        setChangeCheck(event.target.checked)
+        changeCheck(true);
         setSlugManage(status);
     }
 
     const handleChangeTitle = e => {
         onChangeInput(e);
-        if (e.target.name === "title") {
-            setTitle(e.target.value);
+    }
+
+
+    function handleMakeName(){
+        let contentName = dataUpdateParse.title;
+        const min = 1;
+        const max = 1000;
+        const rand = Number(min + Math.random() * (max - min)).toFixed(0);
+        return contentName + rand + "_کپی";
+    }
+
+
+    const titleDefaultValue = () => {
+        if(actionType === "duplicate"){
+            return handleMakeName();
+        }else if (actionType === "edit"){
+            return dataUpdateParse.title;
+        }else{
+            return '';
         }
     }
     return (
@@ -215,7 +183,7 @@ export const ContentFormParent = ({
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان محتوا</label>
                                     <input type={"text"}
-                                           defaultValue={handleMakeName}
+                                           defaultValue={titleDefaultValue()}
                                            onChange={e => handleChangeTitle(e)}
                                            name={"titleContent"} id={"title"}
                                            className={"form-control"}/>
@@ -278,7 +246,7 @@ export const ContentFormParent = ({
 
                                             <div className={"col-sm-12 col-md-5 col-lg-5"}>
                                                 <ChipsetHandler
-                                                    callback={item => handleAddChip(item)}/>
+                                                    onChange={handleAddChip}/>
                                             </div>
 
                                             {chipset.map((item, index) => (
@@ -293,7 +261,6 @@ export const ContentFormParent = ({
 
                             </div>
 
-                            {/*{console.log('...;..' , dataUpdateParse.content)}*/}
                             <div className={"col-12"}>
                                 <MyEditor editorDataFunc={editorData}
                                           id={"my-editor"}
@@ -386,7 +353,7 @@ export const ContentFormParent = ({
 
                             <div className={"col-12"}>
                                 <label>تنظیمات Robots</label>
-                                <BigSwitcher status={states => componentHandler.HandlerBigSwitcher(states, setEdit)}
+                                <BigSwitcher status={states => componentHandler.HandlerBigSwitcher(states, changeCheck)}
                                              name={"Robots"}
                                              valueOne={"غیرفعال"} valueTow={"noindex,follow"}
                                              defaultStatus={MetaDataUpdate ? MetaDataUpdate.robots : false}
@@ -403,7 +370,7 @@ export const ContentFormParent = ({
 
     function _renderSlug() {
         // check auto or handle slug change
-        let tit = $("input[name=titleContent]").val()+"";
+        let tit = $("input[name=titleContent]").val() + "";
         if (slugManage) {
             let slugText = helperFunction.contentFormData(tit);
             return (
@@ -429,7 +396,7 @@ export const ContentFormParent = ({
                 <div className="chip-body">
                     <span className="chip-text">{item}</span>
                     <div className="chip-closeable"
-                         onClick={e => RemoveChipset(e, item)}>
+                         onClick={e => removeChipset(e, item)}>
                         <i className="bx bx-x"></i>
                     </div>
                 </div>
@@ -439,6 +406,7 @@ export const ContentFormParent = ({
 
 
     function _renderImgBox() {
+        console.log(dataUpdateParse);
         if (preImage.uri !== "") {
             return (<div className={"mini-img-show-edit"}>
                 <div className={"img-box"}>

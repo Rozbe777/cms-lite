@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 
-export const ChipsetHandler = ({label , callback : pushCallBack}) => {
+export const ChipsetHandler = ({label , onChange}) => {
 
     const HandleChipset = (e) => {
         let chips_input = $(".chips_input");
         if (e.charCode === 13) {
-            pushCallBack(e.target.value)
+            onChange(e.target.value)
             chips_input.val('');
         }
     }

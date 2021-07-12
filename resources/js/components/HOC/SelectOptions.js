@@ -1,13 +1,12 @@
 import React, {useEffect} from 'react';
 import $ from 'jquery';
 import './_Shared/style.scss'
-import {Request} from './../../services/AdminService/Api';
-export const SelectOptions = ({parents,dataAllCat ,  data, selection: pushSelectiong}) => {
+export const SelectOptions = ({parents,dataAllCat ,  data, onChange}) => {
     useEffect(() => {
         $(function () {
             $("select.selectVal").change(function () {
                 let sel = $(this).children("option:selected").val();
-                pushSelectiong(sel)
+                onChange(sel)
             })
         })
     } , [])

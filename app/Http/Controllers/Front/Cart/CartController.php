@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Front\Cart;
 
+use App\Classes\Responses\Front\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Models\Attribute;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
+    use ResponseTrait;
+
     const CART_SESSION_ID = 'cart';
 
     function orderCreate()
@@ -27,25 +31,48 @@ class CartController extends Controller
     function index()
     {
         $cart = $this->getCart();
-        $ids = $this->groupByAttributeIds($cart);
+        if (empty($cart))
+            return $this->message(__('message.cart.checkout.error.empty'))->error();
 
-        $attributeIds = Arr::pluck($ids, 'id');
+        $items = $this->groupByAttributeIds($cart);
+
+        $attributeIds = Arr::pluck($items, 'id');
         $products = Attribute::whereIn('id', $attributeIds)
             ->with('typeFeatures')
             ->with('product')
             ->get();
 
-        $sumQuery = Attribute::whereIn('id', $attributeIds)
-            ->select(DB::raw("sum(if(discount_status='active',discount,price)) as sum_final_price , sum(price) as sum_price"))
-            ->first();
+        //FIXME: Please recheck it @Mohsen
+//        $sumQuery = Attribute::whereIn('id', $attributeIds)
+//            ->select(DB::raw("sum(if(discount_status='active',discount,price)) as sum_final_price , sum(price) as sum_price"))
+//            ->first();
+
+        $sumQuery = Attribute::whereIn('id', $attributeIds)->get();
+        $price = $sumQuery->map(function ($data, $key) use ($items) {
+            if ($data->discount_status == 'active') {
+                $cart_products[$key] = [
+                    'id' => $items[$key]['id'],
+                    'count' => $items[$key]['count'],
+                    'sum_final_price' => $data->discount * $items[$key]['count'],
+                    'sum_price' => $data->price * $items[$key]['count'],
+                ];
+            } else {
+                $cart_products[$key] = [
+                    'id' => $items[$key]['id'],
+                    'count' => $items[$key]['count'],
+                    'sum_price' => $data->price * $items[$key]['count'],
+                    'sum_final_price' => $data->price * $items[$key]['count'],
+                ];
+            }
+            return $cart_products;
+        });
+
         $sumFinalPrice = 0;
         $sumPrice = 0;
-        if (!empty($sumQuery->sum_final_price)) {
-            $sumFinalPrice = $sumQuery->sum_final_price;
-        }
-        if (!empty($sumQuery->sum_price)) {
-            $sumPrice = $sumQuery->sum_price;
-        }
+
+        $sumFinalPrice = $price->sum('sum_final_price');
+        $sumPrice = $price->sum('sum_price');
+
         $taxPrice = $this->taxCalculation($sumFinalPrice);
         $result = [
             'sum_price' => (int)$sumPrice,
@@ -68,7 +95,7 @@ class CartController extends Controller
         $remaining = (int)$request->input('remaining', 0);
 
         if (empty($attributeId)) {
-            return error('شناسه محصول نامعتبر می باشد.');
+            return $this->message(__('message.cart.checkout.error.attribute_id'))->error();
         }
         $currentCart = [];
         if (session()->has(self::CART_SESSION_ID)) {
@@ -77,7 +104,7 @@ class CartController extends Controller
         $currentAttributeCount = $this->getCountByAttributeId($attributeId);
         $sumCount = $currentAttributeCount + $count;
         if ($sumCount > $remaining) {
-            return error('موجودی انبار کافی نیست!');
+            return $this->message(__('message.cart.checkout.error.remaining'))->error();
         }
         for ($i = 1; $i <= $count; $i++) {
             $currentCart[] = $attributeId;
@@ -131,9 +158,13 @@ class CartController extends Controller
     {
         $cart = $this->getCart();
 
-        return sizeof(array_filter($cart, function ($item) use ($attributeId) {
-            return $item == $attributeId;
-        }));
+        if (!empty($cart)) {
+            return sizeof(array_filter($cart, function ($item) use ($attributeId) {
+                return $item == $attributeId;
+            }));
+        }
+        return null;
+
     }
 
     private function getCart()
@@ -162,7 +193,6 @@ class CartController extends Controller
         return array_filter($currentCart, function ($item) use ($attributeId) {
             return $item != $attributeId;
         });
-
     }
 
     private function taxCalculation($sumPrice)

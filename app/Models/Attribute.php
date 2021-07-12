@@ -36,15 +36,5 @@ class Attribute extends Model
 
     public function orders()
     {
-        return $this->belongsToMany(Order::class);
-    }
-
-    public function getFinalPriceAttribute()
-    {
-        if ($this->attributes['discount_status'] == 'active') {
-            return $this->attributes['discount'];
-        } else {
-            return $this->attributes['price'];
-        }
     }
 }
