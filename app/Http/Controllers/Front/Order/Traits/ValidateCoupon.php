@@ -34,7 +34,7 @@ trait ValidateCoupon
 
         return $coupon;
     }
-    
+
     /**
      * @param $couponCode
      * @param $attribute
@@ -94,19 +94,25 @@ trait ValidateCoupon
      */
     public function checkProduct($attribute, $coupon_functionality, $coupon_functionality_amount)
     {
+        $i = 0;
         if ($coupon_functionality == "special_products")
-            if (!in_array($attribute->product_id, json_decode($coupon_functionality_amount)))
+            if (!in_array($attribute->product_id, array_map('intval', json_decode($coupon_functionality_amount))))
                 return __('message.coupon.validation.error.inclusive');
 
-        $category = (Product::whereId($attribute->product_id)->first())->categories;
-        if (count($category) > 0)
-            if ($coupon_functionality == 'special_categories')
-                if (!in_array($category, json_decode($coupon_functionality_amount)))
+
+        if ($coupon_functionality == 'special_categories') {
+            $categories = (Product::whereId($attribute->product_id)->first())->categories;
+            if (count($categories) > 0) {
+                foreach ($categories as $category) {
+                    if (!in_array((string)$category->id, json_decode($coupon_functionality_amount)))
+                        $i++;
+                }
+                if ($i == count($categories))
                     return __('message.coupon.validation.error.inclusive');
-
-        if (count($category) == 0)
-            return __('message.coupon.validation.error.inclusive');
-
+            }
+            if (count($categories) == 0)
+                return __('message.coupon.validation.error.inclusive');
+        }
         return true;
     }
 }

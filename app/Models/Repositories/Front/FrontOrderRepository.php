@@ -68,7 +68,7 @@ class FrontOrderRepository implements RepositoryInterface
     {
         $order = Order::where('user_id', Auth::id())->where('status', 'pending_pay')->first();
 //        if (!empty($order)) {
-            $attribute = Attribute::find($data['attribute_id']);dd($attribute);
+            $attribute = Attribute::find($data['attribute_id']);
             $number = $data['number_of_product'];
             $price = $data['price'];
             unset($data['attribute_id'], $data['number_of_product'], $data['price']);
@@ -77,7 +77,6 @@ class FrontOrderRepository implements RepositoryInterface
             if (is_string($data['coupon_status']))
                 return $data['coupon_status'];
 
-            dd($data['coupon_status']);
             $this->checkCartPrice($data['coupon_status']);
 
             $order = Order::create($data);

@@ -95,22 +95,25 @@ class ContentRepository implements RepositoryInterface
         /** modify tag relations in database tables */
         DB::table('content_tag')->where('content_id', $content->id)->delete();
 
-        foreach ($tag_list as $tag) {
-            $newTag = Tag::firstOrCreate(
-                ['name' => $tag],
-                ['user_id' => Auth::id()]
-            );
-            $content->tags()->attach($newTag);
+        if (!empty($tag_list)) {
+            foreach ($tag_list as $tag) {
+                $newTag = Tag::firstOrCreate(
+                    ['name' => $tag],
+                    ['user_id' => Auth::id()]
+                );
+                $content->tags()->attach($newTag);
+            }
         }
 
         /** modify category relations in database tables */
         DB::table('category_content')->where('content_id', $content->id)->delete();
 
-        foreach ($category_list as $category) {
-            $category = Category::findOrFail($category);
-            $content->categories()->attach($category);
+        if (!empty($category_list)) {
+            foreach ($category_list as $category) {
+                $category = Category::findOrFail($category);
+                $content->categories()->attach($category);
+            }
         }
-
         return Content::find($contentId);
     }
 
