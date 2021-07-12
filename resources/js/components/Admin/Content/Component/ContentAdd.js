@@ -61,6 +61,7 @@ const ContentAdd = ({actionResult}) => {
     }
 
     const tagChange = (tagList) => {
+        console.log(tagList);
         let contentFormDataClone = {...contentForm};
         contentFormDataClone.tag_list = tagList;
         setContentForm(contentFormDataClone);
@@ -83,6 +84,7 @@ const ContentAdd = ({actionResult}) => {
 
     const onSubmit = () => {
         let api = new CreateContent()
+        console.log(contentForm)
         let contentDataClone = {...contentForm};
         let titleWrite = $("input[name=titleContent]").val();
         let contentFormResult = new FormData();
@@ -110,8 +112,8 @@ const ContentAdd = ({actionResult}) => {
         metaDataClone.robots = robots;
         let metaDataStringify = JSON.stringify(metaDataClone);
         contentFormResult.append("metadata", metaDataStringify)
-        contentFormResult.append("category_list", JSON.stringify(contentDataClone.categories))
-        contentFormResult.append("tag_list", JSON.stringify(contentDataClone.tag_list))
+        contentFormResult.append("category_list", contentDataClone.categories ? JSON.stringify(contentDataClone.categories) : '')
+        contentFormResult.append("tag_list", contentDataClone.tag_list ? JSON.stringify(contentDataClone.tag_list) : '')
         if (contentDataClone.title && contentDataClone.title !== '') {
             $("input[name=titleContent]").removeClass("is-invalid");
             swalAccept("افزودن محتوا جدید").then(resSwal => {

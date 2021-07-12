@@ -406,6 +406,7 @@ export const ContentFormParent = ({
 
 
     function _renderImgBox() {
+        console.log(dataUpdateParse);
         if (preImage.uri !== "") {
             return (<div className={"mini-img-show-edit"}>
                 <div className={"img-box"}>
