@@ -1,13 +1,23 @@
 import {Request} from "../../../../services/AdminService/Api";
 
 export default class CategoryApi {
-    _moduleId = 0;
+    _moduleId = 0
+    _categoryIds;
+
     get moduleId() {
         return this._moduleId;
     }
 
     set moduleId(value) {
         this._moduleId = value;
+    }
+
+    get categoryIds() {
+        return this._categoryIds;
+    }
+
+    set categoryIds(value) {
+        this._categoryIds = value;
     }
 
     async call() {
@@ -24,8 +34,22 @@ export default class CategoryApi {
                 resolve(error);
             })
         }
+    }
 
-
+    async delete() {
+        let params = {
+            categoryIds: this._categoryIds
+        }
+        try {
+            let response = await Request.GroupDelCategory(params);
+            return new Promise(resolve => {
+                resolve(response)
+            })
+        } catch (e) {
+            return new Promise(reject => {
+                reject(e);
+            })
+        }
     }
 
 

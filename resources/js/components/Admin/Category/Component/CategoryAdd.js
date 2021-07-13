@@ -7,7 +7,7 @@ import $ from "jquery";
 import {error, successSwal, swalAccept} from "../../../../helper";
 import {CategoryFormParent} from "./CategoryFormParent";
 
-const CategoryAdd = ({actionResult, idParent}) => {
+const CategoryAdd = ({actionResult, idParent , categoryData}) => {
 
     let helperFunction = new HelperFunction();
     let componentHandler = new ComponentHandler();
@@ -40,7 +40,7 @@ const CategoryAdd = ({actionResult, idParent}) => {
 
     const handleInputs = e => {
         setSlugManage(true)
-        if (e.target.name === "titleContent") {
+        if (e.target.name === "name") {
             if (slugManage) {
                 let categoryFormClone = {...categoryForm};
                 categoryFormClone.title = e.target.value;
@@ -105,7 +105,8 @@ const CategoryAdd = ({actionResult, idParent}) => {
         <div id={"category_add_pop_base"}>
             <CategoryFormParent
                 actionType={"create"}
-                categoryData={''}
+                categoryData={categoryData}
+                categoryDataMange={''} // get item data for update or duplicate
                 tagChange={tagChange}
                 categoryOnChange={categoryOnChange}
                 onChangeInput={handleInputs}

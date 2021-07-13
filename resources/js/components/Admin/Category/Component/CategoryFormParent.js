@@ -15,12 +15,14 @@ import $ from "jquery";
 
 
 export const CategoryFormParent = ({
+                                       parentId,
                                        actionType,
                                        changeCheck,
                                        onChangeInput,
                                        categoryOnChange,
                                        tagChange,
                                        categoryData,
+                                       categoryDataMange,
                                        editorData,
                                        fileChange,
                                        handleMetaData
@@ -29,14 +31,13 @@ export const CategoryFormParent = ({
 
     let componentHandler = new ComponentHandler();
     let helperFunction = new HelperFunction();
-    let categoryApi = new CategoryApi();
 
-    const dataUpdateParse = categoryData ? categoryData : '';
+    const dataUpdateParse = categoryDataMange ? categoryDataMange : '';
     const [preImage, setPreImage] = useState({uri: ''});
     const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
-    // const [categoryData, setCategoryData] = useState({});
     const [chipset, setChipset] = useState([]);
     const [slugManage, setSlugManage] = useState(true);
+    const [loading , setLoading] = useState(false)
     const [contentForm, setContentForm] = useState({});
     let default_value = {
         is_menu: 0,
@@ -55,9 +56,6 @@ export const CategoryFormParent = ({
     const [imageGet, setImage] = useState({state: imageOldUrl})
 
     useEffect(() => {
-        categoryApi.call().then(res => {
-            setCategoryData(res.data.data);
-        })
 
         dataUpdateParse ? dataUpdateParse.tags.map(item => {
             chipset.push(item.name);
@@ -160,7 +158,7 @@ export const CategoryFormParent = ({
         if (actionType === "duplicate") {
             return handleMakeName();
         } else if (actionType === "edit") {
-            return dataUpdateParse.title;
+            return dataUpdateParse.name;
         } else {
             return '';
         }
@@ -192,13 +190,17 @@ export const CategoryFormParent = ({
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>دسته بندی پدر</label>
-                                    {categoryData ? (
-                                        <SelectOptions parents={idParent ? idParent : dataUpdateParse.parent_id}
-                                                       dataAllCat={dataAll}
-                                                       onChange={categoryParentId}
-                                                       loading={loading}/>
+                                    {!loading ? (
+                                        <SelectOptions parents={parentId ? parentId : dataUpdateParse.parent_id}
+                                                       data={categoryData}
+                                                       onChange={categoryParentId}/>
                                     ) : (
-                                        <p>wait ...</p>
+                                        <div style={{width : '100%' , height : '50px' , float : 'right' , textAlign : 'center' , justifyContent : 'center' , alignItems : 'center'}}>
+                                            <div className="spinner-border" role="status">
+                                                <span className="sr-only">در حال بارگذاری ...</span>
+                                            </div>
+                                        </div>
+
                                     )}
 
                                 </fieldset>
@@ -275,7 +277,7 @@ export const CategoryFormParent = ({
                                     <label htmlFor={"title"}>عنوان صفحه ( حداکثر 60 حرف )</label>
                                     <input type={"text"}
                                            defaultValue={MetaDataUpdate ? MetaDataUpdate.title : ''}
-                                           onChange={e => HandleMetaData(e)} name={"title"} id={"title"}
+                                           onChange={e => handleMetaData(e)} name={"title"} id={"title"}
                                            className={"form-control"}/>
 
 
@@ -288,7 +290,7 @@ export const CategoryFormParent = ({
                                     <textarea
                                         defaultValue={MetaDataUpdate ? MetaDataUpdate.content : ''}
                                         type={"text"}
-                                        onChange={e => HandleMetaData(e)} name={"content"}
+                                        onChange={e => handleMetaData(e)} name={"content"}
                                         id={"title"}
                                         className={"form-control"}/>
                                 </fieldset>
@@ -308,7 +310,7 @@ export const CategoryFormParent = ({
                                                     <div className="chip-body">
                                                         <span className="chip-text">{item}</span>
                                                         <div className="chip-closeable"
-                                                             onClick={e => functionalHandler.RemoveChipset(e, item, chipset, setChipset, setEdit)}>
+                                                             onClick={e => componentHandler.HandlerBigSwitcher(e , changeCheck)}>
                                                             <i className="bx bx-x"></i>
                                                         </div>
                                                     </div>
@@ -368,7 +370,7 @@ export const CategoryFormParent = ({
 
     function _renderSlug() {
         // check auto or handle slug change
-        let tit = $("input[name=titleContent]").val() + "";
+        let tit = $("input[name=name]").val() + "";
         if (slugManage) {
             let slugText = helperFunction.contentFormData(tit);
             return (

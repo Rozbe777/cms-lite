@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import $ from 'jquery';
 import './_Shared/style.scss'
-export const SelectOptions = ({parents,dataAllCat ,  data, onChange}) => {
+export const SelectOptions = ({parents, data, onChange}) => {
     useEffect(() => {
         $(function () {
             $("select.selectVal").change(function () {
@@ -12,6 +12,8 @@ export const SelectOptions = ({parents,dataAllCat ,  data, onChange}) => {
     } , [])
 
 
+    console.log("_____" , data)
+
 
         return (
             <select defaultValue={parents} className="form-control selectVal" name={"parent_id"}
@@ -19,7 +21,7 @@ export const SelectOptions = ({parents,dataAllCat ,  data, onChange}) => {
 
                 <option id={"optionss"} value={0}>ندارد</option>
 
-                {JSON.parse(dataAllCat) ? JSON.parse(dataAllCat).map((item , index) => (
+                {data.data ? data.data.map((item , index) => (
                     <React.Fragment key={index}>
                         <option key={index} style={{height: '50px'}} value={item.id}>{item.name}</option>
                         {item.childern.length > 0 ? item.childern.map((itemTow , indexed) => (

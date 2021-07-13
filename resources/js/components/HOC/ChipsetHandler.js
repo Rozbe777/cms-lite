@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 
-export const ChipsetHandler = ({label , onChange}) => {
+export const ChipsetHandler = ({onChange}) => {
 
     const HandleChipset = (e) => {
         let chips_input = $(".chips_input");

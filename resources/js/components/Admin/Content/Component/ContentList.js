@@ -138,7 +138,7 @@ export const ContentList = ({token}) => {
 
 
 
-    const MultiContentDelete = (e) => {
+    const multiContentDelete = (e) => {
         e.preventDefault();
         contentApi._contentId = checkBox;
         // show swal for get accept delete
@@ -166,7 +166,7 @@ export const ContentList = ({token}) => {
             <div>
                 <div className={"row col-12"} id={"headerContent"}>
                     <TotalActions text={" مورد انتخاب شده است "}
-                                  deleteUsers={e => MultiContentDelete(e)}
+                                  deleteUsers={e => multiContentDelete(e)}
                                   allData={contentData.data ? contentData : []} data={checkBox}/>
                     <BreadCrumbs titleBtn={"افزودن"} icon={"bx bx-plus"} onClicked={onAddContent} data={breadData}/>
                 </div>

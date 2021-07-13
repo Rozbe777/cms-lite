@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import ReactDom from 'react-dom';
 import {TreeShowCategory} from './../../_Micro/TreeShow/TreeShowCategory';
-import {Request} from './../../../../services/AdminService/Api'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import {CHECK_BOX_CONTENT} from "../../UserList/Helper/Context";
 import Loading from './../../_Micro/Loading';
 import $ from 'jquery';
-import {ErroHandle, error as ErrorToast} from "../../../../helper";
+import {ErroHandle, error as ErrorToast, successSwal, swalAccept} from "../../../../helper";
 import {TotalActions} from "../../UserList/HOC/TotalActions";
 import {BreadCrumbs} from "../../UserList/HOC/BreadCrumbs";
 import BottomNavigationBar from "../../UserList/HOC/BottomNavigationBar";
@@ -50,43 +49,8 @@ export const CategoryList = ({token}) => {
 
     }, [])
 
-    const resultForm = (statued) => {
-        if (statued) {
-            GetAllCategory();
-            ReactDom.render('', document.getElementById('add-datas'))
-        }
-    }
 
 
-
-    const HandleDelete = (status) => {
-        GetAllCategory();
-        setCheckBox([])
-    }
-
-    const HandleDuplicate = (status) => {
-        GetAllCategory();
-    }
-
-    // const handleClickItem = (clickId) => {
-    //     ReactDom.render(<AddCategory display={true} idParent={clickId}
-    //                                  token={token}
-    //                                  dataAll={JSON.stringify(categoryData)}
-    //                                  result={item => handleBack(item)}/>, document.getElementById("add-datas"))
-    // }
-
-    const handleBack = (item) => {
-        if (item.status == 200) {
-            GetAllCategory();
-            ReactDom.render('', document.getElementById('add-datas'))
-        }
-    }
-
-
-    // const HandleAddContentSelect = (data) => {
-    //     handleAddCategory();
-    //
-    // }
 
     if (checkBox.length > 0) {
         $("#totalAction").addClass("activeAction");
@@ -97,47 +61,28 @@ export const CategoryList = ({token}) => {
     }
 
 
-    const handleDeleteGroup = (event) => {
 
+    const multiCategoryDelete = (e) => {
+        e.preventDefault();
+        categoryApi.categoryIds = checkBox;
+        // show swal for get accept delete
+        swalAccept(`حذف گروهی از دسته بندی ها`).then(resSwal => {
+            if (resSwal.value) {
+                categoryApi.delete().then(res => {
+                    successSwal("با موفقیت حذف شدند !");
+                    $(".pagination li.page-item.numberss").removeClass("active")
+                    $("ul.pagination li").eq(1).addClass("active")
+                    $("span.checkboxeds").removeClass("active");
 
-        finalAllIds.categoryIds = checkBox;
-
-        finalAllIds._token = $('meta[name="csrf-token"]').attr('content');
-
-        event.preventDefault();
-        swal({
-            title: 'حذف دسته بندی',
-            text: "آیا مطمئنید؟",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'تایید',
-            confirmButtonClass: 'btn btn-primary',
-            cancelButtonClass: 'btn btn-danger ml-1',
-            cancelButtonText: 'انصراف',
-            buttonsStyling: false,
-        }).then(function (result) {
-            if (result.value) {
-                Request.GroupDelCategory(finalAllIds)
-                    .then(res => {
-                        setCheckBox([])
-                        Swal.fire({
-                            type: "success",
-                            title: 'حذف شد!',
-                            text: 'دسته بندی مورد نظر حذف شد',
-                            confirmButtonClass: 'btn btn-success',
-                            confirmButtonText: 'باشه',
-                        })
-
-                        GetAllCategory();
-                    }).catch(error => {
-                    if (error.response.data.errors) {
-                        ErroHandle(error.response.data.errors)
-                    } else {
-                        ErrorToast("خطای غیر منتظره ای رخ داده است")
-                    }
+                    $("li.page-item.numberss").removeClass("active");
+                    $("li.page-item").eq(1).addClass("active");
+                    $("li.page-item.next").css("opacity", 1);
+                    $("li.page-item.previous").css("opacity", 0.4);
+                    setCheckBox([]);
+                    handleReload(res);
                 })
             }
-        });
+        })
     }
 
 
@@ -148,7 +93,15 @@ export const CategoryList = ({token}) => {
 
     const onAddCategory = (e) => {
         e.preventDefault();
-        ReactDom.render(<CategoryAdd actionResult={handleReload}/>, document.getElementById("add-datas"))
+        ReactDom.render(<CategoryAdd actionResult={handleReload} categoryData={categoryData}/>, document.getElementById("add-datas"))
+    }
+
+    if (checkBox.length > 0) {
+        $("#totalAction").addClass("activeAction");
+        $("#breadCrumb").removeClass("activeCrumb");
+    } else {
+        $("#totalAction").removeClass("activeAction");
+        $("#breadCrumb").addClass("activeCrumb");
     }
 
 
@@ -157,25 +110,12 @@ export const CategoryList = ({token}) => {
             <div>
 
                 <div className={"row col-12"} id={"headerContent"}>
-                    <TotalActions text={" مورد انتخاب شده است "} deleteUsers={e => handleDeleteGroup(e)}
+                    <TotalActions text={" مورد انتخاب شده است "} deleteUsers={e => multiCategoryDelete(e)}
                                   allData={categoryData} data={checkBox}/>
                     <BreadCrumbs data={breadData} titleBtn={"افزودن"} icon={"bx bx-plus"}
                                  onClicked={onAddCategory}/>
                 </div>
 
-                <div className={"loaderErrorBack"}>
-                    <div className={"container"}>
-                        <div className={"row justify-content-center"}>
-                            <div className={"col-lg-4 col-md-5 col-sm-10"} style={{top: '14vh'}}>
-                                <div className={"cardError"}>
-                                    <div className={"iconError"}>
-                                        <i className={"bx bx-error-circle"}></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <div className="tab-content" style={{padding: 0}}>
                     <div className="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">

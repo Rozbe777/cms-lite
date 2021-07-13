@@ -167,7 +167,7 @@ export const Item = ({
                     <fieldset style={{float: "right"}}>
                         <div className="checkbox">
                             <input type="checkbox" name={"checkbox_" + thisCategoryData.id}
-                                   onChange={e => HandlePushCheck(e, id)}
+                                   onChange={e => HandlePushCheck(e, thisCategoryData.id)}
                                    className="checkbox-input"
                                    id={thisCategoryData.id}/>
                             <label htmlFor={thisCategoryData.id}></label>
