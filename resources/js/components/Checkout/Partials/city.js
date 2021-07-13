@@ -5,18 +5,50 @@ export const City = props => {
 
 
 
+    let stateName = [
+       "تهران",
+       "گیلان",
+       "آذربایجان شرقی",
+       "خوزستان",
+       "فارس",
+       "اصفهان",
+       "خراسان رضوی",
+       "قزوین",
+       "سمنان",
+       "قم",
+       "مرکزی",
+       "زنجان",
+       "مازندران",
+       "گلستان",
+       "اردبیل",
+       "آذربایجان غربی",
+       "همدان",
+       "کردستان",
+       "کرمانشاه",
+       "لرستان",
+       "بوشهر",
+       "کرمان",
+       "هرمزگان",
+       "چهارمحال و بختیاری",
+       "یزد",
+       "سیستان و بلوچستان",
+       "ایلام",
+       "کهگلویه و بویراحمد",
+       "خراسان شمالی",
+       "خراسان جنوبی",
+       "البرز",
+    ]
+
 
     const [citySel , setCitySel] = useState([])
 
-    const handleCity = state => {
-
-        console.log(state)
-
+    const handleProvince = state => {
+        console.log(stateName[parseInt(state)-1] , "ssss" , state)
+        props.handleStateName(stateName[parseInt(state)-1]);
         let options = [];
         if (state == 0) {
             options[0] = ['لطفا استان را انتخاب نمایید', '0'];
         }
-
         if (state == 1) {
             options[0] = ['لطفا شهر را انتخاب نمایید', '0'];
             options[1] = ['احمدآبادمستوفي', '33131'];
@@ -1127,53 +1159,29 @@ export const City = props => {
             options[14] = ['نظرآباد', '3331'];
             options[15] = ['هشتگرد ـ ساوجبلاغ', '3361'];
         }
-
         let citySels = [...citySel];
         citySels = options
         setCitySel(citySels);
     }
 
-
-    console.log(citySel);
+    const handleCity = e => {
+        e.preventDefault();
+        let citySelectHtml = document.querySelector(".citySelected");
+        let cityName = citySelectHtml.options[citySelectHtml.selectedIndex].text;
+        props.handleCityName(cityName)
+    }
     return (
         <div className={"row"}>
            <div className={"col-md-6 col-sm-12"}>
                <div className="form-group">
                    <label htmlFor="first-name-vertical">استان</label>
                    <fieldset className="form-group">
-                       <select className="form-control" id="basicSelect" onChange={e => handleCity(e.target.value)} style={{height : 50}}>
+                       <select className="form-control" id="basicSelect" onChange={e => handleProvince(e.target.value)} style={{height : 50}}>
                            <option value="0">لطفا استان را انتخاب نمایید</option>
-                           <option value="1">تهران</option>
-                           <option value="2">گیلان</option>
-                           <option value="3">آذربایجان شرقی</option>
-                           <option value="4">خوزستان</option>
-                           <option value="5">فارس</option>
-                           <option value="6">اصفهان</option>
-                           <option value="7">خراسان رضوی</option>
-                           <option value="8">قزوین</option>
-                           <option value="9">سمنان</option>
-                           <option value="10">قم</option>
-                           <option value="11">مرکزی</option>
-                           <option value="12">زنجان</option>
-                           <option value="13">مازندران</option>
-                           <option value="14">گلستان</option>
-                           <option value="15">اردبیل</option>
-                           <option value="16">آذربایجان غربی</option>
-                           <option value="17">همدان</option>
-                           <option value="18">کردستان</option>
-                           <option value="19">کرمانشاه</option>
-                           <option value="20">لرستان</option>
-                           <option value="21">بوشهر</option>
-                           <option value="22">کرمان</option>
-                           <option value="23">هرمزگان</option>
-                           <option value="24">چهارمحال و بختیاری</option>
-                           <option value="25">یزد</option>
-                           <option value="26">سیستان و بلوچستان</option>
-                           <option value="27">ایلام</option>
-                           <option value="28">کهگلویه و بویراحمد</option>
-                           <option value="29">خراسان شمالی</option>
-                           <option value="30">خراسان جنوبی</option>
-                           <option value="31">البرز</option>
+                           {stateName.map((item , index) => (
+                               <option value={index+1}>{item}</option>
+                           ))}
+
                        </select>
                    </fieldset>
                </div>
@@ -1183,14 +1191,13 @@ export const City = props => {
                 <div className="form-group">
                     <label htmlFor="first-name-vertical">شهر</label>
                     <fieldset className="form-group">
-                        <select className="form-control" id="basicSelect"  style={{height : 50}}>
+                        <select className="form-control citySelected" onChange={e => handleCity(e)} id="basicSelect"  style={{height : 50}}>
                             <option value="0">لطفا شهر را انتخاب نمایید</option>
                             {citySel.length > 0 ? citySel.map((item , index) => (
                                 <option key={index} value={item[1]}>{item[0]}</option>
                             )) : (
                                ''
                             )}
-
                         </select>
                     </fieldset>
                 </div>

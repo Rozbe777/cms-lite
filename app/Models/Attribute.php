@@ -12,7 +12,6 @@ class Attribute extends Model
 
     protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
     protected $guarded = [];
-    protected $appends = ['final_price'];
 
     public function product()
     {

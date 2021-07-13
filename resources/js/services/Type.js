@@ -6,6 +6,7 @@ export const VERIFY_MOBILE_URL = "mobile/token";
 export const PASSWORD_RESET_URL = "auth/password/recovery";
 export const PASSWORD_TOKEN_URL = "auth/password/token";
 export const LOGIN_URL = "auth/login";
+export const DEFAULT_ICON = "/images/avatar.png"
 export const VERSION = "";
 export const REQUEST_URL = `${BASE_URL}${VERSION}`;
 export const TOKEN = $('meta[name="csrf-token"]').attr('content');

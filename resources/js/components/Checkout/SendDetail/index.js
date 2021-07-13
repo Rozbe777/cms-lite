@@ -1,16 +1,31 @@
 import React, {useState, useEffect} from 'react';
 import {Header} from "../Partials/Header";
 import './../_shared/style.scss'
+import {TOKEN} from './../../../services/Type';
 import './../Partials/city';
 import {ItemCheckOutAll} from "../Partials/ItemCheckOutAll";
 import {City} from "../Partials/city";
 import ReactDOM from "react-dom";
 import CheckBascket from "../CheckBascket";
+import {TextInput} from "../components/TextInput";
 
 const SendDetail = (props) => {
     useEffect(() => {
     }, [])
-    // const {mini} = props;
+
+    const {cartInvoice, totalPrice, attributesData} = props;
+    const [addressState, setAddressState] = useState({
+        name : null,
+        last_name : null,
+        email : null,
+        phone : null,
+        postal_code : null,
+        state : null,
+        city : null,
+        address : null,
+        mobile : null,
+        _token : TOKEN
+    });
     const [state, setState] = useState();
     const [discount, setDiscount] = useState()
     const handleDis = e => {
@@ -20,11 +35,38 @@ const SendDetail = (props) => {
 
     const handleNext = e => {
         e.preventDefault();
-        ReactDOM.render(<SendDetail/>, document.getElementById("mains-content"));
+
+        // ReactDOM.render(<SendDetail/>, document.getElementById("mains-content"));
     }
     const handlePrev = e => {
         e.preventDefault();
-        ReactDOM.render(<CheckBascket/>, document.getElementById("mains-content"));
+        ReactDOM.render(<CheckBascket attributes={JSON.stringify(attributesData)} historyTotalPrice={totalPrice}
+                                      historyCartData={cartInvoice}/>, document.getElementById("mains-content"));
+    }
+
+    const onChange = e => {
+        e.preventDefault();
+        setAddressState({
+            ...addressState,
+            [e.target.name] : e.target.value
+        })
+    }
+
+    const onSubmitForm = (e) => {
+        e.preventDefault();
+        console.log("____" , addressState)
+    }
+
+    const handleStateName = (StateName) => {
+        let addressStateClone = {...addressState};
+        addressStateClone.state= StateName;
+        setAddressState(addressStateClone)
+    }
+
+    const handleCityName = (cityName) => {
+        let addressStateClone = {...addressState};
+        addressStateClone.city= cityName;
+        setAddressState(addressStateClone)
     }
     return (
         <>
@@ -35,15 +77,13 @@ const SendDetail = (props) => {
                         <div className={"cart"} style={{flex: '1 1 auto'}}>
                             <div className={"cart-content"}>
                                 <div className={"row"}>
-                                    <div className="col-12" style={{marginBottom: 15}}>
-                                        <ItemCheckOutAll/>
-                                    </div>
-                                    <div className="col-12" style={{marginBottom: 15}}>
-                                        <ItemCheckOutAll/>
-                                    </div>
-                                    <div className="col-12" style={{marginBottom: 15}}>
-                                        <ItemCheckOutAll/>
-                                    </div>
+                                    {cartInvoice.map(item => (
+                                        <div className="col-12" style={{marginBottom: 15}}>
+                                            <ItemCheckOutAll {...item} />
+                                        </div>
+                                    ))}
+
+
                                 </div>
 
                             </div>
@@ -62,19 +102,19 @@ const SendDetail = (props) => {
                                 <li>
                                     <ul>
                                         <li>مبلغ کل سبد خرید :</li>
-                                        <li>10000000 تومان</li>
+                                        <li>{totalPrice} تومان</li>
                                     </ul>
                                 </li>
                                 <li>
                                     <ul>
                                         <li>هزینه ارسال :</li>
-                                        <li>12000 تومان</li>
+                                        <li>ابتدا آدرس ثبت کنید</li>
                                     </ul>
                                 </li>
                                 <li>
                                     <ul>
                                         <li>مبلغ قابل پرداخت :</li>
-                                        <li style={{color: '#000', fontWeight: 'bold'}}>1200000212 تومان</li>
+                                        <li style={{color: '#000', fontWeight: 'bold'}}>{totalPrice} تومان</li>
                                     </ul>
                                 </li>
                             </ul>
@@ -83,95 +123,59 @@ const SendDetail = (props) => {
 
 
                     <div className={"col-lg-8 col-md-6 col-sm-12"} style={{padding: 5}}>
-                        <div className={"cart"} style={{
-                            boxShadow: '0 0 5px 2px rgba(0,0,0,0.1)',
-                            background: "#fff",
-                            borderRadius: '5px',
-                            padding: '15px'
-                        }}>
-                            <div className={"cart-content"}>
-                                <div className={"row"}>
-                                    <div className="col-md-3 col-sm-12">
-                                        <div className="form-group">
-                                            <label htmlFor="first-name-vertical">نام</label>
-                                            <input type="text" id="first-name-vertical" className="form-control"
-                                                   name="fname"
-                                                   placeholder="نام"/>
+                        <div className={"cart"} id={"cart-items"}>
+                            <form>
+                                <div className={"cart-content"}>
+                                    <div className={"row"}>
+                                        <div className="col-md-3 col-sm-12">
+                                            <TextInput title={"نام"} type={"text"} name={"name"} required={true}
+                                                       onChange={onChange}/>
                                         </div>
-                                    </div>
-                                    <div className="col-md-3 col-sm-12">
-                                        <div className="form-group">
-                                            <label htmlFor="first-name-vertical">نام خانوادگی</label>
-                                            <input type="text" id="first-name-vertical" className="form-control"
-                                                   name="fname"
-                                                   placeholder="نام خانوادگی"/>
+                                        <div className="col-md-3 col-sm-12">
+                                            <TextInput title={"نام خانوادگی"} type={"text"} name={"last_name"}
+                                                       required={true} onChange={onChange}/>
                                         </div>
-                                    </div>
-                                    <div className="col-md-6 col-sm-12">
-                                        <div className="form-group">
-                                            <label htmlFor="first-name-vertical">ایمیل</label>
-                                            <input type="text" id="first-name-vertical" className="form-control"
-                                                   name="fname"
-                                                   placeholder="ایمیل"/>
+                                        <div className="col-md-6 col-sm-12">
+                                            <TextInput title={"ایمیل"} type={"email"} name={"email"} required={false}
+                                                       onChange={onChange}/>
                                         </div>
-                                    </div>
-                                    <div className="col-md-8 col-sm-12">
-                                        <City/>
-                                    </div>
-                                    <div className={"col-md-4 col-sm-12"}>
-                                        <div className="form-group">
-                                            <label htmlFor="first-name-vertical">کد پستی</label>
-                                            <input type="text" id="first-name-vertical" className="form-control"
-                                                   name="fname"
-                                                   placeholder="کد پستی"/>
+                                        <div className="col-md-8 col-sm-12">
+                                            <City handleStateName={handleStateName} handleCityName={handleCityName}/>
                                         </div>
-                                    </div>
+                                        <div className={"col-md-4 col-sm-12"}>
+                                            <TextInput title={"کد پستی"} type={"number"} name={"postal_code"} required={false}
+                                                       onChange={onChange}/>
+                                        </div>
+                                        <div className={"col-md-6 col-sm-12"}>
+                                            <TextInput title={"شماره موبایل"} type={"tel"} name={"mobile"} required={true}
+                                                       onChange={onChange}/>
+                                        </div>
 
-                                    <div className={"col-md-6 col-sm-12"}>
-                                        <div className="form-group">
-                                            <label htmlFor="first-name-vertical">شماره موبایل</label>
-                                            <input type="text" id="first-name-vertical" className="form-control"
-                                                   name="fname"
-                                                   placeholder="شماره موبایل"/>
+                                        <div className={"col-md-6 col-sm-12"}>
+                                            <TextInput title={"تلفن ثابت"} type={"tel"} name={"phone"} required={false}
+                                                       onChange={onChange}/>
                                         </div>
-                                    </div>
 
-                                    <div className={"col-md-6 col-sm-12"}>
-                                        <div className="form-group">
-                                            <label htmlFor="first-name-vertical">تلفن ثابت</label>
-                                            <input type="text" id="first-name-vertical" className="form-control"
-                                                   name="fname"
-                                                   placeholder="تلفن ثابت"/>
+                                        <div className={"col-12"}>
+                                            <TextInput title={"آدرس پستی"} type={"text"} name={"address"} required={false}
+                                                       onChange={onChange}/>
                                         </div>
-                                    </div>
+                                        <div className={"col-12"}>
+                                            <TextInput title={"توضیحات ( اختیاری )"} type={"text"} name={"description"} required={false} placeholder={"توضیحی که نیاز است در رابطه با سفارش بیان کنید"}
+                                                       onChange={onChange}/>
+                                        </div>
 
-                                    <div className={"col-12"}>
-                                        <div className="form-group">
-                                            <label htmlFor="first-name-vertical">آدرس پستی</label>
-                                            <input type="text" id="first-name-vertical" className="form-control"
-                                                   name="fname"
-                                                   placeholder="آدرس پستی"/>
-                                        </div>
-                                    </div>
-                                    <div className={"col-12"}>
-                                        <div className="form-group">
-                                            <label htmlFor="first-name-vertical">توضیحات ( اختیاری )</label>
-                                            <input type="text" id="first-name-vertical" className="form-control"
-                                                   name="fname"
-                                                   placeholder="توضیحی که نیاز است در رابطه با سفارش بیان کنید"/>
-                                        </div>
-                                    </div>
-
-                                    <div className={"col-12"}>
-                                        <div className={"send-type active"}>
-                                            <i className={"bx bxs-check-circle checkeds"}></i>
-                                            <i className={"bx bx-truck icon-sycle"}></i>
-                                            <p>ارسال پستی</p>
+                                        <div className={"col-12"}>
+                                            <div className={"send-type active"}>
+                                                <i className={"bx bxs-check-circle checkeds"}></i>
+                                                <i className={"bx bx-truck icon-sycle"}></i>
+                                                <p>ارسال پستی</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            </form>
 
-                            </div>
                         </div>
                     </div>
 
@@ -179,7 +183,7 @@ const SendDetail = (props) => {
             </div>
 
             <div className={"col-12"} style={{marginTop: '30px', padding: 0}}>
-                <button onClick={e => handleNext(e)} style={{float: 'left', fontSize: '16px', fontWeight: 100}}
+                <button onClick={e => onSubmitForm(e)} style={{float: 'left', fontSize: '16px', fontWeight: 100}}
                         className={"btn btn-primary"}> نحوه پرداخت <i className={"bx bx-chevron-left"}></i></button>
                 <button onClick={e => handlePrev(e)}
                         style={{float: 'right', background: '#fff', fontSize: '16px', fontWeight: 100}}
