@@ -214,7 +214,11 @@ Route::name('front.')->group(function () {
 
     Route::any('search', [SearchController::class, 'search'])->name('search');
 
-    Route::get('product/{slug}', [\App\Http\Controllers\Front\Shop\ProductController::class, 'show'])->name('product.show');
+    Route::prefix('store/')->group(function (){
+        Route::get('product', [\App\Http\Controllers\Front\Shop\ProductController::class, 'blade'])->name('product.blade');
+        Route::get('product/slug', [\App\Http\Controllers\Front\Shop\ProductController::class, 'getBySlug'])->name('product.blade');
+        Route::get('products', [\App\Http\Controllers\Front\Shop\ProductController::class, 'show'])->name('product.show');
+    });
 
     Route::get('callback/{invoice_id}', [InvoiceController::class, 'callback'])->name('callback');
 
