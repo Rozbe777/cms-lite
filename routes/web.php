@@ -160,8 +160,6 @@ Route::middleware('auth')->group(function () {
     //-------------------------------Images-----------------------------
     Route::get('image/{name}', [ImageController::class, 'show']);
 
-    Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-
     //-------------------------------Transfer-----------------------------
     Route::get('transfer/index', [TransferController::class, 'blade'])->name('transfers.blade');
     Route::prefix('transfers/')->group(function () {
@@ -213,6 +211,12 @@ Route::name('front.')->group(function () {
     Route::get('tag/{name}', [\App\Http\Controllers\Front\Tag\TagController::class, 'search'])->name('tags');
 
     Route::any('search', [SearchController::class, 'search'])->name('search');
+
+    Route::prefix('checkout/')->group(function () {
+        Route::get('', [CheckoutController::class, 'blade'])->name('checkout.blade');
+        Route::get('slug', [CheckoutController::class, 'getBySlug'])->name('checkout.blade');
+        Route::get('/products', [CheckoutController::class, 'show'])->name('checkout.show');
+    });
 
     Route::prefix('store/')->group(function (){
         Route::get('product', [\App\Http\Controllers\Front\Shop\ProductController::class, 'blade'])->name('product.blade');
