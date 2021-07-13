@@ -42,33 +42,30 @@ class CartController extends Controller
             ->with('product')
             ->get();
 
-        //FIXME: Please recheck it @Mohsen
+        //FIXME: Please recheck it @Mohsen,
 //        $sumQuery = Attribute::whereIn('id', $attributeIds)
 //            ->select(DB::raw("sum(if(discount_status='active',discount,price)) as sum_final_price , sum(price) as sum_price"))
 //            ->first();
-
+        //FIXME: I changed that to this,
         $sumQuery = Attribute::whereIn('id', $attributeIds)->get();
         $price = $sumQuery->map(function ($data, $key) use ($items) {
             if ($data->discount_status == 'active') {
-                $cart_products[$key] = [
+                return [
                     'id' => $items[$key]['id'],
                     'count' => $items[$key]['count'],
-                    'sum_final_price' => $data->discount * $items[$key]['count'],
                     'sum_price' => $data->price * $items[$key]['count'],
+                    'sum_final_price' => $data->discount * $items[$key]['count'],
                 ];
             } else {
-                $cart_products[$key] = [
+                 return [
                     'id' => $items[$key]['id'],
                     'count' => $items[$key]['count'],
                     'sum_price' => $data->price * $items[$key]['count'],
                     'sum_final_price' => $data->price * $items[$key]['count'],
                 ];
             }
-            return $cart_products;
-        });
 
-        $sumFinalPrice = 0;
-        $sumPrice = 0;
+        });
 
         $sumFinalPrice = $price->sum('sum_final_price');
         $sumPrice = $price->sum('sum_price');
@@ -150,7 +147,7 @@ class CartController extends Controller
 
     function resetCart()
     {
-        session()->forget(self::CART_SESSION_ID);
+        Session::remove(self::CART_SESSION_ID);
         return success();
     }
 
