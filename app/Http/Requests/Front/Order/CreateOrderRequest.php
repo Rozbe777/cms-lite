@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Front\Order;
 
+use App\Http\Requests\BaseRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateOrderRequest extends FormRequest
@@ -13,7 +14,7 @@ class CreateOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,9 @@ class CreateOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "count" => 'required|integer',
+            "attribute_id" => 'required|integer',
+            "remaining" => 'required|integer',
         ];
     }
 }

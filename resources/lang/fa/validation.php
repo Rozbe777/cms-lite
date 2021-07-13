@@ -155,6 +155,7 @@ return array(
         "status" => "وضعیت",
         "logo" => "لوگو",
         "price" => "مبلغ",
+        'token' => 'کد دریافتی',
         "attributes.*.price" => "مبلغ کالا",
         "attributes.*.product_code" => "کد کالا",
         "attributes.*.limit" => "حداکثر تعداد مجاز خرید این کالا ",

@@ -5,7 +5,7 @@ namespace App\Http\Requests\Front\fastAuth;
 use App\Http\Requests\BaseRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUserRequest extends BaseRequest
+class CreateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -34,6 +34,7 @@ class CreateUserRequest extends BaseRequest
             'state' => 'required',
             'city' => 'required',
             'address' => 'required|string',
+            'description' => 'string|max:255'
         ];
     }
 }
