@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MobileRegisterRequest;
 use App\Http\Requests\MobileRequest;
 use App\Jobs\SendSmsJob;
+use App\Models\Repositories\Admin\UserRepository;
 use App\Models\Repositories\Auth\MobileRepository;
 use App\Models\Repositories\Auth\SmsRepository;
 use App\Models\Repositories\Auth\UserModelRepository;
@@ -19,20 +20,17 @@ use App\Models\VerifyMobile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Passport\Bridge\UserRepository;
 
 class MobileRegisterController extends Controller
 {
     use MobileTrait, ResponseTrait;
 
-    protected $userRepository;
     protected $sms;
     protected $mobileRepository;
     protected $responses;
 
-    public function __construct(Responses $responses, UserModelRepository $userRepository, SmsRepository $sms, MobileRepository $mobileRepository)
+    public function __construct(Responses $responses, SmsRepository $sms, MobileRepository $mobileRepository)
     {
-        $this->userRepository = $userRepository;
         $this->sms = $sms;
         $this->mobileRepository = $mobileRepository;
         $this->responses = $responses;
@@ -46,11 +44,10 @@ class MobileRegisterController extends Controller
     /** verify user's mobile */
     public function register(MobileRegisterRequest $request)
     {
-        $noticeCenterTrigger = new NoticeCenterTrigger();
         $mobile = mobile($request->mobile);
 
         /** check if mobile was registered */
-        $user = $this->userRepository->findByMobile($mobile);
+        $user = UserModelRepository::findByMobile($mobile);
         $client = $this->mobileRepository->find($mobile);
 
         if ((!$user && !$client) || (!isset($user->password) && !$client)) {
@@ -58,7 +55,7 @@ class MobileRegisterController extends Controller
             $client = $this->mobileRepository->creatClient($mobile);
 
             /** API panel SMS */
-            $noticeCenterTrigger->handle($request->mobile);
+            NoticeCenterTrigger::handle($request->mobile);
 
             return $this->message(__('message.auth.register.resendToken.successful'))->success();
 
@@ -75,7 +72,7 @@ class MobileRegisterController extends Controller
 
             if ($needToPass < 0) {
                 /** send the token again */
-                $noticeCenterTrigger->handle($request->mobile);
+                NoticeCenterTrigger::handle($request->mobile);
 
                 return $this->message(__('message.auth.register.resendToken.successful'))->success();
             } else {

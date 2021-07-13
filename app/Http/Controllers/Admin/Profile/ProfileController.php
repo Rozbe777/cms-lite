@@ -67,10 +67,10 @@ class ProfileController extends Controller
             } elseif ($data['image'] == "true") {
                 unset($data['image']);
             } else {
-                $data['image'] = "public/images/defaultIMG.png";
+                $data['image'] = "defaultIMG.png";
             }
         } else {
-            $data['image'] = "public/images/defaultIMG.png";
+            $data['image'] = "defaultIMG.png";
         }
         unset($data['password_confirmation']);
 

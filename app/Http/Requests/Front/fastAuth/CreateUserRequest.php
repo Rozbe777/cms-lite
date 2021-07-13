@@ -1,22 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Front\fastAuth;
 
 use App\Http\Requests\BaseRequest;
-use App\Rules\iran_mobile;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Carbon;
 
-/**
- * @property string name
- * @property string last_name
- * @property string email
- * @property string password
- * @property string phone
- * @property string status
- * @property string registration_source
- * @property Carbon|null email_verified_at
- */
 class CreateUserRequest extends BaseRequest
 {
     /**
@@ -39,8 +27,13 @@ class CreateUserRequest extends BaseRequest
         return [
             'name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'string|email|max:255|unique:users',
-            'password' => 'required|string|min:4|confirmed',
+            'email' => 'nullable|string|email|max:255|unique:users',
+            'mobile' => 'required|nullable|string|min:10|max:11',
+            'phone' => 'required|string|min:4|max:15',
+            'postal_code' => 'nullable|integer',
+            'state' => 'required',
+            'city' => 'required',
+            'address' => 'required|string',
         ];
     }
 }

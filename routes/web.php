@@ -20,7 +20,8 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FileManager\ImageController;
 use App\Http\Controllers\Front\Cart\CartController;
-use App\Http\Controllers\Front\Cart\CheckoutController;
+use App\Http\Controllers\Front\Cart\CheckProductListController;
+use App\Http\Controllers\Front\Cart\PreCheckoutController;
 use App\Http\Controllers\Front\InvoiceController;
 use App\Http\Controllers\Front\Order\OrderController;
 use App\Http\Controllers\Front\Page\FrontPageController;
@@ -160,6 +161,8 @@ Route::middleware('auth')->group(function () {
     //-------------------------------Images-----------------------------
     Route::get('image/{name}', [ImageController::class, 'show']);
 
+    Route::get('checkout', [PreCheckoutController::class, 'index'])->name('checkout.index');
+
     //-------------------------------Transfer-----------------------------
     Route::get('transfer/index', [TransferController::class, 'blade'])->name('transfers.blade');
     Route::prefix('transfers/')->group(function () {
@@ -188,7 +191,7 @@ Route::middleware('auth')->group(function () {
         Route::get('edit', [AddressController::class, 'edit'])->name('addresses.edit');
         Route::delete('multi/destroy', [AddressController::class, 'multipleDestroy'])->name('addresses.multipleDestroy');
     });
-
+});
     //------------------------------Order-------------------------------
     Route::get('order', [OrderController::class, 'blade'])->name('orders.blade');
     Route::get('orders/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
@@ -201,7 +204,7 @@ Route::middleware('auth')->group(function () {
     Route::get('themes/{themeId}/select', [ThemeController::class, 'select'])->name('theme.select');
 
 
-});
+
 
 Route::name('front.')->group(function () {
     Route::get('/', [FrontPageController::class, 'search'])->name('index');
@@ -212,20 +215,24 @@ Route::name('front.')->group(function () {
 
     Route::any('search', [SearchController::class, 'search'])->name('search');
 
+    //------------------------------ProductList-------------------------------
     Route::prefix('checkout/')->group(function () {
-        Route::get('', [CheckoutController::class, 'blade'])->name('checkout.blade');
-        Route::get('slug', [CheckoutController::class, 'getBySlug'])->name('checkout.blade');
-        Route::get('/products', [CheckoutController::class, 'show'])->name('checkout.show');
+        Route::get('', [CheckProductListController::class, 'blade'])->name('checkout.blade');
+        Route::get('slug', [CheckProductListController::class, 'getBySlug'])->name('checkout.blade');
+        Route::get('/products', [CheckProductListController::class, 'show'])->name('checkout.show');
     });
 
-    Route::prefix('store/')->group(function (){
-        Route::get('product', [\App\Http\Controllers\Front\Shop\ProductController::class, 'blade'])->name('product.blade');
-        Route::get('product/slug', [\App\Http\Controllers\Front\Shop\ProductController::class, 'getBySlug'])->name('product.blade');
-        Route::get('products', [\App\Http\Controllers\Front\Shop\ProductController::class, 'show'])->name('product.show');
-    });
+    Route::get('product/{slug}', [\App\Http\Controllers\Front\Shop\ProductController::class, 'show'])->name('product.show');
+
+    //------------------------------fastAuth-------------------------------
+    Route::get('front/register',[\App\Http\Controllers\Front\FastAuth\RegisterController::class,'show'])->name('fastAuth.index');
+    Route::post('front/register',[\App\Http\Controllers\Front\FastAuth\RegisterController::class,'store'])->name('fastAuth.store');
+    Route::post('front/mobile/register',[\App\Http\Controllers\Front\FastAuth\RegisterController::class,'mobile'])->name('fastAuth.store');
+    Route::post('front/mobile/check',[\App\Http\Controllers\Front\FastAuth\RegisterController::class,'mobileVerify'])->name('fastAuth.store');
 
     Route::get('callback/{invoice_id}', [InvoiceController::class, 'callback'])->name('callback');
 
+    //------------------------------Cart-------------------------------
     Route::prefix('cart/')->name('cart.')->group(function () {
         Route::get('index', [CartController::class, 'index'])->name('index');
         Route::post('add', [CartController::class, 'addToCart'])->name('add');
@@ -234,6 +241,4 @@ Route::name('front.')->group(function () {
 
     Route::get('{slug}', [\App\Http\Controllers\Front\Content\ContentController::class, 'search'])->name('contents');
 });
-
-
 //-----------------------Mehrshad End----------------------

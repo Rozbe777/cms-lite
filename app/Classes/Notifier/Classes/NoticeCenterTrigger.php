@@ -9,7 +9,7 @@ use App\Models\Repositories\Auth\SmsRepository;
 
 class NoticeCenterTrigger
 {
-    public function handle($mobile)
+    static public function handle($mobile)
     {
         $token = (new SmsRepository())->createToken($mobile)->token;
         $notifire = \App\Classes\Notifier\Notifier::getInstance(\App\Classes\Notifier\Notifier::SMS_TYPE);
