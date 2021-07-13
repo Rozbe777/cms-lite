@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+@extends("panel.themes.frest.layouts.authLayout")
+
+    <!DOCTYPE html>
 <html lang="fa" data-textdirection="rtl" dir="rtl">
 <!-- BEGIN: Head-->
 <script>
@@ -15,7 +17,6 @@
     }
 
 </script>
-@include('panel.themes.frest.includes.head')
 <body
     class="vertical-layout vertical-menu-modern boxicon-layout no-card-shadow 2-columns  navbar-sticky footer-static  "
     data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
