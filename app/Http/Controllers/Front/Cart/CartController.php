@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Front\Cart;
 
 use App\Classes\Responses\Front\ResponseTrait;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Front\Order\CreateOrderRequest;
+use App\Http\Requests\Front\Order\EditOrderRequest;
 use App\Models\Attribute;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -84,7 +86,7 @@ class CartController extends Controller
         ]);
     }
 
-    function addToCart(Request $request)
+    function addToCart(CreateOrderRequest $request)
     {
         $count = $request->input('count', 1);
         $attributeId = $request->input('attribute_id');
@@ -109,7 +111,7 @@ class CartController extends Controller
         return success($this->getCart());
     }
 
-    function update(Request $request)
+    function update(EditOrderRequest $request)
     {
         $count = $request->input('count', 1);
         $attributeId = $request->input('attribute_id');

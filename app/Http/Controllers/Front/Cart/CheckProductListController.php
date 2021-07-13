@@ -15,9 +15,9 @@ class CheckProductListController extends Controller
     function blade(Request $request)
     {
         if (!empty($request->input('id'))) {
-            $ids = (explode(',', $request->input('id')));
-            $attributes = Attribute::whereIn('product_id',$ids)->with('product')->with('typeFeatures')->get();
-            return frontView('checkout.index',compact('attributes'));
+
+            $attributes = Attribute::whereId($request->input('id'))->with('product')->with('typeFeatures')->get();
+            return frontView('checkout.index',compact('attributes')); //attributes = products
         }
         return $this->message(__('message.content.search.notSuccess'))->error();
     }
@@ -25,8 +25,7 @@ class CheckProductListController extends Controller
     public function getBySlug(Request $request)
     {
         if (!empty($request->input('slug'))) {
-            $products = Product::whereSlug($request->input('slug'))->active()->firstOrFail();
-            $attributes = Attribute::whereProductId($products->id)->with('product')->with('typeFeatures')->get();
+            $attributes = Attribute::whereId($request->input('id'))->with('product')->with('typeFeatures')->get();
             return frontView('checkout.index',compact('attributes'));
         }
         return $this->message(__('message.content.search.notSuccess'))->error();
@@ -36,13 +35,12 @@ class CheckProductListController extends Controller
     {
         if (!empty($request->input('id'))) {
             $ids = (explode(',', $request->input('id')));
-            $attributes = Attribute::whereIn('product_id',$ids)->with('product')->with('typeFeatures')->get();
+            $attributes = Attribute::whereId($request->input('id'))->with('product')->with('typeFeatures')->get();
             return $this->data($attributes)->message(__('message.success.200'))->success();
         }
 
         if (!empty($request->input('slug'))) {
-            $products = Product::whereSlug($request->input('slug'))->active()->firstOrFail();
-            $attributes = Attribute::whereProductId($products->id)->with('product')->with('typeFeatures')->get();
+            $attributes = Attribute::whereId($request->input('id'))->with('product')->with('typeFeatures')->get();
             return $this->message(__('message.success.200'))->data($attributes)->success();
         }
     }
