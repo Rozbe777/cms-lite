@@ -3,11 +3,7 @@
 
 @section("content")
 
-    <div class="container-fluid">
-        <div class="row">
-            <div id="discount-page" data-token="{{csrf_token()}}" style="width: 100% ; border-top: 1px solid #eee;"></div>
-        </div>
-    </div>
+
 
 @endsection
 @section('pageScripts')
