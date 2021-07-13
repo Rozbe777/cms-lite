@@ -375,7 +375,7 @@ export const CategoryFormParent = ({
             let slugText = helperFunction.contentFormData(tit);
             return (
                 <div className={"fucks"}>
-                    {slugText}
+                    {slugText ? slugText : ''}
                 </div>
             )
         } else {
