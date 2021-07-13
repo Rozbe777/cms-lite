@@ -20,6 +20,7 @@ class CreateAddressesTable extends Migration
             $table->string('city');
             $table->string('address');
             $table->bigInteger('postal_code')->nullable();
+            $table->string('phone');
             $table->softDeletes();
             $table->timestamps();
         });

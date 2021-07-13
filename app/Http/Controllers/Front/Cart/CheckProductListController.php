@@ -8,9 +8,10 @@ use App\Models\Attribute;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-class CheckoutController extends Controller
+class CheckProductListController extends Controller
 {
     use ResponseTrait;
+
     function blade(Request $request)
     {
         if (!empty($request->input('id'))) {

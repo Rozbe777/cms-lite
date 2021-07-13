@@ -8,7 +8,7 @@ use App\Models\VerifyMobile;
 
 class MobileRepository
 {
-    public function find($mobile)
+    static public function find($mobile)
     {
         return VerifyMobile::orderBy('id','desc')->firstWhere('mobile', $mobile);
     }

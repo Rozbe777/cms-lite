@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserModelRepository
 {
-    public function findByMobile($mobile)
+    static public function findByMobile($mobile)
     {
         return User::firstWhere('mobile', $mobile);
     }
@@ -34,7 +34,7 @@ class UserModelRepository
         );
 
         if ($user->wasRecentlyCreated) {
-            $role = Role::where('name', 'admin')->first();
+            $role = Role::where('name', 'user')->first();
             $user->attachRole($role);
         }
         return $user;
@@ -55,7 +55,10 @@ class UserModelRepository
     {
         try {
             /** find user by request->id */
-            $user = Auth::user();
+            if (Auth::check())
+                $user = Auth::user();
+            else
+                $user = User::whereMobile(mobile($request->mobile))->first();
 
             /** check submit the registration form with or without an image */
             if ($request->avatar) {
@@ -64,9 +67,12 @@ class UserModelRepository
 
             } else {
                 $data = $request->only(['name', 'last_name', 'email']);
-                $data['image'] = 'public/images/defaultIMG.png';
+                $data['image'] = 'defaultIMG.png';
             }
-            $data['password'] = bcrypt($request->password);
+            if (!empty($data['password']))
+                $data['password'] = bcrypt($request->password);
+            else
+                unset($data['password']);
 
             $user->update($data);
 

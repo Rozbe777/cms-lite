@@ -12,12 +12,14 @@ use Matrix\Exception;
 
 trait MobileTrait
 {
-    public function checkMobileTrait($client, $reqToken, $passReset = [])
+    public function checkMobileTrait($client, $reqToken, $status = [])
     {
         if ($reqToken == $client->token) {
 
-            $user = (new UserModelRepository())->create($client); /** if verified create a new user */
-            Auth::login($user);
+            $user = (new UserModelRepository())->create($client);
+            /** if verified create a new user */
+            if ($status != 'front')
+                Auth::login($user);
 
             VerifyMobile::destroy($client->id);
             return $user;

@@ -14,7 +14,8 @@ trait CategoryTrait
     public function imageHandler($image)
     {
         $imageName = time() . '.' . $image->getClientOriginalExtension();
-        return $image->storeAs('public/images', $imageName);
+        $image->storeAs('public/images', $imageName);
+        return $imageName;
     }
 
     public function slugHandler($slug)
