@@ -1,15 +1,14 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
 export const ChipsetHandler = ({onChange}) => {
-
     const HandleChipset = (e) => {
         let chips_input = $(".chips_input");
         if (e.charCode === 13) {
+            console.log(e.target.value);
             onChange(e.target.value)
             chips_input.val('');
         }
     }
-
 
     return (
         <fieldset className="form-group" id={"form-group-chipset"}>
