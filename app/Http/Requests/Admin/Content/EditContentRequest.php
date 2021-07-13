@@ -26,6 +26,7 @@ class EditContentRequest extends BaseRequest
      */
     public function rules()
     {
+
         return [
             'title' => "string|max:255",
             'owner' => 'in:page,content',

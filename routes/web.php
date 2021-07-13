@@ -40,7 +40,7 @@ use Morilog\Jalali\Jalalian;
 */
 
 Route::get('/test', function () {
-    return (new \App\Http\Controllers\Front\Cart\CartController())->index();
+    return (new App\Classes\SaleChannel\SaleChannel())->handle();
 });
 
 Route::get('test2', function (\Illuminate\Http\Request $request) {

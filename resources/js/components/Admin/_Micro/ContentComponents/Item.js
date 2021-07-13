@@ -6,24 +6,15 @@ import {ErroHandle, error as ErrorToast} from "../../../../helper";
 import $ from "jquery";
 
 export const Item = ({
-                         allData,
-                         id,
-                         name,
-                         contentStatus,
-                         urlFastShow,
-                         duplicate: pushDuplicate,
-                         itemClick: pushItemClisk,
-                         delClick: pushDelClick,
-                         dataForEdit: pushDataForEdit
+                         contentAllData,
+                         thisItemData,
+                         onDelete,
+                         onEdit,
+                         onDuplicate,
                      }) => {
 
-    // adding new item by click on ( + ) in category item
-    const handleAdding = (e) => {
-        e.preventDefault();
-        pushItemClisk(id);
-    }
-    useEffect(() => {
 
+    useEffect(() => {
         $("div#li-div").mouseover(function () {
             // $("#li-div div#moreOpp").removeClass("active")
             $(this).find("#moreOpp").addClass("active")
@@ -37,72 +28,24 @@ export const Item = ({
         })
     }, [])
 
-
-    const show = (e , url) => {
+    const show = (e, url) => {
         window.open(url, "_blank")
     }
     const {checkBox, setCheckBox} = useContext(CHECK_BOX_CONTENT)
     // handle delete single item by category id
-    const HandleDel = (e, idDel) => {
-        e.preventDefault()
-        swal({
-            title: 'حذف صفحه',
-            text: "آیا مطمئنید؟",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'تایید',
-            confirmButtonClass: 'btn btn-primary',
-            cancelButtonClass: 'btn btn-danger ml-1',
-            cancelButtonText: 'انصراف',
-            buttonsStyling: false,
-        }).then(function (result) {
-                if (result.value) {
-                    Request.DeleteContentOne(idDel)
-                        .then(res => {
-                            pushDelClick(res.status)
-                            Swal.fire({
-                                type: "success",
-                                title: 'با موفقیت حذف شد !',
-                                confirmButtonClass: 'btn btn-success',
-                                confirmButtonText: 'باشه',
-                            })
-                        }).catch(err => {
-                        if (err.response.data.errors) {
-                            ErroHandle(err.response.data.errors);
-                        } else {
-                            ErrorToast("خطای غیر منتظره ای رخ داده است")
-                        }
-
-                    })
-                }
-            }
-        );
-
-    }
-
-    // handle edit single item by id and data
-    // this function used for edit and duplicate category
-    const HandleEdit = (e, type) => {
-        e.preventDefault();
-        let editOrDup = JSON.stringify({type, allData})
-        pushDataForEdit(editOrDup)
-    }
-
-
     const HandlePushCheck = (e, idGet) => {
         let checkBoxx = [...checkBox];
         let checkState = e.target.checked;
         var filterRes = checkBoxx.indexOf(idGet);
         $("html, body").animate({scrollTop: 0}, 700);
-
         if (filterRes !== -1 && checkState === false) {
+            checkBoxx.splice(filterRes, 1);
             checkBoxx.splice(filterRes, 1);
             setCheckBox(checkBoxx);
         } else {
             checkBoxx.push(idGet);
             setCheckBox(checkBoxx)
         }
-
     }
 
 
@@ -112,50 +55,52 @@ export const Item = ({
                 <div className={"col-md-6 col-sm-8"} style={{padding: '12px 12px'}}>
                     <fieldset style={{float: "right"}}>
                         <div className="checkbox">
-                            <input type="checkbox" name={"checkbox_content_" + id}
-                                   onChange={e => HandlePushCheck(e, id)}
+                            <input type="checkbox" name={"checkbox_content_" + thisItemData.id}
+                                   onChange={e => HandlePushCheck(e, thisItemData.id)}
                                    className="checkbox-input"
-                                   id={id}/>
-                            <label htmlFor={id}></label>
+                                   id={thisItemData.id}/>
+                            <label htmlFor={thisItemData.id}></label>
                         </div>
                     </fieldset>
-                    <span id={"item-tree-show"}>{name}</span>
+                    <span id={"item-tree-show"}>{thisItemData.title}</span>
                     <div id={"sub-menu-custom"}>
                         <i className={"bx bx-chevron-down"}></i>
                     </div>
-                    <div className={"col-12 " + id} id={"moreOpp"}>
-                        <i className={"bx bx-show"} onClick={e => show(e , urlFastShow)}></i>
-                        <i className={"bx bx-trash-alt"} onClick={e => HandleDel(e, id)}></i>
-                        <i className={"bx bx-edit"} onClick={e => HandleEdit(e, "edit")}></i>
-                        <i className={"bx bx-duplicate"} onClick={e => HandleEdit(e, "dup")}></i>
-
-                        {contentStatus == "active" ? (
-                            <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
-                        ) : (
-                            <span className={"badge badge-warning badge-pill ml-50"}>غیرفعال</span>
-                        )}
+                    <div className={"col-12 " + thisItemData.id} id={"moreOpp"}>
+                        {_renderButtonAction()}
+                        {_renderStatus(thisItemData.status)}
                     </div>
-
                 </div>
-
                 <div className={"col-md-6 col-sm-4"} style={{padding: 13}} id={"icon-item-list"}>
                     <div className={"form-check"}>
-                        <i className={"bx bx-show"} onClick={e => show(e , urlFastShow)}></i>
-                        <i className={"bx bx-trash-alt"} onClick={e => HandleDel(e, id)}></i>
-                        <i className={"bx bx-edit"} onClick={e => HandleEdit(e, "edit")}></i>
-                        <i className={"bx bx-duplicate"} onClick={e => HandleEdit(e, "dup")}></i>
-
-                        {contentStatus == "active" ? (
-                            <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
-                        ) : (
-                            <span className={"badge badge-warning badge-pill ml-50"}>غیرفعال</span>
-                        )}
+                        {_renderButtonAction()}
+                        {_renderStatus(thisItemData.status)}
                     </div>
                 </div>
-
-
             </div>
-
         </div>
     )
+
+    function _renderButtonAction() {
+        return (
+            <React.Fragment>
+                <i className={"bx bx-show"} onClick={e => show(e, thisItemData.url)}></i>
+                <i className={"bx bx-trash-alt"} onClick={e => onDelete(e, thisItemData.id  , thisItemData.title)}></i>
+                <i className={"bx bx-edit"} onClick={e => onEdit(e , thisItemData)}></i>
+                <i className={"bx bx-duplicate"} onClick={e => onDuplicate(e , thisItemData)}></i>
+            </React.Fragment>
+        )
+    }
+
+    function _renderStatus(contentStatus) {
+        if (contentStatus == "active") {
+            return (
+                <span className={"badge badge-success badge-pill ml-50"}>فعال</span>
+            )
+        } else {
+            return (
+                <span className={"badge badge-warning badge-pill ml-50"}>غیرفعال</span>
+            )
+        }
+    }
 }

@@ -3,11 +3,17 @@ import {error} from "../../../../helper";
 import {HandleFormAdd , HandleUpdateForm} from './Action'
 import ReactDOM from "react-dom";
 
+<<<<<<< HEAD
+    constructor() {
+    }
+    HandleForm(e , formData , file , contentNew , metaData,idSelCat , chipsetChange , chipset,slugManage , checkResult){
+=======
 export default class FormHandler {
 
     constructor() {
     }
     HandleForm(e, formData, file, contentNew, metaData, idSelCat, chipsetChange, chipset, slugManage, checkResult) {
+>>>>>>> d18122af68181ef46063515e69da9e7f1b370e37
         let formNew = {...formData};
         let titleWrite = $("input[name=titleContent]").val();
         let formDataAll = new FormData();

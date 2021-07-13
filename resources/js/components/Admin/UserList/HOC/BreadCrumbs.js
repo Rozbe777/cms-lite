@@ -1,13 +1,13 @@
 import React from "react";
 import './styleAction.scss'
 
-export const BreadCrumbs = ({fixed , data , floatBtn , titleBtn , icon , clicked : pushClick}) => {
+export const BreadCrumbs = ({fixed , data , floatBtn , titleBtn , icon ,onClicked ,  clicked : pushClick}) => {
     const handlePushClick = e => {
         e.preventDefault();
         if (pushClick){
             pushClick(e)
-
         }
+        onClicked(e);
     }
     return (
         <div id={"breadCrumb"} className={fixed ? "activeCrumb" : ''} style={{width: '100%'}}>
