@@ -22,7 +22,6 @@ class CartController extends Controller
 
     }
 
-
     function destroy($attributeId)
     {
         return success($this->removeByAttributeId($attributeId, $this->getCart()));
