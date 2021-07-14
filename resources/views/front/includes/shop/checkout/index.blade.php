@@ -6,8 +6,8 @@
 <script>
     window.onload = function () {
         //hide the preloader
-        document.querySelector(".preloaderss").style.display = "none";
-        document.querySelector(".priz").style.display = "block";
+        // document.querySelector(".preloaderss").style.display = "none";
+        // document.querySelector(".priz").style.display = "block";
         // document.querySelector(".app-content").style.display = "block";
         // document.querySelector(".buy-now").style.display = "block";
         // document.querySelector(".widget-chat-demo").style.display = "block";

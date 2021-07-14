@@ -9,13 +9,16 @@ import ReactDOM from "react-dom";
 import CheckBascket from "../CheckBascket";
 import {TextInput} from "../components/TextInput";
 import {CheckoutApi} from "../Api/CheckoutApi";
-import {error as ErrorToas, empty, ErroHandle, success} from "../../../helper";
+import {error as ErrorToas, empty, ErroHandle, success, separate} from "../../../helper";
 import $ from "jquery";
 import Loading from "../../Auth/Loading";
 
 const SendDetail = (props) => {
     useEffect(() => {
     }, [])
+
+    console.log(props , "______")
+
 
     let CounterTimer = 0;
     const {cartInvoice, totalPrice, attributesData, checkAuth} = props;
@@ -42,7 +45,6 @@ const SendDetail = (props) => {
         setDiscount(e.target.value)
     }
 
-    console.log("check auth", checkAuth)
     const handleNext = e => {
         e.preventDefault();
 
@@ -89,7 +91,6 @@ const SendDetail = (props) => {
 
     const onChange = e => {
         e.preventDefault();
-        console.log(e.target.name, " => ", e.target.value)
         setAddressState({
             ...addressState,
             [e.target.name]: e.target.value
@@ -307,7 +308,7 @@ const SendDetail = (props) => {
                                 <li>
                                     <ul>
                                         <li>مبلغ کل سبد خرید :</li>
-                                        <li>{totalPrice} تومان</li>
+                                        <li>{_renderTotalPrice()}</li>
                                     </ul>
                                 </li>
                                 <li>
@@ -319,7 +320,7 @@ const SendDetail = (props) => {
                                 <li>
                                     <ul>
                                         <li>مبلغ قابل پرداخت :</li>
-                                        <li style={{color: '#000', fontWeight: 'bold'}}>{totalPrice} تومان</li>
+                                        <li style={{color: '#000', fontWeight: 'bold'}}>{_renderTotalPrice()}</li>
                                     </ul>
                                 </li>
                             </ul>
@@ -458,6 +459,13 @@ const SendDetail = (props) => {
 
         </>
     )
+
+
+    function _renderTotalPrice(){
+        let typePrice = " تومان ";
+        return separate(props.cartInvoice[0].totalPrice)+typePrice;
+    }
+
 
     function _renderButtonSubmit() {
         if (verifyMobileStatus) {

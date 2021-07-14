@@ -6,13 +6,12 @@ import ReactDOM from 'react-dom';
 import SendDetail from './../SendDetail';
 import {separate} from "../../../helper";
 
-const CheckBascket = ({checkAuth , attributes , historyCartData , historyTotalPrice}) => {
-    console.log("____" ,JSON.parse(attributes))
+const CheckBascket = ({checkAuth, attributes, historyCartData, historyTotalPrice}) => {
     const [attributeParse, setAttributePrase] = useState([]);
     const [customCheckOutData, setCustomCheckOutData] = useState(historyCartData ? historyCartData : []);
-    const [totalPrice , setTotalPrice] = useState(historyTotalPrice ? historyTotalPrice : 0);
+    const [totalPrice, setTotalPrice] = useState(historyTotalPrice ? historyTotalPrice : 0);
 
-    function calculateTotalPrice(attrData){
+    function calculateTotalPrice(attrData) {
         let totalPriceCal = 0;
         attrData.map(item => {
             totalPriceCal = totalPriceCal + item.totalPrice;
@@ -21,18 +20,19 @@ const CheckBascket = ({checkAuth , attributes , historyCartData , historyTotalPr
         setTotalPrice(totalPriceCal);
 
     }
+
     function createCustomCheckoutData(data) {
         let totalPriceCal = 0;
         data.map(item => {
             customCheckOutData.push({
                 id: item.id,
-                price: item.price,
-                totalPrice: item.price,
+                final_price: item.final_price,
+                totalPrice: item.final_price,
                 title: item.product.title,
                 image_url: item.product.image_url,
                 count: 1
             })
-            totalPriceCal = totalPriceCal + item.price;
+            totalPriceCal = totalPriceCal + item.final_price;
             setTotalPrice(totalPriceCal)
         })
     }
@@ -59,7 +59,8 @@ const CheckBascket = ({checkAuth , attributes , historyCartData , historyTotalPr
 
     const handleNext = e => {
         e.preventDefault();
-        ReactDOM.render(<SendDetail checkAuth={checkAuth} attributesData={attributes} cartInvoice={customCheckOutData} totalPrice={totalPrice}/>, document.getElementById("mains-content"));
+        ReactDOM.render(<SendDetail checkAuth={checkAuth} attributesData={attributes} cartInvoice={customCheckOutData}
+                                    totalPrice={totalPrice}/>, document.getElementById("mains-content"));
     }
     const handlePrev = e => {
         e.preventDefault();
@@ -69,7 +70,7 @@ const CheckBascket = ({checkAuth , attributes , historyCartData , historyTotalPr
 
     const onDelete = (e, id) => {
         e.preventDefault();
-        let  customDataClone = [...customCheckOutData];
+        let customDataClone = [...customCheckOutData];
         // let newAttrAfterFilter = customDataClone.filter(item => item.id !== id);
         setCustomCheckOutData(customDataClone.filter(item => item.id !== id));
         calculateTotalPrice(customDataClone.filter(item => item.id !== id));
@@ -80,11 +81,11 @@ const CheckBascket = ({checkAuth , attributes , historyCartData , historyTotalPr
 
     }
 
-    const onChangeTotalCount = (e , id, count, price, index) => {
+    const onChangeTotalCount = (e, id, count, final_price, index) => {
         e.preventDefault();
         let customCheckOutDataClone = [...customCheckOutData];
         customCheckOutDataClone[index].count = count ? count : 1;
-        customCheckOutDataClone[index].totalPrice = count * price;
+        customCheckOutDataClone[index].totalPrice = count * final_price;
         setCustomCheckOutData(customCheckOutDataClone);
         calculateTotalPrice(customCheckOutDataClone);
 
@@ -109,18 +110,21 @@ const CheckBascket = ({checkAuth , attributes , historyCartData , historyTotalPr
                         </ul>
 
                         {customCheckOutData.map((item, index) => {
-                            return <ItemCheckOut
-                                price={item.price}
-                                name={item.title}
-                                id={item.id}
-                                onDelete={onDelete}
-                                image={item.image_url}
-                                discountStatus={item.discount_status}
-                                discount={item.discount}
-                                firstCount={item.count}
-                                onChangeTotalCount={onChangeTotalCount}
-                                index={index}
-                            />
+                            return (
+                                <React.Fragment key={index}>
+                                    <ItemCheckOut
+                                        final_price={item.final_price}
+                                        name={item.title}
+                                        id={item.id}
+                                        onDelete={onDelete}
+                                        image={item.image_url}
+                                        firstCount={item.count}
+                                        onChangeTotalCount={onChangeTotalCount}
+                                        index={index}
+                                    />
+                                </React.Fragment>
+                            )
+
                         })}
 
                         <div className={"row"} style={{width: '100%'}}>

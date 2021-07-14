@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import './../_shared/style.scss'
-import {Swiper, SwiperSlide} from 'swiper/react';
+// import {Swiper, SwiperSlide} from 'swiper/react';
 import "swiper/swiper-bundle.css";
 import {DEFAULT_ICON} from "../../../services/Type";
+import {separate} from "../../../helper";
 
 export const ItemCheckOutAll = (props) => {
+    console.log("____" , props)
     useEffect(() => {
     }, [])
     return (
@@ -21,12 +23,17 @@ export const ItemCheckOutAll = (props) => {
             </div>
 
             <span id={"price"}>
-                {props.price} تومان
+                {_renderPrice(props.final_price)}
            </span>
 
         </div>
     )
 
+    function _renderPrice(){
+
+        let typePrice = " تومان ";
+        return separate(props.final_price)+typePrice;
+    }
     function _renderImg() {
         if (props.image_url) {
             return (

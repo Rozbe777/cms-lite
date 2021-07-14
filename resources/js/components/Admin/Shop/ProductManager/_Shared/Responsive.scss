@@ -5,6 +5,125 @@
         display: none;
     }
 
+    ul#title-checkout{
+        display: none !important;
+    }
+
+    #iteming.big-screen{
+        display: none !important;
+    }
+
+    #iteming.small-screen{
+        padding : 10px;
+        height: 270px !important;
+        display: block !important;
+        position: relative;
+        i.bx-trash{
+            position: absolute !important;
+            width: 35px !important;
+            height: 35px !important;
+            bottom: 40px !important;
+            left: 0 !important;
+            right: 0px;
+            margin: 0 auto;
+            font-size: 34px !important;
+        }
+        #product-name{
+            float: right;
+            height: 50px !important;
+            width: 100%;
+        }
+
+        #reducer{
+            float: left;
+        }
+
+        ul.total-mini-screen-data{
+            width: 100%;
+            padding : 0px;
+            float: right;
+            list-style: none;
+            margin-top : 15px;
+            ul.unser{
+                margin-top : 10px;
+                width: 100%;
+                float: right;
+                padding : 0px;
+                height: 30px;
+                list-style: none;
+                li:first-child{
+                    width: 50%;
+                    float: right;
+                    text-align: right;
+                }
+                li:last-child{
+                    width: 50%;
+                    float: right;
+                    text-align: left;
+                }
+            }
+        }
+    }
+
+    .item-checkAll #titles p{
+        width: 140px !important;
+    }
+
+    .discounts{
+        input{
+            width: 50% !important;
+        }
+    }
+
+    #checkout ul.checkout-header{
+        overflow-x: scroll;
+        padding-right: 170px !important;
+        padding-left: 0px !important;
+        li:nth-child(1){
+            position: relative;
+            .line{
+                position: absolute;
+                width: 100% !important;
+                height: 2px;
+                &::before{
+                    width: 30%;
+                    height: 2px;
+                    float: left;
+                    content: '';
+                    background: #ccc;
+                }
+            }
+        }
+        li:nth-child(2){
+            position: relative;
+            .line{
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                &::after{
+                    width: 30%;
+                    height: 2px;
+                    float: right;
+                    content: '';
+                    background: #ccc;
+                }
+                &::before{
+                    width: 30%;
+                    height: 2px;
+                    float: left;
+                    content: '';
+                    background: #ccc;
+                }
+            }
+        }
+        #contents{
+            font-size: 12px !important;
+            i{
+                font-size: 27px !important;
+            }
+        }
+    }
+
     #stateActive {
         display: none !important;
     }
@@ -1848,4 +1967,8 @@ body.active-darked .main-menu .nav-item.has-sub.open.hover .menu-content li.is-s
 
 .opacity-mimi {
     opacity: 0.4;
+}
+
+#iteming.small-screen{
+    display: none;
 }
