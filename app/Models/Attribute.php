@@ -12,6 +12,7 @@ class Attribute extends Model
 
     protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
     protected $guarded = [];
+    protected $appends = ['final_price'];
 
     public function product()
     {
@@ -35,5 +36,13 @@ class Attribute extends Model
 
     public function orders()
     {
+    }
+
+    public function getFinalPriceAttribute()
+    {
+        if ($this->attributes['discount_status'] == 'active')
+            return $this->attributes['discount'];
+
+        return $this->attributes['price'];
     }
 }
