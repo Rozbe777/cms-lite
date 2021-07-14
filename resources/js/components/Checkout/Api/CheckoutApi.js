@@ -33,6 +33,7 @@ export class CheckoutApi {
 
 
     async store() {
+        console.log("ppppp: "  , this._storeData)
         try {
             let response = await Request.storeCheckoutUserInfo(this._storeData)
             return new Promise(resolve => {

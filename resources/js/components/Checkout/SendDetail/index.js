@@ -17,11 +17,8 @@ const SendDetail = (props) => {
     useEffect(() => {
     }, [])
 
-    console.log(JSON.parse(props.transform) , "______")
-
-
     let CounterTimer = 0;
-    const {cartInvoice, totalPrice, attributesData, checkAuth , transform} = props;
+    const {cartInvoice, totalPrice, attributesData, checkAuth, transform} = props;
     const [loading, setLoading] = useState(false);
     const [intervals, setIntervalId] = useState();
     const [tokenCode, setTokenCode] = useState();
@@ -39,7 +36,8 @@ const SendDetail = (props) => {
         _token: TOKEN
     });
     let checkoutApi = new CheckoutApi();
-    const [discount, setDiscount] = useState()
+    const [discount, setDiscount] = useState();
+    const [transfer , setTransfer] = useState(1)
     const handleDis = e => {
         e.preventDefault();
         setDiscount(e.target.value)
@@ -146,6 +144,8 @@ const SendDetail = (props) => {
             }
         }
 
+        addressState.transport_id = transfer;
+
         checkoutApi._storeData = addressState;
         if (!empty(addressState.name) && !empty(addressState.last_name) && !empty(addressState.state) && !empty(addressState.city) && !empty(addressState.mobile) && !empty(addressState.phone) && !empty(addressState.address)) {
             if (pattern.test(addressState.mobile) && finalCheckEmail()) {
@@ -153,7 +153,7 @@ const SendDetail = (props) => {
                 checkoutApi.store().then(response => {
                     setLoading(false)
                     document.querySelector(".back-loading").classList.remove("active");
-
+                    success("اطلاعات شما با موفقیت ثبت شد");
                 }).catch(error => {
 
                     document.querySelector(".back-loading").classList.remove("active");
@@ -168,13 +168,13 @@ const SendDetail = (props) => {
 
     const finalCheckEmail = () => {
         let emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (addressState.email){
-            if(emailPattern.test(String(addressState.email).toLowerCase())){
+        if (addressState.email) {
+            if (emailPattern.test(String(addressState.email).toLowerCase())) {
                 return true
-            }else{
+            } else {
                 return false
             }
-        }else{
+        } else {
             return true
         }
     }
@@ -266,6 +266,15 @@ const SendDetail = (props) => {
         })
     }
 
+
+    $("input[name=transfer]").change(function () {
+        $(this).closest("div").addClass("active");
+    })
+
+
+    const radioOnChanged = e => {
+        setTransfer(e.target.name);
+    }
     return (
         <>
             <Header selected={"sendDetail"}/>
@@ -372,13 +381,18 @@ const SendDetail = (props) => {
                                                        onChange={onChange}/>
                                         </div>
 
-                                        <div className={"col-12"}>
-                                            <div className={"send-type active"}>
-                                                <i className={"bx bxs-check-circle checkeds"}></i>
-                                                <i className={"bx bx-truck icon-sycle"}></i>
-                                                <p>ارسال پستی</p>
-                                            </div>
-                                        </div>
+
+                                        {JSON.parse(props.transform).map((item , index) => (<div key={index} className={"col-12"}>
+                                                    <div className={transfer == item.id ? 'send-type active' : 'send-type'}>
+                                                        <input type={"checkbox"} name={item.id} checked
+                                                               onChange={e => radioOnChanged(e)}/>
+                                                        <i className={transfer == item.id ? "bx bxs-check-circle checkeds active" : "bx bxs-check-circle checkeds"}></i>
+                                                        <i className={`bx ${item.icon} icon-sycle`}></i>
+                                                        <p>{item.title}</p>
+                                                    </div>
+                                                </div>
+                                            )
+                                        )}
                                     </div>
                                 </div>
                             </form>
@@ -460,9 +474,9 @@ const SendDetail = (props) => {
     )
 
 
-    function _renderTotalPrice(){
+    function _renderTotalPrice() {
         let typePrice = " تومان ";
-        return separate(props.cartInvoice[0].totalPrice)+typePrice;
+        return separate(props.cartInvoice[0].totalPrice) + typePrice;
     }
 
 
