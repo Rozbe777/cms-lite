@@ -202,6 +202,7 @@ return [
             'type' => 'component',
             'image' => 'slider.png',
             'display_name' => 'اسلایدر تمام صفحه',
+            'title' => 'اسلایدر صفحه اصلی',
             'initial_payload' => [
                 [
                     'name' => 'limit',
@@ -481,6 +482,7 @@ return [
             'type' => 'category',
             'type_id' => 0,
             'image' => 'blog.png',
+            'title' => 'وبلاگ صفحه اصلی',
             'display_name' => 'وبلاگ',
             'initial_payload' => [
                 [
