@@ -98,6 +98,22 @@ class Category extends Model
         return $query->where("status", "active");
     }
 
+
+    public function scopeIsMenu($query)
+    {
+        return $query->where("is_menu", 1);
+    }
+
+    public function scopeIsParent($query)
+    {
+        return $query->where("parent_id", 0);
+    }
+
+    public function scopeParentId($query, $parentId)
+    {
+        return $query->where("parent_id", $parentId);
+    }
+
     public function getUrlAttribute()
     {
         return route('front.categories', $this->attributes['slug']);
