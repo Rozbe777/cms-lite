@@ -6,11 +6,13 @@ namespace App\Models\Repositories\Front;
 
 use App\Http\Controllers\Front\Order\Traits\CalculateTotalPrice;
 use App\Http\Controllers\Front\Order\Traits\ValidateCoupon;
+use App\Models\Address;
 use App\Models\Attribute;
 use App\Models\Coupon;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Repositories\Admin\Interfaces\RepositoryInterface;
+use App\Models\Transfer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -21,6 +23,7 @@ class FrontOrderRepository implements RepositoryInterface
     use CalculateTotalPrice;
     use ValidateCoupon;
     const CART_SESSION_ID = 'cart';
+    const ORDER_SESSION_ID = 'order';
 
     /**
      * @return mixed
@@ -53,7 +56,7 @@ class FrontOrderRepository implements RepositoryInterface
 
     /**
      * @param array $data
-     * @param $id
+     * @param $order
      * @return mixed
      */
     public function update(array $data, $order)
@@ -65,15 +68,28 @@ class FrontOrderRepository implements RepositoryInterface
      * @param array $data
      * @return mixed
      */
-    public function create(array $data)
+    public function create(array $data = null)
     {
-
+        $address = Address::where('user_id',Auth::id())->first();
         $order = Order::where('user_id', Auth::id())->where('status', 'pending_pay')->first();
-//        if (!empty($order)) {
-            $attribute = Attribute::find($data['attribute_id']);
-            $number = $data['number_of_product'];
-            $price = $data['price'];
-            unset($data['attribute_id'], $data['number_of_product'], $data['price']);
+        if (empty($order) && Session::has(self::ORDER_SESSION_ID)) {
+
+            $order = Session::get(self::ORDER_SESSION_ID);
+
+            $data = [
+                'user_id' => Auth::id(),
+                'status' => 'process',
+                'sum_price' => $order['result']['sum_price'],
+                'sum_final_price' => $order['result']['sum_final_price'],
+                'total_price' => $order['result']['total_price'],
+                'coupon_id' => $data['coupon_id'],
+                'tax' => $order['result']['tax_price'],
+                'description' => $data['description'],
+                'transport_id' => $data['transport_id'],
+                'address_id' => $address,
+            ];
+
+            $products = ($order['products'])->toArray();
 
             $data['coupon_status'] = $this->validateCoupon($attribute, $data['coupon_code']);
             if (is_string($data['coupon_status']))
@@ -83,9 +99,9 @@ class FrontOrderRepository implements RepositoryInterface
 
             $order = Order::create($data);
             $order->attributes()->attach($attribute, ['number_of_product' => $number]);
-//        } else {
-//            $order->total_price += $data['price'];
-//        }
+        } else {
+            $order->total_price += $data['price'];
+        }
 
 
         Session::put('order', $order);

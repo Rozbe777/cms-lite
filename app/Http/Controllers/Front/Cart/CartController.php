@@ -27,8 +27,8 @@ class CartController extends Controller
 
     function destroy(AttributeIdRequest $request)
     {
-        Session::put(self::CART_SESSION_ID,$this->removeByAttributeId($request->input('attributeId'), $this->getCart()));
-            return success(Session::get(self::CART_SESSION_ID));
+        Session::put(self::CART_SESSION_ID, $this->removeByAttributeId($request->input('attributeId'), $this->getCart()));
+        return success(Session::get(self::CART_SESSION_ID));
     }
 
     function index()
@@ -76,15 +76,15 @@ class CartController extends Controller
         $result = [
             'sum_price' => (int)$sumPrice,
             'sum_final_price' => (int)$sumFinalPrice,
-            'transport_price' => $sumPrice,
             'tax_price' => $this->taxCalculation($sumFinalPrice),
+            'transport_price' => 0,
             'coupon_price' => 0,
             'total_price' => $sumFinalPrice + $taxPrice
         ];
-        return success([
-            'products' => $products,
-            'result' => $result
-        ]);
+
+        Session::put('order', ['products' => $products,'result' => $result]);
+
+        return success(Session::get('order'));
     }
 
     function addToCart(CreateOrderRequest $request)
@@ -199,5 +199,10 @@ class CartController extends Controller
     {
         $tax = (int)setting('tax');
         return ($sumPrice * ($tax / 100));
+    }
+
+    private function transportPriceCalculation()
+    {
+
     }
 }
