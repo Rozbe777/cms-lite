@@ -95,3 +95,11 @@ if (!function_exists('p')) {
 
     }
 }
+
+if (!function_exists('menu')) {
+    function menu($owner='all')
+    {
+        return (new \App\Classes\Themes\Menu())->$owner();
+
+    }
+}

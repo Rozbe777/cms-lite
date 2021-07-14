@@ -67,94 +67,95 @@
                                                                      alt="logo"></a>
                     <div class="collapse navbar-collapse mean-menu">
                         <ul class="navbar-nav">
-                            <li class="nav-item"><a href="#" class="dropdown-toggle nav-link active">خانه</a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a href="{{url('/')}}" class="nav-link active">صفحه اصلی -
-                                            1</a>
-                                    </li>
-                                    <li class="nav-item"><a href="index-2.html" class="nav-link">صفحه اصلی - 2</a></li>
-                                    <li class="nav-item"><a href="index-3.html" class="nav-link">صفحه اصلی - 3</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item"><a href="#" class="dropdown-toggle nav-link">صفحات</a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a href="#" class="dropdown-toggle nav-link">درباره ما</a>
+                            @foreach(menu() as $menu)
+                                <li class="nav-item"><a href="{{$menu['url']}}"
+                                                        class="{{!empty($menu['children'])?'dropdown-toggle':''}} nav-link">{{$menu['name']}}</a>
+                                    @if(!empty($menu['children']))
                                         <ul class="dropdown-menu">
-                                            <li class="nav-item"><a href="about-simple.html" class="nav-link">درباره ما
-                                                    (ساده)</a></li>
-                                            <li class="nav-item"><a href="about-modern.html" class="nav-link">درباره ما
-                                                    (مدرن)</a></li>
+                                            @foreach($menu['children'] as $ch1)
+                                                <li class="nav-item"><a href="{{$ch1['url']}}"
+                                                                        class="{{!empty($ch1['children'])?'dropdown-toggle':''}} nav-link">{{$ch1['name']}}</a>
+                                                    @if(!empty($ch1['children']))
+                                                        <ul class="dropdown-menu">
+                                                            @foreach($ch1['children'] as $ch2)
+                                                                <li class="nav-item"><a href="{{$ch2['url']}}"
+                                                                                        class="nav-link">{{$ch2['name']}}</a></li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
+                                                </li>
+                                            @endforeach
                                         </ul>
-                                    </li>
-                                    <li class="nav-item"><a href="company-history.html" class="nav-link">تاریخچه
-                                            شرکت</a></li>
-                                    <li class="nav-item"><a href="team.html" class="nav-link">تیم ما</a></li>
-                                    <li class="nav-item"><a href="testimonial.html" class="nav-link">بازخورد مشتریان</a>
-                                    </li>
-                                    <li class="nav-item"><a href="faq.html" class="nav-link">سوالات متداول</a></li>
-                                    <li class="nav-item"><a href="sign-in.html" class="nav-link">ورود کاربران</a></li>
-                                    <li class="nav-item"><a href="sign-up.html" class="nav-link">ثبت نام</a></li>
-                                    <li class="nav-item"><a href="privacy-policy.html" class="nav-link">حریم خصوصی</a>
-                                    </li>
-                                    <li class="nav-item"><a href="terms-conditions.html" class="nav-link">قوانین و
-                                            ضوابط</a></li>
-                                    <li class="nav-item"><a href="coming-soon.html" class="nav-link">در دست ساخت</a>
-                                    </li>
-                                    <li class="nav-item"><a href="error-404.html" class="nav-link">خطای 404</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item"><a href="#" class="dropdown-toggle nav-link">خدمات ما</a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a href="services-1.html" class="nav-link">خدمات ما 01</a></li>
-                                    <li class="nav-item"><a href="services-2.html" class="nav-link">خدمات ما 02</a></li>
-                                    <li class="nav-item"><a href="services-3.html" class="nav-link">خدمات ما 03</a></li>
-                                    <li class="nav-item"><a href="services-details.html" class="nav-link">جزئیات
-                                            خدمات</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item"><a href="#" class="dropdown-toggle nav-link">پروژه ها</a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a href="projects-1.html" class="nav-link">پروژه 2 ستونی</a>
-                                    </li>
-                                    <li class="nav-item"><a href="projects-2.html" class="nav-link">پروژه 3 ستونی</a>
-                                    </li>
-                                    <li class="nav-item"><a href="projects-3.html" class="nav-link">پروژه فیلتردار</a>
-                                    </li>
-                                    <li class="nav-item"><a href="projects-4.html" class="nav-link">پروژه با لود
-                                            بیشتر</a></li>
-                                    <li class="nav-item"><a href="projects-5.html" class="nav-link">پروژه سایدبار</a>
-                                    </li>
-                                    <li class="nav-item"><a href="#" class="dropdown-toggle nav-link">جزئیات پروژه</a>
-                                        <ul class="dropdown-menu">
-                                            <li class="nav-item"><a href="single-projects-1.html" class="nav-link">جزئیات
-                                                    نمونه کار 01</a></li>
-                                            <li class="nav-item"><a href="single-projects-2.html" class="nav-link">جزئیات
-                                                    نمونه کار 02</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item"><a href="#" class="dropdown-toggle nav-link">فروشگاه</a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a href="products.html" class="nav-link">محصولات فهرستی</a>
-                                    </li>
-                                    <li class="nav-item"><a href="cart.html" class="nav-link">سبد خرید</a></li>
-                                    <li class="nav-item"><a href="checkout.html" class="nav-link">بررسی پرداخت</a></li>
-                                    <li class="nav-item"><a href="products-details.html" class="nav-link">جزئیات
-                                            محصولات</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item"><a href="#" class="dropdown-toggle nav-link">وبلاگ</a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a href="blog-grid.html" class="nav-link">وبلاگ شبکه ای</a>
-                                    </li>
-                                    <li class="nav-item"><a href="blog-right-sidebar.html" class="nav-link">وبلاگ
-                                            سایدبار</a></li>
-                                    <li class="nav-item"><a href="blog-details.html" class="nav-link">جزئیات وبلاگ</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item"><a href="contact.html" class="nav-link">تماس با ما</a></li>
+                                    @endif
+                                </li>
+                            @endforeach
+                            {{-- <li class="nav-item"><a href="#" class="dropdown-toggle nav-link active">خانه</a>
+                                 <ul class="dropdown-menu">
+                                     <li class="nav-item"><a href="{{url('/')}}" class="nav-link active">صفحه اصلی -
+                                             1</a>
+                                     </li>
+                                     <li class="nav-item"><a href="index-2.html" class="nav-link">صفحه اصلی - 2</a></li>
+                                     <li class="nav-item"><a href="index-3.html" class="nav-link">صفحه اصلی - 3</a></li>
+                                 </ul>
+                             </li>
+                             <li class="nav-item"><a href="#" class="dropdown-toggle nav-link">صفحات</a>
+                                 <ul class="dropdown-menu">
+                                     <li class="nav-item"><a href="#" class="dropdown-toggle nav-link">درباره ما</a>
+                                         <ul class="dropdown-menu">
+                                             <li class="nav-item"><a href="about-simple.html" class="nav-link">درباره ما
+                                                     (ساده)</a></li>
+                                             <li class="nav-item"><a href="about-modern.html" class="nav-link">درباره ما
+                                                     (مدرن)</a></li>
+                                         </ul>
+                                     </li>
+                                     <li class="nav-item"><a href="company-history.html" class="nav-link">تاریخچه
+                                             شرکت</a></li>
+                                     <li class="nav-item"><a href="team.html" class="nav-link">تیم ما</a></li>
+                                     <li class="nav-item"><a href="testimonial.html" class="nav-link">بازخورد مشتریان</a>
+                                     </li>
+                                     <li class="nav-item"><a href="faq.html" class="nav-link">سوالات متداول</a></li>
+                                     <li class="nav-item"><a href="sign-in.html" class="nav-link">ورود کاربران</a></li>
+                                     <li class="nav-item"><a href="sign-up.html" class="nav-link">ثبت نام</a></li>
+                                     <li class="nav-item"><a href="privacy-policy.html" class="nav-link">حریم خصوصی</a>
+                                     </li>
+                                     <li class="nav-item"><a href="terms-conditions.html" class="nav-link">قوانین و
+                                             ضوابط</a></li>
+                                     <li class="nav-item"><a href="coming-soon.html" class="nav-link">در دست ساخت</a>
+                                     </li>
+                                     <li class="nav-item"><a href="error-404.html" class="nav-link">خطای 404</a></li>
+                                 </ul>
+                             </li>
+                             <li class="nav-item"><a href="#" class="dropdown-toggle nav-link">خدمات ما</a>
+                                 <ul class="dropdown-menu">
+                                     <li class="nav-item"><a href="services-1.html" class="nav-link">خدمات ما 01</a></li>
+                                     <li class="nav-item"><a href="services-2.html" class="nav-link">خدمات ما 02</a></li>
+                                     <li class="nav-item"><a href="services-3.html" class="nav-link">خدمات ما 03</a></li>
+                                     <li class="nav-item"><a href="services-details.html" class="nav-link">جزئیات
+                                             خدمات</a></li>
+                                 </ul>
+                             </li>
+
+                             <li class="nav-item"><a href="#" class="dropdown-toggle nav-link">فروشگاه</a>
+                                 <ul class="dropdown-menu">
+                                     <li class="nav-item"><a href="products.html" class="nav-link">محصولات فهرستی</a>
+                                     </li>
+                                     <li class="nav-item"><a href="cart.html" class="nav-link">سبد خرید</a></li>
+                                     <li class="nav-item"><a href="checkout.html" class="nav-link">بررسی پرداخت</a></li>
+                                     <li class="nav-item"><a href="products-details.html" class="nav-link">جزئیات
+                                             محصولات</a></li>
+                                 </ul>
+                             </li>
+                             <li class="nav-item"><a href="#" class="dropdown-toggle nav-link">وبلاگ</a>
+                                 <ul class="dropdown-menu">
+                                     <li class="nav-item"><a href="blog-grid.html" class="nav-link">وبلاگ شبکه ای</a>
+                                     </li>
+                                     <li class="nav-item"><a href="blog-right-sidebar.html" class="nav-link">وبلاگ
+                                             سایدبار</a></li>
+                                     <li class="nav-item"><a href="blog-details.html" class="nav-link">جزئیات وبلاگ</a>
+                                     </li>
+                                 </ul>
+                             </li>
+                             <li class="nav-item"><a href="contact.html" class="nav-link">تماس با ما</a></li>--}}
                         </ul>
                         <div class="others-option">
                             <div class="cart-btn">
