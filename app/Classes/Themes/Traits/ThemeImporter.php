@@ -121,6 +121,11 @@ trait ThemeImporter
                 $cd->type_id = $component['type_id'];
             else
                 $cd->type_id = 0;
+            if (empty($component['title']))
+                $cd->title = $component['display_name'];
+            else
+                $cd->title = $component['title'];
+
             $cd->user_id = $this->getUserId();
             $cd->content_id = 1;
             $cd->payload = json_encode($component['initial_payload']);

@@ -41,7 +41,7 @@ use Morilog\Jalali\Jalalian;
 */
 
 Route::get('/test', function () {
-    return (new \App\Classes\Themes\Menu())->all();
+    return (new \App\Classes\Themes\Component())->menu();
 });
 
 Route::get('test2', function (\Illuminate\Http\Request $request) {

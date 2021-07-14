@@ -16,6 +16,7 @@ class CreateComponentDataTable extends Migration
         Schema::create('component_data', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned();
+            $table->string('title')->nullable();
             $table->bigInteger('content_id')->unsigned();
             $table->bigInteger('component_id')->unsigned();
             $table->bigInteger('type_id')->default(0);

@@ -9,6 +9,8 @@ class ComponentData extends Model
 {
     use HasFactory;
 
+    protected $appends = ['url'];
+
     function component()
     {
         return $this->hasOne(Component::class, 'id', 'component_id');
@@ -27,6 +29,11 @@ class ComponentData extends Model
     function scopeActive($query)
     {
         return $query->where('status', 'active');
+    }
+
+    function getUrlAttribute()
+    {
+        return "/#";
     }
 
     function scopeContents($query, $categoryId = 0, $limit = 3)

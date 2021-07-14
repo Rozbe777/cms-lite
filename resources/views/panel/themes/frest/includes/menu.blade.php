@@ -65,8 +65,25 @@
 
 
                 @endforeach
+                <li class="nav-item has-sub"><a href="#" style="
+    margin: 7px 0;
+    padding: 10px 10px;
+    line-height: 2;"><i class="bx bxs-component"></i><span class="menu-title">اجزاء قالب</span></a>
 
 
+
+                        <ul class="menu-content" style="">
+                            @foreach(component()->menu() as $cm)
+                            <li class="nav-item"><a href="{{$cm->url}}"><i
+                                        class="bx bxs-component"></i><span class="menu-title">{{$cm->title}}</span></a>
+
+                            </li>
+                            @endforeach
+
+
+                        </ul>
+
+                </li>
             </ul>
     </div>
 </div>
