@@ -48,6 +48,7 @@ const SendDetail = (props) => {
 
     const onChange = e => {
         e.preventDefault();
+        console.log(e.target.name , " => ", e.target.value)
         setAddressState({
             ...addressState,
             [e.target.name]: e.target.value
@@ -56,6 +57,8 @@ const SendDetail = (props) => {
 
     const onSubmitForm = (e) => {
         e.preventDefault();
+
+        console.log(addressState, "dddddd")
         document.querySelector(".back-loading").classList.add("active");
         if (!addressState.name) {
             document.querySelector(".back-loading").classList.remove("active");
@@ -87,15 +90,19 @@ const SendDetail = (props) => {
         }
 
         let emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (!emailPattern.test(String(addressState.email).toLowerCase())){
+        if (!emailPattern.test(String(addressState.email).toLowerCase())) {
             document.querySelector(".back-loading").classList.remove("active");
             ErrorToas("ایمیل را به درستی وارد کنید")
         }
-
-        if(String(addressState.phone).size > 11){
-            document.querySelector(".back-loading").classList.remove("active");
-            ErrorToas("تلفن همراه نباید بیشتر از 11 کارکتر باشد")
+        console.log(addressState.phone)
+        var pattern = /^0?9{1}([0-9]{9})$/;
+        if (!empty(addressState.mobile)) {
+            if (!pattern.test(addressState.mobile)) {
+                document.querySelector(".back-loading").classList.remove("active");
+                ErrorToas("فرمت تلفن همراه صحیح نمی باشد")
+            }
         }
+
         checkoutApi._storeData = addressState;
         checkoutApi.store().then(response => {
             document.querySelector(".back-loading").classList.remove("active");
@@ -185,15 +192,15 @@ const SendDetail = (props) => {
                                 <div className={"cart-content"}>
                                     <div className={"row"}>
                                         <div className="col-md-3 col-sm-12">
-                                            <TextInput title={"نام"} type={"text"} name={"name"} required={true}
+                                            <TextInput title={"نام"} type={"text"} name={"name"}
                                                        onChange={onChange}/>
                                         </div>
                                         <div className="col-md-3 col-sm-12">
                                             <TextInput title={"نام خانوادگی"} type={"text"} name={"last_name"}
-                                                       required={true} onChange={onChange}/>
+                                                       onChange={onChange}/>
                                         </div>
                                         <div className="col-md-6 col-sm-12">
-                                            <TextInput title={"ایمیل"} type={"email"} name={"email"} required={false}
+                                            <TextInput title={"ایمیل"} type={"email"} name={"email"}
                                                        onChange={onChange}/>
                                         </div>
                                         <div className="col-md-8 col-sm-12">
@@ -201,28 +208,24 @@ const SendDetail = (props) => {
                                         </div>
                                         <div className={"col-md-4 col-sm-12"}>
                                             <TextInput title={"کد پستی"} type={"number"} name={"postal_code"}
-                                                       required={false}
                                                        onChange={onChange}/>
                                         </div>
                                         <div className={"col-md-6 col-sm-12"}>
                                             <TextInput title={"شماره موبایل"} type={"tel"} name={"mobile"}
-                                                       required={true}
                                                        onChange={onChange}/>
                                         </div>
 
                                         <div className={"col-md-6 col-sm-12"}>
-                                            <TextInput title={"تلفن ثابت"} type={"tel"} name={"phone"} required={false}
+                                            <TextInput title={"تلفن ثابت"} type={"tel"} name={"phone"}
                                                        onChange={onChange}/>
                                         </div>
 
                                         <div className={"col-12"}>
                                             <TextInput title={"آدرس پستی"} type={"text"} name={"address"}
-                                                       required={false}
                                                        onChange={onChange}/>
                                         </div>
                                         <div className={"col-12"}>
                                             <TextInput title={"توضیحات ( اختیاری )"} type={"text"} name={"description"}
-                                                       required={false}
                                                        placeholder={"توضیحی که نیاز است در رابطه با سفارش بیان کنید"}
                                                        onChange={onChange}/>
                                         </div>
