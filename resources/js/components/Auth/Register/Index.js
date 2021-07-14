@@ -161,9 +161,6 @@ const Index = (props) => {
             mobile: phone.mobile
         }
 
-        // console.log("da " , data)
-
-
         ReactDOM.render(<Loading/>, loadingElement);
         Request.VerifyCodeCheck(data)
             .then(response => {
@@ -186,25 +183,12 @@ const Index = (props) => {
         })
     }
 
-
-    function checkVerifyNumber(str) {
-        if (typeof str != "string") return false
-        return !isNaN(str) &&
-            !isNaN(parseFloat(str))
-    }
-
-
     const verifyCodeGet = (e) => {
         e.preventDefault();
-
             setVerifyCode({
                 verifyCode : e.target.value
             })
-
-
     }
-
-
 
     const closeModal = e => {
         e.preventDefault();
@@ -217,20 +201,15 @@ const Index = (props) => {
         }, 500)
     }
 
-
     return (
         <>
             <div style={{position: 'relative'}}
                  className="card disable-rounded-right mb-0 p-2 h-100 d-flex justify-content-center">
-
-
-
                 <div className="card-header pb-1">
                     <div className="card-title">
                         <h4 className="text-center mb-2">ثبت نام</h4>
                     </div>
                 </div>
-
 <p style={{paddingRight : '25px' , fontSize:13 , textAlign : 'center'}}>برای ثبت نام در وب سایت کافیست شماره تلفن خود را وارد کنید و کد تایید ارسال شده به شماره تلفن همراه خود را در محله تایید کد وارد نمایید
 </p>
                 <div className="card-content">

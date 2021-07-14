@@ -9,19 +9,20 @@ import ReactDOM from "react-dom";
 import CheckBascket from "../CheckBascket";
 import {TextInput} from "../components/TextInput";
 import {CheckoutApi} from "../Api/CheckoutApi";
-import {error as ErrorToas, empty , ErroHandle} from "../../../helper";
+import {error as ErrorToas, empty, ErroHandle, success} from "../../../helper";
 import $ from "jquery";
+import Loading from "../../Auth/Loading";
 
 const SendDetail = (props) => {
     useEffect(() => {
     }, [])
 
     let CounterTimer = 0;
-    const {cartInvoice, totalPrice, attributesData,checkAuth} = props;
+    const {cartInvoice, totalPrice, attributesData, checkAuth} = props;
     const [loading, setLoading] = useState(false);
     const [intervals, setIntervalId] = useState();
-    const [tokenCode , setTokenCode] = useState();
-    const [verifyMobileStatus , setVerifyMobileStatus] = useState(false);
+    const [tokenCode, setTokenCode] = useState();
+    const [verifyMobileStatus, setVerifyMobileStatus] = useState(false);
     const [addressState, setAddressState] = useState({
         name: null,
         last_name: null,
@@ -41,7 +42,7 @@ const SendDetail = (props) => {
         setDiscount(e.target.value)
     }
 
-    console.log("check auth" , checkAuth)
+    console.log("check auth", checkAuth)
     const handleNext = e => {
         e.preventDefault();
 
@@ -98,6 +99,7 @@ const SendDetail = (props) => {
     const onSubmitForm = (e) => {
         e.preventDefault();
 
+
         document.querySelector(".back-loading").classList.add("active");
         if (!addressState.name) {
             document.querySelector(".back-loading").classList.remove("active");
@@ -146,21 +148,19 @@ const SendDetail = (props) => {
 
         checkoutApi._storeData = addressState;
         if (!empty(addressState.name) && !empty(addressState.last_name) && !empty(addressState.state) && !empty(addressState.city) && !empty(addressState.mobile) && !empty(addressState.phone) && !empty(addressState.address)) {
-            checkoutApi.store().then(response => {
-                document.querySelector(".back-loading").classList.remove("active");
-                $(".container-loader").fadeIn();
-                setTimeout(() => {
-                    $(".container-loader .verifyForm").addClass("active");
-                }, 500)
-                console.log(response);
-            }).catch(error => {
-                $(".container-loader").fadeIn();
-                setTimeout(() => {
-                    $(".container-loader .verifyForm").addClass("active");
-                }, 500)
-                document.querySelector(".back-loading").classList.remove("active");
-                return ErrorToas("خطای غیرمنتظره ای رخ داده است")
-            })
+            if (pattern.test(addressState.mobile) && emailPattern.test(String(addressState.email).toLowerCase())) {
+                setLoading(true)
+                checkoutApi.store().then(response => {
+                    setLoading(false)
+                    document.querySelector(".back-loading").classList.remove("active");
+
+                }).catch(error => {
+
+                    document.querySelector(".back-loading").classList.remove("active");
+                    ErroHandle(error.response.data.errors);
+                })
+            }
+
         }
 
 
@@ -177,6 +177,9 @@ const SendDetail = (props) => {
         addressStateClone.city = cityName;
         setAddressState(addressStateClone)
     }
+
+
+    let loadingElement = document.getElementById("loading-shows");
 
     const closeModal = e => {
         e.preventDefault();
@@ -195,12 +198,23 @@ const SendDetail = (props) => {
 
     const checkCode = e => {
         e.preventDefault();
+        ReactDOM.render(<Loading/>, loadingElement);
+
         checkoutApi._mobileToken = tokenCode;
         checkoutApi._userMobile = addressState.mobile;
         checkoutApi.verifyMobileToken().then(response => {
             setVerifyMobileStatus(true)
-            // console.log(response)
-        }).catch(e=>{
+            success("تلفن شما تایید شد")
+            setTimeout(() => {
+                ReactDOM.render('', loadingElement);
+                $(".container-loader .verifyForm").removeClass("active");
+                setTimeout(() => {
+                    $(".container-loader").fadeOut();
+                }, 500)
+            }, 600)
+
+        }).catch(e => {
+            ReactDOM.render('', loadingElement);
             ErroHandle(e.response.data.errors);
         })
     }
@@ -209,7 +223,7 @@ const SendDetail = (props) => {
         e.preventDefault();
         setLoading(true);
         let pattern = /^0?9{1}([0-9]{9})$/;
-        if (empty(addressState.mobile)){
+        if (empty(addressState.mobile)) {
             ErrorToas("فیلد شماره تلفن همراه خالی می باشد")
         }
 
@@ -223,17 +237,18 @@ const SendDetail = (props) => {
         checkoutApi._userMobile = addressState.mobile;
         checkoutApi.verifyMobile().then(response => {
             setLoading(false);
-            if (response.data.http_code){
-                Timer(e , parseInt(response.data.data))
-            }else{
-                Timer(e , 120)
+            if (response.data.http_code) {
+                Timer(e, parseInt(response.data.data))
+            } else {
+                Timer(e, 120)
             }
             $(".container-loader").fadeIn();
             setTimeout(() => {
                 $(".container-loader .verifyForm").addClass("active");
             }, 500)
         }).catch(error => {
-            {/*   TODO : check error result   */}
+            {/*   TODO : check error result   */
+            }
             ErroHandle(error.response.data.errors);
         })
     }
@@ -324,7 +339,8 @@ const SendDetail = (props) => {
                                                        onChange={onChange}/>
                                         </div>
                                         <div className={"col-md-6 col-sm-12"}>
-                                            <TextInput title={"شماره موبایل"} type={"number"} name={"mobile"} disabled={verifyMobileStatus}
+                                            <TextInput title={"شماره موبایل"} type={"number"} name={"mobile"}
+                                                       disabled={verifyMobileStatus}
                                                        onChange={onChange}/>
                                         </div>
 
@@ -431,7 +447,7 @@ const SendDetail = (props) => {
     )
 
     function _renderButtonSubmit() {
-        if (verifyMobileStatus){
+        if (verifyMobileStatus) {
             if (!loading) {
                 return (
                     <button onClick={e => onSubmitForm(e)} style={{float: 'left', fontSize: '16px', fontWeight: 100}}
@@ -439,13 +455,15 @@ const SendDetail = (props) => {
                 )
             } else {
                 return (
-                    <button className="btn btn-primary mb-1" type="button" disabled="true" style={{float: 'left', fontSize: '16px', fontWeight: 100}}>
-                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;&nbsp;
-                        بررسی تلفن...
+                    <button className="btn btn-primary mb-1" type="button" disabled="true"
+                            style={{float: 'left', fontSize: '16px', fontWeight: 100}}>
+                        <span className="spinner-border spinner-border-sm" role="status"
+                              aria-hidden="true"></span>&nbsp;&nbsp;
+                        بررسی اطلاعات...
                     </button>
                 )
             }
-        }else{
+        } else {
             if (!loading) {
                 return (
                     <button onClick={e => onCheckMobile(e)} style={{float: 'left', fontSize: '16px', fontWeight: 100}}
@@ -453,8 +471,10 @@ const SendDetail = (props) => {
                 )
             } else {
                 return (
-                    <button className="btn btn-primary mb-1" type="button" disabled="true" style={{float: 'left', fontSize: '16px', fontWeight: 100}}>
-                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;&nbsp;
+                    <button className="btn btn-primary mb-1" type="button" disabled="true"
+                            style={{float: 'left', fontSize: '16px', fontWeight: 100}}>
+                        <span className="spinner-border spinner-border-sm" role="status"
+                              aria-hidden="true"></span>&nbsp;&nbsp;
                         بررسی تلفن...
                     </button>
                 )
