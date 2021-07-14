@@ -77,7 +77,7 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request): JsonResponse
     {
-        $order = $this->repository->create($request->all());
+        $order = $this->repository->create($request->input('user_id'));
 
         if (is_string($order))
             return $this->message($order)->error();

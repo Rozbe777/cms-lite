@@ -20,7 +20,6 @@ class CreateTransactionsTable extends Migration
             $table->bigInteger('amount')->default(0);
             $table->string('description')->nullable();
             $table->json('payload')->nullable();
-            $table->string('icon');
             $table->timestamps();
         });
     }
