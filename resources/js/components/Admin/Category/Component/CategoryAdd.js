@@ -70,7 +70,6 @@ const CategoryAdd = ({actionResult, idParent , categoryData}) => {
     }
 
     const tagChange = (tagList) => {
-        console.log(tagList);
         let categoryFormDataClone = {...categoryForm};
         categoryFormDataClone.tag_list = tagList;
         setCategoryForm(categoryFormDataClone);
