@@ -17,11 +17,11 @@ const SendDetail = (props) => {
     useEffect(() => {
     }, [])
 
-    console.log(props , "______")
+    console.log(JSON.parse(props.transform) , "______")
 
 
     let CounterTimer = 0;
-    const {cartInvoice, totalPrice, attributesData, checkAuth} = props;
+    const {cartInvoice, totalPrice, attributesData, checkAuth , transform} = props;
     const [loading, setLoading] = useState(false);
     const [intervals, setIntervalId] = useState();
     const [tokenCode, setTokenCode] = useState();
@@ -47,7 +47,6 @@ const SendDetail = (props) => {
 
     const handleNext = e => {
         e.preventDefault();
-
         // ReactDOM.render(<SendDetail/>, document.getElementById("mains-content"));
     }
     const handlePrev = e => {

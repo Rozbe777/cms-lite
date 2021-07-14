@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import SendDetail from './../SendDetail';
 import {separate} from "../../../helper";
 
-const CheckBascket = ({checkAuth, attributes, historyCartData, historyTotalPrice}) => {
+const CheckBascket = ({checkAuth, attributes, historyCartData, historyTotalPrice , transform}) => {
     const [attributeParse, setAttributePrase] = useState([]);
     const [customCheckOutData, setCustomCheckOutData] = useState(historyCartData ? historyCartData : []);
     const [totalPrice, setTotalPrice] = useState(historyTotalPrice ? historyTotalPrice : 0);
@@ -59,7 +59,7 @@ const CheckBascket = ({checkAuth, attributes, historyCartData, historyTotalPrice
 
     const handleNext = e => {
         e.preventDefault();
-        ReactDOM.render(<SendDetail checkAuth={checkAuth} attributesData={attributes} cartInvoice={customCheckOutData}
+        ReactDOM.render(<SendDetail transform={transform} checkAuth={checkAuth} attributesData={attributes} cartInvoice={customCheckOutData}
                                     totalPrice={totalPrice}/>, document.getElementById("mains-content"));
     }
     const handlePrev = e => {

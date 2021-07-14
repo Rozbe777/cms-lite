@@ -18,7 +18,7 @@ const Index = (props) => {
     return (
         <div className={"row"} style={{padding: '20px', margin: '0px'}}>
             <div id={"mains-content"} style={{width: '100%'}}>
-                <CheckBasket checkAuth={props.authchaek} attributes={props.checkoutdata}/>
+                <CheckBasket transform={props.transfers} checkAuth={props.authchaek} attributes={props.checkoutdata}/>
             </div>
         </div>
     )
