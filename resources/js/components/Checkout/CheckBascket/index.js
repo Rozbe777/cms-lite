@@ -5,7 +5,7 @@ import './../_shared/style.scss';
 import ReactDOM from 'react-dom';
 import SendDetail from './../SendDetail';
 
-const CheckBascket = ({attributes , historyCartData , historyTotalPrice}) => {
+const CheckBascket = ({checkAuth , attributes , historyCartData , historyTotalPrice}) => {
     console.log("____" ,attributes , " _____________" ,  historyCartData , "____________________________" , historyTotalPrice)
     const [attributeParse, setAttributePrase] = useState([]);
     const [customCheckOutData, setCustomCheckOutData] = useState(historyCartData ? historyCartData : []);
@@ -58,7 +58,7 @@ const CheckBascket = ({attributes , historyCartData , historyTotalPrice}) => {
 
     const handleNext = e => {
         e.preventDefault();
-        ReactDOM.render(<SendDetail attributesData={attributes} cartInvoice={customCheckOutData} totalPrice={totalPrice}/>, document.getElementById("mains-content"));
+        ReactDOM.render(<SendDetail checkAuth={checkAuth} attributesData={attributes} cartInvoice={customCheckOutData} totalPrice={totalPrice}/>, document.getElementById("mains-content"));
     }
     const handlePrev = e => {
         e.preventDefault();

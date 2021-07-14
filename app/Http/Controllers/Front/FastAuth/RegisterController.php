@@ -44,7 +44,7 @@ class RegisterController extends Controller
             return $this->message($result['message'])->success(201);
 
         if ($result['status'] == 'warn')
-            return $this->message($result['message'])->data($result['data'])->error(429);
+            return $this->message($result['message'])->data($result['data'])->success(202);
 
         return $result;
     }

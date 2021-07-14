@@ -25,7 +25,8 @@ export const CategoryFormParent = ({
                                        categoryDataMange,
                                        editorData,
                                        fileChange,
-                                       handleMetaData
+                                       handleMetaData,
+                                       categoryParentId
                                    }) => {
 
 
@@ -164,9 +165,7 @@ export const CategoryFormParent = ({
         }
     }
 
-    const categoryParentId = item => {
-        console.log(item, "=====");
-    }
+
     return (
         <>
             <ul className="nav nav-tabs tab-layout" role="tablist">
@@ -236,7 +235,7 @@ export const CategoryFormParent = ({
                                           id={"my-editor"}
                                           type={"perfect"}
                                           defaultVal={dataUpdateParse ? dataUpdateParse.content : ''}
-                                          placeholder={"توضیحات دسته بندی را بنویسید ..."}/>
+                                />
                             </div>
 
 
@@ -277,7 +276,7 @@ export const CategoryFormParent = ({
                                     <label htmlFor={"title"}>عنوان صفحه ( حداکثر 60 حرف )</label>
                                     <input type={"text"}
                                            defaultValue={MetaDataUpdate ? MetaDataUpdate.title : ''}
-                                           onChange={e => handleMetaData(e)} name={"title"} id={"title"}
+                                           onChange={handleMetaData} name={"title"} id={"title"}
                                            className={"form-control"}/>
 
 
@@ -290,7 +289,7 @@ export const CategoryFormParent = ({
                                     <textarea
                                         defaultValue={MetaDataUpdate ? MetaDataUpdate.content : ''}
                                         type={"text"}
-                                        onChange={e => handleMetaData(e)} name={"content"}
+                                        onChange={handleMetaData} name={"content"}
                                         id={"title"}
                                         className={"form-control"}/>
                                 </fieldset>
@@ -303,10 +302,10 @@ export const CategoryFormParent = ({
                                     <div className={"col-12"} id={"chip-box"}>
                                         <div className={"row"}>
                                             <div className={"col-sm-12 col-md-4 col-lg-3"}>
-                                                <ChipsetHandler callback={item => handleAddChip(item)}/>
+                                                <ChipsetHandler onChange={handleAddChip}/>
                                             </div>
-                                            {chipset.map(item => (
-                                                <div className="chip mr-1">
+                                            {chipset.map((item , index) => (
+                                                <div className="chip mr-1" key={index}>
                                                     <div className="chip-body">
                                                         <span className="chip-text">{item}</span>
                                                         <div className="chip-closeable"
@@ -331,7 +330,7 @@ export const CategoryFormParent = ({
                                     <label htmlFor={"title"}>آدرس داخلی برای انتقال (301 Redirect)</label>
                                     <input type={"text"}
                                            defaultValue={MetaDataUpdate ? MetaDataUpdate.redirect : ''}
-                                           onChange={e => HandleMetaData(e)} name={"redirect"}
+                                           onChange={handleMetaData} name={"redirect"}
                                            id={"title"} className={"form-control"}/>
 
                                 </fieldset>
@@ -342,7 +341,7 @@ export const CategoryFormParent = ({
                                     <label htmlFor={"title"}>آدرس Canonical</label>
                                     <input
                                         defaultValue={MetaDataUpdate ? MetaDataUpdate.canonical : ''}
-                                        onChange={e => HandleMetaData(e)}
+                                        onChange={handleMetaData}
                                         name={"canonical"} type={"text"}
                                         id={"title"} className={"form-control"}/>
                                 </fieldset>
@@ -351,9 +350,11 @@ export const CategoryFormParent = ({
                             <div className={"col-12"}>
                                 <label>تنظیمات Robots</label>
 
-                                <BigSwitcher status={states => HandlerBigSwitcher(states)} name={"Robots"}
-                                             defaultStatus={MetaDataUpdate ? MetaDataUpdate.robots : false}
+                                <BigSwitcher status={states => componentHandler.HandlerBigSwitcher(states, changeCheck)}
+                                             name={"Robots"}
                                              valueOne={"غیرفعال"} valueTow={"noindex,follow"}
+                                             defaultStatus={MetaDataUpdate ? MetaDataUpdate.robots : false}
+                                             default={''}
                                              valueThree={"noindex,unfolow"}/>
                             </div>
 
