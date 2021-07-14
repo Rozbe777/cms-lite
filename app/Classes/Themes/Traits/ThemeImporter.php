@@ -50,6 +50,8 @@ trait ThemeImporter
             $p->title = $page['title'];
             $p->slug = $this->slugHandler($page['title']);
             $p->is_index = $page['is_index'];
+            if (!empty($page['is_menu']))
+                $p->is_menu = $page['is_menu'];
             $p->content = $page['content'];
             $p->metadata = (string)json_encode(json_encode(['robots' => false]));
             $p->published_at = $page['published_at'];
@@ -66,7 +68,8 @@ trait ThemeImporter
             $c->owner = 'content';
             $c->title = $content['title'];
             $c->slug = $this->slugHandler($content['title']);
-
+            if (!empty($content['is_menu']))
+                $c->is_menu = $content['is_menu'];
             $c->is_index = 0;
             $c->content = $content['content'];
             if (!empty($content['image']))

@@ -41,7 +41,7 @@ use Morilog\Jalali\Jalalian;
 */
 
 Route::get('/test', function () {
-    return (new App\Classes\SaleChannel\SaleChannel())->handle();
+    return (new \App\Classes\Themes\Menu())->all();
 });
 
 Route::get('test2', function (\Illuminate\Http\Request $request) {
@@ -192,18 +192,16 @@ Route::middleware('auth')->group(function () {
         Route::delete('multi/destroy', [AddressController::class, 'multipleDestroy'])->name('addresses.multipleDestroy');
     });
 });
-    //------------------------------Order-------------------------------
-    Route::get('order', [OrderController::class, 'blade'])->name('orders.blade');
-    Route::get('orders/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
+//------------------------------Order-------------------------------
+Route::get('order', [OrderController::class, 'blade'])->name('orders.blade');
+Route::get('orders/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
 
-    Route::resource('orders', OrderController::class);
-    Route::delete('orders/multi/destroy', [OrderController::class, 'multipleDestroy'])->name('orders.multipleDestroy');
+Route::resource('orders', OrderController::class);
+Route::delete('orders/multi/destroy', [OrderController::class, 'multipleDestroy'])->name('orders.multipleDestroy');
 
-    //------------------------------Theme-------------------------------
-    Route::get('themes/index', [ThemeController::class, 'index'])->name('theme.index');
-    Route::get('themes/{themeId}/select', [ThemeController::class, 'select'])->name('theme.select');
-
-
+//------------------------------Theme-------------------------------
+Route::get('themes/index', [ThemeController::class, 'index'])->name('theme.index');
+Route::get('themes/{themeId}/select', [ThemeController::class, 'select'])->name('theme.select');
 
 
 Route::name('front.')->group(function () {
@@ -225,10 +223,10 @@ Route::name('front.')->group(function () {
     Route::get('product/{slug}', [\App\Http\Controllers\Front\Shop\ProductController::class, 'show'])->name('product.show');
 
     //------------------------------fastAuth-------------------------------
-    Route::get('front/register',[\App\Http\Controllers\Front\FastAuth\RegisterController::class,'show'])->name('fastAuth.index');
-    Route::post('front/register',[\App\Http\Controllers\Front\FastAuth\RegisterController::class,'store'])->name('fastAuth.store');
-    Route::post('front/mobile/register',[\App\Http\Controllers\Front\FastAuth\RegisterController::class,'mobile'])->name('fastAuth.store');
-    Route::post('front/mobile/check',[\App\Http\Controllers\Front\FastAuth\RegisterController::class,'mobileVerify'])->name('fastAuth.store');
+    Route::get('front/register', [\App\Http\Controllers\Front\FastAuth\RegisterController::class, 'show'])->name('fastAuth.index');
+    Route::post('front/register', [\App\Http\Controllers\Front\FastAuth\RegisterController::class, 'store'])->name('fastAuth.store');
+    Route::post('front/mobile/register', [\App\Http\Controllers\Front\FastAuth\RegisterController::class, 'mobile'])->name('fastAuth.store');
+    Route::post('front/mobile/check', [\App\Http\Controllers\Front\FastAuth\RegisterController::class, 'mobileVerify'])->name('fastAuth.store');
 
     Route::get('callback/{invoice_id}', [InvoiceController::class, 'callback'])->name('callback');
 
