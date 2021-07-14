@@ -101,6 +101,11 @@ const CategoryAdd = ({actionResult, idParent , categoryData}) => {
         console.log(categoryForm);
     }
 
+    // get parent id
+    const  categoryParentId = id => {
+
+    }
+
     return (
         <div id={"category_add_pop_base"}>
             <CategoryFormParent
@@ -113,6 +118,7 @@ const CategoryAdd = ({actionResult, idParent , categoryData}) => {
                 editorData={editorData}
                 changeCheck={changeCheck}
                 fileChange={fileChange}
+                categoryParentId={categoryParentId}
                 handleMetaData={handleMetaData}
             />
             <div className={"col-12 bottom-footer"}>
