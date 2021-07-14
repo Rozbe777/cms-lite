@@ -9,7 +9,7 @@ import ReactDOM from "react-dom";
 import CheckBascket from "../CheckBascket";
 import {TextInput} from "../components/TextInput";
 import {CheckoutApi} from "../Api/CheckoutApi";
-import {error as ErrorToas, empty} from "../../../helper";
+import {error as ErrorToas, empty , ErroHandle} from "../../../helper";
 import $ from "jquery";
 
 const SendDetail = (props) => {
@@ -21,7 +21,7 @@ const SendDetail = (props) => {
     const [loading, setLoading] = useState(false);
     const [intervals, setIntervalId] = useState();
     const [tokenCode , setTokenCode] = useState();
-    const [verifyMobile , setVerifyMobile] = useState(false);
+    const [verifyMobileStatus , setVerifyMobileStatus] = useState(false);
     const [addressState, setAddressState] = useState({
         name: null,
         last_name: null,
@@ -198,9 +198,10 @@ const SendDetail = (props) => {
         checkoutApi._mobileToken = tokenCode;
         checkoutApi._userMobile = addressState.mobile;
         checkoutApi.verifyMobileToken().then(response => {
-            console.log(response)
+            setVerifyMobileStatus(true)
+            // console.log(response)
         }).catch(e=>{
-            console.log(e.response.data);
+            ErroHandle(e.response.data.errors);
         })
     }
 
@@ -233,7 +234,7 @@ const SendDetail = (props) => {
             }, 500)
         }).catch(error => {
             {/*   TODO : check error result   */}
-            console.log("///////****" , error.response.data.data)
+            ErroHandle(error.response.data.errors);
         })
     }
 
@@ -323,7 +324,7 @@ const SendDetail = (props) => {
                                                        onChange={onChange}/>
                                         </div>
                                         <div className={"col-md-6 col-sm-12"}>
-                                            <TextInput title={"شماره موبایل"} type={"number"} name={"mobile"}
+                                            <TextInput title={"شماره موبایل"} type={"number"} name={"mobile"} disabled={verifyMobileStatus}
                                                        onChange={onChange}/>
                                         </div>
 
@@ -430,7 +431,7 @@ const SendDetail = (props) => {
     )
 
     function _renderButtonSubmit() {
-        if (verifyMobile){
+        if (verifyMobileStatus){
             if (!loading) {
                 return (
                     <button onClick={e => onSubmitForm(e)} style={{float: 'left', fontSize: '16px', fontWeight: 100}}

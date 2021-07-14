@@ -8,6 +8,7 @@ export const TextInput = props => {
                    name={props.name}
                    onChange={e => props.onChange(e)}
                    required={props.require}
+                   disabled={props.verifyMobileStatus ? true : false}
                    placeholder={props.placeholder ? props.placeholder : props.title}/>
         </div>
     )

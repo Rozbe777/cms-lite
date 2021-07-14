@@ -59,6 +59,7 @@ class RegisterController extends Controller
         /** check the mobile*/
         $response = $this->checkMobileTrait($client, trim($request->input('token')), 'front');
 
+
         return ($response->wasRecentlyCreated) ?
             $this->message(__("message.auth.register.mobileVerified"))->data($response)->success() :
             $this->message(__('message.auth.register.wrongToken'))->error(401);
