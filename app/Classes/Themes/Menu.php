@@ -40,12 +40,13 @@ class Menu
         foreach ($categories as $i => $category) {
             $menus[$i]['name'] = $category->name;
             $menus[$i]['url'] = $category->url;
-            $categories = Category::active()->isMenu()->parentId($category->id)->get();
-            if (sizeof($categories)) {
+            $childrenCategories = Category::active()->isMenu()->parentId($category->id)->get();
+            if (sizeof($childrenCategories)) {
                 $menus[$i]['children'] = $this->getCategoryChildren($category->id);
             }
 
         }
+
         return $menus;
     }
 
