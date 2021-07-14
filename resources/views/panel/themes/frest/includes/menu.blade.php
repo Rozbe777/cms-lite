@@ -68,7 +68,7 @@
                 <li class="nav-item has-sub"><a href="#" style="
     margin: 7px 0;
     padding: 10px 10px;
-    line-height: 2;"><i class="bx bxs-component"></i><span class="menu-title">اجزاء قالب</span></a>
+    line-height: 2;"><i class="bx bxs-component"></i><span class="menu-title">اجزاء پوسته</span></a>
 
 
 
