@@ -17,11 +17,14 @@ class TransferSeeder extends Seeder
         Transfer::create([
             'title' => 'پیشتاز',
             'price' => '50000',
+            'icon'  => 'bxs-rocket'
         ]);
 
         Transfer::create([
             'title' => 'معمولی',
             'price' => '25000',
+            'icon'  => 'bx-truck
+'
         ]);
     }
 }

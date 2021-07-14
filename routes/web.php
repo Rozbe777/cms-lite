@@ -234,7 +234,8 @@ Route::name('front.')->group(function () {
     Route::prefix('cart/')->name('cart.')->group(function () {
         Route::get('index', [CartController::class, 'index'])->name('index');
         Route::post('add', [CartController::class, 'addToCart'])->name('add');
-        Route::post('update', [CartController::class, 'update'])->name('update');
+        Route::put('update', [CartController::class, 'update'])->name('update');
+        Route::delete('destroy', [CartController::class, 'destroy'])->name('destroy');
     });
 
     Route::get('{slug}', [\App\Http\Controllers\Front\Content\ContentController::class, 'search'])->name('contents');

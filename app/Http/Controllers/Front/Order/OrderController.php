@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Front\Order;
 
 use App\Classes\Responses\Front\ResponseTrait;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Front\Checkout\MultipleDestroyRequest;
+use App\Http\Requests\Front\Checkout\StoreOrderRequest;
+use App\Http\Requests\Front\Checkout\UpdateOrderRequest;
 use App\Models\Order;
 use App\Models\Repositories\Front\FrontOrderRepository;
 use Illuminate\Contracts\View\Factory;
@@ -19,6 +22,8 @@ class OrderController extends Controller
     use ResponseTrait;
 
     protected $repository;
+    const CART_SESSION_ID = 'cart';
+
     public function __construct(FrontOrderRepository $repository)
     {
         $this->repository = $repository;
@@ -54,9 +59,6 @@ class OrderController extends Controller
         return frontView('pages.order.index', compact('orders'));
     }
 
-
-
-
     /**
      * Show the form for creating a new resource.
      *
@@ -70,12 +72,12 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param StoreOrderRequest $request
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreOrderRequest $request): JsonResponse
     {
-        $order = $this->repository->create($request->all());
+        $order = $this->repository->create($request->input('user_id'));
 
         if (is_string($order))
             return $this->message($order)->error();
@@ -89,8 +91,8 @@ class OrderController extends Controller
      */
     public function checkout(): JsonResponse
     {
-        if (Session::has('order'))
-            $order = Session::get('order');
+        if (Session::has(self::CART_SESSION_ID))
+            $order = Session::get(self::CART_SESSION_ID);
         else
             return $this->message(__('message.cart.checkout.error.empty'))->error();
 
@@ -127,11 +129,11 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpdateOrderRequest $request
      * @param Order $order
      * @return JsonResponse
      */
-    public function update(Request $request,Order $order): JsonResponse
+    public function update(UpdateOrderRequest $request,Order $order): JsonResponse
     {
         $order = $this->repository->update($request->all(), $order);
         $order->load('invoices')->load('order_products');

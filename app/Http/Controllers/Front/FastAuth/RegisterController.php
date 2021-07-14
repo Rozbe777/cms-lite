@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Front\FastAuth;
 
 use App\Classes\Notifier\Classes\NoticeCenterTrigger;
-use App\Classes\Responses\Auth\Responses;
 use App\Classes\Responses\Front\ResponseTrait;
 use App\Http\Controllers\Auth\Traits\MobileTrait;
 use App\Http\Controllers\Controller;
@@ -13,9 +12,7 @@ use App\Http\Requests\MobileRequest;
 use App\Models\Address;
 use App\Models\Repositories\Auth\MobileRepository;
 use App\Models\Repositories\Auth\UserModelRepository;
-use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -44,7 +41,7 @@ class RegisterController extends Controller
             return $this->message($result['message'])->success(201);
 
         if ($result['status'] == 'warn')
-            return $this->message($result['message'])->data($result['data'])->error(429);
+            return $this->message($result['message'])->data($result['data'])->success(202);
 
         return $result;
     }
@@ -59,8 +56,8 @@ class RegisterController extends Controller
         /** check the mobile*/
         $response = $this->checkMobileTrait($client, trim($request->input('token')), 'front');
 
-        return ($response->wasRecentlyCreated) ?
-            $this->message(__("message.auth.register.mobileVerified"))->data($response)->success() :
+        return ($response) ?
+            $this->message(__("message.auth.register.mobileVerified"))->data($response)->success():
             $this->message(__('message.auth.register.wrongToken'))->error(401);
     }
 
@@ -83,7 +80,7 @@ class RegisterController extends Controller
         if (is_array($user)) /** when throw an exception */
             return $this->message(__('message.auth.register.error'))->error();
 
-        Auth::login();
+        Auth::login($user);
         return $this->message(__('message.auth.register.successful'))->success();
     }
 

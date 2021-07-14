@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front\Cart;
 
 use App\Classes\Responses\Front\ResponseTrait;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Front\Order\AttributeIdRequest;
 use App\Http\Requests\Front\Order\CreateOrderRequest;
 use App\Http\Requests\Front\Order\EditOrderRequest;
 use App\Models\Attribute;
@@ -24,9 +25,10 @@ class CartController extends Controller
 
     }
 
-    function destroy($attributeId)
+    function destroy(AttributeIdRequest $request)
     {
-        return success($this->removeByAttributeId($attributeId, $this->getCart()));
+        Session::put(self::CART_SESSION_ID,$this->removeByAttributeId($request->input('attributeId'), $this->getCart()));
+            return success(Session::get(self::CART_SESSION_ID));
     }
 
     function index()
@@ -43,11 +45,6 @@ class CartController extends Controller
             ->with('product')
             ->get();
 
-        //FIXME: Please recheck it @Mohsen,
-//        $sumQuery = Attribute::whereIn('id', $attributeIds)
-//            ->select(DB::raw("sum(if(discount_status='active',discount,price)) as sum_final_price , sum(price) as sum_price"))
-//            ->first();
-        //FIXME: I changed that to this,
         $sumQuery = Attribute::whereIn('id', $attributeIds)->get();
         $price = $sumQuery->map(function ($data, $key) use ($items) {
             if ($data->discount_status == 'active') {
@@ -58,7 +55,7 @@ class CartController extends Controller
                     'sum_final_price' => $data->discount * $items[$key]['count'],
                 ];
             } else {
-                 return [
+                return [
                     'id' => $items[$key]['id'],
                     'count' => $items[$key]['count'],
                     'sum_price' => $data->price * $items[$key]['count'],
@@ -66,6 +63,10 @@ class CartController extends Controller
                 ];
             }
 
+        });
+
+        $products = $products->map(function ($item, $key) use ($items) {
+            return collect($item)->prepend($items[$key]['count'], 'product number');
         });
 
         $sumFinalPrice = $price->sum('sum_final_price');
@@ -118,16 +119,17 @@ class CartController extends Controller
         $remaining = (int)$request->input('remaining', 0);
 
         if (empty($attributeId)) {
-            return error('شناسه محصول نامعتبر می باشد.');
-        }
-        $currentCart = [];
-        if (session()->has(self::CART_SESSION_ID)) {
-            $currentCart = $this->getCart();
+            return $this->message(__('message.cart.checkout.error.attribute_id'))->error();
         }
 
+        if (!session()->has(self::CART_SESSION_ID))
+            return $this->message(__('message.cart.checkout.error.empty'))->error();
+        $currentCart = $this->getCart();
+
         if ($count > $remaining) {
-            return error('موجودی انبار کافی نیست!');
+            return $this->message(__('message.cart.checkout.error.remaining'))->error();
         }
+
         $currentCart = $this->removeByAttributeId($attributeId, $currentCart);
         for ($i = 1; $i <= $count; $i++) {
             $currentCart[] = $attributeId;
@@ -189,7 +191,7 @@ class CartController extends Controller
     private function removeByAttributeId($attributeId, $currentCart)
     {
         return array_filter($currentCart, function ($item) use ($attributeId) {
-            return $item != $attributeId;
+            return $item != (int)$attributeId;
         });
     }
 

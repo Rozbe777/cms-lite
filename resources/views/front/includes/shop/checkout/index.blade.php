@@ -22,7 +22,7 @@
     data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
 <div class="container-fluid">
     <div class="row">
-        <div id="checkout" data-checkoutData="{{json_encode($attributes)}}"></div>
+        <div id="checkout" data-authchaek="{{Illuminate\Support\Facades\Auth::check()}}" data-checkoutData="{{json_encode($attributes)}}"></div>
     </div>
 </div>
 

@@ -6,6 +6,7 @@ use App\Classes\Responses\Front\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Models\Attribute;
 use App\Models\Product;
+use App\Models\Transfer;
 use Illuminate\Http\Request;
 
 class CheckProductListController extends Controller
@@ -17,7 +18,8 @@ class CheckProductListController extends Controller
         if (!empty($request->input('id'))) {
 
             $attributes = Attribute::whereId($request->input('id'))->with('product')->with('typeFeatures')->get();
-            return frontView('checkout.index',compact('attributes')); //attributes = products
+            $transfers = Transfer::all();
+            return frontView('checkout.index',compact('attributes','transfers')); //attributes = products
         }
         return $this->message(__('message.content.search.notSuccess'))->error();
     }

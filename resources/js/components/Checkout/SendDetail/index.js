@@ -10,12 +10,18 @@ import CheckBascket from "../CheckBascket";
 import {TextInput} from "../components/TextInput";
 import {CheckoutApi} from "../Api/CheckoutApi";
 import {error as ErrorToas, empty} from "../../../helper";
+import $ from "jquery";
 
 const SendDetail = (props) => {
     useEffect(() => {
     }, [])
 
-    const {cartInvoice, totalPrice, attributesData} = props;
+    let CounterTimer = 0;
+    const {cartInvoice, totalPrice, attributesData,checkAuth} = props;
+    const [loading, setLoading] = useState(false);
+    const [intervals, setIntervalId] = useState();
+    const [tokenCode , setTokenCode] = useState();
+    const [verifyMobile , setVerifyMobile] = useState(false);
     const [addressState, setAddressState] = useState({
         name: null,
         last_name: null,
@@ -35,6 +41,7 @@ const SendDetail = (props) => {
         setDiscount(e.target.value)
     }
 
+    console.log("check auth" , checkAuth)
     const handleNext = e => {
         e.preventDefault();
 
@@ -46,9 +53,42 @@ const SendDetail = (props) => {
                                       historyCartData={cartInvoice}/>, document.getElementById("mains-content"));
     }
 
+
+    const Timer = (e, timers) => {
+
+        e.preventDefault()
+        let min = Math.floor(timers / 60);
+        let sec = Math.floor(timers - (min * 60));
+
+        if (intervals) {
+            clearInterval(intervals);
+        }
+
+        let elementTimer = document.getElementById("timersPop");
+
+        let intervalsId = setInterval(function () {
+            if (min == 0 && sec == 0) {
+                clearInterval(intervals);
+                elementTimer.innerHTML = "";
+                elementTimer.innerHTML = "مجددا جهت دریافت کد اقدام فرمایید";
+            } else {
+                if (sec == 0) {
+                    min--;
+                    sec = 60;
+                }
+                sec--;
+                elementTimer.innerHTML = "0" + min + ":" + sec + " تا انقضای کد ارسالی";
+            }
+        }, 1000)
+
+        setIntervalId(intervalsId)
+
+    }
+
+
     const onChange = e => {
         e.preventDefault();
-        console.log(e.target.name , " => ", e.target.value)
+        console.log(e.target.name, " => ", e.target.value)
         setAddressState({
             ...addressState,
             [e.target.name]: e.target.value
@@ -58,7 +98,6 @@ const SendDetail = (props) => {
     const onSubmitForm = (e) => {
         e.preventDefault();
 
-        console.log(addressState, "dddddd")
         document.querySelector(".back-loading").classList.add("active");
         if (!addressState.name) {
             document.querySelector(".back-loading").classList.remove("active");
@@ -90,12 +129,14 @@ const SendDetail = (props) => {
         }
 
         let emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (!emailPattern.test(String(addressState.email).toLowerCase())) {
-            document.querySelector(".back-loading").classList.remove("active");
-            ErrorToas("ایمیل را به درستی وارد کنید")
+        if (!empty(addressState.email)) {
+            if (!emailPattern.test(String(addressState.email).toLowerCase())) {
+                document.querySelector(".back-loading").classList.remove("active");
+                ErrorToas("ایمیل را به درستی وارد کنید")
+            }
         }
-        console.log(addressState.phone)
-        var pattern = /^0?9{1}([0-9]{9})$/;
+
+        let pattern = /^0?9{1}([0-9]{9})$/;
         if (!empty(addressState.mobile)) {
             if (!pattern.test(addressState.mobile)) {
                 document.querySelector(".back-loading").classList.remove("active");
@@ -104,13 +145,24 @@ const SendDetail = (props) => {
         }
 
         checkoutApi._storeData = addressState;
-        checkoutApi.store().then(response => {
-            document.querySelector(".back-loading").classList.remove("active");
-            console.log(response);
-        }).catch(error => {
-            document.querySelector(".back-loading").classList.remove("active");
-            return ErrorToas("خطای غیرمنتظره ای رخ داده است")
-        })
+        if (!empty(addressState.name) && !empty(addressState.last_name) && !empty(addressState.state) && !empty(addressState.city) && !empty(addressState.mobile) && !empty(addressState.phone) && !empty(addressState.address)) {
+            checkoutApi.store().then(response => {
+                document.querySelector(".back-loading").classList.remove("active");
+                $(".container-loader").fadeIn();
+                setTimeout(() => {
+                    $(".container-loader .verifyForm").addClass("active");
+                }, 500)
+                console.log(response);
+            }).catch(error => {
+                $(".container-loader").fadeIn();
+                setTimeout(() => {
+                    $(".container-loader .verifyForm").addClass("active");
+                }, 500)
+                document.querySelector(".back-loading").classList.remove("active");
+                return ErrorToas("خطای غیرمنتظره ای رخ داده است")
+            })
+        }
+
 
     }
 
@@ -125,6 +177,66 @@ const SendDetail = (props) => {
         addressStateClone.city = cityName;
         setAddressState(addressStateClone)
     }
+
+    const closeModal = e => {
+        e.preventDefault();
+        clearInterval(intervals);
+        $(".verifyForm").removeClass("active");
+        setTimeout(() => {
+            $("input[name=verifyCode]").val('')
+            $(".container-loader").fadeOut();
+        }, 500)
+    }
+
+    const verifyCodeGet = e => {
+        e.preventDefault();
+        setTokenCode(e.target.value)
+    }
+
+    const checkCode = e => {
+        e.preventDefault();
+        checkoutApi._mobileToken = tokenCode;
+        checkoutApi._userMobile = addressState.mobile;
+        checkoutApi.verifyMobileToken().then(response => {
+            console.log(response)
+        }).catch(e=>{
+            console.log(e.response.data);
+        })
+    }
+
+    const onCheckMobile = e => {
+        e.preventDefault();
+        setLoading(true);
+        let pattern = /^0?9{1}([0-9]{9})$/;
+        if (empty(addressState.mobile)){
+            ErrorToas("فیلد شماره تلفن همراه خالی می باشد")
+        }
+
+        if (!empty(addressState.mobile)) {
+            if (!pattern.test(addressState.mobile)) {
+                document.querySelector(".back-loading").classList.remove("active");
+                ErrorToas("فرمت تلفن همراه صحیح نمی باشد")
+            }
+        }
+
+        checkoutApi._userMobile = addressState.mobile;
+        checkoutApi.verifyMobile().then(response => {
+            setLoading(false);
+            if (response.data.http_code){
+                Timer(e , parseInt(response.data.data))
+            }else{
+                Timer(e , 120)
+            }
+            $(".container-loader").fadeIn();
+            setTimeout(() => {
+                $(".container-loader .verifyForm").addClass("active");
+            }, 500)
+        }).catch(error => {
+            {/*   TODO : check error result   */}
+            console.log("///////****" , error.response.data.data)
+        })
+    }
+
     return (
         <>
             <Header selected={"sendDetail"}/>
@@ -211,12 +323,12 @@ const SendDetail = (props) => {
                                                        onChange={onChange}/>
                                         </div>
                                         <div className={"col-md-6 col-sm-12"}>
-                                            <TextInput title={"شماره موبایل"} type={"tel"} name={"mobile"}
+                                            <TextInput title={"شماره موبایل"} type={"number"} name={"mobile"}
                                                        onChange={onChange}/>
                                         </div>
 
                                         <div className={"col-md-6 col-sm-12"}>
-                                            <TextInput title={"تلفن ثابت"} type={"tel"} name={"phone"}
+                                            <TextInput title={"تلفن ثابت"} type={"number"} name={"phone"}
                                                        onChange={onChange}/>
                                         </div>
 
@@ -245,9 +357,69 @@ const SendDetail = (props) => {
                 </div>
             </div>
 
+
+            <div className={"container-loader"}>
+                <div className={"container"} style={{height: '100%'}}>
+                    <div className="row justify-content-center align-items-center" style={{height: '100%'}}>
+                        <div className="col-md-4 col-sm-10">
+                            <div className={"verifyForm"}>
+
+                            <span id={"close-icon"} onClick={e => closeModal(e)}>
+                                <i className={"bx bx-x"}></i>
+                            </span>
+
+                                <p>کد تایید را وارد کنید</p>
+
+
+                                <div className="alert border-success alert-dismissible mb-2" role="alert"
+                                     id={"customAlert"}>
+                                    <div className="d-flex align-items-center">
+                                        <span>
+کد تایید به شماره تلفن همراه {addressState.mobile ? addressState.mobile : ''} ارسال شد.
+                </span>
+                                    </div>
+                                </div>
+
+
+                                <div className={"col-12"}
+                                     style={{display: 'flex', alignItem: 'center', justifyContent: 'center'}}>
+                                    <div className={"verify-code-check"}>
+                                        <input type={"text"}
+                                               className={"form-control"}
+                                               name={"verifyCode"}
+                                               maxLength={4}
+                                               min="1000"
+                                               max="9999"
+                                               autoComplete={"none"}
+                                               onChange={e => verifyCodeGet(e)}
+                                               placeholder={"کد تایید را وارد کنید"}/>
+                                    </div>
+                                </div>
+
+
+                                <button className={"btn btn-primary"} id={"verifyCodessss"} style={{fontSize: '11px'}}
+                                        onClick={e => checkCode(e)}>بررسی
+                                    کد
+                                </button>
+
+
+                                <div id={"timersPop"}></div>
+
+                                <div id={"loading-shows"}>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <div className={"col-12"} style={{marginTop: '30px', padding: 0}}>
-                <button onClick={e => onSubmitForm(e)} style={{float: 'left', fontSize: '16px', fontWeight: 100}}
-                        className={"btn btn-primary"}> نحوه پرداخت <i className={"bx bx-chevron-left"}></i></button>
+
+                {_renderButtonSubmit()}
                 <button onClick={e => handlePrev(e)}
                         style={{float: 'right', background: '#fff', fontSize: '16px', fontWeight: 100}}
                         className={"btn"}><i className={"bx bx-chevron-right"}></i> بررسی سبد خرید
@@ -256,6 +428,39 @@ const SendDetail = (props) => {
 
         </>
     )
+
+    function _renderButtonSubmit() {
+        if (verifyMobile){
+            if (!loading) {
+                return (
+                    <button onClick={e => onSubmitForm(e)} style={{float: 'left', fontSize: '16px', fontWeight: 100}}
+                            className={"btn btn-primary"}> ثبت نهایی<i className={"bx bx-chevron-left"}></i></button>
+                )
+            } else {
+                return (
+                    <button className="btn btn-primary mb-1" type="button" disabled="true" style={{float: 'left', fontSize: '16px', fontWeight: 100}}>
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;&nbsp;
+                        بررسی تلفن...
+                    </button>
+                )
+            }
+        }else{
+            if (!loading) {
+                return (
+                    <button onClick={e => onCheckMobile(e)} style={{float: 'left', fontSize: '16px', fontWeight: 100}}
+                            className={"btn btn-primary"}> ثبت نهایی<i className={"bx bx-chevron-left"}></i></button>
+                )
+            } else {
+                return (
+                    <button className="btn btn-primary mb-1" type="button" disabled="true" style={{float: 'left', fontSize: '16px', fontWeight: 100}}>
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;&nbsp;
+                        بررسی تلفن...
+                    </button>
+                )
+            }
+        }
+
+    }
 }
 
 export default SendDetail;
