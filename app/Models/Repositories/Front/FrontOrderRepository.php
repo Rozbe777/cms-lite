@@ -20,6 +20,7 @@ class FrontOrderRepository implements RepositoryInterface
 
     use CalculateTotalPrice;
     use ValidateCoupon;
+    const CART_SESSION_ID = 'cart';
 
     /**
      * @return mixed
@@ -66,6 +67,7 @@ class FrontOrderRepository implements RepositoryInterface
      */
     public function create(array $data)
     {
+
         $order = Order::where('user_id', Auth::id())->where('status', 'pending_pay')->first();
 //        if (!empty($order)) {
             $attribute = Attribute::find($data['attribute_id']);

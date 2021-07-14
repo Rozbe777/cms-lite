@@ -19,6 +19,7 @@ class CreateTransfersTable extends Migration
             $table->string('description')->nullable();
             $table->enum('status',['active', 'deactivate'])->default('active');
             $table->bigInteger('price');
+            $table->string('icon');
             $table->softDeletes();
             $table->timestamps();
         });
