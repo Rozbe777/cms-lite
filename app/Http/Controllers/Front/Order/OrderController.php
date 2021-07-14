@@ -19,6 +19,8 @@ class OrderController extends Controller
     use ResponseTrait;
 
     protected $repository;
+    const CART_SESSION_ID = 'cart';
+
     public function __construct(FrontOrderRepository $repository)
     {
         $this->repository = $repository;
@@ -54,9 +56,6 @@ class OrderController extends Controller
         return frontView('pages.order.index', compact('orders'));
     }
 
-
-
-
     /**
      * Show the form for creating a new resource.
      *
@@ -89,8 +88,8 @@ class OrderController extends Controller
      */
     public function checkout(): JsonResponse
     {
-        if (Session::has('order'))
-            $order = Session::get('order');
+        if (Session::has(self::CART_SESSION_ID))
+            $order = Session::get(self::CART_SESSION_ID);
         else
             return $this->message(__('message.cart.checkout.error.empty'))->error();
 
