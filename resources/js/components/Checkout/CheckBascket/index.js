@@ -4,9 +4,10 @@ import {ItemCheckOut} from "../Partials/ItemCheckOut";
 import './../_shared/style.scss';
 import ReactDOM from 'react-dom';
 import SendDetail from './../SendDetail';
+import {separate} from "../../../helper";
 
 const CheckBascket = ({checkAuth , attributes , historyCartData , historyTotalPrice}) => {
-    console.log("____" ,attributes , " _____________" ,  historyCartData , "____________________________" , historyTotalPrice)
+    console.log("____" ,JSON.parse(attributes))
     const [attributeParse, setAttributePrase] = useState([]);
     const [customCheckOutData, setCustomCheckOutData] = useState(historyCartData ? historyCartData : []);
     const [totalPrice , setTotalPrice] = useState(historyTotalPrice ? historyTotalPrice : 0);
@@ -114,6 +115,8 @@ const CheckBascket = ({checkAuth , attributes , historyCartData , historyTotalPr
                                 id={item.id}
                                 onDelete={onDelete}
                                 image={item.image_url}
+                                discountStatus={item.discount_status}
+                                discount={item.discount}
                                 firstCount={item.count}
                                 onChangeTotalCount={onChangeTotalCount}
                                 index={index}
@@ -138,7 +141,7 @@ const CheckBascket = ({checkAuth , attributes , historyCartData , historyTotalPr
                                             color: "#000000",
                                             lineHeight: '3.2',
                                             textAlign: 'left'
-                                        }}>{totalPrice} تومان
+                                        }}>{separate(totalPrice)} تومان
                                         </div>
                                     </div>
                                 </div>

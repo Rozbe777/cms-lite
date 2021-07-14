@@ -10,7 +10,9 @@ export const ItemCheckOut = ({
                                  onDelete,
                                  firstCount,
                                  onChangeTotalCount,
-                                 index
+                                 index,
+                                 discountStatus,
+                                 discount
                              }) => {
     useEffect(() => {
     }, [])
@@ -87,6 +89,10 @@ export const ItemCheckOut = ({
                 </div>
             )
         }
+    }
+
+    function _renderPrice(){
+
     }
 }
 

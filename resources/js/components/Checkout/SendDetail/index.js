@@ -148,7 +148,7 @@ const SendDetail = (props) => {
 
         checkoutApi._storeData = addressState;
         if (!empty(addressState.name) && !empty(addressState.last_name) && !empty(addressState.state) && !empty(addressState.city) && !empty(addressState.mobile) && !empty(addressState.phone) && !empty(addressState.address)) {
-            if (pattern.test(addressState.mobile) && emailPattern.test(String(addressState.email).toLowerCase())) {
+            if (pattern.test(addressState.mobile) && finalCheckEmail()) {
                 setLoading(true)
                 checkoutApi.store().then(response => {
                     setLoading(false)
@@ -164,6 +164,19 @@ const SendDetail = (props) => {
         }
 
 
+    }
+
+    const finalCheckEmail = () => {
+        let emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (addressState.email){
+            if(emailPattern.test(String(addressState.email).toLowerCase())){
+                return true
+            }else{
+                return false
+            }
+        }else{
+            return true
+        }
     }
 
     const handleStateName = (StateName) => {

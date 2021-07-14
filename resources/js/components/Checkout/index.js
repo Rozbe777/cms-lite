@@ -6,6 +6,7 @@ import SendDetail from './SendDetail'
 
 const Index = (props) => {
 
+
     useEffect(() => {
         // setAttributes(props.checkoutData);
     }, [])
