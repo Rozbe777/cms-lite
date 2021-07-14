@@ -18,7 +18,7 @@ class CheckProductListController extends Controller
         if (!empty($request->input('id'))) {
 
             $attributes = Attribute::whereId($request->input('id'))->with('product')->with('typeFeatures')->get();
-            $transfers = Transfer::all();dd($attributes,$transfers);
+            $transfers = Transfer::all();
             return frontView('checkout.index',compact('attributes','transfers')); //attributes = products
         }
         return $this->message(__('message.content.search.notSuccess'))->error();
