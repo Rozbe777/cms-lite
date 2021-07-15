@@ -113,10 +113,7 @@ const AddCategory = ({handleResult, token, dataAll, dataUpdate, idParent}) => {
 
         }
     }
-    //
-    // function handlers(stateAt){
-    //     handleResult(stateAt)
-    // }
+
 
     const HandleMetaData = (e) => {
         setEdit(true)

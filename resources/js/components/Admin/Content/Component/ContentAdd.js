@@ -61,7 +61,6 @@ const ContentAdd = ({actionResult}) => {
     }
 
     const tagChange = (tagList) => {
-        console.log(tagList);
         let contentFormDataClone = {...contentForm};
         contentFormDataClone.tag_list = tagList;
         setContentForm(contentFormDataClone);

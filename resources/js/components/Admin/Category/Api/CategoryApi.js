@@ -64,6 +64,17 @@ export default class CategoryApi {
             })
         }
     }
-
+    async edit(data){
+        let response = await Request.UpdateDataCategory(data);
+        try{
+            return new Promise(resolve => {
+                return resolve(response)
+            })
+        }catch (e) {
+            return new Promise((reject => {
+                return reject(e)
+            }))
+        }
+    }
 
 }

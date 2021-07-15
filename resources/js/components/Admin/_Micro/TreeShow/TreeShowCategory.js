@@ -1,17 +1,19 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Item} from './Item';
+import ReactDOM from 'react-dom'
 import {Request} from './../../../../services/AdminService/Api';
 import Loading from './../../_Micro/Loading'
 import $ from 'jquery';
 import {ErroHandle, error as ErrorToast} from "../../../../helper";
 import {CHECK_BOX_CONTENT} from "../../UserList/Helper/Context";
-import ContentAdd from "../../Content/Component/ContentAdd";
-
-const dataTransitionKey = "cmsLiteData123548$%";
+import CategoryEdit from "../../Category/Component/CategoryEdit";
+import CategoryDuplicate from "../../Category/Component/CategoryDuplicate";
+import CategoryAdd from "../../Category/Component/CategoryAdd";
 
 export const TreeShowCategory = ({
                                      categoryData,
                                      loading,
+                                     multiCategoryDelete,
                                      actionResult
                                  }) => {
 
@@ -85,21 +87,24 @@ export const TreeShowCategory = ({
 
     const onAdd = (e, parentId) => {
         e.preventDefault();
+        ReactDOM.render(<CategoryAdd actionResult={actionResult} idParent={parentId} allCategoryData={categoryData}/> , document.getElementById("add-datas"));
     }
 
     const onEdit = (e, itemData) => {
         e.preventDefault()
+        ReactDOM.render(<CategoryEdit actionResult={actionResult} categoryData={itemData} actionType={"edit"} allCategoryData={categoryData} /> ,document.getElementById("add-datas"))
     }
 
 
     const onDuplicate = (e, itemData) => {
         e.preventDefault()
+        ReactDOM.render(<CategoryDuplicate actionResult={actionResult} categoryData={itemData} actionType={"duplicate"} allCategoryData={categoryData} /> ,document.getElementById("add-datas"))
 
     }
 
     const onDelete = (e, id) => {
         e.preventDefault()
-
+        multiCategoryDelete(e , id);
     }
 
 
@@ -162,7 +167,6 @@ export const TreeShowCategory = ({
 
             </div>
         </CHECK_BOX_CONTENT.Provider>
-
     )
 
 
@@ -179,51 +183,5 @@ export const TreeShowCategory = ({
             />
         )
     }
-
-    // function _renderChildrenOne(categoryItemOne , level){
-    //     if (categoryItemOne.length > 0){
-    //         console.log("csdcsdc0 , " , categoryItemOne)
-    //         categoryItemOne.map((itemData , index) => {
-    //             return (
-    //                 <ul key={index} style={{padding: '0 50px 0 0', listStyle: 'inherit'}}>
-    //
-    //                     <li id={"li-back-item"}>
-    //                         <div className={"branch-top"}>
-    //                         </div>
-    //                         <div className={"branch"}>
-    //                             <div className={"box"}></div>
-    //                         </div>
-    //                         {_renderItem(itemData , level)}
-    //                         {_renderChildrenTow(itemData.children)}
-    //                     </li>
-    //
-    //                 </ul>
-    //             )
-    //         })
-    //
-    //     }
-    //
-    // }
-    // function _renderChildrenTow(categoryItemTow){
-    //     if (categoryItemTow.length > 0){
-    //         categoryItemTow.map((itemData , index) => {
-    //             return (
-    //                 <ul key={index} style={{padding: '0 50px 0 0', listStyle: 'inherit'}}>
-    //
-    //                     <li id={"li-back-item"}>
-    //                         <div className={"branch-top"}>
-    //                         </div>
-    //                         <div className={"branch"}>
-    //                             <div className={"box"}></div>
-    //                         </div>
-    //                         {_renderItem(itemData , 3)}
-    //                     </li>
-    //
-    //                 </ul>
-    //             )
-    //         })
-    //
-    //     }
-    // }
 
 }

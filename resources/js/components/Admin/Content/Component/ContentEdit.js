@@ -46,7 +46,7 @@ const ContentEdit = ({actionResult, contentDataUpdate}) => {
     const [contentForm, setContentForm] = useState(default_value);
 
     const [edit, setEdit] = useState(false)
-    const [editorConten, setEditorContent] = useState(contentDataUpdate.content);
+    const [editorContent, setEditorContent] = useState(contentDataUpdate.content);
     const [metaData, setMetaData] = useState(JSON.parse(contentDataUpdate.metadata));
     const [file, setFile] = useState({file: ''});
     const onCancel = (e) => {
@@ -143,7 +143,7 @@ const ContentEdit = ({actionResult, contentDataUpdate}) => {
         if (contentDataClone.slug == "") {
             contentFormResult.append("slug", title)
         }
-        contentFormResult.append("content", editorConten)
+        contentFormResult.append("content", editorContent)
         metaDataClone.robots = robots;
         let metaDataStringify = JSON.stringify(metaDataClone);
         contentFormResult.append("metadata", metaDataStringify)
