@@ -57,7 +57,7 @@ class Product extends Model
 
     public function getUrlAttribute()
     {
-        return route('front.product.show', $this->attributes['slug']);
+        return route('front.shop.product.show', $this->attributes['slug']);
     }
 
     public function getImageUrlAttribute()

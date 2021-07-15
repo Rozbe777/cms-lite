@@ -219,8 +219,11 @@ Route::name('front.')->group(function () {
         Route::get('slug', [CheckProductListController::class, 'getBySlug'])->name('checkout.blade');
         Route::get('/products', [CheckProductListController::class, 'show'])->name('checkout.show');
     });
+    Route::prefix('shop/')->name('shop.')->group(function () {
 
-    Route::get('product/{slug}', [\App\Http\Controllers\Front\Shop\ProductController::class, 'show'])->name('product.show');
+        Route::get('product/{slug}', [\App\Http\Controllers\Front\Shop\ProductController::class, 'show'])->name('product.show');
+        Route::get('category/{slug}', [\App\Http\Controllers\Front\Shop\CategoryController::class, 'show'])->name('category');
+    });
 
     //------------------------------fastAuth-------------------------------
     Route::get('front/register', [\App\Http\Controllers\Front\FastAuth\RegisterController::class, 'show'])->name('fastAuth.index');

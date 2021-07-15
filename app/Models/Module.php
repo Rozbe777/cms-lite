@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Module extends Model
 {
-    use HasFactory , SoftDeletes;
+    const CMS_MODULE_ID = 1;
+    const SHOP_MODULE_ID = 2;
+    use HasFactory, SoftDeletes;
 
     protected $guarded = [];
 
