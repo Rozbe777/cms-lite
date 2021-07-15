@@ -126,7 +126,7 @@ const ContentAdd = ({actionResult}) => {
             })
         } else {
             $("input[name=titleContent]").addClass("is-invalid");
-            error("لطفا فیلد عنوان صفحه را پر کنید !")
+            error("لطفا فیلد عنوان محتوا را پر کنید !")
         }
 
     }
