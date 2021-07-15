@@ -41,7 +41,7 @@ use Morilog\Jalali\Jalalian;
 */
 
 Route::get('/test', function () {
-    return (new \App\Classes\Themes\Component())->menu();
+ return \route('image.show','asdsa.png');
 });
 
 Route::get('test2', function (\Illuminate\Http\Request $request) {
@@ -57,7 +57,7 @@ Route::get('csrf', function () {
 Route::get('/login', [LoginController::class, 'show'])->name('show.login');
 Route::post('auth/login', [LoginController::class, 'login'])->name('auth.login');
 Route::get('logout', [LoginController::class, 'logout'])->name('auth.logout');
-
+Route::get('image/{name}', [ImageController::class, 'show'])->name('image.show');
 Route::prefix('mobile')->group(function () {
     Route::get('/register', [MobileRegisterController::class, 'show'])->name('show.mobile.form');
     Route::post('/register', [MobileRegisterController::class, 'register'])->name('mobile.register');
@@ -193,7 +193,7 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-Route::get('image/{name}', [ImageController::class, 'show'])->name('image.show');
+
 //------------------------------Order-------------------------------
 Route::get('order', [OrderController::class, 'blade'])->name('orders.blade');
 Route::get('orders/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');

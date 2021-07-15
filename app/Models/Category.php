@@ -122,7 +122,9 @@ class Category extends Model
 
     public function getImageUrlAttribute()
     {
-        return route('image.show', $this->attributes['image']);
+        if (!empty($this->attributes['image']))
+            return route('image.show', $this->attributes['image']);
+        return null;
     }
 
     function scopeModuleId($query, $id)
