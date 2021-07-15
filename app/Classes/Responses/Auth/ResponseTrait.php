@@ -8,31 +8,16 @@ trait ResponseTrait
 {
     private $view, $message = "", $data = [];
 
-    function view($view)
-    {
-        $this->view = $view;
-        return $this;
-    }
-
     function message($message)
     {
         $this->message = $message;
         return $this;
     }
 
-    function data($data)
+    function data($data=null)
     {
         $this->data = $data;
         return $this;
-    }
-
-
-    public function isAxios(): bool
-    {
-        if (!empty(request()->header('is_axios'))) {
-            return true;
-        }
-        return false;
     }
 
     public function success($status = 200)

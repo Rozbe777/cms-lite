@@ -159,7 +159,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('products/multi/destroy', [ProductController::class, 'multipleDestroy'])->name('products.multipleDestroy');
 
     //-------------------------------Images-----------------------------
-    Route::get('image/{name}', [ImageController::class, 'show']);
+
 
     Route::get('checkout', [PreCheckoutController::class, 'index'])->name('checkout.index');
 
@@ -192,6 +192,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('multi/destroy', [AddressController::class, 'multipleDestroy'])->name('addresses.multipleDestroy');
     });
 });
+
+Route::get('image/{name}', [ImageController::class, 'show'])->name('image.show');
 //------------------------------Order-------------------------------
 Route::get('order', [OrderController::class, 'blade'])->name('orders.blade');
 Route::get('orders/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
@@ -219,8 +221,11 @@ Route::name('front.')->group(function () {
         Route::get('slug', [CheckProductListController::class, 'getBySlug'])->name('checkout.blade');
         Route::get('/products', [CheckProductListController::class, 'show'])->name('checkout.show');
     });
+    Route::prefix('shop/')->name('shop.')->group(function () {
 
-    Route::get('product/{slug}', [\App\Http\Controllers\Front\Shop\ProductController::class, 'show'])->name('product.show');
+        Route::get('product/{slug}', [\App\Http\Controllers\Front\Shop\ProductController::class, 'show'])->name('product.show');
+        Route::get('category/{slug}', [\App\Http\Controllers\Front\Shop\CategoryController::class, 'show'])->name('category');
+    });
 
     //------------------------------fastAuth-------------------------------
     Route::get('front/register', [\App\Http\Controllers\Front\FastAuth\RegisterController::class, 'show'])->name('fastAuth.index');

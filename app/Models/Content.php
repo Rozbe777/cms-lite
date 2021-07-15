@@ -29,7 +29,7 @@ class Content extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
-    protected $appends = ['url', 'related_contents'
+    protected $appends = ['url', 'image_url', 'related_contents'
 //        'related_content'
     ];
 
@@ -63,6 +63,11 @@ class Content extends Model
     public function getUrlAttribute()
     {
         return route('front.contents', $this->attributes['slug']);
+    }
+
+    public function getImageUrlAttribute()
+    {
+        return route('image.show', $this->attributes['image']);
     }
 
     public function getRelatedContentsAttribute()

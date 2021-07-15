@@ -34,7 +34,7 @@ use Shanmuga\LaravelEntrust\Traits\LaravelEntrustUserTrait;
 class User extends Authenticatable implements iUser
 {
 
-    use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
+    use HasApiTokens ,HasFactory, Notifiable, SoftDeletes;
     use LaravelEntrustUserTrait;
 
     /**
@@ -47,7 +47,7 @@ class User extends Authenticatable implements iUser
     /**
      * @var array|string[]
      */
-    protected $appends = ['fullname', 'persianStatus', 'userRole', 'userRoleName'];
+    protected $appends = ['fullname', 'persianStatus', 'userRole', 'userRoleName','image_url'];
 
     /**
      * The attributes that should be hidden for arrays.
