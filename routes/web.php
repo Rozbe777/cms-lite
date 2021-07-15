@@ -159,7 +159,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('products/multi/destroy', [ProductController::class, 'multipleDestroy'])->name('products.multipleDestroy');
 
     //-------------------------------Images-----------------------------
-    Route::get('image/{name}', [ImageController::class, 'show']);
+
 
     Route::get('checkout', [PreCheckoutController::class, 'index'])->name('checkout.index');
 
@@ -192,6 +192,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('multi/destroy', [AddressController::class, 'multipleDestroy'])->name('addresses.multipleDestroy');
     });
 });
+
+Route::get('image/{name}', [ImageController::class, 'show'])->name('image.show');
 //------------------------------Order-------------------------------
 Route::get('order', [OrderController::class, 'blade'])->name('orders.blade');
 Route::get('orders/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
