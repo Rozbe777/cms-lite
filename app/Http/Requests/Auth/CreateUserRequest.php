@@ -17,7 +17,7 @@ use Illuminate\Support\Carbon;
  * @property string registration_source
  * @property Carbon|null email_verified_at
  */
-class CreateUserRequest extends BaseRequest
+class CreateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -37,9 +37,10 @@ class CreateUserRequest extends BaseRequest
     public function rules()
     {
         return [
+            'id' => 'required|string',
             'name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'string|email|max:255|unique:users',
+            'email' => 'nullable|email|max:255|unique:users',
             'password' => 'required|string|min:4|confirmed',
         ];
     }

@@ -51,28 +51,29 @@ class UserModelRepository
         return $client;
     }
 
-    public function update($request)
+    public function update($data,$route = null)
     {
         try {
             /** find user by request->id */
             if (Auth::check())
                 $user = Auth::user();
             else
-                $user = User::whereMobile(mobile($request->mobile))->first();
+                $user = User::whereId($data['id'])->first();
 
+            unset($data['id'],$data['password_confirmation']);
             /** check submit the registration form with or without an image */
-            if ($request->avatar) {
-                $data = $request->only(['name', 'last_name', 'email']);
-                $data['image'] = $request->file('image')->store('public/images');
-
+            if (isset($data['image'])) {
+                $data['image'] = $data['image']->file('image')->store('public/images');
             } else {
-                $data = $request->only(['name', 'last_name', 'email']);
                 $data['image'] = 'defaultIMG.png';
             }
             if (!empty($data['password']))
-                $data['password'] = bcrypt($request->password);
+                $data['password'] = bcrypt($data['password']);
             else
                 unset($data['password']);
+
+            if ($route != null && str_contains($route,'api'))
+                $data['registration_source'] = 'api';
 
             $user->update($data);
 
