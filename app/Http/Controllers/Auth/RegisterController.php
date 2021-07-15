@@ -29,7 +29,7 @@ class RegisterController extends Controller
     public function store(CreateUserRequest $request)
     {
         /** update User info */
-        $user = (new UserModelRepository())->update($request);
+        $user = (new UserModelRepository())->update($request->all());
 
         $response = new Responses();
 

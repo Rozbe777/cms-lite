@@ -34,7 +34,7 @@ use Shanmuga\LaravelEntrust\Traits\LaravelEntrustUserTrait;
 class User extends Authenticatable implements iUser
 {
 
-    use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
+    use HasApiTokens ,HasFactory, Notifiable, SoftDeletes;
     use LaravelEntrustUserTrait;
 
     /**
