@@ -67,7 +67,9 @@ class Content extends Model
 
     public function getImageUrlAttribute()
     {
-        return route('image.show', $this->attributes['image']);
+        if (!empty($this->attributes['image']))
+            return route('image.show', $this->attributes['image']);
+        return null;
     }
 
     public function getRelatedContentsAttribute()

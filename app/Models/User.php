@@ -182,4 +182,11 @@ class User extends Authenticatable implements iUser
             return __('message.errors.403');
         return $role->name;
     }
+
+    public function getImageUrlAttribute()
+    {
+        if (!empty($this->attributes['image']))
+            return route('image.show', $this->attributes['image']);
+        return null;
+    }
 }
