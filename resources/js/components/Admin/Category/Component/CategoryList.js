@@ -123,7 +123,7 @@ export const CategoryList = ({token}) => {
 
 
                 <div id={"add-datas"}></div>
-                <BottomNavigationBar userData={categoryData} deleteAll={e => handleDeleteGroup(e)}/>
+                <BottomNavigationBar userData={categoryData} deleteAll={e => multiCategoryDelete(e)}/>
 
             </div>
 
