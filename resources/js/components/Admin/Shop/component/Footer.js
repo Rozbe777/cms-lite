@@ -1,4 +1,4 @@
-import React , {useEffect} from "react";
+import React from "react";
 import './../../../_shared/style.scss'
 
 export const Footer = ({actionType, editStatus, onClicked , onCancel}) => {

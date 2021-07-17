@@ -93,7 +93,7 @@ const PageDuplicate = ({actionResult , pageData , actionType , allPageData}) => 
     const onSubmit = () => {
         let pageFormClone = {...pageForm};
         let pageFormData = new FormData();
-        let titleWrite = $("input[name=name]").val();
+        let titleWrite = $("input[name=title]").val();
         pageFormData.append("image", file.file ? file.file : '');
         pageFormData.append("content", editorContent);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : pageFormClone.is_menu;
@@ -117,7 +117,7 @@ const PageDuplicate = ({actionResult , pageData , actionType , allPageData}) => 
         metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
         pageFormData.append("metadata", JSON.stringify(metaData));
         if (name && name !== '') {
-            $("input[name=name]").removeClass("is-invalid");
+            $("input[name=title]").removeClass("is-invalid");
             swalAccept(`کپی صفحه`).then(resSwal => {
                 if (resSwal.value) {
                     pageApi.create(pageFormData).then(res => {

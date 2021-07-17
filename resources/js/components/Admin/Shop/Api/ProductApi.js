@@ -63,7 +63,7 @@ export default class ProductApi{
     }
 
     async update(){
-        let params = this.getContentDataUpdate();
+        let params = this._updateData;
         try{
             let response = await Request.UpdateDataProduct(params);
             return new Promise(resolve => {

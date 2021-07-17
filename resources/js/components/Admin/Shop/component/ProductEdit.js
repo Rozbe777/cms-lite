@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import './../../_Shared/Style.scss'
-import {Request} from './../../../../services/AdminService/Api'
-import {ErroHandle, error as ErrorToast, error} from './../../../../helper'
+import {ErroHandle, error as ErrorToast, error, successSwal, swalAccept} from './../../../../helper'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import "swiper/swiper-bundle.css";
+import {FilesShopContext} from "../Helper/Context";
+import HelperFunction from "../Helper/HelperFunction";
 import $ from "jquery";
 import {
     CheckTextFetures,
@@ -13,14 +14,19 @@ import {
 } from "../../Helper/HelperClassFetures";
 import {Footer} from "./Footer";
 import ProductParentForm from "./ProductParentForm";
+import ProductApi from "../Api/ProductApi";
+import {TOKEN} from "../../../../services/Type";
 
 const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
-    const [allFiles  , setAllFiles]  = useState([]);
-    const [checkChange , setCheckChange] = useState(false)
-    const [metaData , setMetaData] = useState(defaultValuePro.metadata ? JSON.parse(defaultValuePro.metadata) : {
+
+    const [allFiles, setAllFiles] = useState([]);
+    const [checkChange, setCheckChange] = useState(false)
+    const [metaData, setMetaData] = useState(defaultValuePro.metadata? JSON.parse(defaultValuePro.metadata) : {
         robots: false,
     });
 
+    let productApi = new ProductApi();
+    let helperFunction = new HelperFunction();
     let mins = 10000000000;
     let maxs = 99999999999;
     let firstRand = Math.round(mins + Math.random() * (maxs - mins));
@@ -33,7 +39,6 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
         text: []
     };
 
-    const [defaultTableHead, setDefaultTableHead] = useState(normalHeadTitle)
 
     const [changeCheck, setChangeCheck] = useState(false)
     const [idSelCat, setIdSelCat] = useState([])
@@ -51,19 +56,13 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
 
     let tags = [];
     const [edit, setEdit] = useState(false);
-    const [file, setFile] = useState();
     const [clear, setClear] = useState(false);
 
     const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
 
     let titleWrite = $("input[name=title]#pro-title").val();
     const [slugManage, setSlugManage] = useState(true);
-    const [formData, setFormData] = useState(defaultValuePro ? defaultValuePro : {
-        status: "active",
-        content: '',
-        slug: ''
-    });
-
+    const [formData, setFormData] = useState(defaultValuePro);
 
 
     useEffect(() => {
@@ -75,11 +74,6 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
         // setPriceData(stateData);
     }, [])
 
-
-
-    const HandleFile = (e) => {
-        setFile(e.target.files[0]);
-    }
 
     const handleInput = (e) => {
         setChangeCheck(true)
@@ -154,88 +148,7 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
         }
     }
 
-    const GetAllCategory = async () => {
-        setLoading(true)
-        await Request.GetAllCategory()
-            .then(res => {
-                setClear(true)
-                setLoading(false)
-                setCategoryData(res.data.data)
-            })
-            .catch(err => {
-                if (err.response.data.errors) {
-                    ErroHandle(err.response.data.errors);
-                } else {
-                    $(".tab-content .tab-pane").html("<div class='fail-load'><i class='bx bxs-smiley-sad'></i><p style='text-align: center ;margin : 10px 0 0 '>خطا در ارتباط با دیتابیس</p><p>مجددا تلاش کنید</p><div>");
-                    ErrorToast("خطای غیر منتظره ای رخ داده است")
-                }
 
-            })
-    }
-
-
-    const HandleForm = (e) => {
-        let formNew = {...formData};
-        let formFile = new FormData();
-
-        // forms = allFiles;
-
-        let name = titleWrite;
-        let slug = slugManage ? titleWrite : $("input.slugest").val();
-
-        formFile.append("title", title)
-        formFile.append("slug", slug)
-        // console.log("vvvv"   , allFiles)
-        allFiles.map((items , index) => {
-            formFile.append("image_"+index, items);
-
-        })
-
-        let status = localStorage.getItem("status") ? localStorage.getItem("status") : formNew.status;
-        formFile.append("status", status);
-
-        if (slugManage == false) {
-            formFile.append("slug", formNew.title);
-
-        } else {
-        }
-
-        if (formData.slug == "") {
-            formFile.append("slug", formNew.title);
-        }
-        formFile.append("content", contentNew);
-
-        let normal = NoralizeFetures(priceData);
-        let checkValueFetures = CheckTextFetures(normal)
-
-
-        if (checkValueFetures) {
-            formFile.append("attributes", JSON.stringify(normal.attributes));
-            formFile.append("features", JSON.stringify(normal.fetures));
-            formFile.append("category_list", JSON.stringify(idSelCat));
-            formFile.append("tag_list", JSON.stringify(chipsetTagsChange ? chipsetTags : []));
-            metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
-            let metadatas = JSON.stringify(metaData);
-            formFile.append("metadata", metadatas);
-            if (formData.title && formData.title !== '') {
-                $("input[name=title]#pro-title").removeClass("is-invalid");
-                CreateNewProduct(formFile);
-            } else {
-                $("input[name=title]#pro-title").addClass("is-invalid");
-                error("لطفا فیلد عنوان محصول را پر کنید !")
-            }
-        } else {
-            ErrorToast("مقدار ویژگی الزامی است زمانی که ردیف ویژگی موجود است.")
-        }
-    }
-
-    const HandleMetaData = (e) => {
-        setEdit(true)
-        setMetaData({
-            ...metaData,
-            [e.target.name]: e.target.value
-        })
-    }
     const HandlerBigSwitcher = (states) => {
         setEdit(true)
         localStorage.setItem("robots", states)
@@ -247,105 +160,150 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
     }
 
 
-    let MakeNewName = (name) => {
-        const min = 1;
-        const max = 1000;
-        const rand = Number(min + Math.random() * (max - min)).toFixed(0);
-        return name + rand + "_کپی";
+    const onClose = (e) => {
+        e.preventDefault();
+        helperFunction.handleClose();
     }
 
+    console.log("_______", allFiles)
 
-    const handleSwither = (e, state, name) => {
-        switch (name) {
-            case "showState" :
-                componentHandler.handleSwitchShowState(e, state, setEdit);
-                return true;
-            default :
-                return true;
+    const onSubmit = (e) => {
+        e.preventDefault();
+        let formDataClone = {...formData};
+        let productFormData = new FormData();
+        let title = $("input[name=title]").val();
+        let slug = slugManage ? titleWrite : $("input.slugest").val();
+        productFormData.append("title", title)
+        productFormData.append("slug", slug)
+        allFiles.map((items, index) => {
+
+            productFormData.append("image_" + index, items);
+
+        })
+
+        let status = localStorage.getItem("status") ? localStorage.getItem("status") : formDataClone.status;
+        productFormData.append("status", status);
+
+        if (slugManage == false) {
+            productFormData.append("slug", formDataClone.title);
+
+        } else {
         }
-    }
 
-    let HandleMakeName = () => {
-        if (formData) {
-            if (types == "duplicate") {
-                return MakeNewName(formData.title);
+        if (formData.slug == "") {
+            productFormData.append("slug", formDataClone.title);
+        }
+        productFormData.append("content", contentNew);
+
+        let normal = NoralizeFetures(priceData);
+        let checkValueFetures = CheckTextFetures(normal)
+
+
+        if (checkValueFetures) {
+            productFormData.append("attributes", JSON.stringify(normal.attributes));
+            productFormData.append("features", JSON.stringify(normal.fetures));
+            productFormData.append("category_list", JSON.stringify(idSelCat));
+            productFormData.append("tag_list", JSON.stringify(formData.tag_list));
+            productFormData.append("_token", TOKEN);
+            productFormData.append("id", formDataClone.id);
+            metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
+            productFormData.append("metadata", metaData);
+            if (formDataClone.title && formDataClone.title !== '') {
+
+                $("input[name=title]#pro-title").removeClass("is-invalid");
+
+                swalAccept("ویرایش محصول").then(resSwal => {
+                    if (resSwal.value) {
+                        productApi._updateData = productFormData;
+                        productApi.update(productFormData).then(res => {
+                            successSwal("با موفقیت ویرایش شد !");
+                            result(res);
+                        })
+                    }
+                })
             } else {
-                return formData.title;
+                $("input[name=title]#pro-title").addClass("is-invalid");
+                error("لطفا فیلد عنوان محصول را پر کنید !")
             }
         } else {
-            formData.slug = formData.title;
-            return formData.title;
+            ErrorToast("مقدار ویژگی الزامی است زمانی که ردیف ویژگی موجود است.")
         }
     }
 
-
-
-
-
-
-
-
-    const onClose = () => {
-
+    const editorData = () => {
     }
 
-    const onSubmit = () => {
-
+    const handleInputs = (e) => {
+        let formDataClone = {...formData};
+        formDataClone[e.target.name] = e.target.value;
+        setFormData(formDataClone);
     }
 
-    const editorData = () => {}
+    const descriptionTagChange = (tagList) => {
+        let productFormClone = {...formData};
+        productFormClone.tag_list = tagList;
+        setFormData(productFormClone);
+    }
 
-    const handleInputs = () => {}
+    const seoTagChange = (tagList) => {
+        let metaDataClone = {...metaData};
+        metaDataClone.tag_list = tagList;
+        setMetaData(metaDataClone);
+    }
 
-    const tagChange = () => {}
+    const fileChange = () => {
+    }
 
-    const fileChange = () => {}
-
-    const handleMetaData = () => {}
+    const handleMetaData = (e) => {
+        setEdit(true)
+        setMetaData({
+            ...metaData,
+            [e.target.name]: e.target.value
+        })
+    }
 
 
     const categoryOnChange = (categories) => {
         setEdit(true)
-        let priceDataClone = {...priceData};
+        let formDataClone = {...formData};
         let categorySelected = [];
         categories.map((idMap) => {
             categorySelected.push(parseInt(idMap.id));
         })
-        priceDataClone.category_list = categorySelected;
-        setPriceData(priceDataClone);
+        formDataClone.category_list = categorySelected;
+        setFormData(formDataClone);
     }
 
 
     const editorDataFunc = (data) => {
 
     }
+
+
     return (
         <>
             <div id={"category_add_pop_base"}>
 
-                <ProductParentForm
-                    actionType={"edit"}
-                    edit={edit}
-                    // categoryOnChange={}
-                    checkChange={setChangeCheck}
-                    defaultValuePro={defaultValuePro} // this data required for edit
-                    tagChange={tagChange}
-                    onChangeInput={handleInputs}
-                    editorData={editorData}
-                    fileChange={fileChange}
-                    editorDataFunc={editorDataFunc}
-                    handleMetaData={handleMetaData}
-                />
-
-
+                <FilesShopContext.Provider value={{allFiles, setAllFiles}}>
+                    <ProductParentForm
+                        actionType={"edit"}
+                        edit={edit}
+                        categoryOnChange={categoryOnChange}
+                        checkChange={setChangeCheck}
+                        defaultValuePro={defaultValuePro} // this data required for edit
+                        tagChange={seoTagChange}
+                        onChangeInput={handleInputs}
+                        editorData={editorData}
+                        handleTagDescription={descriptionTagChange}
+                        fileChange={fileChange}
+                        handleAddChip={handleAddChip}
+                        editorDataFunc={editorDataFunc}
+                        handleMetaData={handleMetaData}
+                    />
+                </FilesShopContext.Provider>
                 <div className={"col-12 bottom-footer"}>
-
-                    <Footer actionType={"edit"} editStatus={edit} onCancel={onClose} onClicked={onSubmit} />
-
+                    <Footer actionType={"edit"} editStatus={edit}  onCancel={onClose} onClicked={onSubmit}/>
                 </div>
-
-
-
             </div>
 
             <div id={"back-loaderedss"}>
