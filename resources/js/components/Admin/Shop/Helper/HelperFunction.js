@@ -13,7 +13,7 @@ export default class HelperFunction {
     }
     handleClose() {
         $("span.checkboxeds").removeClass("active");
-        ReactDOM.render('', document.getElementById("add-datas"));
+        ReactDOM.render('', document.getElementById("add-product"));
         this.HandleRemoveLocal()
     }
 

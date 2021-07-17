@@ -52,12 +52,12 @@ const PageEdit = ({actionResult, pageData, actionType, allPageData}) => {
             } else {
                 let pageFormClone = {...pageForm};
                 pageFormClone.title = e.target.value;
-                setPageForm(PageFormClone);
+                setPageForm(pageFormClone);
 
             }
         } else {
-            let PageFormClone = {...PageForm};
-            PageFormClone.slug = e.target.value;
+            let pageFormClone = {...PageForm};
+            pageFormClone.slug = e.target.value;
             setPageForm(pageFormClone);
         }
     }
@@ -96,7 +96,7 @@ const PageEdit = ({actionResult, pageData, actionType, allPageData}) => {
         let pageFormClone = {...pageForm};
         let metaDataClone = {...metaData};
         let pageFormData = new FormData();
-        let titleWrite = $("input[name=name]").val();
+        let titleWrite = $("input[name=title]").val();
         pageFormData.append("image", file.file ? file.file : '');
         pageFormData.append("content", editorContent);
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : pageFormClone.is_menu;
@@ -123,7 +123,7 @@ const PageEdit = ({actionResult, pageData, actionType, allPageData}) => {
         setMetaData(metaDataClone)
         pageFormData.append("metadata", JSON.stringify(metaDataClone));
         if (name && name !== '') {
-            $("input[name=name]").removeClass("is-invalid");
+            $("input[name=title]").removeClass("is-invalid");
             swalAccept(`ویرایش صفحه `).then(resSwal => {
                 if (resSwal.value) {
                     pageApi.edit(pageFormData).then(res => {

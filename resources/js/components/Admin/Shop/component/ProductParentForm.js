@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer, useState} from "react";
+import React, {useContext, useEffect, useReducer, useState} from "react";
 import {Tab} from "./HOC/Tab";
 import {Switcher} from "../../../HOC/Switch";
 import {FilesShopContext} from "../Helper/Context";
@@ -29,15 +29,15 @@ const ProductParentForm = ({
                                defaultValuePro, // this data required for edit
                                tagChange,
                                onChangeInput,
-                               // categoryOnChange,
+                               categoryOnChange,
                                editorData,
                                editorDataFunc,
-                               handleAddChip,
                                checkChange,
                                fileChange,
+                               handleTagDescription,
+                               handleTagSeo,
                                handleMetaData
                            }) => {
-
 
 
     let helperFunction = new HelperFunction();
@@ -46,8 +46,8 @@ const ProductParentForm = ({
         getCategoryList();
     }, [])
 
-    const [allFiles, setAllFiles] = useState([]);
-    const [slugManage, setSlugManage] = useState(false);
+    const {allFiles, setAllFiles} = useContext(FilesShopContext);
+    const [slugManage, setSlugManage] = useState(true);
     const [categoryData, setCategoryData] = useState([]);
     const [chipset, setChipset] = useState([]);
 
@@ -73,6 +73,16 @@ const ProductParentForm = ({
     }
 
 
+    const handleAddChip = (item) => {
+        checkChange(true)
+        let chipsets = [...chipset];
+        if (item === "") {
+        } else {
+            chipsets.push(item);
+            setChipset(chipsets);
+            handleTagDescription(chipsets);
+        }
+    }
 
     let defaultCol = {
         [counter.num]:
@@ -93,10 +103,6 @@ const ProductParentForm = ({
     };
 
 
-
-
-
-
     let normalHeadTitle = defaultValuePro ? NormalAttrHead(defaultValuePro) : {
         color: [],
         text: []
@@ -111,7 +117,7 @@ const ProductParentForm = ({
 
 
     const titleDefaultValue = () => {
-        console.log("vvvvvvv" , defaultValuePro , actionType);
+        console.log("vvvvvvv", defaultValuePro, actionType);
 
         if (actionType === "duplicate") {
             return handleMakeName();
@@ -301,7 +307,7 @@ const ProductParentForm = ({
 
     const HandleAddNew = (e) => {
         e.preventDefault();
-        console.log(defaultValuePro , "======" , NoralizeFetures(priceData) ,"/////", priceData)
+        console.log(defaultValuePro, "======", NoralizeFetures(priceData), "/////", priceData)
         let checkedFeatures = NoralizeFetures(priceData).fetures.length;
         if (checkedFeatures > 0) {
             checkChange(true)
@@ -463,7 +469,6 @@ const ProductParentForm = ({
     }
 
 
-
     const HandleFetureText = (e, index, item) => {
         e.preventDefault();
         checkChange(true)
@@ -526,7 +531,6 @@ const ProductParentForm = ({
     }
 
 
-
     const removeChipset = (e, name) => {
         e.preventDefault();
         checkChange(true)
@@ -535,8 +539,15 @@ const ProductParentForm = ({
         if (index !== -1) {
             tagList.splice(index, 1);
             setChipset(tagList);
-            tagChange(tagList);
+            handleTagDescription(tagList);
         }
+    }
+
+
+    const handleSwitchAddress = (event, status) => {
+        event.preventDefault();
+        checkChange(true);
+        setSlugManage(status);
     }
 
 
@@ -593,37 +604,36 @@ const ProductParentForm = ({
                     <div className={"row"} style={{padding: '20px'}}>
                         <div className="col-md-6" id={"inAddings"}>
                             <label>دسته بندی</label>
-                            {/*<MultiSelected name={"categories"} data={categoryData ? categoryData : []}*/}
-                            {/*               defSelected={dataUpdateParse.categories ? dataUpdateParse.categories : []}*/}
-                            {/*               selected={item => categoryOnChange(item)}*/}
-                            {/*               defaultsel={dataUpdateParse ? dataUpdateParse.categories : []}*/}
-                            {/*/>*/}
+                            <MultiSelected name={"categories"} data={categoryData ? categoryData : []}
+                                           defSelected={defaultValuePro.category_list ? defaultValuePro.categories : []}
+                                           selected={item => categoryOnChange(item)}
+                            />
                         </div>
 
-                            <div className={"col-lg-6 col-md-12 col-sm-12"} style={{padding: '0px 30px'}}>
-                                <label htmlFor={"title"}>کلمات کلیدی صفحه ( تایپ کنید و Enter بزنید تا اضافه شود.
-                                    )</label>
-                                <div className={"row"}>
+                        <div className={"col-lg-6 col-md-12 col-sm-12"} style={{padding: '0px 30px'}}>
+                            <label htmlFor={"title"}>کلمات کلیدی صفحه ( تایپ کنید و Enter بزنید تا اضافه شود.
+                                )</label>
+                            <div className={"row"}>
 
-                                    <div className={"col-12"} id={"chip-box"} style={{minHeight: 50}}>
-                                        <div className={"row"}>
+                                <div className={"col-12"} id={"chip-box"} style={{minHeight: 50}}>
+                                    <div className={"row"}>
 
-                                            <div className={"col-sm-12 col-md-5 col-lg-5"}>
-                                                <ChipsetHandler
-                                                    onChange={handleAddChip}/>
-                                            </div>
-
-                                            {chipset.map((item, index) => (
-                                                _renderChipsetContent(index, item)
-                                            ))}
-
-
+                                        <div className={"col-sm-12 col-md-5 col-lg-5"}>
+                                            <ChipsetHandler
+                                                onChange={handleAddChip}/>
                                         </div>
 
-                                    </div>
-                                </div>
+                                        {chipset.map((item, index) => (
+                                            _renderChipsetContent(index, item)
+                                        ))}
 
+
+                                    </div>
+
+                                </div>
                             </div>
+
+                        </div>
 
                         <div className={"col-12"}>
                             <MyEditor editorDataFunc={editorData}
@@ -789,7 +799,9 @@ const ProductParentForm = ({
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>نوع آدرس</label>
 
-                                    <Switcher defaultState={true} status={state => handleAddress(state)}
+
+                                    <Switcher defaultState={true}
+                                              handleSwitchStatus={handleSwitchAddress}
                                               name={"AddressType"}
                                               valueActive={"خودکار"} valueDeActive={"دستی"}/>
                                 </fieldset>
@@ -930,9 +942,9 @@ const ProductParentForm = ({
         if (slugManage) {
             let slugText;
             if (actionType === "duplicate") {
-                slugText = helperFunction.contentFormData(edit ? tit : handleMakeName(categoryData.name));
+                slugText = helperFunction.contentFormData(edit || checkChange ? tit : handleMakeName(categoryData.name));
             } else if (actionType === "edit") {
-                slugText = helperFunction.contentFormData(edit ? tit : categoryData.name);
+                slugText = helperFunction.contentFormData(edit || checkChange ? tit : categoryData.name);
             } else {
                 console.log("svsdvsdv", tit)
                 slugText = tit !== '' ? helperFunction.contentFormData(tit) : '';
