@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import "swiper/swiper-bundle.css";
-import './_shared/style.scss';
+import './_Shared/style.scss';
 import $ from "jquery";
 
 
@@ -16,6 +16,7 @@ export const MultiSelected = ({
                               }) => {
 
 
+    console.log(data , "======")
     const [check, setCheck] = useState([])
 
 

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Loading from "../../../../Admin/_Micro/Loading";
 import {Swiper, SwiperSlide} from 'swiper/react';
 import "swiper/swiper-bundle.css";
-import './_shared/style.scss';
+import './_Shared/style.scss';
 
 
 export const MultiSelectedFilterSwitcher = ({lett , dataRes, selected: pushSelected}) => {

@@ -289,5 +289,5 @@ export const PageList = (props) => {
 let elements = document.getElementById("page_box");
 if (elements) {
     const props = Object.assign({}, elements.dataset)
-    ReactDom.render(<PageList {...props} />, elements);
+    // ReactDom.render(<PageList {...props} />, elements);
 }

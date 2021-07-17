@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {Footer} from "./Footer";
 import {ContentFormParent} from "./ContentFormParent";
-import HelperFunction from './../Helper/HelperFunction';
 import ContentApi from "../Api/ContentApi";
 import $ from "jquery";
 import {error, successSwal, swalAccept} from "../../../../helper";
