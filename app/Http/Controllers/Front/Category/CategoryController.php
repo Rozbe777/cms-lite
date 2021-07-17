@@ -6,6 +6,7 @@ use App\Classes\Responses\Front\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Repositories\Front\FrontCategoryRepository;
+use const App\Models\SHOP_MODULE_ID;
 
 class CategoryController extends Controller
 {
@@ -21,8 +22,11 @@ class CategoryController extends Controller
     public function search($slug = null)
     {
         $category = $this->repository->search($slug);
-        $contents = $category->contents()->orderByDesc('id')->paginate(config('view.pagination'));
         $title = $category->name;
+
+        $contents = $category->contents()->orderByDesc('id')->paginate(config('view.pagination'));
         return page('category', compact('category', 'contents', 'title'));
+
+
     }
 }

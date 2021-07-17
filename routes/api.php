@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\Profile\ProfileController;
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\MobileRegisterController;
 use App\Http\Controllers\Api\V1\Auth\PasswordController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Front\Shop\ProductController;
 use Illuminate\Support\Facades\Route;
+
 
 
 Route::prefix('v1/')->name('api.')->group(function () {
@@ -19,6 +21,9 @@ Route::prefix('v1/')->name('api.')->group(function () {
     });
 
     Route::prefix('auth/')->name('auth.')->group(function () {
+
+        Route::post('login', [LoginController::class, 'login'])->name('login');
+
         Route::post('register', [RegisterController::class, 'store'])->name('store');
         Route::prefix('password')->group(function () {
             Route::post('token', [PasswordController::class, 'passwordToken'])->name('password.token');
@@ -36,8 +41,12 @@ Route::prefix('v1/')->name('api.')->group(function () {
         Route::get('products',[ProductController::class,'getProduct'])->name('products');
         Route::get('search',[ProductController::class,'search'])->name('search');
     });
-});
 
+    Route::middleware('auth:api')->group(function (){
+        Route::post('profile',[ProfileController::class,'update'])->name('edit.profile');
+        Route::post('update/address',[ProfileController::class,'address'])->name('edit.address');
+    });
+});
 
 
 

@@ -50,8 +50,6 @@ export const CategoryList = ({token}) => {
     }, [])
 
 
-
-
     if (checkBox.length > 0) {
         $("#totalAction").addClass("activeAction");
         $("#breadCrumb").removeClass("activeCrumb");
@@ -60,13 +58,11 @@ export const CategoryList = ({token}) => {
         $("#breadCrumb").addClass("activeCrumb");
     }
 
-
-
-    const multiCategoryDelete = (e) => {
+    const multiCategoryDelete = (e , singleId) => {
         e.preventDefault();
-        categoryApi.categoryIds = checkBox;
+        categoryApi.categoryIds = singleId ? [singleId] : checkBox;
         // show swal for get accept delete
-        swalAccept(`حذف گروهی از دسته بندی ها`).then(resSwal => {
+        swalAccept(`حذف از دسته بندی ها`).then(resSwal => {
             if (resSwal.value) {
                 categoryApi.delete().then(res => {
                     successSwal("با موفقیت حذف شدند !");
@@ -93,7 +89,7 @@ export const CategoryList = ({token}) => {
 
     const onAddCategory = (e) => {
         e.preventDefault();
-        ReactDom.render(<CategoryAdd actionResult={handleReload} categoryData={categoryData}/>, document.getElementById("add-datas"))
+        ReactDom.render(<CategoryAdd actionResult={handleReload}  categoryData={''} allCategoryData={categoryData}/>, document.getElementById("add-datas"))
     }
 
     if (checkBox.length > 0) {
@@ -127,7 +123,7 @@ export const CategoryList = ({token}) => {
 
 
                 <div id={"add-datas"}></div>
-                <BottomNavigationBar userData={categoryData} deleteAll={e => handleDeleteGroup(e)}/>
+                <BottomNavigationBar userData={categoryData} deleteAll={e => multiCategoryDelete(e)}/>
 
             </div>
 
@@ -146,6 +142,7 @@ export const CategoryList = ({token}) => {
                     <TreeShowCategory
                         categoryData={categoryData}
                         loading={loading}
+                        multiCategoryDelete={multiCategoryDelete}
                         actionResult={handleReload}
                     />
                 )

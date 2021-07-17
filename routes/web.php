@@ -21,7 +21,6 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FileManager\ImageController;
 use App\Http\Controllers\Front\Cart\CartController;
 use App\Http\Controllers\Front\Cart\CheckProductListController;
-use App\Http\Controllers\Front\Cart\PreCheckoutController;
 use App\Http\Controllers\Front\InvoiceController;
 use App\Http\Controllers\Front\Order\OrderController;
 use App\Http\Controllers\Front\Page\FrontPageController;
@@ -41,7 +40,7 @@ use Morilog\Jalali\Jalalian;
 */
 
 Route::get('/test', function () {
-    return (new \App\Classes\Themes\Component())->menu();
+ return \route('image.show','asdsa.png');
 });
 
 Route::get('test2', function (\Illuminate\Http\Request $request) {
@@ -57,7 +56,7 @@ Route::get('csrf', function () {
 Route::get('/login', [LoginController::class, 'show'])->name('show.login');
 Route::post('auth/login', [LoginController::class, 'login'])->name('auth.login');
 Route::get('logout', [LoginController::class, 'logout'])->name('auth.logout');
-
+Route::get('image/{name}', [ImageController::class, 'show'])->name('image.show');
 Route::prefix('mobile')->group(function () {
     Route::get('/register', [MobileRegisterController::class, 'show'])->name('show.mobile.form');
     Route::post('/register', [MobileRegisterController::class, 'register'])->name('mobile.register');
@@ -158,11 +157,6 @@ Route::middleware('auth')->group(function () {
     Route::post('products/update', [ProductController::class, 'update'])->name('products.update');
     Route::delete('products/multi/destroy', [ProductController::class, 'multipleDestroy'])->name('products.multipleDestroy');
 
-    //-------------------------------Images-----------------------------
-    Route::get('image/{name}', [ImageController::class, 'show']);
-
-    Route::get('checkout', [PreCheckoutController::class, 'index'])->name('checkout.index');
-
     //-------------------------------Transfer-----------------------------
     Route::get('transfer/index', [TransferController::class, 'blade'])->name('transfers.blade');
     Route::prefix('transfers/')->group(function () {
@@ -192,6 +186,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('multi/destroy', [AddressController::class, 'multipleDestroy'])->name('addresses.multipleDestroy');
     });
 });
+
+
 //------------------------------Order-------------------------------
 Route::get('order', [OrderController::class, 'blade'])->name('orders.blade');
 Route::get('orders/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
@@ -219,8 +215,11 @@ Route::name('front.')->group(function () {
         Route::get('slug', [CheckProductListController::class, 'getBySlug'])->name('checkout.blade');
         Route::get('/products', [CheckProductListController::class, 'show'])->name('checkout.show');
     });
+    Route::prefix('shop/')->name('shop.')->group(function () {
 
-    Route::get('product/{slug}', [\App\Http\Controllers\Front\Shop\ProductController::class, 'show'])->name('product.show');
+        Route::get('product/{slug}', [\App\Http\Controllers\Front\Shop\ProductController::class, 'show'])->name('product.show');
+        Route::get('category/{slug}', [\App\Http\Controllers\Front\Shop\CategoryController::class, 'show'])->name('category');
+    });
 
     //------------------------------fastAuth-------------------------------
     Route::get('front/register', [\App\Http\Controllers\Front\FastAuth\RegisterController::class, 'show'])->name('fastAuth.index');

@@ -31,7 +31,7 @@ export default class CategoryApi {
             })
         } catch (error) {
             return new Promise(reject => {
-                resolve(error);
+                reject(error);
             })
         }
     }
@@ -52,5 +52,29 @@ export default class CategoryApi {
         }
     }
 
+    async create(data) {
+        let response = await Request.AddNewCategory(data);
+        try {
+            return new Promise(resolve => {
+                resolve(response)
+            })
+        } catch (e) {
+            return new Promise(reject => {
+                reject(e);
+            })
+        }
+    }
+    async edit(data){
+        let response = await Request.UpdateDataCategory(data);
+        try{
+            return new Promise(resolve => {
+                return resolve(response)
+            })
+        }catch (e) {
+            return new Promise((reject => {
+                return reject(e)
+            }))
+        }
+    }
 
 }

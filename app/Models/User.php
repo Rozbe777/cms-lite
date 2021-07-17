@@ -47,7 +47,7 @@ class User extends Authenticatable implements iUser
     /**
      * @var array|string[]
      */
-    protected $appends = ['fullname', 'persianStatus', 'userRole', 'userRoleName'];
+    protected $appends = ['fullname', 'persianStatus', 'userRole', 'userRoleName','image_url'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -181,5 +181,12 @@ class User extends Authenticatable implements iUser
         if (empty($role))
             return __('message.errors.403');
         return $role->name;
+    }
+
+    public function getImageUrlAttribute()
+    {
+        if (!empty($this->attributes['image']))
+            return route('image.show', $this->attributes['image']);
+        return null;
     }
 }

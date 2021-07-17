@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {MultiOption} from "./../../Shop/ProductManager/HOC/MultiOption";
-import {MultiSelected} from "./../../Shop/ProductManager/HOC/MultiSelected";
+import {MultiOption} from "./../../Shop/component/HOC/MultiOption";
+import {MultiSelected} from "./../../Shop/component/HOC/MultiSelected";
 import $ from 'jquery';
 import {ErroHandle, error as ErrorToast} from "../../../../helper";
 import ContentsApi from "../Api/ContentApi";

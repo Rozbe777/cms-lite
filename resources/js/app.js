@@ -27,15 +27,23 @@ require("./components/Admin/UserList/UserList");
 
 
 require("./components/Admin/Category/Component/CategoryAdd");
-require("./components/Admin/Category/Component/CategoryFormParent");
 require("./components/Admin/Category/Component/CategoryList");
 require("./components/Admin/Category/Component/CategoryDuplicate");
 require("./components/Admin/Category/Component/CategoryEdit");
 
 
+require('./components/Admin/Page/Component/PageList')
+require('./components/Admin/Page/Component/PageAdd')
+require('./components/Admin/Page/Component/PageEdit')
+require('./components/Admin/Page/Component/PageDuplicate')
 
-require("./components/Admin/Page/PageAdd");
-require("./components/Admin/Page/PageList");
+
+require('./components/Admin/Shop/component/ProductAdd')
+require('./components/Admin/Shop/component/ProductList')
+require('./components/Admin/Shop/component/ProductDuplicate')
+require('./components/Admin/Shop/component/ProductEdit')
+
+
 require("./components/Admin/Content/Component/ContentEdit");
 require("./components/Admin/Content/Component/ContentAdd");
 require("./components/Admin/Content/Component/ContentDuplicate");

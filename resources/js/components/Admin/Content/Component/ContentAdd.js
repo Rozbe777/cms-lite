@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {Footer} from "./Footer";
 import {ContentFormParent} from "./ContentFormParent";
-import HelperFunction from './../Helper/HelperFunction';
 import ContentApi from "../Api/ContentApi";
 import $ from "jquery";
 import {error, successSwal, swalAccept} from "../../../../helper";
@@ -61,7 +60,6 @@ const ContentAdd = ({actionResult}) => {
     }
 
     const tagChange = (tagList) => {
-        console.log(tagList);
         let contentFormDataClone = {...contentForm};
         contentFormDataClone.tag_list = tagList;
         setContentForm(contentFormDataClone);
@@ -126,7 +124,7 @@ const ContentAdd = ({actionResult}) => {
             })
         } else {
             $("input[name=titleContent]").addClass("is-invalid");
-            error("لطفا فیلد عنوان صفحه را پر کنید !")
+            error("لطفا فیلد عنوان محتوا را پر کنید !")
         }
 
     }

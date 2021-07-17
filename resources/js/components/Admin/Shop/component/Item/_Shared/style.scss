@@ -1,0 +1,172 @@
+@mixin transition {
+    transition: 0.5s all ease-in-out;
+    -webkit-transition: 0.5s all ease-in-out;
+    -moz-transition: 0.5s all ease-in-out;
+    -o-transition: 0.5s all ease-in-out;
+}
+.item-product {
+    width: 100%;
+    height: 320px;
+    background: #fff;
+    position: relative;
+    margin-bottom: 15px;
+    overflow: hidden;
+    border-radius: 5px !important;
+    box-shadow: 0 0 3px 1px rgb(0 0 0 / 16%);
+    @include transition;
+    &:hover .back-show-detail-pro{
+        opacity: 1;
+        transform: translate(0px, 0px);
+    }
+    &.activeCheck{
+        @include transition;
+        box-shadow: 0 0 0 3px #3ecf8e, 0 10px 30px rgb(50 50 93 / 12%), 0 -1px 4px rgb(0 0 0 / 6%);
+    }
+
+    .header-box-pro{
+        height: 30px;
+        width: 30px;
+        z-index: 999;
+        position: absolute;
+        top: 10px;
+        right : 10px;
+    }
+    .image-src{
+        position: relative;
+        width: 100%;
+        height: 240px;
+        overflow: hidden;
+
+        img{
+            width: 100%;
+            height : 100%;
+            object-fit: cover;
+        }
+    }
+
+    .back-show-detail-pro{
+        background: rgba(50,50,93,0.9);
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transform: translate(0px, 30px);
+        position: absolute;
+        z-index: 99;
+        border-radius: 5px;
+        top: 0px;
+        right: 0px;
+        @include transition;
+        .manage-pro{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            bottom : 0px;
+            right : 0px;
+            margin: auto;
+            width: 140px;
+            height: 90px;
+            a:first-child{
+                cursor: pointer;
+                background: rgb(255, 255, 255);
+                color: rgb(0, 0, 0);
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            a:last-child{
+                cursor: pointer;
+                color: #fff;
+                width: 100%;
+            }
+        }
+
+        .footer-manage-pro{
+            width: 100%;
+            height: 40px;
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            color : #fff;
+            i{
+                float: left;
+                margin-left: 15px;
+                cursor: pointer;
+                font-size: 24px;
+            }
+            i#right{
+                float: right !important;
+                margin-right: 15px;
+                cursor: pointer;
+                font-size: 24px;
+            }
+        }
+
+
+
+    }
+
+
+    .image {
+        width: 100%;
+        height: 240px;
+        position: relative;
+        background: #f9f9f9;
+        border-radius: 5px 5px 0 0px;
+        img.default {
+            width: 50px;
+            height: 50px;
+            border-radius: 100%;
+            overflow: hidden;
+            position: absolute;
+            left: 0px;
+            right: 0px;
+            top: 0px;
+            bottom: 0px;
+            margin: auto;
+            opacity: 0.2;
+        }
+    }
+
+    ul {
+        padding: 0px;
+        margin: 0px;
+        width: 100%;
+        list-style: none;
+        height: 70px;
+
+        li {
+            width: 100%;
+            height: 40px;
+            float: left;
+            border-bottom: 1px solid #e7e7e7;
+
+            p#title {
+                width: 100%;
+                height: 100%;
+                float: right;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                font-size: 13px;
+                padding: 0px 11px;
+                margin: 0px;
+                line-height: 2.9;
+                color: #000;
+            }
+
+            span:first-child {
+                float: right;
+                margin-right: 10px;
+                font-size: 11px;
+                margin-top: 11px;
+            }
+
+            span:last-child {
+                float: left;
+                margin-left: 10px;
+                font-size: 11px;
+                margin-top: 11px;
+            }
+        }
+    }
+}
+

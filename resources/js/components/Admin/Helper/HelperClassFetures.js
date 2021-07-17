@@ -99,7 +99,7 @@ let NormalFet = data => {
         text: [],
         color: []
     }
-    data.map(item => {
+    data.length > 0 ? data.map(item => {
         if(item.color && item.color !== ""){
             out.color.push({
                 id : item.id,
@@ -114,7 +114,7 @@ let NormalFet = data => {
                 title : item.value
             })
         }
-    })
+    }) : '';
     return out;
 }
 
@@ -125,24 +125,27 @@ export const NormalAttrHead = data => {
         color : [],
     }
     data.attributes.map(item => {
-        item.type_features.map(item => {
-            if(item.color && item.color !== ""){
-                if (!headTitle.color.includes(item.title))
-                {
-                    headTitle.color.push(
-                        item.title,
-                    )
-                }
+        if (item.type_features){
+            item.type_features.map(item => {
+                if(item.color && item.color !== ""){
+                    if (!headTitle.color.includes(item.title))
+                    {
+                        headTitle.color.push(
+                            item.title,
+                        )
+                    }
 
-            }else{
-                if (!headTitle.text.includes(item.title)){
-                    headTitle.text.push(
-                        item.title,
-                    )
-                }
+                }else{
+                    if (!headTitle.text.includes(item.title)){
+                        headTitle.text.push(
+                            item.title,
+                        )
+                    }
 
-            }
-        })
+                }
+            })
+        }
+
     })
 
     return headTitle;
@@ -171,7 +174,7 @@ export const NormalAttrOnePro = (data , types , counter) => {
                     limit: item.limit,
                     count: item.count,
                 },
-                fetures: NormalFet(item.type_features)
+                fetures: NormalFet(item.type_features ? item.type_features : [])
             }
         })
     }

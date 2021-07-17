@@ -19,27 +19,31 @@ export const CategoryFormParent = ({
                                        actionType,
                                        changeCheck,
                                        onChangeInput,
-                                       categoryOnChange,
                                        tagChange,
                                        categoryData,
-                                       categoryDataMange,
                                        editorData,
+                                       allCategory, // this data using to display multioption parernt id
                                        fileChange,
                                        handleMetaData,
-                                       categoryParentId
+                                       categoryParentId,
+                                       edit
                                    }) => {
 
 
+    console.log(categoryData);
     let componentHandler = new ComponentHandler();
     let helperFunction = new HelperFunction();
 
-    const dataUpdateParse = categoryDataMange ? categoryDataMange : '';
+    let nameCategory = $("input#title").val() + "";
+
+    const [editInComponent, setEditInComponent] = useState(false)
+    const dataUpdateParse = categoryData ? categoryData : '';
     const [preImage, setPreImage] = useState({uri: ''});
-    const MetaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
-    const [chipset, setChipset] = useState([]);
+    const metaDataUpdate = dataUpdateParse ? JSON.parse(dataUpdateParse.metadata) : {robots: false};
+
+    const [chipset, setChipset] = useState(metaDataUpdate.tags ? metaDataUpdate.tags : []);
     const [slugManage, setSlugManage] = useState(true);
-    const [loading , setLoading] = useState(false)
-    const [contentForm, setContentForm] = useState({});
+    const [loading, setLoading] = useState(false)
     let default_value = {
         is_menu: 0,
         comment_status: "deactivate",
@@ -48,21 +52,12 @@ export const CategoryFormParent = ({
         slug: ''
     };
     let currentContentData = dataUpdateParse ? dataUpdateParse : default_value;
-    let categorySelctedId = [];
-    dataUpdateParse ? dataUpdateParse.categories.map(item => {
-        categorySelctedId.push(item.id);
-    }) : '';
+
 
     let imageOldUrl = currentContentData ? currentContentData.image : '';
     const [imageGet, setImage] = useState({state: imageOldUrl})
 
     useEffect(() => {
-
-        dataUpdateParse ? dataUpdateParse.tags.map(item => {
-            chipset.push(item.name);
-            setChipset(chipset);
-        }) : '';
-
 
     }, [])
 
@@ -83,7 +78,8 @@ export const CategoryFormParent = ({
 
     const handledelImg = (e) => {
         e.preventDefault();
-        changeCheck(true)
+        changeCheck(true);
+
         let states = {...imageGet};
         states.state = '';
         setImage(states)
@@ -95,6 +91,7 @@ export const CategoryFormParent = ({
     const handleFile = (e) => {
         handlePreShowImage(e)
         changeCheck(true)
+
         let files = e.target.files[0];
         fileChange(files);
         imageGet.state = '';
@@ -113,6 +110,8 @@ export const CategoryFormParent = ({
 
     const handleAddChip = (item) => {
         changeCheck(true)
+
+
         let chipsets = [...chipset];
         if (item === "") {
         } else {
@@ -126,8 +125,11 @@ export const CategoryFormParent = ({
     const removeChipset = (e, name) => {
         e.preventDefault();
         changeCheck(true)
+
+
         let tagList = [...chipset];
         let index = tagList.indexOf(name);
+
         if (index !== -1) {
             tagList.splice(index, 1);
             setChipset(tagList);
@@ -138,20 +140,18 @@ export const CategoryFormParent = ({
     const handleSwitchAddress = (event, status) => {
         event.preventDefault();
         changeCheck(true);
-        setSlugManage(status);
-    }
 
-    const handleChangeTitle = e => {
-        onChangeInput(e);
+
+        setSlugManage(status);
     }
 
 
     function handleMakeName() {
-        let contentName = dataUpdateParse.title;
+        let categoryName = dataUpdateParse.name;
         const min = 1;
         const max = 1000;
         const rand = Number(min + Math.random() * (max - min)).toFixed(0);
-        return contentName + rand + "_کپی";
+        return categoryName + rand + "_کپی";
     }
 
 
@@ -162,6 +162,39 @@ export const CategoryFormParent = ({
             return dataUpdateParse.name;
         } else {
             return '';
+        }
+    }
+
+
+    function _renderSlug() {
+        // check auto or handle slug change
+        let tit = $("input[name=name]").val() + "";
+        console.log(slugManage  , tit , actionType)
+        if (slugManage) {
+            let slugText;
+            if (actionType === "duplicate"){
+                slugText = helperFunction.contentFormData(edit ? tit : handleMakeName(categoryData.name));
+            }else if (actionType === "edit"){
+                slugText = helperFunction.contentFormData(edit ? tit : categoryData.name);
+            }else{
+                console.log("svsdvsdv" , tit)
+                slugText = tit !== '' ? helperFunction.contentFormData(tit) : '';
+
+            }
+            return (
+                <div className={"fucks"}>
+                    {slugText}
+                </div>
+            )
+        } else {
+            // handle change
+            return (
+                <input type={"text"}
+                       defaultValue={categoryData.slug}
+                       onChange={e => onChangeInput(e)}
+                       name={"slug"} id={"title"}
+                       className={"form-control slugest"}/>
+            )
         }
     }
 
@@ -181,7 +214,7 @@ export const CategoryFormParent = ({
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان دسته بندی</label>
                                     <input type={"text"} defaultValue={titleDefaultValue()}
-                                           onChange={e => handleChangeTitle(e)}
+                                           onChange={e => onChangeInput(e)}
                                            name={"name"} id={"title"}
                                            className={"form-control titleCat"}/>
                                 </fieldset>
@@ -189,18 +222,9 @@ export const CategoryFormParent = ({
                             <div className={"col-lg-3 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>دسته بندی پدر</label>
-                                    {!loading ? (
-                                        <SelectOptions parents={parentId ? parentId : dataUpdateParse.parent_id}
-                                                       data={categoryData}
-                                                       onChange={categoryParentId}/>
-                                    ) : (
-                                        <div style={{width : '100%' , height : '50px' , float : 'right' , textAlign : 'center' , justifyContent : 'center' , alignItems : 'center'}}>
-                                            <div className="spinner-border" role="status">
-                                                <span className="sr-only">در حال بارگذاری ...</span>
-                                            </div>
-                                        </div>
-
-                                    )}
+                                    <SelectOptions parents={parentId ? parentId : 0}
+                                                   data={allCategory}
+                                                   onChange={categoryParentId}/>
 
                                 </fieldset>
                             </div>
@@ -251,7 +275,8 @@ export const CategoryFormParent = ({
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>نوع آدرس</label>
 
-                                    <Switcher defaultState={true} handleSwitchStatus={handleSwither}
+                                    <Switcher defaultState={true}
+                                              handleSwitchStatus={handleSwitchAddress}
                                               name={"AddressType"}
                                               valueActive={"خودکار"} valueDeActive={"دستی"}/>
                                 </fieldset>
@@ -275,7 +300,7 @@ export const CategoryFormParent = ({
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان صفحه ( حداکثر 60 حرف )</label>
                                     <input type={"text"}
-                                           defaultValue={MetaDataUpdate ? MetaDataUpdate.title : ''}
+                                           defaultValue={metaDataUpdate ? metaDataUpdate.title : ''}
                                            onChange={handleMetaData} name={"title"} id={"title"}
                                            className={"form-control"}/>
 
@@ -287,7 +312,7 @@ export const CategoryFormParent = ({
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>توضیح صفحه ( حداکثر 155 حرف )</label>
                                     <textarea
-                                        defaultValue={MetaDataUpdate ? MetaDataUpdate.content : ''}
+                                        defaultValue={metaDataUpdate ? metaDataUpdate.content : ''}
                                         type={"text"}
                                         onChange={handleMetaData} name={"content"}
                                         id={"title"}
@@ -304,19 +329,9 @@ export const CategoryFormParent = ({
                                             <div className={"col-sm-12 col-md-4 col-lg-3"}>
                                                 <ChipsetHandler onChange={handleAddChip}/>
                                             </div>
-                                            {chipset.map((item , index) => (
-                                                <div className="chip mr-1" key={index}>
-                                                    <div className="chip-body">
-                                                        <span className="chip-text">{item}</span>
-                                                        <div className="chip-closeable"
-                                                             onClick={e => componentHandler.HandlerBigSwitcher(e , changeCheck)}>
-                                                            <i className="bx bx-x"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            {chipset.map((item, index) => (
+                                                _renderChipset(index, item)
                                             ))}
-
-
                                         </div>
 
                                     </div>
@@ -329,7 +344,7 @@ export const CategoryFormParent = ({
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس داخلی برای انتقال (301 Redirect)</label>
                                     <input type={"text"}
-                                           defaultValue={MetaDataUpdate ? MetaDataUpdate.redirect : ''}
+                                           defaultValue={metaDataUpdate ? metaDataUpdate.redirect : ''}
                                            onChange={handleMetaData} name={"redirect"}
                                            id={"title"} className={"form-control"}/>
 
@@ -340,7 +355,7 @@ export const CategoryFormParent = ({
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>آدرس Canonical</label>
                                     <input
-                                        defaultValue={MetaDataUpdate ? MetaDataUpdate.canonical : ''}
+                                        defaultValue={metaDataUpdate ? metaDataUpdate.canonical : ''}
                                         onChange={handleMetaData}
                                         name={"canonical"} type={"text"}
                                         id={"title"} className={"form-control"}/>
@@ -353,7 +368,7 @@ export const CategoryFormParent = ({
                                 <BigSwitcher status={states => componentHandler.HandlerBigSwitcher(states, changeCheck)}
                                              name={"Robots"}
                                              valueOne={"غیرفعال"} valueTow={"noindex,follow"}
-                                             defaultStatus={MetaDataUpdate ? MetaDataUpdate.robots : false}
+                                             defaultStatus={metaDataUpdate ? metaDataUpdate.robots : false}
                                              default={''}
                                              valueThree={"noindex,unfolow"}/>
                             </div>
@@ -369,27 +384,54 @@ export const CategoryFormParent = ({
         </>
     )
 
-    function _renderSlug() {
-        // check auto or handle slug change
-        let tit = $("input[name=name]").val() + "";
-        if (slugManage) {
-            let slugText = helperFunction.contentFormData(tit);
-            return (
-                <div className={"fucks"}>
-                    {slugText ? slugText : ''}
+
+    function _renderChipset(index, item) {
+        return (
+            <div className="chip mr-1" key={index}>
+                <div className="chip-body">
+                    <span className="chip-text">{item}</span>
+                    <div className="chip-closeable"
+                         onClick={e => removeChipset(e, item)}>
+                        <i className="bx bx-x"></i>
+                    </div>
                 </div>
-            )
-        } else {
-            // handle change
-            return (
-                <input type={"text"}
-                       defaultValue={contentForm.slug}
-                       onChange={e => handleChangeTitle(e)}
-                       name={"slug"} id={"title"}
-                       className={"form-control slugest"}/>
-            )
-        }
+            </div>
+        )
     }
+
+
+    // function _renderSlug() {
+    //     // check auto or handle slug change
+    //     if (slugManage) {
+    //         if (actionType === "duplicate"){
+    //             // let nameCategory ="vsdvsdv";
+    //             console.log("____" , nameCategory)
+    //             let slugText = helperFunction.contentFormData(nameCategory);
+    //             return (
+    //                 <div className={"fucks"}>
+    //                     {slugText ? slugText : ''}
+    //                 </div>
+    //             )
+    //         }else{
+    //             let slugText = helperFunction.contentFormData(categoryData.name);
+    //             return (
+    //                 <div className={"fucks"}>
+    //                     {slugText ? slugText : ''}
+    //                 </div>
+    //             )
+    //         }
+    //
+    //     } else {
+    //         // handle change
+    //         return (
+    //             <input type={"text"}
+    //                    defaultValue={categoryData.slug}
+    //                    onChange={e => onChangeInput(e)}
+    //                    name={"slug"} id={"title"}
+    //                    className={"form-control slugest"}/>
+    //         )
+    //     }
+    // }
 
 
     function _renderImgBox() {

@@ -7,13 +7,16 @@ import ReactDOM from "react-dom";
 import {NormalFilter, NormalCategorise} from './../../Helper/HelperClassFetures'
 import ProductAdd from "../ProductAdd";
 import {Request} from "../../../../services/AdminService/Api";
+import CategoryApi from './../../Category/Api/CategoryApi';
 
-const SearchComponent = ({sort: pushSort}) => {
+const SearchComponent = ({searchResult}) => {
 
+    let categoryApi = new CategoryApi();
     const [size, setSize] = useState(0);
     const [load, setLoad] = useState(false)
     const [categories, setCategories] = useState([]);
     const [sizeCategory, setSizeCategory] = useState(0);
+    const [search , setSearch] = useState({});
     const [sorting, setSorting] = useState({
         filter: []
     });
@@ -24,11 +27,13 @@ const SearchComponent = ({sort: pushSort}) => {
 
     const GetAllCategory = () => {
         setLoad(true)
-        Request.GetAllCategory()
-            .then(res => {
-                setLoad(false)
-                setCategories(res.data.data)
-            })
+
+        categoryApi._moduleId = 2;
+        categoryApi.call().then(response => {
+            setLoad(false)
+            setCategories(response.data.data)
+        })
+
     }
 
 
@@ -39,7 +44,7 @@ const SearchComponent = ({sort: pushSort}) => {
         sortings.entity = normalizes["entity"] ? normalizes["entity"] : false;
         sortings.discount = normalizes["discount"] ? normalizes["discount"] : false;
         setSorting(sortings);
-        pushSort(sortings);
+        searchResult(sortings);
         setSize(select.length)
     }
 
@@ -49,7 +54,7 @@ const SearchComponent = ({sort: pushSort}) => {
         let sortings = {...sorting};
         sortings.categorise = categorise;
         setSorting(sortings);
-        pushSort(sortings);
+        searchResult(sortings);
         setSizeCategory(item.length)
     }
 
@@ -115,7 +120,7 @@ const SearchComponent = ({sort: pushSort}) => {
         let sortings = {...sorting};
         sortings.sort = data;
         setSorting(sortings);
-        pushSort(sortings);
+        searchResult(sortings);
     }
 
     const HandleSearchInput = e => {
@@ -123,7 +128,19 @@ const SearchComponent = ({sort: pushSort}) => {
         let sortings = {...sorting};
         sortings[e.target.name] = e.target.value;
         setSorting(sortings);
-        pushSort(sortings);
+        searchResult(sortings);
+    }
+
+
+    const tagsSearchSelected = (tagData) => {
+        let tagsId = [];
+        tagData.map(tagsDataItem => {
+            tagsId.push(tagsDataItem.id);
+        })
+        let oldSearch = {...search};
+        oldSearch.tags = tagsId;
+        setSearch(oldSearch)
+        searchResult(oldSearch)
     }
 
 
@@ -134,35 +151,14 @@ const SearchComponent = ({sort: pushSort}) => {
                 <div className="users-list-filter col-12" style={{padding: '0px !important'}}>
                     <div className="row col-12" id={"header-card-custom"}>
 
-                        <div className="col-12 col-sm-6 col-lg-3">
-                            <label htmlFor="users-list-verified">جستجو</label>
-                            <input type="text" className="form-control"
-                                   id={"search_input"}
-                                   onChange={e => HandleSearchInput(e)}
-                                   placeholder="جستجو با نام محصول ..." name="search"/>
+                        {_renderSearchInput()}
 
-                        </div>
-                        <div className="col-12 col-sm-6 col-lg-3">
-                            <label
-                                htmlFor="users-list-verified">{size > 0 ? "( " + size + " ) فیلتر اعمال شده " : 'فیلتر'}</label>
+                        {_renderFilter()}
 
-                            <MultiSelectedFilterSwitcher dataRes={dataFilter} selected={sel => handleSelected(sel)}/>
-                        </div>
+                        {_renderSorting()}
 
-                        <div className="col-12 col-sm-6 col-lg-3">
-                            <label htmlFor="users-list-status">مرتب سازی</label>
-                            <MultiOption data={dataSort} selected={item => handleOptionSort(item)}/>
-                        </div>
 
-                        <div className="col-12 col-sm-6 col-lg-3">
-                            <label
-                                htmlFor="users-list-role">{sizeCategory > 0 ? "( " + sizeCategory + " ) دسته بندی انتخاب شده " : 'دسته بندی'}</label>
-                            <MultiSelected data={categories} selected={itemsSel => handleCategory(itemsSel)}/>
-                        </div>
-
-                        {/*<div className="col-6 col-sm-6 col-lg-2" style={{marginBlockStart: 'auto'}}>*/}
-                        {/*    <button type="submit" className="btn btn-primary mr-1 mb-1" id={"search-btn"}>جستجو</button>*/}
-                        {/*</div>*/}
+                        {_renderCategory()}
 
 
                     </div>
@@ -174,28 +170,11 @@ const SearchComponent = ({sort: pushSort}) => {
             <div className={"filter-content-fix"}>
                 <div className="row col-12" id={"header-card-custom"}>
 
-                    <div className="col-12 col-sm-6 col-lg-3" id={"filterPro"}>
-                        <label
-                            htmlFor="users-list-verified">{size > 0 ? "( " + size + " ) فیلتر اعمال شده " : 'فیلتر'}</label>
+                    {_renderFilter()}
 
-                        <MultiSelectedFilterSwitcher let={"bottom"} dataRes={dataFilter} selected={sel => handleSelected(sel)}/>
-                    </div>
+                    {_renderSorting()}
 
-                    <div className="col-12 col-sm-6 col-lg-3" id={"productsSort"}>
-                        <label htmlFor="users-list-status">مرتب سازی</label>
-                        <MultiOption lett={"bottom"} data={dataSort} selected={item => handleOptionSort(item)}/>
-                    </div>
-
-                    <div className="col-12 col-sm-6 col-lg-3">
-                        <label
-                            htmlFor="users-list-role">{sizeCategory > 0 ? "( " + sizeCategory + " ) دسته بندی انتخاب شده " : 'دسته بندی'}</label>
-                        <MultiSelected let={"bottom"} data={categories} selected={itemsSel => handleCategory(itemsSel)}/>
-                    </div>
-
-                    {/*<div className="col-6 col-sm-6 col-lg-2" style={{marginBlockStart: 'auto'}}>*/}
-                    {/*    <button type="submit" className="btn btn-primary mr-1 mb-1" id={"search-btn"}>جستجو</button>*/}
-                    {/*</div>*/}
-
+                    {_renderCategory()}
 
                 </div>
             </div>
@@ -227,6 +206,52 @@ const SearchComponent = ({sort: pushSort}) => {
         </div>
     )
 
+
+    function _renderCategory(){
+        return (
+            <div className="col-12 col-sm-6 col-lg-3">
+                <label
+                    htmlFor="users-list-role">{sizeCategory > 0 ? "( " + sizeCategory + " ) دسته بندی انتخاب شده " : 'دسته بندی'}</label>
+                <MultiSelected name={"tags"} data={categories ? categories : []}
+                               selected={item => tagsSearchSelected(item)}
+
+                />
+            </div>
+        )
+    }
+
+    function _renderSearchInput(){
+        return (
+            <div className="col-12 col-sm-6 col-lg-3">
+                <label htmlFor="users-list-verified">جستجو</label>
+                <input type="text" className="form-control"
+                       id={"search_input"}
+                       onChange={e => HandleSearchInput(e)}
+                       placeholder="جستجو با نام محصول ..." name="search"/>
+
+            </div>
+        )
+    }
+
+    function _renderSorting(){
+        return (
+            <div className="col-12 col-sm-6 col-lg-3">
+                <label htmlFor="users-list-status">مرتب سازی</label>
+                <MultiOption data={dataSort} selected={item => handleOptionSort(item)}/>
+            </div>
+        )
+    }
+
+    function _renderFilter(){
+        return (
+            <div className="col-12 col-sm-6 col-lg-3">
+                <label
+                    htmlFor="users-list-verified">{size > 0 ? "( " + size + " ) فیلتر اعمال شده " : 'فیلتر'}</label>
+
+                <MultiSelectedFilterSwitcher dataRes={dataFilter} selected={sel => handleSelected(sel)}/>
+            </div>
+        )
+    }
 
 }
 

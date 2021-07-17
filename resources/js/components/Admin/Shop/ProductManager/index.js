@@ -330,7 +330,7 @@ const Index = () => {
 
 export default Index;
 
-let eleman = document.getElementById("shop_product_manager");
+let eleman = document.getElementById("shop_product_managers");
 if (eleman) {
     ReactDOM.render(<Index/>, eleman)
 }

@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests\Admin\Page;
 
+use App\Http\Requests\BaseRequest;
 use App\Rules\ImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 use phpDocumentor\Reflection\Types\Nullable;
 
-class CreatePageRequest extends FormRequest
+class CreatePageRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +27,7 @@ class CreatePageRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:255',
+            'title' => 'string|max:255',
             'slug' => 'required|string|max:255',
             'content' => 'string|nullable',
             'status' => 'in:active,pending,deactivate|nullable',

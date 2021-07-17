@@ -30,6 +30,7 @@ class Category extends Model
     protected $appends = [
         "content_count",
         "url",
+        "image_url",
 //        "real_url",
 //        "edit_url",
 //        "delete_url"
@@ -117,6 +118,13 @@ class Category extends Model
     public function getUrlAttribute()
     {
         return route('front.categories', $this->attributes['slug']);
+    }
+
+    public function getImageUrlAttribute()
+    {
+        if (!empty($this->attributes['image']))
+            return route('image.show', $this->attributes['image']);
+        return null;
     }
 
     function scopeModuleId($query, $id)

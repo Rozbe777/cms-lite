@@ -33,6 +33,7 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request)
     {
+
         $remember_me = (!empty($request->remember_me)) ? true : false;
 
         /** $credentials if user email exists */

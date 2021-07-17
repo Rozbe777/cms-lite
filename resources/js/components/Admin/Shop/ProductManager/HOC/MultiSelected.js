@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Request} from "../../../../../services/AdminService/Api";
-import Loading from "../../../../Admin/_Micro/Loading";
 import {Swiper, SwiperSlide} from 'swiper/react';
 import "swiper/swiper-bundle.css";
-import './_shared/style.scss';
+import './_Shared/style.scss';
 import $ from "jquery";
 
 
@@ -18,14 +16,10 @@ export const MultiSelected = ({
                               }) => {
 
 
+    console.log(data , "======")
     const [check, setCheck] = useState([])
 
 
-
-    // const [data, setData] = useState()
-    const [paginateThumbs, setPaginateThumbs] = useState();
-    const [load, setLoad] = useState(false);
-    let selectCheckBox = new Set();
     let interValOptionsss = 0;
 
     useEffect(() => {
@@ -160,7 +154,7 @@ export const MultiSelected = ({
                                        name={item.id}
                                        style={{background: 'green !important'}}
                                        value={item.name} id="checkbox1"/>
-                                <span id={"labels"} htmlFor="checkbox1">{item.name}</span>
+                                <span id={"labels"} className={"labels2"} htmlFor="checkbox1">{item.name}</span>
                             </fieldset>
 
                             {item.childern ? item.childern.length > 0 ? (
@@ -178,7 +172,7 @@ export const MultiSelected = ({
                                                        onChange={e => HandleChange(e, child2.id)}
                                                        name={child2.id}
                                                        value={child2.name} id="checkbox1"/>
-                                                <span id={"labels"} htmlFor="checkbox1">{child2.name}</span>
+                                                <span id={"labels"} className={"labels2"} htmlFor="checkbox1">{child2.name}</span>
                                             </fieldset>
 
                                             {child2.children.length > 0 ? (
@@ -198,7 +192,7 @@ export const MultiSelected = ({
                                                                        name={child3.id}
                                                                        style={{marginRight: '5px', width: '90px'}}
                                                                        value={child3.name} id="checkbox1"/>
-                                                                <span id={"labels"}
+                                                                <span id={"labels"} className={"labels2"}
                                                                       htmlFor="checkbox1">{child3.name}</span>
                                                             </fieldset>
                                                         </li>
