@@ -25,12 +25,20 @@ class CategorySeeder extends Seeder
         ]);
 
         Category::create([
-            'name' => 'بدون دسته بندی',
-            'slug' => 'بدون دسته بندی',
+            'name' => 'الکترونیکی',
+            'slug' => 'وسایل الکترونیکی',
             'user_id' => 1,
             'metadata' => json_encode(['robots' => false]),
             'status' => 'active',
             'module_id' => 2,
         ]);
+
+        for ($i = 1; $i < 10; $i++) {
+            DB::table('category_product')
+                ->insert([
+                    "category_id" => rand(1, 2),
+                    'product_id' => $i,
+                ]);
+        }
     }
 }
