@@ -27,7 +27,7 @@ class CreatePageRequest extends BaseRequest
     public function rules()
     {
         return [
-            'title' => 'string|max:255',
+            'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
             'content' => 'string|nullable',
             'status' => 'in:active,pending,deactivate|nullable',

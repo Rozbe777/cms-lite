@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 
 use App\Http\Controllers\Admin\Profile\ProfileController;
