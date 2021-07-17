@@ -81,7 +81,7 @@ class MobileRegisterController extends Controller
 
         if ($client->token == trim($request->token)) {
             $user = (new UserModelRepository())->create($client);
-            $tokenResult = $user->createToken('Auth Token');
+            $tokenResult = $user->createToken('Personal Access Token');
             $token = $tokenResult->token;
             $token->save();
 
