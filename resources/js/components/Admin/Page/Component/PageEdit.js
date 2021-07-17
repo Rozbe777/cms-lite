@@ -22,6 +22,7 @@ const PageEdit = ({actionResult, pageData, actionType, allPageData}) => {
         image: pageData.image,
         content: pageData.content,
         is_menu: pageData.is_menu,
+        is_index: pageData.is_index,
         status: pageData.status,
         metadata: pageData.metadata,
         slug: pageData.slug,
@@ -56,7 +57,7 @@ const PageEdit = ({actionResult, pageData, actionType, allPageData}) => {
 
             }
         } else {
-            let pageFormClone = {...PageForm};
+            let pageFormClone = {...pageForm};
             pageFormClone.slug = e.target.value;
             setPageForm(pageFormClone);
         }
