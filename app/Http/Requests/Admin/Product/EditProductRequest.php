@@ -28,7 +28,6 @@ class EditProductRequest extends BaseRequest
      */
     public function rules()
     {
-        dd($this->all());
         return [
             "content" => "string|nullable",
             "title" => "string|nullable",
