@@ -34,6 +34,7 @@ return [
     ),
 
     "pagination" =>           15,
+    "related_number" => 10,
     "list"       => [
          "number"       =>    5
     ],

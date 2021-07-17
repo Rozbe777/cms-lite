@@ -54,6 +54,10 @@ class PasswordController extends Controller
 
     public function passwordRecovery(PasswordRequest $request)
     {
-        dd($request->user());
+        $user = User::find($request->id);
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        return $this->message(__('message.auth.password.successful'))->success();
     }
 }
