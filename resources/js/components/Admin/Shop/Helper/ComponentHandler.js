@@ -4,4 +4,8 @@ export default class ComponentHandler{
         setEdit(true)
         localStorage.setItem("status", status ? "active" : "deactivate");
     }
+    HandlerBigSwitcher(states , setEdit){
+        setEdit(true)
+        localStorage.setItem("robots", states)
+    }
 }

@@ -1,4 +1,5 @@
 export const NoralizeFetures = (data) => {
+    console.log("====,,,," , data)
     let attributes = [];
     let fetures = [];
     Object.keys(data).map(item => {

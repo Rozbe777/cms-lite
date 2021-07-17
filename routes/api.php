@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 
 use App\Http\Controllers\Admin\Profile\ProfileController;
@@ -47,6 +48,3 @@ Route::prefix('v1/')->name('api.')->group(function () {
         Route::post('update/address',[ProfileController::class,'address'])->name('edit.address');
     });
 });
-
-
-

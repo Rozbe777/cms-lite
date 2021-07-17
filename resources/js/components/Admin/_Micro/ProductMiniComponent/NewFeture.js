@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {ErroHandle, error as ErrorToast, error} from './../../../../helper'
 import './_Shared/style.scss'
 
-export const NewFeture = ({dataOut: pushDataOut}) => {
+export const NewFeture = ({resulteFeature}) => {
 
     const [status, setStatus] = useState(true);
     const [data, setData] = useState({
@@ -44,7 +44,8 @@ export const NewFeture = ({dataOut: pushDataOut}) => {
         e.preventDefault()
 
         if (data.name) {
-            pushDataOut(data)
+            resulteFeature(data)
+            handleClose();
         } else {
             ErrorToast("نام ویژگی را اضافه کنید")
         }

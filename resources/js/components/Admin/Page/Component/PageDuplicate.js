@@ -47,12 +47,12 @@ const PageDuplicate = ({actionResult , pageData , actionType , allPageData}) => 
         if (e.target.name === "name") {
             if (slugManage) {
                 let pageFormClone = {...pageForm};
-                pageFormClone.name = e.target.value;
+                pageFormClone.title = e.target.value;
                 pageFormClone.slug = e.target.value;
                 setPageForm(pageFormClone);
             } else {
                 let pageFormClone = {...pageForm};
-                pageFormClone.name = e.target.value;
+                pageFormClone.title = e.target.value;
                 setPageForm(pageFormClone);
 
             }
@@ -112,7 +112,7 @@ const PageDuplicate = ({actionResult , pageData , actionType , allPageData}) => 
         if (pageForm.slug == "") {
             pageFormData.append("slug", name);
         }
-        pageFormData.append("name", name);
+        pageFormData.append("title", name);
 
         metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
         pageFormData.append("metadata", JSON.stringify(metaData));
