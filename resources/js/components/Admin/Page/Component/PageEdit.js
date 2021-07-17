@@ -22,6 +22,7 @@ const PageEdit = ({actionResult, pageData, actionType, allPageData}) => {
         image: pageData.image,
         content: pageData.content,
         is_menu: pageData.is_menu,
+        is_index: pageData.is_index,
         status: pageData.status,
         metadata: pageData.metadata,
         slug: pageData.slug,
@@ -56,7 +57,7 @@ const PageEdit = ({actionResult, pageData, actionType, allPageData}) => {
 
             }
         } else {
-            let pageFormClone = {...PageForm};
+            let pageFormClone = {...pageForm};
             pageFormClone.slug = e.target.value;
             setPageForm(pageFormClone);
         }
@@ -102,6 +103,7 @@ const PageEdit = ({actionResult, pageData, actionType, allPageData}) => {
         let is_menu = localStorage.getItem("is_menu") ? localStorage.getItem("is_menu") : pageFormClone.is_menu;
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : pageFormClone.status;
         let is_index = localStorage.getItem("is_index") ? localStorage.getItem("is_index") : pageFormClone.is_index;
+        // console.log("is_index" , localStorage.getItem("is_index") ,pageFormClone.is_index  , is_index)
 
         pageFormData.append("status", status);
         pageFormData.append("id", pageFormClone.id);

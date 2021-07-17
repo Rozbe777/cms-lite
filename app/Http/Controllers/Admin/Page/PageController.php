@@ -121,6 +121,7 @@ class PageController extends Controller
      */
     public function update(EditPageRequest $request)
     {
+        dd($request->all());
         $page = $this->pageRepository->update($request->all(), $request->id);
 
         return $this->message(__('message.success.200'))->data($page)->success();

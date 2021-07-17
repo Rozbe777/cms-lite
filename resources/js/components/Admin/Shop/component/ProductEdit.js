@@ -207,6 +207,7 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
             productFormData.append("_token", TOKEN);
             productFormData.append("id", formDataClone.id);
             metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
+            console.log("metassss " , metaData)
             productFormData.append("metadata", metaData);
             if (formDataClone.title && formDataClone.title !== '') {
 
