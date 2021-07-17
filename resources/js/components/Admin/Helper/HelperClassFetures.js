@@ -35,6 +35,9 @@ export const NoralizeFetures = (data) => {
 }
 
 
+
+
+
 export const NormalFilter = (data) => {
     let filter = [];
     data.map(item => {

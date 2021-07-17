@@ -1,15 +1,9 @@
-import React, {useEffect, useRef, useState, useReducer} from 'react';
-import ReactDOM from 'react-dom';
-import ReactDOMs from 'react-dom';
+import React, {useEffect, useState} from 'react';
 import './../../_Shared/Style.scss'
 import {Request} from './../../../../services/AdminService/Api'
 import {ErroHandle, error as ErrorToast, error} from './../../../../helper'
 import './../../_Micro/TreeShow/_Shared/style.scss';
 import "swiper/swiper-bundle.css";
-import {Price} from "../../_Micro/ProductMiniComponent/Price";
-import {Limited} from "../../_Micro/ProductMiniComponent/Limited";
-import {Inventory} from "../../_Micro/ProductMiniComponent/Inventoryz";
-import {NewFeture} from "../../_Micro/ProductMiniComponent/NewFeture";
 import $ from "jquery";
 import {
     CheckTextFetures,
@@ -17,47 +11,22 @@ import {
     NormalAttrOnePro,
     NormalAttrHead,
 } from "../../Helper/HelperClassFetures";
-import ComponentHandler from "../Helper/ComponentHandler";
 import {Footer} from "./Footer";
 import ProductParentForm from "./ProductParentForm";
 
 const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
-
-
-    console.log("____..." , defaultValuePro)
-    let componentHandler = new ComponentHandler();
-    let mins = 10000000000;
-    let maxs = 99999999999;
-    let firstRand = Math.round(mins + Math.random() * (maxs - mins));
-
-    let defCounters = {num: firstRand};
-
     const [allFiles  , setAllFiles]  = useState([]);
-
-    const [counter, setCounter] = useState(defCounters);
     const [checkChange , setCheckChange] = useState(false)
     const [metaData , setMetaData] = useState(defaultValuePro.metadata ? JSON.parse(defaultValuePro.metadata) : {
         robots: false,
     });
-    let defaultCol = {
-        [counter.num]:
-            {
-                attributes: {
-                    product_code: counter.num,
-                    price: 0,
-                    discount: 0,
-                    count: null,
-                    isInfinite: true,
-                    limit: null,
-                },
-                fetures: {
-                    text: [],
-                    color: []
-                }
-            }
-    };
 
-    let normalDefalutAttr = defaultValuePro ? NormalAttrOnePro(defaultValuePro, types, counter.num) : defaultCol;
+    let mins = 10000000000;
+    let maxs = 99999999999;
+    let firstRand = Math.round(mins + Math.random() * (maxs - mins));
+    let defCounters = {num: firstRand};
+    const [counter, setCounter] = useState(defCounters);
+    let normalDefalutAttr = NormalAttrOnePro(defaultValuePro, types, counter.num);
 
     let normalHeadTitle = defaultValuePro ? NormalAttrHead(defaultValuePro) : {
         color: [],
