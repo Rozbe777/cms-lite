@@ -45,7 +45,7 @@ export const NewFeture = ({resulteFeature}) => {
 
         if (data.name) {
             resulteFeature(data)
-            handleClose();
+            handleClose(e);
         } else {
             ErrorToast("نام ویژگی را اضافه کنید")
         }

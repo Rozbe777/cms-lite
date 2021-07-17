@@ -3,6 +3,7 @@ import {Footer} from "./Footer";
 import {ContentFormParent} from "./ContentFormParent";
 import ContentApi from "../Api/ContentApi";
 import $ from "jquery";
+import HelperFunction from "../Helper/HelperFunction";
 import {error, successSwal, swalAccept} from "../../../../helper";
 
 const ContentAdd = ({actionResult}) => {

@@ -108,7 +108,7 @@ const PageAdd = ({actionResult, idParent , allPageData}) => {
             caegoryFormData.append("slug", name);
         }
 
-        caegoryFormData.append("name", name);
+        caegoryFormData.append("title", name);
 
         metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
         caegoryFormData.append("metadata", JSON.stringify(metaData));

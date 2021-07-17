@@ -39,6 +39,7 @@ const ProductParentForm = ({
                            }) => {
 
 
+
     let helperFunction = new HelperFunction();
     const [loading, setLoading] = useState(false)
     useEffect(() => {
@@ -55,13 +56,45 @@ const ProductParentForm = ({
     let componentHandler = new ComponentHandler();
     let categoryApi = new CategoryApi();
 
+
+    // make reandom nuber id for new feature
+    let mins = 10000000000;
+    let maxs = 99999999999;
+    let firstRand = Math.round(mins + Math.random() * (maxs - mins));
+    let defCounters = {num: firstRand};
+    const [counter, setCounter] = useState(defCounters);
+
     function handleMakeName() {
-        let categoryName = defaultValuePro.title;
+        let productName = defaultValuePro.title;
         const min = 1;
         const max = 1000;
         const rand = Number(min + Math.random() * (max - min)).toFixed(0);
-        return categoryName + rand + "_کپی";
+        return productName + rand + "_کپی";
     }
+
+
+
+    let defaultCol = {
+        [counter.num]:
+            {
+                attributes: {
+                    product_code: counter.num,
+                    price: 0,
+                    discount: 0,
+                    count: null,
+                    isInfinite: true,
+                    limit: null,
+                },
+                fetures: {
+                    text: [],
+                    color: []
+                }
+            }
+    };
+
+
+
+
 
 
     let normalHeadTitle = defaultValuePro ? NormalAttrHead(defaultValuePro) : {
@@ -78,6 +111,8 @@ const ProductParentForm = ({
 
 
     const titleDefaultValue = () => {
+        console.log("vvvvvvv" , defaultValuePro , actionType);
+
         if (actionType === "duplicate") {
             return handleMakeName();
         } else if (actionType === "edit") {
@@ -266,9 +301,8 @@ const ProductParentForm = ({
 
     const HandleAddNew = (e) => {
         e.preventDefault();
-        console.log(defaultValuePro , "======" , NoralizeFetures(defaultValuePro) ,"/////", priceData)
-        let checkedFeatures = NoralizeFetures(defaultValuePro).fetures.length;
-
+        console.log(defaultValuePro , "======" , NoralizeFetures(priceData) ,"/////", priceData)
+        let checkedFeatures = NoralizeFetures(priceData).fetures.length;
         if (checkedFeatures > 0) {
             checkChange(true)
             dispatchAttr({type: 'addNew', data: priceData})
@@ -524,7 +558,7 @@ const ProductParentForm = ({
                             <div className={"col-lg-8 col-md-8 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان محصول</label>
-                                    <input type={"text"} defaultValue={titleDefaultValue}
+                                    <input type={"text"} defaultValue={titleDefaultValue()}
                                            onChange={e => onChangeInput(e)}
                                            name={"title"} id={"title"}
                                            id={"pro-title"}
