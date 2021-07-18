@@ -27,16 +27,13 @@ const ProductParentForm = ({
                                actionType,
                                edit,
                                defaultValuePro, // this data required for edit
-                               tagChange,
                                onChangeInput,
                                categoryOnChange,
                                editorData,
-                               editorDataFunc,
                                checkChange,
-                               fileChange,
                                handleTagDescription,
-                               handleTagSeo,
-                               handleMetaData
+                               handleMetaData,
+                               handleTagMetaData
                            }) => {
 
 
@@ -50,6 +47,7 @@ const ProductParentForm = ({
     const [slugManage, setSlugManage] = useState(true);
     const [categoryData, setCategoryData] = useState([]);
     const [chipset, setChipset] = useState([]);
+    const [seoChipset, setSeoChipset] = useState([]);
 
     const metaDataUpdate = defaultValuePro ? JSON.parse(defaultValuePro.metadata) : {robots: false};
 
@@ -81,6 +79,18 @@ const ProductParentForm = ({
             chipsets.push(item);
             setChipset(chipsets);
             handleTagDescription(chipsets);
+        }
+    }
+
+
+    const handleAddChipMetaData = (item) => {
+        checkChange(true)
+        let chipsets = [...seoChipset];
+        if (item === "") {
+        } else {
+            chipsets.push(item);
+            setSeoChipset(chipsets);
+            handleTagMetaData(chipsets);
         }
     }
 
@@ -543,6 +553,18 @@ const ProductParentForm = ({
         }
     }
 
+    const removeChipsetMetaData = (e, name) => {
+        e.preventDefault();
+        checkChange(true)
+        let tagList = [...chipset];
+        let index = tagList.indexOf(name);
+        if (index !== -1) {
+            tagList.splice(index, 1);
+            setChipset(tagList);
+            handleTagDescription(tagList);
+        }
+    }
+
 
     const handleSwitchAddress = (event, status) => {
         event.preventDefault();
@@ -698,7 +720,6 @@ const ProductParentForm = ({
                                         </thead>
 
                                         <tbody>
-                                        {console.log("___8888", defaultValuePro, priceData)}
 
                                         {
                                             Object.keys(priceData).length == Object.keys(stateData).length ?
@@ -853,21 +874,14 @@ const ProductParentForm = ({
                                 <div className={"row"} style={{padding: '15px'}}>
                                     <div className={"col-12"} id={"chip-box"}>
                                         <div className={"row"} style={{overflow: 'hidden'}}>
-                                            <div className={"col-sm-12 col-md-4 col-lg-3"}>
-                                                <ChipsetHandler callback={item => handleAddChip(item)}/>
+                                            <div className={"col-sm-12 col-md-5 col-lg-5"}>
+                                                <ChipsetHandler
+                                                    onChange={handleAddChipMetaData}/>
                                             </div>
-                                            {chipset.map((item, indexed) => (
-                                                <div key={indexed} className="chip mr-1">
-                                                    <div className="chip-body">
-                                                        <span className="chip-text">{item}</span>
-                                                        <div className="chip-closeable"
-                                                             onClick={e => removeChipset(item)}>
-                                                            <i className="bx bx-x"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
 
+                                            {seoChipset.map((item, index) => (
+                                                _renderChipsetContent(index, item)
+                                            ))}
 
                                         </div>
 

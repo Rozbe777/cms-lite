@@ -372,3 +372,38 @@ select > option {
         }
     }
 }
+.img-items{
+    width: 100%;
+    height: 120px;
+    overflow: hidden !important;
+    position: relative;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 3px 2px rgba(0,0,0,0.3);
+    transition: 0.3s all ease;
+    -webkit-transition: 0.3s all ease;
+    -moz-transition: 0.3s all ease;
+    &:hover .backClose{
+        display: flex;
+    }
+    img{
+        height: 100%;
+    }
+    .backClose{
+        position: absolute;
+        width: 100%;
+        height: 120px;
+        justify-content: center;
+        align-content: center;
+        display: none;
+        align-items: center;
+        background: rgba(0,0,0,0.8);
+        i{
+            font-size: 35px;
+            cursor: pointer;
+        }
+    }
+}

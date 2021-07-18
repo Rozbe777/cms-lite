@@ -19,9 +19,10 @@ import {TOKEN} from "../../../../services/Type";
 
 const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
 
+    console.log("___-----_" , defaultValuePro)
     const [allFiles, setAllFiles] = useState([]);
     const [checkChange, setCheckChange] = useState(false)
-    const [metaData, setMetaData] = useState(defaultValuePro.metadata? JSON.parse(defaultValuePro.metadata) : {
+    const [metaData, setMetaData] = useState(defaultValuePro.metadata ? defaultValuePro.metadata : {
         robots: false,
     });
 
@@ -42,12 +43,8 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
 
     const [changeCheck, setChangeCheck] = useState(false)
     const [idSelCat, setIdSelCat] = useState([])
-    const [categoryData, setCategoryData] = useState({});
-    const [loading, setLoading] = useState(false);
-    const [contentNew, setContentNew] = useState('');
+    const [contentNew, setContentNew] = useState(defaultValuePro.content ? defaultValuePro.content : '');
     const [chipset, setChipset] = useState([]);
-    const [chipsetChange, setChipsetChange] = useState(false);
-    const [chipsetTagsChange, setChipsetTagsChange] = useState(false);
     const [chipsetTags, setChipsetTags] = useState([]);
 
 
@@ -75,7 +72,7 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
     }, [])
 
 
-    const handleInput = (e) => {
+    const handleInputs = (e) => {
         setChangeCheck(true)
         setEdit(true);
         if (e.target.name == "title") {
@@ -96,76 +93,10 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
         }
     }
 
-
-    const RemoveChipset = (name) => {
-        setEdit(true)
-        let metaDatas = {...metaData};
-        setChipsetChange(true)
-        var chipsetArr = [...chipset];
-        var index = chipsetArr.indexOf(name);
-        if (index !== -1) {
-            chipsetArr.splice(index, 1);
-        }
-        setChipset(chipsetArr);
-        metaDatas.tags = chipsetArr;
-        setMetaData(metaDatas)
-    }
-    const RemoveChipsetTags = (name) => {
-        setEdit(true)
-        setChipsetTagsChange(true)
-        var chipsetArr = [...chipsetTags];
-        var index = chipsetArr.indexOf(name);
-        if (index !== -1) {
-            chipsetArr.splice(index, 1);
-        }
-        setChipsetTags(chipsetArr);
-    }
-
-    const handleAddChip = (item) => {
-        setEdit(true)
-        setChipsetChange(true)
-        let metaDatas = {...metaData};
-        let chipsets = [...chipset];
-        if (item === "") {
-
-        } else {
-            chipsets.push(item);
-            setChipset(chipsets);
-            metaDatas.tags = chipsets;
-            setMetaData(metaDatas);
-        }
-    }
-
-    const handleAddChipTags = (item) => {
-        setEdit(true)
-        setChipsetTagsChange(true)
-        let chipsets = [...chipsetTags];
-        if (item === "") {
-
-        } else {
-            chipsets.push(item);
-            setChipsetTags(chipsets);
-        }
-    }
-
-
-    const HandlerBigSwitcher = (states) => {
-        setEdit(true)
-        localStorage.setItem("robots", states)
-    }
-
-    const handleAddress = (status) => {
-        setEdit(true)
-        setSlugManage(status)
-    }
-
-
     const onClose = (e) => {
         e.preventDefault();
         helperFunction.handleClose();
     }
-
-    console.log("_______", allFiles)
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -206,8 +137,9 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
             productFormData.append("tag_list", JSON.stringify(formData.tag_list));
             productFormData.append("_token", TOKEN);
             productFormData.append("id", formDataClone.id);
-            metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : "false";
-            console.log("metassss " , metaData)
+            metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : false;
+            console.log("_______+++++++" , metaData)
+
             productFormData.append("metadata", metaData);
             if (formDataClone.title && formDataClone.title !== '') {
 
@@ -231,14 +163,10 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
         }
     }
 
-    const editorData = () => {
+    const editorData = (data) => {
+        setContentNew(data)
     }
 
-    const handleInputs = (e) => {
-        let formDataClone = {...formData};
-        formDataClone[e.target.name] = e.target.value;
-        setFormData(formDataClone);
-    }
 
     const descriptionTagChange = (tagList) => {
         let productFormClone = {...formData};
@@ -246,13 +174,10 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
         setFormData(productFormClone);
     }
 
-    const seoTagChange = (tagList) => {
+    const handleTagMetaData = (tagList) => {
         let metaDataClone = {...metaData};
-        metaDataClone.tag_list = tagList;
+        metaDataClone.tags = tagList;
         setMetaData(metaDataClone);
-    }
-
-    const fileChange = () => {
     }
 
     const handleMetaData = (e) => {
@@ -276,10 +201,6 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
     }
 
 
-    const editorDataFunc = (data) => {
-
-    }
-
 
     return (
         <>
@@ -292,18 +213,15 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
                         categoryOnChange={categoryOnChange}
                         checkChange={setChangeCheck}
                         defaultValuePro={defaultValuePro} // this data required for edit
-                        tagChange={seoTagChange}
                         onChangeInput={handleInputs}
                         editorData={editorData}
                         handleTagDescription={descriptionTagChange}
-                        fileChange={fileChange}
-                        handleAddChip={handleAddChip}
-                        editorDataFunc={editorDataFunc}
                         handleMetaData={handleMetaData}
+                        handleTagMetaData={handleTagMetaData}
                     />
                 </FilesShopContext.Provider>
                 <div className={"col-12 bottom-footer"}>
-                    <Footer actionType={"edit"} editStatus={edit}  onCancel={onClose} onClicked={onSubmit}/>
+                    <Footer actionType={"edit"} editStatus={edit} onCancel={onClose} onClicked={onSubmit}/>
                 </div>
             </div>
 

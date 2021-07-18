@@ -35,7 +35,7 @@ const img = {
 };
 
 
-function Previews(props , {handleFiles}) {
+function Previews(props, {handleFiles}) {
     const [files, setFiles] = useState([]);
     const {setAllFiles} = useContext(FilesShopContext);
     const {getRootProps, getInputProps} = useDropzone({
@@ -68,16 +68,40 @@ function Previews(props , {handleFiles}) {
 
     // console.log("______" , files)
     return (
-        <section className="container dropzones">
-            <div {...getRootProps({className: 'dropzone'})}>
-                <input {...getInputProps()} />
-                <p style={{textAlign : 'center'}}>تعداد n تا فایل را میتوانید با هم به داخل بکشید تا آپلود شوند!</p>
-                <aside style={thumbsContainer}>
-                    {thumbs}
-                </aside>
-            </div>
+        <React.Fragment>
+            <section className="container dropzones">
+                <div {...getRootProps({className: 'dropzone'})}>
+                    <input {...getInputProps()} />
+                    <p style={{textAlign: 'center'}}>تعداد n تا فایل را میتوانید با هم به داخل بکشید تا آپلود شوند!</p>
+                    <aside style={thumbsContainer}>
+                        {thumbs}
+                    </aside>
+                </div>
 
-        </section>
+            </section>
+
+            <div className={"container-fluid row"} style={{margin : '0' , marginTop : '15px' , padding : 0}}>
+                <div className={"col-lg-3 col-md-4 col-6"}>
+                    <div className={"img-items"}>
+                        <img src={"/img/34907.jpg"}/>
+                        <div className={"backClose"}>
+                            <i className={"bx bx-x"}></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div className={"col-lg-3 col-md-4 col-6"}>
+                    <div className={"img-items"}>
+
+                        <img src={"/img/unnamed.jpg"}/>
+                        <div className={"backClose"}>
+                            <i className={"bx bx-x"}></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </React.Fragment>
     );
 }
+
 export default Previews;
