@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Front\Shop;
 use App\Classes\Responses\Front\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Front\SearchIdRequest;
+use App\Http\Requests\SearchRequest;
 use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\Product;
@@ -55,9 +56,9 @@ class ProductController extends Controller
         return $this->data($products)->success();
     }
 
-    public function search(Request $request)
+    public function search(SearchRequest $request)
     {
-        $search = $request->search;
+        $search = $request->slug;
 
         $products = Product::when(!empty($search),function ($query) use($search){
             $query->where('content', 'like', '%' . $search . '%');
