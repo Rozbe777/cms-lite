@@ -45,24 +45,25 @@ trait ProductTrait
             $limit = !empty($attribute->limit) ? (int)$attribute->limit : null;
             $discount = (!empty($attribute->discount)) ? $attribute->discount != 0 ? (int)$attribute->discount : 0 : 0;
             $discount_status = (!empty($discount)) ? "active" : "deactivate";
-            $link = config('shop.products.link') . $p_id;
 
             $discount_percentage = !empty($attribute->discount) ? (($price - $discount) / $price) * 100 : 0;
 
-            $attribute_list[] = Attribute::updateOrCreate(
+            $attribute_list = Attribute::updateOrCreate(
                 ["product_id" => $p_id, "product_code" => $attribute->product_code],
-                ["price" => $attribute->price, "count" => $count, "limit" => $limit, "discount" => $discount, "discount_status" => $discount_status, "discount_percentage" => $discount_percentage, "link" => $link]
+                ["price" => $attribute->price, "count" => $count, "limit" => $limit, "discount" => $discount, "discount_status" => $discount_status, "discount_percentage" => $discount_percentage]
             );
+            $attribute_list->link = config('shop.products.link') . $attribute_list->id;
+            $attribute_list->save();
         }
         return $attribute_list;
     }
 
     public function featureHandler($features)
     {
-        foreach ($features as $item) {
+        foreach (json_decode($features) as $item) {
             $attr = Attribute::where('product_code', $item->code)->first();
             $data = Type::firstOrCreate(
-                ['name' => $item->name, "attribute_id" => $attr->id]
+                ['name' => $item->name]
             );
 
             $title = !empty($item->title) ? $item->title : null;

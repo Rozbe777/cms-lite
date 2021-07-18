@@ -188,10 +188,10 @@ class ProductRepository implements RepositoryInterface
 
         $data["metadata"] = $data['metadata'] ?? null;
 
-        $tag_list = $data['tag_list'] ?? null;
+        $tag_list = json_decode($data['tag_list']) ?? null;
         unset($data["tag_list"]);
 
-        $categoryIds = $data['category_list'] ?? null;
+        $categoryIds = json_decode($data['category_list']) ?? null;
         unset($data["category_list"]);
 
         $features = $data['features'] ?? null;
@@ -222,15 +222,15 @@ class ProductRepository implements RepositoryInterface
             }
         }
 
-        if (!empty($attributes))
+        if (!empty(json_decode($attributes)))
             $att = $this->attributeHandler($attributes, $product->id);
 
-        if (!empty($features))
+        if (!empty(json_decode($features)))
             $this->featureHandler($features);
 
         $product->viewCounts()->create();
 
-        if (!empty(json_decode($tag_list))) {
+        if (!empty($tag_list)) {
             foreach ($tag_list as $tag) {
                 $tag = Tag::firstOrCreate(
                     ['name' => $tag],
@@ -240,7 +240,7 @@ class ProductRepository implements RepositoryInterface
             }
         }
 
-        if (!empty(json_decode($categoryIds))) {
+        if (!empty($categoryIds)) {
             foreach ($categoryIds as $category) {
                 $category = Category::findOrFail((int)$category);
                 $product->categories()->syncWithoutDetaching($category);
