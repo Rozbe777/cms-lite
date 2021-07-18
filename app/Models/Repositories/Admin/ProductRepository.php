@@ -153,6 +153,7 @@ class ProductRepository implements RepositoryInterface
             $this->featureUpdateHandler($features);
 
         /** modify tag relations in database tables */
+
         if (!empty($tag_list))
             $this->tagHandler($tag_list, $product);
 

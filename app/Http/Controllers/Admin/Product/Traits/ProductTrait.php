@@ -82,12 +82,11 @@ trait ProductTrait
             $data = Attribute::firstOrCreate(
                 ['product_id' => $p_id, 'product_code' => $attribute->product_code]
             );
-            dump($attribute->count);
+
             $data->price = !empty($attribute->price) ? (int)$attribute->price : $data->price;
             $data->count = !empty($attribute->count) ? (int)$attribute->count : ((array_key_exists('count', (array)$attribute) && $attribute->count === 0) ? 0 : null);
             $data->limit = !empty($attribute->limit) ? (int)$attribute->limit : $data->limit;
 
-            dump($data->count);
             if (!empty($attribute->discount)) {
                 $data->discount = (int)$attribute->discount;
                 $data->discount_status = 'active';
@@ -96,7 +95,6 @@ trait ProductTrait
                 $data->discount_status = 'deactivate';
             }
             $data->save();
-
         }
         return $data;
 
@@ -141,8 +139,8 @@ trait ProductTrait
     public function categoryHandler($categoryIds, $product)
     {
         foreach ($categoryIds as $category) {
-            $category = Category::findOrFail($category->id);
-            if (!$product->categories->contains($category->id))
+            $category = Category::findOrFail($category);
+            if (!$product->categories->contains($category))
                 $product->categories()->attach($category);
         }
     }
