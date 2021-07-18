@@ -186,7 +186,7 @@ class ProductRepository implements RepositoryInterface
         unset($data['_token']);
         $data['slug'] = $this->slugHandler($data['slug']);
 
-        $data["metadata"] = json_decode($data['metadata']) ?? null;
+        $data["metadata"] = $data['metadata'] ?? null;
 
         $tag_list = $data['tag_list'] ?? null;
         unset($data["tag_list"]);

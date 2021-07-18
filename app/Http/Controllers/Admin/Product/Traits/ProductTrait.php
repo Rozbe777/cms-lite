@@ -120,7 +120,7 @@ trait ProductTrait
             $typeFeature->title = !empty($feature->title) ? $feature->title : $typeFeature->title;
             $typeFeature->value = !empty($feature->value) ? $feature->value : $typeFeature->value;
             $typeFeature->color = !empty($feature->color) ? $feature->color : $typeFeature->color;
-dd($typeFeature);
+
             $typeFeature->save();
         }
     }

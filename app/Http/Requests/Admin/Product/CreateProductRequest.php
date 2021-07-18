@@ -49,9 +49,8 @@ class CreateProductRequest extends BaseRequest
 //            "features.*.title" => "required_with:features.*.name|string",
 //            "features.*.value" => "required_with:features.*.name|string",
             //FIXME Until here....
-
             "tag_list" => new FormDataRule(),
-            "category_list" => new FormDataRule(),
+//            "category_list" => new FormDataRule(),
         ];
     }
 }
