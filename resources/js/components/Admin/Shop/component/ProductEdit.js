@@ -39,6 +39,15 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
         text: []
     };
 
+    const [category_id , setCategory_id] = useState([]);
+
+    useEffect(() => {
+        defaultValuePro.category_list ? defaultValuePro.category_list.map(item => {
+            category_id.push(parseInt(item.id));
+            setCategory_id(category_id);
+        }) : setCategory_id([]);
+    },[])
+
 
     const [idSelCat, setIdSelCat] = useState([])
     const [contentNew, setContentNew] = useState(defaultValuePro.content ? defaultValuePro.content : '');
@@ -121,7 +130,7 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
         if (checkValueFetures) {
             productFormData.append("attributes", JSON.stringify(normal.attributes));
             productFormData.append("features", JSON.stringify(normal.fetures));
-            productFormData.append("category_list", JSON.stringify(formData.category_list));
+            productFormData.append("category_list", JSON.stringify(category_id));
             productFormData.append("tag_list", JSON.stringify(formData.tag_list));
             productFormData.append("_token", TOKEN);
             productFormData.append("id", formDataClone.id);
@@ -178,18 +187,18 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
 
     const categoryOnChange = (categoriesChange) => {
         setEdit(true)
-        let formDataClone = {...formData};
-        let categorySelected = [];
         categoriesChange.map((idMap) => {
-            categorySelected.push(parseInt(idMap.id));
+            let response_search = category_id.indexOf(parseInt(idMap.id));
+            if (response_search === -1){
+                category_id.push(parseInt(idMap.id))
+            }
         })
-        formDataClone.category_list = categorySelected;
-        setFormData(formDataClone);
+
+        setCategory_id(category_id);
     }
 
 
     const handleEditAttributes = data => {
-        console.log(data , "vvvvvvvvvvvvvvvvvvvvv")
         setPriceData(data)
     }
 
