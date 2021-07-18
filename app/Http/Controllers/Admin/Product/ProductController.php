@@ -132,9 +132,9 @@ class ProductController extends Controller
      */
     public function update(EditProductRequest $request)
     {
+
         $product = $this->repository->update($request->all(), $request->id);
         $product->load('tags')->load('categories')->load('viewCounts');
-
         return $this->message(__('message.success.200'))->data($product)->success();
     }
 

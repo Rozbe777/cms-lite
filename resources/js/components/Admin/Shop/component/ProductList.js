@@ -93,7 +93,6 @@ const Index = () => {
     const onEdit = (e, dataGet) => {
         e.preventDefault();
         let normalData = NormalProductOneItem(dataGet);
-        console.log(normalData , "777")
         ReactDOM.render(<ProductEdit defaultValuePro={normalData}
                                     result={actionReload}/>, document.getElementById("add-product"));
     }

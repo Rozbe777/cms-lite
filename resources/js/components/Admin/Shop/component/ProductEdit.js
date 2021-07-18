@@ -21,7 +21,6 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
 
     console.log("___-----_" , defaultValuePro)
     const [allFiles, setAllFiles] = useState([]);
-    const [checkChange, setCheckChange] = useState(false)
     const [metaData, setMetaData] = useState(defaultValuePro.metadata ? defaultValuePro.metadata : {
         robots: false,
     });
@@ -41,7 +40,6 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
     };
 
 
-    const [changeCheck, setChangeCheck] = useState(false)
     const [idSelCat, setIdSelCat] = useState([])
     const [contentNew, setContentNew] = useState(defaultValuePro.content ? defaultValuePro.content : '');
     const [chipset, setChipset] = useState([]);
@@ -51,11 +49,7 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
     const [priceData, setPriceData] = useState(normalDefalutAttr);
 
 
-    let tags = [];
     const [edit, setEdit] = useState(false);
-    const [clear, setClear] = useState(false);
-
-    const dataGet = dataUpdate ? JSON.parse(dataUpdate) : '';
 
     let titleWrite = $("input[name=title]#pro-title").val();
     const [slugManage, setSlugManage] = useState(true);
@@ -68,10 +62,12 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
         let chipTagProduct = defaultValuePro ? defaultValuePro.tag_list : [];
         setChipset(chipTag)
         setChipsetTags(chipTagProduct)
-        // setPriceData(stateData);
     }, [])
 
 
+    const setChangeCheck = status => {
+        setEdit(true);
+    }
     const handleInputs = (e) => {
         setChangeCheck(true)
         setEdit(true);
@@ -101,15 +97,14 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
     const onSubmit = (e) => {
         e.preventDefault();
         let formDataClone = {...formData};
+        let metadataClone = {...metaData};
         let productFormData = new FormData();
         let title = $("input[name=title]").val();
         let slug = slugManage ? titleWrite : $("input.slugest").val();
         productFormData.append("title", title)
         productFormData.append("slug", slug)
         allFiles.map((items, index) => {
-
             productFormData.append("image_" + index, items);
-
         })
 
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formDataClone.status;
@@ -125,32 +120,28 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
             productFormData.append("slug", formDataClone.title);
         }
         productFormData.append("content", contentNew);
-
         let normal = NoralizeFetures(priceData);
         let checkValueFetures = CheckTextFetures(normal)
-
-
         if (checkValueFetures) {
             productFormData.append("attributes", JSON.stringify(normal.attributes));
             productFormData.append("features", JSON.stringify(normal.fetures));
-            productFormData.append("category_list", JSON.stringify(idSelCat));
+            productFormData.append("category_list", JSON.stringify(formData.category_list));
             productFormData.append("tag_list", JSON.stringify(formData.tag_list));
             productFormData.append("_token", TOKEN);
             productFormData.append("id", formDataClone.id);
-            metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : false;
-            console.log("_______+++++++" , metaData)
+            metadataClone.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : false;
+            console.log("_______+++++++" , metadataClone)
 
-            productFormData.append("metadata", metaData);
+            productFormData.append("metadata", JSON.stringify(metadataClone));
             if (formDataClone.title && formDataClone.title !== '') {
 
                 $("input[name=title]#pro-title").removeClass("is-invalid");
-
                 swalAccept("ویرایش محصول").then(resSwal => {
                     if (resSwal.value) {
                         productApi._updateData = productFormData;
                         productApi.update(productFormData).then(res => {
                             successSwal("با موفقیت ویرایش شد !");
-                            result(res);
+                            result(e);
                         })
                     }
                 })
@@ -164,17 +155,20 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
     }
 
     const editorData = (data) => {
+        setEdit(true)
         setContentNew(data)
     }
 
 
     const descriptionTagChange = (tagList) => {
+        setEdit(true)
         let productFormClone = {...formData};
         productFormClone.tag_list = tagList;
         setFormData(productFormClone);
     }
 
     const handleTagMetaData = (tagList) => {
+        setEdit(true)
         let metaDataClone = {...metaData};
         metaDataClone.tags = tagList;
         setMetaData(metaDataClone);
@@ -189,11 +183,11 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
     }
 
 
-    const categoryOnChange = (categories) => {
+    const categoryOnChange = (categoriesChange) => {
         setEdit(true)
         let formDataClone = {...formData};
         let categorySelected = [];
-        categories.map((idMap) => {
+        categoriesChange.map((idMap) => {
             categorySelected.push(parseInt(idMap.id));
         })
         formDataClone.category_list = categorySelected;
@@ -201,6 +195,10 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
     }
 
 
+    const handleEditAttributes = data => {
+        console.log(data , "vvvvvvvvvvvvvvvvvvvvv")
+        setPriceData(data)
+    }
 
     return (
         <>
@@ -218,6 +216,7 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
                         handleTagDescription={descriptionTagChange}
                         handleMetaData={handleMetaData}
                         handleTagMetaData={handleTagMetaData}
+                        handleEditAttributes={handleEditAttributes}
                     />
                 </FilesShopContext.Provider>
                 <div className={"col-12 bottom-footer"}>

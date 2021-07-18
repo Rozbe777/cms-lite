@@ -33,9 +33,11 @@ const ProductParentForm = ({
                                checkChange,
                                handleTagDescription,
                                handleMetaData,
-                               handleTagMetaData
+                               handleTagMetaData,
+                               handleEditAttributes
                            }) => {
 
+    console.log(defaultValuePro)
 
     let helperFunction = new HelperFunction();
     const [loading, setLoading] = useState(false)
@@ -174,6 +176,7 @@ const ProductParentForm = ({
                     }
                 }
                 checkChange(true)
+                handleEditAttributes(newState);
                 setPriceData(newState)
                 return newState;
             case "count" :
@@ -189,6 +192,8 @@ const ProductParentForm = ({
                 }
                 checkChange(true)
 
+                handleEditAttributes(newState);
+
                 setPriceData(newStates)
                 return newStates;
             case "limit" :
@@ -203,6 +208,8 @@ const ProductParentForm = ({
                     }
                 }
                 checkChange(true)
+
+                handleEditAttributes(newStateLimit);
 
                 setPriceData(newStateLimit)
                 return newStateLimit;
@@ -224,6 +231,7 @@ const ProductParentForm = ({
                     }
                 }
                 checkChange(true)
+                handleEditAttributes(newStateText);
 
                 setPriceData(newStateText)
                 return newStateText;
@@ -246,6 +254,8 @@ const ProductParentForm = ({
                 }
                 checkChange(true)
 
+                handleEditAttributes(newStateColor);
+
                 setPriceData(newStateColor)
                 return newStateColor;
 
@@ -266,6 +276,7 @@ const ProductParentForm = ({
                     }
                 }
                 checkChange(true)
+                handleEditAttributes(newStateColorVal);
 
                 setPriceData(newStateColorVal)
                 return newStateColorVal;
@@ -304,6 +315,8 @@ const ProductParentForm = ({
                 }
                 olddata[counterCodess] = newOut;
                 setCounter(counterCodess);
+                handleEditAttributes(olddata);
+
                 setPriceData(olddata)
                 return olddata;
             default:
@@ -317,7 +330,6 @@ const ProductParentForm = ({
 
     const HandleAddNew = (e) => {
         e.preventDefault();
-        console.log(defaultValuePro, "======", NoralizeFetures(priceData), "/////", priceData)
         let checkedFeatures = NoralizeFetures(priceData).fetures.length;
         if (checkedFeatures > 0) {
             checkChange(true)
@@ -353,6 +365,7 @@ const ProductParentForm = ({
                                     title: ''
                                 });
                                 setPriceData(priceData);
+                                handleEditAttributes(priceData)
                             }
                         })
                     } else {
@@ -361,6 +374,7 @@ const ProductParentForm = ({
                             title: ''
                         });
                         setPriceData(priceData);
+                        handleEditAttributes(priceData)
                     }
                 })
             } else {
@@ -454,10 +468,12 @@ const ProductParentForm = ({
 
     const deleteColAttr = (e, items) => {
         e.preventDefault();
+        checkChange(true)
         let priceChange = {...priceData};
         if (Object.keys(priceData).length > 1) {
             priceChange[items] ? delete priceChange[items] : '';
-            setPriceData(priceChange)
+            setPriceData(priceChange);
+            handleEditAttributes(priceChange);
         } else {
             ErrorToast("محصول حداقل باید یک تنوع محصولی داشته باشد")
         }
@@ -516,13 +532,14 @@ const ProductParentForm = ({
 
     const ChangeHeadTitleText = (e, index) => {
         e.preventDefault();
-        setEdit(true)
+        checkChange(true)
         let dataHead = {...defaultTableHead};
-        let priceNew = {...priceData};
+        let priceDataClone = {...priceData};
         dataHead.text[index] = e.target.value;
         Object.keys(priceData).map((items, indexes) => {
             priceData[items].fetures.text[index].name = e.target.value;
-            setPriceData(priceNew);
+            setPriceData(priceDataClone);
+            handleEditAttributes(priceDataClone)
         })
         setDefaultTableHead(dataHead);
     }
@@ -531,11 +548,13 @@ const ProductParentForm = ({
     const ChangeHeadTitleColor = (e, index) => {
         e.preventDefault();
         let dataHead = {...defaultTableHead};
-        let priceNew = {...priceData};
+        let priceDataClone = {...priceData};
+        checkChange(true);
         dataHead.color[index] = e.target.value;
         Object.keys(priceData).map((items, indexes) => {
             priceData[items].fetures.color[index].name = e.target.value;
-            setPriceData(priceNew);
+            setPriceData(priceDataClone);
+            handleEditAttributes(priceDataClone)
         })
         setDefaultTableHead(dataHead);
     }
