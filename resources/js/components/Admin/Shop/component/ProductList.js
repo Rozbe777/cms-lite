@@ -25,7 +25,7 @@ const Index = () => {
     const [checked, setChecked] = useState([]);
     const [checkBox, setCheckBox] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [Products, setProducts] = useState({
+    const [products, setProducts] = useState({
         data: []
     });
     const [perPage, setPerPage] = useState();
@@ -182,7 +182,7 @@ const Index = () => {
             <CHECK_BOX_CONTENT.Provider value={{checkBox, setCheckBox}}>
                 <div className={"row col-12"} id={"headerContent"}>
                     <TotalActions text={" محصول انتخاب شده است"} deleteUsers={e => handleDeleteGroup(e)}
-                                  allData={Products ? Products : []} data={checkBox}/>
+                                  allData={products ? products : []} data={checkBox}/>
                     <BreadCrumbs titleBtn={"افزودن"} onClicked={e => onAdd(e)} icon={"bx-plus"}
                                  data={breadData}/>
                 </div>
@@ -194,11 +194,11 @@ const Index = () => {
                     <div className={"row"} style={{padding: 10}}>
 
                         {!loading ?
-                            Products.data.length > 0 ?
-                                Products.data.map((item, index) => (<Item
+                            products.data.length > 0 ?
+                                products.data.map((item, index) => (<Item
                                         key={index} data={item}
                                         checkStateOfOut={checked}
-                                        sizeOf={Products.data.length}
+                                        sizeOf={products.data.length}
                                         onEdit={onEdit}
                                         onDuplicate={onDuplicate}
                                         onDelete={handleDeleteGroup}
@@ -218,11 +218,11 @@ const Index = () => {
 
 
                         <div className="col-md-12">
-                            {Products.data ? Products.data.length ? (
+                            {products.data ? products.data.length ? (
                                 <Pagination
-                                    firstPageUrl={Products.first_page_url}
-                                    lastPageUrl={Products.last_page_url}
-                                    currentPage={Products.cuerrent_page}
+                                    firstPageUrl={products.first_page_url}
+                                    lastPageUrl={products.last_page_url}
+                                    currentPage={products.cuerrent_page}
                                     perPage={perPage}
                                     // users={allU/ser}
                                     total={total}
@@ -239,7 +239,7 @@ const Index = () => {
                 </div>
 
 
-                <BottomNavigationBar userData={Products} deleteAll={e => handleDeleteGroup(e)}/>
+                <BottomNavigationBar userData={products} deleteAll={e => handleDeleteGroup(e)}/>
 
             </CHECK_BOX_CONTENT.Provider>
 
