@@ -45,12 +45,13 @@ trait ProductTrait
             $limit = !empty($attribute->limit) ? (int)$attribute->limit : null;
             $discount = (!empty($attribute->discount)) ? $attribute->discount != 0 ? (int)$attribute->discount : 0 : 0;
             $discount_status = (!empty($discount)) ? "active" : "deactivate";
+            $link = config('shop.products.link').$p_id;
 
             $discount_percentage = !empty($attribute->discount) ? (($price - $discount) / $price) * 100 : 0;
 
             $attribute_list[] = Attribute::updateOrCreate(
                 ["product_id" => $p_id, "product_code" => $attribute->product_code],
-                ["price" => $attribute->price, "count" => $count, "limit" => $limit, "discount" => $discount, "discount_status" => $discount_status, "discount_percentage" => $discount_percentage]
+                ["price" => $attribute->price, "count" => $count, "limit" => $limit, "discount" => $discount, "discount_status" => $discount_status, "discount_percentage" => $discount_percentage,"link"=>$link]
             );
         }
         return $attribute_list;
