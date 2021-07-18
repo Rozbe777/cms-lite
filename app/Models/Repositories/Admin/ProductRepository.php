@@ -173,7 +173,7 @@ class ProductRepository implements RepositoryInterface
         }
 
         unset($data['_token']);
-//        $data['slug'] = $this->slugHandler($data['slug']);
+        $data['slug'] = $this->slugHandler($data['slug']);
 
         $tag_list = $data['tag_list'] ?? null;
         unset($data["tag_list"]);
@@ -190,6 +190,9 @@ class ProductRepository implements RepositoryInterface
         $data['user_id'] = Auth::id();
 
         $product = Product::create($data);
+
+        $product->link = config('shop.products.link').$product->id;
+        $product->save();
 
         foreach ($items as $value) {
             if (!empty($value) && !is_string($value)) {

@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests\Admin\Page;
 
+use App\Http\Requests\BaseRequest;
 use App\Rules\ImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 use phpDocumentor\Reflection\Types\Nullable;
 
-class CreatePageRequest extends FormRequest
+class CreatePageRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.

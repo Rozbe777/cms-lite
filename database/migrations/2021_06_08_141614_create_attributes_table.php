@@ -23,6 +23,7 @@ class CreateAttributesTable extends Migration
             $table->enum('discount_status',['active','deactivate'])->default('deactivate');
             $table->bigInteger('count')->nullable();
             $table->bigInteger('limit')->nullable();
+            $table->string('link');
             $table->softDeletes();
             $table->timestamps();
         });

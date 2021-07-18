@@ -17,9 +17,10 @@ trait ProductTrait
     public function imageHandler($image)
     {
         $name = microtime(true);
-        $name = str_replace('.','',$name);
-        $imageName =$name . '.' . $image->getClientOriginalExtension();
-        return $image->storeAs('public/images', $imageName);
+        $name = str_replace('.', '', $name);
+        $imageName = $name . '.' . $image->getClientOriginalExtension();
+        $image->storeAs('public/images', $imageName);
+        return $imageName;
     }
 
     public function slugHandler($slug)
@@ -45,7 +46,7 @@ trait ProductTrait
             $discount = (!empty($attribute->discount)) ? $attribute->discount != 0 ? (int)$attribute->discount : 0 : 0;
             $discount_status = (!empty($discount)) ? "active" : "deactivate";
 
-            $discount_percentage = !empty($attribute->discount) ? (($price - $discount)/$price)*100 : 0;
+            $discount_percentage = !empty($attribute->discount) ? (($price - $discount) / $price) * 100 : 0;
 
             $attribute_list[] = Attribute::updateOrCreate(
                 ["product_id" => $p_id, "product_code" => $attribute->product_code],

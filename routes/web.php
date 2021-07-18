@@ -21,7 +21,6 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FileManager\ImageController;
 use App\Http\Controllers\Front\Cart\CartController;
 use App\Http\Controllers\Front\Cart\CheckProductListController;
-use App\Http\Controllers\Front\Cart\PreCheckoutController;
 use App\Http\Controllers\Front\InvoiceController;
 use App\Http\Controllers\Front\Order\OrderController;
 use App\Http\Controllers\Front\Page\FrontPageController;
@@ -157,11 +156,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('products', ProductController::class)->except('update');
     Route::post('products/update', [ProductController::class, 'update'])->name('products.update');
     Route::delete('products/multi/destroy', [ProductController::class, 'multipleDestroy'])->name('products.multipleDestroy');
-
-    //-------------------------------Images-----------------------------
-
-
-    Route::get('checkout', [PreCheckoutController::class, 'index'])->name('checkout.index');
 
     //-------------------------------Transfer-----------------------------
     Route::get('transfer/index', [TransferController::class, 'blade'])->name('transfers.blade');
