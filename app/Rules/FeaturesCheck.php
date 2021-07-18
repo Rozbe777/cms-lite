@@ -25,9 +25,8 @@ class FeaturesCheck implements Rule
      */
     public function passes($attribute, $values)
     {
+        $values = json_decode($values);
         if (!empty($values)) {
-            $values = json_decode($values);
-
             foreach ($values as $value) {
                 if (isset($value->name)) {
                     if (!isset($value->title) && !isset($value->value)) {
@@ -38,6 +37,8 @@ class FeaturesCheck implements Rule
                             return false;
                         }
                     }
+                } else {
+                    return false;
                 }
             }
         }

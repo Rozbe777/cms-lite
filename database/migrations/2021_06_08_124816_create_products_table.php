@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('title', 255);
             $table->string('slug', 255);
             $table->longText('content')->nullable();
-            $table->longText('metadata')->nullable();
+            $table->json('metadata')->nullable();
             $table->enum('status', ["active", "deactivate"])->default('active');
             $table->enum('entity',['available', 'unavailable'])->default('available');
             $table->bigInteger('user_id')->unsigned();

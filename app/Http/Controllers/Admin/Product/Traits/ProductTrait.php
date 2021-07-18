@@ -45,14 +45,15 @@ trait ProductTrait
             $limit = !empty($attribute->limit) ? (int)$attribute->limit : null;
             $discount = (!empty($attribute->discount)) ? $attribute->discount != 0 ? (int)$attribute->discount : 0 : 0;
             $discount_status = (!empty($discount)) ? "active" : "deactivate";
-            $link = config('shop.products.link').$p_id;
 
             $discount_percentage = !empty($attribute->discount) ? (($price - $discount) / $price) * 100 : 0;
 
-            $attribute_list[] = Attribute::updateOrCreate(
+            $attribute_list = Attribute::updateOrCreate(
                 ["product_id" => $p_id, "product_code" => $attribute->product_code],
-                ["price" => $attribute->price, "count" => $count, "limit" => $limit, "discount" => $discount, "discount_status" => $discount_status, "discount_percentage" => $discount_percentage,"link"=>$link]
+                ["price" => $attribute->price, "count" => $count, "limit" => $limit, "discount" => $discount, "discount_status" => $discount_status, "discount_percentage" => $discount_percentage]
             );
+            $attribute_list->link = config('shop.products.link') . $attribute_list->id;
+            $attribute_list->save();
         }
         return $attribute_list;
     }
@@ -62,7 +63,7 @@ trait ProductTrait
         foreach (json_decode($features) as $item) {
             $attr = Attribute::where('product_code', $item->code)->first();
             $data = Type::firstOrCreate(
-                ['name' => $item->name, "attribute_id" => $attr->id]
+                ['name' => $item->name]
             );
 
             $title = !empty($item->title) ? $item->title : null;
@@ -77,15 +78,16 @@ trait ProductTrait
 
     public function attributeUpdateHandler($attributes, $p_id)
     {
-        foreach (json_decode($attributes) as $attribute) {
+        foreach ($attributes as $attribute) {
             $data = Attribute::firstOrCreate(
                 ['product_id' => $p_id, 'product_code' => $attribute->product_code]
             );
-
+            dump($attribute->count);
             $data->price = !empty($attribute->price) ? (int)$attribute->price : $data->price;
-            $data->count = !empty($attribute->count) ? (int)$attribute->count : ((array_key_exists('count', $attribute) && $attribute->count == 0) ? 0 : $data->count);
+            $data->count = !empty($attribute->count) ? (int)$attribute->count : ((array_key_exists('count', (array)$attribute) && $attribute->count === 0) ? 0 : null);
             $data->limit = !empty($attribute->limit) ? (int)$attribute->limit : $data->limit;
 
+            dump($data->count);
             if (!empty($attribute->discount)) {
                 $data->discount = (int)$attribute->discount;
                 $data->discount_status = 'active';
@@ -102,12 +104,12 @@ trait ProductTrait
 
     public function featureUpdateHandler($features)
     {
-        foreach (json_decode($features) as $feature) {
+        foreach ($features as $feature) {
 
             $attr = Attribute::where('product_code', $feature->code)->first();
 
             $data = Type::firstOrCreate(
-                ['name' => $feature->name, "attribute_id" => $attr->id]
+                ['name' => $feature->name]
             );
 
             if (!empty($feature->id)) {
@@ -139,8 +141,9 @@ trait ProductTrait
     public function categoryHandler($categoryIds, $product)
     {
         foreach ($categoryIds as $category) {
-            $category = Category::findOrFail((int)$category);
-            $product->categories()->attach($category);
+            $category = Category::findOrFail($category->id);
+            if (!$product->categories->contains($category->id))
+                $product->categories()->attach($category);
         }
     }
 

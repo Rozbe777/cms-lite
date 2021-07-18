@@ -48,8 +48,8 @@ class EditProductRequest extends BaseRequest
 //            "features.*.title" => "required_with:features.name|string",
 //            "features.*.value" => "required_with:features.name|string",
             //FIXME must check with front dont delete The top rows
-            "tag_list" => "array",
-            "category_list" => "array|exists:categories,id",
+            "tag_list" => "string",
+            "category_list" => "string",
         ];
     }
 }

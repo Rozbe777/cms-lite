@@ -111,6 +111,16 @@ class ProductRepository implements RepositoryInterface
     {
         $product = Product::find($productId);
 
+        $i = 0;
+        $items= [];
+        foreach ($data as $key => $value) {
+            if (substr($key, 0, 5) == 'image') {
+                $items[$i] = $value;
+                $i++;
+                unset($data[$key]);
+            }
+        }
+
         unset($data['_token']);
 
         $data['slug'] = (!empty($data['slug'])) ? ($data['slug'] != $product->slug) ? $this->slugHandler($data['slug']) : $product->slug : $product->slug;
@@ -121,20 +131,20 @@ class ProductRepository implements RepositoryInterface
         $categoryIds = json_decode($data['category_list']) ?? null;
         unset($data["category_list"]);
 
-        $features = $data['features'] ?? null;
+        $features = json_decode($data['features']) ?? null;
         unset($data['features']);
 
-        $attributes = $data['attributes'] ?? null;
+        $attributes = json_decode($data['attributes']) ?? null;
         unset($data['attributes']);
 
         $data['user_id'] = Auth::id();
 
-        if (!empty($data['image']) && !is_string($data['image']))
-            $data['image'] = $this->imageHandler($data['image']);
-        elseif (is_string($data['image']) && $data['image'] == 'true')
-            unset($data['image']);
-        else
-            $data['image'] = null;
+//        if (!empty($data['image']) && !is_string($data['image']))
+//            $data['image'] = $this->imageHandler($data['image']);
+//        elseif (is_string($data['image']) && $data['image'] == 'true')
+//            unset($data['image']);
+//        else
+//            $data['image'] = null;
 
         if (!empty($attributes))
             $att = $this->attributeUpdateHandler($attributes, $product->id);
@@ -176,12 +186,12 @@ class ProductRepository implements RepositoryInterface
         unset($data['_token']);
         $data['slug'] = $this->slugHandler($data['slug']);
 
-        $data["metadata"] = json_decode($data['metadata']) ?? null;
+        $data["metadata"] = $data['metadata'] ?? null;
 
-        $tag_list = $data['tag_list'] ?? null;
+        $tag_list = json_decode($data['tag_list']) ?? null;
         unset($data["tag_list"]);
 
-        $categoryIds = $data['category_list'] ?? null;
+        $categoryIds = json_decode($data['category_list']) ?? null;
         unset($data["category_list"]);
 
         $features = $data['features'] ?? null;
@@ -212,15 +222,15 @@ class ProductRepository implements RepositoryInterface
             }
         }
 
-        if (!empty($attributes))
+        if (!empty(json_decode($attributes)))
             $att = $this->attributeHandler($attributes, $product->id);
 
-        if (!empty($features))
+        if (!empty(json_decode($features)))
             $this->featureHandler($features);
 
         $product->viewCounts()->create();
 
-        if (!empty(json_decode($tag_list))) {
+        if (!empty($tag_list)) {
             foreach ($tag_list as $tag) {
                 $tag = Tag::firstOrCreate(
                     ['name' => $tag],
@@ -230,7 +240,7 @@ class ProductRepository implements RepositoryInterface
             }
         }
 
-        if (!empty(json_decode($categoryIds))) {
+        if (!empty($categoryIds)) {
             foreach ($categoryIds as $category) {
                 $category = Category::findOrFail((int)$category);
                 $product->categories()->syncWithoutDetaching($category);

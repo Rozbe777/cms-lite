@@ -25,8 +25,8 @@ class FormDataRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (!empty($value)) {
-            $data = json_decode($value);
+        $data = json_decode($value);
+        if (!empty($data)) {
             return is_array($data) ? true : false;
         }
         return true;
