@@ -46,10 +46,8 @@ const Index = () => {
         GetAllProducts()
     }, [])
 
-
     const GetAllProducts = (dataSearch) => {
         setLoading(true);
-
         productApi._searchElements = dataSearch;
         productApi.getAll().then(res => {
             setProducts(res.data.data)

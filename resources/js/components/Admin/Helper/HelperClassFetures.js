@@ -89,6 +89,7 @@ export const NormalProductOneItem = data => {
         metadata: data.metadata,
         attributes: data.attributes,
         category_list: data.categories,
+        gallery: data.gallery,
         image: data.image,
         status: data.status,
     };

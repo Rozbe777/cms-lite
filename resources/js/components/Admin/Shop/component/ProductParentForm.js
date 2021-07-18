@@ -47,9 +47,9 @@ const ProductParentForm = ({
 
     const {allFiles, setAllFiles} = useContext(FilesShopContext);
     const [slugManage, setSlugManage] = useState(true);
-    const [categoryData, setCategoryData] = useState([]);
-    const [chipset, setChipset] = useState([]);
-    const [seoChipset, setSeoChipset] = useState([]);
+    const [categoryData, setCategoryData] = useState(defaultValuePro ? defaultValuePro.category_list : []);
+    const [chipset, setChipset] = useState(defaultValuePro ? defaultValuePro.tag_list : []);
+    const [seoChipset, setSeoChipset] = useState(defaultValuePro ? JSON.parse(defaultValuePro.metadata).tags : []);
 
     const metaDataUpdate = defaultValuePro ? JSON.parse(defaultValuePro.metadata) : {robots: false};
 
@@ -653,7 +653,7 @@ const ProductParentForm = ({
                             </div>
                             <div className={"col-12"}>
                                 <FilesShopContext.Provider value={{allFiles, setAllFiles}}>
-                                    <Doka/>
+                                    <Doka imageList={defaultValuePro ? defaultValuePro.gallery ? defaultValuePro.gallery : [] : []}/>
                                 </FilesShopContext.Provider>
 
                             </div>
