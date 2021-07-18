@@ -118,7 +118,7 @@ const Index = ({data, checkStateOfOut, sizeOf,onEdit, checkBoxSelected, onDuplic
 
                     <div className={"footer-manage-pro"}>
                         <i className={"bx bx-trash-alt"} onClick={e => onDelete(e,data.id)}></i>
-                        <i className={"bx bx-duplicate"} onClick={e => onDuplicate(e)}></i>
+                        <i className={"bx bx-duplicate"} onClick={e => onDuplicate(e , data)}></i>
                         <i className={"bx bx-link-alt"} onClick={e => show(data.url)} id={"right"}></i>
                     </div>
                 </div>

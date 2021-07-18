@@ -156,13 +156,8 @@ const ProductParentForm = ({
 
 
     let normalDefalutAttr = NormalAttrOnePro(defaultValuePro ? defaultValuePro : defaultDataFirstAdding, actionType, 0);
-
     const [priceData, setPriceData] = useState(normalDefalutAttr ? normalDefalutAttr : defaultDataFirstAdding);
-
-
     const titleDefaultValue = () => {
-        console.log("vvvvvvv", defaultValuePro, actionType);
-
         if (actionType === "duplicate") {
             return handleMakeName();
         } else if (actionType === "edit") {
@@ -171,8 +166,6 @@ const ProductParentForm = ({
             return '';
         }
     }
-
-
     const handleSwither = (e, state, name) => {
         switch (name) {
             case 'showState' :
@@ -191,7 +184,6 @@ const ProductParentForm = ({
             setCategoryData(response.data.data);
         })
     }
-
 
     const reducerAttr = (state, action) => {
         switch (action.type) {
