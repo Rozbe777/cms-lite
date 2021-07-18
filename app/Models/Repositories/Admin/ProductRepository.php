@@ -111,6 +111,16 @@ class ProductRepository implements RepositoryInterface
     {
         $product = Product::find($productId);
 
+        $i = 0;
+        $items= [];
+        foreach ($data as $key => $value) {
+            if (substr($key, 0, 5) == 'image') {
+                $items[$i] = $value;
+                $i++;
+                unset($data[$key]);
+            }
+        }
+
         unset($data['_token']);
 
         $data['slug'] = (!empty($data['slug'])) ? ($data['slug'] != $product->slug) ? $this->slugHandler($data['slug']) : $product->slug : $product->slug;
@@ -121,20 +131,20 @@ class ProductRepository implements RepositoryInterface
         $categoryIds = json_decode($data['category_list']) ?? null;
         unset($data["category_list"]);
 
-        $features = $data['features'] ?? null;
+        $features = json_decode($data['features']) ?? null;
         unset($data['features']);
 
-        $attributes = $data['attributes'] ?? null;
+        $attributes = json_decode($data['attributes']) ?? null;
         unset($data['attributes']);
 
         $data['user_id'] = Auth::id();
 
-        if (!empty($data['image']) && !is_string($data['image']))
-            $data['image'] = $this->imageHandler($data['image']);
-        elseif (is_string($data['image']) && $data['image'] == 'true')
-            unset($data['image']);
-        else
-            $data['image'] = null;
+//        if (!empty($data['image']) && !is_string($data['image']))
+//            $data['image'] = $this->imageHandler($data['image']);
+//        elseif (is_string($data['image']) && $data['image'] == 'true')
+//            unset($data['image']);
+//        else
+//            $data['image'] = null;
 
         if (!empty($attributes))
             $att = $this->attributeUpdateHandler($attributes, $product->id);
