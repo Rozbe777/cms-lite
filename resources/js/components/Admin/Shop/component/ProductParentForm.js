@@ -96,6 +96,21 @@ const ProductParentForm = ({
         }
     }
 
+
+    // this default attr for first type of product when added product
+    let attributesDefault = [{
+        product_code: counter.num,
+        price: 0,
+        discount: 0,
+        count: null,
+        isInfinite: true,
+        limit: null,
+    }]
+
+    let defaultDataFirstAdding = {
+        attributes : attributesDefault,
+    }
+
     let defaultCol = {
         [counter.num]:
             {
@@ -113,6 +128,23 @@ const ProductParentForm = ({
                 }
             }
     };
+    // let defaultCol = {
+    //     [counter.num]:
+    //         {
+    //             attributes: {
+    //                 product_code: counter.num,
+    //                 price: 0,
+    //                 discount: 0,
+    //                 count: null,
+    //                 isInfinite: true,
+    //                 limit: null,
+    //             },
+    //             fetures: {
+    //                 text: [],
+    //                 color: []
+    //             }
+    //         }
+    // };
 
 
     let normalHeadTitle = defaultValuePro ? NormalAttrHead(defaultValuePro) : {
@@ -123,9 +155,9 @@ const ProductParentForm = ({
     const [defaultTableHead, setDefaultTableHead] = useState(normalHeadTitle)
 
 
-    let normalDefalutAttr = NormalAttrOnePro(defaultValuePro, actionType, 0);
+    let normalDefalutAttr = NormalAttrOnePro(defaultValuePro ? defaultValuePro : defaultDataFirstAdding, actionType, 0);
 
-    const [priceData, setPriceData] = useState(normalDefalutAttr);
+    const [priceData, setPriceData] = useState(normalDefalutAttr ? normalDefalutAttr : defaultDataFirstAdding);
 
 
     const titleDefaultValue = () => {
@@ -192,7 +224,7 @@ const ProductParentForm = ({
                 }
                 checkChange(true)
 
-                handleEditAttributes(newState);
+                handleEditAttributes(newStates);
 
                 setPriceData(newStates)
                 return newStates;
@@ -966,6 +998,7 @@ const ProductParentForm = ({
             </div>
         )
     }
+
     function _renderChipsetMetaData(index, item) {
         return (
             <div key={index} className="chip mr-1">

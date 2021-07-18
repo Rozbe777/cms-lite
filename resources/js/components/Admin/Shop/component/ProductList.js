@@ -87,7 +87,7 @@ const Index = () => {
 
     const onAdd = e => {
         e.preventDefault();
-        ReactDOM.render(<ProductAdd result={actionReload}/>, document.getElementById("add-product"));
+        ReactDOM.render(<ProductAdd types={"add"} result={actionReload}/>, document.getElementById("add-product"));
     }
 
     const onEdit = (e, dataGet) => {
@@ -183,7 +183,7 @@ const Index = () => {
                 <div className={"row col-12"} id={"headerContent"}>
                     <TotalActions text={" محصول انتخاب شده است"} deleteUsers={e => handleDeleteGroup(e)}
                                   allData={Products ? Products : []} data={checkBox}/>
-                    <BreadCrumbs titleBtn={"افزودن"} clicked={e => onAdd(e)} icon={"bx-plus"}
+                    <BreadCrumbs titleBtn={"افزودن"} onClicked={e => onAdd(e)} icon={"bx-plus"}
                                  data={breadData}/>
                 </div>
 

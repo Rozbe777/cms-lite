@@ -7,8 +7,8 @@ export const NoralizeFetures = (data) => {
             product_code: item,
             price: parseInt(data[item].attributes.price),
             discount: parseInt(data[item].attributes.discount),
-            count: parseInt(data[item].attributes.count),
-            limit: parseInt(data[item].attributes.limit),
+            count: data[item].attributes.count ? parseInt(data[item].attributes.count) : null,
+            limit: data[item].attributes.limit ? parseInt(data[item].attributes.limit) : null,
         });
         data[item].fetures.text.map((itemText) => {
             fetures.push({
@@ -69,7 +69,7 @@ export const NormalCategorise = (data) => {
 export const CheckTextFetures = data => {
     let res = true;
     data.fetures.map(item => {
-        if (item.value == "") {
+        if (item.value === "") {
             res = false
         }
     })
@@ -157,6 +157,7 @@ export const NormalAttrHead = data => {
 
 export const NormalAttrOnePro = (data , types , counter) => {
     let priceData = {};
+    console.log("))))))" , data)
     if (types == "duplicate"){
         data.attributes.map(item => {
             priceData[counter++] = {
