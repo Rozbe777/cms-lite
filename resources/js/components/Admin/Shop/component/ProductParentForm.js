@@ -47,9 +47,9 @@ const ProductParentForm = ({
 
     const {allFiles, setAllFiles} = useContext(FilesShopContext);
     const [slugManage, setSlugManage] = useState(true);
-    const [categoryData, setCategoryData] = useState([]);
-    const [chipset, setChipset] = useState([]);
-    const [seoChipset, setSeoChipset] = useState([]);
+    const [categoryData, setCategoryData] = useState(defaultValuePro ? defaultValuePro.category_list : []);
+    const [chipset, setChipset] = useState(defaultValuePro ? defaultValuePro.tag_list : []);
+    const [seoChipset, setSeoChipset] = useState(defaultValuePro ? JSON.parse(defaultValuePro.metadata).tags : []);
 
     const metaDataUpdate = defaultValuePro ? JSON.parse(defaultValuePro.metadata) : {robots: false};
 
@@ -156,13 +156,8 @@ const ProductParentForm = ({
 
 
     let normalDefalutAttr = NormalAttrOnePro(defaultValuePro ? defaultValuePro : defaultDataFirstAdding, actionType, 0);
-
     const [priceData, setPriceData] = useState(normalDefalutAttr ? normalDefalutAttr : defaultDataFirstAdding);
-
-
     const titleDefaultValue = () => {
-        console.log("vvvvvvv", defaultValuePro, actionType);
-
         if (actionType === "duplicate") {
             return handleMakeName();
         } else if (actionType === "edit") {
@@ -171,8 +166,6 @@ const ProductParentForm = ({
             return '';
         }
     }
-
-
     const handleSwither = (e, state, name) => {
         switch (name) {
             case 'showState' :
@@ -191,7 +184,6 @@ const ProductParentForm = ({
             setCategoryData(response.data.data);
         })
     }
-
 
     const reducerAttr = (state, action) => {
         switch (action.type) {
@@ -661,7 +653,7 @@ const ProductParentForm = ({
                             </div>
                             <div className={"col-12"}>
                                 <FilesShopContext.Provider value={{allFiles, setAllFiles}}>
-                                    <Doka/>
+                                    <Doka imageList={defaultValuePro ? defaultValuePro.gallery ? defaultValuePro.gallery : [] : []}/>
                                 </FilesShopContext.Provider>
 
                             </div>

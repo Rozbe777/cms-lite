@@ -17,10 +17,13 @@ import ReactDom from "react-dom";
 import {NormalProductOneItem} from "../../Helper/HelperClassFetures";
 import BottomNavigationBar from "../../UserList/HOC/BottomNavigationBar";
 import ProductApi from './../Api/ProductApi'
+import ProductDuplicate from "./ProductDuplicate";
+import HelperFunction from "../Helper/HelperFunction";
 
 const Index = () => {
 
 
+    let helperFunction = new HelperFunction();
     let productApi = new ProductApi();
     const [checked, setChecked] = useState([]);
     const [checkBox, setCheckBox] = useState([]);
@@ -43,10 +46,8 @@ const Index = () => {
         GetAllProducts()
     }, [])
 
-
     const GetAllProducts = (dataSearch) => {
         setLoading(true);
-
         productApi._searchElements = dataSearch;
         productApi.getAll().then(res => {
             setProducts(res.data.data)
@@ -99,7 +100,7 @@ const Index = () => {
     const onDuplicate = (e, data) => {
         e.preventDefault();
         let normalData = NormalProductOneItem(data)
-        ReactDOM.render(<ProductAdd types={"duplicate"} defaultValuePro={normalData}
+        ReactDOM.render(<ProductDuplicate types={"duplicate"} defaultValuePro={normalData}
                                     result={actionReload}/>, document.getElementById("add-product"));
     }
 
@@ -136,6 +137,7 @@ const Index = () => {
     const actionReload = (e) => {
         e.preventDefault();
         GetAllProducts(stringSearchs);
+        helperFunction.handleClose();
         ReactDom.render('', document.getElementById('add-product'))
 
     }
