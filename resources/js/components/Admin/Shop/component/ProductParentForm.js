@@ -479,7 +479,6 @@ const ProductParentForm = ({
         }
     }
 
-
     const renderFitureText = (dataIns, id) => {
         return dataIns.map((item, index) => (
             <td key={index} id={"color-col"}>
@@ -899,7 +898,7 @@ const ProductParentForm = ({
                                             </div>
 
                                             {seoChipset.map((item, index) => (
-                                                _renderChipsetContent(index, item)
+                                                _renderChipsetMetaData(index, item)
                                             ))}
 
                                         </div>
@@ -961,6 +960,19 @@ const ProductParentForm = ({
                     <span className="chip-text">{item}</span>
                     <div className="chip-closeable"
                          onClick={e => removeChipset(e, item)}>
+                        <i className="bx bx-x"></i>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+    function _renderChipsetMetaData(index, item) {
+        return (
+            <div key={index} className="chip mr-1">
+                <div className="chip-body">
+                    <span className="chip-text">{item}</span>
+                    <div className="chip-closeable"
+                         onClick={e => removeChipsetMetaData(e, item)}>
                         <i className="bx bx-x"></i>
                     </div>
                 </div>
