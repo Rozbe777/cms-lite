@@ -70,6 +70,7 @@ class ProductRepository implements RepositoryInterface
                     $query->where('attributes.discount_status', $discount);
                 });
             })
+            ->with('gallery')
             ->with('user')
             ->with('viewCounts')
             ->with('tags')
@@ -81,7 +82,7 @@ class ProductRepository implements RepositoryInterface
             })
             ->when(!empty($time), function ($query) use ($time) {
                 $query->latest();
-            })->with('galeries')->paginate(config('view.pagination'));
+            })->paginate(config('view.pagination'));
     }
 
     public function get($product)
@@ -175,6 +176,8 @@ class ProductRepository implements RepositoryInterface
         unset($data['_token']);
         $data['slug'] = $this->slugHandler($data['slug']);
 
+        $data["metadata"] = json_decode($data['metadata']) ?? null;
+
         $tag_list = $data['tag_list'] ?? null;
         unset($data["tag_list"]);
 
@@ -190,9 +193,6 @@ class ProductRepository implements RepositoryInterface
         $data['user_id'] = Auth::id();
 
         $product = Product::create($data);
-
-        $product->link = config('shop.products.link').$product->id;
-        $product->save();
 
         foreach ($items as $value) {
             if (!empty($value) && !is_string($value)) {

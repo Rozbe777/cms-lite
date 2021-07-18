@@ -45,7 +45,7 @@ class Product extends Model
         return $this->morphOne(ViewCount::class, 'viewcountable');
     }
 
-    public function galeries()
+    public function gallery()
     {
         return $this->hasMany(Galery::class, 'product_id', 'id');
     }
