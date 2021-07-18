@@ -106,16 +106,12 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
         allFiles.map((items, index) => {
             productFormData.append("image_" + index, items);
         })
-
         let status = localStorage.getItem("status") ? localStorage.getItem("status") : formDataClone.status;
         productFormData.append("status", status);
-
         if (slugManage == false) {
             productFormData.append("slug", formDataClone.title);
-
         } else {
         }
-
         if (formData.slug == "") {
             productFormData.append("slug", formDataClone.title);
         }
@@ -130,11 +126,8 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
             productFormData.append("_token", TOKEN);
             productFormData.append("id", formDataClone.id);
             metadataClone.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : false;
-            console.log("_______+++++++" , metadataClone)
-
             productFormData.append("metadata", JSON.stringify(metadataClone));
             if (formDataClone.title && formDataClone.title !== '') {
-
                 $("input[name=title]#pro-title").removeClass("is-invalid");
                 swalAccept("ویرایش محصول").then(resSwal => {
                     if (resSwal.value) {
