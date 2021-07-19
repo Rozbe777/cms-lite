@@ -42,12 +42,11 @@ trait ValidateCoupon
      */
     public function checkCoupon($couponCode, $attribute)
     {
-        $coupon = Coupon::whereCode($couponCode)->where('status', 'active')->with('coupon_settings')
+        $coupon = Coupon::where('code', $couponCode)->where('status', 'active')->with('coupon_settings')
             ->first();
 
-        if (!empty($coupon->coupon_settings->end_date))
-            if ($coupon->coupon_settings->end_date > jdate()->getTimestamp())
-                return __('message.coupon.validation.error.expired');
+        if (!empty($coupon->coupon_settings->end_date) && $coupon->coupon_settings->end_date < jdate()->getTimestamp())
+            return __('message.coupon.validation.error.expired');
 
         $coupon_functionality = $coupon->coupon_settings->functionality;
         $cart_conditions = $coupon->coupon_settings->cart_conditions;
@@ -62,13 +61,11 @@ trait ValidateCoupon
         /** check coupon access for current user */
         $coupon_user_group = $coupon->coupon_settings->user_group;
         $user_group = (Auth::user())->group;
-        if ($coupon_user_group[0] < -1)
-            if ($coupon_user_group[0] != $user_group)
-                return __('message.coupon.validation.error.access');
+        if (($coupon_user_group[0] < -1) && ($coupon_user_group[0] != $user_group))
+            return __('message.coupon.validation.error.access');
 
-        if ($coupon_user_group[0] > 0)
-            if (!in_array($user_group, json_decode($coupon_user_group)))
-                return __('message.coupon.validation.error.access');
+        if (($coupon_user_group[0] > 0) && !in_array($user_group, json_decode($coupon_user_group)))
+            return __('message.coupon.validation.error.access');
 
         return [
             'coupon_functionality' => [
@@ -94,11 +91,20 @@ trait ValidateCoupon
      */
     public function checkProduct($attribute, $coupon_functionality, $coupon_functionality_amount)
     {
-        $i = 0;
-        if ($coupon_functionality == "special_products")
-            if (!in_array($attribute->product_id, array_map('intval', json_decode($coupon_functionality_amount))))
-                return __('message.coupon.validation.error.inclusive');
+        $product_id = collect($attribute)->map(function ($item) {
+            return $item['product_id'];
+        });
 
+        $i = 0;
+        if ($coupon_functionality == "special_products") {
+            foreach ($product_id->toArray() as $item) {
+                if (!in_array($item, array_map('intval', json_decode($coupon_functionality_amount)))) {
+                    $i++;
+                }
+            }
+            if ($i == sizeof($product_id->toArray()))
+                return __('message.coupon.validation.error.inclusive');
+        }
 
         if ($coupon_functionality == 'special_categories') {
             $categories = (Product::whereId($attribute->product_id)->first())->categories;

@@ -66,7 +66,7 @@ class CartController extends Controller
         });
 
         $products = $products->map(function ($item, $key) use ($items) {
-            return collect($item)->prepend($items[$key]['count'], 'product number');
+            return collect($item)->prepend($items[$key]['count'], 'product_number');
         });
 
         $sumFinalPrice = $price->sum('sum_final_price');

@@ -21,6 +21,7 @@ class CreateAddressesTable extends Migration
             $table->string('address');
             $table->bigInteger('postal_code')->nullable();
             $table->string('phone');
+            $table->enum('status',['active','deactivate'])->default('deactivate');
             $table->softDeletes();
             $table->timestamps();
         });

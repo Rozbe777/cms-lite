@@ -49,7 +49,9 @@ class ProductRepository implements RepositoryInterface
         })->when(!empty($entity), function ($query) use ($entity) {
             $query->where('entity', $entity);
         })->with('attributes', function ($q) {
-            /*$q->with('typeFeatures')->with('types');*/
+            $q->with('typeFeatures',function ($q) {
+                $q->with('type');
+            });
         })
             ->when(!empty($categories), function ($query) use ($categories) {
                 $query->whereHas('categories', function ($query) use ($categories) {

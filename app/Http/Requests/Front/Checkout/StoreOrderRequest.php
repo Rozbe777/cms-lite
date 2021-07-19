@@ -24,7 +24,9 @@ class StoreOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'coupon_code' => 'nullable|string',
+            'transport_id' => 'nullable|integer',
+            'description' => 'nullable|string'
         ];
     }
 }
