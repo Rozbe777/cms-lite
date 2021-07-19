@@ -583,6 +583,8 @@ body.active-darked {
         color: $color !important;
     }
 
+
+
     #back-loaderedss {
         select {
             height: 45px !important;
@@ -1992,4 +1994,27 @@ input[type=checkbox]{
 .checkboxeds input#checkbox1{
     position: absolute !important;
     top: 0px !important;
+}
+
+a#link-buy{
+    padding: 2px 12px;
+    background: #ccc;
+    margin-left: 10px;
+    color: #464646;
+    font-size: 13px;
+    font-weight: 100;
+    position: relative;
+    line-height: 1.9;
+    cursor: not-allowed;
+    border-radius: 5px;
+    &.active{
+        background: blue;
+        color: #fff;
+        cursor: pointer;
+    }
+    i{
+        float: right;
+        margin-top: 2px;
+        margin-left: 3px;
+    }
 }

@@ -5,7 +5,7 @@ import {FilesShopContext} from "../Helper/Context";
 import Doka from "../../../HOC/DropZone";
 import {MultiSelected} from "../ProductManager/HOC/MultiSelected";
 import {ChipsetHandler} from "../../../HOC/ChipsetHandler";
-
+import './../_shared/Responsive.scss'
 // import {Swiper, SwiperSlide} from "swiper/swiper-react";
 
 import MyEditor from "../../_Micro/MyEditor/MyEditor";
@@ -49,7 +49,7 @@ const ProductParentForm = ({
     const [slugManage, setSlugManage] = useState(true);
     const [categoryData, setCategoryData] = useState(defaultValuePro ? defaultValuePro.category_list : []);
     const [chipset, setChipset] = useState(defaultValuePro ? defaultValuePro.tag_list : []);
-    const [seoChipset, setSeoChipset] = useState(defaultValuePro ? JSON.parse(defaultValuePro.metadata).tags : []);
+    const [seoChipset, setSeoChipset] = useState(defaultValuePro ? JSON.parse(defaultValuePro.metadata) ?  JSON.parse(defaultValuePro.metadata).tags : [] : []);
 
     const metaDataUpdate = defaultValuePro ? JSON.parse(defaultValuePro.metadata) : {robots: false};
 
@@ -156,6 +156,7 @@ const ProductParentForm = ({
 
 
     let normalDefalutAttr = NormalAttrOnePro(defaultValuePro ? defaultValuePro : defaultDataFirstAdding, actionType, 0);
+    console.log("sdvsdvsdv____" ,normalDefalutAttr )
     const [priceData, setPriceData] = useState(normalDefalutAttr ? normalDefalutAttr : defaultDataFirstAdding);
     const titleDefaultValue = () => {
         if (actionType === "duplicate") {
@@ -785,10 +786,18 @@ const ProductParentForm = ({
                                                             {renderFitureColor(stateData[item].fetures.color, item)}
 
                                                             <td id={"actions-item"}>
-                                                                        <span>
-                                                                            <i className={"bx bx-link"}></i>
-                                                                            لینک خرید
-                                                                        </span>
+                                                                {stateData[item].attributes.link ? (
+                                                                    <a id={"link-buy"} className={"active"} href={stateData[item].attributes.link}>
+                                                                        <i className={"bx bx-link"}></i>
+                                                                        لینک خرید
+                                                                    </a>
+                                                                ): (
+                                                                    <a id={"link-buy"}>
+                                                                        <i className={"bx bx-link"}></i>
+                                                                        لینک خرید
+                                                                    </a>
+                                                                )}
+
                                                                 <a onClick={e => deleteColAttr(e, item)}>
                                                                     <i id={"del-fet"} className="bx bx-trash"></i>
                                                                 </a>
@@ -814,11 +823,19 @@ const ProductParentForm = ({
                                                             </td>
                                                             {renderFitureText(priceData[item].fetures.text, item)}
                                                             {renderFitureColor(priceData[item].fetures.color, item)}
+                                                            {console.log("__vvvv__" , priceData[item].attributes)}
                                                             <td id={"actions-item"}>
-                                                                        <span>
-                                                                            <i className={"bx bx-link"}></i>
-                                                                            لینک خرید
-                                                                        </span>
+                                                                {priceData[item].attributes.link ? (
+                                                                    <a id={"link-buy"} className={"active"} href={priceData[item].attributes.link}>
+                                                                        <i className={"bx bx-link"}></i>
+                                                                        لینک خرید
+                                                                    </a>
+                                                                ): (
+                                                                    <a id={"link-buy"}>
+                                                                        <i className={"bx bx-link"}></i>
+                                                                        لینک خرید
+                                                                    </a>
+                                                                )}
                                                                 <a onClick={e => deleteColAttr(e, item)}>
                                                                     <i id={"del-fet"} className="bx bx-trash"></i>
                                                                 </a>
