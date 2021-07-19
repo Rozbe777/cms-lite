@@ -163,6 +163,7 @@ export const NormalAttrOnePro = (data, types, counter) => {
                 price: item.price,
                 discount: item.discount,
                 limit: item.limit,
+                link : item.link,
                 count: item.count,
             },
             fetures: NormalFet(item.type_features ? item.type_features : [])

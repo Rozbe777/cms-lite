@@ -21,7 +21,7 @@ const ProductDuplicate = ({defaultValuePro, types, dataUpdate, result}) => {
 
     console.log("___-----_" , defaultValuePro)
     const [allFiles, setAllFiles] = useState([]);
-    const [metaData, setMetaData] = useState(defaultValuePro.metadata ? defaultValuePro.metadata : {
+    const [metaData, setMetaData] = useState(defaultValuePro.metadata ? JSON.parse(defaultValuePro.metadata) : {
         robots: false,
     });
 
@@ -66,7 +66,6 @@ const ProductDuplicate = ({defaultValuePro, types, dataUpdate, result}) => {
 
 
     useEffect(() => {
-        setMetaData(metaData)
         let chipTag = defaultValuePro ? metaData.tags ? metaData.tags : [] : [];
         let chipTagProduct = defaultValuePro ? defaultValuePro.tag_list : [];
         setChipset(chipTag)
@@ -106,7 +105,6 @@ const ProductDuplicate = ({defaultValuePro, types, dataUpdate, result}) => {
     const onSubmit = (e) => {
         e.preventDefault();
         let formDataClone = {...formData};
-        let metadataClone = {...metaData};
         let productFormData = new FormData();
         let title = $("input[name=title]").val();
         let slug = slugManage ? titleWrite : $("input.slugest").val();
@@ -133,9 +131,11 @@ const ProductDuplicate = ({defaultValuePro, types, dataUpdate, result}) => {
             productFormData.append("category_list", JSON.stringify(category_id));
             productFormData.append("tag_list", JSON.stringify(formData.tag_list));
             productFormData.append("_token", TOKEN);
-            productFormData.append("id", formDataClone.id);
-            metadataClone.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : false;
-            productFormData.append("metadata", JSON.stringify(metadataClone));
+            console.log( "meta datatattt" , metaData)
+
+            metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : false;
+            console.log( "meta datatattt" , metaData)
+            productFormData.append("metadata", JSON.stringify(metaData));
             if (formDataClone.title && formDataClone.title !== '') {
                 $("input[name=title]#pro-title").removeClass("is-invalid");
                 swalAccept("کپی محصول").then(resSwal => {
@@ -221,7 +221,7 @@ const ProductDuplicate = ({defaultValuePro, types, dataUpdate, result}) => {
                     />
                 </FilesShopContext.Provider>
                 <div className={"col-12 bottom-footer"}>
-                    <Footer actionType={"edit"} editStatus={edit} onCancel={onClose} onClicked={onSubmit}/>
+                    <Footer actionType={"duplicate"} editStatus={edit} onCancel={onClose} onClicked={onSubmit}/>
                 </div>
             </div>
 
