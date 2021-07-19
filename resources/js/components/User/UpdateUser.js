@@ -247,7 +247,6 @@ const UpdateUser = (props) => {
 
                 <span id={"choise-img"} onClick={e => handledelImg(e)} style={{right: 0, left: '-75px'}}>
                     <i className={"bx bx-trash-alt"}></i>
-
                 </span>
 
             </div>
@@ -361,9 +360,7 @@ const UpdateUser = (props) => {
                                     </div>
                                 </div>
                             </>
-
                         ) : ''}
-
                     </div>
 
                     <div className="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1"
@@ -374,8 +371,6 @@ const UpdateUser = (props) => {
                     </div>
                 </div>
             </form>
-
-
             <div id={"loading-show"} style={{zIndex: 9999, visibility: 'hidden'}}>
                 <Loading/>
             </div>

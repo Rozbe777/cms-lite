@@ -152,6 +152,7 @@ export const MultiSelected = ({
                                 <input type="checkbox"
                                        onChange={e => HandleChange(e, item.id)}
                                        name={item.id}
+                                       className={"mamadInput"}
                                        style={{background: 'green !important'}}
                                        value={item.name} id="checkbox1"/>
                                 <span id={"labels"} className={"labels2"} htmlFor="checkbox1">{item.name}</span>

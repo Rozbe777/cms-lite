@@ -18,6 +18,9 @@ require('./components/Auth/RePass/MobileVerify');
 require('./components/Auth/Register/Index');
 require('./components/Profile/Profile');
 require('./components/Profile/ChangePassword');
+require('./components/Profile/Address');
+require('./components/Profile/index');
+
 require('./components/Setting/General');
 require('./components/Setting/JsAndCss');
 require('./components/User/CreateUser');
