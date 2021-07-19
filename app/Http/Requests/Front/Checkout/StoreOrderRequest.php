@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Front\Checkout;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreOrderRequest extends FormRequest
 {

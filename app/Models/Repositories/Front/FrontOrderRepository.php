@@ -76,7 +76,7 @@ class FrontOrderRepository implements RepositoryInterface
 
             $order = Session::get(self::ORDER_SESSION_ID);
 
-            $data = [
+            $facture = [
                 'user_id' => Auth::id(),
                 'status' => 'process',
                 'sum_price' => $order['result']['sum_price'],
@@ -91,11 +91,11 @@ class FrontOrderRepository implements RepositoryInterface
 
             $products = ($order['products'])->toArray();
 
-            $data['coupon_status'] = $this->validateCoupon($products, (int)$data['coupon_code']);
-            if (is_string($data['coupon_status']))
-                return $data['coupon_status'];
+            $facture['coupon_status'] = $this->validateCoupon($products, (int)$facture['coupon_code']);
+            if (is_string($facture['coupon_status']))
+                return $facture['coupon_status'];
 
-            $this->checkCartPrice($data['coupon_status']);
+            $this->checkCartPrice($facture,$products);
 
             $order = Order::create($data);
             $order->attributes()->attach($products, ['number_of_product' => $number]);

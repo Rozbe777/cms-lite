@@ -22,7 +22,7 @@ class CreateCategoriesTable extends Migration
             $table->longText('metadata')->nullable();
             $table->unsignedInteger('parent_id')->nullable()->default(0);
             $table->bigInteger('layout_id')->unsigned()->default(0);
-            $table->bigInteger('module_id')->default(1); // 1:blog --- 2:store
+            $table->bigInteger('module_id')->default(1)->comment('1:blog --- 2:store');
             $table->enum('status', ['active', 'deactivate'])->default('active');
             $table->integer('is_menu')->default(0);
             $table->bigInteger('user_id')->default(0);
