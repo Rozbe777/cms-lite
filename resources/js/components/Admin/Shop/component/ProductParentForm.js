@@ -6,7 +6,6 @@ import Doka from "../../../HOC/DropZone";
 import {MultiSelected} from "../ProductManager/HOC/MultiSelected";
 import {ChipsetHandler} from "../../../HOC/ChipsetHandler";
 import './../_shared/Responsive.scss'
-// import {Swiper, SwiperSlide} from "swiper/swiper-react";
 
 import MyEditor from "../../_Micro/MyEditor/MyEditor";
 import {BigSwitcher} from "../../../HOC/BigSwitcher";
@@ -34,10 +33,9 @@ const ProductParentForm = ({
                                handleTagDescription,
                                handleMetaData,
                                handleTagMetaData,
+                               handleGalleryDeletedId,
                                handleEditAttributes
                            }) => {
-
-    console.log(defaultValuePro)
 
     let helperFunction = new HelperFunction();
     const [loading, setLoading] = useState(false)
@@ -46,17 +44,15 @@ const ProductParentForm = ({
     }, [])
 
     const {allFiles, setAllFiles} = useContext(FilesShopContext);
+    const [gallery, setGallery] = useState(defaultValuePro ? defaultValuePro.gallery : [])
     const [slugManage, setSlugManage] = useState(true);
     const [categoryData, setCategoryData] = useState(defaultValuePro ? defaultValuePro.category_list : []);
     const [chipset, setChipset] = useState(defaultValuePro ? defaultValuePro.tag_list : []);
-    const [seoChipset, setSeoChipset] = useState(defaultValuePro ? JSON.parse(defaultValuePro.metadata) ?  JSON.parse(defaultValuePro.metadata).tags : [] : []);
+    const [seoChipset, setSeoChipset] = useState(defaultValuePro ? JSON.parse(defaultValuePro.metadata) ? JSON.parse(defaultValuePro.metadata).tags : [] : []);
 
     const metaDataUpdate = defaultValuePro ? JSON.parse(defaultValuePro.metadata) : {robots: false};
-
     let componentHandler = new ComponentHandler();
     let categoryApi = new CategoryApi();
-
-
     // make reandom nuber id for new feature
     let mins = 10000000000;
     let maxs = 99999999999;
@@ -84,7 +80,6 @@ const ProductParentForm = ({
         }
     }
 
-
     const handleAddChipMetaData = (item) => {
         checkChange(true)
         let chipsets = [...seoChipset];
@@ -108,7 +103,7 @@ const ProductParentForm = ({
     }]
 
     let defaultDataFirstAdding = {
-        attributes : attributesDefault,
+        attributes: attributesDefault,
     }
 
     let defaultCol = {
@@ -128,24 +123,6 @@ const ProductParentForm = ({
                 }
             }
     };
-    // let defaultCol = {
-    //     [counter.num]:
-    //         {
-    //             attributes: {
-    //                 product_code: counter.num,
-    //                 price: 0,
-    //                 discount: 0,
-    //                 count: null,
-    //                 isInfinite: true,
-    //                 limit: null,
-    //             },
-    //             fetures: {
-    //                 text: [],
-    //                 color: []
-    //             }
-    //         }
-    // };
-
 
     let normalHeadTitle = defaultValuePro ? NormalAttrHead(defaultValuePro) : {
         color: [],
@@ -156,7 +133,7 @@ const ProductParentForm = ({
 
 
     let normalDefalutAttr = NormalAttrOnePro(defaultValuePro ? defaultValuePro : defaultDataFirstAdding, actionType, 0);
-    console.log("sdvsdvsdv____" ,normalDefalutAttr )
+    console.log("sdvsdvsdv____", normalDefalutAttr)
     const [priceData, setPriceData] = useState(normalDefalutAttr ? normalDefalutAttr : defaultDataFirstAdding);
     const titleDefaultValue = () => {
         if (actionType === "duplicate") {
@@ -308,7 +285,7 @@ const ProductParentForm = ({
 
             case "addNew" :
                 let dataNew = action.data[Object.keys(action.data)[Object.keys(action.data).length - 1]];
-                console.log("New adding dataaaa" , dataNew)
+                console.log("New adding dataaaa", dataNew)
                 let now_num = Object.keys(action.data)[Object.keys(action.data).length - 1]
                 let texts = [];
                 let counterCodess = parseInt(now_num) + 1;
@@ -618,6 +595,13 @@ const ProductParentForm = ({
     }
 
 
+    const handleDeleteImage = (e, id) => {
+        e.preventDefault();
+        let newGallery = gallery.filter(item => item.id !== id);
+        setGallery(newGallery);
+        handleGalleryDeletedId(id)
+    }
+
     return (
         <>
             <ul className="nav nav-tabs tab-layout" role="tablist">
@@ -656,7 +640,7 @@ const ProductParentForm = ({
                             </div>
                             <div className={"col-12"}>
                                 <FilesShopContext.Provider value={{allFiles, setAllFiles}}>
-                                    <Doka imageList={defaultValuePro ? defaultValuePro.gallery ? defaultValuePro.gallery : [] : []}/>
+                                    <Doka imageList={gallery} handleDeleteImage={handleDeleteImage}/>
                                 </FilesShopContext.Provider>
 
                             </div>
@@ -672,7 +656,7 @@ const ProductParentForm = ({
                         <div className="col-md-6" id={"inAddings"}>
                             <label>دسته بندی</label>
                             <MultiSelected name={"categories"} data={categoryData ? categoryData : []}
-                                           defSelected={defaultValuePro.category_list ? defaultValuePro.categories : []}
+                                           defSelected={defaultValuePro.category_list ? defaultValuePro.category_list : []}
                                            selected={item => categoryOnChange(item)}
                             />
                         </div>
@@ -777,14 +761,16 @@ const ProductParentForm = ({
                                                             {renderFitureText(stateData[item].fetures.text, item)}
                                                             {renderFitureColor(stateData[item].fetures.color, item)}
 
-                                                            {console.log("llllllll state data" , stateData[item].attributes)}
+                                                            {console.log("llllllll state data", stateData[item].attributes)}
                                                             <td id={"actions-item"}>
                                                                 {stateData[item].attributes.link ? (
-                                                                    <a id={"link-buy"} target={"_blank"} className={"active"} href={stateData[item].attributes.link}>
+                                                                    <a id={"link-buy"} target={"_blank"}
+                                                                       className={"active"}
+                                                                       href={stateData[item].attributes.link}>
                                                                         <i className={"bx bx-link"}></i>
                                                                         لینک خرید
                                                                     </a>
-                                                                ): (
+                                                                ) : (
                                                                     <a id={"link-buy"}>
                                                                         <i className={"bx bx-link"}></i>
                                                                         لینک خرید
@@ -817,13 +803,15 @@ const ProductParentForm = ({
                                                             {renderFitureText(priceData[item].fetures.text, item)}
                                                             {renderFitureColor(priceData[item].fetures.color, item)}
                                                             <td id={"actions-item"}>
-                                                                {console.log("llllllll price data" , priceData[item].attributes)}
+                                                                {console.log("llllllll price data", priceData[item].attributes)}
                                                                 {priceData[item].attributes.link ? (
-                                                                    <a id={"link-buy"} className={"active"} target={"_blank"} href={priceData[item].attributes.link}>
+                                                                    <a id={"link-buy"} className={"active"}
+                                                                       target={"_blank"}
+                                                                       href={priceData[item].attributes.link}>
                                                                         <i className={"bx bx-link"}></i>
                                                                         لینک خرید
                                                                     </a>
-                                                                ): (
+                                                                ) : (
                                                                     <a id={"link-buy"}>
                                                                         <i className={"bx bx-link"}></i>
                                                                         لینک خرید
@@ -931,7 +919,7 @@ const ProductParentForm = ({
                                                     onChange={handleAddChipMetaData}/>
                                             </div>
 
-                                            {console.log("_______________" , seoChipset)}
+                                            {console.log("_______________", seoChipset)}
                                             {seoChipset ? seoChipset.map((item, index) => (
                                                 _renderChipsetMetaData(index, item)
                                             )) : ''}

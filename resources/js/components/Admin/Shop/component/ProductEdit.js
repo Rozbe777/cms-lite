@@ -21,7 +21,8 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
 
     console.log("___-----_" , defaultValuePro)
     const [allFiles, setAllFiles] = useState([]);
-    const [metaData, setMetaData] = useState(defaultValuePro.metadata ? defaultValuePro.metadata : {
+    const [delImageIds , setDelImaeIds] = useState([]);
+    const [metaData, setMetaData] = useState(defaultValuePro.metadata ? JSON.parse(defaultValuePro.metadata) : {
         robots: false,
     });
 
@@ -106,7 +107,6 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
     const onSubmit = (e) => {
         e.preventDefault();
         let formDataClone = {...formData};
-        let metadataClone = {...metaData};
         let productFormData = new FormData();
         let title = $("input[name=title]").val();
         let slug = slugManage ? titleWrite : $("input.slugest").val();
@@ -132,10 +132,11 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
             productFormData.append("features", JSON.stringify(normal.fetures));
             productFormData.append("category_list", JSON.stringify(category_id));
             productFormData.append("tag_list", JSON.stringify(formData.tag_list));
+            productFormData.append("delete_images", JSON.stringify(delImageIds));
             productFormData.append("_token", TOKEN);
             productFormData.append("id", formDataClone.id);
-            metadataClone.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : false;
-            productFormData.append("metadata", JSON.stringify(metadataClone));
+            metaData.robots = localStorage.getItem("robots") ? localStorage.getItem("robots") : false;
+            productFormData.append("metadata", JSON.stringify(metaData));
             if (formDataClone.title && formDataClone.title !== '') {
                 $("input[name=title]#pro-title").removeClass("is-invalid");
                 swalAccept("ویرایش محصول").then(resSwal => {
@@ -202,10 +203,14 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
         setPriceData(data)
     }
 
+    const handleGalleryDeletedId = id => {
+        delImageIds.push(id);
+        setDelImaeIds(delImageIds);
+    }
+
     return (
         <>
             <div id={"category_add_pop_base"}>
-
                 <FilesShopContext.Provider value={{allFiles, setAllFiles}}>
                     <ProductParentForm
                         actionType={"edit"}
@@ -217,6 +222,7 @@ const ProductEdit = ({defaultValuePro, types, dataUpdate, result}) => {
                         editorData={editorData}
                         handleTagDescription={descriptionTagChange}
                         handleMetaData={handleMetaData}
+                        handleGalleryDeletedId={handleGalleryDeletedId}
                         handleTagMetaData={handleTagMetaData}
                         handleEditAttributes={handleEditAttributes}
                     />

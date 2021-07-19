@@ -210,7 +210,7 @@ export const CategoryFormParent = ({
                 <div className="tab-pane active" id="cat" aria-labelledby="cat-tab" role="tabpanel">
                     <div className={"content-pages"}>
                         <div className={"row"} style={{padding: '20px'}}>
-                            <div className={"col-lg-3 col-md-4 col-sm-12"}>
+                            <div className={"col-lg-6 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label htmlFor={"title"}>عنوان دسته بندی</label>
                                     <input type={"text"} defaultValue={titleDefaultValue()}
@@ -219,7 +219,7 @@ export const CategoryFormParent = ({
                                            className={"form-control titleCat"}/>
                                 </fieldset>
                             </div>
-                            <div className={"col-lg-3 col-md-4 col-sm-12"}>
+                            <div className={"col-lg-6 col-md-4 col-sm-12"}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>دسته بندی پدر</label>
                                     <SelectOptions parents={parentId ? parentId : 0}
@@ -228,7 +228,20 @@ export const CategoryFormParent = ({
 
                                 </fieldset>
                             </div>
-                            <div className={"col-lg-2 col-md-3 col-sm-12"}>
+
+                            <div className={"col-lg-3 col-md-4 col-sm-12"} style={{padding : 15}}>
+                                <fieldset className="form-group">
+                                    <label id={"selectParent"}>انتخاب نوع دسته بندی</label>
+
+                                    <select style={{height : '50px'}} className="form-control" id="basicSelect">
+                                        <option value={"0"}>انتخاب کنید</option>
+                                        <option value={"1"}>بلاگ</option>
+                                        <option value={"2"}>فروشگاه</option>
+                                    </select>
+                                </fieldset>
+
+                            </div>
+                            <div className={"col-lg-3 col-md-3 col-sm-12"} style={{padding : 15}}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>وضعیت نمایش</label>
                                     <Switcher
@@ -239,7 +252,7 @@ export const CategoryFormParent = ({
                                         valueDeActive={"غیرفعال"}/>
                                 </fieldset>
                             </div>
-                            <div className={"col-lg-2 col-md-3 col-sm-12"}>
+                            <div className={"col-lg-3 col-md-3 col-sm-12"} style={{padding : 15}}>
                                 <fieldset className="form-group">
                                     <label id={"selectParent"}>نمایش در منو</label>
                                     <Switcher

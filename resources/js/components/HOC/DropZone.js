@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import './_Shared/style.scss'
 import {FilesShopContext} from "../Admin/Shop/Helper/Context";
+import {BASE_URL_IMG} from "../../services/Type";
 
 const thumbsContainer = {
     display: 'flex',
@@ -35,7 +36,7 @@ const img = {
 };
 
 
-function Previews(props, {handleFiles}) {
+function Previews({imageList , handleDeleteImage}) {
     const [files, setFiles] = useState([]);
     const {setAllFiles} = useContext(FilesShopContext);
     const {getRootProps, getInputProps} = useDropzone({
@@ -81,27 +82,26 @@ function Previews(props, {handleFiles}) {
             </section>
 
             <div className={"container-fluid row"} style={{margin : '0' , marginTop : '15px' , padding : 0}}>
-                <div className={"col-lg-3 col-md-4 col-6"}>
-                    <div className={"img-items"}>
-                        <img src={"/img/34907.jpg"}/>
-                        <div className={"backClose"}>
-                            <i className={"bx bx-x"}></i>
-                        </div>
-                    </div>
-                </div>
 
-                <div className={"col-lg-3 col-md-4 col-6"}>
-                    <div className={"img-items"}>
-
-                        <img src={"/img/unnamed.jpg"}/>
-                        <div className={"backClose"}>
-                            <i className={"bx bx-x"}></i>
+                {imageList.length > 0 ? (<p style={{textAlign:'right' , paddingRight : 10 , width : '100%'}}>گالری تصاویر محصول</p>) : ''}
+                {imageList.map(item => (<div className={"col-lg-3 col-md-4 col-6"}>
+                            <div className={"img-items"}>
+                                <img src={BASE_URL_IMG+item.path}/>
+                                <div className={"backClose"}>
+                                    <i className={"bx bx-x"} onClick={e => handleDeleteImage(e , item.id)}></i>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+
+                    )
+                )}
+
             </div>
         </React.Fragment>
     );
+
+
+
 }
 
 export default Previews;
