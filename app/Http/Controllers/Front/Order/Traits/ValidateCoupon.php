@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Front\Order\Traits;
 
 
+use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\CouponSetting;
 use App\Models\Product;
@@ -95,6 +96,17 @@ trait ValidateCoupon
             return $item['product_id'];
         });
 
+        $categories = collect($attribute)->map(function ($item) {
+            $data = Category::whereHas('products', function ($q) use ($item) {
+                $q->where('products.id', $item['product_id']);
+            })->get();
+            return $data;
+        });
+
+        foreach ($categories as $category){
+           $categories_id[] = ($category->toArray())[0]['id'];
+        }
+dd($categories_id);
         $i = 0;
         if ($coupon_functionality == "special_products") {
             foreach ($product_id->toArray() as $item) {
