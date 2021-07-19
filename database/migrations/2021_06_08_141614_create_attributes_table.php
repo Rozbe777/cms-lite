@@ -16,7 +16,7 @@ class CreateAttributesTable extends Migration
         Schema::create('attributes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('product_id')->index();
-            $table->bigInteger('product_code')->unique();
+            $table->bigInteger('product_code');
             $table->bigInteger('price');
             $table->bigInteger('discount')->default(0);
             $table->integer('discount_percentage')->default(0);

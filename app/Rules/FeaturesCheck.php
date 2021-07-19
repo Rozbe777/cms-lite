@@ -38,12 +38,11 @@ class FeaturesCheck implements Rule
                         }
                     }
                 } else {
-                    return false;
+                    return true;
                 }
             }
         }
         return true;
-
     }
 
     /**

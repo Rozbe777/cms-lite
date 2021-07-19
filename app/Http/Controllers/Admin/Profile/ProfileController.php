@@ -6,6 +6,7 @@ use App\Classes\Responses\Admin\ResponsesTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Profile\UpdateRequest;
 use App\Models\Address;
+use App\Models\User;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -19,11 +20,30 @@ class ProfileController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @return JsonResponse
+     */
+    function index(): JsonResponse
+    {
+        $user = Auth::user();
+        $id = $user->id;
+        $data = User::whereId(Auth::id())->with('addresses',function ($query) use($id){
+            $query->where('addresses.user_id',$id);
+        })->get();
+
+        return $this->data($data)->success();
+    }
+
+    /**
      * @return Factory|View
      */
-    function index()
+    function blade()
     {
-        $data = Auth::user();
+        $user = Auth::user();
+        $id = $user->id;
+        $data = User::whereId(Auth::id())->with('addresses',function ($query) use($id){
+            $query->where('addresses.user_id',$id);
+        })->get();
+
         return adminView('pages.admin.profile.index', compact('data'));
     }
 
