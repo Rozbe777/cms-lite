@@ -30,7 +30,7 @@ class AttributeCheck implements Rule
 
         if (!empty($values)){
             foreach ($values as $value){
-                if (!is_numeric($value->price) || empty($value->product_code) || DB::table('attributes')->where('product_code',$value->product_code)->exists()){
+                if (!is_numeric($value->price) || empty($value->product_code) ){ // || DB::table('attributes')->where('product_code',$value->product_code)->exists()
                     return false;
                 }
                 if ($value->count < $value->limit || $value->count < 0 ){

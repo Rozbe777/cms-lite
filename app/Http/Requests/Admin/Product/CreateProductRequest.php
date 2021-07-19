@@ -38,7 +38,6 @@ class CreateProductRequest extends BaseRequest
             "status" => "in:active,deactivate",
             "attributes" => new AttributeCheck(),
             "features" => new FeaturesCheck(),
-
             //FIXME Do Not DELETE These
 //            "attributes.*.price" => "required|integer",
 //            "attributes.*.product_code" => "required|string|unique:attributes,product_code",
