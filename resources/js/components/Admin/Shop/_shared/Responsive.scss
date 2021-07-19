@@ -2011,10 +2011,16 @@ a#link-buy{
         background: blue;
         color: #fff;
         cursor: pointer;
+        i{
+            color : #fff !important;
+        }
     }
     i{
         float: right;
         margin-top: 2px;
         margin-left: 3px;
     }
+}
+#del-fet{
+    cursor: pointer;
 }

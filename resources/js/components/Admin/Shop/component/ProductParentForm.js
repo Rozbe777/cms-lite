@@ -307,7 +307,8 @@ const ProductParentForm = ({
                 return newStateColorVal;
 
             case "addNew" :
-                let dataNew = action.data[Object.keys(action.data)[Object.keys(action.data).length - 1]]
+                let dataNew = action.data[Object.keys(action.data)[Object.keys(action.data).length - 1]];
+                console.log("New adding dataaaa" , dataNew)
                 let now_num = Object.keys(action.data)[Object.keys(action.data).length - 1]
                 let texts = [];
                 let counterCodess = parseInt(now_num) + 1;
@@ -330,7 +331,6 @@ const ProductParentForm = ({
                     })
                 })
                 let attrs = dataNew.attributes;
-
                 let newOut = {
                     attributes: attrs,
                     fetures: {
@@ -342,8 +342,10 @@ const ProductParentForm = ({
                 setCounter(counterCodess);
                 handleEditAttributes(olddata);
 
-                setPriceData(olddata)
-                return olddata;
+                let newDataOut = olddata;
+                newDataOut[counterCodess].attributes.link = "";
+                setPriceData(newDataOut)
+                return newDataOut;
             default:
                 throw new Error();
         }
@@ -691,13 +693,9 @@ const ProductParentForm = ({
                                         {chipset.map((item, index) => (
                                             _renderChipsetContent(index, item)
                                         ))}
-
-
                                     </div>
-
                                 </div>
                             </div>
-
                         </div>
 
                         <div className={"col-12"}>
@@ -709,15 +707,10 @@ const ProductParentForm = ({
                         </div>
                     </div>
                 </div>
-
-
                 <div className="tab-pane" id="price" aria-labelledby="price-tab" role="tabpanel">
                     <div className={"content-pages"} style={{padding: '20px'}}>
                         <div className={"row"}>
-
                             <div className={"col-12"}>
-
-
                                 <p>اطلاعات تکمیلی محصول شامل رنگ، سایز، موجودی انبار، قیمت و... را در بخش زیر
                                     وارد
                                     کنید.</p>
@@ -727,7 +720,6 @@ const ProductParentForm = ({
                                     جدید &nbsp;&nbsp;
                                 </a>
                                 <div className="table-responsive">
-
                                     <table className="table">
                                         <thead>
                                         <tr className={"product-table-head"}>
@@ -785,9 +777,10 @@ const ProductParentForm = ({
                                                             {renderFitureText(stateData[item].fetures.text, item)}
                                                             {renderFitureColor(stateData[item].fetures.color, item)}
 
+                                                            {console.log("llllllll state data" , stateData[item].attributes)}
                                                             <td id={"actions-item"}>
                                                                 {stateData[item].attributes.link ? (
-                                                                    <a id={"link-buy"} className={"active"} href={stateData[item].attributes.link}>
+                                                                    <a id={"link-buy"} target={"_blank"} className={"active"} href={stateData[item].attributes.link}>
                                                                         <i className={"bx bx-link"}></i>
                                                                         لینک خرید
                                                                     </a>
@@ -823,10 +816,10 @@ const ProductParentForm = ({
                                                             </td>
                                                             {renderFitureText(priceData[item].fetures.text, item)}
                                                             {renderFitureColor(priceData[item].fetures.color, item)}
-                                                            {console.log("__vvvv__" , priceData[item].attributes)}
                                                             <td id={"actions-item"}>
+                                                                {console.log("llllllll price data" , priceData[item].attributes)}
                                                                 {priceData[item].attributes.link ? (
-                                                                    <a id={"link-buy"} className={"active"} href={priceData[item].attributes.link}>
+                                                                    <a id={"link-buy"} className={"active"} target={"_blank"} href={priceData[item].attributes.link}>
                                                                         <i className={"bx bx-link"}></i>
                                                                         لینک خرید
                                                                     </a>
@@ -938,9 +931,10 @@ const ProductParentForm = ({
                                                     onChange={handleAddChipMetaData}/>
                                             </div>
 
-                                            {seoChipset.map((item, index) => (
+                                            {console.log("_______________" , seoChipset)}
+                                            {seoChipset ? seoChipset.map((item, index) => (
                                                 _renderChipsetMetaData(index, item)
-                                            ))}
+                                            )) : ''}
 
                                         </div>
 

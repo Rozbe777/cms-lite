@@ -94,6 +94,7 @@ const Index = () => {
     const onEdit = (e, dataGet) => {
         e.preventDefault();
         let normalData = NormalProductOneItem(dataGet);
+        console.log("++++vvv" , normalData)
         ReactDOM.render(<ProductEdit defaultValuePro={normalData}
                                     result={actionReload}/>, document.getElementById("add-product"));
     }
@@ -211,7 +212,7 @@ const Index = () => {
                                     <div id={"add-product-btn-box"}>
                                         <p>محصولی ثبت نشده است!</p>
                                         <button type={"button"} className={"btn btn-primary shadow mr-1 mb-1"}
-                                                onClick={e => console.log("adding")}>
+                                                onClick={e => onAdd(e)}>
                                             افزودن محصول
                                         </button>
                                     </div>
