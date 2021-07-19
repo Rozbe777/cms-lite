@@ -16,4 +16,9 @@ class Type extends Model
     {
         return $this->belongsTo(Attribute::class);
     }
+
+    public function typeFeatures()
+    {
+        return $this->hasMany(TypeFeature::class,'type_id','id');
+    }
 }
