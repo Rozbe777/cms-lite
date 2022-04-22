@@ -31,6 +31,7 @@
                     @if(auth()->user()->can($menu->name))
                         @php($subMenus=\App\Models\Permission::parentId($menu->id)->isMenu()->get())
                         <li class="nav-item {{activeAdminMenu($menu->name)}}"><a href="{{route($menu->name)}}" style="
+
     margin: 7px 0;
     padding: 10px 10px;
     line-height: 2;"><i class="bx {{$menu->icon}}"></i><span
